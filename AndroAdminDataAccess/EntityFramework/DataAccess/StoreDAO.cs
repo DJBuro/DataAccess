@@ -673,7 +673,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             IList<Domain.Store> stores = new List<Domain.Store>();
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

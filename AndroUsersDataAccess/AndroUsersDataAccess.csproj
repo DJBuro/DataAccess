@@ -55,9 +55,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL" />
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
-    <Reference Include="NHibernate, Version=3.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\WebSites\AndroAdmin\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -65,6 +65,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,41 +73,79 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IAndroSecurityGroupDAO.cs" />
     <Compile Include="DataAccess\IAndroUserDAO.cs" />
     <Compile Include="Domain\AndroUser.cs" />
-    <Compile Include="EntityFramework\DataAccess\AndroUserDAO.cs" />
-    <Compile Include="EntityFramework\EntityModel.Designer.cs">
+    <Compile Include="Domain\Permission.cs" />
+    <Compile Include="Domain\SecurityGroup.cs" />
+    <Compile Include="EntityFramework\AndroUsersEntityModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
+      <DependentUpon>AndroUsersEntityModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="nHibernate\nHibernateHelper.cs" />
-    <Compile Include="nHibernate\DataAccess\AndroUserDAO.cs" />
-    <Compile Include="nHibernate\Mappings\AndroUserMap.cs" />
+    <Compile Include="EntityFramework\AndroUsersEntityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\AndroUsersEntityModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AndroUsersEntityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\DataAccess\AndroUserDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AndroSecurityGroupDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
+    <Compile Include="EntityFramework\Permission.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SecurityGroup.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SecurityGroupPermission.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SecurityGroupUser.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\tbl_AndroUser.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\tbl_AndroUserPermission.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\tbl_Project.cs">
+      <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Binaries\FluentNHibernate.dll" />
-    <Content Include="Binaries\FluentNHibernate.pdb" />
-    <Content Include="Binaries\FluentNHibernate.XML" />
-    <Content Include="Binaries\Iesi.Collections.dll" />
-    <Content Include="Binaries\Iesi.Collections.pdb" />
-    <Content Include="Binaries\Iesi.Collections.xml" />
-    <Content Include="Binaries\NHibernate.dll" />
-    <Content Include="Binaries\NHibernate.pdb" />
-    <Content Include="Binaries\NHibernate.xml" />
+    <Content Include="EntityFramework\CreateAndroUsersDatabase.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Binaries\nhibernate-mapping.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="EntityFramework\EntityModel.edmx">
+    <EntityDeploy Include="EntityFramework\AndroUsersEntityModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EntityModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>AndroUsersEntityModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="EntityFramework\AndroUsersEntityModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AndroUsersEntityModel.edmx</DependentUpon>
+      <LastGenOutput>AndroUsersEntityModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="EntityFramework\AndroUsersEntityModel.edmx.diagram">
+      <DependentUpon>AndroUsersEntityModel.edmx</DependentUpon>
+    </None>
+    <None Include="EntityFramework\AndroUsersEntityModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AndroUsersEntityModel.edmx</DependentUpon>
+      <LastGenOutput>AndroUsersEntityModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

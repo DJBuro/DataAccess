@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9b15bce13f8c4e30b7ab17f1aeeb9624" Name="Diagram1">
+        <EntityTypeShape EntityType="AndroUsersModel.tbl_AndroUser" Width="1.5" PointX="0.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.tbl_AndroUserPermission" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.tbl_Project" Width="1.5" PointX="5.375" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_AndroUser" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_Project" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AndroUsersModel.Permission" Width="1.5" PointX="8.5" PointY="1.75" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroup" Width="1.5" PointX="3" PointY="1.75" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupPermission" Width="2" PointX="5.375" PointY="1.75" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_Permission" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupUser" Width="1.875" PointX="0.5" PointY="1.75" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
