@@ -15,6 +15,8 @@
           <EntitySet Name="MenuItem" EntityType="MyAndromedaModel.Store.MenuItem" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItemThumbnail" EntityType="MyAndromedaModel.Store.MenuItemThumbnail" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItemThumbnailRelations" EntityType="MyAndromedaModel.Store.MenuItemThumbnailRelations" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RolePermissions" EntityType="MyAndromedaModel.Store.RolePermissions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="MyAndromedaModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenu" EntityType="MyAndromedaModel.Store.SiteMenu" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenuMediaProfile" EntityType="MyAndromedaModel.Store.SiteMenuMediaProfile" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenuMediaProfileSize" EntityType="MyAndromedaModel.Store.SiteMenuMediaProfileSize" store:Type="Tables" Schema="dbo" />
@@ -27,6 +29,16 @@
       [SiteMenuMediaServerAuthentication].[SiteMenuMediaServerId] AS [SiteMenuMediaServerId]
       FROM [dbo].[SiteMenuMediaServerAuthentication] AS [SiteMenuMediaServerAuthentication]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="UserChain" EntityType="MyAndromedaModel.Store.UserChain" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserPermission" EntityType="MyAndromedaModel.Store.UserPermission" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRecords" EntityType="MyAndromedaModel.Store.UserRecords" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRole" EntityType="MyAndromedaModel.Store.UserRole" store:Type="Tables" store:Schema="dbo" store:Name="UserRole">
+            <DefiningQuery>SELECT 
+      [UserRole].[UserRecordId] AS [UserRecordId], 
+      [UserRole].[RoleId] AS [RoleId]
+      FROM [dbo].[UserRole] AS [UserRole]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UserStore" EntityType="MyAndromedaModel.Store.UserStore" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
@@ -59,6 +71,14 @@
             <End Role="MenuItem" EntitySet="MenuItem" />
             <End Role="MenuItemThumbnailRelations" EntitySet="MenuItemThumbnailRelations" />
           </AssociationSet>
+          <AssociationSet Name="FK_RolePermissions_Roles" Association="MyAndromedaModel.Store.FK_RolePermissions_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePermissions_UserPermission" Association="MyAndromedaModel.Store.FK_RolePermissions_UserPermission">
+            <End Role="UserPermission" EntitySet="UserPermission" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
           <AssociationSet Name="FK_SiteMenu_SiteMenuMediaProfile" Association="MyAndromedaModel.Store.FK_SiteMenu_SiteMenuMediaProfile">
             <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfile" />
             <End Role="SiteMenu" EntitySet="SiteMenu" />
@@ -74,6 +94,22 @@
           <AssociationSet Name="FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" Association="MyAndromedaModel.Store.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer">
             <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServer" />
             <End Role="SiteMenuMediaServerAuthentication" EntitySet="SiteMenuMediaServerAuthentication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserChain_UserRecords" Association="MyAndromedaModel.Store.FK_UserChain_UserRecords">
+            <End Role="UserRecords" EntitySet="UserRecords" />
+            <End Role="UserChain" EntitySet="UserChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Roles" Association="MyAndromedaModel.Store.FK_UserRole_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_UserRecords" Association="MyAndromedaModel.Store.FK_UserRole_UserRecords">
+            <End Role="UserRecords" EntitySet="UserRecords" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserStore_UserRecords" Association="MyAndromedaModel.Store.FK_UserStore_UserRecords">
+            <End Role="UserRecords" EntitySet="UserRecords" />
+            <End Role="UserStore" EntitySet="UserStore" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -179,6 +215,21 @@
           <Property Name="MenItemId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MenuItemThumbnailId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="RolePermissions">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
             <PropertyRef Name="Id" />
@@ -235,6 +286,55 @@
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="SiteMenuMediaServerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserChain">
+          <Key>
+            <PropertyRef Name="ChainId" />
+            <PropertyRef Name="UserRecordId" />
+          </Key>
+          <Property Name="ChainId" Type="int" Nullable="false" />
+          <Property Name="UserRecordId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRecords">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="HashAlgorithm" Type="nvarchar" MaxLength="20" />
+          <Property Name="PasswordFormat" Type="nvarchar" MaxLength="20" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MyAndromeda.dbo.UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRecordId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserRecordId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserStore">
+          <Key>
+            <PropertyRef Name="UserRecordId" />
+            <PropertyRef Name="StoreId" />
+          </Key>
+          <Property Name="UserRecordId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
@@ -338,6 +438,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RolePermissions_Roles">
+          <End Role="Roles" Type="MyAndromedaModel.Store.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RolePermissions" Type="MyAndromedaModel.Store.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePermissions_UserPermission">
+          <End Role="UserPermission" Type="MyAndromedaModel.Store.UserPermission" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RolePermissions" Type="MyAndromedaModel.Store.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserPermission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteMenu_SiteMenuMediaProfile">
           <End Role="SiteMenuMediaProfile" Type="MyAndromedaModel.Store.SiteMenuMediaProfile" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -385,6 +513,62 @@
             </Principal>
             <Dependent Role="SiteMenuMediaServerAuthentication">
               <PropertyRef Name="SiteMenuMediaServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserChain_UserRecords">
+          <End Role="UserRecords" Type="MyAndromedaModel.Store.UserRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserChain" Type="MyAndromedaModel.Store.UserChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRecords">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserChain">
+              <PropertyRef Name="UserRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Roles">
+          <End Role="Roles" Type="MyAndromedaModel.Store.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRole" Type="MyAndromedaModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_UserRecords">
+          <End Role="UserRecords" Type="MyAndromedaModel.Store.UserRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserRole" Type="MyAndromedaModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRecords">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserStore_UserRecords">
+          <End Role="UserRecords" Type="MyAndromedaModel.Store.UserRecords" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserStore" Type="MyAndromedaModel.Store.UserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRecords">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserStore">
+              <PropertyRef Name="UserRecordId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -449,6 +633,27 @@
           <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer">
             <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServers" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
+          <EntitySet Name="Roles" EntityType="MyAndromedaModel.Role" />
+          <EntitySet Name="UserChains" EntityType="MyAndromedaModel.UserChain" />
+          <EntitySet Name="UserPermissions" EntityType="MyAndromedaModel.UserPermission" />
+          <EntitySet Name="UserRecords" EntityType="MyAndromedaModel.UserRecord" />
+          <EntitySet Name="UserStores" EntityType="MyAndromedaModel.UserStore" />
+          <AssociationSet Name="FK_UserChain_UserRecords" Association="MyAndromedaModel.FK_UserChain_UserRecords">
+            <End Role="UserRecord" EntitySet="UserRecords" />
+            <End Role="UserChain" EntitySet="UserChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserStore_UserRecords" Association="MyAndromedaModel.FK_UserStore_UserRecords">
+            <End Role="UserRecord" EntitySet="UserRecords" />
+            <End Role="UserStore" EntitySet="UserStores" />
+          </AssociationSet>
+          <AssociationSet Name="RolePermissions" Association="MyAndromedaModel.RolePermissions">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserPermission" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="UserRole" Association="MyAndromedaModel.UserRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRecord" EntitySet="UserRecords" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -750,6 +955,95 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserPermissions" Relationship="MyAndromedaModel.RolePermissions" FromRole="Role" ToRole="UserPermission" />
+          <NavigationProperty Name="UserRecords" Relationship="MyAndromedaModel.UserRole" FromRole="Role" ToRole="UserRecord" />
+        </EntityType>
+        <EntityType Name="UserChain">
+          <Key>
+            <PropertyRef Name="ChainId" />
+            <PropertyRef Name="UserRecordId" />
+          </Key>
+          <Property Type="Int32" Name="ChainId" Nullable="false" />
+          <Property Type="Int32" Name="UserRecordId" Nullable="false" />
+          <NavigationProperty Name="UserRecord" Relationship="MyAndromedaModel.FK_UserChain_UserRecords" FromRole="UserChain" ToRole="UserRecord" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="MyAndromedaModel.RolePermissions" FromRole="UserPermission" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="UserRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="HashAlgorithm" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordFormat" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordSalt" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserChains" Relationship="MyAndromedaModel.FK_UserChain_UserRecords" FromRole="UserRecord" ToRole="UserChain" />
+          <NavigationProperty Name="UserStores" Relationship="MyAndromedaModel.FK_UserStore_UserRecords" FromRole="UserRecord" ToRole="UserStore" />
+          <NavigationProperty Name="Roles" Relationship="MyAndromedaModel.UserRole" FromRole="UserRecord" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="UserStore">
+          <Key>
+            <PropertyRef Name="UserRecordId" />
+            <PropertyRef Name="StoreId" />
+          </Key>
+          <Property Type="Int32" Name="UserRecordId" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <NavigationProperty Name="UserRecord" Relationship="MyAndromedaModel.FK_UserStore_UserRecords" FromRole="UserStore" ToRole="UserRecord" />
+        </EntityType>
+        <Association Name="FK_UserChain_UserRecords">
+          <End Type="MyAndromedaModel.UserRecord" Role="UserRecord" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyAndromedaModel.UserChain" Role="UserChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRecord">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserChain">
+              <PropertyRef Name="UserRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserStore_UserRecords">
+          <End Type="MyAndromedaModel.UserRecord" Role="UserRecord" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyAndromedaModel.UserStore" Role="UserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRecord">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserStore">
+              <PropertyRef Name="UserRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolePermissions">
+          <End Type="MyAndromedaModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="MyAndromedaModel.UserPermission" Role="UserPermission" Multiplicity="*" />
+        </Association>
+        <Association Name="UserRole">
+          <End Type="MyAndromedaModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="MyAndromedaModel.UserRecord" Role="UserRecord" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -922,6 +1216,70 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MyAndromedaModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserChains">
+            <EntityTypeMapping TypeName="MyAndromedaModel.UserChain">
+              <MappingFragment StoreEntitySet="UserChain">
+                <ScalarProperty Name="UserRecordId" ColumnName="UserRecordId" />
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermissions">
+            <EntityTypeMapping TypeName="MyAndromedaModel.UserPermission">
+              <MappingFragment StoreEntitySet="UserPermission">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRecords">
+            <EntityTypeMapping TypeName="MyAndromedaModel.UserRecord">
+              <MappingFragment StoreEntitySet="UserRecords">
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="HashAlgorithm" ColumnName="HashAlgorithm" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserStores">
+            <EntityTypeMapping TypeName="MyAndromedaModel.UserStore">
+              <MappingFragment StoreEntitySet="UserStore">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="UserRecordId" ColumnName="UserRecordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RolePermissions" TypeName="MyAndromedaModel.RolePermissions" StoreEntitySet="RolePermissions">
+            <EndProperty Name="UserPermission">
+              <ScalarProperty Name="Id" ColumnName="PermissionId" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserRole" TypeName="MyAndromedaModel.UserRole" StoreEntitySet="UserRole">
+            <EndProperty Name="UserRecord">
+              <ScalarProperty Name="Id" ColumnName="UserRecordId" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

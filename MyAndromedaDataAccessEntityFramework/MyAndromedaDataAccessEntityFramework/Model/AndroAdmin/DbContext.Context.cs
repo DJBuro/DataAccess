@@ -50,8 +50,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public DbSet<Store> Stores { get; set; }
-        public DbSet<MyAndromedaPermission> MyAndromedaPermissions { get; set; }
-        public DbSet<MyAndromedaRole> MyAndromedaRoles { get; set; }
-        public DbSet<MyAndromedaUser> MyAndromedaUsers { get; set; }
     }
 }

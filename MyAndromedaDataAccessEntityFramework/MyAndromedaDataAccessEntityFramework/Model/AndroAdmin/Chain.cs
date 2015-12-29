@@ -17,11 +17,10 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Chain()
         {
             this.AMSServerChains = new HashSet<AMSServerChain>();
-            this.Children = new HashSet<ChainChain>();
             this.Parents = new HashSet<ChainChain>();
+            this.Children = new HashSet<ChainChain>();
             this.FTPSiteChains = new HashSet<FTPSiteChain>();
             this.Stores = new HashSet<Store>();
-            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
         }
     
         public int Id { get; set; }
@@ -29,10 +28,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public string Description { get; set; }
     
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
-        public virtual ICollection<ChainChain> Children { get; set; }
         public virtual ICollection<ChainChain> Parents { get; set; }
+        public virtual ICollection<ChainChain> Children { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
-        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
     }
 }

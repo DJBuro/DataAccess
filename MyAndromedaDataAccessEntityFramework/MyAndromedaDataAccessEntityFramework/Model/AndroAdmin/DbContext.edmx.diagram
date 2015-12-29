@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9fe3844a908847a3b5eda438c36bc455" Name="Diagram1" ZoomLevel="42">
+      <Diagram DiagramId="9fe3844a908847a3b5eda438c36bc455" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="6" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="8.25" PointY="15.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
@@ -59,19 +59,12 @@
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenuThumbnail" Width="1.5" PointX="7.125" PointY="5.625" />
       </Diagram>
       <Diagram DiagramId="3c6a94786963425c99e06669516de3a3" Name="MyAndromedaAuthentication" ZoomLevel="83" >
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaPermission" Width="1.5" PointX="2.875" PointY="2.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaRole" Width="1.5" PointX="5" PointY="2.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="7.125" PointY="2.5" />
-        <AssociationConnector Association="AndroAdminModel.MyAndromedaRolePermissions" />
-        <AssociationConnector Association="AndroAdminModel.MyAndromedaUserRole" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="9.125" PointY="6" />
-        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="7" PointY="6" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="9.375" PointY="2.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="7.125" PointY="6.25" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Chain" />
-        <AssociationConnector Association="AndroAdminModel.MyAndromedaUserChain" />
-        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="7" PointY="9.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="7.125" PointY="9.75" />
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
-        <AssociationConnector Association="AndroAdminModel.MyAndromedaUserStore" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -154,15 +154,6 @@
     <Compile Include="Model\AndroAdmin\Log.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\MyAndromedaPermission.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\MyAndromedaRole.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\MyAndromedaUser.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\OpeningHour.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -265,6 +256,9 @@
     <Compile Include="Model\MyAndromeda\MenuItemThumbnail.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\Role.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -278,6 +272,18 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuMediaServerAuthentication.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserChain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserPermission.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserStore.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,7 +13,7 @@ namespace MyAndromedaDataAccess.DataAccess
 
         string GetAcsApplicationIds(int siteId, out IEnumerable<int> application);
         string GetExternalApplicationIds(int siteId, out IEnumerable<string> externalApplicationIds);
-        string GetByMyAndromedaUserId(int myAndromedaUserId, out List<MyAndromedaDataAccess.Domain.Site> sites);
+        //string GetByMyAndromedaUserId(int myAndromedaUserId, out List<MyAndromedaDataAccess.Domain.Site> sites);
 
         void GetExternalAcsApplicationIds(int siteId, out IEnumerable<string> acsExternalApplicationIds);
     }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using MyAndromeda.Core;
-using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System;
 using System.Linq;
+using MyAndromedaDataAccess.Domain;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
@@ -45,124 +45,142 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// </summary>
         /// <param name="userId">The user id.</param>
         /// <returns></returns>
-        IList<Store> ListStoresUserCanAccess(int userId);
+        IList<Site> ListStoresUserCanAccess(int userId);
     }
 
     public class UserAccessDataService : IUserAccessDataService 
     {
-        public UserAccessDataService() 
+        private readonly IUserSitesDataService userSiteDataService;
+        private readonly IUserChainsDataService userChainsDataServoce;
+
+        public UserAccessDataService(IUserSitesDataService userSiteDataService, IUserChainsDataService userChainsDataServoce) 
         {
+            this.userChainsDataServoce = userChainsDataServoce;
+            this.userSiteDataService = userSiteDataService;
         }
 
         public IList<Chain> ListChainsUserCanAccess(int userId)
         {
-            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
-            {
-                var table = dbContext.Chains;
-                var query = table.Where(e=> e.MyAndromedaUsers.Any(user => user.Id == userId));
-                var result = query.ToList();
+            return userChainsDataServoce.GetChainsForUser(userId).ToList();
+            //using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
+            //{
+            //    var table = dbContext.Chains;
+            //    var query = table.Where(e=> e.MyAndromedaUsers.Any(user => user.Id == userId));
+            //    var result = query.ToList();
 
-                return result;
-            }
+            //    return result;
+            //}
         }
 
-        public IList<Store> ListStoresUserCanAccess(int userId)
+        public IList<Site> ListStoresUserCanAccess(int userId)
         {
-            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
-            {
-                var table = dbContext.Stores;
-                var query = table.Where(e => e.MyAndromedaUsers.Any(user => user.Id == userId));
-                var result = query.ToList();
+            return this.userSiteDataService.GetSitesForUser(userId).ToList();
+            //using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
+            //{
+            //    var table = dbContext.Stores;
+            //    var query = table.Where(e => e.MyAndromedaUsers.Any(user => user.Id == userId));
+            //    var result = query.ToList();
 
-                return result;
-            }
+            //    return result;
+            //}
         }
 
         public bool IsTheUserAssociatedWithStore(int userId, int storeId)
         {
+            //fetch the missing chain id
             int chainId; 
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
             {
                 var table = dbContext.Stores;
-                var query = table
-                    .Where(e => e.Id == storeId)
-                    .Where(e=> e.MyAndromedaUsers.Any(user => user.Id == userId))
-                    .Select(e=> e);
                 
-                var result = query.FirstOrDefault();
-
-                if (result != null) { return true; }
-
                 chainId = table
                     .Where(e => e.Id == storeId)
                     .Select(e=> e.ChainId)
                     .Single();
             }
 
-            //try again on the chain level
-            //failed with the simple link ... lets go digging 
+            //lets go digging 
             return this.IsTheUserAssociatedByChainAndStore(userId, chainId, storeId);
+        }
+
+        private IEnumerable<Chain> FlatternChains(IEnumerable<Chain> accessibleChains)
+        {
+            Func<IEnumerable<Chain>, IEnumerable<Chain>> flatern = null;
+            
+            flatern = (nodes) => {
+                return nodes.SelectMany(e=> flatern(e.Children)).Union(nodes);
+            };
+
+            var all = accessibleChains.Union(accessibleChains.SelectMany(e => flatern(e.Children)));
+
+            return all;
         }
 
         public bool IsTheUserAssociatedWithChain(int userId, int chainId)
         {
-            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
-            {
-                var table = dbContext.Chains;
-                
-                Func<Chain, bool> recursivelyCheckChain = null;
-                recursivelyCheckChain = (chain) =>
-                {
-                    if (chain.Id == chainId)
-                        return true;
+            //get the entire structure that the user is allowed within 
+            var chains = this.userChainsDataServoce.GetChainsForUser(userId);
 
-                    foreach (var link in chain.Children)
-                    {
-                        if (recursivelyCheckChain(link.ChildChain))
-                            return true; ;
-                    }
+            var flatListOfAllChains = this.FlatternChains(chains);
 
-                    return false;
-                };
+            var resultOfAny = flatListOfAllChains.Any(e => e.Id == chainId);
 
-                var availableChainsQuery = table.Where(e => e.MyAndromedaUsers.Any(user => user.Id == userId));
-                var availableChainsQueryResult = availableChainsQuery.ToArray();
+            return resultOfAny;
+            //Func<Chain, bool> recursivelyCheckChain = null;
+            //recursivelyCheckChain = (chain) =>
+            //{
+            //    if (chain.Id == chainId)
+            //        return true;
 
-                //already attained that none of these chains are the ones we are looking for. 
-                //dig into the chain hierarchy
-                foreach (var chain in availableChainsQueryResult)
-                {
-                    //dig into each chain to n levels of china chain 
-                    if (recursivelyCheckChain(chain))
-                        return true;
-                }
-            }
+            //    foreach (var link in chain.Children)
+            //    {
+            //        if (recursivelyCheckChain(link))
+            //            return true;
+            //    }
 
-            return false;
+            //    return false;
+            //};
+
+            ////dig into the chain hierarchy
+            //foreach (var chain in chains)
+            //{
+            //    //dig into each chain to n levels of china chain 
+            //    if (recursivelyCheckChain(chain))
+            //        return true;
+            //}
+            
+            //return false;
         }
 
         public bool IsTheUserAssociatedByChainAndStore(int userId, int chainId, int storeId)
         {
             bool associated = false;
+            bool isTheUserAssociatedWithinTheChain = this.IsTheUserAssociatedWithChain(userId, chainId);
+            
+            //check the top level of chains associated to the user. Quick efficient
+            int storesChainId;
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
             {
-                var table = dbContext.Chains;
-                
-                //check the top level of chains associated to the user. Quick efficient
-                var quickQuery = table
-                    .Where(chain => chain.MyAndromedaUsers.Any(user => user.Id == userId))
-                    .Where(chain => chain.Id == chainId);
-
-                //anything found 
-                associated = quickQuery.Any();
-
-                if (associated)
-                    return associated;
+                var store = dbContext.Stores.Single(e => e.Id == storeId);
+                storesChainId = store.ChainId;
             }
 
-            bool isTheUserAssociatedWithinTheChain = this.IsTheUserAssociatedWithChain(userId, chainId);
+            //anything found 
+            associated = storesChainId == chainId ? true :
+                //dont know why i would need to go off again as the correct chainid should already be provided.
+                this.IsTheUserAssociatedWithChain(userId, storesChainId);
 
-            return isTheUserAssociatedWithinTheChain;
+            if (!associated) 
+            {
+                //user connected to the user-store in the redundancy table?
+                var sites = this.userSiteDataService.GetSitesForUser(userId, e => e.ChainId == chainId && e.Id == storeId);
+                associated = sites.Any();
+            }
+
+            if (associated)
+                return associated;
+
+            return isTheUserAssociatedWithinTheChain && associated;
         }
     }
 }

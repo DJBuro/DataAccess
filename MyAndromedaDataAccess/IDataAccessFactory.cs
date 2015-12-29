@@ -10,7 +10,7 @@ namespace MyAndromedaDataAccess
     public interface IDataAccessFactory
     {
         ISiteDataAccess SiteDataAccess { get; set; }
-        IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
+        //IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
         IEmployeeDataAccess EmployeeDataAccess { get; set; }
         IOpeningHoursDataAccess OpeningHoursDataAccess { get; set; }

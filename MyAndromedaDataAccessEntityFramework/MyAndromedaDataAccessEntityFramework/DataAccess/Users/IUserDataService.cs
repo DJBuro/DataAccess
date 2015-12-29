@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAndromeda.Core;
-using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System.Linq.Expressions;
+using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
     public interface IUserDataService : IDependency
     {
-        Model.AndroAdmin.MyAndromedaUser New();
+        Model.MyAndromeda.UserRecord New();
 
-        void Add(Model.AndroAdmin.MyAndromedaUser user);
-        void Update(Model.AndroAdmin.MyAndromedaUser user);
+        void Add(UserRecord user);
+        void Update(UserRecord user);
 
         MyAndromedaDataAccess.Domain.MyAndromedaUser GetByUserName(string userName);
 
-        IEnumerable<Model.AndroAdmin.MyAndromedaUser> Query(Expression<Func<Model.AndroAdmin.MyAndromedaUser, bool>> query);
+        IEnumerable<UserRecord> Query(Expression<Func<UserRecord, bool>> query);
     }
 
     public class UserDataService : IUserDataService
@@ -25,27 +25,25 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         {
         }
 
-        
-
-        public IEnumerable<MyAndromedaUser> Query(Expression<Func<MyAndromedaUser, bool>> query)
+        public IEnumerable<UserRecord> Query(Expression<Func<UserRecord, bool>> query)
         {
             using (var dbContext = NewContext()) 
             {
-                var table = dbContext.MyAndromedaUsers;
+                var table = dbContext.UserRecords;
                 var tableQuery = table.Where(query);
 
                 return tableQuery.ToArray();
             }
         }
 
-        private AndroAdminDbContext NewContext() 
+        private MyAndromedaDbContext NewContext() 
         {
-            return new AndroAdminDbContext();
+            return new Model.MyAndromeda.MyAndromedaDbContext();
         }
 
-        public MyAndromedaUser New()
+        public UserRecord New()
         {
-            return new MyAndromedaUser();
+            return new UserRecord();
         }
 
         public MyAndromedaDataAccess.Domain.MyAndromedaUser GetByUserName(string userName)
@@ -53,7 +51,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             MyAndromedaDataAccess.Domain.MyAndromedaUser model = null;
             using (var dbContext = NewContext()) 
             {
-                var result = dbContext.MyAndromedaUsers.Where(e => e.Username.Equals(userName)).SingleOrDefault();
+                var result = dbContext.UserRecords.Where(e => e.Username.Equals(userName)).SingleOrDefault();
+
+                if (result == null)
+                    return null;
 
                 model = result.ToDomain();
             }
@@ -61,23 +62,24 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             return model;
         }
 
-        public void Add(MyAndromedaUser user)
+        public void Add(UserRecord user)
         {
             using (var dbContext = NewContext())
             {
-                var table = dbContext.MyAndromedaUsers;
+                var table = dbContext.UserRecords;
                 table.Add(user);
 
                 dbContext.SaveChanges();
             }
         }
 
-        public void Update(MyAndromedaUser user)
+        public void Update(UserRecord user)
         {
             using (var dbContext = NewContext()) 
             {
-                var table = dbContext.MyAndromedaUsers;
+                var table = dbContext.UserRecords;
                 var entity = table.Where(e => e.Id == user.Id).Single();
+
                 entity.FirstName = user.FirstName;
                 entity.LastName = user.LastName;
                 entity.IsEnabled = user.IsEnabled;
@@ -89,7 +91,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
     public static class UserDataServiceExtensions 
     {
-        public static MyAndromedaDataAccess.Domain.MyAndromedaUser ToDomain(this Model.AndroAdmin.MyAndromedaUser user) 
+        public static MyAndromedaDataAccess.Domain.MyAndromedaUser ToDomain(this UserRecord user) 
         {
             var domainModel = new MyAndromedaDataAccess.Domain.MyAndromedaUser() { 
                 Id = user.Id,
