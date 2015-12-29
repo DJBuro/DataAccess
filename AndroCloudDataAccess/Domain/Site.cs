@@ -8,29 +8,30 @@ using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
+    [DataContract]
     public class Site
     {
         [JsonIgnore]
-        [NonSerialized]
+        [XmlIgnore]
         public Guid Id { get; set; }
 
         [JsonIgnore]
-        [NonSerialized]
+        [XmlIgnore]
         public string LicenceKey { get; set; }
 
-        [JsonProperty(PropertyName = "siteGuid")]
+        [DataMember(Name = "siteGuid")]
         public string ExternalId { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "menuVersion")]
+        [DataMember(Name = "menuVersion")]
         public int MenuVersion { get; set; }
 
-        [JsonProperty(PropertyName = "isOpen")]
+        [DataMember(Name = "isOpen")]
         public bool IsOpen { get; set; }
 
-        [JsonProperty(PropertyName = "estDelivTime")]
+        [DataMember(Name = "estDelivTime")]
         public int EstDelivTime { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IACSQueueDataAccess
     {
-        string GetById(Guid partnerId, Guid externalOrderId, out ACSQueue acsQueue);
+        string GetById(Guid externalOrderId, out ACSQueue acsQueue);
     }
 }
