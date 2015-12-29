@@ -60,11 +60,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 result.SiteMenuFtpBackupUploadTask.Copy(siteMenu.SiteMenuFtpBackupUploadTask);
                 result.SiteMenuFtpBackupDownloadTask.Copy(siteMenu.SiteMenuFtpBackupDownloadTask);
 
-                //result.SiteMenuFtpBackup.LastFtpCheckDateUtc = siteMenu.SiteMenuFtpBackup.LastFtpCheckDateUtc;
-                //result.SiteMenuFtpBackup.LastDownloadedDateUtc = siteMenu.SiteMenuFtpBackup.LastDownloadedDateUtc;
-                //result.SiteMenuFtpBackup.LastUploadedDateUtc = siteMenu.SiteMenuFtpBackup.LastUploadedDateUtc;
-                //result.SiteMenuFtpBackup.MenuVersion = siteMenu.SiteMenuFtpBackup.MenuVersion;
-
                 dbContext.SaveChanges();
             }
         }
@@ -175,64 +170,130 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             this.Update(siteMenu);
         }
 
-        public void SetDownloadTask(SiteMenu siteMenu, bool value = true, bool inProgress = false)
+        public void SetLastDownloadDate(SiteMenu siteMenu, DateTime dateUtc) 
         {
             using (var dbContext = NewContext()) 
             {
-                var dbItem = this.GetMenuWithContext(dbContext, siteMenu.AndromediaId);
+                var downloadContext = dbContext.SiteMenuFtpBackupDownloadTasks.Single(e => e.SiteMenus.Any(menu => menu.Id == siteMenu.Id));
 
-                var downloadTask = dbItem.SiteMenuFtpBackupDownloadTask;
-                downloadTask.TryTask = value;
-                downloadTask.TaskStarted = inProgress;
-                downloadTask.LastTriedUtc = DateTime.UtcNow;
-                
-                //var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
-                //dbItem.CheckToDownload = value;
-                //dbItem.LastFtpCheckDateUtc = DateTime.UtcNow;
-                //siteMenuFtp.CheckToDownload = value;
-                //siteMenuFtp.CheckInProgress = inProgress;
-
-                //if (!value && !inProgress) { siteMenuFtp.LastFtpCheckDateUtc = DateTime.UtcNow; }
-
-                //dbContext.SaveChanges();
+                downloadContext.LastDownloadedDateUtc = dateUtc;
             }
         }
 
-        //public void SetUploadTaskStarted(SiteMenu siteMenu, bool value = true, bool inProgress = false)
-        //{
-        //    using (var dbContext = NewContext())
-        //    {
-        //        var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
-        //        dbItem.CheckToUpload = value;
-        //        siteMenuFtp.CheckToUpload = value;
-        //        siteMenuFtp.CheckInProgress = inProgress;
+        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status)
+        {
+            switch (status)
+            {
+                case TaskStatus.Created:
+                    {
+                        menu.SiteMenuFtpBackupUploadTask.LastTryCount = 0;
+                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
+                        menu.SiteMenuFtpBackupUploadTask.TaskComplete = false;
 
-        //        dbContext.SaveChanges();
-        //    }
-        //}
+                        break;
+                    }
+                case TaskStatus.Running:
+                    {
+                        menu.SiteMenuFtpBackupUploadTask.LastTryCount++;
+                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = true;
+                        menu.SiteMenuFtpBackupUploadTask.LastStartedUtc = DateTime.UtcNow;
+                        menu.SiteMenuFtpBackupUploadTask.LastTriedUtc = DateTime.UtcNow;
 
+                        break;
+                    }
+                case TaskStatus.RanToCompletion:
+                    {
+                        menu.SiteMenuFtpBackupUploadTask.TryTask = false;
+                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
+                        menu.SiteMenuFtpBackupUploadTask.LastCompletedUtc = DateTime.UtcNow;
 
-        //public void SetVersion(int andromedaSiteId, int version)
-        //{
-        //    using (var dbContext = NewContext()) 
-        //    {
-        //        var dbItem = this.GetMenuWithContext(dbContext, andromedaSiteId);
-        //        dbItem.SiteMenuFtpBackup.MenuVersion = version;
+                        break;
+                    }
+                case TaskStatus.Faulted:
+                    {
+                        //reset to run again.
+                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
+                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
 
-        //        dbContext.SaveChanges();
-        //    }
-        //}
+                        break;
+                    }
 
-        //public void SetVersion( siteMenuFtp)
-        //{
-        //    using (var dbContext = NewContext())
-        //    {
-        //        var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
-        //        dbItem.MenuVersion = siteMenuFtp.MenuVersion;
+                default: { break; }
+            }
 
-        //        dbContext.SaveChanges();
-        //    }
-        //}
+            this.Update(menu);
+        }
+
+        public IEnumerable<SiteMenu> ResetUploadTasks(DateTime notFinishedBy)
+        {
+            var results = Enumerable.Empty<SiteMenu>();
+
+            using (var dbContext = NewContext()) 
+            {
+                var table = dbContext.SiteMenus
+                    .Include(e => e.SiteMenuFtpBackupUploadTask);
+
+                var query = table
+                    .Where(e => !e.SiteMenuFtpBackupUploadTask.TaskComplete)
+                    .Where(e => e.SiteMenuFtpBackupUploadTask.TaskStarted)
+                    .Where(e => e.SiteMenuFtpBackupUploadTask.LastTriedUtc < notFinishedBy);
+                
+                results = query.ToArray();
+
+                foreach (var menu in results) 
+                {
+                    menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
+                    menu.SiteMenuFtpBackupUploadTask.TryTask = true;
+                }
+
+                dbContext.SaveChanges();
+            }
+
+            return results;
+        }
+
+        public IEnumerable<SiteMenu> ResetDownloadTasks(DateTime notFinishedBy)
+        {
+            var results = Enumerable.Empty<SiteMenu>();
+
+            using (var dbContext = NewContext())
+            {
+                var table = dbContext.SiteMenus
+                    .Include(e => e.SiteMenuFtpBackupDownloadTask);
+
+                var query = table
+                    .Where(e => !e.SiteMenuFtpBackupDownloadTask.TaskCompleted)
+                    .Where(e => e.SiteMenuFtpBackupDownloadTask.TaskStarted)
+                    .Where(e => e.SiteMenuFtpBackupDownloadTask.LastTriedUtc < notFinishedBy);
+
+                results = query.ToArray();
+
+                foreach (var menu in results)
+                {
+                    menu.SiteMenuFtpBackupDownloadTask.TaskStarted = false;
+                    menu.SiteMenuFtpBackupDownloadTask.TryTask = true;
+                }
+
+                dbContext.SaveChanges();
+            }
+
+            return results;
+        }
+
+        public void CreateAcsUploadMenuDataTask(SiteMenu menu)
+        {
+            using (var dbContext = NewContext()) 
+            {
+                var dbItem = this.GetMenuWithContext(dbContext, menu.AndromediaId);
+
+                dbItem.SiteMenuPublishTasks.Add(new SiteMenuPublishTask() {
+                    CreatedOn = DateTime.UtcNow,
+                    
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
 
         public void SetVersion(int andromedaSiteId, int version)
         {

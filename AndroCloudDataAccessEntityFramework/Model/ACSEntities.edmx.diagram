@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2f8a3ec02a3a49cfb8cf8e70de5e3586" Name="Diagram1" ZoomLevel="31">
+      <Diagram DiagramId="2f8a3ec02a3a49cfb8cf8e70de5e3586" Name="Diagram1" ZoomLevel="101">
         <EntityTypeShape EntityType="ACSModel.ACSApplicationSite" Width="1.75" PointX="10.5" PointY="11.25" />
         <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="12.75" PointY="1.5" />
         <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="5.25" PointY="16.375" />
@@ -33,7 +33,7 @@
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" />
         <AssociationConnector Association="ACSModel.FK_Sites_SiteStatuses" />
         <AssociationConnector Association="ACSModel.FK_Sites_StorePaymentProvider" />
-        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="7.5" PointY="15.25" />
+        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="11.375" PointY="15.25" />
         <EntityTypeShape EntityType="ACSModel.HostsV2" Width="1.5" PointX="10.5" PointY="2.875" />
         <AssociationConnector Association="ACSModel.FK_HostsV2_HostTypes" />
         <EntityTypeShape EntityType="ACSModel.DeliveryAreaRoad" Width="1.5" PointX="7.5" PointY="6.625" />
