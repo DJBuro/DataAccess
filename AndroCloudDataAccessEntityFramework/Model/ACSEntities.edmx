@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ACSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ACSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACSApplication">
           <Key>
             <PropertyRef Name="Id" />
@@ -67,8 +67,6 @@
           <Property Name="dataType" Type="nvarchar" MaxLength="8" />
           <Property Name="Packet" Type="text" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'Location' in the table 'ACS.dbo.Addresses' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="Addresses">
           <Key>
             <PropertyRef Name="ID" />
@@ -93,6 +91,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DPS" Type="nvarchar" MaxLength="4" />
           <Property Name="Lat" Type="nvarchar" MaxLength="15" />
           <Property Name="Long" Type="nvarchar" MaxLength="15" />
+          <Property Name="Location" Type="geography" />
           <Property Name="CountryId" Type="int" />
         </EntityType>
         <EntityType Name="Audit">
@@ -132,6 +131,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DeliveryArea" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="DeliveryCharge" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="DeliveryAreaRoad">
           <Key>
@@ -345,6 +345,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="SiteOfflineID" Type="uniqueidentifier" />
           <Property Name="TimeZoneInfoId" Type="nvarchar" MaxLength="100" />
           <Property Name="UiCulture" Type="nvarchar" MaxLength="8" />
+          <Property Name="EstimatedCollectionTime" Type="int" />
         </EntityType>
         <EntityType Name="SitesOffline">
           <Key>
@@ -807,42 +808,42 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ACSModelStoreContainer">
-          <EntitySet Name="ACSApplication" EntityType="Self.ACSApplication" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AcsApplicationHosts" EntityType="Self.AcsApplicationHosts" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="AcsApplicationHostsV2" EntityType="Self.AcsApplicationHostsV2" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ACSApplicationSite" EntityType="Self.ACSApplicationSite" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ACSLog" EntityType="Self.ACSLog" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ACSQueue" EntityType="Self.ACSQueue" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Day" EntityType="Self.Day" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="DeliveryArea" EntityType="Self.DeliveryArea" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="DeliveryAreaRoad" EntityType="Self.DeliveryAreaRoad" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="DeliveryAreaRoadRule" EntityType="Self.DeliveryAreaRoadRule" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="DeliveryAreaTown" EntityType="Self.DeliveryAreaTown" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="ExternalApi" EntityType="Self.ExternalApi" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Hosts" EntityType="Self.Hosts" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="HostsV2" EntityType="Self.HostsV2" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="HostTypes" EntityType="Self.HostTypes" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="HubHost" EntityType="Self.HubHost" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OpeningHours" EntityType="Self.OpeningHours" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteDevices" EntityType="Self.SiteDevices" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteHostV1" EntityType="Self.SiteHostV1" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteHostV2" EntityType="Self.SiteHostV2" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteHubs" EntityType="Self.SiteHubs" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteLoyalty" EntityType="Self.SiteLoyalty" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteMenus" EntityType="Self.SiteMenus" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="Sites" EntityType="Self.Sites" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SitesOffline" EntityType="Self.SitesOffline" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="SiteStatuses" EntityType="Self.SiteStatuses" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ACSApplication" EntityType="Self.ACSApplication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcsApplicationHosts" EntityType="Self.AcsApplicationHosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcsApplicationHostsV2" EntityType="Self.AcsApplicationHostsV2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACSApplicationSite" EntityType="Self.ACSApplicationSite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACSLog" EntityType="Self.ACSLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACSQueue" EntityType="Self.ACSQueue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Day" EntityType="Self.Day" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryArea" EntityType="Self.DeliveryArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryAreaRoad" EntityType="Self.DeliveryAreaRoad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryAreaRoadRule" EntityType="Self.DeliveryAreaRoadRule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryAreaTown" EntityType="Self.DeliveryAreaTown" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalApi" EntityType="Self.ExternalApi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hosts" EntityType="Self.Hosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HostsV2" EntityType="Self.HostsV2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HostTypes" EntityType="Self.HostTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HubHost" EntityType="Self.HubHost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OpeningHours" EntityType="Self.OpeningHours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteDevices" EntityType="Self.SiteDevices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteHostV1" EntityType="Self.SiteHostV1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteHostV2" EntityType="Self.SiteHostV2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteHubs" EntityType="Self.SiteHubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteLoyalty" EntityType="Self.SiteLoyalty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteMenus" EntityType="Self.SiteMenus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sites" EntityType="Self.Sites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitesOffline" EntityType="Self.SitesOffline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteStatuses" EntityType="Self.SiteStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ACSApplication_Partners" Association="Self.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -1191,6 +1192,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Type="Int32" Name="CountryId" />
           <NavigationProperty Name="Country" Relationship="ACSModel.FK_Addresses_Country" FromRole="Address" ToRole="Country" />
           <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Address" ToRole="Site" />
+          <Property Name="Location" Type="Geography" />
         </EntityType>
         <EntityType Name="Audit">
           <Key>
@@ -1232,6 +1234,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Type="Guid" Name="SiteId" Nullable="false" />
           <Property Type="String" Name="DeliveryArea1" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_DeliveryArea_DeliveryArea" FromRole="DeliveryArea" ToRole="Site" />
+          <Property Name="DeliveryCharge" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="HostType">
           <Key>
@@ -1332,6 +1335,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SiteLoyalties" Relationship="ACSModel.FK_SiteLoyalty_Sites" FromRole="Site" ToRole="SiteLoyalty" />
+          <Property Name="EstimatedCollectionTime" Type="Int32" />
         </EntityType>
         <EntityType Name="SiteStatus">
           <Key>
@@ -1872,6 +1876,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="ACSModel.Address">
               <MappingFragment StoreEntitySet="Addresses">
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Long" ColumnName="Long" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
@@ -1932,6 +1937,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="DeliveryAreas">
             <EntityTypeMapping TypeName="ACSModel.DeliveryArea">
               <MappingFragment StoreEntitySet="DeliveryArea">
+                <ScalarProperty Name="DeliveryCharge" ColumnName="DeliveryCharge" />
                 <ScalarProperty Name="DeliveryArea1" ColumnName="DeliveryArea" />
                 <ScalarProperty Name="SiteId" ColumnName="SiteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -2001,6 +2007,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ACSModel.Site">
               <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="EstimatedCollectionTime" ColumnName="EstimatedCollectionTime" />
                 <ScalarProperty Name="UiCulture" ColumnName="UiCulture" />
                 <ScalarProperty Name="TimeZoneInfoId" ColumnName="TimeZoneInfoId" />
                 <ScalarProperty Name="SiteOfflineID" ColumnName="SiteOfflineID" />

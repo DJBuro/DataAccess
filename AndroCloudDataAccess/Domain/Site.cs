@@ -35,6 +35,9 @@ namespace AndroCloudDataAccess.Domain
         [JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
 
+        [JsonProperty(PropertyName = "estCollTime")]
+        public int EstCollTime { get; set; }
+
         [JsonIgnore]
         [XmlIgnore]
         public int AndroId { get; set; }
