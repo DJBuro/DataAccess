@@ -21,12 +21,13 @@ namespace AndroAdminDataAccess
             nHibernateHelper.SessionFactory = Fluently.Configure()
               .Database
               (
-                MsSqlConfiguration.MsSql2008.ConnectionString("Server=.;initial catalog=dashboard;password=D45hb0ardPa55;user=DashboardUser;")
+                MsSqlConfiguration.MsSql2008.ConnectionString("Server=.;initial catalog=androadmin;password=r2Is!islMM$;user=AndroAdminUser;")
               )
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerFTPServerPairMap>())
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerMap>())
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<FTPSiteMap>())
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<StoreMap>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<LogMap>())
               .BuildSessionFactory();
         }
     }

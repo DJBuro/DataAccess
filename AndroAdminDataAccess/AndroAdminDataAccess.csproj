@@ -47,15 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\ILogDAO.cs" />
     <Compile Include="DataAccess\IAMSServerDAO.cs" />
     <Compile Include="DataAccess\IAMSServerFTPServerPairDAO.cs" />
     <Compile Include="DataAccess\IDataAccess.cs" />
-    <Compile Include="DataAccess\IFtpServerDAO.cs" />
+    <Compile Include="DataAccess\IFtpSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
-    <Compile Include="nHibernate\DataAccess\FtpServerDAO.cs" />
+    <Compile Include="Domain\Log.cs" />
+    <Compile Include="nHibernate\DataAccess\FtpSiteDAO.cs" />
     <Compile Include="nHibernate\DataAccess\DataAccess.cs" />
     <Compile Include="nHibernate\DataAccess\AMSServerDAO.cs" />
     <Compile Include="nHibernate\DataAccess\AMSServerFTPServerPairDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\LogDAO.cs" />
     <Compile Include="nHibernate\DataAccess\StoreDAO.cs" />
     <Compile Include="Domain\AMSServer.cs" />
     <Compile Include="Domain\AMSServerFTPServerPair.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="nHibernate\Mappings\AMSServerFTPServerPairMap.cs" />
     <Compile Include="nHibernate\Mappings\AMSServerMap.cs" />
     <Compile Include="nHibernate\Mappings\FTPSiteMap.cs" />
+    <Compile Include="nHibernate\Mappings\LogMap.cs" />
     <Compile Include="nHibernate\Mappings\StoreMap.cs" />
     <Compile Include="nHibernate\nHibernateDataAccess.cs" />
     <Compile Include="nHibernate\nHibernateHelper.cs" />
