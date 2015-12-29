@@ -78,14 +78,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
                 var pairs = storeEmployees.Select(e=> 
                     new {
                          dbEntity = e,
-                         updateWith = employees.First(item => equalityComparer(e, item))
+                         updateWith = employees.FirstOrDefault(item => equalityComparer(e, item))
                     });
 
                 //try not to update every time employees are chucked in here
-                var itemsToUpdate = pairs.Where(e => e.updateWith.LastUpdated > e.dbEntity.LastUpdated);
+                var itemsToUpdate = pairs;//.Where(e => e.updateWith.LastUpdated > e.dbEntity.LastUpdated);
 
                 foreach (var itemToUpdate in itemsToUpdate) 
                 {
+                    //the employee has disappeared ? 
+                    if (itemToUpdate.updateWith == null)
+                        continue;
+
+                    if (itemToUpdate.updateWith.LastUpdated < itemToUpdate.dbEntity.LastUpdated)
+                        continue;
+
                     var dbEntity = itemToUpdate.dbEntity;
                     var externalEntity = itemToUpdate.updateWith;
 

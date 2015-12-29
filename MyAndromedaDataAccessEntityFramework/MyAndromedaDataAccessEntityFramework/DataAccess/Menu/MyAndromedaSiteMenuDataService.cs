@@ -48,8 +48,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                     result.SiteMenuFtpBackup = new SiteMenuFtpBackup();
                 }
 
-                result.SiteMenuFtpBackup.LastDownloadedDate = siteMenu.SiteMenuFtpBackup.LastDownloadedDate;
-                result.SiteMenuFtpBackup.LastUploadedDate = siteMenu.SiteMenuFtpBackup.LastUploadedDate;
+                result.SiteMenuFtpBackup.LastFtpCheckDateUtc = siteMenu.SiteMenuFtpBackup.LastFtpCheckDateUtc;
+                result.SiteMenuFtpBackup.LastDownloadedDateUtc = siteMenu.SiteMenuFtpBackup.LastDownloadedDateUtc;
+                result.SiteMenuFtpBackup.LastUploadedDateUtc = siteMenu.SiteMenuFtpBackup.LastUploadedDateUtc;
                 result.SiteMenuFtpBackup.MenuVersion = siteMenu.SiteMenuFtpBackup.MenuVersion;
 
                 dbContext.SaveChanges();
@@ -75,8 +76,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
                 dbItem.CheckToDownload = value;
+                dbItem.LastFtpCheckDateUtc = DateTime.UtcNow;
                 siteMenuFtp.CheckToDownload = value;
                 siteMenuFtp.CheckInProgress = inProgress;
+
+                if (!value && !inProgress) { siteMenuFtp.LastFtpCheckDateUtc = DateTime.UtcNow; }
+
                 dbContext.SaveChanges();
             }
         }
