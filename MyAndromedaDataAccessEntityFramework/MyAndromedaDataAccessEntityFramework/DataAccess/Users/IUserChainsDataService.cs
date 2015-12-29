@@ -55,5 +55,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="userId">The user id.</param>
         /// <param name="chainId">The chain id.</param>
         void RemoveChainLinkToUser(int userId, int chainId);
+
+        /// <summary>
+        /// Gets AndroWebOrderingWebsites for user
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <returns></returns>
+        IEnumerable<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.AndroWebOrderingWebsite> GetAndroWebOrderingSitesForUser(int userId);
     }
 }
