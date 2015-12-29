@@ -31,6 +31,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<ContactType> ContactTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerAccount> CustomerAccounts { get; set; }
         public DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public DbSet<MarketingLevel> MarketingLevels { get; set; }
         public DbSet<modifier> modifiers { get; set; }
