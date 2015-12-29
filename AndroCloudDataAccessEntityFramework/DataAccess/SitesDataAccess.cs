@@ -18,8 +18,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         public string GetByFilter(
             int applicationId, 
             float? filterByMaxDistance, 
-            float? finterByLongitude, 
-            float? filterByLatitude, 
+            double? filterByLongitude,
+            double? filterByLatitude, 
             DataTypeEnum dataType, 
             out List<AndroCloudDataAccess.Domain.Site> sites)
         {
@@ -61,10 +61,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     bool returnSite = true;
 
                     // Do we need to filter by distance i.e. only return the closest X stores?
-                    if (filterByMaxDistance != null && finterByLongitude != null && filterByLatitude != null)
+                    if (filterByMaxDistance != null && filterByLongitude != null && filterByLatitude != null)
                     {
+                        double storeLatitude = 0;
+                        double storeLongitude = 0;
+
                         // Do we have the location of the site?
-                        if (siteEntity.Lat == null && siteEntity.Long == null)
+                        if (siteEntity.Lat == null ||
+                            siteEntity.Long == null ||
+                            filterByLatitude == null || 
+                            filterByLongitude == null ||
+                            !double.TryParse(siteEntity.Long, out storeLongitude) || 
+                            !double.TryParse(siteEntity.Lat, out storeLatitude))
                         {
                             // Don't know where the site is so don't return it
                             returnSite = false;
@@ -72,7 +80,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         else
                         {
                             // Calculate the distance between the site and the customer
-                            double distance = SpacialHelper.CalcDistanceBetweenTwoPoints((double)finterByLongitude.Value, (double)filterByLatitude.Value, siteEntity.Long.Value, siteEntity.Lat.Value);
+                            double distance = SpacialHelper.CalcDistanceBetweenTwoPoints(filterByLongitude.Value, filterByLatitude.Value, storeLongitude, storeLatitude);
 
                             // Is the site within X km of the customer?
                             if (distance > filterByMaxDistance)

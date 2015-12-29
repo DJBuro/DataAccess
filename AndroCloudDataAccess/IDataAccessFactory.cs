@@ -17,5 +17,6 @@ namespace AndroCloudDataAccess
         IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
         IACSApplicationDataAccess AcsApplicationDataAccess { get; set; }
+        ISettingsDataAccess SettingsDataAccess { get; set; }
     }
 }

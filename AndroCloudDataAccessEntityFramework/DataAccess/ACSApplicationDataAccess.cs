@@ -36,6 +36,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetById(int id, out AndroCloudDataAccess.Domain.ACSApplication acsApplication)
+        {
+            acsApplication = null;
+
+            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            {
+                var query = from p in acsEntities.ACSApplications
+                            where p.Id == id
+                            select p;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    acsApplication = new AndroCloudDataAccess.Domain.ACSApplication();
+                    acsApplication.Id = entity.Id;
+                    acsApplication.Name = entity.Name;
+                    acsApplication.ExternalApplicationId = entity.ExternalApplicationId;
+                }
+            }
+
+            return "";
+        }
+
         public bool StoreExists(Guid existingSiteId, int acsApplicationId)
         {
             using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))

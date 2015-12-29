@@ -76,12 +76,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     Model.Address dbAddress = siteEntity.Address;
 
                     siteDetails.Address = new AndroCloudDataAccess.Domain.Address();
-                    siteDetails.Address.Country = dbAddress.Country;
+                    siteDetails.Address.Country = dbAddress.Country.CountryName;
                     siteDetails.Address.County = dbAddress.County;
                     siteDetails.Address.Dps = dbAddress.DPS;
-                    siteDetails.Address.Lat = dbAddress.Lat.HasValue ? dbAddress.Lat.ToString() : "";
+                    siteDetails.Address.Lat = dbAddress.Lat;
                     siteDetails.Address.Locality = dbAddress.Locality;
-                    siteDetails.Address.Long = dbAddress.Long.HasValue ? dbAddress.Long.ToString() : "";
+                    siteDetails.Address.Long = dbAddress.Long;
                     siteDetails.Address.Org1 = dbAddress.Org1;
                     siteDetails.Address.Org2 = dbAddress.Org2;
                     siteDetails.Address.Org3 = dbAddress.Org3;
