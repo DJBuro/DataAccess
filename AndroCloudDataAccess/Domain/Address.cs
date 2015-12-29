@@ -10,10 +10,10 @@ namespace AndroCloudDataAccess.Domain
     public class Address
     {
         [JsonProperty(PropertyName = "long")]
-        public string Longitude { get; set;}
+        public string Long { get; set;}
 
         [JsonProperty(PropertyName = "lat")]
-        public string Latitude { get; set;}
+        public string Lat { get; set;}
 
         [JsonProperty(PropertyName = "prem1")]
         public string Prem1 { get; set;}

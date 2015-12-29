@@ -37,13 +37,14 @@ namespace AndroCloudDataAccess.Domain
         [JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
 
-        [JsonProperty(PropertyName = "timeZone")]
+        [JsonProperty(PropertyName = "phone")]
         public string Phone { get; set; }
 
-        [JsonProperty(PropertyName = "address")]
+        [JsonProperty(PropertyName = "address", NullValueHandling=NullValueHandling.Ignore)]
+
         public Address Address { get; set; }
 
-        [JsonProperty(PropertyName = "openingHours")]
+        [JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
         public List<TimeSpanBlock> OpeningHours { get; set; }
     }
 }
