@@ -61,9 +61,10 @@
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaMenuSyncDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
-    <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
@@ -198,6 +199,9 @@
     <Compile Include="Model\AndroAdmin\StoreMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AndroAdmin\StoreMenuThumbnail.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\StorePaymentProvider.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -208,6 +212,7 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ExpressionRewriter.cs" />
+    <Compile Include="Model\DataVersionHelper.cs" />
     <Compile Include="Model\CustomerDataWarehouse\AccountType.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -273,9 +278,6 @@
     </Compile>
     <Compile Include="Model\MyAndromeda\IMyAndromedaAccessor.cs" />
     <Compile Include="Model\MyAndromeda\MenuItem.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MyAndromeda\MenuItemInGroup.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\MenuItemThumbnail.cs">

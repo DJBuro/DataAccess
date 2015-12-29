@@ -14,21 +14,20 @@
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" ManuallyRouted="false" />
         </Diagram>
-      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="63" >
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="3.625" PointY="14.875" />
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemInGroup" Width="1.5" PointX="5" PointY="28.25" />
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="1" PointY="14.875" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="3.6032664438724828" PointY="17.190577872651897" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="7.625" PointY="17.25" />
-        <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailRelations" />
-        <AssociationConnector Association="MyAndromedaModel.SiteMenuItem" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="5.625" PointY="17.25" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
+      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="97" >
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="4.25" PointY="19.5" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="16.875" PointY="22.75" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="14.5" PointY="22.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="8.0831533149271984" PointY="27.895888416048088" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="7" PointY="26.5" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="9.0389987812559109" PointY="30.975524991273659" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="4.25" PointY="22.5" />
+        <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailRelations" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="6.625" PointY="22.5" />
+        <AssociationConnector Association="MyAndromedaModel.FK_MenuItem_SiteMenu" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

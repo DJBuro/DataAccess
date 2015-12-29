@@ -33,6 +33,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 {
                     siteMenu = new AndroCloudDataAccess.Domain.SiteMenu();
                     siteMenu.MenuData = siteMenuEntity.MenuData;
+                    siteMenu.MenuDataThumbnails = siteMenuEntity.MenuDataThumbnails;
                     siteMenu.MenuType = siteMenuEntity.MenuType;
                     siteMenu.SiteID = siteMenuEntity.SiteID.GetValueOrDefault();
                     siteMenu.Version = siteMenuEntity.Version.GetValueOrDefault(0);
@@ -84,5 +85,28 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string UpdateThumbnailData(Guid siteId, string data, DataTypeEnum dataType) 
+        {
+            using (var dbContext = new ACSEntities()) 
+            {
+                DataAccessHelper.FixConnectionString(dbContext, this.ConnectionStringOverride);
+
+                string dataTypeString = dataType.ToString();
+                var table = dbContext.SiteMenus;
+                var query = table
+                    .Where(e => e.SiteID == siteId)
+                    .Where(e => e.MenuType == dataTypeString);
+
+                var result = query.Single();
+                result.MenuDataThumbnails = data;
+
+                dbContext.SaveChanges();
+            }
+
+            return string.Empty;
+        }
+
+        public ACSEntities AcsEntities { get; set; }
     }
 }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AndroCloudHelper;
+using MyAndromeda.Core;
 using MyAndromedaDataAccess.Domain;
 
 namespace MyAndromedaDataAccess.DataAccess
 {
-    public interface ISiteDataAccess
+    public interface ISiteDataAccess : IDependency
     {
         string GetById(int siteId, out MyAndromedaDataAccess.Domain.Site site);
 
