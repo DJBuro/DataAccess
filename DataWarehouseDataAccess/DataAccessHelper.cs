@@ -14,7 +14,6 @@ namespace DataWarehouseDataAccess
             set 
             { 
                 dataAccessFactory = value; 
-                Console.WriteLine("SET"); 
             } 
         }
     }
