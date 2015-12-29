@@ -106,6 +106,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 entity.CustomerSiteId = siteDetails.CustomerSiteId;
                 entity.ExternalId = siteDetails.ExternalSiteId;
                 entity.Telephone = siteDetails.Phone;
+                entity.DataVersion = Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
 
                 entitiesContext.SaveChanges();
             }

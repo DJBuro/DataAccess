@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="MyAndromedaModelStoreContainer">
+          <EntitySet Name="CloudSynchronizationTasks" EntityType="MyAndromedaModel.Store.CloudSynchronizationTasks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignAudit" EntityType="MyAndromedaModel.Store.EmailCampaignAudit" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.Store.EmailCampaignSentEmails" store:Type="Tables" Schema="dbo" />
@@ -144,6 +145,17 @@
             <End Role="UserStore" EntitySet="UserStore" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CloudSynchronizationTasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="LastAttempt" Type="datetime" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="EmailCampaign">
           <Key>
             <PropertyRef Name="Id" />
@@ -818,6 +830,7 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePermissions" EntitySet="RolePermissions" />
           </AssociationSet>
+          <EntitySet Name="CloudSynchronizationTasks" EntityType="MyAndromedaModel.CloudSynchronizationTask" />
           </EntityContainer>
         <EntityType Name="EmailCampaign">
           <Key>
@@ -1349,6 +1362,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CloudSynchronizationTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Timestamp" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastAttempt" Precision="3" />
+          <Property Type="Boolean" Name="Completed" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1638,6 +1662,18 @@
               <MappingFragment StoreEntitySet="RolePermissions">
                 <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CloudSynchronizationTasks">
+            <EntityTypeMapping TypeName="MyAndromedaModel.CloudSynchronizationTask">
+              <MappingFragment StoreEntitySet="CloudSynchronizationTasks">
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="LastAttempt" ColumnName="LastAttempt" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

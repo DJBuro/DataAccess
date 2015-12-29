@@ -66,6 +66,9 @@
         <AssociationConnector Association="MyAndromedaModel.PermissionRolePermissions" />
         <AssociationConnector Association="MyAndromedaModel.RoleRolePermissions" />
         </Diagram>
+      <Diagram DiagramId="c54f519a78c7401e816bbd8c498d35d7" Name="Syncronization" ZoomLevel="93" >
+        <EntityTypeShape EntityType="MyAndromedaModel.CloudSynchronizationTask" Width="1.5" PointX="4.75" PointY="0.625" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

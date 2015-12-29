@@ -103,7 +103,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 {
                     return "Unknown store";
                 }
-
+                storeEntity.DataVersion = Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
                 // Get the day
                 var daysQuery = from d in entitiesContext.Days
                                 where d.Description == timeSpanBlock.Day
@@ -111,12 +111,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Day dayEntity = daysQuery.FirstOrDefault();
 
+
                 if (dayEntity == null)
                 {
                     return "Unknown day";
                 }
 
-                // Take the textual representation of the start and end time and split them into seperate times
+                // Take the textual representation of the start and end time and split them into separate times
                 TimeSpan startTimeSpan = new TimeSpan();
                 TimeSpan endTimeSpan = new TimeSpan();
 
