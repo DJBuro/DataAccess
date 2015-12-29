@@ -295,6 +295,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     // Commit the customer
                     dataWarehouseEntities.SaveChanges();
+
+                    // We need to return the customers account id
+                    customer.Id = customerEntity.ID;
                 }
             }
 

@@ -420,7 +420,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             site.SiteLoyalties = new List<AndroCloudDataAccess.Domain.SiteLoyalty>();
             try
             {
-                if (siteEntity.SiteLoyalties != null)
+                if (siteEntity.GetType().GetProperty("SiteLoyalties") != null && siteEntity.SiteLoyalties != null)
                 {
                     foreach (var config in siteEntity.SiteLoyalties)
                     {

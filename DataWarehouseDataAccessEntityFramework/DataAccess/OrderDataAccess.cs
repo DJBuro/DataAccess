@@ -130,7 +130,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 );
 
                 dataWarehouseEntities.SaveChanges();
-
             }
 
             return "";
