@@ -131,7 +131,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 ExternalSiteName = store.ExternalSiteName,
                 LastUpdated = DateTime.Now,
                 LicenceKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D",
-                SiteStatus = store.StoreStatus,
+ //               SiteStatus = store.StoreStatus,
                 Telephone = "",
                 TimeZone = ""
             };
@@ -155,7 +155,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.ExternalSiteName = store.ExternalSiteName;
                 siteEntity.LastUpdated = DateTime.Now;
                 siteEntity.LicenceKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D";  //harcode on server and pass in via xml
-                siteEntity.SiteStatus = store.StoreStatus;
+ //               siteEntity.SiteStatus = store.StoreStatus;
                 siteEntity.Telephone = ""; // implement on server side (get from db)
                 siteEntity.TimeZone = ""; // implement on server side (get from db)
 

@@ -32,25 +32,25 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public bool StoreExists(Guid siteId, Guid applicationId)
+        public bool StoreExists(Guid androStoreId, Guid applicationId)
         {
-            var acsEntities = new ACSEntities();
+            //var acsEntities = new ACSEntities();
 
-            var query = from p in acsEntities.ACSApplicationSites
-                        where p.ACSApplicationId == applicationId
-                        && s.AndroID == androStoreId
-                        select p;
+            //var query = from p in acsEntities.ACSApplicationSites
+            //            where p.ACSApplicationId == applicationId
+            //            && s.AndroID == androStoreId
+            //            select p;
 
-            var entity = query.FirstOrDefault();
+            //var entity = query.FirstOrDefault();
 
-            if (entity == null)
-            {
+            //if (entity == null)
+            //{
                 return false;
-            }
-            else
-            {
-                return true;
-            }
+            //}
+            //else
+            //{
+            //    return true;
+            //}
         }
     }
 }
