@@ -26,6 +26,9 @@
         <EntityTypeShape EntityType="MyAndromedaModel.StoreView" Width="1.5" PointX="2.75" PointY="11.625" />
         <AssociationConnector Association="MyAndromedaModel.EnrolmentPermissions" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackup" Width="3" PointX="12.25" PointY="9" />
+        <EntityTypeShape EntityType="MyAndromedaModel.Person" Width="1.5" PointX="1.75" PointY="3.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.StoreEmployee" Width="1.5" PointX="1.75" PointY="0.875" />
+        <AssociationConnector Association="MyAndromedaModel.FK_StoreEmployee_Person" />
         </Diagram>
       <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="63" >
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="4.25" PointY="19.5" />
@@ -71,6 +74,11 @@
         </Diagram>
       <Diagram DiagramId="c54f519a78c7401e816bbd8c498d35d7" Name="Syncronization" ZoomLevel="93" >
         <EntityTypeShape EntityType="MyAndromedaModel.CloudSynchronizationTask" Width="1.5" PointX="4.75" PointY="0.625" />
+      </Diagram>
+      <Diagram DiagramId="a88c1ef210934804b6b232ff9db68885" Name="Employees" >
+        <EntityTypeShape EntityType="MyAndromedaModel.Person" Width="1.5" PointX="7.125" PointY="3" />
+        <EntityTypeShape EntityType="MyAndromedaModel.StoreEmployee" Width="1.5" PointX="3.125" PointY="1.75" />
+        <AssociationConnector Association="MyAndromedaModel.FK_StoreEmployee_Person" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

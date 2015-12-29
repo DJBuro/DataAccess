@@ -20,6 +20,7 @@
           <EntitySet Name="MenuItemThumbnail" EntityType="MyAndromedaModel.Store.MenuItemThumbnail" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItemThumbnailRelations" EntityType="MyAndromedaModel.Store.MenuItemThumbnailRelations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Permissions" EntityType="MyAndromedaModel.Store.Permissions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Person" EntityType="MyAndromedaModel.Store.Person" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RolePermissions" EntityType="MyAndromedaModel.Store.RolePermissions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="MyAndromedaModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenu" EntityType="MyAndromedaModel.Store.SiteMenu" store:Type="Tables" Schema="dbo" />
@@ -35,6 +36,7 @@
       [SiteMenuMediaServerAuthentication].[SiteMenuMediaServerId] AS [SiteMenuMediaServerId]
       FROM [dbo].[SiteMenuMediaServerAuthentication] AS [SiteMenuMediaServerAuthentication]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="StoreEmployee" EntityType="MyAndromedaModel.Store.StoreEmployee" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreEnrolment" EntityType="MyAndromedaModel.Store.StoreEnrolment" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserChain" EntityType="MyAndromedaModel.Store.UserChain" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRecords" EntityType="MyAndromedaModel.Store.UserRecords" store:Type="Tables" Schema="dbo" />
@@ -129,6 +131,10 @@
             <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServer" />
             <End Role="SiteMenuMediaServerAuthentication" EntitySet="SiteMenuMediaServerAuthentication" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreEmployee_Person" Association="MyAndromedaModel.Store.FK_StoreEmployee_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="StoreEmployee" EntitySet="StoreEmployee" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreEnrolment_EnrolmentLevel" Association="MyAndromedaModel.Store.FK_StoreEnrolment_EnrolmentLevel">
             <End Role="EnrolmentLevel" EntitySet="EnrolmentLevel" />
             <End Role="StoreEnrolment" EntitySet="StoreEnrolment" />
@@ -161,6 +167,7 @@
           <Property Name="LastAttempt" Type="datetime" />
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="StoreId" Type="int" />
+          <Property Name="ChainId" Type="int" />
           <Property Name="InvokedByUserId" Type="int" />
           <Property Name="InvokedByUserName" Type="nvarchar(max)" />
         </EntityType>
@@ -302,6 +309,14 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Category" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
         <EntityType Name="RolePermissions">
           <Key>
             <PropertyRef Name="RoleId" />
@@ -387,6 +402,16 @@
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="SiteMenuMediaServerId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreEmployee">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="JobTitle" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
         <EntityType Name="StoreEnrolment">
           <Key>
             <PropertyRef Name="StoreId" />
@@ -412,8 +437,8 @@
           <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="IsEnabled" Type="bit" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="HashAlgorithm" Type="nvarchar" MaxLength="20" />
           <Property Name="PasswordFormat" Type="nvarchar" MaxLength="20" />
           <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" />
@@ -686,6 +711,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreEmployee_Person">
+          <End Role="Person" Type="MyAndromedaModel.Store.Person" Multiplicity="1" />
+          <End Role="StoreEmployee" Type="MyAndromedaModel.Store.StoreEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreEmployee">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreEnrolment_EnrolmentLevel">
           <End Role="EnrolmentLevel" Type="MyAndromedaModel.Store.EnrolmentLevel" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -870,6 +907,12 @@
           <AssociationSet Name="FK_SiteMenu_SiteMenuFtpBackup" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackup">
             <End Role="SiteMenuFtpBackup" EntitySet="SiteMenuFtpBackups" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
+          <EntitySet Name="People" EntityType="MyAndromedaModel.Person" />
+          <EntitySet Name="StoreEmployees" EntityType="MyAndromedaModel.StoreEmployee" />
+          <AssociationSet Name="FK_StoreEmployee_Person" Association="MyAndromedaModel.FK_StoreEmployee_Person">
+            <End Role="Person" EntitySet="People" />
+            <End Role="StoreEmployee" EntitySet="StoreEmployees" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -1197,8 +1240,8 @@
           <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="HashAlgorithm" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PasswordFormat" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PasswordSalt" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1419,6 +1462,7 @@
           <Property Type="Int32" Name="StoreId" />
           <Property Type="Int32" Name="InvokedByUserId" />
           <Property Type="String" Name="InvokedByUserName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ChainId" />
         </EntityType>
         <EntityType Name="SiteMenuFtpBackup">
           <Key>
@@ -1442,6 +1486,38 @@
             </Principal>
             <Dependent Role="SiteMenu">
               <PropertyRef Name="SiteMenuFtpBackupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StoreEmployees" Relationship="MyAndromedaModel.FK_StoreEmployee_Person" FromRole="Person" ToRole="StoreEmployee" />
+        </EntityType>
+        <EntityType Name="StoreEmployee">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="EmployeeId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PersonId" Nullable="false" />
+          <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Person" Relationship="MyAndromedaModel.FK_StoreEmployee_Person" FromRole="StoreEmployee" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_StoreEmployee_Person">
+          <End Type="MyAndromedaModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="MyAndromedaModel.StoreEmployee" Role="StoreEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreEmployee">
+              <PropertyRef Name="PersonId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1743,6 +1819,7 @@
           <EntitySetMapping Name="CloudSynchronizationTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.CloudSynchronizationTask">
               <MappingFragment StoreEntitySet="CloudSynchronizationTasks">
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
                 <ScalarProperty Name="InvokedByUserName" ColumnName="InvokedByUserName" />
                 <ScalarProperty Name="InvokedByUserId" ColumnName="InvokedByUserId" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
@@ -1765,6 +1842,25 @@
                 <ScalarProperty Name="LastUploadedDate" ColumnName="LastUploadedDate" />
                 <ScalarProperty Name="LastDownloadedDate" ColumnName="LastDownloadedDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="MyAndromedaModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreEmployees">
+            <EntityTypeMapping TypeName="MyAndromedaModel.StoreEmployee">
+              <MappingFragment StoreEntitySet="StoreEmployee">
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

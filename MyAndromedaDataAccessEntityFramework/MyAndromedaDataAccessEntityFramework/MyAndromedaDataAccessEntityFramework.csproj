@@ -292,6 +292,9 @@
     <Compile Include="Model\MyAndromeda\Permission.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\Person.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\Role.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -315,6 +318,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuMediaServerAuthentication.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\StoreEmployee.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\StoreEnrolment.cs">

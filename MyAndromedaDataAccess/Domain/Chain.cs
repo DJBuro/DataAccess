@@ -39,6 +39,12 @@ namespace MyAndromedaDataAccess.Domain
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
-        public IEnumerable<Chain> Children { get; set; }
+        public IEnumerable<Chain> Items { get; set; }
+
+        /// <summary>
+        /// Gets or sets the stores.
+        /// </summary>
+        /// <value>The stores.</value>
+        public IEnumerable<Site> Stores { get; set; }
     }
 }
