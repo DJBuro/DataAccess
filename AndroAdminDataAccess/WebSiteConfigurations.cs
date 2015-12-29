@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
     /// <summary>
     /// TBD: Class to be moved to another layer and method access-specifiers to be modified.
-    /// TBD: JSON serialized-object format to be freezed.
+    /// TBD: JSON serialized-object format to+ be freezed.
     /// </summary>
     public class WebSiteConfigurations
     {
@@ -123,6 +124,12 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             set;
         }
 
+        public UpSellingModel UpSelling
+        {
+            get;
+            set;
+        }
+
         public static string SerializeJson(Object obj)
         {
             if (obj == null)
@@ -134,11 +141,22 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public static WebSiteConfigurations DeserializeJson(string obj)
         {
-            if (String.IsNullOrEmpty(obj.Trim()))
+            if (String.IsNullOrWhiteSpace(obj))
                 return new WebSiteConfigurations();
 
             var result = JsonConvert.DeserializeObject<WebSiteConfigurations>(obj);
             return result;
         }
+    }
+
+    public class UpSellingModel {
+        public bool Enabled { get; set; }
+        public List<UpSellingDisplayCategory> DisplayCategories { get; set; }
+    }
+
+    public class UpSellingDisplayCategory 
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
