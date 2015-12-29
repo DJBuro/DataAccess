@@ -109,10 +109,33 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         public T Max { get; set; }
     }
 
-    public class SummaryOfItem
+    public class SummaryOfLineItem
     {
+        /// <summary>
+        /// Gets or sets the count if sold.
+        /// </summary>
+        /// <value>The count.</value>
+        public int OrderCount { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
         public string Description { get; set; }
-        public int Count { get; set; }
+
+        /// <summary>
+        /// Gets or sets the items sold count.
+        /// </summary>
+        /// <value>The items sold count.</value>
+        public int? ItemsQuantitySold { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sum price.
+        /// </summary>
+        /// <value>The sum price.</value>
+        public double SumPrice { get; set; }
+
+        public int? ItemPrice { get; set; }
     }
 
     public class SummaryOfProducts

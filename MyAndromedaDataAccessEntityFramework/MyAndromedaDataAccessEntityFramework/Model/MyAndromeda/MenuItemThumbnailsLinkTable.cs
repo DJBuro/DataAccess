@@ -12,19 +12,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class MenuItem
+    public partial class MenuItemThumbnailsLinkTable
     {
-        public MenuItem()
-        {
-            this.MenuItemThumbnails = new HashSet<MenuItemThumbnail>();
-        }
+        public System.Guid MenuItemThumbnailId { get; set; }
+        public System.Guid MenuItemId { get; set; }
     
-        public System.Guid Id { get; set; }
-        public int ItemId { get; set; }
-        public string Name { get; set; }
-        public System.Guid SiteMenuId { get; set; }
-    
-        public virtual ICollection<MenuItemThumbnail> MenuItemThumbnails { get; set; }
-        public virtual SiteMenu SiteMenu { get; set; }
+        public virtual MenuItemThumbnail MenuItemThumbnail { get; set; }
+        public virtual MenuItem MenuItem { get; set; }
     }
 }

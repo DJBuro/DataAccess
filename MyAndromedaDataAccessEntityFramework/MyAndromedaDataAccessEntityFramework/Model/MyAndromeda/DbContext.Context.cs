@@ -43,5 +43,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<UserRecord> UserRecords { get; set; }
         public DbSet<UserStore> UserStores { get; set; }
+        public DbSet<MenuItemThumbnailsLinkTable> MenuItemThumbnailsLinkTable { get; set; }
     }
 }

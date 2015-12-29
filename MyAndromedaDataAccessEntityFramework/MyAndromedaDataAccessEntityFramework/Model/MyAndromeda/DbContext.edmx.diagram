@@ -32,11 +32,13 @@
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="9.0389987812559109" PointY="30.975524991273659" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" />
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="4.25" PointY="22.5" />
-        <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailRelations" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="6.625" PointY="22.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_MenuItem_SiteMenu" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnailsLinkTable" Width="1.5" PointX="1.125" PointY="21.875" />
+        <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailMenuItemThumbnailsLinkTable" />
+        <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailLinkTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
