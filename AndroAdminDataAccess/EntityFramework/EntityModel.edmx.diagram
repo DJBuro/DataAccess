@@ -88,6 +88,10 @@
         <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="15" PointY="20.75" />
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreDriver" Width="1.5" PointX="12.75" PointY="49.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreGPSSetting" Width="1.5" PointX="12.75" PointY="2.25" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreBringgSettings_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreDrivers_Store" />
       </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />

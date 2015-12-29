@@ -26,6 +26,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public Nullable<decimal> RadiusCovered { get; set; }
         public string OriginPostCode { get; set; }
         public Nullable<bool> IsCustom { get; set; }
+        public decimal DeliveryCharge { get; set; }
     
         public virtual Store Store { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

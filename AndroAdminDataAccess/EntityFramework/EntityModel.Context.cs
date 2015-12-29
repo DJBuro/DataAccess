@@ -67,5 +67,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<StoreLoyalty> StoreLoyalties { get; set; }
         public virtual DbSet<ChainChain> ChainChains { get; set; }
+        public virtual DbSet<StoreDriver> StoreDrivers { get; set; }
+        public virtual DbSet<StoreGPSSetting> StoreGPSSettings { get; set; }
     }
 }

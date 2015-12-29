@@ -40,9 +40,9 @@ namespace AndroAdminDataAccess.EntityFramework
         public string DPS { get; set; }
         public string Lat { get; set; }
         public string Long { get; set; }
-        public System.Data.Entity.Spatial.DbGeography Location { get; set; }
         public int DataVersion { get; set; }
         public int CountryId { get; set; }
+        public System.Data.Entity.Spatial.DbGeography Location { get; set; }
     
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
