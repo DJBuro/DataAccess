@@ -12,19 +12,14 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Host
+    public partial class PostCodeSector
     {
-        public Host()
-        {
-            this.ACSApplications = new HashSet<ACSApplication>();
-        }
-    
         public int Id { get; set; }
-        public string HostName { get; set; }
-        public int Order { get; set; }
-        public string PrivateHostName { get; set; }
+        public int DeliveryZoneId { get; set; }
+        public string PostCodeSector1 { get; set; }
+        public bool IsSelected { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
+        public virtual DeliveryZoneName DeliveryZoneName { get; set; }
     }
 }

@@ -208,7 +208,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             PreviewSettings = webOrderingSite.PreviewSettings,
                             LiveSettings = webOrderingSite.LiveSettings,
                             PreviewDomainName = webOrderingSite.PreviewDomainName,
-                            ThemeId = webOrderingSite.ThemeId
+                            ThemeId = webOrderingSite.ThemeId.GetValueOrDefault()
                         };
 
                         entitiesContext.AndroWebOrderingWebsites.Add(website);
@@ -292,7 +292,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 webSite.LiveSettings = webOrderingSite.LiveSettings;
                             }
                             webSite.PreviewDomainName = webOrderingSite.PreviewDomainName;
-                            webSite.ThemeId = webOrderingSite.ThemeId;
+                            webSite.ThemeId = webOrderingSite.ThemeId.GetValueOrDefault();
 
                             if (webSite.ACSApplication != null)
                             {
