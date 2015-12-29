@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;

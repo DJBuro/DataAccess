@@ -1,6 +1,7 @@
 ﻿using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,6 +12,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
     public interface IUserLockingDataService : IDependency
     {
+
+        /// <summary>
+        /// Creates or update restrictions.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="ipRanges">The ip ranges.</param>
+        void CreateOrUpdateRestrictionsByUserId(int id, string ipRanges);
+
         /// <summary>
         /// Gets the lock by user name.
         /// </summary>
@@ -40,6 +49,23 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         
         }
 
+        public void CreateOrUpdateRestrictionsByUserId(int id, string ipRanges)
+        {
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var user = dbContext.UserRecords
+                    .Include(e => e.UserIpLock)
+                    .Single(e=> e.Id == id);
+
+                if (user.UserIpLock == null) { user.UserIpLock = new UserIpLock(); }
+                
+                user.UserIpLock.Enabled = true;
+                user.UserIpLock.ValidIpV4Ranges = ipRanges;
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public UserIpLock GetLockByUserName(string userName)
         {
             return this.List(e => e.UserRecord.Username == userName).SingleOrDefault();
@@ -47,7 +73,19 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
         public UserIpLock GetLockByUserId(int id)
         {
-            return this.List(e => e.UserId == id).SingleOrDefault();
+            var result = this.List(e => e.UserId == id).SingleOrDefault();
+
+            if (result != null)
+                return result;
+
+            this.CreateOrUpdateRestrictionsByUserId(id, string.Empty);
+
+            return new UserIpLock() 
+            { 
+                UserId = id,
+                Enabled = true,
+                ValidIpV4Ranges = string.Empty
+            };
         }
 
         public IEnumerable<UserIpLock> List(Expression<Func<UserIpLock, bool>> query)
