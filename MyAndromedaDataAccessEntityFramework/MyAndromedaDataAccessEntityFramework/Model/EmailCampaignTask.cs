@@ -20,8 +20,10 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public bool Completed { get; set; }
         public int EmailCampaignSettingsId { get; set; }
         public System.DateTime CreatedOnUtc { get; set; }
-        public Nullable<System.DateTime> RunOnUtc { get; set; }
-        public Nullable<System.DateTime> RunAtUtc { get; set; }
+        public Nullable<System.DateTime> RunLaterOnUtc { get; set; }
+        public Nullable<System.DateTime> RanAtUtc { get; set; }
+        public Nullable<System.DateTime> RetryAfter { get; set; }
+        public bool Canceled { get; set; }
     
         public virtual EmailCampaign EmailCampaign { get; set; }
         public virtual EmailCampaignSetting EmailCampaignSetting { get; set; }

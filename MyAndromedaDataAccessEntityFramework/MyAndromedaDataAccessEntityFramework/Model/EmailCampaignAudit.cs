@@ -16,7 +16,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     {
         public int Id { get; set; }
         public int EmailCampaignId { get; set; }
-        public int EditedByUserId { get; set; }
+        public string EditedByUserName { get; set; }
         public System.DateTime ActionOn { get; set; }
         public string Message { get; set; }
     

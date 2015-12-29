@@ -22,7 +22,7 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// Gets or sets the run on.
         /// </summary>
         /// <value>The run on.</value>
-        public DateTime? RunOn { get; set; }
+        public DateTime? RunLaterOnUtc { get; set; }
 
         /// <summary>
         /// Gets or sets the run at.
@@ -41,5 +41,18 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// </summary>
         /// <value>The completed.</value>
         public bool Completed { get; set; }
+
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets when the task should be retried .
+        /// </summary>
+        /// <value>The retry after.</value>
+        public DateTime? RetryAfter { get;set; }
+        /// <summary>
+        /// Gets or sets the canceled.
+        /// </summary>
+        /// <value>The canceled.</value>
+        public bool Canceled { get; set; }
     }
 }
