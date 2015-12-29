@@ -17,15 +17,47 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             };
         }
 
-        public IEnumerable<StoreDevice> List()
+        //public IEnumerable<StoreDevice> List()
+        //{
+        //    var results = Enumerable.Empty<StoreDevice>();
+        //    using (var dbContext = new EntityFramework.AndroAdminEntities())
+        //    {
+        //        var table = dbContext.StoreDevices
+        //                             .Include(e => e.Device)
+        //                             .Include(e => e.Store)
+        //                             .Where(e => !e.Removed);
+
+        //        results = table.ToArray();
+        //    }
+
+        //    return results;
+        //}
+
+        //public IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query)
+        //{
+        //    var results = Enumerable.Empty<StoreDevice>();
+        //    using (var dbContext = new EntityFramework.AndroAdminEntities())
+        //    {
+        //        var table = dbContext.StoreDevices
+        //                             .Include(e => e.Device)
+        //                             .Include(e => e.Store)
+        //                             .Where(e => !e.Removed)
+        //                             .Where(query);
+
+        //        results = table.ToArray();
+        //    }
+
+        //    return results;
+        //}
+
+        public IEnumerable<StoreDevice> Query()
         {
             var results = Enumerable.Empty<StoreDevice>();
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.StoreDevices
                                      .Include(e => e.Device)
-                                     .Include(e => e.Store)
-                                     .Where(e => !e.Removed);
+                                     .Include(e => e.Store);
 
                 results = table.ToArray();
             }
@@ -33,7 +65,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return results;
         }
 
-        public IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query)
+        public IEnumerable<StoreDevice> Query(Expression<Func<StoreDevice, bool>> query)
+        {
+            var results = Enumerable.Empty<StoreDevice>();
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                var table = dbContext.StoreDevices
+                                     .Include(e => e.Device)
+                                     .Include(e => e.Store)
+                                     .Where(query);
+
+                results = table.ToArray();
+            }
+
+            return results;
+        }
+
+        public IEnumerable<StoreDevice> ListEnabled(Expression<Func<StoreDevice, bool>> query)
         {
             var results = Enumerable.Empty<StoreDevice>();
             using (var dbContext = new EntityFramework.AndroAdminEntities())
