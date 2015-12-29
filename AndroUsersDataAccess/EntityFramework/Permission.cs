@@ -22,6 +22,7 @@ namespace AndroUsersDataAccess.EntityFramework
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> DisplayOrder { get; set; }
     
         public virtual ICollection<SecurityGroupPermission> SecurityGroupPermissions { get; set; }
     }

@@ -91,6 +91,7 @@
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Permission.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
     <Compile Include="Domain\StoreListItem.cs" />
