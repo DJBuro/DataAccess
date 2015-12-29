@@ -11,9 +11,8 @@ namespace AndroAdminDataAccess.Domain
         public virtual string Name { get; set; }
         public virtual string Url { get; set; }
         public virtual int Port { get; set; }
-        public virtual string ServerType { get; set; }
+        public virtual FTPSiteType FTPSiteType { get; set; }
         public virtual string Username { get; set; }
         public virtual string Password { get; set; }
-        public virtual bool IsPrimary { get; set; }
     }
 }

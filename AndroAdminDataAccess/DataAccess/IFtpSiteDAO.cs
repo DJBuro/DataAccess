@@ -12,6 +12,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Add(FTPSite amsServer);
         void Update(FTPSite amsServer);
         FTPSite GetById(int id);
-        IList<FTPSite> GetByIsPrimary(bool isPrimary);
+        FTPSite GetByName(string name);
     }
 }

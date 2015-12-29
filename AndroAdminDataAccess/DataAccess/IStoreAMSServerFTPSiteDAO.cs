@@ -11,5 +11,6 @@ namespace AndroAdminDataAccess.DataAccess
         IEnumerable<StoreAMSServerFtpSite> GetAll();
         IEnumerable<StoreAMSServerFtpSite> GetBySiteId(int siteId);
         void Add(StoreAMSServerFtpSite storeAMSServerFtpSite);
+        StoreAMSServerFtpSite GetBySiteIdAMSServerIdFTPSiteId(int storeAMSServerId, int ftpSiteId);
     }
 }

@@ -16,7 +16,6 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
             Id(x => x.Id);
             Map(x => x.Name);
             Map(x => x.Description);
-
         }
     }
 }

@@ -47,5 +47,27 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
                 transaction.Commit();
             }
         }
+
+        public StoreAMSServerFtpSite GetBySiteIdAMSServerIdFTPSiteId(int storeAMSServerId, int ftpSiteId)
+        {
+            IList<StoreAMSServerFtpSite> storeAMSServerFtpSites = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                storeAMSServerFtpSites = session.CreateQuery("from " + typeof(StoreAMSServerFtpSite) + " where StoreAMSServer.Id=:storeAMSServerId and FTPSite.Id=:ftpSiteId")
+                    .SetParameter("storeAMSServerId", storeAMSServerId)
+                    .SetParameter("ftpSiteId", ftpSiteId)
+                    .List<StoreAMSServerFtpSite>();
+            }
+
+            StoreAMSServerFtpSite storeAMSServerFtpSite = null;
+
+            if (storeAMSServerFtpSites.Count == 1)
+            {
+                storeAMSServerFtpSite = storeAMSServerFtpSites[0];
+            }
+
+            return storeAMSServerFtpSite;
+        }
     }
 }

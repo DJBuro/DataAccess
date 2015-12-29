@@ -17,10 +17,9 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
             Map(x => x.Name);
             Map(x => x.Url);
             Map(x => x.Port);
-            Map(x => x.ServerType);
             Map(x => x.Username);
             Map(x => x.Password);
-            Map(x => x.IsPrimary);
+            References<FTPSiteType>(x => x.FTPSiteType).Not.LazyLoad();
         }
     }
 }

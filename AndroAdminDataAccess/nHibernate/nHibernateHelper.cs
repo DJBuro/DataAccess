@@ -25,7 +25,7 @@ namespace AndroAdminDataAccess
                 (
                     MsSqlConfiguration.MsSql2008.ConnectionString(connectionString)
                 )
-                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerFTPServerPairMap>())
+ //               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerFTPServerPairMap>())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerMap>())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<FTPSiteMap>())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<StoreMap>())
