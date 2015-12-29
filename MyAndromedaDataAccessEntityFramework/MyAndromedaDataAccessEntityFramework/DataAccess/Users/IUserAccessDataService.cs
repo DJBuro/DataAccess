@@ -126,30 +126,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             var resultOfAny = flatListOfAllChains.Any(e => e.Id == chainId);
 
             return resultOfAny;
-            //Func<Chain, bool> recursivelyCheckChain = null;
-            //recursivelyCheckChain = (chain) =>
-            //{
-            //    if (chain.Id == chainId)
-            //        return true;
-
-            //    foreach (var link in chain.Children)
-            //    {
-            //        if (recursivelyCheckChain(link))
-            //            return true;
-            //    }
-
-            //    return false;
-            //};
-
-            ////dig into the chain hierarchy
-            //foreach (var chain in chains)
-            //{
-            //    //dig into each chain to n levels of china chain 
-            //    if (recursivelyCheckChain(chain))
-            //        return true;
-            //}
-            
-            //return false;
         }
 
         public bool IsTheUserAssociatedByChainAndStore(int userId, int chainId, int storeId)
@@ -172,7 +148,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
             if (!associated) 
             {
-                //user connected to the user-store in the redundancy table?
+                System.Diagnostics.Trace.WriteLine("checking redundency - store - user table");
+                //is the user connected to the user-store in the redundancy table?
                 var sites = this.userSiteDataService.GetSitesForUser(userId, e => e.ChainId == chainId && e.Id == storeId);
                 associated = sites.Any();
             }

@@ -154,7 +154,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
             {
                 var permissionsTable = dbContext.Permissions;
                 var query = permissionsTable
-                        .Where(e => e.RolePermissions.Any(userRole => userRole.Role.UserRecords.Any(userRecord => userRecord.Id == userId)));
+                        .Where(e => e.RolePermissions.Any(userRole => userRole.Role.UserRecords.Any(userRecord => userRecord.Id == userId))
+                        );
 
                 var result = query.ToArray();
                 permissions = result.Select(e => e as IPermission).ToArray();
@@ -203,12 +204,16 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var permissionsTable = dbContext.Permissions;
+
                 var query = permissionsTable.Where(e => 
                     e.EnrolmentLevels.Any(level => level.StoreEnrolments.Any(enrolement => enrolement.StoreId == site.Id))
                 );
-                var defaultPermissions = permissionsTable.Where(e=> e.EnrolmentLevels.Any(enrolment => enrolment.Name == "Default Store"));
+                
+                var defaultPermissions = 
+                    permissionsTable.Where(e=> e.EnrolmentLevels.Any(enrolment => enrolment.Name == "Default Store"));
 
-                var results = query.Union(defaultPermissions).ToArray();
+                var results = //two queries in one
+                    query.Union(defaultPermissions).ToArray();
                 
                 permissions = results.Select(e => e as IPermission).ToArray();
             }

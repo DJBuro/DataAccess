@@ -36,7 +36,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="chainId">The chain id.</param>
         /// <param name="deepSearch">The deep search.</param>
         /// <returns></returns>
-        IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch);
+        //IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch);
     }
 
     public class UserSitesDataService : IUserSitesDataService
@@ -53,18 +53,18 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             IEnumerable<Site> sites;
             using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext())
             {
-                IEnumerable<int> accessibleStores = Enumerable.Empty<int>();
+                int[] accessibleStores;
                 using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
                 {
                     var userStoresTable = myAndromedaDbContext.UserStores;
                     var userStoresQuery = userStoresTable.Where(e => e.UserRecordId == userId).Select(e => e.StoreId);
                     var userStoresResult = userStoresQuery.ToList();
 
-                    accessibleStores = userStoresResult;
+                    accessibleStores = userStoresResult.ToArray();
                 }
 
                 var storesTable = androAdminDbContext.Stores.Include(e=> e.Address);
-                var storeQuery = storesTable.Where(e => accessibleStores.Any(storeId => storeId == e.Id));
+                var storeQuery = storesTable.Where(e => accessibleStores.Contains(e.Id));
                 var storeResults = storeQuery.ToArray();
 
                 sites = storeResults.Select(e => e.ToDomain()).ToArray();
@@ -101,12 +101,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         }
 
 
-        public IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch)
-        {
-            if (!deepSearch) { return this.GetSitesForUserAndChain(userId, chainId); }
+        //public IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch)
+        //{
+        //    if (!deepSearch) { return this.GetSitesForUserAndChain(userId, chainId); }
 
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
     }
 
 }
