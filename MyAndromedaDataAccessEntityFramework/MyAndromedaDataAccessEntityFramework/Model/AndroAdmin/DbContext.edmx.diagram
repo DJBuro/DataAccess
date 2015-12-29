@@ -53,8 +53,6 @@
         <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="3" PointY="24.375" />
         <EntityTypeShape EntityType="AndroAdminModel.DeliveryArea" Width="1.5" PointX="6.6029610198936242" PointY="17.899414860596607" />
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="8.0850503072538658" PointY="3.5438540147356008" />
-        <EntityTypeShape EntityType="AndroAdminModel.Site_AMS_upload" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingSubscriptionType" Width="1.5" PointX="12" PointY="8.125" />
         <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingWebsite" Width="1.5" PointX="14.25" PointY="10.375" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
