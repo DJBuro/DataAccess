@@ -74,6 +74,7 @@
     <Compile Include="Domain\CustomerAddress.cs" />
     <Compile Include="Domain\CustomerDAO.cs" />
     <Compile Include="Domain\OrderLineDAO.cs" />
+    <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\UsedVoucher.cs" />
     <Compile Include="Domain\FailedOrder.cs" />
     <Compile Include="Domain\OrderDetails.cs" />

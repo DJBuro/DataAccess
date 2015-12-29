@@ -45,5 +45,6 @@ namespace DataWarehouseDataAccess.Domain
         public ACSErrorCode ACSErrorCode { get; set; }
         public ICollection<OrderLineDAO> OrderLines { get; set; }
         public ICollection<UsedVoucher> UsedVouchers { get; set; }
+        public OrderStatus OrderStatus { get; set; }
     }
 }
