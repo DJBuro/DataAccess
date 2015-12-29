@@ -231,9 +231,6 @@
     <Compile Include="EntityFramework\MyAndromedaUser.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUserGroup.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\MyAndromedaUserStore.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -253,9 +250,6 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreAMSServerFtpSite.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreGroup.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreHubReset.cs">
