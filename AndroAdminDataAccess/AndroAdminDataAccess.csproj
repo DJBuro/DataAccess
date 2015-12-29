@@ -49,25 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IStoreAMSServerFTPSiteDAO.cs" />
+    <Compile Include="DataAccess\IStoreAMSServerDAO.cs" />
+    <Compile Include="DataAccess\IFTPSiteTypeDAO.cs" />
     <Compile Include="DataAccess\ILogDAO.cs" />
     <Compile Include="DataAccess\IAMSServerDAO.cs" />
-    <Compile Include="DataAccess\IAMSServerFTPServerPairDAO.cs" />
     <Compile Include="DataAccess\IDataAccess.cs" />
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
+    <Compile Include="Domain\StoreAMSServer.cs" />
+    <Compile Include="Domain\FTPSiteType.cs" />
+    <Compile Include="Domain\StoreAMSServerFtpSite.cs" />
     <Compile Include="Domain\Log.cs" />
+    <Compile Include="nHibernate\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\StoreAMSServerDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\FtpSiteTypeDAO.cs" />
     <Compile Include="nHibernate\DataAccess\FtpSiteDAO.cs" />
     <Compile Include="nHibernate\DataAccess\DataAccess.cs" />
     <Compile Include="nHibernate\DataAccess\AMSServerDAO.cs" />
-    <Compile Include="nHibernate\DataAccess\AMSServerFTPServerPairDAO.cs" />
     <Compile Include="nHibernate\DataAccess\LogDAO.cs" />
     <Compile Include="nHibernate\DataAccess\StoreDAO.cs" />
     <Compile Include="Domain\AMSServer.cs" />
-    <Compile Include="Domain\AMSServerFTPServerPair.cs" />
     <Compile Include="Domain\FTPSite.cs" />
     <Compile Include="Domain\Store.cs" />
-    <Compile Include="nHibernate\Mappings\AMSServerFTPServerPairMap.cs" />
     <Compile Include="nHibernate\Mappings\AMSServerMap.cs" />
+    <Compile Include="nHibernate\Mappings\StoreAMSServerMap.cs" />
+    <Compile Include="nHibernate\Mappings\StoreAMSServerFTPSiteMap.cs" />
+    <Compile Include="nHibernate\Mappings\FTPSiteTypeMap.cs" />
     <Compile Include="nHibernate\Mappings\FTPSiteMap.cs" />
     <Compile Include="nHibernate\Mappings\LogMap.cs" />
     <Compile Include="nHibernate\Mappings\StoreMap.cs" />
