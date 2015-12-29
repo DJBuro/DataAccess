@@ -7,7 +7,7 @@ using AndroAdminDataAccess.DataAccess;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
-    public class HostV2DataService : IHostV2DataService 
+    public class HostV2DataConnectionService : IHostV2DataService 
     {
         public void UpdateVersionForAll()
         {
