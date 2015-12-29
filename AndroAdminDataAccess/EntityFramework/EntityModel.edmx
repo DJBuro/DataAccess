@@ -1,40 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AndroAdminModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="AndroAdminModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="AndroAdminModelStoreContainer">
-          <EntitySet Name="ACSApplication" EntityType="AndroAdminModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Address" EntityType="AndroAdminModel.Store.Address" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AMSServer" EntityType="AndroAdminModel.Store.AMSServer" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AMSServerChain" EntityType="AndroAdminModel.Store.AMSServerChain" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Chain" EntityType="AndroAdminModel.Store.Chain" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ChainChain" EntityType="AndroAdminModel.Store.ChainChain" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Country" EntityType="AndroAdminModel.Store.Country" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FTPSite" EntityType="AndroAdminModel.Store.FTPSite" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FTPSiteChain" EntityType="AndroAdminModel.Store.FTPSiteChain" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FTPSiteType" EntityType="AndroAdminModel.Store.FTPSiteType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Group" EntityType="AndroAdminModel.Store.Group" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Host" EntityType="AndroAdminModel.Store.Host" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Log" EntityType="AndroAdminModel.Store.Log" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUser" EntityType="AndroAdminModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUserGroup" EntityType="AndroAdminModel.Store.MyAndromedaUserGroup" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUserStore" EntityType="AndroAdminModel.Store.MyAndromedaUserStore" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OpeningHour" EntityType="AndroAdminModel.Store.OpeningHour" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Partner" EntityType="AndroAdminModel.Store.Partner" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Settings" EntityType="AndroAdminModel.Store.Settings" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Store" EntityType="AndroAdminModel.Store.Store" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StoreGroup" EntityType="AndroAdminModel.Store.StoreGroup" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StoreMenu" EntityType="AndroAdminModel.Store.StoreMenu" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACSApplication" EntityType="AndroAdminModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Address" EntityType="AndroAdminModel.Store.Address" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="AMSServer" EntityType="AndroAdminModel.Store.AMSServer" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="AMSServerChain" EntityType="AndroAdminModel.Store.AMSServerChain" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Chain" EntityType="AndroAdminModel.Store.Chain" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ChainChain" EntityType="AndroAdminModel.Store.ChainChain" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Country" EntityType="AndroAdminModel.Store.Country" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FTPSite" EntityType="AndroAdminModel.Store.FTPSite" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FTPSiteChain" EntityType="AndroAdminModel.Store.FTPSiteChain" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FTPSiteType" EntityType="AndroAdminModel.Store.FTPSiteType" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Group" EntityType="AndroAdminModel.Store.Group" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Host" EntityType="AndroAdminModel.Store.Host" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Log" EntityType="AndroAdminModel.Store.Log" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="MyAndromedaUser" EntityType="AndroAdminModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="MyAndromedaUserGroup" EntityType="AndroAdminModel.Store.MyAndromedaUserGroup" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="MyAndromedaUserStore" EntityType="AndroAdminModel.Store.MyAndromedaUserStore" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="OpeningHour" EntityType="AndroAdminModel.Store.OpeningHour" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Partner" EntityType="AndroAdminModel.Store.Partner" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Settings" EntityType="AndroAdminModel.Store.Settings" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Store" EntityType="AndroAdminModel.Store.Store" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StoreGroup" EntityType="AndroAdminModel.Store.StoreGroup" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StoreMenu" EntityType="AndroAdminModel.Store.StoreMenu" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.Store.FK_ACSApplication_Partner">
             <End Role="Partner" EntitySet="Partner" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -808,8 +808,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AndroAdminModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="AndroAdminModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
           <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
@@ -984,7 +984,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Org1" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="Org2" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="Org3" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
@@ -1013,7 +1013,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="3500" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_AMSServer" FromRole="AMSServer" ToRole="StoreAMSServer" />
@@ -1023,7 +1023,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="ISO3166_1_alpha_2" Type="String" Nullable="false" MaxLength="2" Unicode="false" FixedLength="false" />
           <Property Name="ISO3166_1_numeric" Type="Int32" Nullable="false" />
@@ -1033,7 +1033,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Day" FromRole="Day" ToRole="OpeningHour" />
         </EntityType>
@@ -1041,7 +1041,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="SiteId" Type="Int32" />
           <Property Name="Firstname" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="Surname" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
@@ -1053,7 +1053,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Url" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
           <Property Name="Port" Type="Int32" Nullable="false" />
@@ -1078,7 +1078,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="PartnerId" Type="Int32" />
           <Property Name="GroupName" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="LastUpdated" Type="DateTime" Precision="3" />
@@ -1091,7 +1091,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="HostName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Order" Type="Int32" Nullable="false" />
           <Property Name="PrivateHostName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
@@ -1101,7 +1101,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="StoreId" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Severity" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Message" Type="String" MaxLength="3500" Unicode="true" FixedLength="false" />
@@ -1113,7 +1113,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
@@ -1126,7 +1126,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="MyAndromedaUserId" Type="Int32" Nullable="false" />
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Group" Relationship="AndroAdminModel.FK_MyAndromedaUserGroup_Group" FromRole="MyAndromedaUserGroup" ToRole="Group" />
@@ -1136,7 +1136,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="MyAndromedaUserId" Type="Int32" Nullable="false" />
           <Property Name="StoreId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MyAndromedaUser" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser" FromRole="MyAndromedaUserStore" ToRole="MyAndromedaUser" />
@@ -1146,7 +1146,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="SiteId" Type="Int32" Nullable="false" />
           <Property Name="TimeStart" Type="Time" Nullable="false" Precision="7" />
           <Property Name="TimeEnd" Type="Time" Nullable="false" Precision="7" />
@@ -1160,7 +1160,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
         </EntityType>
@@ -1168,7 +1168,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="AndromedaSiteId" Type="Int32" Nullable="false" />
           <Property Name="CustomerSiteId" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
@@ -1200,7 +1200,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="StoreId" Type="Int32" Nullable="false" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
           <Property Name="AMSServerId" Type="Int32" Nullable="false" />
@@ -1212,7 +1212,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="StoreAMSServerId" Type="Int32" Nullable="false" />
           <Property Name="FTPSiteId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="StoreAMSServerFtpSite" ToRole="FTPSite" />
@@ -1232,7 +1232,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="StoreId" Type="Int32" />
           <Property Name="Version" Type="Int32" />
           <Property Name="MenuType" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
@@ -1245,7 +1245,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="ClientId" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="ClientPassword" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
@@ -1257,7 +1257,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatus" ToRole="Store" />
@@ -1506,7 +1506,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
@@ -1541,7 +1541,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="AMSServerId" Nullable="false" />
           <Property Type="Int32" Name="ChainId" Nullable="false" />
           <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_AMSServerChain_AMSServer" FromRole="AMSServerChain" ToRole="AMSServer" />
@@ -1551,7 +1551,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="Chain" ToRole="AMSServerChain" />
@@ -1564,7 +1564,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="ParentChainId" Nullable="false" />
           <Property Type="Int32" Name="ChildChainId" Nullable="false" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="ChainChain" ToRole="Chain" />
@@ -1574,7 +1574,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="FTPSiteId" Nullable="false" />
           <Property Type="Int32" Name="ChainId" Nullable="false" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="FTPSiteChain" ToRole="Chain" />
@@ -1668,7 +1668,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AndroAdminModelStoreContainer" CdmEntityContainer="AndroAdminEntities">
           <EntitySetMapping Name="ACSApplications">
             <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
@@ -2006,7 +2006,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -2021,6 +2021,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams />
   </Designer>
 </edmx:Edmx>

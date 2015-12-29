@@ -1,32 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ACSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ACSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ACSModelStoreContainer">
-          <EntitySet Name="ACSApplication" EntityType="ACSModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ACSApplicationSite" EntityType="ACSModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ACSLog" EntityType="ACSModel.Store.ACSLog" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ACSQueue" EntityType="ACSModel.Store.ACSQueue" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Addresses" EntityType="ACSModel.Store.Addresses" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Audit" EntityType="ACSModel.Store.Audit" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Country" EntityType="ACSModel.Store.Country" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="DeliveryArea" EntityType="ACSModel.Store.DeliveryArea" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Hosts" EntityType="ACSModel.Store.Hosts" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HostsV2" EntityType="ACSModel.Store.HostsV2" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HostTypes" EntityType="ACSModel.Store.HostTypes" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Partners" EntityType="ACSModel.Store.Partners" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Settings" EntityType="ACSModel.Store.Settings" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SiteStatuses" EntityType="ACSModel.Store.SiteStatuses" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="StorePaymentProvider" EntityType="ACSModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACSApplication" EntityType="ACSModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ACSApplicationSite" EntityType="ACSModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ACSLog" EntityType="ACSModel.Store.ACSLog" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ACSQueue" EntityType="ACSModel.Store.ACSQueue" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Addresses" EntityType="ACSModel.Store.Addresses" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Audit" EntityType="ACSModel.Store.Audit" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Country" EntityType="ACSModel.Store.Country" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="DeliveryArea" EntityType="ACSModel.Store.DeliveryArea" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Hosts" EntityType="ACSModel.Store.Hosts" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="HostsV2" EntityType="ACSModel.Store.HostsV2" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="HostTypes" EntityType="ACSModel.Store.HostTypes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Partners" EntityType="ACSModel.Store.Partners" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Settings" EntityType="ACSModel.Store.Settings" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SiteStatuses" EntityType="ACSModel.Store.SiteStatuses" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="StorePaymentProvider" EntityType="ACSModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="FK_ACSApplication_Partners" Association="ACSModel.Store.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -509,8 +509,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ACSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="ACSEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="ACSModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ACSEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="ACSApplications" EntityType="ACSModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="ACSModel.ACSApplicationSite" />
           <EntitySet Name="ACSLogs" EntityType="ACSModel.ACSLog" />
@@ -610,7 +610,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Guid" Name="SiteId" Nullable="false" />
           <Property Type="Int32" Name="ACSApplicationId" Nullable="false" />
           <NavigationProperty Name="ACSApplication" Relationship="ACSModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
@@ -620,7 +620,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="DateTime" Name="Date" Precision="3" />
           <Property Type="String" Name="Thread" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Level" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -677,7 +677,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="CountryName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ISO3166_1_alpha_2" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ISO3166_1_numeric" Nullable="false" />
@@ -723,7 +723,7 @@
           <Property Type="Guid" Name="SiteID" />
           <Property Type="Guid" Name="ACSQueueID" />
           <Property Type="Guid" Name="StatusId" />
-          <Property Type="Int32" Name="InternetOrderNumber" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="InternetOrderNumber" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="ExternalID" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ACSQueue" Relationship="ACSModel.FK_Orders_ACSQueue" FromRole="Order" ToRole="ACSQueue" />
           <NavigationProperty Name="OrderStatu" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="Order" ToRole="OrderStatu" />
@@ -753,7 +753,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -1042,7 +1042,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ACSModelStoreContainer" CdmEntityContainer="ACSEntities">
           <EntitySetMapping Name="ACSApplications">
             <EntityTypeMapping TypeName="ACSModel.ACSApplication">
@@ -1305,7 +1305,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -1320,6 +1320,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams />
   </Designer>
 </edmx:Edmx>

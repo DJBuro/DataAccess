@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AndroCloudDataAccess
+namespace DataWarehouseDataAccess
 {
     public class DataAccessHelper
     {
@@ -14,6 +14,7 @@ namespace AndroCloudDataAccess
             set 
             { 
                 dataAccessFactory = value; 
+                Console.WriteLine("SET"); 
             } 
         }
     }
