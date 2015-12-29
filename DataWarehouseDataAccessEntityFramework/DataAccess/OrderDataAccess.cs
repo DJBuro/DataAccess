@@ -239,9 +239,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     orderHeaderEntity.DriverName = driverName;
                     orderHeaderEntity.DriverId = driverId;
                     orderHeaderEntity.DriverPhoneNumber = driverMobileNumber;
-                    orderHeaderEntity.TicketNumber = ticketNumber;
-                    orderHeaderEntity.Bags = bags;
                 }
+
+                orderHeaderEntity.TicketNumber = ticketNumber;
+                orderHeaderEntity.Bags = bags;
 
                 // Update the order status history
                 dataWarehouseEntities.OrderStatusHistories.Add
