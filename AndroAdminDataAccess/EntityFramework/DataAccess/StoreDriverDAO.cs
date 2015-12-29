@@ -39,7 +39,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             Name = storeDriverEntity.Name,
                             PartnerId = storeDriverEntity.PartnerId,
                             StoreId = storeDriverEntity.StoreId,
-                            Phone = storeDriverEntity.Phone
+                            Phone = storeDriverEntity.Phone,
+                            Email = storeDriverEntity.Email,
+                            Password = storeDriverEntity.Password
                         };
 
                         models.Add(storeDriver);
@@ -63,7 +65,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     Name = model.Name,
                     PartnerId = model.PartnerId,
                     StoreId = model.StoreId,
-                    Phone = model.Phone
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    Password = model.Password
                 };
 
                 entitiesContext.StoreDrivers.Add(entity);
@@ -95,6 +99,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     entity.PartnerId = model.PartnerId;
                     entity.StoreId = model.StoreId;
                     entity.Phone = model.Phone;
+                    entity.Email = model.Email;
+                    entity.Password = model.Password;
 
                     entitiesContext.SaveChanges();
                     success = true;
