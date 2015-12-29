@@ -7,6 +7,20 @@ namespace MyAndromedaDataAccessEntityFramework
 {
     public static class DomainModelUpdateExtensions
     {
+        public static Domain.Customer ToDomainModel(this Model.CustomerRecord entity) 
+        {
+            var model = new Domain.Customer() 
+            { 
+                Id = entity.Id,
+                FirstName = entity.FirstName,
+                Surname = entity.Surname,
+                Title = entity.Title,
+                Email = entity.Email
+            };
+
+            return model;
+        }
+
         public static Domain.EmailCampaign ToDomainModel(this Model.EmailCampaign entity)
         {
             var model = new MyAndromedaDataAccess.Domain.Marketing.EmailCampaign()

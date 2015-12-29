@@ -35,6 +35,7 @@ namespace MyAndromedaDataAccess.DataAccess
 
         IEnumerable<EmailCampaign> ListByChain(int chainId);
         IEnumerable<EmailCampaign> ListByChainAndSite(int chainId, int siteId);
+        IEnumerable<EmailCampaign> ListBySite(int siteId);
 
         void Destroy(int id);
 
