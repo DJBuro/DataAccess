@@ -69,7 +69,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string GetByInternetOrderNumber(int internetOrderNumber, out AndroCloudDataAccess.Domain.Order order)
+        public string GetByInternetOrderNumberAndSiteId(int internetOrderNumber, Guid siteId, out AndroCloudDataAccess.Domain.Order order)
+        //public string GetByInternetOrderNumber(int internetOrderNumber, out AndroCloudDataAccess.Domain.Order order)
         {
             order = null;
 
@@ -79,11 +80,16 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 var acsQuery = from o in acsEntities.Orders
                                where o.InternetOrderNumber == internetOrderNumber
+                               && o.SiteID == siteId
                                select o;
 
                 var acsQueryEntity = acsQuery.FirstOrDefault();
 
-                if (acsQueryEntity != null)
+                if (acsQueryEntity == null)
+                {
+
+                }
+                else
                 {
                     order = new AndroCloudDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
