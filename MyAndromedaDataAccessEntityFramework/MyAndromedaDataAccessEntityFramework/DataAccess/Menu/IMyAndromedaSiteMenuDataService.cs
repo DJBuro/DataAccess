@@ -12,12 +12,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
     public interface IMyAndromedaSiteMenuDataService : IDependency 
     {
-        /// <summary>
-        /// Sets the version from the database file.
-        /// </summary>
-        /// <param name="andromedaSiteId">The andromeda site id.</param>
-        /// <param name="version">The version.</param>
-        void SetVersion(int andromedaSiteId, int version);
+
 
         /// <summary>
         /// Sets the version.
@@ -44,6 +39,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// </summary>
         /// <param name="siteMenu">The site menu.</param>
         void Update(SiteMenu siteMenu);
+
+        /// <summary>
+        /// Sets the version from the database file.
+        /// </summary>
+        /// <param name="andromedaSiteId">The andromeda site id.</param>
+        /// <param name="version">The version.</param>
+        void SetVersion(SiteMenu siteMenu);
 
         /// <summary>
         /// Lists the specified query.
