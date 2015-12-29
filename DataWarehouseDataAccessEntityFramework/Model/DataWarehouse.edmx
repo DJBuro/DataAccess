@@ -4,104 +4,22 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataWarehouseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="DataWarehouseModelStoreContainer">
-          <EntitySet Name="AccountType" EntityType="DataWarehouseModel.Store.AccountType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Address" EntityType="DataWarehouseModel.Store.Address" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Contact" EntityType="DataWarehouseModel.Store.Contact" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ContactType" EntityType="DataWarehouseModel.Store.ContactType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Country" EntityType="DataWarehouseModel.Store.Country" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Customer" EntityType="DataWarehouseModel.Store.Customer" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CustomerAccount" EntityType="DataWarehouseModel.Store.CustomerAccount" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CustomerAddress" EntityType="DataWarehouseModel.Store.CustomerAddress" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MarketingLevel" EntityType="DataWarehouseModel.Store.MarketingLevel" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="modifiers" EntityType="DataWarehouseModel.Store.modifiers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderHeader" EntityType="DataWarehouseModel.Store.OrderHeader" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderLines" EntityType="DataWarehouseModel.Store.OrderLines" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderStatus" EntityType="DataWarehouseModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderStatusHistory" EntityType="DataWarehouseModel.Store.OrderStatusHistory" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="PasswordResetRequest" EntityType="DataWarehouseModel.Store.PasswordResetRequest" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.Store.FK_Address_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contact_ContactType" Association="DataWarehouseModel.Store.FK_Contact_ContactType">
-            <End Role="ContactType" EntitySet="ContactType" />
-            <End Role="Contact" EntitySet="Contact" />
-          </AssociationSet>
-          <AssociationSet Name="fk_contact_customer" Association="DataWarehouseModel.Store.fk_contact_customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Contact" EntitySet="Contact" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contact_MarketingLevel" Association="DataWarehouseModel.Store.FK_Contact_MarketingLevel">
-            <End Role="MarketingLevel" EntitySet="MarketingLevel" />
-            <End Role="Contact" EntitySet="Contact" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_Address" Association="DataWarehouseModel.Store.FK_Customer_Address">
-            <End Role="Address" EntitySet="Address" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_CustomerAccount" Association="DataWarehouseModel.Store.FK_Customer_CustomerAccount">
-            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerAccount_AccountType" Association="DataWarehouseModel.Store.FK_CustomerAccount_AccountType">
-            <End Role="AccountType" EntitySet="AccountType" />
-            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerAddress_Customer" Association="DataWarehouseModel.Store.FK_CustomerAddress_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="CustomerAddress" EntitySet="CustomerAddress" />
-          </AssociationSet>
-          <AssociationSet Name="FK_modifiers_OrderLines" Association="DataWarehouseModel.Store.FK_modifiers_OrderLines">
-            <End Role="OrderLines" EntitySet="OrderLines" />
-            <End Role="modifiers" EntitySet="modifiers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Modifiers_Orderlines_Cascade" Association="DataWarehouseModel.Store.FK_Modifiers_Orderlines_Cascade">
-            <End Role="OrderLines" EntitySet="OrderLines" />
-            <End Role="modifiers" EntitySet="modifiers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderHeader_Customer1" Association="DataWarehouseModel.Store.FK_OrderHeader_Customer1">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderHeader_OrderStatus" Association="DataWarehouseModel.Store.FK_OrderHeader_OrderStatus">
-            <End Role="OrderStatus" EntitySet="OrderStatus" />
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderLines_OrderHeader" Association="DataWarehouseModel.Store.FK_OrderLines_OrderHeader">
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-            <End Role="OrderLines" EntitySet="OrderLines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="DataWarehouseModel.Store.FK_OrderStatusHistory_OrderStatus">
-            <End Role="OrderStatus" EntitySet="OrderStatus" />
-            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistory" />
-          </AssociationSet>
-          <AssociationSet Name="fk_passwordresetrequest_customer" Association="DataWarehouseModel.Store.fk_passwordresetrequest_customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="PasswordResetRequest" EntitySet="PasswordResetRequest" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TABLE_NAME_PARENT_TABLE_NAME" Association="DataWarehouseModel.Store.FK_TABLE_NAME_PARENT_TABLE_NAME">
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-            <End Role="OrderLines" EntitySet="OrderLines" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityType Name="AccountType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'DataWarehouse.dbo.Address' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
-      -->
+warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'DataWarehouse.dbo.Address' in the table 'Location' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Org1" Type="nvarchar" MaxLength="64" />
           <Property Name="Org2" Type="nvarchar" MaxLength="64" />
           <Property Name="Org3" Type="nvarchar" MaxLength="64" />
@@ -129,9 +47,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ContactTypeId" Type="int" Nullable="false" />
-          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Value" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="MarketingLevelId" Type="int" Nullable="false" />
           <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -140,16 +58,16 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="CountryName" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="ISO3166_1_alpha_2" Type="varchar" Nullable="false" MaxLength="2" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ISO3166_1_alpha_2" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="ISO3166_1_numeric" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
@@ -171,9 +89,9 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AccountNumber" Type="nvarchar" MaxLength="16" />
-          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="PasswordSalt" Type="varbinary" Nullable="false" MaxLength="100" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PasswordSalt" Type="varbinary" MaxLength="100" Nullable="false" />
           <Property Name="AccountTypeId" Type="int" Nullable="false" />
           <Property Name="RegisteredDateTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -195,8 +113,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="modifiers">
           <Key>
@@ -226,7 +144,7 @@
           <Property Name="RamesesOrderNum" Type="int" Nullable="false" />
           <Property Name="ExternalOrderRef" Type="nvarchar" MaxLength="64" />
           <Property Name="ExternalSiteID" Type="nvarchar" MaxLength="64" />
-          <Property Name="SiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="ACSOrderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="paytype" Type="nvarchar" MaxLength="32" />
           <Property Name="FinalPrice" Type="money" Nullable="false" />
@@ -253,7 +171,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderStatusHistory">
           <Key>
@@ -268,14 +186,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestedDateTime" Type="datetime" Nullable="false" />
-          <Property Name="Token" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Token" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <Association Name="FK_Address_Country">
-          <End Role="Country" Type="DataWarehouseModel.Store.Country" Multiplicity="1" />
-          <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="*" />
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Country">
               <PropertyRef Name="Id" />
@@ -286,8 +204,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Contact_ContactType">
-          <End Role="ContactType" Type="DataWarehouseModel.Store.ContactType" Multiplicity="1" />
-          <End Role="Contact" Type="DataWarehouseModel.Store.Contact" Multiplicity="*" />
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ContactType">
               <PropertyRef Name="Id" />
@@ -298,8 +216,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_contact_customer">
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="1" />
-          <End Role="Contact" Type="DataWarehouseModel.Store.Contact" Multiplicity="*" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -310,8 +228,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Contact_MarketingLevel">
-          <End Role="MarketingLevel" Type="DataWarehouseModel.Store.MarketingLevel" Multiplicity="1" />
-          <End Role="Contact" Type="DataWarehouseModel.Store.Contact" Multiplicity="*" />
+          <End Role="MarketingLevel" Type="Self.MarketingLevel" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MarketingLevel">
               <PropertyRef Name="Id" />
@@ -322,8 +240,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_Address">
-          <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="0..1" />
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
               <PropertyRef Name="Id" />
@@ -334,8 +252,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_CustomerAccount">
-          <End Role="CustomerAccount" Type="DataWarehouseModel.Store.CustomerAccount" Multiplicity="0..1" />
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
+          <End Role="CustomerAccount" Type="Self.CustomerAccount" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CustomerAccount">
               <PropertyRef Name="ID" />
@@ -346,8 +264,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerAccount_AccountType">
-          <End Role="AccountType" Type="DataWarehouseModel.Store.AccountType" Multiplicity="1" />
-          <End Role="CustomerAccount" Type="DataWarehouseModel.Store.CustomerAccount" Multiplicity="*" />
+          <End Role="AccountType" Type="Self.AccountType" Multiplicity="1" />
+          <End Role="CustomerAccount" Type="Self.CustomerAccount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountType">
               <PropertyRef Name="Id" />
@@ -358,8 +276,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerAddress_Customer">
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="0..1" />
-          <End Role="CustomerAddress" Type="DataWarehouseModel.Store.CustomerAddress" Multiplicity="*" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="CustomerAddress" Type="Self.CustomerAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -370,8 +288,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_modifiers_OrderLines">
-          <End Role="OrderLines" Type="DataWarehouseModel.Store.OrderLines" Multiplicity="0..1" />
-          <End Role="modifiers" Type="DataWarehouseModel.Store.modifiers" Multiplicity="*" />
+          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="0..1" />
+          <End Role="modifiers" Type="Self.modifiers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderLines">
               <PropertyRef Name="ID" />
@@ -382,10 +300,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Modifiers_Orderlines_Cascade">
-          <End Role="OrderLines" Type="DataWarehouseModel.Store.OrderLines" Multiplicity="0..1">
+          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="modifiers" Type="DataWarehouseModel.Store.modifiers" Multiplicity="*" />
+          <End Role="modifiers" Type="Self.modifiers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderLines">
               <PropertyRef Name="ID" />
@@ -396,8 +314,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderHeader_Customer1">
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="0..1" />
-          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="*" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -408,8 +326,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderHeader_OrderStatus">
-          <End Role="OrderStatus" Type="DataWarehouseModel.Store.OrderStatus" Multiplicity="1" />
-          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="*" />
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderStatus">
               <PropertyRef Name="Id" />
@@ -420,8 +338,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderLines_OrderHeader">
-          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="0..1" />
-          <End Role="OrderLines" Type="DataWarehouseModel.Store.OrderLines" Multiplicity="*" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="0..1" />
+          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
               <PropertyRef Name="ID" />
@@ -432,8 +350,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderStatusHistory_OrderStatus">
-          <End Role="OrderStatus" Type="DataWarehouseModel.Store.OrderStatus" Multiplicity="1" />
-          <End Role="OrderStatusHistory" Type="DataWarehouseModel.Store.OrderStatusHistory" Multiplicity="*" />
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="1" />
+          <End Role="OrderStatusHistory" Type="Self.OrderStatusHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderStatus">
               <PropertyRef Name="Id" />
@@ -444,8 +362,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_passwordresetrequest_customer">
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="1" />
-          <End Role="PasswordResetRequest" Type="DataWarehouseModel.Store.PasswordResetRequest" Multiplicity="*" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="PasswordResetRequest" Type="Self.PasswordResetRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -456,10 +374,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TABLE_NAME_PARENT_TABLE_NAME">
-          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="0..1">
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="OrderLines" Type="DataWarehouseModel.Store.OrderLines" Multiplicity="*" />
+          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
               <PropertyRef Name="ID" />
@@ -469,6 +387,87 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="DataWarehouseModelStoreContainer">
+          <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAccount" EntityType="Self.CustomerAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAddress" EntityType="Self.CustomerAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketingLevel" EntityType="Self.MarketingLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="modifiers" EntityType="Self.modifiers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderHeader" EntityType="Self.OrderHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderLines" EntityType="Self.OrderLines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatusHistory" EntityType="Self.OrderStatusHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasswordResetRequest" EntityType="Self.PasswordResetRequest" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_ContactType" Association="Self.FK_Contact_ContactType">
+            <End Role="ContactType" EntitySet="ContactType" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contact_customer" Association="Self.fk_contact_customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_MarketingLevel" Association="Self.FK_Contact_MarketingLevel">
+            <End Role="MarketingLevel" EntitySet="MarketingLevel" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address" Association="Self.FK_Customer_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_CustomerAccount" Association="Self.FK_Customer_CustomerAccount">
+            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAccount_AccountType" Association="Self.FK_CustomerAccount_AccountType">
+            <End Role="AccountType" EntitySet="AccountType" />
+            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddress_Customer" Association="Self.FK_CustomerAddress_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerAddress" EntitySet="CustomerAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modifiers_OrderLines" Association="Self.FK_modifiers_OrderLines">
+            <End Role="OrderLines" EntitySet="OrderLines" />
+            <End Role="modifiers" EntitySet="modifiers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modifiers_Orderlines_Cascade" Association="Self.FK_Modifiers_Orderlines_Cascade">
+            <End Role="OrderLines" EntitySet="OrderLines" />
+            <End Role="modifiers" EntitySet="modifiers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderHeader_Customer1" Association="Self.FK_OrderHeader_Customer1">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderHeader_OrderStatus" Association="Self.FK_OrderHeader_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderLines_OrderHeader" Association="Self.FK_OrderLines_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+            <End Role="OrderLines" EntitySet="OrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="Self.FK_OrderStatusHistory_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistory" />
+          </AssociationSet>
+          <AssociationSet Name="fk_passwordresetrequest_customer" Association="Self.fk_passwordresetrequest_customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PasswordResetRequest" EntitySet="PasswordResetRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TABLE_NAME_PARENT_TABLE_NAME" Association="Self.FK_TABLE_NAME_PARENT_TABLE_NAME">
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+            <End Role="OrderLines" EntitySet="OrderLines" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -558,38 +557,38 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CustomerAccounts" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="AccountType" ToRole="CustomerAccount" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Lat" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Long" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="Int32" Name="CountryId" Nullable="false" />
-          <Property Type="String" Name="Directions" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Org1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Org2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Org3" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem3" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem4" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem5" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Prem6" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="RoadNum" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RoadName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Locality" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Town" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="County" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="DPS" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Lat" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Long" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Directions" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
         </EntityType>
@@ -597,11 +596,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="ContactTypeId" Nullable="false" />
-          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="MarketingLevelId" Nullable="false" />
-          <Property Type="Guid" Name="CustomerId" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MarketingLevelId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ContactType" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="Contact" ToRole="ContactType" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.fk_contact_customer" FromRole="Contact" ToRole="Customer" />
           <NavigationProperty Name="MarketingLevel" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="Contact" ToRole="MarketingLevel" />
@@ -610,33 +609,33 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="ContactType" ToRole="Contact" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ISO3166_1_alpha_2" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ISO3166_1_numeric" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ISO3166_1_alpha_2" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ISO3166_1_numeric" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Addresses" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Country" ToRole="Address" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Title" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FirstName" MaxLength="48" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LastName" MaxLength="48" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" />
-          <Property Type="Int32" Name="ACSAplicationId" Nullable="false" />
-          <Property Type="DateTime" Name="RegisteredDateTime" Nullable="false" Precision="3" />
-          <Property Type="Guid" Name="CustomerAccountId" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="ACSAplicationId" Type="Int32" Nullable="false" />
+          <Property Name="RegisteredDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerAccountId" Type="Guid" />
           <NavigationProperty Name="Address" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.fk_contact_customer" FromRole="Customer" ToRole="Contact" />
           <NavigationProperty Name="CustomerAccount" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="Customer" ToRole="CustomerAccount" />
@@ -648,13 +647,13 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="AccountNumber" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Binary" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" />
-          <Property Type="Int32" Name="AccountTypeId" Nullable="false" />
-          <Property Type="DateTime" Name="RegisteredDateTime" Nullable="false" Precision="3" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
+          <Property Name="RegisteredDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="CustomerAccount" ToRole="AccountType" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="CustomerAccount" ToRole="Customer" />
         </EntityType>
@@ -662,36 +661,36 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="CustomerKey" />
-          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="City" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="State" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ZipCode" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Country" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CustomerKey" Type="Guid" />
+          <Property Name="RoadNum" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="RoadName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="CustomerAddress" ToRole="Customer" />
         </EntityType>
         <EntityType Name="MarketingLevel">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="MarketingLevel" ToRole="Contact" />
         </EntityType>
         <EntityType Name="modifier">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="OrderLineID" />
-          <Property Type="Int32" Name="ProductID" />
-          <Property Type="String" Name="Description" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="Qty" />
-          <Property Type="Boolean" Name="Removed" />
-          <Property Type="Int32" Name="Price" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderLineID" Type="Guid" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Removed" Type="Boolean" />
+          <Property Name="Price" Type="Int32" />
           <NavigationProperty Name="OrderLine" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="modifier" ToRole="OrderLine" />
           <NavigationProperty Name="OrderLine1" Relationship="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" FromRole="modifier" ToRole="OrderLine" />
         </EntityType>
@@ -699,28 +698,28 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="TimeStamp" Nullable="false" Precision="3" />
-          <Property Type="Guid" Name="CustomerID" />
-          <Property Type="String" Name="OrderCurrency" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OrderType" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="OrderPlacedTime" Precision="3" />
-          <Property Type="DateTime" Name="OrderWantedTime" Precision="3" />
-          <Property Type="Int32" Name="ApplicationID" Nullable="false" />
-          <Property Type="String" Name="ApplicationName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="RamesesOrderNum" Nullable="false" />
-          <Property Type="String" Name="ExternalOrderRef" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalSiteID" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="ACSOrderId" Nullable="false" />
-          <Property Type="String" Name="paytype" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="Decimal" Name="FinalPrice" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="TotalTax" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="DeliveryCharge" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Boolean" Name="PriceIncludeTax" Nullable="false" />
-          <Property Type="String" Name="PartnerName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="Cancelled" Nullable="false" />
-          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerID" Type="Guid" />
+          <Property Name="OrderCurrency" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="OrderType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="OrderPlacedTime" Type="DateTime" Precision="3" />
+          <Property Name="OrderWantedTime" Type="DateTime" Precision="3" />
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="RamesesOrderNum" Type="Int32" Nullable="false" />
+          <Property Name="ExternalOrderRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ExternalSiteID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ACSOrderId" Type="Guid" Nullable="false" />
+          <Property Name="paytype" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="FinalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="TotalTax" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DeliveryCharge" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="PriceIncludeTax" Type="Boolean" Nullable="false" />
+          <Property Name="PartnerName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="OrderHeader" ToRole="Customer" />
           <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderHeader" ToRole="OrderStatu" />
           <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
@@ -730,12 +729,12 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="OrderHeaderID" />
-          <Property Type="Int32" Name="ProductID" />
-          <Property Type="String" Name="Description" MaxLength="96" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="Qty" />
-          <Property Type="Int32" Name="Price" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderHeaderID" Type="Guid" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="96" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
           <NavigationProperty Name="modifiers" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="OrderLine" ToRole="modifier" />
           <NavigationProperty Name="modifiers1" Relationship="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" FromRole="OrderLine" ToRole="modifier" />
           <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderLine" ToRole="OrderHeader" />
@@ -745,8 +744,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderStatu" ToRole="OrderHeader" />
           <NavigationProperty Name="OrderStatusHistories" Relationship="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" FromRole="OrderStatu" ToRole="OrderStatusHistory" />
         </EntityType>
@@ -754,20 +753,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Guid" Name="OrderHeaderId" Nullable="false" />
-          <Property Type="Int32" Name="Status" Nullable="false" />
-          <Property Type="DateTime" Name="ChangedDateTime" Nullable="false" Precision="3" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OrderHeaderId" Type="Guid" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ChangedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" FromRole="OrderStatusHistory" ToRole="OrderStatu" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="RequestedDateTime" Nullable="false" Precision="3" />
-          <Property Type="String" Name="Token" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="CustomerId" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="PasswordResetRequest" ToRole="Customer" />
         </EntityType>
         <Association Name="FK_CustomerAccount_AccountType">
@@ -1188,6 +1187,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
