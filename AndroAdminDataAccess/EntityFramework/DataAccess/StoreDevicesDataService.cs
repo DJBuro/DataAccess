@@ -88,6 +88,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var table = dbContext.StoreDevices.Include(e => e.Device);
                 var entity = table.FirstOrDefault(e => e.Id == model.Id);
 
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
                 entity.DeviceId = model.DeviceId;
                 entity.Parameters = model.Parameters;
 

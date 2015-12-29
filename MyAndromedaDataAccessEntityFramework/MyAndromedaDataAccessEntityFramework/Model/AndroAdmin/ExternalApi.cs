@@ -12,16 +12,20 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class Day
+    public partial class ExternalApi
     {
-        public Day()
+        public ExternalApi()
         {
-            this.OpeningHours = new HashSet<OpeningHour>();
+            this.Devices = new HashSet<Device>();
         }
     
-        public int Id { get; set; }
-        public string Description { get; set; }
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+        public string DefinitionParameters { get; set; }
+        public string Parameters { get; set; }
+        public int DataVersion { get; set; }
+        public bool Removed { get; set; }
     
-        public virtual ICollection<OpeningHour> OpeningHours { get; set; }
+        public virtual ICollection<Device> Devices { get; set; }
     }
 }

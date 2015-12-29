@@ -12,15 +12,20 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreMenuThumbnail
+    public partial class Device
     {
-        public int Id { get; set; }
-        public int StoreId { get; set; }
-        public int Version { get; set; }
-        public string XmlMenuThumbnailData { get; set; }
-        public string JsonMenuThumbnailsData { get; set; }
-        public Nullable<System.DateTime> LastUpdate { get; set; }
+        public Device()
+        {
+            this.StoreDevices = new HashSet<StoreDevice>();
+        }
     
-        public virtual Store Store { get; set; }
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+        public int DataVersion { get; set; }
+        public Nullable<System.Guid> ExternalApiId { get; set; }
+        public bool Removed { get; set; }
+    
+        public virtual ExternalApi ExternalApi { get; set; }
+        public virtual ICollection<StoreDevice> StoreDevices { get; set; }
     }
 }

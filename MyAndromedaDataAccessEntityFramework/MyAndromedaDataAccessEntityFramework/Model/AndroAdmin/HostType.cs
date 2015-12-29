@@ -12,14 +12,16 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class ACSApplicationSite
+    public partial class HostType
     {
-        public int Id { get; set; }
-        public int SiteId { get; set; }
-        public int ACSApplicationId { get; set; }
-        public int DataVersion { get; set; }
+        public HostType()
+        {
+            this.HostV2 = new HashSet<HostV2>();
+        }
     
-        public virtual ACSApplication ACSApplication { get; set; }
-        public virtual Store Store { get; set; }
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<HostV2> HostV2 { get; set; }
     }
 }

@@ -12,18 +12,28 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class Partner
+    public partial class HostV2
     {
-        public Partner()
+        public HostV2()
         {
+            this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
             this.ACSApplications = new HashSet<ACSApplication>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ExternalId { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid HostTypeId { get; set; }
+        public string Url { get; set; }
+        public int Version { get; set; }
+        public int Order { get; set; }
+        public bool Public { get; set; }
+        public bool OptInOnly { get; set; }
+        public bool Enabled { get; set; }
+        public System.DateTime LastUpdateUtc { get; set; }
         public int DataVersion { get; set; }
+        public bool Deleted { get; set; }
     
+        public virtual HostType HostType { get; set; }
+        public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public virtual ICollection<ACSApplication> ACSApplications { get; set; }
     }
 }

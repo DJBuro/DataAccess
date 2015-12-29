@@ -12,16 +12,14 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreMenu
+    public partial class StoreHostV2ApiCredentials
     {
-        public int Id { get; set; }
-        public Nullable<int> StoreId { get; set; }
-        public Nullable<int> Version { get; set; }
-        public string MenuType { get; set; }
-        public string MenuData { get; set; }
-        public Nullable<System.DateTime> LastUpdated { get; set; }
-        public int DataVersion { get; set; }
+        public int StoreId { get; set; }
+        public System.Guid HostV2Id { get; set; }
+        public System.Guid ApiCredentialsId { get; set; }
+        public string Parameters { get; set; }
     
+        public virtual HostV2 HostV2 { get; set; }
         public virtual Store Store { get; set; }
     }
 }
