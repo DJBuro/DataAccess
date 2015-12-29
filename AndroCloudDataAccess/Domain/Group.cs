@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AndroCloudDataAccess.Domain
 {
-    public class Chain
+    public class Group
     {
         public Guid Id { get; set;}
         public Guid? PartnerID { get; set; }
