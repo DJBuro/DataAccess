@@ -180,6 +180,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ACSErrorCode" Type="int" Nullable="false" />
           <Property Name="DestinationDevice" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CustomerAddressID" Type="uniqueidentifier" />
+          <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -972,6 +973,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="CustomerAddressID" Type="Guid" />
           <NavigationProperty Name="ACSErrorCode1" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="OrderHeader" ToRole="ACSErrorCode" />
           <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
+          <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1526,6 +1528,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
                 <ScalarProperty Name="CustomerAddressID" ColumnName="CustomerAddressID" />
                 <ScalarProperty Name="DestinationDevice" ColumnName="DestinationDevice" />
                 <ScalarProperty Name="ACSErrorCode" ColumnName="ACSErrorCode" />
