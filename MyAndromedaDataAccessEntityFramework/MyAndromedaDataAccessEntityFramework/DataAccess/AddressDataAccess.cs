@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
+using MyAndromedaDataAccessEntityFramework.Model;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess
@@ -51,7 +52,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 addressEntity.DPS = address.Dps;
 
 
-                addressEntity.DataVersion = Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
+                addressEntity.DataVersion = entitiesContext.GetNextDataVersionForEntity();
+                    //Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
                 // Add a new address
                 if (addressEntity == null)
                 {

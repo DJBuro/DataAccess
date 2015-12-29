@@ -79,6 +79,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\WebSites\MyAndromeda\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\WebSites\MyAndromeda\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -225,9 +229,6 @@
     <Compile Include="Model\AndroAdmin\Setting.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\Site_AMS_upload.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\Store.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -256,9 +257,6 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\StoreStatu.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\sysdiagram.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DataVersionHelper.cs" />
