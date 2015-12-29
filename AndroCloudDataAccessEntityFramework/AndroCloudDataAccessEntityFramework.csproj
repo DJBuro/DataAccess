@@ -64,13 +64,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
+      <Project>{D9959D2F-2016-4355-BC22-061EA8A5E267}</Project>
+      <Name>AndroCloudHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AndroCloudDataAccess\AndroCloudDataAccess.csproj">
       <Project>{408FBA0E-E649-493E-B4D4-8A5328265450}</Project>
       <Name>AndroCloudDataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudWCFHelper.csproj">
-      <Project>{D9959D2F-2016-4355-BC22-061EA8A5E267}</Project>
-      <Name>AndroCloudWCFHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
