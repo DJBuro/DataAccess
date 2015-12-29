@@ -51,5 +51,21 @@ namespace MyAndromedaDataAccessEntityFramework
             get { return new CountryDataAccess(); }
             set { throw new NotImplementedException(); }
         }
+
+        public MyAndromedaDataAccess.DataAccess.ICustomerDataAccess CustomerDataAccess
+        {
+            get 
+            {
+                return new DataAccess.Marketing.CustomerDataAccess();
+            }
+        }
+
+        public MyAndromedaDataAccess.DataAccess.IEmailCampaignDataAccess EmailCampaignDataAccess
+        { 
+            get 
+            {
+                return new DataAccess.Marketing.EmailCampaignDataAccess();
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 var query = from s in entitiesContext.Stores
                                  where s.Id == siteId
                                  select s;
+
                 MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
 
                 if (entity != null)
