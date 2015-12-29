@@ -41,7 +41,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
             }
 
-            return "";
+            return string.Empty;
         }
 
         /// <summary>
@@ -64,8 +64,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // can be big, we should only return it if the version in the db is different
                 string dataTypeString = dataType.ToString();
                 var siteMenuQuery = from sm in acsEntities.SiteMenus
-                                    where sm.SiteID == siteId
-                                    && sm.MenuType == dataTypeString
+                                    where 
+                                        sm.SiteID == siteId
+                                        && sm.MenuType == dataTypeString
                                     select new
                                     {
                                         MenuData = sm.Version != notVersion ? sm.MenuData : null,
@@ -95,7 +96,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetMenuImagesBySiteId(Guid siteId, DataTypeEnum dataType, out string siteImages)
         {
-            siteImages = "";
+            siteImages = string.Empty;
 
             using (ACSEntities acsEntities = new ACSEntities())
             {
@@ -103,14 +104,16 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 string dataTypeString = dataType.ToString();
                 var siteMenuQuery = from sm in acsEntities.SiteMenus
-                                    where sm.SiteID == siteId
-                                    && sm.MenuType == dataTypeString
-                                    select sm.MenuDataThumbnails;
+                                    where   
+                                            sm.SiteID == siteId
+                                            && sm.MenuType == dataTypeString
+                                    select 
+                                            sm.MenuDataThumbnails;
 
                 siteImages = siteMenuQuery.FirstOrDefault();
             }
 
-            return "";
+            return string.Empty;
         }
 
         public string Put(Guid siteId, string licenseKey, string hardwareKey, string data, int version, DataTypeEnum dataType)
@@ -153,7 +156,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
             }
 
-            return "";
+            return string.Empty;
         }
 
         public string UpdateThumbnailData(Guid siteId, string data, DataTypeEnum dataType) 
@@ -170,6 +173,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 var result = query.Single();
                 result.MenuDataThumbnails = data;
+                result.MenuDataThumbnailsVersion = Guid.NewGuid().ToString();
 
                 dbContext.SaveChanges();
             }
