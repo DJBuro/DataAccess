@@ -536,7 +536,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     var result = query.ToArray();
 
                     //add in any loyalty points
-                    foreach (var update in result.Where(e => e.PointsGained > 0))
+                    foreach (var update in result.Where(e => e.awardedPoints > 0))
                     {
                         var customerLoyaltyEntity = loyaltyEntities
                             .FirstOrDefault(e => e.ProviderName.Equals(update.ProviderName, StringComparison.InvariantCultureIgnoreCase));
@@ -553,12 +553,12 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             loyaltyEntities.Add(customerLoyaltyEntity);    
                         }
 
-                        customerLoyaltyEntity.Points += update.PointsGained;
+                        customerLoyaltyEntity.Points += update.awardedPoints;
                         update.Applied = true;
                     }
 
                     //take away any loyalty points 
-                    foreach (var update in result.Where(e => e.PointsUsed > 0))
+                    foreach (var update in result.Where(e => e.redeemedPoints > 0))
                     {
                         var customerLoyaltyEntity = loyaltyEntities
                             .FirstOrDefault(e => e.ProviderName.Equals(update.ProviderName, StringComparison.InvariantCultureIgnoreCase));
@@ -575,7 +575,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             loyaltyEntities.Add(customerLoyaltyEntity); 
                         }
 
-                        customerLoyaltyEntity.Points -= update.PointsUsed;
+                        customerLoyaltyEntity.Points -= update.redeemedPoints;
                         update.Applied = true;
                     }
 

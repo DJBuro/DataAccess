@@ -26,6 +26,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     from oh in dataWarehouseEntities.OrderHeaders
                     where oh.ApplicationID == applicationId
                     && oh.CustomerID == customerId
+                    orderby oh.OrderPlacedTime descending
                     select new DataWarehouseDataAccess.Domain.OrderHeader()
                     {
                         Id = oh.ExternalOrderRef, // oh.RamesesOrderNum,
@@ -51,8 +52,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 var orderQuery =
                     from oh in dataWarehouseEntities.OrderHeaders
                     where oh.ApplicationID == applicationId
-                    && oh.CustomerID == customerId
-                    && oh.ExternalOrderRef == externalOrderRef
+                        && oh.CustomerID == customerId
+                        && oh.ExternalOrderRef == externalOrderRef
+                    orderby oh.OrderPlacedTime descending
                     select new DataWarehouseDataAccess.Domain.OrderDetails()
                     {
                         Id = oh.ID,
@@ -73,44 +75,80 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         && oh.CustomerID == customerId
                     select ol;
 
-                    //select new DataWarehouseDataAccess.Domain.OrderLine()
-                    //{
-                    //    MenuId = ol.ProductID.Value,
-                    //    ProductName = ol.Description,
-                    //    Quantity = ol.Qty.Value,
-                    //    UnitPrice = ol.Price.Value,
-                    //    ChefNotes = "",
-                    //    Person = "",
-                    //    Modifiers = ol.modifiers.Select() => 
-                    //};
-
-                orderDetailsEntity.OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>();
-
                 var orderLines = orderLinesQuery.ToList();
 
-                foreach (var orderLine in orderLinesQuery)
+                // Prepare the results
+                orderDetails = new OrderDetails()
                 {
-                    orderDetailsEntity.OrderLines.Add
-                    (
-                        new DataWarehouseDataAccess.Domain.OrderLine() 
+                    ExternalOrderRef = orderDetailsEntity.ExternalOrderRef,
+                    ForDateTime = orderDetailsEntity.ForDateTime,
+                    OrderStatus = orderDetailsEntity.OrderStatus,
+                    OrderTotal = orderDetailsEntity.OrderTotal,
+                    OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
+                    Deals = new List<DataWarehouseDataAccess.Domain.OrderLine>()
+                };
+
+                Dictionary<Guid, DataWarehouseDataAccess.Domain.OrderLine> dealsLookup = new Dictionary<Guid, DataWarehouseDataAccess.Domain.OrderLine>();
+
+                foreach (var orderLineEntity in orderLinesQuery)
+                {
+                    // Order line
+                    DataWarehouseDataAccess.Domain.OrderLine orderLine = new DataWarehouseDataAccess.Domain.OrderLine()
+                    {
+                        MenuId = orderLineEntity.ProductID.Value,
+                        ProductName = orderLineEntity.Description,
+                        Quantity = orderLineEntity.Qty.Value,
+                        UnitPrice = orderLineEntity.Price.Value,
+                        ChefNotes = "",
+                        Person = "",
+                        Modifiers = new List<Modifier>()
+                    };
+
+                    // Add toppings
+                    foreach (modifier modifierEntity in orderLineEntity.modifiers)
+                    {
+                        Modifier modifier = new Modifier()
                         {
-                            MenuId = orderLine.ProductID.Value,
-                            ProductName = orderLine.Description,
-                            Quantity = orderLine.Qty.Value,
-                            UnitPrice = orderLine.Price.Value,
-                            ChefNotes = "",
-                            Person = ""
+                            Description = modifierEntity.Description,
+                            Price = modifierEntity.Price,
+                            Quantity = modifierEntity.Qty,
+                            Removed = modifierEntity.Removed
+                        };
+
+                        orderLine.Modifiers.Add(modifier);
+                    }
+
+                    if ((orderLineEntity.IsDeal.HasValue && orderLineEntity.IsDeal.Value) ||
+                        orderLineEntity.DealID.HasValue)
+                    {
+                        // It's a deal or deal line
+                        if (orderLineEntity.IsDeal.HasValue && orderLineEntity.IsDeal.Value)
+                        {
+                            // It's a deal
+                            dealsLookup.Add(orderLineEntity.DealID.Value, orderLine);
+
+                            // Add the deal to the order
+                            orderDetails.Deals.Add(orderLine);
                         }
+                        else
+                        {
+                            // It's a deal line
+                            DataWarehouseDataAccess.Domain.OrderLine dealOrderLine = null;
 
-                        // ADD TOPPINGS HERE
-                        //                            Modifiers = orderLine.modifiers.Select() => 
-                    );
+                            // Get the deal
+                            if (dealsLookup.TryGetValue(orderLineEntity.DealID.Value, out dealOrderLine))
+                            {
+                                // Add the deal line to the deal
+                                dealOrderLine.ChildOrderLines.Add(orderLine);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // It's a normal order line
+                        orderDetails.OrderLines.Add(orderLine);
+                    }
                 }
-
-                
- //               orderDetailsEntity.OrderLines.AddRange(orderLinesQuery);
-
-                orderDetails = orderDetailsEntity;
             }
 
             return "";

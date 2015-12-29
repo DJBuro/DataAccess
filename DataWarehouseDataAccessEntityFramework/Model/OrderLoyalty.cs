@@ -16,10 +16,10 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     {
         public System.Guid Id { get; set; }
         public System.Guid OrderId { get; set; }
-        public Nullable<int> PointsGained { get; set; }
-        public Nullable<int> PointsUsed { get; set; }
-        public Nullable<decimal> PointsMoneyValueGained { get; set; }
-        public Nullable<decimal> PointsMoneyValueSpent { get; set; }
+        public Nullable<int> awardedPoints { get; set; }
+        public Nullable<int> redeemedPoints { get; set; }
+        public Nullable<decimal> awardedPointsValue { get; set; }
+        public Nullable<decimal> redeemedPointsValue { get; set; }
         public string ProviderName { get; set; }
         public bool Applied { get; set; }
     

@@ -28,6 +28,9 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string Cat1 { get; set; }
         public string Cat2 { get; set; }
         public string DisplayCategory { get; set; }
+        public Nullable<bool> IsDeal { get; set; }
+        public Nullable<System.Guid> DealID { get; set; }
+        public Nullable<int> DealSequence { get; set; }
     
         public virtual ICollection<modifier> modifiers { get; set; }
         public virtual OrderHeader OrderHeader { get; set; }
