@@ -75,6 +75,17 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return string.Empty;
         }
 
+        public string GetBestPublicHostsV2(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
+        {
+            this.GetAllPublicV2HostsByExternalApplicationId(externalApplicationId, out applicationHostList);
+
+            if (applicationHostList.Count > 0) { return string.Empty; }
+
+            this.GetAllGenericPublicV2Hosts(out applicationHostList);
+
+            return string.Empty;
+        }
+
         public string GetAllPublicV2HostsByExternalApplicationId(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
         {
             var results = this
@@ -95,7 +106,24 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             
             hosts = results.ToList();
             
-            return "";
+            return string.Empty;
+        }
+
+        public string GetBestPrivate(int andromedaSiteId, out List<AndroCloudDataAccess.Domain.PrivateHost> hosts)
+        {
+            var results = this
+                .QueryHost
+                (
+                    e => 
+                        e.Sites.Any(site => site.AndroID == andromedaSiteId)
+                    ||  //direct site link or indirectly by a matched application id
+                        e.ACSApplications.Any(application => application.ACSApplicationSites.Any(site => site.Site.AndroID == andromedaSiteId))
+                )
+                .Select(e => e.ToPrivateDomainModel());
+
+            hosts = results.ToList();
+
+            return string.Empty;
         }
 
         private IEnumerable<Host> QueryHost(Expression<Func<Host, bool>> query) 
@@ -160,10 +188,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             if (hosts.Count > 0) { return siteSpecificError; }
 
-            //find any linked by application id 
+            //find any linked by application id or by site id
+            
             var results = this
                 .QueryHostsV2(e => 
-                    e.Sites.Any(site => site.AndroID == andromedaSiteId) && 
+                    e.Sites.Any(site => site.AndroID == andromedaSiteId) 
+                    || //direct site link or indirectly by a matched application id
                     e.ACSApplications.Any(app => app.ACSApplicationSites.Any(site => site.Site.AndroID == andromedaSiteId))
                 ).Select(e=> e.ToPrivateDomainModel()).ToList();
 
@@ -224,7 +254,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             hosts = results.ToList();
 
-            return "";
+            return string.Empty;
         }
         
     }
