@@ -18,11 +18,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             ACSEntities acsEntities = new ACSEntities();
 
             var sitesQuery = from s in acsEntities.Sites
+                             join ss in acsEntities.SiteStatuses
+                               on s.SiteStatusID equals ss.ID
                              join spp in acsEntities.StorePaymentProviders
-                             on s.StorePaymentProviderID equals spp.ID
+                               on s.StorePaymentProviderID equals spp.ID
                              into spp2
                              from spp3 in spp2.DefaultIfEmpty()
                              where s.ID == siteId
+                               && ss.Status == "Live"
                              select new
                              {
                                  s.ID,
@@ -123,9 +126,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              on g.ID equals sg.GroupID
                            join s in acsEntities.Sites
                              on sg.SiteID equals s.ID
+                           join ss in acsEntities.SiteStatuses
+                             on s.SiteStatusID equals ss.ID
                            where u.Username == myAndromedaUserId
                              && u.IsEnabled == true
                              && s.ExternalId == externalSiteId
+                             && ss.Status == "Live"
                            select s;
 
             Model.Site acsEntity = acsQuery.FirstOrDefault();
@@ -204,9 +210,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              on g.ID equals sg.GroupID
                            join s in acsEntities.Sites
                              on sg.SiteID equals s.ID
+                           join ss in acsEntities.SiteStatuses
+                             on s.SiteStatusID equals ss.ID
                            where u.Username == myAndromedaUserId
                              && u.IsEnabled == true
                              && s.ExternalId == siteDetails.ExternalId
+                             && ss.Status == "Live"
                            select s;
 
             Model.Site acsEntity = acsQuery.FirstOrDefault();

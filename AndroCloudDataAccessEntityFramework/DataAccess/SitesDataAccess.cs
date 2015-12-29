@@ -28,16 +28,19 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             string dataTypeString = dataType.ToString();
             var sitesQuery = from s in acsEntities.Sites
                              join sg in acsEntities.SitesGroups
-                             on s.ID equals sg.SiteID
+                               on s.ID equals sg.SiteID
                              join g in acsEntities.Groups
-                             on sg.GroupID equals g.ID
+                               on sg.GroupID equals g.ID
                              join p in acsEntities.Partners
-                             on g.PartnerID equals p.ID
+                               on g.PartnerID equals p.ID
                              join sm in acsEntities.SiteMenus
-                             on s.ID equals sm.SiteID
+                               on s.ID equals sm.SiteID
+                             join ss in acsEntities.SiteStatuses
+                               on s.SiteStatusID equals ss.ID
                              where sg.GroupID == (filterByGroupId.HasValue ? filterByGroupId : sg.GroupID)
-                             && sm.MenuType == dataTypeString
-                             && p.ID == partnerId
+                               && sm.MenuType == dataTypeString
+                               && p.ID == partnerId
+                               && ss.Status == "Live"
                              select new 
                              {
                                  s.ID, 
@@ -104,7 +107,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             ACSEntities acsEntities = new ACSEntities();
 
             var sitesQuery = from s in acsEntities.Sites
+                             join ss in acsEntities.SiteStatuses
+                               on s.SiteStatusID equals ss.ID
                              where s.ExternalId == externalSiteId
+                               && ss.Status == "Live"
                              select s;
             Model.Site siteEntity = sitesQuery.FirstOrDefault();
 
@@ -129,7 +135,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             ACSEntities acsEntities = new ACSEntities();
 
             var sitesQuery = from s in acsEntities.Sites
+                             join ss in acsEntities.SiteStatuses
+                               on s.SiteStatusID equals ss.ID
                              where s.AndroID == andromedaSiteId
+                               && ss.Status == "Live"
                              select s;
             Model.Site siteEntity = sitesQuery.FirstOrDefault();
 
@@ -155,15 +164,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             var sitesQuery = from s in acsEntities.Sites
                              join sg in acsEntities.SitesGroups
-                             on s.ID equals sg.SiteID
+                               on s.ID equals sg.SiteID
                              join g in acsEntities.Groups
-                             on sg.GroupID equals g.ID
+                               on sg.GroupID equals g.ID
                              join p in acsEntities.Partners
-                             on g.PartnerID equals p.ID
+                               on g.PartnerID equals p.ID
                              join sm in acsEntities.SiteMenus
-                             on s.ID equals sm.SiteID
+                               on s.ID equals sm.SiteID
+                             join ss in acsEntities.SiteStatuses
+                               on s.SiteStatusID equals ss.ID
                              where p.ID == partnerId
-                             && s.ID == siteId
+                               && s.ID == siteId
+                               && ss.Status == "Live"
                              select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey };
 
             var siteEntity = sitesQuery.FirstOrDefault();
