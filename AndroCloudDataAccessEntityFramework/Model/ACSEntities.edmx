@@ -121,10 +121,6 @@
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SiteHubs" EntitySet="SiteHubs" />
           </AssociationSet>
-          <AssociationSet Name="FK_SiteMenus_Sites" Association="ACSModel.Store.FK_SiteMenus_Sites">
-            <End Role="Sites" EntitySet="Sites" />
-            <End Role="SiteMenus" EntitySet="SiteMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.Store.FK_Sites_Addresses">
             <End Role="Addresses" EntitySet="Addresses" />
             <End Role="Sites" EntitySet="Sites" />
@@ -597,18 +593,6 @@
             </Principal>
             <Dependent Role="SiteHubs">
               <PropertyRef Name="SiteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SiteMenus_Sites">
-          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
-          <End Role="SiteMenus" Type="ACSModel.Store.SiteMenus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sites">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SiteMenus">
-              <PropertyRef Name="SiteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

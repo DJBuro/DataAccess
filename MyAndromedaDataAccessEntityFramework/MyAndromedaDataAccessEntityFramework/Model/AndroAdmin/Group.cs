@@ -16,7 +16,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     {
         public Group()
         {
-            this.MyAndromedaUserGroups = new HashSet<MyAndromedaUserGroup>();
+            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
             this.Stores = new HashSet<Store>();
         }
     
@@ -27,7 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     
         public virtual Chain Chain { get; set; }
         public virtual Country Country { get; set; }
-        public virtual ICollection<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
+        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
     }
 }
