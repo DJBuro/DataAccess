@@ -5,7 +5,7 @@ using MyAndromedaDataAccess.Domain.Marketing;
 
 namespace MyAndromedaDataAccess.DataAccess
 {
-    public interface IEmailCampaignDataAccess 
+    public interface IEmailCampaignDataAccess : IDataAccessOptions
     { 
         /// <summary>
         /// Gets the specified id.
@@ -44,6 +44,18 @@ namespace MyAndromedaDataAccess.DataAccess
         /// </summary>
         /// <param name="chainId">The chain id.</param>
         /// <returns></returns>
-        EmailSettings GetEmailSettings(int chainId);
+        EmailSettings GetEmailSettings(int id);
+        EmailSettings GetEmailSettingsBySiteId(int siteId);
+        EmailSettings GetEmailSettingsByChainId(int chainId);
+
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        void SaveSettings(EmailSettings settings);
+
+        void DestroyEmailSettings(int id);
+
+        void CreateEmailSettings(EmailSettings settings);
     }
 }

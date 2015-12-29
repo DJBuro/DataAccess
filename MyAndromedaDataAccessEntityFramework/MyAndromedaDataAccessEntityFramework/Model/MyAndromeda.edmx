@@ -76,11 +76,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Host" Type="varchar" MaxLength="250" />
+          <Property Name="Host" Type="varchar" Nullable="false" MaxLength="250" />
           <Property Name="Port" Type="int" />
-          <Property Name="UserName" Type="varchar" MaxLength="250" />
-          <Property Name="Password" Type="varchar" MaxLength="250" />
-          <Property Name="ChainId" Type="int" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ChainId" Type="int" Nullable="false" />
+          <Property Name="FromEmail" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="SSL" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailCampaignSites">
           <Key>
@@ -273,11 +275,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Host" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Host" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="Port" />
-          <Property Type="String" Name="UserName" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Password" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ChainId" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ChainId" Nullable="false" />
+          <Property Type="String" Name="FromEmail" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="SSL" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -357,6 +361,8 @@
           <EntitySetMapping Name="EmailCampaignSettings">
             <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignSetting">
               <MappingFragment StoreEntitySet="EmailCampaignSettings">
+                <ScalarProperty Name="SSL" ColumnName="SSL" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
                 <ScalarProperty Name="ChainId" ColumnName="ChainId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

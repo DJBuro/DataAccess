@@ -88,5 +88,43 @@ namespace MyAndromedaDataAccessEntityFramework
             
             //entity. = domainModel.SiteIds;
         }
+
+        /// <summary>
+        /// creates a domain model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public static Domain.EmailSettings ToDomainModel(this Model.EmailCampaignSetting entity) 
+        {
+            return new EmailSettings()
+            {
+                ChainId = entity.ChainId,
+                From = entity.FromEmail,
+                Host = entity.Host,
+                Id = entity.Id,
+                Password = entity.Password,
+                PickupFolder = null,
+                Port = entity.Port,
+                SSL = entity.SSL,
+                UserName = entity.UserName
+            };
+        }
+
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <param name="domainModel">The domain model.</param>
+        public static void Update(this Model.EmailCampaignSetting entity, Domain.EmailSettings domainModel)
+        {
+            entity.UserName = domainModel.UserName;
+            entity.SSL = domainModel.SSL;
+            entity.Port = domainModel.Port;
+            entity.Password = domainModel.Password ?? string.Empty;
+            entity.Id = domainModel.Id;
+            entity.Host = domainModel.Host ?? string.Empty;;
+            entity.FromEmail = domainModel.From;
+            entity.ChainId = domainModel.ChainId;
+        }
     }
 }
