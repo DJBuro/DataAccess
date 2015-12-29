@@ -24,6 +24,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
         public Nullable<System.DateTime> RanAtUtc { get; set; }
         public Nullable<System.DateTime> RetryAfter { get; set; }
         public bool Canceled { get; set; }
+        public Nullable<System.DateTime> CompletedAt { get; set; }
     
         public virtual EmailCampaign EmailCampaign { get; set; }
         public virtual EmailCampaignSetting EmailCampaignSetting { get; set; }

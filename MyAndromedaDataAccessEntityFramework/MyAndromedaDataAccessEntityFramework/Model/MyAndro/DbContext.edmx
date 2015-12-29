@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="MyAndromedaModelStoreContainer">
           <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
@@ -117,6 +117,7 @@
           <Property Name="RanAtUtc" Type="datetime" />
           <Property Name="RetryAfter" Type="datetime" />
           <Property Name="Canceled" Type="bit" Nullable="false" />
+          <Property Name="CompletedAt" Type="datetime" />
         </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
@@ -178,8 +179,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyAndromedaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -305,6 +305,7 @@
           <Property Name="Canceled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" FromRole="EmailCampaignTasks" ToRole="EmailCampaign" />
           <NavigationProperty Name="EmailCampaignSetting" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" FromRole="EmailCampaignTasks" ToRole="EmailCampaignSettings" />
+          <Property Type="DateTime" Name="CompletedAt" Precision="3" />
         </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.EmailCampaign" Multiplicity="1" />
@@ -449,6 +450,7 @@
           <EntitySetMapping Name="EmailCampaignTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignTask">
               <MappingFragment StoreEntitySet="EmailCampaignTasks">
+                <ScalarProperty Name="CompletedAt" ColumnName="CompletedAt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
                 <ScalarProperty Name="Started" ColumnName="Started" />

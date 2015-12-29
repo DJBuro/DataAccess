@@ -14,7 +14,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
             {
                 var query = dbContext.EmailCampaignTasks
-                    .Where(e=> e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId));
+                    .Where(e=> e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId))
+                    .OrderByDescending(e=> e.CreatedOnUtc);
 
                 var results = query.ToArray();
 
@@ -63,17 +64,27 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             }
         }
 
-        public IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime)
+        /// <summary>
+        /// Gets the tasks to run.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <param name="started">The started.</param>
+        /// <param name="completed">The completed.</param>
+        /// <returns></returns>
+        public IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime, bool? started, bool? completed)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
             {
+                bool startedQuery = started.GetValueOrDefault(false);
+                bool completedQuery = completed.GetValueOrDefault(false);
+
                 var query = dbContext.EmailCampaignTasks
-                    .Where(e => !e.Completed)
-                    .Where(e => !e.Started)
+                    .Where(e => e.Completed == completedQuery)
+                    .Where(e => e.Started == startedQuery)
                     .Where(e => !e.RunLaterOnUtc.HasValue || e.RunLaterOnUtc <= DateTime.UtcNow);
 
                 var results = query.ToArray();
-
+                
                 var output = results.Select(e => e.ToDomainModel()).ToArray();
 
                 return output;
@@ -90,6 +101,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 foreach (var record in query) 
                 {
                     record.Started = true;
+                    record.RanAtUtc = DateTime.UtcNow;
                 }
 
                 dbContext.SaveChanges();
@@ -106,6 +118,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 foreach (var record in query)
                 {
                     record.Completed = true;
+                    record.CompletedAt = DateTime.UtcNow;
                 }
 
                 dbContext.SaveChanges();
