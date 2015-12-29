@@ -174,12 +174,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                 //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
                                 //Console.WriteLine(sql);
 
-                                List<Model.Site> existingSites = sitesQuery.ToList();
+                                IList<Model.Site> existingSites = sitesQuery.ToList();
 
                                 if (sitesQuery != null && existingSites.Count > 0)
                                 {
                                     // Check each existing site to see if it's still in the application
-                                    foreach (Model.Site existingSite in sitesQuery)
+                                    foreach (Model.Site existingSite in existingSites)
                                     {
                                         // Is the existing site in the application?
                                         if (!siteIds.Contains(existingSite.AndroID.ToString()))
