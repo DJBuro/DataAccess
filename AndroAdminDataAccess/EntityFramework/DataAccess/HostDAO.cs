@@ -25,7 +25,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 {
                     Domain.Host model = new Domain.Host()
                     {
-                        Id = entity.ID,
+                        Id = entity.Id,
                         HostName = entity.HostName,
                         Order = entity.Order,
                         PrivateHostName = entity.PrivateHostName
