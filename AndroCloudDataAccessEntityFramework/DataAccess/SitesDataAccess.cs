@@ -133,7 +133,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      where sm.MenuType == dataTypeString
                                        && a.Id == applicationId
                                        && ss.Status == "Live"
-                                       && da.DeliveryArea1.ToUpper() == (deliveryZoneFilter.Length >= da.DeliveryArea1.Length ? deliveryZoneFilter.Substring(0, da.DeliveryArea1.Length).ToUpper() : "")
+                                       && deliveryZoneFilter.StartsWith(da.DeliveryArea1.ToUpper().Replace(" ", "").Trim())
+                                       //&& da.DeliveryArea1.ToUpper().Replace(" ", "").Trim() == (deliveryZoneFilter.Length > da.DeliveryArea1.Replace(" ", "").Trim().Length ? deliveryZoneFilter.Substring(0, da.DeliveryArea1.Replace(" ", "").Trim().Length).ToUpper() : "")
                                      select new
                                      {
                                          s.ID,

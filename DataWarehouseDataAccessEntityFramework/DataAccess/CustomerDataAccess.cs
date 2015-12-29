@@ -114,6 +114,20 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string Exists(string username, int applicationId, out bool exists)
+        {
+            using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+            {
+                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+
+                exists =
+                    dataWarehouseEntities.Customers
+                    .Any(e => e.ACSAplicationId == applicationId && e.Username == username);
+            }
+
+            return "";
+        }
+
         public string AddCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer)
         {
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
