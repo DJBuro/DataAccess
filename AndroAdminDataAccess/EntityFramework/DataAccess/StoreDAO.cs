@@ -249,7 +249,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             RoadNum = storeEntity.Address.RoadNum,
                             State = storeEntity.Address.State,
                             Town = storeEntity.Address.Town,
-                            Country = country,
+                            CountryId = country.Id,
                             DataVersion = newVersion
                         };
 
@@ -277,7 +277,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         addressEntity.RoadNum = storeEntity.Address.RoadNum;
                         addressEntity.State = storeEntity.Address.State;
                         addressEntity.Town = storeEntity.Address.Town;
-                        addressEntity.Country = country;
+                        addressEntity.CountryId = country.Id;
                         addressEntity.DataVersion = newVersion;
                     }
 

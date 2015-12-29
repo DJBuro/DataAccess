@@ -37,7 +37,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public string State { get; set; }
         public string PostCode { get; set; }
         public string DPS { get; set; }
-        public string Country { get; set; }
         public string Lat { get; set; }
         public string Long { get; set; }
         public int DataVersion { get; set; }
