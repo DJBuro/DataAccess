@@ -37,7 +37,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              where sg.GroupID == (filterByGroupId.HasValue ? filterByGroupId : sg.GroupID)
                              && sm.MenuType == dataTypeString
                              && p.ID == partnerId
-                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.Address.Lat, s.Address.Long };
+                             select new 
+                             {
+                                 s.ID, 
+                                 s.EstimatedDeliveryTime, 
+                                 s.StoreConnected, 
+                                 sm.Version, 
+                                 s.ExternalSiteName, 
+                                 s.ExternalId, 
+                                 s.LicenceKey, 
+                                 s.Address.Lat, 
+                                 s.Address.Long
+                             };
 
             var siteEntities = sitesQuery.ToList();
 

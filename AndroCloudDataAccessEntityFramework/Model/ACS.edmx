@@ -22,6 +22,7 @@
           <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SitesGroups" EntityType="ACSModel.Store.SitesGroups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StorePaymentProvider" EntityType="ACSModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.Store.FK_Chains_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="Groups" EntitySet="Groups" />
@@ -64,6 +65,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.Store.FK_Sites_Addresses">
             <End Role="Addresses" EntitySet="Addresses" />
+            <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_PaymentProvider" Association="ACSModel.Store.FK_Sites_PaymentProvider">
+            <End Role="StorePaymentProvider" EntitySet="StorePaymentProvider" />
             <End Role="Sites" EntitySet="Sites" />
           </AssociationSet>
           <AssociationSet Name="FK_SitesGroups_Groups" Association="ACSModel.Store.FK_SitesGroups_Groups">
@@ -261,6 +266,7 @@
           <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
           <Property Name="LicenceKey" Type="nvarchar" MaxLength="64" />
+          <Property Name="StorePaymentProviderID" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="SitesGroups">
           <Key>
@@ -269,6 +275,15 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SiteID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="GroupID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProviderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Chains_Partners">
           <End Role="Partners" Type="ACSModel.Store.Partners" Multiplicity="0..1" />
@@ -402,6 +417,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Sites_PaymentProvider">
+          <End Role="StorePaymentProvider" Type="ACSModel.Store.StorePaymentProvider" Multiplicity="0..1" />
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StorePaymentProvider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sites">
+              <PropertyRef Name="StorePaymentProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SitesGroups_Groups">
           <End Role="Groups" Type="ACSModel.Store.Groups" Multiplicity="1" />
           <End Role="SitesGroups" Type="ACSModel.Store.SitesGroups" Multiplicity="*" />
@@ -473,7 +500,9 @@
             <End Role="Partner" EntitySet="Partners" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
+          <EntitySet Name="Hosts" EntityType="ACSModel.Host" />
           <EntitySet Name="Sites" EntityType="ACSModel.Site" />
+          <EntitySet Name="StorePaymentProviders" EntityType="ACSModel.StorePaymentProvider" />
           <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.FK_Sites_Addresses">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Site" EntitySet="Sites" />
@@ -494,11 +523,14 @@
             <End Role="Site" EntitySet="Sites" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
+          <AssociationSet Name="FK_Sites_PaymentProvider" Association="ACSModel.FK_Sites_PaymentProvider">
+            <End Role="StorePaymentProvider" EntitySet="StorePaymentProviders" />
+            <End Role="Site" EntitySet="Sites" />
+          </AssociationSet>
           <AssociationSet Name="FK_SitesGroups_Sites" Association="ACSModel.FK_SitesGroups_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="SitesGroup" EntitySet="SitesGroups" />
           </AssociationSet>
-          <EntitySet Name="Hosts" EntityType="ACSModel.Host" />
         </EntityContainer>
         <EntityType Name="ACSLog">
           <Key>
@@ -767,6 +799,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Int32" Name="Port" Nullable="false" />
+        </EntityType>
         <EntityType Name="Site">
           <Key>
             <PropertyRef Name="ID" />
@@ -774,7 +815,7 @@
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="SignalRConnectionID" />
           <Property Type="Guid" Name="SessionID" />
-          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Type="String" Name="AndroSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ClientSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ExternalSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AndroID" Nullable="false" />
@@ -786,12 +827,24 @@
           <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenceKey" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="StorePaymentProviderID" />
           <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
           <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Site" ToRole="Order" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
+          <NavigationProperty Name="StorePaymentProvider" Relationship="ACSModel.FK_Sites_PaymentProvider" FromRole="Site" ToRole="StorePaymentProvider" />
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientPassword" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_PaymentProvider" FromRole="StorePaymentProvider" ToRole="Site" />
         </EntityType>
         <Association Name="FK_Sites_Addresses">
           <End Type="ACSModel.Address" Role="Address" Multiplicity="0..1" />
@@ -853,6 +906,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Sites_PaymentProvider">
+          <End Type="ACSModel.StorePaymentProvider" Role="StorePaymentProvider" Multiplicity="0..1" />
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StorePaymentProvider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Site">
+              <PropertyRef Name="StorePaymentProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SitesGroups_Sites">
           <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
           <End Type="ACSModel.SitesGroup" Role="SitesGroup" Multiplicity="*" />
@@ -865,15 +930,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Host">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="Order" Nullable="false" />
-          <Property Type="Int32" Name="Port" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1057,9 +1113,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Hosts">
+            <EntityTypeMapping TypeName="ACSModel.Host">
+              <MappingFragment StoreEntitySet="Hosts">
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ACSModel.Site">
               <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="StorePaymentProviderID" ColumnName="StorePaymentProviderID" />
                 <ScalarProperty Name="LicenceKey" ColumnName="LicenceKey" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
@@ -1078,12 +1145,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Hosts">
-            <EntityTypeMapping TypeName="ACSModel.Host">
-              <MappingFragment StoreEntitySet="Hosts">
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="Order" ColumnName="Order" />
-                <ScalarProperty Name="HostName" ColumnName="HostName" />
+          <EntitySetMapping Name="StorePaymentProviders">
+            <EntityTypeMapping TypeName="ACSModel.StorePaymentProvider">
+              <MappingFragment StoreEntitySet="StorePaymentProvider">
+                <ScalarProperty Name="ClientPassword" ColumnName="ClientPassword" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1112,7 +1179,7 @@
         <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="2.25" PointY="3.875" Height="2.3648893229166674" />
         <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="10.625" PointY="6.375" Height="3.3263964843750031" />
         <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="4.25" PointY="3.875" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.75" PointY="16" Height="1.5956835937500067" />
+        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="8.25" PointY="17.5" Height="1.5956835937500067" />
         <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.75" PointY="6.75" Height="2.749492187499996" />
         <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="0.75" PointY="10.25" Height="2.5571907552083317" />
         <EntityTypeShape EntityType="ACSModel.MyAndromedaUser" Width="1.5" PointX="0.75" PointY="6.875" Height="2.3648893229166674" />
@@ -1151,32 +1218,16 @@
           <ConnectorPoint PointX="1.5" PointY="13.625" />
           <ConnectorPoint PointX="1.5" PointY="12.807190755208334" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="5.0571093750000031" />
-        <AssociationConnector Association="ACSModel.FK_Sites_Addresses" >
-          <ConnectorPoint PointX="8.25" PointY="10.874705403645834" />
-          <ConnectorPoint PointX="7.25" PointY="10.874705403645834" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Employees_Sites" >
-          <ConnectorPoint PointX="6.5" PointY="10.25" />
-          <ConnectorPoint PointX="6.5" PointY="9.4994921875" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="14.841054687500002" />
-          <ConnectorPoint PointX="8.25" PointY="14.841054687500002" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Orders_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="12.780701497395832" />
-          <ConnectorPoint PointX="10.5" PointY="12.780701497395832" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" >
-          <ConnectorPoint PointX="5.75" PointY="14.153554687500002" />
-          <ConnectorPoint PointX="4.75" PointY="14.153554687500002" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" >
-          <ConnectorPoint PointX="5.75" PointY="11.240143229166666" />
-          <ConnectorPoint PointX="4.75" PointY="11.240143229166666" />
-        </AssociationConnector>
         <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="6.25" PointY="3.875" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" />
+        <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="5.75" PointY="16.625" />
+        <AssociationConnector Association="ACSModel.FK_Sites_Addresses" />
+        <AssociationConnector Association="ACSModel.FK_Employees_Sites" />
+        <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" />
+        <AssociationConnector Association="ACSModel.FK_Orders_Sites" />
+        <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" />
+        <AssociationConnector Association="ACSModel.FK_Sites_PaymentProvider" />
+        <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" />
       </Diagram>
     </Diagrams>
   </Designer>

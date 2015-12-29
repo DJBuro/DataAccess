@@ -46,5 +46,14 @@ namespace AndroCloudDataAccess.Domain
 
         [JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
         public List<TimeSpanBlock> OpeningHours { get; set; }
+
+        [JsonProperty(PropertyName = "paymentProvider")]
+        public string PaymentProvider { get; set; }
+
+        [JsonProperty(PropertyName = "paymentClientId")]
+        public string PaymentClientId { get; set; }
+
+        [JsonProperty(PropertyName = "paymentClientPassword")]
+        public string PaymentClientPassword { get; set; }
     }
 }

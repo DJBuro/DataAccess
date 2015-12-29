@@ -17,9 +17,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             ACSEntities acsEntities = new ACSEntities();
 
             var sitesQuery = from s in acsEntities.Sites
+                             join spp in acsEntities.StorePaymentProviders
+                             on s.StorePaymentProviderID equals spp.ID
+                             into spp2
+                             from spp3 in spp2.DefaultIfEmpty()
                              where s.ID == siteId
-                             select s;
-            Model.Site siteEntity = sitesQuery.FirstOrDefault();
+                             select new
+                             {
+                                 s.ID,
+                                 s.ExternalId,
+                                 s.ExternalSiteName,
+                                 s.StoreConnected,
+                                 s.EstimatedDeliveryTime,
+                                 s.TimeZone,
+                                 s.SiteMenus,
+                                 s.Address,
+                                 s.OpeningHours,
+                                 ProviderName = (spp3 == null ? "" : spp3.ProviderName),
+                                 ClientId = (spp3 == null ? "" : spp3.ClientId),
+                                 ClientPassword = (spp3 == null ? "" : spp3.ClientPassword)
+                             };
+            var siteEntity = sitesQuery.FirstOrDefault();
 
             // Create a serializable SiteDetails object
             siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();
@@ -29,6 +47,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             siteDetails.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
             siteDetails.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
             siteDetails.TimeZone = siteEntity.TimeZone;
+            siteDetails.PaymentProvider = siteEntity.ProviderName;
+            siteDetails.PaymentClientId = siteEntity.ClientId;
+            siteDetails.PaymentClientPassword = siteEntity.ClientPassword;
 
             // Get the menu version for the requested data type (JSON or XML)
             foreach (Model.SiteMenu siteMenu in siteEntity.SiteMenus)
