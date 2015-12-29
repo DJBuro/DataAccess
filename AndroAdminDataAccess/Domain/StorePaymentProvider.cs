@@ -19,7 +19,7 @@ namespace AndroAdminDataAccess.Domain
         [Required(ErrorMessage = "Please enter a Client Id")]
         public virtual string ClientId { get; set; }
 
-        [Required(ErrorMessage = "Please enter a Client Pasword")]
+        [Required(ErrorMessage = "Please enter a Client Password")]
         public virtual string ClientPassword { get; set; }
     }
 }
