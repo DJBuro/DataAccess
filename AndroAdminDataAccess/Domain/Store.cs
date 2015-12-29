@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DashboardDataAccess.Domain
+namespace AndroAdminDataAccess.Domain
 {
     public class Store
     {
