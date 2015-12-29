@@ -25,7 +25,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();
             siteDetails.Id = siteEntity.ID;
             siteDetails.ExternalId = siteEntity.ExternalId;
-            siteDetails.Name = siteEntity.SiteName;
+            siteDetails.Name = siteEntity.ExternalSiteName;
             siteDetails.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
             siteDetails.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
             siteDetails.TimeZone = siteEntity.TimeZone;
@@ -115,7 +115,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();
                 siteDetails.Id = acsEntity.ID;
                 siteDetails.ExternalId = acsEntity.ExternalId;
-                siteDetails.Name = acsEntity.SiteName;
+                siteDetails.Name = acsEntity.ExternalSiteName;
                 siteDetails.IsOpen = acsEntity.StoreConnected.GetValueOrDefault(false);
                 siteDetails.EstDelivTime = acsEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
                 siteDetails.TimeZone = acsEntity.TimeZone;

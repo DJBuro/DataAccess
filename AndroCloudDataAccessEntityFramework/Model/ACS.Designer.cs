@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -323,6 +324,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private ObjectSet<Address> _Addresses;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -446,11 +448,11 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -475,6 +477,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -649,6 +652,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnExceptionChanged();
 
         #endregion
+
     
     }
     
@@ -674,6 +678,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -944,6 +949,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnPacketChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -970,6 +976,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -994,6 +1001,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1504,6 +1512,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnLongChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1530,6 +1539,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1554,6 +1564,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1728,6 +1739,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnResponseTimeChanged();
 
         #endregion
+
     
     }
     
@@ -1755,6 +1767,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1809,6 +1822,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnDescriptionChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1835,6 +1849,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1859,6 +1874,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2033,6 +2049,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnNotesChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2097,6 +2114,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2121,6 +2139,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2247,6 +2266,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnExternalIdChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2333,6 +2353,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2367,6 +2388,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2517,6 +2539,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnIsEnabledChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2597,6 +2620,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2631,6 +2655,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2781,6 +2806,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnDayIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2861,6 +2887,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2887,6 +2914,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3037,6 +3065,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnExternalIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3155,6 +3184,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3183,6 +3213,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3261,6 +3292,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnDescriptionChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3287,6 +3319,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3311,6 +3344,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3437,6 +3471,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnExternalIdChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3463,6 +3498,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3487,6 +3523,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3563,30 +3600,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private Nullable<global::System.Guid> _SessionID;
         partial void OnSessionIDChanging(Nullable<global::System.Guid> value);
         partial void OnSessionIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String SiteName
-        {
-            get
-            {
-                return _SiteName;
-            }
-            set
-            {
-                OnSiteNameChanging(value);
-                ReportPropertyChanging("SiteName");
-                _SiteName = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("SiteName");
-                OnSiteNameChanged();
-            }
-        }
-        private global::System.String _SiteName;
-        partial void OnSiteNameChanging(global::System.String value);
-        partial void OnSiteNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -3803,8 +3816,81 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private global::System.String _Telephone;
         partial void OnTelephoneChanging(global::System.String value);
         partial void OnTelephoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AndroSiteName
+        {
+            get
+            {
+                return _AndroSiteName;
+            }
+            set
+            {
+                OnAndroSiteNameChanging(value);
+                ReportPropertyChanging("AndroSiteName");
+                _AndroSiteName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AndroSiteName");
+                OnAndroSiteNameChanged();
+            }
+        }
+        private global::System.String _AndroSiteName;
+        partial void OnAndroSiteNameChanging(global::System.String value);
+        partial void OnAndroSiteNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ClientSiteName
+        {
+            get
+            {
+                return _ClientSiteName;
+            }
+            set
+            {
+                OnClientSiteNameChanging(value);
+                ReportPropertyChanging("ClientSiteName");
+                _ClientSiteName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ClientSiteName");
+                OnClientSiteNameChanged();
+            }
+        }
+        private global::System.String _ClientSiteName;
+        partial void OnClientSiteNameChanging(global::System.String value);
+        partial void OnClientSiteNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalSiteName
+        {
+            get
+            {
+                return _ExternalSiteName;
+            }
+            set
+            {
+                OnExternalSiteNameChanging(value);
+                ReportPropertyChanging("ExternalSiteName");
+                _ExternalSiteName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ExternalSiteName");
+                OnExternalSiteNameChanged();
+            }
+        }
+        private global::System.String _ExternalSiteName;
+        partial void OnExternalSiteNameChanging(global::System.String value);
+        partial void OnExternalSiteNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3957,6 +4043,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3981,6 +4068,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4131,6 +4219,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnLastUpdatedChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4173,6 +4262,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4201,6 +4291,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4279,6 +4370,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         partial void OnGroupIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4359,8 +4451,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

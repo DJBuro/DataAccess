@@ -63,7 +63,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     foreach (SitesGroup sitesGroup in acsEntity.SitesGroups)
                     {
                         AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
-                        site.Name = sitesGroup.Site.SiteName;
+                        site.Name = sitesGroup.Site.ExternalSiteName;
                         site.Id = sitesGroup.Site.ID;
                         site.ExternalId = sitesGroup.Site.ExternalId;
 

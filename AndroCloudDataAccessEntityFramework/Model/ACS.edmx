@@ -103,7 +103,7 @@
           <Property Name="Packet" Type="text" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6005: The data type 'geography' is not supported; the column 'Location' in table 'ACS.dbo.Addresses' was excluded.
+      warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'ACS.dbo.Addresses' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
       -->
         <EntityType Name="Addresses">
           <Key>
@@ -241,7 +241,9 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SignalRConnectionID" Type="uniqueidentifier" />
           <Property Name="SessionID" Type="uniqueidentifier" />
-          <Property Name="SiteName" Type="nvarchar" MaxLength="64" />
+          <Property Name="AndroSiteName" Type="nvarchar" MaxLength="64" />
+          <Property Name="ClientSiteName" Type="nchar" MaxLength="10" />
+          <Property Name="ExternalSiteName" Type="nchar" MaxLength="10" />
           <Property Name="AndroID" Type="int" />
           <Property Name="AddressID" Type="uniqueidentifier" />
           <Property Name="StoreConnected" Type="bit" />
@@ -644,7 +646,6 @@
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="SignalRConnectionID" />
           <Property Type="Guid" Name="SessionID" />
-          <Property Type="String" Name="SiteName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AndroID" />
           <Property Type="Guid" Name="AddressID" />
           <Property Type="Boolean" Name="StoreConnected" />
@@ -660,6 +661,9 @@
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
           <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
+          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientSiteName" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="ExternalSiteName" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="SitesGroup">
           <Key>
@@ -1006,6 +1010,9 @@
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ACSModel.Site">
               <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
+                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
+                <ScalarProperty Name="AndroSiteName" ColumnName="AndroSiteName" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
                 <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
@@ -1015,7 +1022,6 @@
                 <ScalarProperty Name="StoreConnected" ColumnName="StoreConnected" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
                 <ScalarProperty Name="AndroID" ColumnName="AndroID" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="SessionID" ColumnName="SessionID" />
                 <ScalarProperty Name="SignalRConnectionID" ColumnName="SignalRConnectionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1091,7 +1097,7 @@
         <EntityTypeShape EntityType="ACSModel.OrderStatus" Width="1.5" PointX="10.5" PointY="14.625" Height="1.7879850260416674" />
         <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="13.625" Height="2.172587890624996" />
         <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="3.25" PointY="13" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="4.6725065104166674" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="5.057109375" />
         <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="3.25" PointY="10.25" Height="1.9802864583333388" />
         <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" >
           <ConnectorPoint PointX="11.25" PointY="10.326396484375003" />
@@ -1126,20 +1132,20 @@
           <ConnectorPoint PointX="11.25" PointY="13.99949218750001" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="12.46875" />
-          <ConnectorPoint PointX="10.5" PointY="12.46875" />
+          <ConnectorPoint PointX="7.25" PointY="12.624705403645834" />
+          <ConnectorPoint PointX="10.5" PointY="12.624705403645834" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" >
-          <ConnectorPoint PointX="5.75" PointY="13.961253255208334" />
-          <ConnectorPoint PointX="4.75" PointY="13.961253255208334" />
+          <ConnectorPoint PointX="5.75" PointY="14.1535546875" />
+          <ConnectorPoint PointX="4.75" PointY="14.1535546875" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" >
           <ConnectorPoint PointX="5.75" PointY="11.240143229166669" />
           <ConnectorPoint PointX="4.75" PointY="11.240143229166669" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="14.336253255208334" />
-          <ConnectorPoint PointX="8.375" PointY="14.336253255208334" />
+          <ConnectorPoint PointX="7.25" PointY="14.5285546875" />
+          <ConnectorPoint PointX="8.375" PointY="14.5285546875" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.125" PointY="6.25" Height="5.2494108072916674" />
         <AssociationConnector Association="ACSModel.FK_Sites_Addresses" >
