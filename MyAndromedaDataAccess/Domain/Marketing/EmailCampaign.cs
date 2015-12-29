@@ -74,7 +74,7 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// Gets or sets the email campaign.
         /// </summary>
         /// <value>The email campaign.</value>
-        public EmailCampaign EmailCampaign { get; set; }
+        //public EmailCampaign EmailCampaign { get; set; }
 
         /// <summary>
         /// Gets or sets the site id.
