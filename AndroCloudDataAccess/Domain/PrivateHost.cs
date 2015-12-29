@@ -8,7 +8,8 @@ using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
-    public class Host
+    [XmlType("Host")]
+    public class PrivateHost
     {
         [JsonIgnore]
         [XmlIgnore]
@@ -19,5 +20,8 @@ namespace AndroCloudDataAccess.Domain
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
+
+        [JsonProperty(PropertyName = "signalRUrl")]
+        public string SignalRUrl { get; set; }
     }
 }

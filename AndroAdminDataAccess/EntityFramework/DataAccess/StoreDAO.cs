@@ -71,8 +71,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             on s.AddressId equals a.Id
                             join c in entitiesContext.Countries.DefaultIfEmpty()
                             on a.CountryId equals c.Id
-                            join pp in entitiesContext.StorePaymentProviders.DefaultIfEmpty()
-                            on s.StorePaymentProviderID equals pp.Id
+                       //     join pp in entitiesContext.StorePaymentProviders.DefaultIfEmpty()
+                        //    on s.StorePaymentProviderID equals pp.Id
                             orderby s.Name
                             select new
                             {
@@ -112,8 +112,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 CountryCountryName = c.CountryName,
                                 CountryId = c.Id,
                                 CountryISO3166_1_alpha_2 = c.ISO3166_1_alpha_2,
-                                CountryISO3166_1_numeric = c.ISO3166_1_numeric,
-                                PaymentProvider = pp
+                                CountryISO3166_1_numeric = c.ISO3166_1_numeric//,
+                             //   PaymentProvider = pp
                             };
 
                 foreach (var entity in query)
@@ -164,15 +164,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         }
                     };
 
-                    if (entity.PaymentProvider != null)
-                    {
-                        model.PaymentProvider = new Domain.StorePaymentProvider();
-                        model.PaymentProvider.Id = entity.PaymentProvider.Id;
-                        model.PaymentProvider.ClientId = entity.PaymentProvider.ClientId;
-                        model.PaymentProvider.ClientPassword = entity.PaymentProvider.ClientPassword;
-                        model.PaymentProvider.DisplayText = entity.PaymentProvider.DisplayText;
-                        model.PaymentProvider.ProviderName = entity.PaymentProvider.ProviderName;
-                    }
+                    //if (entity.PaymentProvider != null)
+                    //{
+                    //    model.PaymentProvider = new Domain.StorePaymentProvider();
+                    //    model.PaymentProvider.Id = entity.PaymentProvider.Id;
+                    //    model.PaymentProvider.ClientId = entity.PaymentProvider.ClientId;
+                    //    model.PaymentProvider.ClientPassword = entity.PaymentProvider.ClientPassword;
+                    //    model.PaymentProvider.DisplayText = entity.PaymentProvider.DisplayText;
+                    //    model.PaymentProvider.ProviderName = entity.PaymentProvider.ProviderName;
+                    //}
 
                     models.Add(model);
                 }

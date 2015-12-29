@@ -87,6 +87,7 @@
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\PrivateHost.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\Host.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
