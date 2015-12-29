@@ -6,6 +6,7 @@ using AndroCloudDataAccess.DataAccess;
 using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
 using AndroCloudDataAccess.Domain;
+using AndroCloudWCFHelper;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -36,22 +37,41 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              where sg.GroupID == (groupId.HasValue ? groupId : sg.GroupID)
                              && sm.MenuType == dataTypeString
                              && p.ID == partnerId
-                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.SiteName, s.ExternalId, s.LicenceKey };
+                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.SiteName, s.ExternalId, s.LicenceKey, s.Address.Lat, s.Address.Long };
 
             var siteEntities = sitesQuery.ToList();
 
             foreach (var siteEntity in siteEntities)
             {
-                AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
-                site.Id = siteEntity.ID;
-                site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
-                site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
-                site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
-                site.Name = siteEntity.SiteName;
-                site.ExternalId = siteEntity.ExternalId;
-                site.LicenceKey = siteEntity.LicenceKey;
+                bool returnSite = true;
 
-                sites.Add(site);
+                // Do we need to filter by distance i.e. only return the closest X stores?
+                if (maxDistance != null && longitude != null && latitude != null && siteEntity.Lat != null && siteEntity.Long != null)
+                {
+                    // Calculate the distance between the site and the customer
+                    double distance = SpacialHelper.CalcDistanceBetweenTwoPoints((double)longitude.Value, (double)latitude.Value, siteEntity.Long.Value, siteEntity.Lat.Value);
+
+                    // Is the site within X km of the customer?
+                    if (distance > maxDistance)
+                    {
+                        // Out of range - don't return the site
+                        returnSite = false;
+                    }
+                }
+
+                if (returnSite)
+                {
+                    AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
+                    site.Id = siteEntity.ID;
+                    site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                    site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
+                    site.Name = siteEntity.SiteName;
+                    site.ExternalId = siteEntity.ExternalId;
+                    site.LicenceKey = siteEntity.LicenceKey;
+
+                    sites.Add(site);
+                }
             }
 
             return "";
