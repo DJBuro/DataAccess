@@ -17,11 +17,19 @@ namespace MyAndromedaDataAccess.Domain.Reporting
 
         public IEnumerable<SummaryByDay<decimal>> OrderData { get; set; }
 
+        /// <summary>
+        /// Gets the total range turnover.
+        /// </summary>
+        /// <value>The total range turnover.</value>
         public decimal TotalRangeTurnover
         {
             get { return OrderData.Sum(e => e.Total); }
         }
 
+        /// <summary>
+        /// Gets the today's turnover.
+        /// </summary>
+        /// <value>The today's turnover.</value>
         public decimal TodaysTurnover
         {
             get { return today == null ? 0 : today.Total; }
@@ -42,18 +50,23 @@ namespace MyAndromedaDataAccess.Domain.Reporting
             }
         }
 
+        /// <summary>
+        /// Gets the range count.
+        /// </summary>
+        /// <value>The range count.</value>
         public decimal RangeCount
         {
             get { return this.OrderData.Sum(e => e.Count); }
         }
 
+
+        public decimal DeliveryOrderQuantity { get { return this.OrderData.Sum(e => e.DeliveryCount); } }
+
         /// <summary>
-        /// Gets or sets the today's online orders.
+        /// Gets or sets the collection quantity.
         /// </summary>
-        /// <value>The today's online orders.</value>
-        //public int TodaysOnlineOrders { get; set; }
-
-
+        /// <value>The collection quantity.</value>
+        public decimal CollectionQuantity { get { return this.OrderData.Sum(e => e.CollectionCount); } }
     }
 
     public class SalesSummmary 
@@ -93,8 +106,6 @@ namespace MyAndromedaDataAccess.Domain.Reporting
                 return Data.Average(e => e.Total);
             }
         }
-
-        
     }
 
     public class SummaryByDay : SummaryByDay<float> { }
@@ -107,6 +118,9 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         public T Average { get; set; }
         public T Min { get; set; }
         public T Max { get; set; }
+
+        public T DeliveryCount { get; set; }
+        public T CollectionCount { get; set; }
     }
 
     public class SummaryOfLineItem
@@ -135,16 +149,13 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         /// <value>The sum price.</value>
         public double SumPrice { get; set; }
 
+        /// <summary>
+        /// Gets or sets the item price.
+        /// </summary>
+        /// <value>The item price.</value>
         public int? ItemPrice { get; set; }
     }
 
-    public class SummaryOfProducts
-    {
-        //public ICollection<SummaryOfItem> Items { get; set; }
-
-        public int Max { get; set; }
-        //public double Avg { get { return this.Items.Average(e => e.Count); } }
-    }
 
     //public class SummaryByDayCollection<T> : List<SummaryByDay<T>> 
     //{
