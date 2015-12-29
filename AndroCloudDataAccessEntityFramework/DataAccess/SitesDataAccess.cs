@@ -19,7 +19,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             int applicationId, 
             float? filterByMaxDistance, 
             double? filterByLongitude,
-            double? filterByLatitude, 
+            double? filterByLatitude,
+            string deliveryZoneFilter,
             DataTypeEnum dataType, 
             out List<AndroCloudDataAccess.Domain.Site> sites)
         {
@@ -28,84 +29,176 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
-
                 string dataTypeString = dataType.ToString();
-                var sitesQuery = from s in acsEntities.Sites
-                                 join acss in acsEntities.ACSApplicationSites
-                                   on s.ID equals acss.SiteId
-                                 join a in acsEntities.ACSApplications
-                                   on acss.ACSApplicationId equals a.Id
-                                 join sm in acsEntities.SiteMenus
-                                   on s.ID equals sm.SiteID
-                                 join ss in acsEntities.SiteStatuses
-                                   on s.SiteStatusID equals ss.ID
-                                 where sm.MenuType == dataTypeString
-                                   && a.Id == applicationId
-                                   && ss.Status == "Live"
-                                 select new
-                                 {
-                                     s.ID,
-                                     s.EstimatedDeliveryTime,
-                                     s.StoreConnected,
-                                     sm.Version,
-                                     s.ExternalSiteName,
-                                     s.ExternalId,
-                                     s.LicenceKey,
-                                     s.Address.Lat,
-                                     s.Address.Long,
-                                     s.AndroID
-                                 };
 
-                var siteEntities = sitesQuery.ToList();
-
-                foreach (var siteEntity in siteEntities)
+                if (deliveryZoneFilter == null || deliveryZoneFilter.Length == 0)
                 {
-                    bool returnSite = true;
+                    // Don't filter by delivery zone
+                    var sitesQuery = from s in acsEntities.Sites
+                                     join acss in acsEntities.ACSApplicationSites
+                                       on s.ID equals acss.SiteId
+                                     join a in acsEntities.ACSApplications
+                                       on acss.ACSApplicationId equals a.Id
+                                     join sm in acsEntities.SiteMenus
+                                       on s.ID equals sm.SiteID
+                                     join ss in acsEntities.SiteStatuses
+                                       on s.SiteStatusID equals ss.ID
+                                     where sm.MenuType == dataTypeString
+                                       && a.Id == applicationId
+                                       && ss.Status == "Live"
+                                     select new
+                                     {
+                                         s.ID,
+                                         s.EstimatedDeliveryTime,
+                                         s.StoreConnected,
+                                         sm.Version,
+                                         s.ExternalSiteName,
+                                         s.ExternalId,
+                                         s.LicenceKey,
+                                         s.Address.Lat,
+                                         s.Address.Long,
+                                         s.AndroID
+                                     };
 
-                    // Do we need to filter by distance i.e. only return the closest X stores?
-                    if (filterByMaxDistance != null && filterByLongitude != null && filterByLatitude != null)
+                    var siteEntities = sitesQuery.ToList();
+
+                    foreach (var siteEntity in siteEntities)
                     {
-                        double storeLatitude = 0;
-                        double storeLongitude = 0;
+                        bool returnSite = true;
 
-                        // Do we have the location of the site?
-                        if (siteEntity.Lat == null ||
-                            siteEntity.Long == null ||
-                            filterByLatitude == null || 
-                            filterByLongitude == null ||
-                            !double.TryParse(siteEntity.Long, out storeLongitude) || 
-                            !double.TryParse(siteEntity.Lat, out storeLatitude))
+                        // Do we need to filter by distance i.e. only return the closest X stores?
+                        if (filterByMaxDistance != null && filterByLongitude != null && filterByLatitude != null)
                         {
-                            // Don't know where the site is so don't return it
-                            returnSite = false;
-                        }
-                        else
-                        {
-                            // Calculate the distance between the site and the customer
-                            double distance = SpacialHelper.CalcDistanceBetweenTwoPoints(filterByLongitude.Value, filterByLatitude.Value, storeLongitude, storeLatitude);
+                            double storeLatitude = 0;
+                            double storeLongitude = 0;
 
-                            // Is the site within X km of the customer?
-                            if (distance > filterByMaxDistance)
+                            // Do we have the location of the site?
+                            if (siteEntity.Lat == null ||
+                                siteEntity.Long == null ||
+                                filterByLatitude == null ||
+                                filterByLongitude == null ||
+                                !double.TryParse(siteEntity.Long, out storeLongitude) ||
+                                !double.TryParse(siteEntity.Lat, out storeLatitude))
                             {
-                                // Out of range - don't return the site
+                                // Don't know where the site is so don't return it
                                 returnSite = false;
                             }
+                            else
+                            {
+                                // Calculate the distance between the site and the customer
+                                double distance = SpacialHelper.CalcDistanceBetweenTwoPoints(filterByLongitude.Value, filterByLatitude.Value, storeLongitude, storeLatitude);
+
+                                // Is the site within X km of the customer?
+                                if (distance > filterByMaxDistance)
+                                {
+                                    // Out of range - don't return the site
+                                    returnSite = false;
+                                }
+                            }
+                        }
+
+                        if (returnSite)
+                        {
+                            AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
+                            site.Id = siteEntity.ID;
+                            site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                            site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                            site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
+                            site.Name = siteEntity.ExternalSiteName;
+                            site.ExternalId = siteEntity.ExternalId;
+                            site.LicenceKey = siteEntity.LicenceKey;
+                            site.AndroId = siteEntity.AndroID;
+
+                            sites.Add(site);
                         }
                     }
+                }
+                else
+                {
+                    // Get rid of spaces
+                    deliveryZoneFilter = deliveryZoneFilter.Replace(" ", "").Trim();
 
-                    if (returnSite)
+                    // Filter by delivery zone
+                    var sitesQuery = from s in acsEntities.Sites
+                                     join acss in acsEntities.ACSApplicationSites
+                                       on s.ID equals acss.SiteId
+                                     join a in acsEntities.ACSApplications
+                                       on acss.ACSApplicationId equals a.Id
+                                     join sm in acsEntities.SiteMenus
+                                       on s.ID equals sm.SiteID
+                                     join ss in acsEntities.SiteStatuses
+                                       on s.SiteStatusID equals ss.ID
+                                     join da in acsEntities.DeliveryAreas
+                                       on s.ID equals da.SiteId
+                                     where sm.MenuType == dataTypeString
+                                       && a.Id == applicationId
+                                       && ss.Status == "Live"
+                                       && da.DeliveryArea1.ToUpper() == (deliveryZoneFilter.Length >= da.DeliveryArea1.Length ? deliveryZoneFilter.Substring(0, da.DeliveryArea1.Length).ToUpper() : "")
+                                     select new
+                                     {
+                                         s.ID,
+                                         s.EstimatedDeliveryTime,
+                                         s.StoreConnected,
+                                         sm.Version,
+                                         s.ExternalSiteName,
+                                         s.ExternalId,
+                                         s.LicenceKey,
+                                         s.Address.Lat,
+                                         s.Address.Long,
+                                         s.AndroID
+                                     };
+
+                    var siteEntities = sitesQuery.ToList();
+
+                    foreach (var siteEntity in siteEntities)
                     {
-                        AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
-                        site.Id = siteEntity.ID;
-                        site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
-                        site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
-                        site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
-                        site.Name = siteEntity.ExternalSiteName;
-                        site.ExternalId = siteEntity.ExternalId;
-                        site.LicenceKey = siteEntity.LicenceKey;
-                        site.AndroId = siteEntity.AndroID;
+                        bool returnSite = true;
 
-                        sites.Add(site);
+                        // Do we need to filter by distance i.e. only return the closest X stores?
+                        if (filterByMaxDistance != null && filterByLongitude != null && filterByLatitude != null)
+                        {
+                            double storeLatitude = 0;
+                            double storeLongitude = 0;
+
+                            // Do we have the location of the site?
+                            if (siteEntity.Lat == null ||
+                                siteEntity.Long == null ||
+                                filterByLatitude == null ||
+                                filterByLongitude == null ||
+                                !double.TryParse(siteEntity.Long, out storeLongitude) ||
+                                !double.TryParse(siteEntity.Lat, out storeLatitude))
+                            {
+                                // Don't know where the site is so don't return it
+                                returnSite = false;
+                            }
+                            else
+                            {
+                                // Calculate the distance between the site and the customer
+                                double distance = SpacialHelper.CalcDistanceBetweenTwoPoints(filterByLongitude.Value, filterByLatitude.Value, storeLongitude, storeLatitude);
+
+                                // Is the site within X km of the customer?
+                                if (distance > filterByMaxDistance)
+                                {
+                                    // Out of range - don't return the site
+                                    returnSite = false;
+                                }
+                            }
+                        }
+
+                        if (returnSite)
+                        {
+                            AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
+                            site.Id = siteEntity.ID;
+                            site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                            site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                            site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
+                            site.Name = siteEntity.ExternalSiteName;
+                            site.ExternalId = siteEntity.ExternalId;
+                            site.LicenceKey = siteEntity.LicenceKey;
+                            site.AndroId = siteEntity.AndroID;
+
+                            sites.Add(site);
+                        }
                     }
                 }
             }
