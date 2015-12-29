@@ -51,5 +51,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<UsedVoucher> UsedVouchers { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<AndroWebTelemetry> AndroWebTelemetries { get; set; }
+        public DbSet<AndroWebTelemetrySession> AndroWebTelemetrySessions { get; set; }
     }
 }

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\TelemetryDataAccess.cs" />
     <Compile Include="DataAccess\FeedbackDataAccess.cs" />
     <Compile Include="DataAccess\OrderDataAccess.cs" />
     <Compile Include="DataAccess\OrderMetricsDataAccess.cs" />
@@ -84,6 +85,12 @@
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Address.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroWebTelemetry.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroWebTelemetrySession.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Audit.cs">

@@ -14,5 +14,6 @@ namespace DataWarehouseDataAccess
         IVoucherDataAccess VoucherDataAccess { get; set; }
         IOrderMetricsDataAccess OrderMetricsDataAccess { get; set; }
         IFeedbackDataAccess FeedbackDataAccess { get; set; }
+        ITelemetryDataAccess TelemetryDataAccess { get; set; }
     }
 }

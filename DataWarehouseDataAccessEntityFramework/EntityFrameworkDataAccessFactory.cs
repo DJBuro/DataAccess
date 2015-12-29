@@ -47,5 +47,11 @@ namespace DataWarehouseDataAccessEntityFramework
             get { return new FeedbackDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
+
+        public ITelemetryDataAccess TelemetryDataAccess
+        {
+            get { return new TelemetryDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

@@ -54,6 +54,10 @@
         <AssociationConnector Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" />
         <AssociationConnector Association="DataWarehouseModel.FK_SiteVoucher_Voucher" />
         <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_Voucher" />
+        <EntityTypeShape EntityType="DataWarehouseModel.AndroWebTelemetry" Width="1.5" PointX="9.75" PointY="21.25" />
+        <EntityTypeShape EntityType="DataWarehouseModel.AndroWebTelemetrySession" Width="1.5" PointX="7.5" PointY="21.125" />
+        <AssociationConnector Association="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession" />
+        <AssociationConnector Association="DataWarehouseModel.FK_AndroWebSession_Customer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
