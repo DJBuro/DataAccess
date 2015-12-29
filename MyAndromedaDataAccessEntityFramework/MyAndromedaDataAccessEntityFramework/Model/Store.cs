@@ -40,6 +40,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public int AddressId { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
+        public int ChainId { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
