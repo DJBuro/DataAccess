@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyAndromedaDataAccess.Domain;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
@@ -17,11 +15,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
 
     public class ChainDataService : IChainDataService 
     {
-        public ChainDataService() 
-        {
-            
-        }
-        
         public IEnumerable<Site> GetChainsSiteList(int chainId)
         {
             IEnumerable<MyAndromedaDataAccess.Domain.Site> sites;
@@ -43,7 +36,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
             {
                 var table = dbContext.Chains;
-                var query = table.Where(e => e.Id == chainId).Select(e => new { e.Id, entity.Name });
+                var query = table.Where(e => e.Id == chainId).ToArray();
                 var result = query.SingleOrDefault();
 
                 entity = new MyAndromedaDataAccess.Domain.Chain() { 
@@ -51,6 +44,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                     Name = result.Name
                 };
             }
+
             return entity;
         }
     }
