@@ -16,6 +16,14 @@
           <EntitySet Name="Partners" EntityType="ACSModel.Store.Partners" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ACSQueue_DestSite" Association="ACSModel.Store.FK_ACSQueue_DestSite">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="ACSQueue" EntitySet="ACSQueue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSQueue_SrcSites" Association="ACSModel.Store.FK_ACSQueue_SrcSites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="ACSQueue" EntitySet="ACSQueue" />
+          </AssociationSet>
           <AssociationSet Name="FK_Addresses_Sites" Association="ACSModel.Store.FK_Addresses_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="Addresses" EntitySet="Addresses" />
@@ -56,7 +64,9 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime" />
           <Property Name="SrcSiteID" Type="int" />
+          <Property Name="SrcSiteGuid" Type="uniqueidentifier" />
           <Property Name="DestSiteID" Type="int" />
+          <Property Name="DestSiteGuid" Type="uniqueidentifier" />
           <Property Name="Timeout" Type="int" />
           <Property Name="Status" Type="varchar" MaxLength="32" />
           <Property Name="Result" Type="varchar" MaxLength="64" />
@@ -94,7 +104,6 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PartnerID" Type="uniqueidentifier" />
           <Property Name="ChainName" Type="varchar" MaxLength="32" />
-          <Property Name="SecurityID" Type="uniqueidentifier" />
           <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <EntityType Name="OpeningHours">
@@ -129,6 +138,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="32" />
           <Property Name="ChainID" Type="int" />
+          <Property Name="SecurityID" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="SiteMenus">
           <Key>
@@ -152,10 +162,33 @@
           <Property Name="AndroID" Type="int" />
           <Property Name="AddressID" Type="uniqueidentifier" />
           <Property Name="OpeningHoursID" Type="uniqueidentifier" />
-          <Property Name="SessionID" Type="uniqueidentifier" />
           <Property Name="StoreConnected" Type="bit" />
           <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
+        <Association Name="FK_ACSQueue_DestSite">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
+          <End Role="ACSQueue" Type="ACSModel.Store.ACSQueue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ACSQueue">
+              <PropertyRef Name="DestSiteGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSQueue_SrcSites">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
+          <End Role="ACSQueue" Type="ACSModel.Store.ACSQueue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ACSQueue">
+              <PropertyRef Name="SrcSiteGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Addresses_Sites">
           <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
           <End Role="Addresses" Type="ACSModel.Store.Addresses" Multiplicity="*" />
@@ -299,6 +332,14 @@
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SiteMenus" EntitySet="SiteMenus" />
           </AssociationSet>
+          <AssociationSet Name="FK_ACSQueue_DestSite" Association="ACSModel.FK_ACSQueue_DestSite">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="ACSQueue" EntitySet="ACSQueues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSQueue_SrcSites" Association="ACSModel.FK_ACSQueue_SrcSites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="ACSQueue" EntitySet="ACSQueues" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSQueue">
           <Key>
@@ -314,6 +355,10 @@
           <Property Name="Replicated" Type="Boolean" />
           <Property Name="Packet" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="ACSQueueStatus" Relationship="ACSModel.FK_MsgStatus_Queue" FromRole="ACSQueue" ToRole="ACSQueueStatus" />
+          <Property Type="Guid" Name="SrcSiteGuid" />
+          <Property Type="Guid" Name="DestSiteGuid" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_ACSQueue_DestSite" FromRole="ACSQueue" ToRole="Site" />
+          <NavigationProperty Name="Site1" Relationship="ACSModel.FK_ACSQueue_SrcSites" FromRole="ACSQueue" ToRole="Site" />
         </EntityType>
         <EntityType Name="ACSQueueStatu">
           <Key>
@@ -390,6 +435,7 @@
           <Property Name="Name" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
           <Property Name="ChainID" Type="Int32" />
           <NavigationProperty Name="Chains" Relationship="ACSModel.FK_Chains_Partners" FromRole="Partners" ToRole="Chains" />
+          <Property Type="Guid" Name="SecurityID" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
@@ -422,6 +468,8 @@
           <Property Type="Boolean" Name="StoreConnected" />
           <Property Type="Guid" Name="SignalRConnectionID" />
           <Property Type="DateTime" Name="LastUpdated" />
+          <NavigationProperty Name="ACSQueues" Relationship="ACSModel.FK_ACSQueue_DestSite" FromRole="Site" ToRole="ACSQueue" />
+          <NavigationProperty Name="ACSQueues1" Relationship="ACSModel.FK_ACSQueue_SrcSites" FromRole="Site" ToRole="ACSQueue" />
         </EntityType>
         <Association Name="FK_MsgStatus_Queue">
           <End Role="ACSQueue" Type="ACSModel.ACSQueue" Multiplicity="0..1" />
@@ -519,6 +567,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ACSQueue_DestSite">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
+          <End Type="ACSModel.ACSQueue" Role="ACSQueue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ACSQueue">
+              <PropertyRef Name="DestSiteGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSQueue_SrcSites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
+          <End Type="ACSModel.ACSQueue" Role="ACSQueue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ACSQueue">
+              <PropertyRef Name="SrcSiteGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -526,7 +598,9 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ACSModelStoreContainer" CdmEntityContainer="ACSEntities">
           <EntitySetMapping Name="ACSQueues"><EntityTypeMapping TypeName="ACSModel.ACSQueue"><MappingFragment StoreEntitySet="ACSQueue">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="DestSiteGuid" ColumnName="DestSiteGuid" />
+                <ScalarProperty Name="SrcSiteGuid" ColumnName="SrcSiteGuid" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
             <ScalarProperty Name="SrcSiteID" ColumnName="SrcSiteID" />
             <ScalarProperty Name="DestSiteID" ColumnName="DestSiteID" />
@@ -555,7 +629,6 @@
             <ScalarProperty Name="Long" ColumnName="Long" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Chains"><EntityTypeMapping TypeName="ACSModel.Chain"><MappingFragment StoreEntitySet="Chains">
-            <ScalarProperty Name="SecurityID" ColumnName="SecurityID" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="PartnerID" ColumnName="PartnerID" />
@@ -578,7 +651,8 @@
             <ScalarProperty Name="Completed" ColumnName="Completed" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Partners"><EntityTypeMapping TypeName="ACSModel.Partner"><MappingFragment StoreEntitySet="Partners">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="SecurityID" ColumnName="SecurityID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="Name" ColumnName="Name" />
             <ScalarProperty Name="ChainID" ColumnName="ChainID" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
@@ -600,7 +674,6 @@
             <ScalarProperty Name="AndroID" ColumnName="AndroID" />
             <ScalarProperty Name="AddressID" ColumnName="AddressID" />
             <ScalarProperty Name="OpeningHoursID" ColumnName="OpeningHoursID" />
-            <ScalarProperty Name="SessionID" ColumnName="SessionID" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
@@ -638,8 +711,8 @@
           <ConnectorPoint PointX="3" PointY="2.4901432291666667" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Addresses_Sites" ManuallyRouted="false">
-          <ConnectorPoint PointX="6" PointY="5.5" />
-          <ConnectorPoint PointX="6" PointY="2.9420475260416659" />
+          <ConnectorPoint PointX="6.516442231161669" PointY="5.5" />
+          <ConnectorPoint PointX="6.516442231161669" PointY="2.9420475260416659" />
           <ConnectorPoint PointX="7.5" PointY="2.9420475260416659" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Chains_Partners" ManuallyRouted="false">
@@ -647,8 +720,8 @@
           <ConnectorPoint PointX="3" PointY="7.1439925130208337" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Sites_Chains" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="7.1151432291666676" />
-          <ConnectorPoint PointX="5.25" PointY="7.1151432291666676" />
+          <ConnectorPoint PointX="4.5" PointY="7.3074446614583328" />
+          <ConnectorPoint PointX="5.25" PointY="7.3074446614583328" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="6.172841796875" />
@@ -659,13 +732,23 @@
           <ConnectorPoint PointX="9.75" PointY="8.7689925130208337" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="8.2256982421875" />
-          <ConnectorPoint PointX="7.5" PointY="8.2256982421875" />
+          <ConnectorPoint PointX="6.75" PointY="8.7064518229166659" />
+          <ConnectorPoint PointX="7.5" PointY="8.7064518229166659" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" ManuallyRouted="false">
-          <ConnectorPoint PointX="6" PointY="8.826396484375" />
-          <ConnectorPoint PointX="6" PointY="11.8362939453125" />
-          <ConnectorPoint PointX="7.5" PointY="11.8362939453125" />
+          <ConnectorPoint PointX="6" PointY="9.7879036458333317" />
+          <ConnectorPoint PointX="6" PointY="11.932444661458334" />
+          <ConnectorPoint PointX="7.5" PointY="11.932444661458334" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_ACSQueue_DestSite" >
+          <ConnectorPoint PointX="6.1336311896121689" PointY="5.5" />
+          <ConnectorPoint PointX="6.1336311896121689" PointY="3.932639951985677" />
+          <ConnectorPoint PointX="2.25" PointY="3.932639951985677" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_ACSQueue_SrcSites" >
+          <ConnectorPoint PointX="5.8487116154725953" PointY="5.5" />
+          <ConnectorPoint PointX="5.8487116154725953" PointY="4.38499844563802" />
+          <ConnectorPoint PointX="2.25" PointY="4.38499844563802" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
