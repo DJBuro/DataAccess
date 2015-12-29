@@ -14,23 +14,24 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.Stores
-                        select s;
-
-            foreach (var entity in query)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Domain.Store model = new Domain.Store()
-                {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    AndromedaSiteId = entity.AndromedaSiteId,
-                    CustomerSiteId = entity.CustomerSiteId,
-                    LastFTPUploadDateTime = entity.LastFTPUploadDateTime
-                };
+                var query = from s in entitiesContext.Stores
+                            select s;
 
-                models.Add(model);
+                foreach (var entity in query)
+                {
+                    Domain.Store model = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime
+                    };
+
+                    models.Add(model);
+                }
             }
 
             return models;
@@ -38,38 +39,40 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Store store)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            Store entity = new Store()
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Name = store.Name,
-                AndromedaSiteId = store.AndromedaSiteId,
-                CustomerSiteId = store.CustomerSiteId,
-                LastFTPUploadDateTime = store.LastFTPUploadDateTime
-            };
+                Store entity = new Store()
+                {
+                    Name = store.Name,
+                    AndromedaSiteId = store.AndromedaSiteId,
+                    CustomerSiteId = store.CustomerSiteId,
+                    LastFTPUploadDateTime = store.LastFTPUploadDateTime
+                };
 
-            androAdminEntities.AddToStores(entity);
-            androAdminEntities.SaveChanges();
+                entitiesContext.AddToStores(entity);
+                entitiesContext.SaveChanges();
+            }
         }
 
         public void Update(Domain.Store store)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.Stores
-                        where store.Id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entity.Name = store.Name;
-                entity.AndromedaSiteId = store.AndromedaSiteId;
-                entity.CustomerSiteId = store.CustomerSiteId;
-                entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
+                var query = from s in entitiesContext.Stores
+                            where store.Id == s.Id
+                            select s;
 
-                androAdminEntities.SaveChanges();
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Name = store.Name;
+                    entity.AndromedaSiteId = store.AndromedaSiteId;
+                    entity.CustomerSiteId = store.CustomerSiteId;
+                    entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
+
+                    entitiesContext.SaveChanges();
+                }
             }
         }
 
@@ -77,24 +80,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.Stores
-                        where id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                store = new Domain.Store()
+                var query = from s in entitiesContext.Stores
+                            where id == s.Id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    AndromedaSiteId = entity.AndromedaSiteId,
-                    CustomerSiteId = entity.CustomerSiteId,
-                    LastFTPUploadDateTime = entity.LastFTPUploadDateTime
-                };
+                    store = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime
+                    };
+                }
             }
 
             return store;
@@ -104,24 +108,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.Stores
-                        where id == s.AndromedaSiteId
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                store = new Domain.Store()
+                var query = from s in entitiesContext.Stores
+                            where id == s.AndromedaSiteId
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    AndromedaSiteId = entity.AndromedaSiteId,
-                    CustomerSiteId = entity.CustomerSiteId,
-                    LastFTPUploadDateTime = entity.LastFTPUploadDateTime
-                };
+                    store = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime
+                    };
+                }
             }
 
             return store;
@@ -131,24 +136,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.Stores
-                        where name == s.Name
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                store = new Domain.Store()
+                var query = from s in entitiesContext.Stores
+                            where name == s.Name
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    AndromedaSiteId = entity.AndromedaSiteId,
-                    CustomerSiteId = entity.CustomerSiteId,
-                    LastFTPUploadDateTime = entity.LastFTPUploadDateTime
-                };
+                    store = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime
+                    };
+                }
             }
 
             return store;

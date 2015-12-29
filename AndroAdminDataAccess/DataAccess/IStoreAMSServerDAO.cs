@@ -8,10 +8,10 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IStoreAMSServerDAO
     {
-        IEnumerable<StoreAMSServer> GetAll();
         void Add(StoreAMSServer storeAMSServer);
         void DeleteByAMSServerId(int amsServerId);
         void DeleteById(int id);
         StoreAMSServer GetByStoreIdAMServerId(int storeId, int amsServerId);
+        IList<StoreAMSServer> GetByAMServerName(string amsServerName);
     }
 }
