@@ -176,30 +176,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        /// <summary>
-        /// Updates the version number only
-        /// </summary>
-        /// <param name="partnerId"></param>
-        /// <param name="newVersion"></param>
-        public void UpdateDataVersion(int partnerId, int newVersion)
-        {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            {
-                var query = from s in entitiesContext.Partners
-                            where partnerId == s.Id
-                            select s;
-
-                var entity = query.FirstOrDefault();
-
-                if (entity != null)
-                {
-                    entity.DataVersion = newVersion;
-
-                    entitiesContext.SaveChanges();
-                }
-            }
-        }
-
         public IList<Domain.Partner> GetAfterDataVersion(int dataVersion)
         {
             List<Domain.Partner> models = new List<Domain.Partner>();

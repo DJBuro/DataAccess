@@ -146,7 +146,30 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.Store.LastFTPUploadDateTime,
                         Name = entity.Store.Name,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.Store.StoreStatu.Id, Status = entity.Store.StoreStatu.Status, Description = entity.Store.StoreStatu.Description },
-                        Country = country
+                        Address = new Domain.Address()
+                        {
+                            Id = entity.Store.Address.Id,
+                            County = entity.Store.Address.County,
+                            DPS = entity.Store.Address.DPS,
+                            Lat = entity.Store.Address.Lat,
+                            Locality = entity.Store.Address.Locality,
+                            Long = entity.Store.Address.Long,
+                            Org1 = entity.Store.Address.Org1,
+                            Org2 = entity.Store.Address.Org2,
+                            Org3 = entity.Store.Address.Org3,
+                            PostCode = entity.Store.Address.PostCode,
+                            Prem1 = entity.Store.Address.Prem1,
+                            Prem2 = entity.Store.Address.Prem2,
+                            Prem3 = entity.Store.Address.Prem3,
+                            Prem4 = entity.Store.Address.Prem4,
+                            Prem5 = entity.Store.Address.Prem5,
+                            Prem6 = entity.Store.Address.Prem6,
+                            RoadName = entity.Store.Address.RoadName,
+                            RoadNum = entity.Store.Address.RoadNum,
+                            State = entity.Store.Address.State,
+                            Town = entity.Store.Address.Town,
+                            Country = country
+                        }
                     };
 
                     Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()

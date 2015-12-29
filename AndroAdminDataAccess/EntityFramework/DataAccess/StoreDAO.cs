@@ -36,7 +36,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -56,12 +58,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            model.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
@@ -77,13 +102,55 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
+                if (store.Address.Country == null)
+                {
+                    throw new ArgumentNullException("Address country cannot be null");
+                }
+
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    Store entity = new Store()
+                    // Get the country
+                    var query = from s in entitiesContext.Countries
+                                    where store.Address.Country.Id == s.Id
+                                    select s;
+
+                    var country = query.FirstOrDefault();
+
+                    // Add the address
+                    Address addressEntity = new Address()
+                    {
+                        Org1 = store.Address.Org1,
+                        Org2 = store.Address.Org2,
+                        Org3 = store.Address.Org3,
+                        Prem1 = store.Address.Prem1,
+                        Prem2 = store.Address.Prem2,
+                        Prem3 = store.Address.Prem3,
+                        Prem4 = store.Address.Prem4,
+                        Prem5 = store.Address.Prem5,
+                        Prem6 = store.Address.Prem6,
+                        RoadNum = store.Address.RoadNum,
+                        RoadName = store.Address.RoadName,
+                        Locality = store.Address.Locality,
+                        Town = store.Address.Town,
+                        County = store.Address.County,
+                        State = store.Address.State,
+                        PostCode = store.Address.PostCode,
+                        DPS = store.Address.DPS,
+                        Lat = store.Address.Lat,
+                        Long = store.Address.Long,
+                        Country = country,
+                        DataVersion = newVersion
+                    };
+
+                    entitiesContext.AddToAddresses(addressEntity);
+                    entitiesContext.SaveChanges();
+
+                    // Add the store
+                    Store storeEntity = new Store()
                     {
                         Name = store.Name, // Andro site name
                         AndromedaSiteId = store.AndromedaSiteId,
@@ -93,10 +160,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         DataVersion = newVersion,
                         ExternalId = store.ExternalSiteId,
                         ExternalSiteName = store.ExternalSiteName,
-                        ClientSiteName = store.ClientSiteName
+                        ClientSiteName = store.ClientSiteName,
+                        AddressId = addressEntity.Id,
+                        Telephone = store.Telephone,
+                        TimeZone = store.TimeZone
                     };
 
-                    entitiesContext.AddToStores(entity);
+                    entitiesContext.AddToStores(storeEntity);
                     entitiesContext.SaveChanges();
 
                     // Fin...
@@ -115,6 +185,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
+                    // Get the country
+                    var query = from s in entitiesContext.Countries
+                                where store.Address.Country.Id == s.Id
+                                select s;
+
+                    var country = query.FirstOrDefault();
+
+                    // Get the store that needs to be updated
                     var storeQuery = from s in entitiesContext.Stores
                                 where store.Id == s.Id
                                 select s;
@@ -136,6 +214,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.DataVersion = newVersion;
                     storeEntity.ExternalId = store.ExternalSiteId;
                     storeEntity.ExternalSiteName = storeEntity.ExternalSiteName;
+                    storeEntity.Telephone = storeEntity.Telephone;
+                    storeEntity.TimeZone = storeEntity.TimeZone;
 
                     // Update / create an address
                     var addressQuery = from s in entitiesContext.Addresses
@@ -150,26 +230,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         // No address - we need to create one
                         addressEntity = new Address()
                         {
-                            County = "",
-                            DPS = "",
-                            Lat = 0,
-                            Locality = "",
-                            Long = 0,
-                            Org1 = "",
-                            Org2 = "",
-                            Org3 = "",
-                            PostCode = "",
-                            Prem1 = "",
-                            Prem2 = "",
-                            Prem3 = "",
-                            Prem4 = "",
-                            Prem5 = "",
-                            Prem6 = "",
-                            RoadName = "",
-                            RoadNum = "",
-                            State = "",
-                            Town = "",
-                            CountryId = store.Country.Id
+                            County = storeEntity.Address.County,
+                            DPS = storeEntity.Address.DPS,
+                            Lat = storeEntity.Address.Lat,
+                            Locality = storeEntity.Address.Locality,
+                            Long = storeEntity.Address.Long,
+                            Org1 = storeEntity.Address.Org1,
+                            Org2 = storeEntity.Address.Org2,
+                            Org3 = storeEntity.Address.Org3,
+                            PostCode = storeEntity.Address.PostCode,
+                            Prem1 = storeEntity.Address.Prem1,
+                            Prem2 = storeEntity.Address.Prem2,
+                            Prem3 = storeEntity.Address.Prem3,
+                            Prem4 = storeEntity.Address.Prem4,
+                            Prem5 = storeEntity.Address.Prem5,
+                            Prem6 = storeEntity.Address.Prem6,
+                            RoadName = storeEntity.Address.RoadName,
+                            RoadNum = storeEntity.Address.RoadNum,
+                            State = storeEntity.Address.State,
+                            Town = storeEntity.Address.Town,
+                            Country = country,
+                            DataVersion = newVersion
                         };
 
                         entitiesContext.Addresses.AddObject(addressEntity);
@@ -177,7 +258,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     else
                     {
                         // Update the existing address
-                        addressEntity.CountryId = store.Country.Id;
+                        addressEntity.County = storeEntity.Address.County;
+                        addressEntity.DPS = storeEntity.Address.DPS;
+                        addressEntity.Lat = storeEntity.Address.Lat;
+                        addressEntity.Locality = storeEntity.Address.Locality;
+                        addressEntity.Long = storeEntity.Address.Long;
+                        addressEntity.Org1 = storeEntity.Address.Org1;
+                        addressEntity.Org2 = storeEntity.Address.Org2;
+                        addressEntity.Org3 = storeEntity.Address.Org3;
+                        addressEntity.PostCode = storeEntity.Address.PostCode;
+                        addressEntity.Prem1 = storeEntity.Address.Prem1;
+                        addressEntity.Prem2 = storeEntity.Address.Prem2;
+                        addressEntity.Prem3 = storeEntity.Address.Prem3;
+                        addressEntity.Prem4 = storeEntity.Address.Prem4;
+                        addressEntity.Prem5 = storeEntity.Address.Prem5;
+                        addressEntity.Prem6 = storeEntity.Address.Prem6;
+                        addressEntity.RoadName = storeEntity.Address.RoadName;
+                        addressEntity.RoadNum = storeEntity.Address.RoadNum;
+                        addressEntity.State = storeEntity.Address.State;
+                        addressEntity.Town = storeEntity.Address.Town;
+                        addressEntity.Country = country;
+                        addressEntity.DataVersion = newVersion;
                     }
 
                     entitiesContext.SaveChanges();
@@ -190,7 +291,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public Domain.Store GetById(int id)
         {
-            Domain.Store store = null;
+            Domain.Store model = null;
 
             using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
@@ -202,7 +303,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    store = new Domain.Store()
+                    model = new Domain.Store()
                     {
                         Id = entity.Id,
                         Name = entity.Name,
@@ -212,7 +313,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -232,24 +335,47 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            store.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
                 }
             }
 
-            return store;
+            return model;
         }
 
         public Domain.Store GetByAndromedaId(int id)
         {
-            Domain.Store store = null;
+            Domain.Store model = null;
 
             using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
@@ -261,7 +387,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    store = new Domain.Store()
+                    model = new Domain.Store()
                     {
                         Id = entity.Id,
                         Name = entity.Name,
@@ -271,7 +397,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -291,24 +419,47 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            store.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
                 }
             }
 
-            return store;
+            return model;
         }
 
         public Domain.Store GetByName(string name)
         {
-            Domain.Store store = null;
+            Domain.Store model = null;
 
             using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
@@ -320,7 +471,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    store = new Domain.Store()
+                    model = new Domain.Store()
                     {
                         Id = entity.Id,
                         Name = entity.Name,
@@ -330,7 +481,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -350,19 +503,42 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            store.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
                 }
             }
 
-            return store;
+            return model;
         }
 
         public IList<Domain.Store> GetByACSApplicationId(int acsApplicationId)
@@ -381,7 +557,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 foreach (Store entity in query)
                 {
-                    Domain.Store store = new Domain.Store()
+                    Domain.Store model = new Domain.Store()
                     {
                         Id = entity.Id,
                         Name = entity.Name,
@@ -391,7 +567,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -411,17 +589,40 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            store.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
 
-                    stores.Add(store);
+                    stores.Add(model);
                 }
             }
 
@@ -451,7 +652,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -471,12 +674,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            model.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
@@ -514,7 +740,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName
+                        ClientSiteName = entity.ClientSiteName,
+                        Telephone = entity.Telephone,
+                        TimeZone = entity.TimeZone
                     };
 
                     // Get the address
@@ -534,12 +762,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (addressEntity != null)
                         {
-                            model.Country = new Domain.Country()
+                            model.Address = new Domain.Address()
                             {
-                                CountryName = countryEntity.CountryName,
-                                Id = countryEntity.Id,
-                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                Id = addressEntity.Id,
+                                Org1 = addressEntity.Org1,
+                                Org2 = addressEntity.Org2,
+                                Org3 = addressEntity.Org3,
+                                Prem1 = addressEntity.Prem1,
+                                Prem2 = addressEntity.Prem2,
+                                Prem3 = addressEntity.Prem3,
+                                Prem4 = addressEntity.Prem4,
+                                Prem5 = addressEntity.Prem5,
+                                Prem6 = addressEntity.Prem6,
+                                RoadNum = addressEntity.RoadNum,
+                                RoadName = addressEntity.RoadName,
+                                Locality = addressEntity.Locality,
+                                Town = addressEntity.Town,
+                                County = addressEntity.County,
+                                State = addressEntity.State,
+                                PostCode = addressEntity.PostCode,
+                                DPS = addressEntity.DPS,
+                                Lat = addressEntity.Lat,
+                                Long = addressEntity.Long,
+                                Country = new Domain.Country()
+                                {
+                                    CountryName = countryEntity.CountryName,
+                                    Id = countryEntity.Id,
+                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                }
                             };
                         }
                     }
