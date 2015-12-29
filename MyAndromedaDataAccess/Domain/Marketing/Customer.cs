@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyAndromedaDataAccess.Domain.Orders
+namespace MyAndromedaDataAccess.Domain.Marketing
 {
     public class Customer
     {
@@ -12,6 +12,12 @@ namespace MyAndromedaDataAccess.Domain.Orders
         /// </summary>
         /// <value>The id.</value>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>The title.</value>
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the first name.
@@ -30,5 +36,7 @@ namespace MyAndromedaDataAccess.Domain.Orders
         /// </summary>
         /// <value>The email.</value>
         public string Email { get; set; }
+
+
     }
 }

@@ -26,7 +26,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         }
     
         public DbSet<CustomerRecord> CustomerRecords { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<EmailCampaignAudit> EmailCampaignAudits { get; set; }
+        public DbSet<EmailCampaignSite> EmailCampaignSites { get; set; }
         public DbSet<EmailCampaign> EmailCampaigns { get; set; }
+        public DbSet<EmailCampaignSentEmail> EmailCampaignSentEmails { get; set; }
         public DbSet<EmailCampaignSetting> EmailCampaignSettings { get; set; }
     }
 }

@@ -100,7 +100,16 @@
     <Compile Include="Model\EmailCampaign.cs">
       <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\EmailCampaignAudit.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EmailCampaignSentEmail.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\EmailCampaignSetting.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EmailCampaignSite.cs">
       <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Employee.cs">
@@ -175,6 +184,9 @@
     </Compile>
     <Compile Include="Model\StoreStatu.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModelUpdateExtensions.cs" />

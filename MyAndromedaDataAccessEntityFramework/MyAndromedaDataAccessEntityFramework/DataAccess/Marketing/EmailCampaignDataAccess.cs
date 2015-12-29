@@ -13,6 +13,23 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         {
         }
 
+        
+
+        public Domain.EmailSettings GetEmailSettings(int chainId)
+        {
+            using (var dbContext = new Model.MyAndromedaEntities())
+            {
+                var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e=> e.ChainId == chainId);
+
+                return new Domain.EmailSettings() { 
+                    Host = entity.Host,
+                    Port = entity.Port,
+                    Password = entity.Password,
+                    UserName = entity.UserName
+                };
+            } 
+        }
+
         /// <summary>
         /// Destroys the specified id.
         /// </summary>
@@ -24,7 +41,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var entity = dbContext.EmailCampaigns.Find(id);
 
                 if (entity == null)
-                    throw new ArgumentException("Id doesnt exist");
+                    throw new ArgumentException("Id is required");
 
                 entity.Removed = true;
                 dbContext.SaveChanges();
@@ -64,6 +81,35 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             }
         }
 
+        public IEnumerable<Domain.EmailCampaign> ListByChain(int chainId)
+        {
+            using(var dbContext = new Model.MyAndromedaEntities())
+            {
+                var entities = dbContext.EmailCampaigns
+                    .Where(e => e.ChainId == chainId)
+                    .ToArray()
+                    .Select(e=> e.ToDomainModel())
+                    .ToList();
+
+                return entities;
+            }
+        }
+
+        public IEnumerable<Domain.EmailCampaign> ListByChainAndSite(int chainId, int siteId)
+        {
+            using (var dbContext = new Model.MyAndromedaEntities())
+            {
+                var entities = dbContext.EmailCampaigns
+                    .Where(e => e.ChainId == chainId)
+                    .Where(e => e.EmailCampaignSites.Any(availableInSite => availableInSite.SiteId == siteId))
+                    .ToArray()
+                    .Select(e => e.ToDomainModel())
+                    .ToList();
+
+                return entities;
+            }
+        }
+
         /// <summary>
         /// Gets the specified EmailCampaign by id.
         /// </summary>
@@ -88,6 +134,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="campaign">The campaign.</param>
         public void Save(Domain.EmailCampaign campaign)
         {
+            this.Ensure(campaign);
+
             if (campaign.Id == 0)
                 Create(campaign);
             else
@@ -100,6 +148,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="campaign">The campaign.</param>
         private void Create(Domain.EmailCampaign campaign) 
         {
+            this.Ensure(campaign);
+
             using (var dbContext = new Model.MyAndromedaEntities())
             {
                 var entity = dbContext.EmailCampaigns.Create();//new Model.EmailCampaign();
@@ -124,5 +174,18 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 dbContext.SaveChanges();
             }
         }
+
+
+        private bool Ensure(Domain.EmailCampaign campaign) 
+        {
+            if (campaign.ChainId == 0)
+                throw new ArgumentException("Chain Id is required");
+            //if (campaign.SiteId == 0)
+            //    throw new ArgumentException("Site Id is required");
+
+            return true;
+        }
+
+        
     }
 }

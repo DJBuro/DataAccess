@@ -20,9 +20,29 @@ namespace MyAndromedaDataAccess.DataAccess
         /// <param name="campaign">The campaign.</param>
         void Save(EmailCampaign campaign);
 
+        /// <summary>
+        /// Lists this instance.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<EmailCampaign> List();
+
+        /// <summary>
+        /// Lists the specified query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
         IEnumerable<EmailCampaign> List(Expression<Func<EmailCampaign, bool>> query);
 
+        IEnumerable<EmailCampaign> ListByChain(int chainId);
+        IEnumerable<EmailCampaign> ListByChainAndSite(int chainId, int siteId);
+
         void Destroy(int id);
+
+        /// <summary>
+        /// Gets the email settings.
+        /// </summary>
+        /// <param name="chainId">The chain id.</param>
+        /// <returns></returns>
+        EmailSettings GetEmailSettings(int chainId);
     }
 }

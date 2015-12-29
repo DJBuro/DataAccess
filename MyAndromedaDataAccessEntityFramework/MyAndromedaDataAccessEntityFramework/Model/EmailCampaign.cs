@@ -14,12 +14,24 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     
     public partial class EmailCampaign
     {
+        public EmailCampaign()
+        {
+            this.EmailCampaignSites = new HashSet<EmailCampaignSite>();
+            this.EmailCampaignSentEmails = new HashSet<EmailCampaignSentEmail>();
+        }
+    
         public int Id { get; set; }
+        public string Reference { get; set; }
         public string Title { get; set; }
         public string EmailTemplate { get; set; }
         public System.DateTime Created { get; set; }
         public System.DateTime Modified { get; set; }
-        public int SiteId { get; set; }
         public bool Removed { get; set; }
+        public int ChainId { get; set; }
+        public bool ChainOnly { get; set; }
+    
+        public virtual EmailCampaignAudit EmailCampaignAudit { get; set; }
+        public virtual ICollection<EmailCampaignSite> EmailCampaignSites { get; set; }
+        public virtual ICollection<EmailCampaignSentEmail> EmailCampaignSentEmails { get; set; }
     }
 }

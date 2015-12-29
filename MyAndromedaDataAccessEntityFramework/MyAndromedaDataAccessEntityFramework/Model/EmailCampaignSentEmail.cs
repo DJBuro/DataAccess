@@ -12,13 +12,15 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailCampaignSetting
+    public partial class EmailCampaignSentEmail
     {
         public int Id { get; set; }
-        public string Host { get; set; }
-        public Nullable<int> Port { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public Nullable<int> ChainId { get; set; }
+        public string Subject { get; set; }
+        public string SendTo { get; set; }
+        public string SendFrom { get; set; }
+        public string Message { get; set; }
+        public int EmailCampaignId { get; set; }
+    
+        public virtual EmailCampaign EmailCampaign { get; set; }
     }
 }
