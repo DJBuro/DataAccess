@@ -193,6 +193,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                    && ss.Status == "Live"
                                  select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.AndroID };
 
+       //         string x = ((ObjectQuery)sitesQuery).ToTraceString();
+       //         Console.WriteLine(x);
+
                 var siteEntity = sitesQuery.FirstOrDefault();
 
                 if (siteEntity != null)
