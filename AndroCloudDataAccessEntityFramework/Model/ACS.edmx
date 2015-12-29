@@ -73,7 +73,7 @@
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SitesGroups" EntitySet="SitesGroups" />
           </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="ACSLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -182,6 +182,7 @@
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="GroupID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EmployeeID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -416,7 +417,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema></edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ACSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -604,6 +605,7 @@
           <Property Type="Guid" Name="EmployeeID" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="MyAndromedaUser" ToRole="Employee" />
           <NavigationProperty Name="Group" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="MyAndromedaUser" ToRole="Group" />
+          <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -966,6 +968,7 @@
           <EntitySetMapping Name="MyAndromedaUsers">
             <EntityTypeMapping TypeName="ACSModel.MyAndromedaUser">
               <MappingFragment StoreEntitySet="MyAndromedaUser">
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="GroupID" ColumnName="GroupID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1079,10 +1082,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="ACS" ZoomLevel="85">
-        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="2.25" PointY="3.875" Height="2.3648893229166674" />
         <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="10.5" PointY="7" Height="3.3263964843750031" />
         <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.25" PointY="6.375" Height="5.4417122395833388" />
-        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="5.75" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="4.25" PointY="3.875" Height="2.3648893229166674" />
         <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.75" PointY="16" Height="1.5956835937500067" />
         <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.75" PointY="6.75" Height="2.749492187499996" />
         <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="0.75" PointY="10.25" Height="2.5571907552083317" />

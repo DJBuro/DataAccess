@@ -16,5 +16,6 @@ namespace AndroCloudDataAccess
         ISiteMenuDataAccess SiteMenuDataAccess { get; set; }
         ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
         IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
+        IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
     }
 }
