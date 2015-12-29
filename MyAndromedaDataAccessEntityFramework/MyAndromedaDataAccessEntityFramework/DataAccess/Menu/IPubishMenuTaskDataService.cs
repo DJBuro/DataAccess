@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MyAndromeda.Core;
+using MyAndromeda.Logging;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;
 using System.Collections.Generic;
@@ -39,20 +40,24 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
     {
         private readonly IMyAndromedaSiteMenuDataService myAndromedaSiteMenuDataService;
 
-        public MenuPubishDataService(IMyAndromedaSiteMenuDataService myAndromedaSiteMenuDataService)
+        private readonly IMyAndromedaLogger logger;
+
+        public MenuPubishDataService(IMyAndromedaSiteMenuDataService myAndromedaSiteMenuDataService, IMyAndromedaLogger logger)
         {
             this.myAndromedaSiteMenuDataService = myAndromedaSiteMenuDataService;
+            this.logger = logger;
         }
 
         public IEnumerable<SiteMenu> GetPublishTasks(DateTime time) 
         {
             IEnumerable<SiteMenu> results = Enumerable.Empty<SiteMenu>();
+
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var data = dbContext.QueryMenusWithTasks(e=> 
                     !e.SiteMenuPublishTask.TaskStarted &&
                     e.SiteMenuPublishTask.TryTask &&
-                    e.SiteMenuPublishTask.PublishOn <= time 
+                    (e.SiteMenuPublishTask.PublishOn <= time || e.SiteMenuPublishTask.PublishOn == null)
                 );
 
                 results = data;
@@ -82,9 +87,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             }
         }
 
-        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status, DateTime? date = null)
+        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status, DateTime? date)
         {
             var publishTask = menu.SiteMenuPublishTask;
+
+            logger.Debug("Setting menu publish status for {0}: {1}", menu.AndromediaId, status.ToString());
 
             switch (status)
             {
@@ -92,20 +99,25 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                     {
                         publishTask.LastTryCount = 0;
                         publishTask.TryTask = true;
+                        publishTask.TaskStarted = false;
                         publishTask.TaskComplete = false;
                         publishTask.PublishOn = date.GetValueOrDefault(DateTime.UtcNow);
 
                         break;
                     }
+
                 case TaskStatus.Running:
                     {
-                        publishTask.LastTryCount++;
+                        publishTask.TryTask = false;
                         publishTask.TaskStarted = true;
+                        publishTask.TaskComplete = false;
+
                         publishTask.LastStartedUtc = DateTime.UtcNow;
                         publishTask.LastTriedUtc = DateTime.UtcNow;
 
                         break;
                     }
+
                 case TaskStatus.RanToCompletion:
                     {
                         publishTask.TryTask = false;
@@ -115,11 +127,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                         break;
                     }
+
                 case TaskStatus.Faulted:
                     {
                         //reset to run again.
                         publishTask.TryTask = true;
                         publishTask.TaskStarted = false;
+                        publishTask.TaskComplete = false;
+                        publishTask.LastTryCount++;
 
                         break;
                     }
