@@ -25,7 +25,7 @@ namespace DataWarehouseDataAccess.Domain
 
         [JsonProperty(PropertyName = "feedbackCategory")]
         [XmlElement(ElementName = "FeedbackCategory")]
-        public int FeedbackCategory { get; set; }
+        public int? FeedbackCategory { get; set; }
 
         [JsonProperty(PropertyName = "feedback")]
         [XmlElement(ElementName = "Feedback")]
