@@ -58,6 +58,14 @@
         <AssociationConnector Association="DataWarehouseModel.FK_AndroWebSession_Customer" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="12" PointY="14.75" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderDiscount" Width="1.5" PointX="17" PointY="13.875" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderDiscountType" Width="1.5" PointX="14.75" PointY="18.5" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderPaymentPSP" Width="1.5" PointX="14.25" PointY="21.625" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderPayment" Width="1.5" PointX="12" PointY="21.25" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderDiscount_OrderHeader" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderPayments_OrderHeader" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

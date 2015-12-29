@@ -207,6 +207,24 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Removed" Type="bit" />
           <Property Name="Price" Type="int" />
         </EntityType>
+        <EntityType Name="OrderDiscount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderHeaderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DiscountType" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DiscountTypeAmount" Type="int" Nullable="false" />
+          <Property Name="DiscountAmount" Type="money" Nullable="false" />
+          <Property Name="InitialDiscountReason" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDiscountType">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Type" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="OrderHeader">
           <Key>
             <PropertyRef Name="ID" />
@@ -271,6 +289,30 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="redeemedPointsValue" Type="money" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Applied" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderPaymentPSP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderPaymentID" Type="uniqueidentifier" />
+          <Property Name="PSPName" Type="nvarchar" MaxLength="32" />
+          <Property Name="UniqueTransactionRef" Type="nvarchar" MaxLength="64" />
+          <Property Name="MerchantRef" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="OrderPayments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderHeaderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PaymentType" Type="nvarchar" MaxLength="32" />
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="AuthCode" Type="nvarchar" MaxLength="32" />
+          <Property Name="CVVStatus" Type="nvarchar" MaxLength="32" />
+          <Property Name="PayTypeName" Type="nvarchar" MaxLength="32" />
+          <Property Name="LastFourDigits" Type="varchar" MaxLength="4" />
+          <Property Name="PayProcessor" Type="nvarchar" MaxLength="32" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -523,6 +565,30 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderDiscount_OrderDiscountType">
+          <End Role="OrderDiscountType" Type="Self.OrderDiscountType" Multiplicity="1" />
+          <End Role="OrderDiscount" Type="Self.OrderDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDiscountType">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="OrderDiscount">
+              <PropertyRef Name="DiscountType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDiscount_OrderHeader">
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1" />
+          <End Role="OrderDiscount" Type="Self.OrderDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDiscount">
+              <PropertyRef Name="OrderHeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderHeader_ACSErrorCode">
           <End Role="ACSErrorCode" Type="Self.ACSErrorCode" Multiplicity="1" />
           <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
@@ -582,6 +648,30 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="OrderLoyalty">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPaymentPSP_OrderPayment">
+          <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="0..1" />
+          <End Role="OrderPaymentPSP" Type="Self.OrderPaymentPSP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderPayments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderPaymentPSP">
+              <PropertyRef Name="OrderPaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPayments_OrderHeader">
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1" />
+          <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderPayments">
+              <PropertyRef Name="OrderHeaderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -683,9 +773,13 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="CustomerLoyalty" EntityType="Self.CustomerLoyalty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketingLevel" EntityType="Self.MarketingLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="modifiers" EntityType="Self.modifiers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDiscount" EntityType="Self.OrderDiscount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDiscountType" EntityType="Self.OrderDiscountType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderHeader" EntityType="Self.OrderHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderLines" EntityType="Self.OrderLines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderLoyalty" EntityType="Self.OrderLoyalty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderPaymentPSP" EntityType="Self.OrderPaymentPSP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderPayments" EntityType="Self.OrderPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatusHistory" EntityType="Self.OrderStatusHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PasswordResetRequest" EntityType="Self.PasswordResetRequest" Schema="dbo" store:Type="Tables" />
@@ -750,6 +844,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="CustomerAddress" EntitySet="CustomerAddress" />
             <End Role="OrderHeader" EntitySet="OrderHeader" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderDiscount_OrderDiscountType" Association="Self.FK_OrderDiscount_OrderDiscountType">
+            <End Role="OrderDiscountType" EntitySet="OrderDiscountType" />
+            <End Role="OrderDiscount" EntitySet="OrderDiscount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDiscount_OrderHeader" Association="Self.FK_OrderDiscount_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+            <End Role="OrderDiscount" EntitySet="OrderDiscount" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderHeader_ACSErrorCode" Association="Self.FK_OrderHeader_ACSErrorCode">
             <End Role="ACSErrorCode" EntitySet="ACSErrorCode" />
             <End Role="OrderHeader" EntitySet="OrderHeader" />
@@ -769,6 +871,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="Self.FK_OrderLoyalty_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeader" />
             <End Role="OrderLoyalty" EntitySet="OrderLoyalty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPaymentPSP_OrderPayment" Association="Self.FK_OrderPaymentPSP_OrderPayment">
+            <End Role="OrderPayments" EntitySet="OrderPayments" />
+            <End Role="OrderPaymentPSP" EntitySet="OrderPaymentPSP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayments_OrderHeader" Association="Self.FK_OrderPayments_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+            <End Role="OrderPayments" EntitySet="OrderPayments" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="Self.FK_OrderStatusHistory_OrderStatus">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
@@ -927,6 +1037,26 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
+          </AssociationSet>
+          <EntitySet Name="OrderDiscounts" EntityType="DataWarehouseModel.OrderDiscount" />
+          <EntitySet Name="OrderDiscountTypes" EntityType="DataWarehouseModel.OrderDiscountType" />
+          <EntitySet Name="OrderPaymentPSPs" EntityType="DataWarehouseModel.OrderPaymentPSP" />
+          <EntitySet Name="OrderPayments" EntityType="DataWarehouseModel.OrderPayment" />
+          <AssociationSet Name="FK_OrderDiscount_OrderDiscountType" Association="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType">
+            <End Role="OrderDiscountType" EntitySet="OrderDiscountTypes" />
+            <End Role="OrderDiscount" EntitySet="OrderDiscounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDiscount_OrderHeader" Association="DataWarehouseModel.FK_OrderDiscount_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+            <End Role="OrderDiscount" EntitySet="OrderDiscounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayments_OrderHeader" Association="DataWarehouseModel.FK_OrderPayments_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+            <End Role="OrderPayment" EntitySet="OrderPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPaymentPSP_OrderPayment" Association="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment">
+            <End Role="OrderPayment" EntitySet="OrderPayments" />
+            <End Role="OrderPaymentPSP" EntitySet="OrderPaymentPSPs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
@@ -1174,6 +1304,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="OrderHeader" ToRole="UsedVoucher" />
           <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
+          <NavigationProperty Name="OrderDiscounts" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderHeader" FromRole="OrderHeader" ToRole="OrderDiscount" />
+          <NavigationProperty Name="OrderPayments" Relationship="DataWarehouseModel.FK_OrderPayments_OrderHeader" FromRole="OrderHeader" ToRole="OrderPayment" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1635,6 +1767,102 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderDiscount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderHeaderId" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountTypeAmount" Type="Int32" Nullable="false" />
+          <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="InitialDiscountReason" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDiscountType" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType" FromRole="OrderDiscount" ToRole="OrderDiscountType" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderHeader" FromRole="OrderDiscount" ToRole="OrderHeader" />
+        </EntityType>
+        <EntityType Name="OrderDiscountType">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDiscounts" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType" FromRole="OrderDiscountType" ToRole="OrderDiscount" />
+        </EntityType>
+        <EntityType Name="OrderPaymentPSP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderPaymentID" Type="Guid" />
+          <Property Name="PSPName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="UniqueTransactionRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="MerchantRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderPayment" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPaymentPSP" ToRole="OrderPayment" />
+        </EntityType>
+        <EntityType Name="OrderPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderHeaderID" Type="Guid" Nullable="false" />
+          <Property Name="PaymentType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <Property Name="AuthCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="CVVStatus" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="PayTypeName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="LastFourDigits" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="PayProcessor" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderPayments_OrderHeader" FromRole="OrderPayment" ToRole="OrderHeader" />
+          <NavigationProperty Name="OrderPaymentPSPs" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPayment" ToRole="OrderPaymentPSP" />
+        </EntityType>
+        <Association Name="FK_OrderDiscount_OrderDiscountType">
+          <End Type="DataWarehouseModel.OrderDiscountType" Role="OrderDiscountType" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderDiscount" Role="OrderDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDiscountType">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="OrderDiscount">
+              <PropertyRef Name="DiscountType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDiscount_OrderHeader">
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderDiscount" Role="OrderDiscount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDiscount">
+              <PropertyRef Name="OrderHeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPayments_OrderHeader">
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderPayment" Role="OrderPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderPayment">
+              <PropertyRef Name="OrderHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPaymentPSP_OrderPayment">
+          <End Type="DataWarehouseModel.OrderPayment" Role="OrderPayment" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.OrderPaymentPSP" Role="OrderPaymentPSP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderPayment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderPaymentPSP">
+              <PropertyRef Name="OrderPaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2007,6 +2235,52 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="awardedPoints" ColumnName="awardedPoints" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDiscounts">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderDiscount">
+              <MappingFragment StoreEntitySet="OrderDiscount">
+                <ScalarProperty Name="InitialDiscountReason" ColumnName="InitialDiscountReason" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="DiscountTypeAmount" ColumnName="DiscountTypeAmount" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OrderHeaderId" ColumnName="OrderHeaderId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDiscountTypes">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderDiscountType">
+              <MappingFragment StoreEntitySet="OrderDiscountType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderPaymentPSPs">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderPaymentPSP">
+              <MappingFragment StoreEntitySet="OrderPaymentPSP">
+                <ScalarProperty Name="MerchantRef" ColumnName="MerchantRef" />
+                <ScalarProperty Name="UniqueTransactionRef" ColumnName="UniqueTransactionRef" />
+                <ScalarProperty Name="PSPName" ColumnName="PSPName" />
+                <ScalarProperty Name="OrderPaymentID" ColumnName="OrderPaymentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderPayments">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderPayment">
+              <MappingFragment StoreEntitySet="OrderPayments">
+                <ScalarProperty Name="PayProcessor" ColumnName="PayProcessor" />
+                <ScalarProperty Name="LastFourDigits" ColumnName="LastFourDigits" />
+                <ScalarProperty Name="PayTypeName" ColumnName="PayTypeName" />
+                <ScalarProperty Name="CVVStatus" ColumnName="CVVStatus" />
+                <ScalarProperty Name="AuthCode" ColumnName="AuthCode" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="OrderHeaderID" ColumnName="OrderHeaderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

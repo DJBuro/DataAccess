@@ -53,5 +53,9 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<AndroWebTelemetry> AndroWebTelemetries { get; set; }
         public DbSet<AndroWebTelemetrySession> AndroWebTelemetrySessions { get; set; }
         public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
+        public DbSet<OrderDiscount> OrderDiscounts { get; set; }
+        public DbSet<OrderDiscountType> OrderDiscountTypes { get; set; }
+        public DbSet<OrderPaymentPSP> OrderPaymentPSPs { get; set; }
+        public DbSet<OrderPayment> OrderPayments { get; set; }
     }
 }

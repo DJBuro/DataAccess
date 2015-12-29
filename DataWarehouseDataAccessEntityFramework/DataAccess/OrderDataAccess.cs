@@ -25,11 +25,11 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 var query =
                     from oh in dataWarehouseEntities.OrderHeaders
                     where oh.ApplicationID == applicationId
-                    && oh.CustomerID == customerId
+                        && oh.CustomerID == customerId
                     orderby oh.OrderPlacedTime descending
                     select new DataWarehouseDataAccess.Domain.OrderHeader()
                     {
-                        Id = oh.ExternalOrderRef, // oh.RamesesOrderNum,
+                        Id = oh.ExternalOrderRef,
                         ForDateTime = oh.OrderWantedTime.Value,
                         Status = oh.Status,
                         Driver = oh.DriverName
@@ -49,6 +49,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
+                // Get the order header
                 var orderQuery =
                     from oh in dataWarehouseEntities.OrderHeaders
                     where oh.ApplicationID == applicationId
@@ -66,6 +67,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                 OrderDetails orderDetailsEntity = orderQuery.FirstOrDefault();
 
+                // Get the order lines
                 var orderLinesQuery =
                     from ol in dataWarehouseEntities.OrderLines
                     join oh in dataWarehouseEntities.OrderHeaders
@@ -75,7 +77,15 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         && oh.CustomerID == customerId
                     select ol;
 
-                var orderLines = orderLinesQuery.ToList();
+                // Get the order discounts
+                var orderDiscountsQuery =
+                    from od in dataWarehouseEntities.OrderDiscounts
+                    join oh in dataWarehouseEntities.OrderHeaders
+                        on od.OrderHeaderId equals oh.ID
+                    where oh.ID == orderDetailsEntity.Id
+                        && oh.ApplicationID == applicationId
+                        && oh.CustomerID == customerId
+                    select od;
 
                 // Prepare the results
                 orderDetails = new OrderDetails()
@@ -85,11 +95,13 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     OrderStatus = orderDetailsEntity.OrderStatus,
                     OrderTotal = orderDetailsEntity.OrderTotal,
                     OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
-                    Deals = new List<DataWarehouseDataAccess.Domain.OrderLine>()
+                    Deals = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
+                    Discounts = new List<DataWarehouseDataAccess.Domain.OrderDiscount>()
                 };
 
                 Dictionary<Guid, DataWarehouseDataAccess.Domain.OrderLine> dealsLookup = new Dictionary<Guid, DataWarehouseDataAccess.Domain.OrderLine>();
 
+                // Add order lines
                 foreach (var orderLineEntity in orderLinesQuery)
                 {
                     // Order line
@@ -101,7 +113,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         UnitPrice = orderLineEntity.Price.Value,
                         ChefNotes = "",
                         Person = "",
-                        Modifiers = new List<Modifier>()
+                        Modifiers = new List<Modifier>(),
+                        Cat1 = orderLineEntity.Cat1,
+                        Cat2 = orderLineEntity.Cat2
                     };
 
                     // Add toppings
@@ -163,6 +177,23 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         // It's a normal order line
                         orderDetails.OrderLines.Add(orderLine);
+                    }
+                }
+
+                // Add order discounts
+                if (orderDiscountsQuery != null)
+                {
+                    foreach (var orderLineEntity in orderDiscountsQuery)
+                    {
+                        // Order discount
+                        DataWarehouseDataAccess.Domain.OrderDiscount orderDiscount = new DataWarehouseDataAccess.Domain.OrderDiscount()
+                        {
+                            Amount = (int)(orderLineEntity.DiscountAmount * 100),
+                            Reason = orderLineEntity.InitialDiscountReason,
+                            Type = orderLineEntity.Type
+                        };
+
+                        orderDetails.Discounts.Add(orderDiscount);
                     }
                 }
             }

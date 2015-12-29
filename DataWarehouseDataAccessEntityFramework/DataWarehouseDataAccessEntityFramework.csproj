@@ -144,6 +144,12 @@
     <Compile Include="Model\modifier.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\OrderDiscount.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OrderDiscountType.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\OrderHeader.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
@@ -151,6 +157,12 @@
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderLoyalty.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OrderPayment.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OrderPaymentPSP.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderStatu.cs">

@@ -19,5 +19,6 @@ namespace DataWarehouseDataAccess.Domain
 
         public List<OrderLine> OrderLines { get; set; }
         public List<OrderLine> Deals { get; set; }
+        public List<OrderDiscount> Discounts { get; set; }
     }
 }
