@@ -6,8 +6,8 @@ using AndroCloudDataAccess.Domain;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface ISiteDataAccess
+    public interface IOrderDataAccess
     {
-        string Get(Guid securityGuid, Guid? chainGuid, float? maxDistance, float? longitude, float? latitude, out List<Site> sites);
+        string Get(Guid securityGuid, Guid orderGuid, out Order order);
     }
 }
