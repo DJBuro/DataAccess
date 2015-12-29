@@ -41,7 +41,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
-        public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<DeliveryAreaRoadRule> DeliveryAreaRoadRules { get; set; }
         public DbSet<Host> Hosts { get; set; }
         public DbSet<HostsV2> HostsV2 { get; set; }
@@ -50,5 +49,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<HubHost> HubHosts { get; set; }
         public DbSet<ACSApplication> ACSApplications { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
     }
 }
