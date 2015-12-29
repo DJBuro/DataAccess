@@ -504,7 +504,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationName = acsApplication.ExternalDisplayName,
                         DataVersion = acsApplication.DataVersion,
                         PartnerId = acsApplication.PartnerId,
-                        EnvironmentId = acsApplication.EnvironmentId
+                        EnvironmentId = acsApplication.EnvironmentId.GetValueOrDefault()
                     };
 
                     models.Add(model);

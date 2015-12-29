@@ -105,6 +105,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 if (site == null) { continue; }
 
                 site.EstimatedDeliveryTime = item.EstimatedTimeForDelivery;
+                site.EstimatedCollectionTime = item.EstimatedCollectionTime;
             }
 
             acsEntities.SaveChanges();

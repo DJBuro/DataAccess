@@ -85,15 +85,15 @@
         <EntityTypeShape EntityType="AndroAdminModel.StoreGPSSetting" Width="1.5" PointX="12.75" PointY="2.25" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreBringgSettings_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreDrivers_Store" />
-        <EntityTypeShape EntityType="AndroAdminModel.Environment" Width="1.5" PointX="3.375" PointY="4.875" />
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="5.625" PointY="11.125" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_ACSApplication" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Environment" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
         <AssociationConnector Association="AndroAdminModel.ACSApplicationHostsV2" />
         <AssociationConnector Association="AndroAdminModel.HostAcsApplication" />
+        <EntityTypeShape EntityType="AndroAdminModel.Environment" Width="1.5" PointX="3.375" PointY="12.375" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Environment" />
         </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />
