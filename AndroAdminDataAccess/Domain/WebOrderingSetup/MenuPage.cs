@@ -34,11 +34,17 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         /// <value>The is double toppings enabled.</value>
         public bool IsSingleToppingsOnlyEnabled { get; set; }
 
+        /// <summary>
+        /// Are topping swapping enabled 
+        /// </summary>
+        public bool AreToppingsSwapsEnabled { get; set; }
+
         public void DefaultMenuPage()
         {
             this.IsThumbnailsEnabled = true;
             this.IsQuantityDropdownEnabled = true;
             this.IsSingleToppingsOnlyEnabled = false;
+            this.AreToppingsSwapsEnabled = true;
         }
     }
 }
