@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\ICustomerGPSDataAccess.cs" />
     <Compile Include="DataAccess\ICustomerFeedbackDataAccess.cs" />
     <Compile Include="DataAccess\ITelemetryDataAccess.cs" />
     <Compile Include="DataAccess\IFeedbackDataAccess.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Domain\ACSErrorCode.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Contact.cs" />
+    <Compile Include="Domain\CustomerGPS.cs" />
     <Compile Include="Domain\CustomerAddress.cs" />
     <Compile Include="Domain\CustomerDAO.cs" />
     <Compile Include="Domain\CustomerLoyalty.cs" />

@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\CustomerGPSDataAccess.cs" />
     <Compile Include="DataAccess\TelemetryDataAccess.cs" />
     <Compile Include="DataAccess\FeedbackDataAccess.cs" />
     <Compile Include="DataAccess\OrderDataAccess.cs" />
@@ -121,6 +122,9 @@
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CustomerFeedbackCategory.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CustomerGP.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CustomerLoyalty.cs">

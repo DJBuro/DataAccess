@@ -133,13 +133,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\WebSites\MyAndromeda-dev-1.x\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\WebSites\AndroAdmin\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\WebSites\MyAndromeda-dev-1.x\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\WebSites\AndroAdmin\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Services\AndroCloudServices\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -167,6 +165,8 @@
     <Compile Include="DataAccess\IHostV2ForStoreDataService.cs" />
     <Compile Include="DataAccess\IHubListDAO.cs" />
     <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
+    <Compile Include="DataAccess\IStoreGPSSettingsDAO.cs" />
+    <Compile Include="DataAccess\IStoreDriverDAO.cs" />
     <Compile Include="DataAccess\IStoreMenuThumbnailsDataService.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
@@ -188,6 +188,8 @@
     <Compile Include="Domain\ACSApplicationEF.cs" />
     <Compile Include="Domain\AndroWebOrderingTheme.cs" />
     <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
+    <Compile Include="Domain\StoreDriver.cs" />
+    <Compile Include="Domain\StoreBringgSettings.cs" />
     <Compile Include="Domain\StoreHub.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
@@ -276,6 +278,8 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DataAccess\LoyaltyDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreGPSSettingsDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreDriverDAO.cs" />
     <Compile Include="EntityFramework\Day.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -355,6 +359,12 @@
     <Compile Include="EntityFramework\StoreDevice.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\StoreDriver.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\StoreGPSSetting.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\StoreHostV2ApiCredentials.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -374,9 +384,6 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreStatu.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\sysdiagram.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WebSiteConfigurations.cs" />

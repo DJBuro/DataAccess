@@ -18,6 +18,12 @@ namespace DataWarehouseDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
+        public ICustomerGPSDataAccess CustomerGPSDataAccess
+        {
+            get { return new CustomerGPSDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
+
         public IPasswordResetRequestDataAccess PasswordResetRequestDataAccess
         {
             get { return new PasswordResetRequestDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }

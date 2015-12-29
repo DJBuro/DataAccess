@@ -57,5 +57,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public virtual DbSet<OrderDiscountType> OrderDiscountTypes { get; set; }
         public virtual DbSet<OrderPaymentPSP> OrderPaymentPSPs { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
+        public virtual DbSet<CustomerGP> CustomerGPS { get; set; }
     }
 }

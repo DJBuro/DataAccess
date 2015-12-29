@@ -9,6 +9,7 @@ namespace DataWarehouseDataAccess
     public interface IDataAccessFactory
     {
         ICustomerDataAccess CustomerDataAccess { get; set; }
+        ICustomerGPSDataAccess CustomerGPSDataAccess { get; set; }
         IPasswordResetRequestDataAccess PasswordResetRequestDataAccess { get; set; }
         IOrderDataAccess OrderDataAccess { get; set; }
         IVoucherDataAccess VoucherDataAccess { get; set; }
