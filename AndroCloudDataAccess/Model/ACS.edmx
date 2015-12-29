@@ -137,6 +137,7 @@
           <Property Name="Version" Type="int" />
           <Property Name="MenuType" Type="varchar" MaxLength="8" />
           <Property Name="menuData" Type="text" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <EntityType Name="Sites">
           <Key>
@@ -393,6 +394,7 @@
           <Property Name="MenuType" Type="String" MaxLength="8" Unicode="false" FixedLength="false" />
           <Property Name="menuData" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenus" ToRole="Sites" />
+          <Property Type="DateTime" Name="LastUpdated" />
         </EntityType>
         <EntityType Name="Site">
           <Key>
@@ -569,7 +571,8 @@
             <ScalarProperty Name="ChainID" ColumnName="ChainID" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="SiteMenus"><EntityTypeMapping TypeName="ACSModel.SiteMenu"><MappingFragment StoreEntitySet="SiteMenus">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="SiteID" ColumnName="SiteID" />
             <ScalarProperty Name="Version" ColumnName="Version" />
             <ScalarProperty Name="MenuType" ColumnName="MenuType" />

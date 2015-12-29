@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using AndroCloudDataAccess.DataAccess;
 using AndroCloudDataAccess.Model;
@@ -7,31 +9,55 @@ namespace AndroCloudDataAccess.Domain
 {
     public class MenuDataAccess : IMenuDataAccess
     {
-        public bool Put(string sessionToken, string data)
+        public bool Put(string sessionToken, string data, int version)
         {
-            var e = new ACSEntities();
-
-            Guid sessiontoken = Guid.Parse(sessionToken);
-
-            var siteqry = from s in e.SiteMenus
-                       where s.Site.SessionID == sessiontoken
-                       select s;
-
-            Model.SiteMenu sitemenu = siteqry.FirstOrDefault();
-
-            if (sitemenu != null)
+            using (var e = new ACSEntities())
             {
 
-                sitemenu.menuData = data;
+                var sessiontoken = Guid.Parse(sessionToken);
 
-                e.SaveChanges();
+                var siteqry = from s in e.Sites
+                              where s.SessionID == sessiontoken
+                              select s;
 
-                return true;
+                Model.Site site = siteqry.FirstOrDefault();
+
+                if (site != null)
+                {
+                    var sitemenu = site.SiteMenus.FirstOrDefault();
+
+                    // Update the menu record
+                    if (sitemenu != null)
+                    {
+                        sitemenu.menuData = data;
+                        sitemenu.Version = version;
+                        sitemenu.LastUpdated = DateTime.UtcNow;
+                        try
+                        {
+                            return e.SaveChanges() != 0; // persist the entity changes to the database.
+                        }
+                        catch (OptimisticConcurrencyException)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // no menu record, add it ??
+                        // But we need to know the menu type ????
+
+                        var sm = new Model.SiteMenu
+                                     {MenuType = "XML", Version = version, menuData = data, SiteID = site.ID};
+
+                        site.SiteMenus.Add(sm);
+
+                        e.SaveChanges();
+                    }
+                }
+
+                return false;
             }
-
-            return false;
         }
-
 
         /// <summary>
         /// Get a menu
