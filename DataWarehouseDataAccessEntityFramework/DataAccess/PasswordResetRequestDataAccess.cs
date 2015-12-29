@@ -7,6 +7,7 @@ using DataWarehouseDataAccess.Domain;
 using System.Collections.Generic;
 using System.Transactions;
 using DataWarehouseDataAccessEntityFramework.Domain;
+using System.Configuration;
 
 namespace DataWarehouseDataAccessEntityFramework.DataAccess
 {
@@ -117,8 +118,11 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         else
                         {
                             // Is the request still valid?
+                            int passwordResetTokenTimeout = 60;
+                            int.TryParse(ConfigurationManager.AppSettings["PasswordResetTokenTimeoutMinutes"], out passwordResetTokenTimeout);
+
                             TimeSpan timespan = DateTime.UtcNow - passwordResetEntity.RequestedDateTime;
-                            if (timespan.Minutes > 30)
+                            if (timespan.Minutes > passwordResetTokenTimeout)
                             {
                                 return "Password reset request expired";
                             }
