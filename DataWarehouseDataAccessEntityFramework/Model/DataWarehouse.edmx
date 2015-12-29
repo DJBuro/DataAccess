@@ -197,6 +197,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="CustomerAddressID" Type="uniqueidentifier" />
           <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
           <Property Name="CookingInstructions" Type="nvarchar" MaxLength="128" />
+          <Property Name="DriverName" Type="nvarchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -1024,6 +1025,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CookingInstructions" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
+          <Property Name="DriverName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1632,6 +1634,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
                 <ScalarProperty Name="CookingInstructions" ColumnName="CookingInstructions" />
                 <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
                 <ScalarProperty Name="CustomerAddressID" ColumnName="CustomerAddressID" />
