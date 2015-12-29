@@ -12,20 +12,15 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class StorePaymentProvider
+    public partial class StoreDevice
     {
-        public StorePaymentProvider()
-        {
-            this.Stores = new HashSet<Store>();
-        }
-    
-        public int Id { get; set; }
-        public string ProviderName { get; set; }
-        public string ClientId { get; set; }
-        public string ClientPassword { get; set; }
-        public string DisplayText { get; set; }
+        public System.Guid Id { get; set; }
+        public int StoreId { get; set; }
+        public System.Guid DeviceId { get; set; }
+        public string Parameters { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual ICollection<Store> Stores { get; set; }
+        public virtual Device Device { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

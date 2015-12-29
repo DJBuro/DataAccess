@@ -52,8 +52,13 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
         public DbSet<StoreHubReset> StoreHubResets { get; set; }
         public DbSet<StoreMenu> StoreMenus { get; set; }
-        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
+        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<ExternalApi> ExternalApis { get; set; }
+        public DbSet<StoreDevice> StoreDevices { get; set; }
+        public DbSet<Chains_Parent_Child> Chains_Parent_Child { get; set; }
+        public DbSet<TrimedStore> TrimedStores { get; set; }
     }
 }
