@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
@@ -51,7 +53,43 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 dbContext.SaveChanges();
             }
+        }
 
+        public IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query)
+        {
+            IEnumerable<SiteMenu> results = Enumerable.Empty<SiteMenu>();
+            using (var dbContext = NewContext()) 
+            {
+                var table = dbContext.SiteMenus;
+
+                results = table.Include(e=> e.SiteMenuFtpBackup).Where(query).ToArray();
+
+            }
+            return results;
+        }
+
+        public void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true)
+        {
+            using (var dbContext = NewContext()) 
+            {
+                var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
+                dbItem.CheckToDownload = value;
+                siteMenuFtp.CheckToDownload = value;
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true)
+        {
+            using (var dbContext = NewContext())
+            {
+                var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
+                dbItem.CheckToUpload = value;
+                siteMenuFtp.CheckToUpload = value;
+
+                dbContext.SaveChanges();
+            }
         }
 
         public SiteMenu GetMenu(int andromedaSiteId)
@@ -90,6 +128,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             if (result.SiteMenuFtpBackupId == 0 || result.SiteMenuFtpBackupId== null) 
             {
                 result.SiteMenuFtpBackup = new SiteMenuFtpBackup();
+                dbContext.SaveChanges();
             }
 
             return result;

@@ -258,7 +258,9 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ItemId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="WebName" Type="nvarchar(max)" />
+          <Property Name="WebDescription" Type="nvarchar(max)" />
           <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="MenuItemInGroup">
@@ -331,6 +333,8 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="LastDownloadedDate" Type="datetime" />
           <Property Name="LastUploadedDate" Type="datetime" />
+          <Property Name="CheckToDownload" Type="bit" Nullable="false" />
+          <Property Name="CheckToUpload" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SiteMenuMediaProfile">
           <Key>
@@ -1099,10 +1103,12 @@
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="ItemId" Nullable="false" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="SiteMenuId" Nullable="false" />
           <NavigationProperty Name="SiteMenu" Relationship="MyAndromedaModel.FK_MenuItem_SiteMenu" FromRole="MenuItem" ToRole="SiteMenu" />
           <NavigationProperty Name="MenuItemThumbnailsLinkTables" Relationship="MyAndromedaModel.MenuItemThumbnailLinkTable" FromRole="MenuItem" ToRole="MenuItemThumbnailsLinkTable" />
+          <Property Type="String" Name="WebName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WebDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
@@ -1414,6 +1420,8 @@
           <Property Type="DateTime" Name="LastDownloadedDate" Precision="3" />
           <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackup" FromRole="SiteMenuFtpBackup" ToRole="SiteMenu" />
           <Property Type="DateTime" Name="LastUploadedDate" Precision="3" />
+          <Property Type="Boolean" Name="CheckToDownload" Nullable="false" />
+          <Property Type="Boolean" Name="CheckToUpload" Nullable="false" />
         </EntityType>
         <Association Name="FK_SiteMenu_SiteMenuFtpBackup">
           <End Type="MyAndromedaModel.SiteMenuFtpBackup" Role="SiteMenuFtpBackup" Multiplicity="0..1" />
@@ -1572,6 +1580,8 @@
           <EntitySetMapping Name="MenuItems">
             <EntityTypeMapping TypeName="MyAndromedaModel.MenuItem">
               <MappingFragment StoreEntitySet="MenuItem">
+                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
+                <ScalarProperty Name="WebName" ColumnName="WebName" />
                 <ScalarProperty Name="SiteMenuId" ColumnName="SiteMenuId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
@@ -1735,6 +1745,8 @@
           <EntitySetMapping Name="SiteMenuFtpBackups">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuFtpBackup">
               <MappingFragment StoreEntitySet="SiteMenuFtpBackup">
+                <ScalarProperty Name="CheckToUpload" ColumnName="CheckToUpload" />
+                <ScalarProperty Name="CheckToDownload" ColumnName="CheckToDownload" />
                 <ScalarProperty Name="LastUploadedDate" ColumnName="LastUploadedDate" />
                 <ScalarProperty Name="LastDownloadedDate" ColumnName="LastDownloadedDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
