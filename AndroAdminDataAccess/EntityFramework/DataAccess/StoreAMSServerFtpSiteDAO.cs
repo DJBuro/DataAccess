@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
-using System.Transactions;
 using System.Data.Entity;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
@@ -21,35 +19,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.Stores
-                            join sas in entitiesContext.StoreAMSServers
-                                .Include("StoreAMSServerFtpSites")
-                                .Include("StoreAMSServer")
-                                .Include("StoreAMSServer.Store")
-                                .Include("StoreAMSServer.Store.Address")
-                                .Include("StoreAMSServer.Store.Address.Country")
-                                .Include("StoreAMSServer.AMSServer")
-                                on s.Id equals sas.StoreId into _sas
-                                
-                                from sas in _sas.DefaultIfEmpty()
-                            select new
-                            {
-                                Id = s.Id,
-                                StoreName = s.Name,
-                                AndroStoreId = s.AndromedaSiteId,
-                                StoreStatus = s.StoreStatu.Status,
-                                AMSServerName = sas.AMSServer.Description,
-                                LastFTPUploadDateTime = s.LastFTPUploadDateTime,
-                                Country = s.Address.Country.CountryName
-                            };
+                var table = entitiesContext.StoreAMSServers
+                    .Include(e => e.Store)
+                    .Include(e => e.Store.StoreStatu)
+                    .Include(e => e.Store.Address)
+                    .Include(e => e.Store.Address.Country)
+                    .Include(e => e.AMSServer);
 
-                foreach (var entity in query)
+                var tableQuery = table.Select(s => new
+                {
+                    StoreId = s.Store.Id,
+                    StoreName = s.Store.Name,
+                    AndroStoreId = s.Store.AndromedaSiteId,
+                    StoreStatus = s.Store.StoreStatu.Status,
+                    AMSServerName = s.AMSServer.Description, // sas.AMSServer.Description,
+                    LastFTPUploadDateTime = s.Store.LastFTPUploadDateTime,
+                    Country = s.Store.Address.Country.CountryName
+                });
+
+                var result = tableQuery.ToArray();
+
+                foreach (var entity in result)
                 {
                     Domain.StoreAMSServerFtpSiteListItem storeAMSServerFtpSiteListItem = new StoreAMSServerFtpSiteListItem()
                     {
                         AMSServerName = entity.AMSServerName,
-                        FTPSite = "",
-                        StoreId = entity.Id,
+                        FTPSite = string.Empty,
+                        StoreId = entity.StoreId,
                         AndroStoreId = entity.AndroStoreId,
                         StoreStatus = entity.StoreStatus,
                         LastUploaded = entity.LastFTPUploadDateTime,
@@ -72,13 +68,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.StoreAMSServerFtpSites
-                            .Include("StoreAMSServer")
-                            .Include("StoreAMSServer.Store")
-                            .Include("StoreAMSServer.AMSServer")
-                            select s;
+                var table = entitiesContext.StoreAMSServerFtpSites
+                    .Include(e=> e.StoreAMSServer)
+                    .Include(e=> e.StoreAMSServer.Store)
+                    .Include(e=> e.StoreAMSServer.AMSServer)
+                    .Include(e=> e.FTPSite)
+                    .Include(e=> e.FTPSite.FTPSiteType);
 
-                foreach (var entity in query)
+                foreach (var entity in table)
                 {
                     Domain.FTPSite ftpSite = new Domain.FTPSite()
                     {
@@ -107,7 +104,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Description = entity.StoreAMSServer.AMSServer.Description
                     };
 
-                    Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()
+                    Domain.StoreAMSServer storeAmsServer = new Domain.StoreAMSServer()
                     {
                         Id = entity.StoreAMSServer.Id,
                         Priority = entity.StoreAMSServer.Priority,
@@ -119,7 +116,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     {
                         Id = entity.Id,
                         FTPSite = ftpSite,
-                        StoreAMSServer = storeAMSServer
+                        StoreAMSServer = storeAmsServer
                     };
 
                     models.Add(model);
@@ -133,20 +130,21 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.StoreAMSServerFtpSites
-                            .Include("StoreAMSServer.Store")
-                            .Include("StoreAMSServer.AMSServer")
-                            join sa in entitiesContext.StoreAMSServers
-                            on s.StoreAMSServerId equals sa.Id
-                            where siteId == sa.StoreId
-                            select s;
+                var table = entitiesContext.StoreAMSServerFtpSites
+                    .Include(e => e.StoreAMSServer)
+                    .Include(e => e.StoreAMSServer.Store)
+                    .Include(e => e.StoreAMSServer.AMSServer)
+                    .Include(e=> e.FTPSite)
+                    .Include(e=> e.FTPSite.FTPSiteType);
 
-                foreach (var entity in query)
+                var tableQuery = table.Where(e => e.StoreAMSServer.Store.Id == siteId);
+                var tableResult = tableQuery.ToArray();
+
+                foreach (var entity in tableResult)
                 {
                     Domain.FTPSite ftpSite = new Domain.FTPSite()
                     {
@@ -197,17 +195,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
-        public void Add(Domain.StoreAMSServerFtpSite storeAMSServerFtpSite)
+        public void Add(Domain.StoreAMSServerFtpSite storeAmsServerFtpSite)
         {
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                 StoreAMSServerFtpSite entity = new StoreAMSServerFtpSite()
                 {
-                    FTPSiteId = storeAMSServerFtpSite.FTPSite.Id,
-                    StoreAMSServerId = storeAMSServerFtpSite.StoreAMSServer.Id,
+                    FTPSiteId = storeAmsServerFtpSite.FTPSite.Id,
+                    StoreAMSServerId = storeAmsServerFtpSite.StoreAMSServer.Id,
                 };
 
                 entitiesContext.StoreAMSServerFtpSites.Add(entity);
@@ -215,19 +213,19 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public Domain.StoreAMSServerFtpSite GetBySiteIdAMSServerIdFTPSiteId(int storeAMSServerId, int ftpSiteId)
+        public Domain.StoreAMSServerFtpSite GetBySiteIdAMSServerIdFTPSiteId(int storeAmsServerId, int ftpSiteId)
         {
             Domain.StoreAMSServerFtpSite model = null;
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
-                            where storeAMSServerId == s.StoreAMSServerId
+                            where storeAmsServerId == s.StoreAMSServerId
                             && ftpSiteId == s.FTPSiteId
                             select s;
+
                 var entity = query.FirstOrDefault();
 
                 if (entity != null)
@@ -244,7 +242,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteByFTPSiteId(int ftpSiteId)
         {
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -264,7 +262,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteByAMSServerId(int amsServerId)
         {
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -284,7 +282,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteById(int id)
         {
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -306,18 +304,20 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.StoreAMSServerFtpSites.Include("StoreAMSServer")
-                                .Include("StoreAMSServer.Store")
-                                .Include("StoreAMSServer.AMSServer")
-                            where s.StoreAMSServerId == storeAMSServerId
-                            select s;
+                var table = entitiesContext.StoreAMSServerFtpSites
+                    .Include(e => e.StoreAMSServer)
+                    .Include(e => e.StoreAMSServer.Store)
+                    .Include(e => e.StoreAMSServer.AMSServer);
 
-                foreach (var entity in query)
+                var query = table.Where(s => s.StoreAMSServerId == storeAMSServerId);
+                var result = query.ToArray();
+
+                foreach (var entity in result)
                 {
                     Domain.FTPSite ftpSite = new Domain.FTPSite()
                     {
@@ -373,20 +373,21 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.StoreAMSServerFtpSite model = null;
 
-             
+
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.StoreAMSServerFtpSites
-                            .Include("StoreAMSServer.Store")
-                            .Include("StoreAMSServer.AMSServer")
-                            join sa in entitiesContext.StoreAMSServers
-                            on s.StoreAMSServerId equals sa.Id
-                            where id == s.Id
-                            select s;
+                var table = entitiesContext.StoreAMSServerFtpSites
+                    .Include(e=> e.StoreAMSServer)
+                    .Include(e=> e.StoreAMSServer.Store)
+                    .Include(e=> e.StoreAMSServer.AMSServer);
 
-                var entity = query.FirstOrDefault();
+                var tableQuery = table
+                    .Where(e => e.Id == id);
+
+                var entity = tableQuery.FirstOrDefault();
+
                 if (entity != null)
                 {
                     Domain.FTPSite ftpSite = new Domain.FTPSite()
