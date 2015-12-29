@@ -11,6 +11,6 @@ namespace DataWarehouseDataAccess.DataAccess
         string ConnectionStringOverride { get; set; }
         string GetByUsernamePassword(string username, string password, int applicationId, out DataWarehouseDataAccess.Domain.Customer customer);
         string AddCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
-        string UpdateCustomer(string username, string password, DataWarehouseDataAccess.Domain.Customer customer);
+        string UpdateCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
     }
 }

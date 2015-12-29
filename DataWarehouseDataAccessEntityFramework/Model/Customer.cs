@@ -23,7 +23,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
-        public int AddressId { get; set; }
+        public Nullable<int> AddressId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public int ACSAplicationId { get; set; }
