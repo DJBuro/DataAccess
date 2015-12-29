@@ -12,20 +12,20 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class MenuItemThumbnail
+    public partial class SiteMenuMediaProfile
     {
-        public MenuItemThumbnail()
+        public SiteMenuMediaProfile()
         {
-            this.MenuItemGroups = new HashSet<MenuItemGroup>();
+            this.SiteMenus = new HashSet<SiteMenu>();
+            this.SiteMenuMediaProfileSizes = new HashSet<SiteMenuMediaProfileSize>();
         }
     
-        public System.Guid Id { get; set; }
-        public string Src { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public string Alt { get; set; }
-        public string FileName { get; set; }
+        public int Id { get; set; }
+        public string Mode { get; set; }
+        public string Alignment { get; set; }
+        public string PaddingColour { get; set; }
     
-        public virtual ICollection<MenuItemGroup> MenuItemGroups { get; set; }
+        public virtual ICollection<SiteMenu> SiteMenus { get; set; }
+        public virtual ICollection<SiteMenuMediaProfileSize> SiteMenuMediaProfileSizes { get; set; }
     }
 }

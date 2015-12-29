@@ -20,4 +20,5 @@ namespace MyAndromedaDataAccess.Domain.Menus
         public MenuType MenuType { get; set; }
         public string MenuData { get; set; }
     }
+
 }
