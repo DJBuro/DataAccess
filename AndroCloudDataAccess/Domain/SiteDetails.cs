@@ -8,8 +8,7 @@ using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
-    [DataContract]
-    public class Site
+    public class SiteDetails
     {
         [JsonIgnore]
         [XmlIgnore]
@@ -34,5 +33,17 @@ namespace AndroCloudDataAccess.Domain
 
         [JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
+
+        [JsonProperty(PropertyName = "timeZone")]
+        public string TimeZone { get; set; }
+
+        [JsonProperty(PropertyName = "timeZone")]
+        public string Phone { get; set; }
+
+        [JsonProperty(PropertyName = "address")]
+        public Address Address { get; set; }
+
+        [JsonProperty(PropertyName = "openingHours")]
+        public List<TimeSpanBlock> OpeningHours { get; set; }
     }
 }

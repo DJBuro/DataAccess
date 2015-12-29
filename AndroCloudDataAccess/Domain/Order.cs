@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
-    [DataContract]
     public class Order
     {
-        [DataMember(Name = "orderId")]
+        [JsonProperty(PropertyName = "orderId")]
         public string OrderId { get; set;}
 
-        [DataMember(Name = "status")]
+        [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
     }
 }
