@@ -124,7 +124,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     AndromedaSiteId = entity.Store.AndromedaSiteId,
                     CustomerSiteId = entity.Store.CustomerSiteId,
                     LastFTPUploadDateTime = entity.Store.LastFTPUploadDateTime,
-                    Name = entity.Store.Name
+                    Name = entity.Store.Name,
+                    StoreStatus = new Domain.StoreStatus() { Id = entity.Store.StoreStatu.Id, Status = entity.Store.StoreStatu.Status, Description = entity.Store.StoreStatu.Description }
                 };
 
                 Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()
