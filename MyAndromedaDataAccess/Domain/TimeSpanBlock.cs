@@ -19,6 +19,7 @@ namespace MyAndromedaDataAccess.Domain
         [JsonProperty(PropertyName = "startTime")]
         public string StartTime { get; set; }
 
+
         [JsonProperty(PropertyName = "endTime")]
         public string EndTime { get; set; }
 

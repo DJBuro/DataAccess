@@ -70,30 +70,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                         };
                     }
 
-                    // Opening hours
-                    siteDetails.OpeningHours = new List<TimeSpanBlock>();
-                    var openingHours = entitiesContext.OpeningHours.Where(e => e.SiteId == siteId).Select(e => new { 
-                        e.Id, 
-                        e.Day.Description,
-                        e.TimeStart,
-                        e.TimeEnd,
-                        e.OpenAllDay
-                    }).ToArray();
-                   
-                    if (openingHours != null && openingHours.Length > 0)
-                    {
-                        foreach (var openingHour in openingHours)
-                        {
-                            TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
-                            timeSpanBlock.Id = openingHour.Id;
-                            timeSpanBlock.Day = openingHour.Description;
-                            timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
-                            timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
-                            timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
-
-                            siteDetails.OpeningHours.Add(timeSpanBlock);
-                        }
-                    }
+                    
                 }
             }
 

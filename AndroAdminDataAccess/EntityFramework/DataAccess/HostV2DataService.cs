@@ -58,6 +58,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 entity.Enabled = model.Enabled;
                 entity.HostTypeId = model.HostTypeId;
                 entity.DataVersion = dbContext.GetNextDataVersionForEntity();
+                
                 model.DataVersion = entity.DataVersion;
 
                 dbContext.SaveChanges();
