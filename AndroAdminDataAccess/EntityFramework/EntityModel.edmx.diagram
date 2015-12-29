@@ -75,6 +75,9 @@
         <AssociationConnector Association="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" />
         <EntityTypeShape EntityType="AndroAdminModel.sysdiagram" Width="1.5" PointX="8.375" PointY="6.75" />
         <AssociationConnector Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74" />
+        <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingWebsite" Width="1.5" PointX="8.75" PointY="10.875" />
+        <AssociationConnector Association="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB" />
+        <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" />
         </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />

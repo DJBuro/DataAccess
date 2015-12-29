@@ -78,6 +78,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="AMSServerId" Type="int" Nullable="false" />
           <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="AndroWebOrderingWebsite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChainId" Type="int" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
+          <Property Name="SubscriptionType" Type="int" Nullable="false" />
+          <Property Name="URL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ACSApplicationId" Type="int" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Chain">
           <Key>
             <PropertyRef Name="Id" />
@@ -423,6 +437,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK__AndroWebO__ACSAp__756D6ECB">
+          <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="1" />
+          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Chain__MasterMen__671F4F74">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="Chain" Type="Self.Chain" Multiplicity="*" />
@@ -531,6 +557,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AMSServerChain">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_Chain">
+          <End Role="Chain" Type="Self.Chain" Multiplicity="0..1" />
+          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
               <PropertyRef Name="ChainId" />
             </Dependent>
           </ReferentialConstraint>
@@ -942,6 +980,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AMSServer" EntityType="Self.AMSServer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AMSServerChain" EntityType="Self.AMSServerChain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AndroWebOrderingWebsite" EntityType="Self.AndroWebOrderingWebsite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chain" EntityType="Self.Chain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChainChain" EntityType="Self.ChainChain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
@@ -976,6 +1015,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreStatus" EntityType="Self.StoreStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AndroWebO__ACSAp__756D6ECB" Association="Self.FK__AndroWebO__ACSAp__756D6ECB">
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
+          </AssociationSet>
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="Self.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Store" />
             <End Role="Chain" EntitySet="Chain" />
@@ -1011,6 +1054,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_AMSServerChain_Chain" Association="Self.FK_AMSServerChain_Chain">
             <End Role="Chain" EntitySet="Chain" />
             <End Role="AMSServerChain" EntitySet="AMSServerChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="Self.FK_AndroWebOrderingWebsite_Chain">
+            <End Role="Chain" EntitySet="Chain" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
           </AssociationSet>
           <AssociationSet Name="FK_ChainChain_Chain" Association="Self.FK_ChainChain_Chain">
             <End Role="Chain" EntitySet="Chain" />
@@ -1322,6 +1369,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Store" EntitySet="Stores" />
             <End Role="Chain" EntitySet="Chains" />
           </AssociationSet>
+          <EntitySet Name="AndroWebOrderingWebsites" EntityType="AndroAdminModel.AndroWebOrderingWebsite" />
+          <AssociationSet Name="FK__AndroWebO__ACSAp__756D6ECB" Association="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
           <Key>
@@ -1349,6 +1405,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
           <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
@@ -1425,6 +1482,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
           <Property Name="MasterMenuId" Type="Int32" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Chain" ToRole="Store" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="Chain" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -2193,6 +2251,46 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AndroWebOrderingWebsite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChainId" Type="Int32" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="DisabledReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionType" Type="Int32" Nullable="false" />
+          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
+        </EntityType>
+        <Association Name="FK__AndroWebO__ACSAp__756D6ECB">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2646,6 +2744,21 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebOrderingWebsites">
+            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
+              <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+                <ScalarProperty Name="DisabledReason" ColumnName="DisabledReason" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
