@@ -77,6 +77,7 @@
     <Compile Include="DataAccess\IAndroUserDAO.cs" />
     <Compile Include="Domain\AndroUser.cs" />
     <Compile Include="Domain\Permission.cs" />
+    <Compile Include="Domain\PermissionEnum.cs" />
     <Compile Include="Domain\SecurityGroup.cs" />
     <Compile Include="EntityFramework\AndroUsersEntityModel.Context.cs">
       <AutoGen>True</AutoGen>

@@ -10,7 +10,9 @@ namespace AndroUsersDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
 
+        SecurityGroup GetById(int id);
         List<SecurityGroup> GetAll();
         string Add(Domain.SecurityGroup securityGroup);
+        string Update(Domain.SecurityGroup securityGroup);
     }
 }

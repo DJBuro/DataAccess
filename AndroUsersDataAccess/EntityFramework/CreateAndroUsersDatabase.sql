@@ -149,3 +149,58 @@ REFERENCES [dbo].[tbl_Project] ([id])
 GO
 ALTER TABLE [dbo].[tbl_AndroUserPermission] CHECK CONSTRAINT [FK_tbl_AndroUserPermission_tbl_Project]
 GO
+
+GO
+SET IDENTITY_INSERT [dbo].[Permission] ON 
+
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (2, N'ViewStores', N'View store details')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (3, N'AddStore', N'Add a new store')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (4, N'EditStore', N'Edit an existing store')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (5, N'ViewPaymentProviders', N'View payment providers')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (6, N'AddPaymentProvider', N'Add a new payment provider')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (7, N'ViewAMSStores', N'View AMS stores')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (8, N'EditAMSStore', N'Edit AMS stores')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (9, N'ViewAMSServers', N'View AMS servers')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (10, N'AddAMSServer', N'Add a new AMS server')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (11, N'EditAMSServer', N'Edit an existing AMS server')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (12, N'ViewFTPSites', N'View FTP sites')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (13, N'AddFTPSite', N'Add a new FTP site')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (14, N'EditFTPSite', N'Edit an existing FTP site')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (15, N'ViewACSPartners', N'View ACS partners')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (16, N'AddACSPartner', N'Add a new ACS partner')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (17, N'EditACSPartner', N'Edit an existing ACS partner')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (18, N'ViewCloudServers', N'View cloud servers')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (19, N'ViewAndroAdminLinks', N'View the links to the old Andro Admin websites')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (20, N'ViewUsers', N'View users')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (21, N'AddUser', N'Add a new user')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (22, N'EditUser', N'Edit an existing user')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (23, N'ViewSecurityGroups', N'View security groups')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (24, N'AddSecurityGroup', N'Add a new security group')
+GO
+INSERT [dbo].[Permission] ([Id], [Name], [Description]) VALUES (25, N'EditSecurityGroup', N'Edit an existing security group')
+GO
+SET IDENTITY_INSERT [dbo].[Permission] OFF
+GO
