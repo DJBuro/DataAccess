@@ -198,6 +198,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
           <Property Name="CookingInstructions" Type="nvarchar" MaxLength="128" />
           <Property Name="DriverName" Type="nvarchar" MaxLength="40" />
+          <Property Name="DriverId" Type="int" />
+          <Property Name="TicketNumber" Type="int" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -224,6 +226,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="PointsMoneyValueGained" Type="money" />
           <Property Name="PointsMoneyValueSpent" Type="money" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Applied" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -1026,6 +1029,8 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="CookingInstructions" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
+          <Property Name="DriverId" Type="Int32" />
+          <Property Name="TicketNumber" Type="Int32" />
           
         </EntityType>
         <EntityType Name="OrderLine">
@@ -1466,6 +1471,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
+          <Property Name="Applied" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_CustomerLoyalty_Customer">
           <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
@@ -1635,6 +1641,8 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
                 <ScalarProperty Name="DriverName" ColumnName="DriverName" />
                 <ScalarProperty Name="CookingInstructions" ColumnName="CookingInstructions" />
                 <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
@@ -1813,6 +1821,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderLoyalties">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderLoyalty">
               <MappingFragment StoreEntitySet="OrderLoyalty">
+                <ScalarProperty Name="Applied" ColumnName="Applied" />
                 <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="PointsMoneyValueSpent" ColumnName="PointsMoneyValueSpent" />
                 <ScalarProperty Name="PointsMoneyValueGained" ColumnName="PointsMoneyValueGained" />

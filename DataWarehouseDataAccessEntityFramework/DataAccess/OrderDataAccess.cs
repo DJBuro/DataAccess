@@ -90,7 +90,14 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string UpdateOrderStatus(int ramesesOrderNumber, string externalSiteID, int ramesesOrderStatusId, string driverName)
+        public string UpdateOrderStatus
+        (
+            int ramesesOrderNumber, 
+            string externalSiteID, 
+            int ramesesOrderStatusId, 
+            string driverName,
+            int driverId,
+            int ticketNumber)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {
@@ -115,6 +122,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 if (!String.IsNullOrEmpty(driverName))
                 {
                     orderHeaderEntity.DriverName = driverName;
+                    orderHeaderEntity.DriverId = driverId;
+                    orderHeaderEntity.TicketNumber = ticketNumber;
                 }
 
                 // Update the order status history
@@ -125,7 +134,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         Id = Guid.NewGuid(),
                         OrderHeaderId = orderHeaderEntity.ID,
                         Status = ramesesOrderStatusId,
-                        ChangedDateTime = DateTime.UtcNow
+                        ChangedDateTime = DateTime.UtcNow,
                     }
                 );
 
@@ -154,10 +163,11 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     order = new DataWarehouseDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
-                    order.StoreOrderId = acsQueryEntity.ExternalOrderRef;
-                    order.InternetOrderNumber = acsQueryEntity.RamesesOrderNum;
+                    order.StoreOrderId = acsQueryEntity.RamesesOrderNum.ToString();
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.Id;
                     order.Driver = acsQueryEntity.DriverName;
+                    order.DriverId = acsQueryEntity.DriverId;
+                    order.TicketNumber = acsQueryEntity.TicketNumber;
                 }
             }
 

@@ -19,10 +19,6 @@ namespace DataWarehouseDataAccess.Domain
         [XmlElement(ElementName = "Status")]
         public int RamesesStatusId { get; set; }
 
-        [JsonIgnore]
-        [XmlIgnore]
-        public int InternetOrderNumber { get; set; }
-
         [JsonProperty(PropertyName = "storeOrderId")]
         [XmlElement(ElementName = "storeOrderId")]
         public string StoreOrderId { get; set; }
@@ -34,6 +30,14 @@ namespace DataWarehouseDataAccess.Domain
         [JsonProperty(PropertyName = "driver")]
         [XmlElement(ElementName = "Driver")]
         public string Driver { get; set; }
+
+        [JsonProperty(PropertyName = "driverId")]
+        [XmlElement(ElementName = "DriverId")]
+        public int? DriverId { get; set; }
+
+        [JsonProperty(PropertyName = "ticketNumber")]
+        [XmlElement(ElementName = "TicketNumber")]
+        public int? TicketNumber { get; set; }
 
         public Order()
         {
