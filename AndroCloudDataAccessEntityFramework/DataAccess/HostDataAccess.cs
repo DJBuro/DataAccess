@@ -161,6 +161,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 var acsQuery = acsTable
                     .Where(e=> e.Public)
                     .Where(query)
+                    .OrderBy(e=> e.HostType.Name)
+                    .ThenBy(e=> e.Order)
                     .ToArray();
 
                 results = acsQuery;
@@ -182,6 +184,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 var acsQuery = acsTable
                     .Where(query)
+                    .OrderBy(e => e.HostType.Name)
+                    .ThenBy(e => e.Order)
                     .ToArray();
 
                 results = acsQuery;
