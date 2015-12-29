@@ -12,6 +12,6 @@ namespace DataWarehouseDataAccess.DataAccess
         string GetByUsernamePassword(string username, string password, int applicationId, out DataWarehouseDataAccess.Domain.Customer customer);
         string Exists(string username, int applicationId, out bool exists);
         string AddCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
-        string UpdateCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
+        string UpdateCustomer(string username, string password, string newPassword, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
     }
 }
