@@ -398,6 +398,10 @@
       <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
       <Name>MyAndromeda.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
+      <Project>{2F4679FC-4B16-4B28-BA25-2223C597DF32}</Project>
+      <Name>MyAndromeda.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MyAndromedaDataAccess\MyAndromedaDataAccess.csproj">
       <Project>{f1a21a41-2038-40ab-bcd9-d7374a0aee80}</Project>
       <Name>MyAndromedaDataAccess</Name>
