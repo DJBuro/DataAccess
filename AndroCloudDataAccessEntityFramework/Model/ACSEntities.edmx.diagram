@@ -5,34 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2f8a3ec02a3a49cfb8cf8e70de5e3586" Name="Diagram1" ZoomLevel="94">
-        <EntityTypeShape EntityType="ACSModel.ACSApplication" Width="1.5" PointX="5.25" PointY="2.25" />
-        <EntityTypeShape EntityType="ACSModel.ACSApplicationSite" Width="1.5" PointX="7.5" PointY="8.625" />
-        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="12.75" PointY="5" />
-        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="8.25" PointY="3.625" />
-        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="3" PointY="8.875" />
-        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="12.75" PointY="9" />
-        <EntityTypeShape EntityType="ACSModel.Country" Width="1.5" PointX="0.75" PointY="10.625" />
-        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.25" PointY="15.75" />
-        <EntityTypeShape EntityType="ACSModel.DeliveryArea" Width="1.5" PointX="7.5" PointY="11.75" />
-        <EntityTypeShape EntityType="ACSModel.DeliveryAreaRoad" Width="1.5" PointX="10.5" PointY="10" />
-        <EntityTypeShape EntityType="ACSModel.DeliveryAreaRoadRule" Width="1.5" PointX="8.25" PointY="17.75" />
-        <EntityTypeShape EntityType="ACSModel.DeliveryAreaTown" Width="1.5" PointX="7.5" PointY="20.625" />
-        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="12.75" PointY="13" />
-        <EntityTypeShape EntityType="ACSModel.HostsV2" Width="1.5" PointX="13" PointY="1.25" />
-        <EntityTypeShape EntityType="ACSModel.HostType" Width="1.5" PointX="10.75" PointY="1.625" />
-        <EntityTypeShape EntityType="ACSModel.HubHost" Width="1.5" PointX="3" PointY="6.125" />
-        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="7.5" PointY="14.375" />
-        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="10.5" PointY="6.125" />
-        <EntityTypeShape EntityType="ACSModel.OrderStatu" Width="1.5" PointX="8.25" PointY="0.75" />
-        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="3" PointY="2.75" />
-        <EntityTypeShape EntityType="ACSModel.Setting" Width="1.5" PointX="9.75" PointY="14" />
-        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="7.5" PointY="25.25" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.25" PointY="8.625" />
-        <EntityTypeShape EntityType="ACSModel.SiteStatus" Width="1.5" PointX="3" PointY="15.5" />
-        <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="3" PointY="18" />
+        <EntityTypeShape EntityType="ACSModel.ACSApplication" Width="1.5" PointX="11" PointY="5.25" />
+        <EntityTypeShape EntityType="ACSModel.ACSApplicationSite" Width="1.5" PointX="10.875" PointY="13.375" />
+        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="5.25" PointY="20.125" />
+        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="3" PointY="10.75" />
+        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ACSModel.Country" Width="1.5" PointX="0.75" PointY="12.5" />
+        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.25" PointY="24.625" />
+        <EntityTypeShape EntityType="ACSModel.DeliveryArea" Width="1.5" PointX="7.5" PointY="21.875" />
+        <EntityTypeShape EntityType="ACSModel.DeliveryAreaTown" Width="1.5" PointX="7.5" PointY="4.25" />
+        <EntityTypeShape EntityType="ACSModel.HostType" Width="1.5" PointX="15.75" PointY="8" />
+        <EntityTypeShape EntityType="ACSModel.HubHost" Width="1.5" PointX="3" PointY="7.875" />
+        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="7.5" PointY="16.125" />
+        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="7.5" PointY="12" />
+        <EntityTypeShape EntityType="ACSModel.OrderStatu" Width="1.5" PointX="5.25" PointY="17.5" />
+        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="3" PointY="4.375" />
+        <EntityTypeShape EntityType="ACSModel.Setting" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="7.5" PointY="27.75" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.25" PointY="10.5" />
+        <EntityTypeShape EntityType="ACSModel.SiteStatus" Width="1.5" PointX="3" PointY="17.5" />
+        <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="3" PointY="20" />
         <AssociationConnector Association="ACSModel.FK_ACSApplication_Partners" />
         <AssociationConnector Association="ACSModel.FK_ACSApplicationSite_ACSApplication" />
-        <AssociationConnector Association="ACSModel.FK_DeliveryAreaRoad_ACSApplication" />
         <AssociationConnector Association="ACSModel.FK_DeliveryAreaTown_ACSApplication" />
         <AssociationConnector Association="ACSModel.FK_ACSApplicationSite_Sites" />
         <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" />
@@ -40,9 +35,6 @@
         <AssociationConnector Association="ACSModel.FK_Sites_Addresses" />
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" />
         <AssociationConnector Association="ACSModel.FK_DeliveryArea_DeliveryArea" />
-        <AssociationConnector Association="ACSModel.FK_DeliveryAreaRoad_DeliveryAreaRoadRule" />
-        <AssociationConnector Association="ACSModel.FK_DeliveryAreaRoad_Sites" />
-        <AssociationConnector Association="ACSModel.FK_HostsV2_HostTypes" />
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" />
         <AssociationConnector Association="ACSModel.FK_Orders_OrderStatus" />
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" />
@@ -50,8 +42,25 @@
         <AssociationConnector Association="ACSModel.FK_Sites_SiteStatuses" />
         <AssociationConnector Association="ACSModel.FK_Sites_StorePaymentProvider" />
         <AssociationConnector Association="ACSModel.SiteHubs" />
-      </Diagram>
+        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="7.1183316796637754" PointY="14.607505522019931" />
+        <EntityTypeShape EntityType="ACSModel.HostsV2" Width="1.5" PointX="1.3862954552221556" PointY="18.417987966173325" />
+        <AssociationConnector Association="ACSModel.FK_HostsV2_HostTypes" />
+        <AssociationConnector Association="ACSModel.AcsApplicationHosts" />
+        <AssociationConnector Association="ACSModel.AcsApplicationHostsV2" />
+        <EntityTypeShape EntityType="ACSModel.DeliveryAreaRoad" Width="1.5" PointX="0.48610483132587035" PointY="27.748566029476265" />
+        <AssociationConnector Association="ACSModel.FK_DeliveryAreaRoad_ACSApplication" />
+        <AssociationConnector Association="ACSModel.FK_DeliveryAreaRoad_Sites" />
+        </Diagram>
       <Diagram DiagramId="a0dcccb03707476f90349de2c058e74d" Name="Menu" >
+      </Diagram>
+      <Diagram DiagramId="e8c8ed7d43b041a1a8e0cb3ee83bb2f6" Name="Deliver" ZoomLevel="63" >
+        <EntityTypeShape EntityType="ACSModel.DeliveryArea" Width="1.5" PointX="8.375" PointY="9.75" />
+        <EntityTypeShape EntityType="ACSModel.DeliveryAreaTown" Width="1.5" PointX="2.75" PointY="5.625" />
+        <EntityTypeShape EntityType="ACSModel.ACSApplication" Width="1.5" PointX="5" PointY="5.625" />
+        <AssociationConnector Association="ACSModel.FK_DeliveryAreaTown_ACSApplication" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="10.5" PointY="4.625" />
+        <AssociationConnector Association="ACSModel.FK_DeliveryArea_DeliveryArea" />
+        <EntityTypeShape EntityType="ACSModel.DeliveryAreaRoadRule" Width="1.5" PointX="6.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
