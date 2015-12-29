@@ -15,7 +15,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                var query = from s in entitiesContext.StoreStatus1
+                var query = from s in entitiesContext.StoreStatus
                             select s;
 
                 foreach (var entity in query)

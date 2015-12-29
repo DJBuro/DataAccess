@@ -6,18 +6,82 @@
     <edmx:StorageModels>
     <Schema Namespace="AndroAdminModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AndroAdminModelStoreContainer">
+          <EntitySet Name="ACSApplication" EntityType="AndroAdminModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Address" EntityType="AndroAdminModel.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AMSServer" EntityType="AndroAdminModel.Store.AMSServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FTPSite" EntityType="AndroAdminModel.Store.FTPSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FTPSiteType" EntityType="AndroAdminModel.Store.FTPSiteType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Group" EntityType="AndroAdminModel.Store.Group" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Host" EntityType="AndroAdminModel.Store.Host" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Log" EntityType="AndroAdminModel.Store.Log" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MyAndromedaUser" EntityType="AndroAdminModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MyAndromedaUserGroup" EntityType="AndroAdminModel.Store.MyAndromedaUserGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MyAndromedaUserStore" EntityType="AndroAdminModel.Store.MyAndromedaUserStore" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OpeningHour" EntityType="AndroAdminModel.Store.OpeningHour" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Partner" EntityType="AndroAdminModel.Store.Partner" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Settings" EntityType="AndroAdminModel.Store.Settings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Store" EntityType="AndroAdminModel.Store.Store" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFTPSitePair" EntityType="AndroAdminModel.Store.StoreAMSServerFTPSitePair" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreGroup" EntityType="AndroAdminModel.Store.StoreGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreMenu" EntityType="AndroAdminModel.Store.StoreMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.Store.FK_ACSApplication_Partner">
+            <End Role="Partner" EntitySet="Partner" />
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.Store.FK_ACSApplicationSite_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.Store.FK_ACSApplicationSite_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSite" />
+          </AssociationSet>
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.Store.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteType" />
             <End Role="FTPSite" EntitySet="FTPSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Partner" Association="AndroAdminModel.Store.FK_Group_Partner">
+            <End Role="Partner" EntitySet="Partner" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserGroup_Group" Association="AndroAdminModel.Store.FK_MyAndromedaUserGroup_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="MyAndromedaUserGroup" EntitySet="MyAndromedaUserGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserGroup_MyAndromedaUser" Association="AndroAdminModel.Store.FK_MyAndromedaUserGroup_MyAndromedaUser">
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
+            <End Role="MyAndromedaUserGroup" EntitySet="MyAndromedaUserGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserStore_MyAndromedaUser" Association="AndroAdminModel.Store.FK_MyAndromedaUserStore_MyAndromedaUser">
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
+            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStore" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserStore_Store" Association="AndroAdminModel.Store.FK_MyAndromedaUserStore_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStore" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHour_Day" Association="AndroAdminModel.Store.FK_OpeningHour_Day">
+            <End Role="Day" EntitySet="Day" />
+            <End Role="OpeningHour" EntitySet="OpeningHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHour_Store" Association="AndroAdminModel.Store.FK_OpeningHour_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="OpeningHour" EntitySet="OpeningHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Address" Association="AndroAdminModel.Store.FK_Store_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_StorePaymentProvider" Association="AndroAdminModel.Store.FK_Store_StorePaymentProvider">
+            <End Role="StorePaymentProvider" EntitySet="StorePaymentProvider" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_Store_StoreStatus" Association="AndroAdminModel.Store.FK_Store_StoreStatus">
             <End Role="StoreStatus" EntitySet="StoreStatus" />
@@ -55,7 +119,68 @@
             <End Role="StoreAMSServer" EntitySet="StoreAMSServer" />
             <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSite" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreGroup_Group" Association="AndroAdminModel.Store.FK_StoreGroup_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="StoreGroup" EntitySet="StoreGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreGroup_Store" Association="AndroAdminModel.Store.FK_StoreGroup_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreGroup" EntitySet="StoreGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.Store.FK_StoreMenu_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreMenu" EntitySet="StoreMenu" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ACSApplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ExternalApplicationId" Type="nvarchar" Nullable="false" MaxLength="40" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ACSApplicationSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="ACSApplicationId" Type="int" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'AndroAdmin.dbo.Address' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
+      -->
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Org1" Type="nvarchar" MaxLength="64" />
+          <Property Name="Org2" Type="nvarchar" MaxLength="64" />
+          <Property Name="Org3" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem1" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem2" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem3" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem4" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem5" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem6" Type="nvarchar" MaxLength="64" />
+          <Property Name="RoadNum" Type="nvarchar" MaxLength="16" />
+          <Property Name="RoadName" Type="nvarchar" MaxLength="64" />
+          <Property Name="Locality" Type="nvarchar" MaxLength="64" />
+          <Property Name="Town" Type="nvarchar" MaxLength="64" />
+          <Property Name="County" Type="nvarchar" MaxLength="64" />
+          <Property Name="State" Type="nvarchar" MaxLength="64" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="16" />
+          <Property Name="DPS" Type="nvarchar" MaxLength="4" />
+          <Property Name="Country" Type="nvarchar" MaxLength="64" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Long" Type="float" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="AMSServer">
           <Key>
             <PropertyRef Name="Id" />
@@ -63,6 +188,25 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="3500" />
+        </EntityType>
+        <EntityType Name="Day">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="int" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="64" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="64" />
+          <Property Name="Role" Type="nvarchar" MaxLength="32" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="32" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="FTPSite">
           <Key>
@@ -85,6 +229,27 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PartnerId" Type="int" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="64" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Port" Type="int" Nullable="false" />
+          <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Log">
           <Key>
             <PropertyRef Name="id" />
@@ -97,6 +262,62 @@
           <Property Name="Source" Type="nvarchar" MaxLength="50" />
           <Property Name="Created" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="MyAndromedaUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUserGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MyAndromedaUserId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUserStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MyAndromedaUserId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OpeningHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="TimeStart" Type="time" Nullable="false" />
+          <Property Name="TimeEnd" Type="time" Nullable="false" />
+          <Property Name="OpenAllDay" Type="bit" Nullable="false" />
+          <Property Name="DayId" Type="int" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
         <EntityType Name="Store">
           <Key>
             <PropertyRef Name="Id" />
@@ -107,6 +328,16 @@
           <Property Name="CustomerSiteId" Type="nvarchar" MaxLength="50" />
           <Property Name="LastFTPUploadDateTime" Type="datetime" />
           <Property Name="StoreStatusId" Type="int" Nullable="false" />
+          <Property Name="ClientSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="ExternalSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="EstimatedDeliveryTime" Type="int" />
+          <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
+          <Property Name="LicenseKey" Type="nvarchar" MaxLength="64" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="StorePaymentProviderID" Type="int" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -136,6 +367,35 @@
           <Property Name="PrimaryFTPSiteId" Type="int" />
           <Property Name="SecondaryFTPSiteId" Type="int" />
         </EntityType>
+        <EntityType Name="StoreGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="int" />
+          <Property Name="Version" Type="int" />
+          <Property Name="MenuType" Type="nvarchar" MaxLength="8" />
+          <Property Name="MenuData" Type="text" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProviderName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="StoreStatus">
           <Key>
             <PropertyRef Name="Id" />
@@ -144,6 +404,42 @@
           <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="25" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
         </EntityType>
+        <Association Name="FK_ACSApplication_Partner">
+          <End Role="Partner" Type="AndroAdminModel.Store.Partner" Multiplicity="1" />
+          <End Role="ACSApplication" Type="AndroAdminModel.Store.ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_ACSApplication">
+          <End Role="ACSApplication" Type="AndroAdminModel.Store.ACSApplication" Multiplicity="1" />
+          <End Role="ACSApplicationSite" Type="AndroAdminModel.Store.ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1" />
+          <End Role="ACSApplicationSite" Type="AndroAdminModel.Store.ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FTPSite_FTPSiteType">
           <End Role="FTPSiteType" Type="AndroAdminModel.Store.FTPSiteType" Multiplicity="1" />
           <End Role="FTPSite" Type="AndroAdminModel.Store.FTPSite" Multiplicity="*" />
@@ -153,6 +449,114 @@
             </Principal>
             <Dependent Role="FTPSite">
               <PropertyRef Name="FTPSiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Partner">
+          <End Role="Partner" Type="AndroAdminModel.Store.Partner" Multiplicity="0..1" />
+          <End Role="Group" Type="AndroAdminModel.Store.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserGroup_Group">
+          <End Role="Group" Type="AndroAdminModel.Store.Group" Multiplicity="1" />
+          <End Role="MyAndromedaUserGroup" Type="AndroAdminModel.Store.MyAndromedaUserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserGroup_MyAndromedaUser">
+          <End Role="MyAndromedaUser" Type="AndroAdminModel.Store.MyAndromedaUser" Multiplicity="1" />
+          <End Role="MyAndromedaUserGroup" Type="AndroAdminModel.Store.MyAndromedaUserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyAndromedaUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserGroup">
+              <PropertyRef Name="MyAndromedaUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserStore_MyAndromedaUser">
+          <End Role="MyAndromedaUser" Type="AndroAdminModel.Store.MyAndromedaUser" Multiplicity="1" />
+          <End Role="MyAndromedaUserStore" Type="AndroAdminModel.Store.MyAndromedaUserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyAndromedaUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserStore">
+              <PropertyRef Name="MyAndromedaUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserStore_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1" />
+          <End Role="MyAndromedaUserStore" Type="AndroAdminModel.Store.MyAndromedaUserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserStore">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHour_Day">
+          <End Role="Day" Type="AndroAdminModel.Store.Day" Multiplicity="1" />
+          <End Role="OpeningHour" Type="AndroAdminModel.Store.OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Day">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="DayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHour_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1" />
+          <End Role="OpeningHour" Type="AndroAdminModel.Store.OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Address">
+          <End Role="Address" Type="AndroAdminModel.Store.Address" Multiplicity="0..1" />
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_StorePaymentProvider">
+          <End Role="StorePaymentProvider" Type="AndroAdminModel.Store.StorePaymentProvider" Multiplicity="0..1" />
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StorePaymentProvider">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="StorePaymentProviderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -264,39 +668,100 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreGroup_Group">
+          <End Role="Group" Type="AndroAdminModel.Store.Group" Multiplicity="1" />
+          <End Role="StoreGroup" Type="AndroAdminModel.Store.StoreGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreGroup_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1" />
+          <End Role="StoreGroup" Type="AndroAdminModel.Store.StoreGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreGroup">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreMenu_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="0..1" />
+          <End Role="StoreMenu" Type="AndroAdminModel.Store.StoreMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreMenu">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AndroAdminModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
+          <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
+          <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
           <EntitySet Name="AMSServers" EntityType="AndroAdminModel.AMSServer" />
-          <EntitySet Name="Logs" EntityType="AndroAdminModel.Log" />
-          <EntitySet Name="Stores" EntityType="AndroAdminModel.Store" />
-          <EntitySet Name="StoreAMSServerFTPSitePairs" EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" />
-          <AssociationSet Name="FK_StoreAMSServerFTPServerPair_AMSServer" Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer">
-            <End Role="AMSServer" EntitySet="AMSServers" />
-            <End Role="StoreAMSServerFTPSitePair" EntitySet="StoreAMSServerFTPSitePairs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreAMSServerFTPServerPair_Store" Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreAMSServerFTPSitePair" EntitySet="StoreAMSServerFTPSitePairs" />
-          </AssociationSet>
+          <EntitySet Name="Days" EntityType="AndroAdminModel.Day" />
+          <EntitySet Name="Employees" EntityType="AndroAdminModel.Employee" />
+          <EntitySet Name="FTPSites" EntityType="AndroAdminModel.FTPSite" />
           <EntitySet Name="FTPSiteTypes" EntityType="AndroAdminModel.FTPSiteType" />
+          <EntitySet Name="Groups" EntityType="AndroAdminModel.Group" />
+          <EntitySet Name="Hosts" EntityType="AndroAdminModel.Host" />
+          <EntitySet Name="Logs" EntityType="AndroAdminModel.Log" />
+          <EntitySet Name="MyAndromedaUsers" EntityType="AndroAdminModel.MyAndromedaUser" />
+          <EntitySet Name="MyAndromedaUserGroups" EntityType="AndroAdminModel.MyAndromedaUserGroup" />
+          <EntitySet Name="MyAndromedaUserStores" EntityType="AndroAdminModel.MyAndromedaUserStore" />
+          <EntitySet Name="OpeningHours" EntityType="AndroAdminModel.OpeningHour" />
+          <EntitySet Name="Partners" EntityType="AndroAdminModel.Partner" />
+          <EntitySet Name="Settings" EntityType="AndroAdminModel.Setting" />
+          <EntitySet Name="Stores" EntityType="AndroAdminModel.Store" />
           <EntitySet Name="StoreAMSServers" EntityType="AndroAdminModel.StoreAMSServer" />
           <EntitySet Name="StoreAMSServerFtpSites" EntityType="AndroAdminModel.StoreAMSServerFtpSite" />
+          <EntitySet Name="StoreAMSServerFTPSitePairs" EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" />
+          <EntitySet Name="StoreGroups" EntityType="AndroAdminModel.StoreGroup" />
+          <EntitySet Name="StoreMenus" EntityType="AndroAdminModel.StoreMenu" />
+          <EntitySet Name="StorePaymentProviders" EntityType="AndroAdminModel.StorePaymentProvider" />
+          <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.StoreStatu" />
+          <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.FK_ACSApplication_Partner">
+            <End Role="Partner" EntitySet="Partners" />
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.FK_ACSApplicationSite_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Address" Association="AndroAdminModel.FK_Store_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreAMSServer_AMSServer" Association="AndroAdminModel.FK_StoreAMSServer_AMSServer">
             <End Role="AMSServer" EntitySet="AMSServers" />
             <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
           </AssociationSet>
-          <AssociationSet Name="FK_StoreAMSServer_Store" Association="AndroAdminModel.FK_StoreAMSServer_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
+          <AssociationSet Name="FK_StoreAMSServerFTPServerPair_AMSServer" Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer">
+            <End Role="AMSServer" EntitySet="AMSServers" />
+            <End Role="StoreAMSServerFTPSitePair" EntitySet="StoreAMSServerFTPSitePairs" />
           </AssociationSet>
-          <AssociationSet Name="FK_StoreAMSServerFtpSite_StoreAMSServer" Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer">
-            <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
-            <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSites" />
+          <AssociationSet Name="FK_OpeningHour_Day" Association="AndroAdminModel.FK_OpeningHour_Day">
+            <End Role="Day" EntitySet="Days" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
-          <EntitySet Name="FTPSites" EntityType="AndroAdminModel.FTPSite" />
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteTypes" />
             <End Role="FTPSite" EntitySet="FTPSites" />
@@ -313,153 +778,144 @@
             <End Role="FTPSite" EntitySet="FTPSites" />
             <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSites" />
           </AssociationSet>
-          <EntitySet Name="StoreStatus1" EntityType="AndroAdminModel.StoreStatus" />
-          <AssociationSet Name="FK_Store_StoreStatus" Association="AndroAdminModel.FK_Store_StoreStatus">
-            <End Role="StoreStatu" EntitySet="StoreStatus1" />
+          <AssociationSet Name="FK_Group_Partner" Association="AndroAdminModel.FK_Group_Partner">
+            <End Role="Partner" EntitySet="Partners" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserGroup_Group" Association="AndroAdminModel.FK_MyAndromedaUserGroup_Group">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="MyAndromedaUserGroup" EntitySet="MyAndromedaUserGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreGroup_Group" Association="AndroAdminModel.FK_StoreGroup_Group">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="StoreGroup" EntitySet="StoreGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserGroup_MyAndromedaUser" Association="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser">
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
+            <End Role="MyAndromedaUserGroup" EntitySet="MyAndromedaUserGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserStore_MyAndromedaUser" Association="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser">
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
+            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUserStore_Store" Association="AndroAdminModel.FK_MyAndromedaUserStore_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHour_Store" Association="AndroAdminModel.FK_OpeningHour_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_StorePaymentProvider" Association="AndroAdminModel.FK_Store_StorePaymentProvider">
+            <End Role="StorePaymentProvider" EntitySet="StorePaymentProviders" />
             <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
+          <AssociationSet Name="FK_Store_StoreStatus" Association="AndroAdminModel.FK_Store_StoreStatus">
+            <End Role="StoreStatu" EntitySet="StoreStatus" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAMSServer_Store" Association="AndroAdminModel.FK_StoreAMSServer_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAMSServerFTPServerPair_Store" Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreAMSServerFTPSitePair" EntitySet="StoreAMSServerFTPSitePairs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreGroup_Store" Association="AndroAdminModel.FK_StoreGroup_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreGroup" EntitySet="StoreGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.FK_StoreMenu_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreMenu" EntitySet="StoreMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAMSServerFtpSite_StoreAMSServer" Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer">
+            <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
+            <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSites" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ACSApplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ExternalApplicationId" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PartnerId" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
+          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
+        </EntityType>
+        <EntityType Name="ACSApplicationSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="Int32" Name="ACSApplicationId" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="ACSApplicationSite" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Lat" />
+          <Property Type="Double" Name="Long" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Address" FromRole="Address" ToRole="Store" />
+        </EntityType>
         <EntityType Name="AMSServer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="3500" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" FromRole="AMSServer" ToRole="StoreAMSServerFTPSitePair" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="3500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_AMSServer" FromRole="AMSServer" ToRole="StoreAMSServer" />
+          <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" FromRole="AMSServer" ToRole="StoreAMSServerFTPSitePair" />
         </EntityType>
-        <EntityType Name="Log">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StoreId" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Severity" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Message" Type="String" MaxLength="3500" Unicode="true" FixedLength="false" />
-          <Property Name="Method" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="Source" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Created" Type="DateTime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Store">
+        <EntityType Name="Day">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
-          <Property Name="AndromedaSiteId" Type="Int32" Nullable="false" />
-          <Property Name="CustomerSiteId" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastFTPUploadDateTime" Type="DateTime" />
-          <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="Store" ToRole="StoreAMSServerFTPSitePair" />
-          <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
-          <Property Type="Int32" Name="StoreStatusId" Nullable="false" />
-          <NavigationProperty Name="StoreStatu" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="Store" ToRole="StoreStatu" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Day" FromRole="Day" ToRole="OpeningHour" />
         </EntityType>
-        <EntityType Name="StoreAMSServerFTPSitePair">
+        <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StoreId" Type="Int32" Nullable="false" />
-          <Property Name="Priority" Type="Int32" Nullable="false" />
-          <Property Name="AMSServerId" Type="Int32" Nullable="false" />
-          <Property Name="PrimaryFTPSiteId" Type="Int32" />
-          <Property Name="SecondaryFTPSiteId" Type="Int32" />
-          <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" FromRole="StoreAMSServerFTPSitePair" ToRole="AMSServer" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="StoreAMSServerFTPSitePair" ToRole="Store" />
-          <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite" FromRole="StoreAMSServerFTPSitePair" ToRole="FTPSite" />
-          <NavigationProperty Name="FTPSite1" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite1" FromRole="StoreAMSServerFTPSitePair" ToRole="FTPSite" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" />
+          <Property Type="String" Name="Firstname" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Surname" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Role" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Notes" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK_StoreAMSServerFTPServerPair_AMSServer">
-          <End Role="AMSServer" Type="AndroAdminModel.AMSServer" Multiplicity="1" />
-          <End Role="StoreAMSServerFTPSitePair" Type="AndroAdminModel.StoreAMSServerFTPSitePair" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AMSServer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreAMSServerFTPSitePair">
-              <PropertyRef Name="AMSServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreAMSServerFTPServerPair_Store">
-          <End Role="Store" Type="AndroAdminModel.Store" Multiplicity="1" />
-          <End Role="StoreAMSServerFTPSitePair" Type="AndroAdminModel.StoreAMSServerFTPSitePair" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreAMSServerFTPSitePair">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="FTPSiteType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FTPSites" Relationship="AndroAdminModel.FK_FTPSite_FTPSiteType" FromRole="FTPSiteType" ToRole="FTPSite" />
-        </EntityType>
-        <EntityType Name="StoreAMSServer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <Property Type="Int32" Name="Priority" Nullable="false" />
-          <Property Type="Int32" Name="AMSServerId" Nullable="false" />
-          <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_StoreAMSServer_AMSServer" FromRole="StoreAMSServer" ToRole="AMSServer" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="StoreAMSServer" ToRole="Store" />
-          <NavigationProperty Name="StoreAMSServerFtpSites" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" FromRole="StoreAMSServer" ToRole="StoreAMSServerFtpSite" />
-        </EntityType>
-        <EntityType Name="StoreAMSServerFtpSite">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="StoreAMSServerId" Nullable="false" />
-          <Property Type="Int32" Name="FTPSiteId" Nullable="false" />
-          <NavigationProperty Name="StoreAMSServer" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" FromRole="StoreAMSServerFtpSite" ToRole="StoreAMSServer" />
-          <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="StoreAMSServerFtpSite" ToRole="FTPSite" />
-        </EntityType>
-        <Association Name="FK_StoreAMSServer_AMSServer">
-          <End Type="AndroAdminModel.AMSServer" Role="AMSServer" Multiplicity="1" />
-          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AMSServer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreAMSServer">
-              <PropertyRef Name="AMSServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreAMSServer_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
-          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreAMSServer">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreAMSServerFtpSite_StoreAMSServer">
-          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="1" />
-          <End Type="AndroAdminModel.StoreAMSServerFtpSite" Role="StoreAMSServerFtpSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StoreAMSServer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreAMSServerFtpSite">
-              <PropertyRef Name="StoreAMSServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FTPSite">
           <Key>
             <PropertyRef Name="Id" />
@@ -478,6 +934,310 @@
           <NavigationProperty Name="StoreAMSServerFTPSitePairs1" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite1" FromRole="FTPSite" ToRole="StoreAMSServerFTPSitePair" />
           <NavigationProperty Name="StoreAMSServerFtpSites" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="FTPSite" ToRole="StoreAMSServerFtpSite" />
         </EntityType>
+        <EntityType Name="FTPSiteType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FTPSites" Relationship="AndroAdminModel.FK_FTPSite_FTPSiteType" FromRole="FTPSiteType" ToRole="FTPSite" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PartnerId" />
+          <Property Type="String" Name="GroupName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
+          <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_Group_Partner" FromRole="Group" ToRole="Partner" />
+          <NavigationProperty Name="MyAndromedaUserGroups" Relationship="AndroAdminModel.FK_MyAndromedaUserGroup_Group" FromRole="Group" ToRole="MyAndromedaUserGroup" />
+          <NavigationProperty Name="StoreGroups" Relationship="AndroAdminModel.FK_StoreGroup_Group" FromRole="Group" ToRole="StoreGroup" />
+        </EntityType>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Int32" Name="Port" Nullable="false" />
+          <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="StoreId" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Severity" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Message" MaxLength="3500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Method" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Source" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MyAndromedaUserGroups" Relationship="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser" FromRole="MyAndromedaUser" ToRole="MyAndromedaUserGroup" />
+          <NavigationProperty Name="MyAndromedaUserStores" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser" FromRole="MyAndromedaUser" ToRole="MyAndromedaUserStore" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUserGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="MyAndromedaUserId" Nullable="false" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="AndroAdminModel.FK_MyAndromedaUserGroup_Group" FromRole="MyAndromedaUserGroup" ToRole="Group" />
+          <NavigationProperty Name="MyAndromedaUser" Relationship="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser" FromRole="MyAndromedaUserGroup" ToRole="MyAndromedaUser" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUserStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="MyAndromedaUserId" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <NavigationProperty Name="MyAndromedaUser" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser" FromRole="MyAndromedaUserStore" ToRole="MyAndromedaUser" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_Store" FromRole="MyAndromedaUserStore" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="OpeningHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="Time" Name="TimeStart" Nullable="false" Precision="7" />
+          <Property Type="Time" Name="TimeEnd" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="OpenAllDay" Nullable="false" />
+          <Property Type="Int32" Name="DayId" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="Day" Relationship="AndroAdminModel.FK_OpeningHour_Day" FromRole="OpeningHour" ToRole="Day" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_OpeningHour_Store" FromRole="OpeningHour" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="Partner" ToRole="ACSApplication" />
+          <NavigationProperty Name="Groups" Relationship="AndroAdminModel.FK_Group_Partner" FromRole="Partner" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AndromedaSiteId" Nullable="false" />
+          <Property Type="String" Name="CustomerSiteId" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastFTPUploadDateTime" Precision="3" />
+          <Property Type="Int32" Name="StoreStatusId" Nullable="false" />
+          <Property Type="String" Name="ClientSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="EstimatedDeliveryTime" />
+          <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LicenseKey" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AddressId" />
+          <Property Type="Int32" Name="StorePaymentProviderID" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="Store" ToRole="ACSApplicationSite" />
+          <NavigationProperty Name="Address" Relationship="AndroAdminModel.FK_Store_Address" FromRole="Store" ToRole="Address" />
+          <NavigationProperty Name="MyAndromedaUserStores" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_Store" FromRole="Store" ToRole="MyAndromedaUserStore" />
+          <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Store" FromRole="Store" ToRole="OpeningHour" />
+          <NavigationProperty Name="StorePaymentProvider" Relationship="AndroAdminModel.FK_Store_StorePaymentProvider" FromRole="Store" ToRole="StorePaymentProvider" />
+          <NavigationProperty Name="StoreStatu" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="Store" ToRole="StoreStatu" />
+          <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
+          <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="Store" ToRole="StoreAMSServerFTPSitePair" />
+          <NavigationProperty Name="StoreGroups" Relationship="AndroAdminModel.FK_StoreGroup_Store" FromRole="Store" ToRole="StoreGroup" />
+          <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
+        </EntityType>
+        <EntityType Name="StoreAMSServer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Int32" Name="AMSServerId" Nullable="false" />
+          <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_StoreAMSServer_AMSServer" FromRole="StoreAMSServer" ToRole="AMSServer" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="StoreAMSServer" ToRole="Store" />
+          <NavigationProperty Name="StoreAMSServerFtpSites" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" FromRole="StoreAMSServer" ToRole="StoreAMSServerFtpSite" />
+        </EntityType>
+        <EntityType Name="StoreAMSServerFtpSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StoreAMSServerId" Nullable="false" />
+          <Property Type="Int32" Name="FTPSiteId" Nullable="false" />
+          <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="StoreAMSServerFtpSite" ToRole="FTPSite" />
+          <NavigationProperty Name="StoreAMSServer" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" FromRole="StoreAMSServerFtpSite" ToRole="StoreAMSServer" />
+        </EntityType>
+        <EntityType Name="StoreAMSServerFTPSitePair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Int32" Name="AMSServerId" Nullable="false" />
+          <Property Type="Int32" Name="PrimaryFTPSiteId" />
+          <Property Type="Int32" Name="SecondaryFTPSiteId" />
+          <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" FromRole="StoreAMSServerFTPSitePair" ToRole="AMSServer" />
+          <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite" FromRole="StoreAMSServerFTPSitePair" ToRole="FTPSite" />
+          <NavigationProperty Name="FTPSite1" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite1" FromRole="StoreAMSServerFTPSitePair" ToRole="FTPSite" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="StoreAMSServerFTPSitePair" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="AndroAdminModel.FK_StoreGroup_Group" FromRole="StoreGroup" ToRole="Group" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreGroup_Store" FromRole="StoreGroup" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StoreId" />
+          <Property Type="Int32" Name="Version" />
+          <Property Type="String" Name="MenuType" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MenuData" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="StoreMenu" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientPassword" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StorePaymentProvider" FromRole="StorePaymentProvider" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_ACSApplication_Partner">
+          <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_ACSApplication">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Address">
+          <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAMSServer_AMSServer">
+          <End Type="AndroAdminModel.AMSServer" Role="AMSServer" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AMSServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAMSServer">
+              <PropertyRef Name="AMSServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAMSServerFTPServerPair_AMSServer">
+          <End Type="AndroAdminModel.AMSServer" Role="AMSServer" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreAMSServerFTPSitePair" Role="StoreAMSServerFTPSitePair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AMSServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAMSServerFTPSitePair">
+              <PropertyRef Name="AMSServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHour_Day">
+          <End Type="AndroAdminModel.Day" Role="Day" Multiplicity="1" />
+          <End Type="AndroAdminModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Day">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="DayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FTPSite_FTPSiteType">
           <End Type="AndroAdminModel.FTPSiteType" Role="FTPSiteType" Multiplicity="1" />
           <End Type="AndroAdminModel.FTPSite" Role="FTPSite" Multiplicity="*" />
@@ -526,17 +1286,104 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="StoreStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
-        </EntityType>
+        <Association Name="FK_Group_Partner">
+          <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserGroup_Group">
+          <End Type="AndroAdminModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="AndroAdminModel.MyAndromedaUserGroup" Role="MyAndromedaUserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreGroup_Group">
+          <End Type="AndroAdminModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreGroup" Role="StoreGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserGroup_MyAndromedaUser">
+          <End Type="AndroAdminModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="1" />
+          <End Type="AndroAdminModel.MyAndromedaUserGroup" Role="MyAndromedaUserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyAndromedaUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserGroup">
+              <PropertyRef Name="MyAndromedaUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserStore_MyAndromedaUser">
+          <End Type="AndroAdminModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="1" />
+          <End Type="AndroAdminModel.MyAndromedaUserStore" Role="MyAndromedaUserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyAndromedaUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserStore">
+              <PropertyRef Name="MyAndromedaUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUserStore_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.MyAndromedaUserStore" Role="MyAndromedaUserStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MyAndromedaUserStore">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHour_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_StorePaymentProvider">
+          <End Type="AndroAdminModel.StorePaymentProvider" Role="StorePaymentProvider" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StorePaymentProvider">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="StorePaymentProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Store_StoreStatus">
-          <End Type="AndroAdminModel.StoreStatus" Role="StoreStatu" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreStatu" Role="StoreStatu" Multiplicity="1" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="StoreStatu">
@@ -547,61 +1394,289 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_StoreAMSServer_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAMSServer">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAMSServerFTPServerPair_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreAMSServerFTPSitePair" Role="StoreAMSServerFTPSitePair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAMSServerFTPSitePair">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreGroup_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreGroup" Role="StoreGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreGroup">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreMenu_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.StoreMenu" Role="StoreMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreMenu">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAMSServerFtpSite_StoreAMSServer">
+          <End Type="AndroAdminModel.StoreAMSServer" Role="StoreAMSServer" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreAMSServerFtpSite" Role="StoreAMSServerFtpSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreAMSServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAMSServerFtpSite">
+              <PropertyRef Name="StoreAMSServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AndroAdminModelStoreContainer" CdmEntityContainer="AndroAdminEntities">
+          <EntitySetMapping Name="ACSApplications">
+            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
+              <MappingFragment StoreEntitySet="ACSApplication">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACSApplicationSites">
+            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplicationSite">
+              <MappingFragment StoreEntitySet="ACSApplicationSite">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="AndroAdminModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="DPS" ColumnName="DPS" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="RoadName" ColumnName="RoadName" />
+                <ScalarProperty Name="RoadNum" ColumnName="RoadNum" />
+                <ScalarProperty Name="Prem6" ColumnName="Prem6" />
+                <ScalarProperty Name="Prem5" ColumnName="Prem5" />
+                <ScalarProperty Name="Prem4" ColumnName="Prem4" />
+                <ScalarProperty Name="Prem3" ColumnName="Prem3" />
+                <ScalarProperty Name="Prem2" ColumnName="Prem2" />
+                <ScalarProperty Name="Prem1" ColumnName="Prem1" />
+                <ScalarProperty Name="Org3" ColumnName="Org3" />
+                <ScalarProperty Name="Org2" ColumnName="Org2" />
+                <ScalarProperty Name="Org1" ColumnName="Org1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AMSServers">
             <EntityTypeMapping TypeName="AndroAdminModel.AMSServer">
               <MappingFragment StoreEntitySet="AMSServer">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Logs">
-            <EntityTypeMapping TypeName="AndroAdminModel.Log">
-              <MappingFragment StoreEntitySet="Log">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Severity" ColumnName="Severity" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Method" ColumnName="Method" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Stores">
-            <EntityTypeMapping TypeName="AndroAdminModel.Store">
-              <MappingFragment StoreEntitySet="Store">
-                <ScalarProperty Name="StoreStatusId" ColumnName="StoreStatusId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
-                <ScalarProperty Name="CustomerSiteId" ColumnName="CustomerSiteId" />
-                <ScalarProperty Name="LastFTPUploadDateTime" ColumnName="LastFTPUploadDateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StoreAMSServerFTPSitePairs">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreAMSServerFTPSitePair">
-              <MappingFragment StoreEntitySet="StoreAMSServerFTPSitePair">
+          <EntitySetMapping Name="Days">
+            <EntityTypeMapping TypeName="AndroAdminModel.Day">
+              <MappingFragment StoreEntitySet="Day">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="AMSServerId" ColumnName="AMSServerId" />
-                <ScalarProperty Name="PrimaryFTPSiteId" ColumnName="PrimaryFTPSiteId" />
-                <ScalarProperty Name="SecondaryFTPSiteId" ColumnName="SecondaryFTPSiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="AndroAdminModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FTPSites">
+            <EntityTypeMapping TypeName="AndroAdminModel.FTPSite">
+              <MappingFragment StoreEntitySet="FTPSite">
+                <ScalarProperty Name="FTPSiteType_Id" ColumnName="FTPSiteType_Id" />
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ServerType" ColumnName="ServerType" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FTPSiteTypes">
             <EntityTypeMapping TypeName="AndroAdminModel.FTPSiteType">
               <MappingFragment StoreEntitySet="FTPSiteType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="AndroAdminModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hosts">
+            <EntityTypeMapping TypeName="AndroAdminModel.Host">
+              <MappingFragment StoreEntitySet="Host">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="PrivateHostName" ColumnName="PrivateHostName" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="AndroAdminModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyAndromedaUsers">
+            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaUser">
+              <MappingFragment StoreEntitySet="MyAndromedaUser">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyAndromedaUserGroups">
+            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaUserGroup">
+              <MappingFragment StoreEntitySet="MyAndromedaUserGroup">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="MyAndromedaUserId" ColumnName="MyAndromedaUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyAndromedaUserStores">
+            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaUserStore">
+              <MappingFragment StoreEntitySet="MyAndromedaUserStore">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="MyAndromedaUserId" ColumnName="MyAndromedaUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpeningHours">
+            <EntityTypeMapping TypeName="AndroAdminModel.OpeningHour">
+              <MappingFragment StoreEntitySet="OpeningHour">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="DayId" ColumnName="DayId" />
+                <ScalarProperty Name="OpenAllDay" ColumnName="OpenAllDay" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partners">
+            <EntityTypeMapping TypeName="AndroAdminModel.Partner">
+              <MappingFragment StoreEntitySet="Partner">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="AndroAdminModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="AndroAdminModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="StorePaymentProviderID" ColumnName="StorePaymentProviderID" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="LicenseKey" ColumnName="LicenseKey" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
+                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
+                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
+                <ScalarProperty Name="StoreStatusId" ColumnName="StoreStatusId" />
+                <ScalarProperty Name="LastFTPUploadDateTime" ColumnName="LastFTPUploadDateTime" />
+                <ScalarProperty Name="CustomerSiteId" ColumnName="CustomerSiteId" />
+                <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -626,23 +1701,52 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FTPSites">
-            <EntityTypeMapping TypeName="AndroAdminModel.FTPSite">
-              <MappingFragment StoreEntitySet="FTPSite">
-                <ScalarProperty Name="FTPSiteType_Id" ColumnName="FTPSiteType_Id" />
-                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="ServerType" ColumnName="ServerType" />
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="StoreAMSServerFTPSitePairs">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreAMSServerFTPSitePair">
+              <MappingFragment StoreEntitySet="StoreAMSServerFTPSitePair">
+                <ScalarProperty Name="SecondaryFTPSiteId" ColumnName="SecondaryFTPSiteId" />
+                <ScalarProperty Name="PrimaryFTPSiteId" ColumnName="PrimaryFTPSiteId" />
+                <ScalarProperty Name="AMSServerId" ColumnName="AMSServerId" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StoreStatus1">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreStatus">
+          <EntitySetMapping Name="StoreGroups">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreGroup">
+              <MappingFragment StoreEntitySet="StoreGroup">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreMenus">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreMenu">
+              <MappingFragment StoreEntitySet="StoreMenu">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="MenuData" ColumnName="MenuData" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StorePaymentProviders">
+            <EntityTypeMapping TypeName="AndroAdminModel.StorePaymentProvider">
+              <MappingFragment StoreEntitySet="StorePaymentProvider">
+                <ScalarProperty Name="ClientPassword" ColumnName="ClientPassword" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreStatus">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreStatu">
               <MappingFragment StoreEntitySet="StoreStatus">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -670,57 +1774,57 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityModel">
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="3" PointY="5.25" Height="1.9802864583333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="2.125" PointY="7.875" Height="2.3648893229166656" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="5.5" PointY="3.375" Height="2.7494921874999996" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" Width="1.5" PointX="3" PointY="1.375" Height="2.9417936197916656" IsExpanded="true" />
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" ManuallyRouted="false">
-          <ConnectorPoint PointX="3.75" PointY="5.25" />
-          <ConnectorPoint PointX="3.75" PointY="4.3167936197916665" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.5" PointY="3.8458968098958328" />
-          <ConnectorPoint PointX="4.5" PointY="3.8458968098958328" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="0.75" PointY="5.25" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="8" PointY="5" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="8" PointY="0.5" Height="1.9802864583333317" />
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_AMSServer" >
-          <ConnectorPoint PointX="4.5" PointY="6.7086393229166656" />
-          <ConnectorPoint PointX="8" PointY="6.7086393229166656" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_Store" >
-          <ConnectorPoint PointX="7" PointY="5.56224609375" />
-          <ConnectorPoint PointX="8" PointY="5.56224609375" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" >
-          <ConnectorPoint PointX="8.75" PointY="5" />
-          <ConnectorPoint PointX="8.75" PointY="2.4802864583333317" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="0.75" PointY="1" Height="3.5186979166666674" />
-        <AssociationConnector Association="AndroAdminModel.FK_FTPSite_FTPSiteType" >
-          <ConnectorPoint PointX="1.5" PointY="5.25" />
-          <ConnectorPoint PointX="1.5" PointY="4.5186979166666674" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite" >
-          <ConnectorPoint PointX="2.25" PointY="2.8458968098958337" />
-          <ConnectorPoint PointX="3" PointY="2.8458968098958337" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite1" >
-          <ConnectorPoint PointX="2.25" PointY="2.0479484049479169" />
-          <ConnectorPoint PointX="3" PointY="2.0479484049479169" />
-        </AssociationConnector>
-        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" >
-          <ConnectorPoint PointX="1.5" PointY="1" />
-          <ConnectorPoint PointX="1.5" PointY="0.74999949999999993" />
-          <ConnectorPoint PointX="8" PointY="0.74999949999999993" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="AndroAdminModel.StoreStatus" Width="1.5" PointX="5.5" PointY="1" Height="1.7879850260416674" />
-        <AssociationConnector Association="AndroAdminModel.FK_Store_StoreStatus" >
-          <ConnectorPoint PointX="6.25" PointY="2.7879850260416674" />
-          <ConnectorPoint PointX="6.25" PointY="3.375" />
-        </AssociationConnector>
+      <Diagram Name="EntityModel" ZoomLevel="85">
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="3.5" PointY="30" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="6" PointY="30.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="9" PointY="30.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="13.125" PointY="41.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="17.375" PointY="46.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="10.118035766351053" PointY="26.126785007364482" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="1.125" PointY="35.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="4.8276388909796433" PointY="13.742315477571598" />
+        <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="8.0081208702214628" PointY="19.589955353918466" />
+        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="21.5" PointY="41.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="21.875" PointY="44" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="15.375" PointY="41.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="17.75" PointY="43.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserStore" Width="1.5" PointX="7" PointY="47.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="15.375" PointY="46.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="17" PointY="50" />
+        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="21.75" PointY="47" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="13.125" PointY="48.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="10.75" PointY="45.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="11" PointY="42" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" Width="1.5" PointX="13.125" PointY="44.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreGroup" Width="1.5" PointX="15.875" PointY="52.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="8" PointY="48.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="13.125" PointY="55.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="16.75" PointY="57.625" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_Address" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_AMSServer" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" />
+        <AssociationConnector Association="AndroAdminModel.FK_OpeningHour_Day" />
+        <AssociationConnector Association="AndroAdminModel.FK_FTPSite_FTPSiteType" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_FTPSite1" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" />
+        <AssociationConnector Association="AndroAdminModel.FK_Group_Partner" />
+        <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserGroup_Group" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreGroup_Group" />
+        <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser" />
+        <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser" />
+        <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserStore_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_OpeningHour_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_StorePaymentProvider" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_StoreStatus" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreGroup_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreMenu_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" />
       </Diagram>
     </Diagrams>
   </Designer>
