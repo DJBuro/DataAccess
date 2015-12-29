@@ -18,8 +18,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             siteDetails = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var sitesQuery = from s in acsEntities.Sites
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID

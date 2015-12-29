@@ -10,6 +10,7 @@ using AndroCloudWCFHelper;
 using AndroCloudHelper;
 using CloudSyncModel;
 using System.Data.Common;
+using System.Transactions;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -21,126 +22,131 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             string errorMessage = "";
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                acsEntities.Connection.Open();
-
-                using (DbTransaction transaction = acsEntities.Connection.BeginTransaction())
+                //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+                using (ACSEntities acsEntities = new ACSEntities())
                 {
-                    // Update the data version.  We're using this as a guard to prevent multiple simultanous syncs
-                    bool success = DataVersionHelper.SetVersion(syncModel.FromDataVersion, syncModel.ToDataVersion, acsEntities, transaction);
+                    DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                    // Did we successfully update the version
-                    if (!success)
+                    acsEntities.Database.Connection.Open();
+
+                    using (DbTransaction transaction = acsEntities.Database.Connection.BeginTransaction())
                     {
-                        // Someone probably sneaked in and applied another sync
-                        transaction.Rollback();
+                        // Update the data version.  We're using this as a guard to prevent multiple simultanous syncs
+                        bool success = DataVersionHelper.SetVersion(syncModel.FromDataVersion, syncModel.ToDataVersion, acsEntities, transaction);
 
-                        return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
-                    }
-
-                    // Update all stores in the local db that have changed on the server
-                    foreach (CloudSyncModel.Store store in syncModel.Stores)
-                    {
-                        // Does the site already exist?
-                        ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                        AndroCloudDataAccess.Domain.Site existingSite = null;
-                        sitesDataAccess.GetByAndromedaSiteId(store.AndromedaSiteId, out existingSite);
-
-                        if (existingSite == null)
+                        // Did we successfully update the version
+                        if (!success)
                         {
-                            // Site does not exist.  Create it
-                            this.AddSite(acsEntities, store);
-                        }
-                        else
-                        {
-                            // The site already exists.  Update it
-                            this.UpdateSite(acsEntities, store);
-                        }
-                    }
+                            // Someone probably sneaked in and applied another sync
+                            transaction.Rollback();
 
-                    // Update all partners in the local db that have changed on the server
-                    foreach (CloudSyncModel.Partner partner in syncModel.Partners)
-                    {
-                        // Does the partner exist?
-                        IPartnersDataAccess partnersDataAccess = new PartnersDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                        AndroCloudDataAccess.Domain.Partner existingPartner = null;
-                        partnersDataAccess.GetById(partner.Id, out existingPartner);
-
-                        int? partnerId = null;
-
-                        if (existingPartner == null)
-                        {
-                            // Partner does not exist.  Create it
-                            this.AddPartner(acsEntities, partner, out partnerId);
-                        }
-                        else
-                        {
-                            // The partner already exists.  Update it
-                            this.UpdatePartner(acsEntities, partner);
-                            partnerId = existingPartner.Id;
+                            return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
                         }
 
-                        ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-
-                        // Update all the partners applications
-                        foreach (CloudSyncModel.Application application in partner.Applications)
+                        // Update all stores in the local db that have changed on the server
+                        foreach (CloudSyncModel.Store store in syncModel.Stores)
                         {
-                            // Does the application exist?
-                            IACSApplicationDataAccess applicationDataAccess = new ACSApplicationDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                            AndroCloudDataAccess.Domain.ACSApplication acsApplication = null;
-                            applicationDataAccess.GetById(application.Id, out acsApplication);
+                            // Does the site already exist?
+                            ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                            AndroCloudDataAccess.Domain.Site existingSite = null;
+                            sitesDataAccess.GetByAndromedaSiteId(store.AndromedaSiteId, out existingSite);
 
-                            if (acsApplication == null)
+                            if (existingSite == null)
                             {
-                                // Application does not exist.  Create it
-                                this.AddApplication(acsEntities, partnerId.Value, application);
+                                // Site does not exist.  Create it
+                                this.AddSite(acsEntities, store);
                             }
                             else
                             {
-                                // The application already exists.  Update it
-                                this.UpdateApplication(acsEntities, application);
+                                // The site already exists.  Update it
+                                this.UpdateSite(acsEntities, store);
+                            }
+                        }
+
+                        // Update all partners in the local db that have changed on the server
+                        foreach (CloudSyncModel.Partner partner in syncModel.Partners)
+                        {
+                            // Does the partner exist?
+                            IPartnersDataAccess partnersDataAccess = new PartnersDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                            AndroCloudDataAccess.Domain.Partner existingPartner = null;
+                            partnersDataAccess.GetById(partner.Id, out existingPartner);
+
+                            int? partnerId = null;
+
+                            if (existingPartner == null)
+                            {
+                                // Partner does not exist.  Create it
+                                this.AddPartner(acsEntities, partner, out partnerId);
+                            }
+                            else
+                            {
+                                // The partner already exists.  Update it
+                                this.UpdatePartner(acsEntities, partner);
+                                partnerId = existingPartner.Id;
                             }
 
-                            // Update all the sites in the application
-                            string[] siteIds = application.Sites.Split(',');
-                            foreach (string siteIdText in siteIds)
+                            ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+
+                            // Update all the partners applications
+                            foreach (CloudSyncModel.Application application in partner.Applications)
                             {
-                                int androSiteId = 0;
-                                if (Int32.TryParse(siteIdText, out androSiteId))
+                                // Does the application exist?
+                                IACSApplicationDataAccess applicationDataAccess = new ACSApplicationDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                                AndroCloudDataAccess.Domain.ACSApplication acsApplication = null;
+                                applicationDataAccess.GetById(application.Id, out acsApplication);
+
+                                if (acsApplication == null)
                                 {
-                                    // Get the site that the application has permission to access
-                                    AndroCloudDataAccess.Domain.Site existingSite = null;
-                                    sitesDataAccess.GetByAndromedaSiteId(androSiteId, out existingSite);
+                                    // Application does not exist.  Create it
+                                    this.AddApplication(acsEntities, partnerId.Value, application);
+                                }
+                                else
+                                {
+                                    // The application already exists.  Update it
+                                    this.UpdateApplication(acsEntities, application);
+                                }
 
-                                    if (existingSite != null)
+                                // Update all the sites in the application
+                                string[] siteIds = application.Sites.Split(',');
+                                foreach (string siteIdText in siteIds)
+                                {
+                                    int androSiteId = 0;
+                                    if (Int32.TryParse(siteIdText, out androSiteId))
                                     {
-                                        var query = from acsa in acsEntities.ACSApplications
-                                                    join acss in acsEntities.ACSApplicationSites
-                                                    on acsa.Id equals acss.ACSApplicationId
-                                                    where acsa.Id == application.Id
-                                                    && acss.SiteId == existingSite.Id
-                                                    select acss;
+                                        // Get the site that the application has permission to access
+                                        AndroCloudDataAccess.Domain.Site existingSite = null;
+                                        sitesDataAccess.GetByAndromedaSiteId(androSiteId, out existingSite);
 
-                                        var entity = query.FirstOrDefault();
-
-                                        // Is the site already associated with the application?
-                                        if (entity == null)
+                                        if (existingSite != null)
                                         {
-                                            // Site not associated with the application.  Associate it
-                                            this.AddApplicationSite(acsEntities, existingSite.Id, application.Id);
+                                            var query = from acsa in acsEntities.ACSApplications
+                                                        join acss in acsEntities.ACSApplicationSites
+                                                        on acsa.Id equals acss.ACSApplicationId
+                                                        where acsa.Id == application.Id
+                                                        && acss.SiteId == existingSite.Id
+                                                        select acss;
+
+                                            var entity = query.FirstOrDefault();
+
+                                            // Is the site already associated with the application?
+                                            if (entity == null)
+                                            {
+                                                // Site not associated with the application.  Associate it
+                                                this.AddApplicationSite(acsEntities, existingSite.Id, application.Id);
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            // Is there an existing application?
-                            if (acsApplication != null)
-                            {
-                                // REMOVE EXISTING SITES NOT IN siteIds
+                                // Is there an existing application?
+                                if (acsApplication != null)
+                                {
+                                    // REMOVE EXISTING SITES NOT IN siteIds
 
-                                // Get a list of existing sites
-                                var sitesQuery = from s in acsEntities.Sites
+                                    // Get a list of existing sites
+                                    var sitesQuery = from s in acsEntities.Sites
                                                      join acss in acsEntities.ACSApplicationSites
                                                        on s.ID equals acss.SiteId
                                                      join a in acsEntities.ACSApplications
@@ -150,30 +156,31 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                                      where a.Id == acsApplication.Id
                                                      select s;
 
-                                //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
-                                //Console.WriteLine(sql);
+                                    //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
+                                    //Console.WriteLine(sql);
 
-                                List<Model.Site> existingSites = sitesQuery.ToList();
+                                    List<Model.Site> existingSites = sitesQuery.ToList();
 
-                                if (sitesQuery != null && existingSites.Count > 0)
-                                {
-                                    // Check each existing site to see if it's still in the application
-                                    foreach (Model.Site existingSite in sitesQuery)
+                                    if (sitesQuery != null && existingSites.Count > 0)
                                     {
-                                        // Is the existing site in the application?
-                                        if (!siteIds.Contains(existingSite.AndroID.ToString()))
+                                        // Check each existing site to see if it's still in the application
+                                        foreach (Model.Site existingSite in sitesQuery)
                                         {
-                                            // Site is no longer in the application
-                                            this.DeleteApplicationSite(acsEntities, existingSite.ID, application.Id);
+                                            // Is the existing site in the application?
+                                            if (!siteIds.Contains(existingSite.AndroID.ToString()))
+                                            {
+                                                // Site is no longer in the application
+                                                this.DeleteApplicationSite(acsEntities, existingSite.ID, application.Id);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    // Fin...
-                    transaction.Commit();
+                        // Fin...
+                        transaction.Commit();
+                    }
                 }
             }
 
@@ -230,7 +237,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 Town = store.Address.Town
             };
 
-            acsEntities.Addresses.AddObject(addressEntity);
+            acsEntities.Addresses.Add(addressEntity);
             acsEntities.SaveChanges();
 
             // Create the site
@@ -249,7 +256,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 TimeZone = store.TimeZone
             };
 
-            acsEntities.Sites.AddObject(siteEntity);
+            acsEntities.Sites.Add(siteEntity);
             acsEntities.SaveChanges();
         }
 
@@ -296,26 +303,59 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     //TODO ERROR??
                 }
 
-                addressEntity.Country = countryEntity;
-                addressEntity.County = store.Address.County;
-                addressEntity.DPS = store.Address.DPS;
-                addressEntity.Lat = store.Address.Lat;
-                addressEntity.Locality = store.Address.Locality;
-                addressEntity.Long = store.Address.Long;
-                addressEntity.Org1 = store.Address.Org1;
-                addressEntity.Org2 = store.Address.Org2;
-                addressEntity.Org3 = store.Address.Org3;
-                addressEntity.PostCode = store.Address.PostCode;
-                addressEntity.Prem1 = store.Address.Prem1;
-                addressEntity.Prem2 = store.Address.Prem2;
-                addressEntity.Prem3 = store.Address.Prem3;
-                addressEntity.Prem4 = store.Address.Prem4;
-                addressEntity.Prem5 = store.Address.Prem5;
-                addressEntity.Prem6 = store.Address.Prem6;
-                addressEntity.RoadName = store.Address.RoadName;
-                addressEntity.RoadNum = store.Address.RoadNum;
-                addressEntity.State = store.Address.State;
-                addressEntity.Town = store.Address.Town;
+                if (addressEntity == null)
+                {
+                    // No address - we need to create one
+                    addressEntity = new Model.Address()
+                    {
+                        ID = Guid.NewGuid(),
+                        County = "",
+                        DPS = "",
+                        Lat = "",
+                        Locality = "",
+                        Long = "",
+                        Org1 = "",
+                        Org2 = "",
+                        Org3 = "",
+                        PostCode = "",
+                        Prem1 = "",
+                        Prem2 = "",
+                        Prem3 = "",
+                        Prem4 = "",
+                        Prem5 = "",
+                        Prem6 = "",
+                        RoadName = "",
+                        RoadNum = "",
+                        State = "",
+                        Town = "",
+                        Country = countryEntity
+                    };
+
+                    acsEntities.Addresses.Add(addressEntity);
+                }
+                else
+                {
+                    addressEntity.Country = countryEntity;
+                    addressEntity.County = store.Address.County;
+                    addressEntity.DPS = store.Address.DPS;
+                    addressEntity.Lat = store.Address.Lat;
+                    addressEntity.Locality = store.Address.Locality;
+                    addressEntity.Long = store.Address.Long;
+                    addressEntity.Org1 = store.Address.Org1;
+                    addressEntity.Org2 = store.Address.Org2;
+                    addressEntity.Org3 = store.Address.Org3;
+                    addressEntity.PostCode = store.Address.PostCode;
+                    addressEntity.Prem1 = store.Address.Prem1;
+                    addressEntity.Prem2 = store.Address.Prem2;
+                    addressEntity.Prem3 = store.Address.Prem3;
+                    addressEntity.Prem4 = store.Address.Prem4;
+                    addressEntity.Prem5 = store.Address.Prem5;
+                    addressEntity.Prem6 = store.Address.Prem6;
+                    addressEntity.RoadName = store.Address.RoadName;
+                    addressEntity.RoadNum = store.Address.RoadNum;
+                    addressEntity.State = store.Address.State;
+                    addressEntity.Town = store.Address.Town;
+                }
 
                 siteEntity.AndroID = store.AndromedaSiteId;
                 siteEntity.EstimatedDeliveryTime = null;
@@ -342,7 +382,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 Name = partner.Name
             };
 
-            acsEntities.Partners.AddObject(entity);
+            acsEntities.Partners.Add(entity);
             acsEntities.SaveChanges();
             
             id = entity.Id;
@@ -374,7 +414,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 PartnerId = partnerId
             };
 
-            acsEntities.ACSApplications.AddObject(entity);
+            acsEntities.ACSApplications.Add(entity);
             acsEntities.SaveChanges();
         }
 
@@ -402,7 +442,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 SiteId = siteId
             };
 
-            acsEntities.ACSApplicationSites.AddObject(entity);
+            acsEntities.ACSApplicationSites.Add(entity);
             acsEntities.SaveChanges();
         }
 
@@ -416,7 +456,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             if (entity != null)
             {
-                acsEntities.ACSApplicationSites.DeleteObject(entity);
+                acsEntities.ACSApplicationSites.Remove(entity);
                 acsEntities.SaveChanges();
             }
         }

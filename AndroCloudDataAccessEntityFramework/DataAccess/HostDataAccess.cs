@@ -16,8 +16,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             hosts = new List<AndroCloudDataAccess.Domain.Host>();
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from h in acsEntities.Hosts
                                select h;
 
@@ -38,8 +41,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             hosts = new List<AndroCloudDataAccess.Domain.Host>();
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from h in acsEntities.Hosts
                                select h;
 

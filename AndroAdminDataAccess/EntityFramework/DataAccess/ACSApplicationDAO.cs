@@ -142,81 +142,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.ACSApplication acsApplication)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                //entitiesContext.Connection.Open();
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                    // Add the new application
-                    ACSApplication entity = new ACSApplication()
+                    //entitiesContext.Connection.Open();
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                     {
-                        Name = acsApplication.Name,
-                        ExternalApplicationId = acsApplication.ExternalApplicationId,
-                        DataVersion = newVersion,
-                        PartnerId = acsApplication.PartnerId
-                    };
-                    entitiesContext.ACSApplications.Add(entity);
-                    entitiesContext.SaveChanges();
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                    var partnerQuery = from s in entitiesContext.Partners
-                                where acsApplication.PartnerId == s.Id
-                                select s;
-
-                    var partnerEntity = partnerQuery.FirstOrDefault();
-
-                    if (partnerEntity != null)
-                    {
-                        partnerEntity.DataVersion = newVersion;
-
-                        entitiesContext.SaveChanges();
-                    }
-
-                    // Fin...
-                    transaction.Commit();
-                }
-            }
-        }
-
-        public void Update(Domain.ACSApplication acsApplication)
-        {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
-            {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                //entitiesContext.Connection.Open();
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
-                {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
-
-                    var query = from s in entitiesContext.ACSApplications
-                                where acsApplication.Id == s.Id
-                                select s;
-
-                    var entity = query.FirstOrDefault();
-
-                    if (entity != null)
-                    {
-                        // Update the new application
-                        entity.Name = acsApplication.Name;
-                        entity.ExternalApplicationId = acsApplication.ExternalApplicationId;
-                        entity.DataVersion = newVersion;
+                        // Add the new application
+                        ACSApplication entity = new ACSApplication()
+                        {
+                            Name = acsApplication.Name,
+                            ExternalApplicationId = acsApplication.ExternalApplicationId,
+                            DataVersion = newVersion,
+                            PartnerId = acsApplication.PartnerId
+                        };
+                        entitiesContext.ACSApplications.Add(entity);
                         entitiesContext.SaveChanges();
 
                         // Update the partner version to signify that the partner has changed (a child of the partner has changed)
                         var partnerQuery = from s in entitiesContext.Partners
-                                    where acsApplication.PartnerId == s.Id
-                                    select s;
+                                           where acsApplication.PartnerId == s.Id
+                                           select s;
 
                         var partnerEntity = partnerQuery.FirstOrDefault();
 
@@ -229,6 +183,58 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         // Fin...
                         transaction.Commit();
+                    }
+                }
+            }
+        }
+
+        public void Update(Domain.ACSApplication acsApplication)
+        {
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
+            {
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+                {
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                    //entitiesContext.Connection.Open();
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                    {
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+
+                        var query = from s in entitiesContext.ACSApplications
+                                    where acsApplication.Id == s.Id
+                                    select s;
+
+                        var entity = query.FirstOrDefault();
+
+                        if (entity != null)
+                        {
+                            // Update the new application
+                            entity.Name = acsApplication.Name;
+                            entity.ExternalApplicationId = acsApplication.ExternalApplicationId;
+                            entity.DataVersion = newVersion;
+                            entitiesContext.SaveChanges();
+
+                            // Update the partner version to signify that the partner has changed (a child of the partner has changed)
+                            var partnerQuery = from s in entitiesContext.Partners
+                                               where acsApplication.PartnerId == s.Id
+                                               select s;
+
+                            var partnerEntity = partnerQuery.FirstOrDefault();
+
+                            if (partnerEntity != null)
+                            {
+                                partnerEntity.DataVersion = newVersion;
+
+                                entitiesContext.SaveChanges();
+                            }
+
+                            // Fin...
+                            transaction.Commit();
+                        }
                     }
                 }
             }
@@ -236,143 +242,149 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void AddStore(int storeId, int acsApplicationId)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                //entitiesContext.Connection.Open();
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                    // We don't delete application stores - we mark them as deleted.
-                    // When adding an application store we could be effectively "undeleting" a store previously marked as deleted
-
-                    // Get the existing application store so we can delete it
-                    var query2 = from s in entitiesContext.ACSApplicationSites
-                            where storeId == s.SiteId
-                            && acsApplicationId == s.ACSApplicationId
-                            select s;
-                    var entity2 = query2.FirstOrDefault();
-
-                    // Does the application store already exist?
-                    if (entity2 == null)
+                    //entitiesContext.Connection.Open();
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                     {
-                        // No existing application store - add one
-                        ACSApplicationSite acsApplicationSite = new ACSApplicationSite();
-                        acsApplicationSite.SiteId = storeId;
-                        acsApplicationSite.ACSApplicationId = acsApplicationId;
-                        acsApplicationSite.DataVersion = newVersion;
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                        entitiesContext.ACSApplicationSites.Add(acsApplicationSite);
-                        entitiesContext.SaveChanges();
+                        // We don't delete application stores - we mark them as deleted.
+                        // When adding an application store we could be effectively "undeleting" a store previously marked as deleted
 
-                        // Update the application version to signify that the application has changed (a child of the application has changed)
-                        IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
-                        acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
+                        // Get the existing application store so we can delete it
+                        var query2 = from s in entitiesContext.ACSApplicationSites
+                                     where storeId == s.SiteId
+                                     && acsApplicationId == s.ACSApplicationId
+                                     select s;
+                        var entity2 = query2.FirstOrDefault();
 
-                        // Update the application version
-                        var acsApplicationsQuery = from s in entitiesContext.ACSApplications
-                                                   where acsApplicationId == s.Id
-                                                   select s;
-
-                        var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
-
-                        if (acsApplicationsEntity != null)
+                        // Does the application store already exist?
+                        if (entity2 == null)
                         {
-                            acsApplicationsEntity.DataVersion = newVersion;
+                            // No existing application store - add one
+                            ACSApplicationSite acsApplicationSite = new ACSApplicationSite();
+                            acsApplicationSite.SiteId = storeId;
+                            acsApplicationSite.ACSApplicationId = acsApplicationId;
+                            acsApplicationSite.DataVersion = newVersion;
+
+                            entitiesContext.ACSApplicationSites.Add(acsApplicationSite);
+                            entitiesContext.SaveChanges();
+
+                            // Update the application version to signify that the application has changed (a child of the application has changed)
+                            IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
+                            acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
+
+                            // Update the application version
+                            var acsApplicationsQuery = from s in entitiesContext.ACSApplications
+                                                       where acsApplicationId == s.Id
+                                                       select s;
+
+                            var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
+
+                            if (acsApplicationsEntity != null)
+                            {
+                                acsApplicationsEntity.DataVersion = newVersion;
+                                entitiesContext.SaveChanges();
+                            }
+
+                            // Update the partner version to signify that the partner has changed (a child of the partner has changed)
+                            var partnerQuery = from s in entitiesContext.Partners
+                                               where acsApplicationsEntity.PartnerId == s.Id
+                                               select s;
+
+                            var partnerEntity = partnerQuery.FirstOrDefault();
+
+                            if (partnerEntity != null)
+                            {
+                                partnerEntity.DataVersion = newVersion;
+                                entitiesContext.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            // Un-delete the existing application store
+                            entity2.DataVersion = newVersion;
                             entitiesContext.SaveChanges();
                         }
 
-                        // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                        var partnerQuery = from s in entitiesContext.Partners
-                                           where acsApplicationsEntity.PartnerId == s.Id
-                                           select s;
-
-                        var partnerEntity = partnerQuery.FirstOrDefault();
-
-                        if (partnerEntity != null)
-                        {
-                            partnerEntity.DataVersion = newVersion;
-                            entitiesContext.SaveChanges();
-                        }
+                        // Fin...
+                        transaction.Commit();
                     }
-                    else
-                    {
-                        // Un-delete the existing application store
-                        entity2.DataVersion = newVersion;
-                        entitiesContext.SaveChanges();
-                    }
-
-                    // Fin...
-                    transaction.Commit();
                 }
             }
         }
 
         public void RemoveStore(int storeId, int acsApplicationId)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                //entitiesContext.Connection.Open();
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                    // Get the existing application store so we can delete it
-                    var query = from s in entitiesContext.ACSApplicationSites
-                                where storeId == s.SiteId
-                                && acsApplicationId == s.ACSApplicationId
-                                select s;
-
-                    var entity = query.FirstOrDefault();
-
-                    if (entity != null)
+                    //entitiesContext.Connection.Open();
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                     {
-                        // Delete the application store (not really, just mark it as deleted)
-                        entitiesContext.ACSApplicationSites.Remove(entity);
-                        entitiesContext.SaveChanges();
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                        // Update the application version to signify that the application has changed (a child of the application has changed)
-                        IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
-                        acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
-
-                        // Update the application version
-                        var acsApplicationsQuery = from s in entitiesContext.ACSApplications
-                                    where acsApplicationId == s.Id
+                        // Get the existing application store so we can delete it
+                        var query = from s in entitiesContext.ACSApplicationSites
+                                    where storeId == s.SiteId
+                                    && acsApplicationId == s.ACSApplicationId
                                     select s;
 
-                        var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
+                        var entity = query.FirstOrDefault();
 
-                        if (acsApplicationsEntity != null)
+                        if (entity != null)
                         {
-                            acsApplicationsEntity.DataVersion = newVersion;
+                            // Delete the application store (not really, just mark it as deleted)
+                            entitiesContext.ACSApplicationSites.Remove(entity);
                             entitiesContext.SaveChanges();
+
+                            // Update the application version to signify that the application has changed (a child of the application has changed)
+                            IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
+                            acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
+
+                            // Update the application version
+                            var acsApplicationsQuery = from s in entitiesContext.ACSApplications
+                                                       where acsApplicationId == s.Id
+                                                       select s;
+
+                            var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
+
+                            if (acsApplicationsEntity != null)
+                            {
+                                acsApplicationsEntity.DataVersion = newVersion;
+                                entitiesContext.SaveChanges();
+                            }
+
+                            // Update the partner version to signify that the partner has changed (a child of the partner has changed)
+                            var partnerQuery = from s in entitiesContext.Partners
+                                               where acsApplicationsEntity.PartnerId == s.Id
+                                               select s;
+
+                            var partnerEntity = partnerQuery.FirstOrDefault();
+
+                            if (partnerEntity != null)
+                            {
+                                partnerEntity.DataVersion = newVersion;
+                                entitiesContext.SaveChanges();
+                            }
+
+                            // Fin...
+                            transaction.Commit();
                         }
-
-                        // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                        var partnerQuery = from s in entitiesContext.Partners
-                                           where acsApplicationsEntity.PartnerId == s.Id
-                                           select s;
-
-                        var partnerEntity = partnerQuery.FirstOrDefault();
-
-                        if (partnerEntity != null)
-                        {
-                            partnerEntity.DataVersion = newVersion;
-                            entitiesContext.SaveChanges();
-                        }
-
-                        // Fin...
-                        transaction.Commit();
                     }
                 }
             }

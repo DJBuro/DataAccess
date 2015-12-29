@@ -14,8 +14,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Add(string sourceId, string hardwareId, string ipPort, string action, int responseTime, int? errorCode)
         {
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 Audit audit = new Audit
                 {
                     SrcID = sourceId,
@@ -28,7 +31,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     ErrorCode = errorCode
                 };
 
-                acsEntities.AddToAudits(audit);
+                acsEntities.Audits.Add(audit);
 
                 acsEntities.SaveChanges();
             }

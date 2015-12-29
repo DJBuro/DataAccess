@@ -5,6 +5,7 @@ using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using System.Data.Common;
+using System.Transactions;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -133,62 +134,68 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Partner partner)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                    Partner entity = new Partner()
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                     {
-                        Name = partner.Name,
-                        ExternalId = partner.ExternalId,
-                        DataVersion = newVersion
-                    };
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    entitiesContext.Partners.Add(entity);
-                    entitiesContext.SaveChanges();
+                        Partner entity = new Partner()
+                        {
+                            Name = partner.Name,
+                            ExternalId = partner.ExternalId,
+                            DataVersion = newVersion
+                        };
 
-                    // Fin...
-                    transaction.Commit();
+                        entitiesContext.Partners.Add(entity);
+                        entitiesContext.SaveChanges();
+
+                        // Fin...
+                        transaction.Commit();
+                    }
                 }
             }
         }
 
         public void Update(Domain.Partner partner)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (System.Transactions.TransactionScope ts = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                entitiesContext.Database.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    // Get the next data version (see comments inside the function)
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                    var query = from s in entitiesContext.Partners
-                                where partner.Id == s.Id
-                                select s;
-
-                    var entity = query.FirstOrDefault();
-
-                    if (entity != null)
+                    entitiesContext.Database.Connection.Open();
+                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                     {
-                        entity.Name = partner.Name;
-                        entity.ExternalId = partner.ExternalId;
-                        entity.DataVersion = newVersion;
+                        // Get the next data version (see comments inside the function)
+                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                        entitiesContext.SaveChanges();
+                        var query = from s in entitiesContext.Partners
+                                    where partner.Id == s.Id
+                                    select s;
 
-                        // Fin...
-                        transaction.Commit();
+                        var entity = query.FirstOrDefault();
+
+                        if (entity != null)
+                        {
+                            entity.Name = partner.Name;
+                            entity.ExternalId = partner.ExternalId;
+                            entity.DataVersion = newVersion;
+
+                            entitiesContext.SaveChanges();
+
+                            // Fin...
+                            transaction.Commit();
+                        }
                     }
                 }
             }
