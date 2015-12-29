@@ -86,6 +86,7 @@
     <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\MyAndromeda\Menu\IMenuDataAccess.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\DataWarehouse\ContactType.cs" />
     <Compile Include="Domain\DataWarehouse\MarketingLevelType.cs" />

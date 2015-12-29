@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
-namespace AndroCloudDataAccessEntityFramework.DataAccess
+namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
     public class MyAndromedaUserDataAccess : IMyAndromedaUserDataAccess
     {
@@ -13,10 +12,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from u in entitiesContext.MyAndromedaUsers
-                                       where u.Username == username
-                                         && u.Password == password
-                                         && u.IsEnabled == true
-                                       select u;
+                            where u.Username == username &&
+                                  u.Password == password &&
+                                  u.IsEnabled == true
+                            select u;
 
                 var entity = query.FirstOrDefault();
 
@@ -36,29 +35,17 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             using (var entitiesContext = new AndroAdminDbContext())
             {
-                // Is the store in any of the groups that the user is associated with?
-                //var query = from u in entitiesContext.MyAndromedaUsers
-                //            join mug in entitiesContext.MyAndromedaUserGroups
-                //                on u.Id equals mug.MyAndromedaUserId
-                //            join g in entitiesContext.Groups
-                //                on mug.GroupId equals g.Id
-                //            join sg in entitiesContext.StoreGroups
-                //                on g.Id equals sg.GroupId
-                //            join s in entitiesContext.Stores
-                //                on sg.StoreId equals s.Id
-                //            where s.ExternalId == externalSiteId
-                //            && u.Username == userName
-                //            select u;
-
                 var query = entitiesContext.MyAndromedaUsers
-                    .Where(e => e.Groups.Any(group => group.Stores.Any(store => store.ExternalId == externalSiteId)));
-                    //.Where(user=> 
-                    //    //check if a record exists through user group 
-                    //    user.MyAndromedaUserGroups.Any(
-                    //        group => 
-                    //            //group -> store
-                    //            group.Group.Stores.Any(store => store.ExternalId == externalSiteId)
-                    //)
+                                           .Where(e => e.Username.Equals(userName))
+                                           .Where(e => e.Chains.Any(chain => chain.Stores.Any(store => store.ExternalId == externalSiteId)));
+
+                //.Where(user=> 
+                //    //check if a record exists through user group 
+                //    user.MyAndromedaUserGroups.Any(
+                //        group => 
+                //            //group -> store
+                //            group.Group.Stores.Any(store => store.ExternalId == externalSiteId)
+                //)
                 //);
                 var result = query.FirstOrDefault();
                 MyAndromedaUser enitity = result;
@@ -76,14 +63,19 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
 
                 // Is the store associated with the user
-                var query2 = from u in entitiesContext.MyAndromedaUsers
-                            join mus in entitiesContext.MyAndromedaUserStores
-                                on u.Id equals mus.MyAndromedaUserId
-                            join s in entitiesContext.Stores
-                                on mus.StoreId equals s.Id
-                            where s.ExternalId == externalSiteId
-                            && u.Username == userName
-                            select new { u.FirstName, u.LastName, s.Id };
+                //var query2 = from u in entitiesContext.MyAndromedaUsers
+                //             join mus in entitiesContext.MyAndromedaUsers on u.Id equals mus.MyAndromedaUserId
+                //             join s in entitiesContext.Stores on mus.StoreId equals s.Id
+                //             where s.ExternalId == externalSiteId &&
+                //                   u.Username == userName
+                //             select new { u.FirstName, u.LastName, s.Id };
+
+                var query2 = entitiesContext.MyAndromedaUsers.Where(e => e.Stores.Any(store => store.ExternalId == externalSiteId))
+                    .Select(e => new { 
+                        e.FirstName,
+                        e.LastName,
+                        e.Id
+                    });
 
                 var enitity2 = query2.FirstOrDefault();
 
@@ -115,8 +107,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 myAndromedaUser = null;
 
                 var query = from u in entitiesContext.MyAndromedaUsers
-                            where u.Username == username
-                                && u.IsEnabled == true
+                            where u.Username == username &&
+                                  u.IsEnabled == true
                             select u;
 
                 var entity = query.FirstOrDefault();
@@ -124,17 +116,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 if (entity != null)
                 {
                     // Get the users sites
-                    List<MyAndromedaDataAccess.Domain.Site> sites = null;
-                    SitesDataAccess sitesDataAccess = new SitesDataAccess();
-                    sitesDataAccess.GetByMyAndromedaUserId(entity.Id, out sites);
+                    //List<MyAndromedaDataAccess.Domain.Site> sites = null;
+                    //MyAndromedaDataAccessEntityFramework.DataAccess.SitesDataAccess sitesDataAccess = new MyAndromedaDataAccessEntityFramework.DataAccess.SitesDataAccess();
+                    //sitesDataAccess.GetByMyAndromedaUserId(entity.Id, out sites);
 
                     // Build an object that we can return to the caller
                     myAndromedaUser = new MyAndromedaDataAccess.Domain.MyAndromedaUser()
                     {
+                        Id = entity.Id,
                         Username = entity.Username,
                         Firstname = entity.FirstName,
                         Surname = entity.LastName,
-                        Sites = sites
+                        //Sites = sites
                     };
                 }
             }
@@ -143,3 +136,4 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         }
     }
 }
+

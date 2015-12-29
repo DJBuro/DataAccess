@@ -17,7 +17,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Country()
         {
             this.Addresses = new HashSet<Address>();
-            this.Groups = new HashSet<Group>();
         }
     
         public int Id { get; set; }
@@ -26,6 +25,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public int ISO3166_1_numeric { get; set; }
     
         public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
     }
 }

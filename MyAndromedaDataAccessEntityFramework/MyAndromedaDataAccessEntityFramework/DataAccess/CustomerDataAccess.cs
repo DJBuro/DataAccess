@@ -14,7 +14,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
     //        // TODO: Implement this method
     //        throw new NotImplementedException();
     //    }
-
     //    public IEnumerable<Customer> ListBySite(int p1, int p2)
     //    {
     //        // TODO: Implement this method

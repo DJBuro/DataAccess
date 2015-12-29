@@ -27,32 +27,6 @@ namespace MyAndromedaDataAccess.Domain.Reporting
             get { return today == null ? 0 : today.Total; }
         }
 
-
-
-        /// <summary>
-        /// Gets or sets the today's total orders.
-        /// </summary>
-        /// <value>The today's total orders.</value>
-        //public decimal TodaysOrderCount
-        //{
-        //    get { return today == null ? 0 : today.Count; }
-        //}
-
-        //public decimal TodayAverage 
-        //{
-        //    get { return today == null ? 0 : today.Average; } 
-        //}
-
-        //public decimal TodayMax
-        //{
-        //    get { return today == null ? 0 : today.Max; }
-        //}
-
-        //public decimal TodayMin
-        //{
-        //    get { return today == null ? 0 : today.Min; }
-        //}
-
         /// <summary>
         /// Gets the average over the range of the data.
         /// </summary>
@@ -61,10 +35,10 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         {
             get
             {
-                return 
-                    this.OrderData.Count() == 0 ? 
-                    0 :
-                    this.OrderData.Average(e => e.Total);
+                if (this.OrderData.Count() == 0)
+                    return 0;
+
+                return this.OrderData.Average(e => e.Total);
             }
         }
 

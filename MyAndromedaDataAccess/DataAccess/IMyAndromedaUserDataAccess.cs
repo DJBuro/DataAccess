@@ -7,6 +7,6 @@ namespace MyAndromedaDataAccess.DataAccess
     {
         bool ValidateUser(string username, string password);
         string GetByUsername(string username, out MyAndromedaUser myAndromedaUser);
-        bool CanAccessStoreByExternalSiteId(string userName, string customerSiteId, out MyAndromedaUser myAndromedaUser, out int storeId);
+        //bool CanAccessStoreByExternalSiteId(string userName, string customerSiteId, out MyAndromedaUser myAndromedaUser, out int storeId);
     }
 }

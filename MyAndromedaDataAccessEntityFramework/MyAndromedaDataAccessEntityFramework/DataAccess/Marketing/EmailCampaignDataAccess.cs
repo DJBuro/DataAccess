@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using MyAndromedaDataAccess.DataAccess.MyAndromeda.Email;
-using Domain = MyAndromedaDataAccess.Domain.Marketing;
 using MyAndromedaDataAccess.Domain.Marketing;
+using Domain = MyAndromedaDataAccess.Domain.Marketing;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 {
@@ -60,7 +60,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var dataModel = dbContext.EmailCampaignSettings.FirstOrDefault(e => e.ChainId == chainId);
 
                 if (dataModel == null)
+                {
                     return null;
+                }
 
                 return dataModel.ToDomainModel();
             }
@@ -77,7 +79,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var dataModel = dbContext.EmailCampaignSettings.Find(id);
 
                 if (dataModel == null)
+                {
                     return;
+                }
 
                 dbContext.EmailCampaignSettings.Remove(dataModel);
                 dbContext.SaveChanges();
@@ -103,19 +107,22 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         {
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
-                var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e=> e.ChainId == chainId);
+                var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e => e.ChainId == chainId);
 
                 if (entity == null)
+                {
                     return null;
+                }
 
-                return new Domain.EmailSettings() { 
+                return new Domain.EmailSettings()
+                {
                     Id = entity.Id,
                     Host = entity.Host,
                     Port = entity.Port,
                     Password = entity.Password,
                     UserName = entity.UserName
                 };
-            } 
+            }
         }
 
         /// <summary>
@@ -129,7 +136,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var entity = dbContext.EmailCampaigns.Find(id);
 
                 if (entity == null)
+                {
                     throw new ArgumentException("Id is required");
+                }
 
                 entity.Removed = true;
                 dbContext.SaveChanges();
@@ -147,8 +156,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var entities = dbContext.EmailCampaigns;
 
                 return entities
-                    .Where(e=> !e.Removed)
-                    .Select(e => e.ToDomainModel());
+                               .Where(e => !e.Removed)
+                               .Select(e => e.ToDomainModel());
             }
         }
 
@@ -174,11 +183,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext.EmailCampaigns
-                    .Where(e => e.ChainId == chainId)
-                    .Where(e => !e.Removed)
-                    .ToArray()
-                    .Select(e=> e.ToDomainModel())
-                    .ToList();
+                                        .Where(e => e.ChainId == chainId)
+                                        .Where(e => !e.Removed)
+                                        .ToArray()
+                                        .Select(e => e.ToDomainModel())
+                                        .ToList();
 
                 return entities;
             }
@@ -189,12 +198,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext
-                    .EmailCampaigns
-                    .Where(e=> !e.Removed)
-                    .Where(e => e.EmailCampaignSites.Any(site => site.SiteId == siteId))
-                    .ToArray()
-                    .Select(e=> e.ToDomainModel())
-                    .ToList();
+                                        .EmailCampaigns
+                                        .Where(e => !e.Removed)
+                                        .Where(e => e.EmailCampaignSites.Any(site => site.SiteId == siteId))
+                                        .ToArray()
+                                        .Select(e => e.ToDomainModel())
+                                        .ToList();
 
                 return entities;
             }
@@ -205,12 +214,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext.EmailCampaigns
-                    .Where(e => !e.Removed)
-                    .Where(e => e.ChainId == chainId)
-                    .Where(e => e.EmailCampaignSites.Any(availableInSite => availableInSite.SiteId == siteId))
-                    .ToArray()
-                    .Select(e => e.ToDomainModel())
-                    .ToList();
+                                        .Where(e => !e.Removed)
+                                        .Where(e => e.ChainId == chainId)
+                                        .Where(e => e.EmailCampaignSites.Any(availableInSite => availableInSite.SiteId == siteId))
+                                        .ToArray()
+                                        .Select(e => e.ToDomainModel())
+                                        .ToList();
 
                 return entities;
             }
@@ -228,10 +237,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var entity = dbContext.EmailCampaigns.Find(id);
 
                 if (entity == null)
+                {
                     return null;
+                }
 
                 return entity.ToDomainModel();
-                
             }
         }
 
@@ -244,9 +254,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             this.Ensure(campaign);
 
             if (campaign.Id == 0)
-                Create(campaign);
+            {
+                this.Create(campaign);
+            }
             else
-                Update(campaign);
+            {
+                this.Update(campaign);
+            }
         }
 
         /// <summary>
@@ -266,16 +280,17 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 
                 var validate = dbContext.GetValidationErrors().ToArray();
 
-                if(validate.Length > 0)
+                if (validate.Length > 0)
                 {
-                    if(this.OnValidationErrors != null)
-                        this.OnValidationErrors(validate.Where(e=> !e.IsValid).SelectMany(e=> e.ValidationErrors.Select(v=> v.ErrorMessage)));
-                }else
+                    if (this.OnValidationErrors != null)
+                    {
+                        this.OnValidationErrors(validate.Where(e => !e.IsValid).SelectMany(e => e.ValidationErrors.Select(v => v.ErrorMessage)));
+                    }
+                }
+                else
                 {
                     dbContext.SaveChanges();
                 }
-
-
                 //try
                 //{
                 //    dbContext.SaveChanges();
@@ -308,15 +323,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         private bool Ensure(Domain.EmailCampaign campaign) 
         {
             //may have settings that are either chain only or site specific
-
             //if (campaign.ChainId == 0)
             //    throw new ArgumentException("Chain Id is required");
             //if (campaign.SiteId == 0)
             //    throw new ArgumentException("Site Id is required");
-
             return true;
         }
-
-        
     }
 }

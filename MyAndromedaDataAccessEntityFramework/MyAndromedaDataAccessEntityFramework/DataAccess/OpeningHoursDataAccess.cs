@@ -4,7 +4,7 @@ using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
-namespace AndroCloudDataAccessEntityFramework.DataAccess
+namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
     public class OpeningHoursDataAccess : IOpeningHoursDataAccess
     {
@@ -22,11 +22,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // the openingHoursId could be forged to access the opeing hours of another store.  By joining on the store id we
                 // ensure that the day row belongs to the store that the user has permission to access.
                 var query = from oh in entitiesContext.OpeningHours
-                                       join s in entitiesContext.Stores
-                                         on oh.SiteId equals s.Id
-                                       where s.Id == siteId
-                                         && oh.Id == openingHoursId
-                                       select oh;
+                            join s in entitiesContext.Stores on oh.SiteId equals s.Id
+                            where s.Id == siteId &&
+                                  oh.Id == openingHoursId
+                            select oh;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.OpeningHour entity = query.FirstOrDefault();
 
@@ -59,10 +58,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 //                       where s.Id == siteId
                 //                         && oh.Day.Description == day
                 //                       select oh;
-
                 var query = entitiesContext.OpeningHours
-                    .Where(openHour => openHour.SiteId == siteId)
-                    .Where(openHour => openHour.Day.Description == day);
+                                           .Where(openHour => openHour.SiteId == siteId)
+                                           .Where(openHour => openHour.Day.Description == day);
 
                 //there can still be more than one opening time per day
                 var result = query.ToArray();
@@ -73,9 +71,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
 
                 entitiesContext.SaveChanges();
-
                 //MyAndromedaDataAccessEntityFramework.Model.OpeningHour entity = query.FirstOrDefault();
-
                 //if (entity != null)
                 //{
                 //    entitiesContext.OpeningHours.Remove(entity);
@@ -98,8 +94,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 // Get the store
                 var storeQuery = from s in entitiesContext.Stores
-                                           where s.Id == siteId
-                                           select s;
+                                 where s.Id == siteId
+                                 select s;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store storeEntity = storeQuery.FirstOrDefault();
 
@@ -110,8 +106,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 // Get the day
                 var daysQuery = from d in entitiesContext.Days
-                                      where d.Description == timeSpanBlock.Day
-                                      select d;
+                                where d.Description == timeSpanBlock.Day
+                                select d;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Day dayEntity = daysQuery.FirstOrDefault();
 

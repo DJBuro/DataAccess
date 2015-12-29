@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
-using System.Collections.Generic;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
-namespace AndroCloudDataAccessEntityFramework.DataAccess
+namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
     public class EmployeeDataAccess : IEmployeeDataAccess
     {
@@ -16,8 +16,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 // Check that the myAndromeda user is allowed to access this site
                 var query = from e in entitiesContext.Employees
-                                       where e.SiteId == siteId
-                                       select e;
+                            where e.SiteId == siteId
+                            select e;
 
                 List<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee> entity = query.ToList();
 
@@ -47,11 +47,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 // Get the employee to be deleted
                 var query = from e in entitiesContext.Employees
-                                       join s in entitiesContext.Stores
-                                         on e.SiteId equals s.Id
-                                       where e.Id == employeeId
-                                         && s.Id == siteId
-                                       select e;
+                            join s in entitiesContext.Stores on e.SiteId equals s.Id
+                            where e.Id == employeeId &&
+                                  s.Id == siteId
+                            select e;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee entity = query.FirstOrDefault();
 
