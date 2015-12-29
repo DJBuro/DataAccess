@@ -59,7 +59,13 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         /// <value>The range average.</value>
         public decimal RangeAverage
         {
-            get { return this.OrderData.Average(e => e.Total); }
+            get
+            {
+                return 
+                    this.OrderData.Count() == 0 ? 
+                    0 :
+                    this.OrderData.Average(e => e.Total);
+            }
         }
 
         public decimal RangeCount
