@@ -20,6 +20,7 @@ namespace DataWarehouseDataAccess.Domain
         public System.TimeSpan? StartTimeOfDayAvailable { get; set; }
         public System.TimeSpan? EndTimeOfDayAvailable { get; set; }
         public bool IsActive { get; set; }
+        public bool IsRemoved { get; set; }
         public string DiscountType { get; set; }
         public decimal DiscountValue { get; set; }
 

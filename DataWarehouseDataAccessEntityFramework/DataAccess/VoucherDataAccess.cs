@@ -87,6 +87,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     voucherCodeObj.DiscountValue = voucherEntity.DiscountValue;
                     voucherCodeObj.stringOccasions = voucherEntity.Occasion;
                     voucherCodeObj.stringAvailableDays = voucherEntity.AvailableOnDays;
+                    voucherCodeObj.IsRemoved = voucherEntity.Removed;
                 }
             }
 
@@ -99,8 +100,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
                 var query = (from usedVoucher in dataWarehouseEntities.UsedVouchers
+                             join oh in dataWarehouseEntities.OrderHeaders on usedVoucher.OrderId equals oh.ID
                              join customer in dataWarehouseEntities.Customers on usedVoucher.CustomerId equals customer.ID
-                             where usedVoucher.VoucherId == new Guid(voucherId) && customer.ID == new Guid(customerId)
+                             where usedVoucher.VoucherId == new Guid(voucherId) && customer.ID == new Guid(customerId) && oh.Status != 6 // omit cancelled orders
                              select usedVoucher);
                 usedVoucherCount = query.Count();
             }
