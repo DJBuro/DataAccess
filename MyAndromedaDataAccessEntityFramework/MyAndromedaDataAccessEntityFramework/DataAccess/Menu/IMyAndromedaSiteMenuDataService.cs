@@ -13,7 +13,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
     {
         
         /// <summary>
-        /// Sets the version.
+        /// Sets the version from the database file.
         /// </summary>
         /// <param name="andromedaSiteId">The andromeda site id.</param>
         /// <param name="version">The version.</param>
