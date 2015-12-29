@@ -13,5 +13,7 @@ namespace AndroAdminDataAccess.Domain
         public virtual string Name { get; set; }
         public virtual string PartnerId { get; set; }
         public virtual string Phone { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string Password { get; set; }
     }
 }
