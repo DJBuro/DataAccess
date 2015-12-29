@@ -97,6 +97,7 @@
     <Compile Include="DataAccess\Menu\IMyAndromedaMenuSyncDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
