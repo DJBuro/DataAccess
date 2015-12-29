@@ -28,9 +28,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     && oh.CustomerID == customerId
                     select new DataWarehouseDataAccess.Domain.OrderHeader()
                     {
-                        Id = oh.ExternalOrderRef,
+                        Id = oh.RamesesOrderNum.ToString(),
                         ForDateTime = oh.OrderWantedTime.Value,
-                        Status = oh.Status
+                        Status = oh.Status,
+                        Driver = oh.DriverName
                     };
 
                 orderHeaders.AddRange(query);
@@ -89,7 +90,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string UpdateOrderStatus(int ramesesOrderNumber, string externalSiteID, int ramesesOrderStatusId)
+        public string UpdateOrderStatus(int ramesesOrderNumber, string externalSiteID, int ramesesOrderStatusId, string driverName)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {
@@ -110,6 +111,11 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 
                 // Update the order status
                 orderHeaderEntity.Status = ramesesOrderStatusId;
+
+                if (!String.IsNullOrEmpty(driverName))
+                {
+                    orderHeaderEntity.DriverName = driverName;
+                }
 
                 // Update the order status history
                 dataWarehouseEntities.OrderStatusHistories.Add

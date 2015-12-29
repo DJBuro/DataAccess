@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="DataWarehouseModel.OrderHeader" Width="1.5" PointX="7.5" PointY="7.375" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderLine" Width="1.5" PointX="9.75" PointY="12.875" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderStatu" Width="1.5" PointX="5.25" PointY="5.5" />
-        <EntityTypeShape EntityType="DataWarehouseModel.OrderStatusHistory" Width="1.5" PointX="7.5" PointY="14.375" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderStatusHistory" Width="1.5" PointX="3.875" PointY="16.25" />
         <EntityTypeShape EntityType="DataWarehouseModel.PasswordResetRequest" Width="1.5" PointX="7.5" PointY="21.25" />
         <AssociationConnector Association="DataWarehouseModel.FK_CustomerAccount_AccountType" />
         <AssociationConnector Association="DataWarehouseModel.FK_Address_Country" />
