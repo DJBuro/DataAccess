@@ -11,5 +11,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Add(AMSServerFTPServerPair amsServerFTPServerPair);
         void Delete(int id);
         void Update(AMSServerFTPServerPair amsServerFTPServerPair);
+        IList<AMSServerFTPServerPair> GetByAMSServer(int id);
     }
 }

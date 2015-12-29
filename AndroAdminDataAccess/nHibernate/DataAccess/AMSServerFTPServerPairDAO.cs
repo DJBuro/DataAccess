@@ -29,7 +29,7 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
                 ITransaction transaction = session.BeginTransaction();
                 transaction.Begin();
 
-                session.CreateQuery("delete " + typeof(AndroAdminDataAccess.Domain.AMSServerFTPServerPair) + " where id = :id")
+                session.CreateQuery("delete " + typeof(AMSServerFTPServerPair) + " where id = :id")
                     .SetParameter("id", id)
                     .ExecuteUpdate();
 
@@ -46,6 +46,20 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
                 session.Update(amsServerFTPServerPair);
                 transaction.Commit();
             }
+        }
+
+        public IList<AMSServerFTPServerPair> GetByAMSServer(int id)
+        {
+            IList<AMSServerFTPServerPair> amsServerFTPServerPairs = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                amsServerFTPServerPairs = session.CreateQuery("from " + typeof(AMSServerFTPServerPair) + " where AMSServer.Id = :id")
+                    .SetParameter("id", id)
+                    .List<AMSServerFTPServerPair>();
+            }
+
+            return amsServerFTPServerPairs;
         }
     }
 }
