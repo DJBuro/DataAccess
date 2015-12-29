@@ -24,14 +24,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             Version = e.Version,
                             MenuType = "xml",
                             Data = e.XmlMenuThumbnailData,
-                            AndromediaSiteId = storeEntity.AndromedaSiteId
+                            AndromediaSiteId = storeEntity.AndromedaSiteId,
+                            LastUpdate = e.LastUpdate.GetValueOrDefault(DateTime.UtcNow)
                         },
                         new AndroAdminDataAccess.Domain.StoreMenuThumbnails(){
                             Id = e.Id,
                             Version = e.Version,
                             MenuType = "json",
                             Data = e.JsonMenuThumbnailsData,
-                            AndromediaSiteId = storeEntity.AndromedaSiteId
+                            AndromediaSiteId = storeEntity.AndromedaSiteId,
+                            LastUpdate = e.LastUpdate.GetValueOrDefault(DateTime.UtcNow)
                         }
                     };
                 }).ToArray();
