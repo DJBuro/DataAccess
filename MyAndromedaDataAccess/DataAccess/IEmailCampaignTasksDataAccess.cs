@@ -7,13 +7,6 @@ namespace MyAndromedaDataAccess.DataAccess
     public interface IEmailCampaignTasksDataAccess : IDataAccessOptions 
     {
         /// <summary>
-        /// Gets the tasks to run.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <returns></returns>
-        IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime);
-
-        /// <summary>
         /// Creates the specified campaign task.
         /// </summary>
         /// <param name="campaignTask">The campaign task.</param>
@@ -43,5 +36,16 @@ namespace MyAndromedaDataAccess.DataAccess
         /// <param name="siteId">The site id.</param>
         /// <returns></returns>
         IEnumerable<EmailCampaignTask> GetTasksBySiteId(int siteId);
+
+
+        /// <summary>
+        /// Gets the tasks to run.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <param name="started">The started.</param>
+        /// <param name="completed">The completed.</param>
+        /// <returns></returns>
+        IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime, bool? started, bool? completed);
+
     }
 }
