@@ -18,8 +18,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// <value>The connection string override.</value>
         public string ConnectionStringOverride { get; set; }
         
-        public string Sync(CloudSyncModel.SyncModel syncModel)
+        Action<string> successActions;
+        Action<string> failureActions;
+
+        public string Sync(CloudSyncModel.SyncModel syncModel, Action<string> successActions = null, Action<string> failureActions = null)
         {
+            this.successActions = successActions == null ? (msg) => {} : successActions;
+            this.failureActions = failureActions == null ? (msg) => {} : failureActions;
+
             string errorMessage = string.Empty;
 
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
@@ -91,18 +97,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             if (hubUpdates == null) { return; }
             if (hubUpdates.SiteHubHardwareKeyResets == null) { return; }
 
-            foreach (var hubthing in hubUpdates.SiteHubHardwareKeyResets) 
+            var andromedaIds = hubUpdates.SiteHubHardwareKeyResets.Select(e=> e.AndromedaSiteId).Distinct().ToArray();
+            var stores = acsEntities.Sites.Where(e => andromedaIds.Contains(e.AndroID)).ToArray();
+
+            foreach (var store in stores) 
             {
-                var store = acsEntities.Sites
-                    .Where(e => e.ExternalId == hubthing.ExternalSiteId)
-                    .SingleOrDefault();
-
-                if (store == null)
-                    continue; //she doesn't exist anymore; how is this ? 
-
                 store.HardwareKey = null;
-                acsEntities.SaveChanges();
             }
+
+            successActions(string.Format("SyncHubResets: {0} store hardware keys reset", stores.Length));
+
+            if (andromedaIds.Length > stores.Length) 
+            {
+                failureActions(string.Format("SyncHubResets: {0} sites were expected. But only found {1} sites", andromedaIds.Length, stores.Length));
+            }
+
+            acsEntities.SaveChanges();
         }
   
         private void SyncHubAddresses(ACSEntities acsEntities, HubUpdates hubUpdates, Action<HubHostModel> withHub)
@@ -148,6 +158,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 siteHubDataAccess.AddLink(model);
             }
+
         }
   
   

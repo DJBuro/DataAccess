@@ -128,7 +128,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
                 var table = dbContext.StoreHubResets;
-                var query = table.Where(e => e.DataVersion >= fromVersion);
+                var query = table.Where(e => e.DataVersion > fromVersion);
                 var result = query.Select(e => e.Store).ToArray();
 
                 results = result.Select(e=> e.ToDomain()).ToArray();
