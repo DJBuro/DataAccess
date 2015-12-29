@@ -40,9 +40,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserChain> UserChains { get; set; }
-        public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<UserRecord> UserRecords { get; set; }
         public DbSet<UserStore> UserStores { get; set; }
         public DbSet<MenuItemThumbnailsLinkTable> MenuItemThumbnailsLinkTable { get; set; }
+        public DbSet<EnrolmentLevel> EnrolmentLevels { get; set; }
+        public DbSet<MenuItemInGroup> MenuItemInGroups { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<StoreView> StoreViews { get; set; }
+        public DbSet<StoreEnrolment> StoreEnrolments { get; set; }
     }
 }

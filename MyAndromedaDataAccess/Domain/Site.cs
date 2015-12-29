@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using MyAndromeda.Core.Site;
 
 namespace MyAndromedaDataAccess.Domain
 {
-    public class Site
+    public class Site : ISite
     {
         public int Id { get; set; }
         public int AndromediaSiteId { get; set; }
