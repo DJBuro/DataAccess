@@ -169,7 +169,7 @@
       <Name>AndroCloudHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\AndroCloudDataAccess\AndroCloudDataAccess.csproj">
-      <Project>{408FBA0E-E649-493E-B4D4-8A5328265450}</Project>
+      <Project>{408fba0e-e649-493e-b4d4-8a5328265450}</Project>
       <Name>AndroCloudDataAccess</Name>
     </ProjectReference>
   </ItemGroup>

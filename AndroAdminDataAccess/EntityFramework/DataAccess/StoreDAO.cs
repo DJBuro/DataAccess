@@ -27,6 +27,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            .Include("Chain")
                             orderby s.Name
                             select new
                             {
@@ -34,6 +35,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 s.Name,
                                 s.AndromedaSiteId,
                                 s.CustomerSiteId,
+                                ChainName = s.Chain.Name,
                                 StoreStatusStatus = s.StoreStatu.Status
                             };
 
@@ -45,6 +47,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        ChainName = entity.ChainName,
                         StoreStatus = entity.StoreStatusStatus
                     };
 
@@ -251,7 +254,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AddressId = addressEntity.Id,
                         Telephone = store.Telephone,
                         TimeZone = store.TimeZone,
-                        LicenseKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D"
+                        LicenseKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D",
+                        ChainId = store.Chain.Id
                     };
 
                     entitiesContext.Stores.Add(storeEntity);
@@ -313,6 +317,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.Telephone = store.Telephone;
                     storeEntity.TimeZone = store.TimeZone;
                     storeEntity.StorePaymentProviderID = (store.PaymentProvider == null ? null : (int?)store.PaymentProvider.Id);
+                    storeEntity.ChainId = store.Chain.Id;
 
                     // Update / create an address
                     var addressQuery = from s in entitiesContext.Addresses
@@ -486,6 +491,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             ClientPassword = paymentProviderEntity.ClientPassword,
                             DisplayText = paymentProviderEntity.DisplayText,
                             ProviderName = paymentProviderEntity.ProviderName
+                        };
+                    }
+
+                    // Get the chain
+                    var chainQuery = from s in entitiesContext.Chains
+                                        where s.Id == entity.ChainId
+                                        select s;
+
+                    var chainEntity = chainQuery.FirstOrDefault();
+
+                    if (chainEntity != null)
+                    {
+                        model.Chain = new Domain.Chain()
+                        {
+                            Id = chainEntity.Id,
+                            Name = chainEntity.Name,
+                            Description = chainEntity.Description
                         };
                     }
 

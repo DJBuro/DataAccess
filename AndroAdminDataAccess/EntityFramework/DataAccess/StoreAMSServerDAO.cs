@@ -104,7 +104,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-
         public IList<Domain.StoreAMSServer> GetByAMServerName(string amsServerName)
         {
             List<Domain.StoreAMSServer> model = new List<Domain.StoreAMSServer>();

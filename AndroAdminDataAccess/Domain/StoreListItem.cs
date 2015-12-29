@@ -20,6 +20,8 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "Customer store id")]
         public virtual string CustomerSiteId { get; set; }
 
+        public string ChainName { get; set; }
+
         [Display(Name = "Store status")]
         public virtual string StoreStatus { get; set; }
 
@@ -28,6 +30,7 @@ namespace AndroAdminDataAccess.Domain
             this.Name = "";
             this.AndromedaSiteId = 0;
             this.CustomerSiteId = "";
+            this.ChainName = "";
             this.StoreStatus = "";
         }
    }

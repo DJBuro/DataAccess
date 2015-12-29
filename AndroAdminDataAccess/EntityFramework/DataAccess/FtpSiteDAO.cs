@@ -178,5 +178,67 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 }
             }
         }
+
+        public IList<Domain.FTPSite> GetByChainId(int chainId)
+        {
+            List<Domain.FTPSite> ftpSites = new List<Domain.FTPSite>();
+
+            this.GetByChainIdRecursive(chainId, ftpSites);
+
+            return ftpSites;
+        }
+
+        private void GetByChainIdRecursive(int chainId, IList<Domain.FTPSite> ftpSites)
+        {
+            // Get the FTP sites that the specified chain is allowed to access
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.FTPSites
+                            join x in entitiesContext.FTPSiteChains
+                            on s.Id equals x.FTPSiteId
+                            where x.ChainId == chainId
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    Domain.FTPSite model = new Domain.FTPSite()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Url = entity.Url,
+                        Port = entity.Port,
+                        Username = entity.Username,
+                        Password = entity.Password,
+                        FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
+                    };
+
+                    ftpSites.Add(model);
+                }
+            }
+
+            // Find any parent chains
+            List<int> parentChainIds = new List<int>();
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.ChainChains
+                            where s.ChildChainId == chainId
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    parentChainIds.Add(entity.ParentChainId);
+                }
+            }
+
+            // Get the FTP sites that the parent chain is allowed to access
+            foreach (int parentChainId in parentChainIds)
+            {
+                this.GetByChainIdRecursive(parentChainId, ftpSites);
+            }
+        }
     }
 }

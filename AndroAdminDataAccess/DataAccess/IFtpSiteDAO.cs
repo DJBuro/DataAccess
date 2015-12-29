@@ -15,5 +15,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Delete(int ftpSiteId);
         FTPSite GetById(int id);
         FTPSite GetByName(string name);
+        IList<Domain.FTPSite> GetByChainId(int chainId);
     }
 }

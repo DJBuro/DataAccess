@@ -15,5 +15,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Delete(int amsServerId);
         AMSServer GetById(int id);
         AMSServer GetByName(string name);
+        IList<Domain.AMSServer> GetByChainId(int chainId);
     }
 }
