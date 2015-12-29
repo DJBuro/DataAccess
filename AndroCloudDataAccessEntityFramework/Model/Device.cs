@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AndroAdminDataAccess.EntityFramework
+namespace AndroCloudDataAccessEntityFramework.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,16 +16,14 @@ namespace AndroAdminDataAccess.EntityFramework
     {
         public Device()
         {
-            this.StoreDevices = new HashSet<StoreDevice>();
+            this.SiteDevices = new HashSet<SiteDevice>();
         }
     
         public System.Guid Id { get; set; }
         public string Name { get; set; }
-        public int DataVersion { get; set; }
         public Nullable<System.Guid> ExternalApiId { get; set; }
-        public bool Removed { get; set; }
     
         public virtual ExternalApi ExternalApi { get; set; }
-        public virtual ICollection<StoreDevice> StoreDevices { get; set; }
+        public virtual ICollection<SiteDevice> SiteDevices { get; set; }
     }
 }

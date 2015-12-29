@@ -198,16 +198,14 @@
     <Compile Include="EntityFramework\ChainChain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\Chains_Parent_Child.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\Country.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\ApiCredentialsDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\ExternalApiDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\IExternalApiDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HostV2DataService.cs" />
@@ -215,6 +213,7 @@
     <Compile Include="EntityFramework\DataAccess\HostV2ForStoreDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreDevicesDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreHubDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreMenuThumbnailsDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
@@ -325,9 +324,6 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreStatu.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\TrimedStore.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -220,6 +220,12 @@
     <Compile Include="Model\DeliveryAreaTown.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Device.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ExternalApi.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Host.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
@@ -248,6 +254,9 @@
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Site.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SiteDevice.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SiteMenu.cs">

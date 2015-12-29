@@ -2,117 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Data;
 using System.Data.Entity;
-using System.Text;
 using AndroAdminDataAccess.DataAccess;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
-    public class StoreDevicesDataService : IStoreDevicesDataService 
-    {
-
-        public StoreDevice New()
-        {
-            return new StoreDevice() 
-            {
-                Id= Guid.NewGuid()
-            };
-        }
-
-        public IEnumerable<StoreDevice> List()
-        {
-            var results = Enumerable.Empty<StoreDevice>();
-            using (var dbContext = new EntityFramework.AndroAdminEntities()) 
-            {
-                var table = dbContext.StoreDevices
-                    .Include(e => e.Device);
-                results = table.ToArray();
-            }
-
-            return results;
-        }
-
-        public IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query)
-        {
-            var results = Enumerable.Empty<StoreDevice>();
-            using (var dbContext = new EntityFramework.AndroAdminEntities())
-            {
-                var table = dbContext.StoreDevices
-                    .Include(e=> e.Device)
-                    .Where(query);
-                results = table.ToArray();
-            }
-
-            return results;
-        }
-
-        public StoreDevice Get(Guid id)
-        {
-            StoreDevice result;
-            using (var dbContext = new EntityFramework.AndroAdminEntities())
-            {
-                var table = dbContext.StoreDevices
-                    .Include(e => e.Device)
-                    .Include(e=> e.Device.ExternalApi)
-                    .Include(e=> e.Store);
-
-                var entity = table.FirstOrDefault(e => e.Id ==  id);
-
-                result = entity;
-            }
-
-            return result;
-        }
-
-        public void Update(StoreDevice model)
-        {
-            using (var dbContext = new EntityFramework.AndroAdminEntities()) 
-            {
-                var table = dbContext.StoreDevices.Include(e=> e.Device);
-                var entity = table.FirstOrDefault(e => e.Id == model.Id);
-
-                entity.DeviceId = model.DeviceId;
-                entity.Parameters = model.Parameters;
-
-                dbContext.SaveChanges();
-            }
-        }
-
-        public void Create(StoreDevice model)
-        {
-            using (var dbContext = new EntityFramework.AndroAdminEntities())
-            {
-                var devicesTable = dbContext.Devices.Include(e=> e.ExternalApi);
-                var table = dbContext.StoreDevices;
-
-                if (model.Device == null) 
-                {
-                    model.Device = devicesTable.SingleOrDefault(e => model.DeviceId == e.Id);
-                }
-
-                table.Add(model);
-
-                dbContext.SaveChanges();
-            }
-        }
-
-        public void Delete(StoreDevice model)
-        {
-            using (var dbContext = new EntityFramework.AndroAdminEntities())
-            {
-                var table = dbContext.StoreDevices;
-                var entity = table.FirstOrDefault(e => e.Id == model.Id);
-
-                if (entity == null) { return; }
-
-                table.Remove(entity);
-
-                dbContext.SaveChanges();
-            }
-        }
-    }
-    
     public class DevicesDataService : IDevicesDataService
     {
         /// <summary>
@@ -129,7 +23,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var table = dbContext.Stores;
                 var entity = table.Single(e => e.Id == storeId);
 
-
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
                 if (entity.StoreDevices == null) 
                 {
                     entity.StoreDevices = new List<StoreDevice>();
@@ -163,7 +57,28 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
                 var table = dbContext.Devices.Include(e=> e.ExternalApi);
+                var tableQuery = table
+                    .Where(e=> !e.Removed)
+                    .Where(query);
+                
+                result = tableQuery.ToArray();
+            }
+
+            return result;
+        }
+
+        public IEnumerable<Device> ListRemoved(Expression<Func<Device, bool>> query)
+        {
+            IEnumerable<Device> result = Enumerable.Empty<Device>();
+
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                var table = dbContext.Devices
+                    .Include(e => e.ExternalApi)
+                    .Where(e=> e.Removed);
+
                 var tableQuery = table.Where(query);
+
                 result = tableQuery.ToArray();
             }
 
@@ -202,7 +117,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     .Include(e=> e.Device.ExternalApi);
 
 
-                var tableQuery = table.Where(query);  //table.Where).SelectMany(e => e.Stores);
+                var tableQuery = table
+                    .Where(e=> !e.Removed)
+                    .Where(query);  //table.Where).SelectMany(e => e.Stores);
                 
                 result = tableQuery.ToArray();
             }
@@ -241,12 +158,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (table.Any(e => e.Id == model.Id)) { return; }
 
+                model.DataVersion = dbContext.GetNextDataVersionForEntity();
                 table.Add(model);
 
                 dbContext.SaveChanges();
             }
         }
 
+        /// <summary>
+        /// News this instance.
+        /// </summary>
+        /// <returns></returns>
         public Device New()
         {
             return new Device()
@@ -270,6 +192,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 entity.Name = model.Name;
                 entity.ExternalApiId = model.ExternalApiId;
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
 
                 if (entity.ExternalApiId.HasValue) 
                 {
@@ -292,11 +215,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var table = dbContext.Devices;
                 var entity = table.SingleOrDefault(e => e.Id == model.Id);
 
-                if (entity != null) 
+                if (entity == null) 
                 {
-                    table.Remove(entity);
-                    dbContext.SaveChanges();
+                    return;    
                 }
+
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
+                entity.Removed = true;
+
+                dbContext.SaveChanges();
             }
         }
     }

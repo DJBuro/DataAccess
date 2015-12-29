@@ -50,6 +50,12 @@
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" />
         <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="3" PointY="17.375" />
         <AssociationConnector Association="ACSModel.FK_Sites_StorePaymentProvider" />
+        <EntityTypeShape EntityType="ACSModel.Device" Width="1.5" PointX="11.547045925421196" PointY="18.507309415613911" />
+        <EntityTypeShape EntityType="ACSModel.ExternalApi" Width="1.5" PointX="0.48981960699419475" PointY="8.8074111532454431" />
+        <EntityTypeShape EntityType="ACSModel.SiteDevice" Width="1.5" PointX="6.3088743362151423" PointY="13.01579462597882" />
+        <AssociationConnector Association="ACSModel.FK_Devices_ExternalApi" />
+        <AssociationConnector Association="ACSModel.FK_SiteDevices_Devices" />
+        <AssociationConnector Association="ACSModel.FK_SiteDevices_Sites" />
         </Diagram>
       <Diagram DiagramId="a0dcccb03707476f90349de2c058e74d" Name="Menu" >
       </Diagram>

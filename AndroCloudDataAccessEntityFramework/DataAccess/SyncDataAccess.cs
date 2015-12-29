@@ -8,6 +8,7 @@ using System.Transactions;
 using CloudSyncModel.HostV2;
 using CloudSyncModel.Hubs;
 using CloudSyncModel.Menus;
+using CloudSyncModel.StoreDeviceModels;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -71,13 +72,98 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     this.SyncStoreMenuChanges(acsEntities, syncModel.MenuUpdates);
 
+                    this.SyncStoreDevices(acsEntities, syncModel.StoreDeviceModels);
+
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
         }
-  
+ 
+        private void SyncStoreDevices(ACSEntities acsEntities, StoreDevicesModels storeDeviceModels)
+        {
+            //add in apis 
+            foreach (var model in storeDeviceModels.ExternalApis) 
+            {
+                var table = acsEntities.ExternalApis;
+                table.AddOrUpdate(e => e.Id == model.Id,  
+                    () => new ExternalApi() { 
+                        Id = model.Id,
+                        Name = model.Name,
+                        Parameters = model.Parameters
+                    },
+                    (entity) => {
+                        entity.Name = model.Name;
+                        entity.Parameters = model.Parameters;
+                    });
+            }
+            acsEntities.SaveChanges();
+
+            //add in devices 
+            foreach (var model in storeDeviceModels.Devices) 
+            {
+                var table = acsEntities.Devices;
+
+                table.AddOrUpdate(e => e.Id == model.Id,  
+                    () => new Device() { 
+                        Id = model.Id,
+                        Name = model.Name,
+                        ExternalApiId = model.ExternalApiId 
+                    },
+                    (entity) => { 
+                        entity.Name = model.Name;
+                        entity.ExternalApiId = model.ExternalApiId;
+                    }); 
+            }
+            acsEntities.SaveChanges();
+
+
+            //add in store device link.
+            foreach (var model in storeDeviceModels.SiteDevices) 
+            {
+                var table = acsEntities.SiteDevices;
+
+                table.AddOrUpdate(e =>
+                    e.Site.AndroID == model.AndromedaSiteId && 
+                    e.DeviceId == model.DeviceId,
+                    () => new SiteDevice() { 
+                        DeviceId = model.DeviceId,
+                        //find the store as i don't know the site id. 
+                        Site = acsEntities.Sites.SingleOrDefault(site => site.AndroID == model.AndromedaSiteId),
+                        Parameters = model.Parameters
+                    }, 
+                    (entity) => {
+                        entity.Parameters = model.Parameters;
+                        entity.DeviceId = model.DeviceId;
+                    });
+            }
+            acsEntities.SaveChanges();
+            //remove things
+            
+            foreach (var model in storeDeviceModels.RemovedDevices) 
+            {
+                var table = acsEntities.Devices;
+                table.RemoveIfExists(e => e.Id == model.Id);
+            }
+            acsEntities.SaveChanges();
+
+            foreach (var model in storeDeviceModels.RemovedExternalApis) 
+            {
+                var table = acsEntities.ExternalApis;
+                table.RemoveIfExists(e => e.Id == model.Id);
+            }
+            acsEntities.SaveChanges();
+
+            foreach (var model in storeDeviceModels.RemovedSiteDevices) 
+            {
+                var table = acsEntities.SiteDevices;
+                table.RemoveIfExists(e => e.DeviceId == model.DeviceId && e.Site.AndroID == model.AndromedaSiteId);
+            }
+            acsEntities.SaveChanges();
+
+        }
+
         private void SyncHostV2Relations(ACSEntities acsEntities, HostV2Models hostV2Models)
         {
             var andromedaSiteIds = hostV2Models.StoreLinks.Select(e=> e.AndromedaStoreId).Distinct().ToArray();

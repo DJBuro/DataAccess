@@ -43,35 +43,6 @@
           <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.Store.StoreMenuThumbnails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Chains-Parent-Child" EntityType="AndroAdminModel.Store.Chains-Parent-Child" store:Type="Views" store:Schema="dbo" store:Name="Chains-Parent-Child">
-            <DefiningQuery>SELECT 
-      [Chains-Parent-Child].[ChainId] AS [ChainId], 
-      [Chains-Parent-Child].[Name] AS [Name], 
-      [Chains-Parent-Child].[Description] AS [Description], 
-      [Chains-Parent-Child].[ParentChainId] AS [ParentChainId]
-      FROM [dbo].[Chains-Parent-Child] AS [Chains-Parent-Child]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="TrimedStores" EntityType="AndroAdminModel.Store.TrimedStores" store:Type="Views" store:Schema="dbo" store:Name="TrimedStores">
-            <DefiningQuery>SELECT 
-      [TrimedStores].[Id] AS [Id], 
-      [TrimedStores].[Name] AS [Name], 
-      [TrimedStores].[AndromedaSiteId] AS [AndromedaSiteId], 
-      [TrimedStores].[CustomerSiteId] AS [CustomerSiteId], 
-      [TrimedStores].[LastFTPUploadDateTime] AS [LastFTPUploadDateTime], 
-      [TrimedStores].[StoreStatusId] AS [StoreStatusId], 
-      [TrimedStores].[ClientSiteName] AS [ClientSiteName], 
-      [TrimedStores].[ExternalSiteName] AS [ExternalSiteName], 
-      [TrimedStores].[ExternalId] AS [ExternalId], 
-      [TrimedStores].[EstimatedDeliveryTime] AS [EstimatedDeliveryTime], 
-      [TrimedStores].[TimeZone] AS [TimeZone], 
-      [TrimedStores].[Telephone] AS [Telephone], 
-      [TrimedStores].[LicenseKey] AS [LicenseKey], 
-      [TrimedStores].[AddressId] AS [AddressId], 
-      [TrimedStores].[StorePaymentProviderID] AS [StorePaymentProviderID], 
-      [TrimedStores].[DataVersion] AS [DataVersion], 
-      [TrimedStores].[ChainId] AS [ChainId]
-      FROM [dbo].[TrimedStores] AS [TrimedStores]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.Store.FK_ACSApplication_Partner">
             <End Role="Partner" EntitySet="Partner" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -246,7 +217,7 @@
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'AndroAdmin2.dbo.Address' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
+      warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'AndroAdmin.dbo.Address' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
       -->
         <EntityType Name="Address">
           <Key>
@@ -287,7 +258,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="AMSServerId" Type="int" Nullable="false" />
           <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
@@ -332,6 +303,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="ExternalApiId" Type="uniqueidentifier" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -354,6 +326,7 @@
           <Property Name="DefinitionParameters" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Parameters" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FTPSite">
           <Key>
@@ -533,6 +506,7 @@
           <Property Name="DeviceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Parameters" Type="nvarchar(max)" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreHostsV2">
           <Key>
@@ -588,8 +562,8 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ProviderName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClientId" Type="nvarchar" MaxLength="150" />
+          <Property Name="ClientPassword" Type="nvarchar" MaxLength="150" />
           <Property Name="DisplayText" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
@@ -600,53 +574,6 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="25" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'AndroAdmin2.dbo.Chains-Parent-Child' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="Chains-Parent-Child">
-          <Key>
-            <PropertyRef Name="ChainId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-          </Key>
-          <Property Name="ChainId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
-          <Property Name="ParentChainId" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'AndroAdmin2.dbo.TrimedStores' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="TrimedStores">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="AndromedaSiteId" />
-            <PropertyRef Name="StoreStatusId" />
-            <PropertyRef Name="ClientSiteName" />
-            <PropertyRef Name="ExternalSiteName" />
-            <PropertyRef Name="ExternalId" />
-            <PropertyRef Name="AddressId" />
-            <PropertyRef Name="DataVersion" />
-            <PropertyRef Name="ChainId" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" />
-          <Property Name="AndromedaSiteId" Type="int" Nullable="false" />
-          <Property Name="CustomerSiteId" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastFTPUploadDateTime" Type="datetime" />
-          <Property Name="StoreStatusId" Type="int" Nullable="false" />
-          <Property Name="ClientSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="ExternalSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="EstimatedDeliveryTime" Type="int" />
-          <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
-          <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
-          <Property Name="LicenseKey" Type="nvarchar" MaxLength="64" />
-          <Property Name="AddressId" Type="int" Nullable="false" />
-          <Property Name="StorePaymentProviderID" Type="int" />
-          <Property Name="DataVersion" Type="int" Nullable="false" />
-          <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partner">
           <End Role="Partner" Type="AndroAdminModel.Store.Partner" Multiplicity="1" />
@@ -1264,8 +1191,6 @@
             <End Role="Device" EntitySet="Devices" />
           </AssociationSet>
           <EntitySet Name="StoreDevices" EntityType="AndroAdminModel.StoreDevice" />
-          <EntitySet Name="Chains_Parent_Child" EntityType="AndroAdminModel.Chains_Parent_Child" />
-          <EntitySet Name="TrimedStores" EntityType="AndroAdminModel.TrimedStore" />
           <AssociationSet Name="FK_StoreTypes_StoreType" Association="AndroAdminModel.FK_StoreTypes_StoreType">
             <End Role="Device" EntitySet="Devices" />
             <End Role="StoreDevice" EntitySet="StoreDevices" />
@@ -1627,8 +1552,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ClientId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClientPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClientPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="DisplayText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StorePaymentProvider" FromRole="StorePaymentProvider" ToRole="Store" />
@@ -1986,6 +1911,7 @@
           <Property Type="Guid" Name="ExternalApiId" />
           <NavigationProperty Name="ExternalApi" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="Device" ToRole="ExternalApi" />
           <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="Device" ToRole="StoreDevice" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
         </EntityType>
         <EntityType Name="ExternalApi">
           <Key>
@@ -1997,6 +1923,7 @@
           <Property Type="String" Name="Parameters" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <NavigationProperty Name="Devices" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="ExternalApi" ToRole="Device" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
         </EntityType>
         <Association Name="FK_Devices_ExternalApi">
           <End Type="AndroAdminModel.ExternalApi" Role="ExternalApi" Multiplicity="0..1" />
@@ -2021,47 +1948,7 @@
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <NavigationProperty Name="Device" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="StoreDevice" ToRole="Device" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="StoreDevice" ToRole="Store" />
-        </EntityType>
-        <EntityType Name="Chains_Parent_Child">
-          <Key>
-            <PropertyRef Name="ChainId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-          </Key>
-          <Property Type="Int32" Name="ChainId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ParentChainId" />
-        </EntityType>
-        <EntityType Name="TrimedStore">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="AndromedaSiteId" />
-            <PropertyRef Name="StoreStatusId" />
-            <PropertyRef Name="ClientSiteName" />
-            <PropertyRef Name="ExternalSiteName" />
-            <PropertyRef Name="ExternalId" />
-            <PropertyRef Name="AddressId" />
-            <PropertyRef Name="DataVersion" />
-            <PropertyRef Name="ChainId" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AndromedaSiteId" Nullable="false" />
-          <Property Type="String" Name="CustomerSiteId" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="LastFTPUploadDateTime" Precision="3" />
-          <Property Type="Int32" Name="StoreStatusId" Nullable="false" />
-          <Property Type="String" Name="ClientSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="EstimatedDeliveryTime" />
-          <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseKey" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" Nullable="false" />
-          <Property Type="Int32" Name="StorePaymentProviderID" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="Int32" Name="ChainId" Nullable="false" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
         </EntityType>
         <Association Name="FK_StoreTypes_StoreType">
           <End Type="AndroAdminModel.Device" Role="Device" Multiplicity="1">
@@ -2482,6 +2369,7 @@
           <EntitySetMapping Name="Devices">
             <EntityTypeMapping TypeName="AndroAdminModel.Device">
               <MappingFragment StoreEntitySet="Devices">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="ExternalApiId" ColumnName="ExternalApiId" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2492,6 +2380,7 @@
           <EntitySetMapping Name="ExternalApis">
             <EntityTypeMapping TypeName="AndroAdminModel.ExternalApi">
               <MappingFragment StoreEntitySet="ExternalApi">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="Parameters" ColumnName="Parameters" />
                 <ScalarProperty Name="DefinitionParameters" ColumnName="DefinitionParameters" />
@@ -2503,43 +2392,11 @@
           <EntitySetMapping Name="StoreDevices">
             <EntityTypeMapping TypeName="AndroAdminModel.StoreDevice">
               <MappingFragment StoreEntitySet="StoreDevices">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="Parameters" ColumnName="Parameters" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Chains_Parent_Child">
-            <EntityTypeMapping TypeName="AndroAdminModel.Chains_Parent_Child">
-              <MappingFragment StoreEntitySet="Chains-Parent-Child">
-                <ScalarProperty Name="ParentChainId" ColumnName="ParentChainId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TrimedStores">
-            <EntityTypeMapping TypeName="AndroAdminModel.TrimedStore">
-              <MappingFragment StoreEntitySet="TrimedStores">
-                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="StorePaymentProviderID" ColumnName="StorePaymentProviderID" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="LicenseKey" ColumnName="LicenseKey" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-                <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
-                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
-                <ScalarProperty Name="StoreStatusId" ColumnName="StoreStatusId" />
-                <ScalarProperty Name="LastFTPUploadDateTime" ColumnName="LastFTPUploadDateTime" />
-                <ScalarProperty Name="CustomerSiteId" ColumnName="CustomerSiteId" />
-                <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
