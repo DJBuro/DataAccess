@@ -12,5 +12,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
     public interface IWebOrderingWebSiteDataService : IDataProvider<AndroWebOrderingWebsite>, IDependency
     {
         void Update(AndroWebOrderingWebsite website);
+        AndroWebOrderingWebsite GetWebOrderingSiteForOrder(int applicationId, string externalSiteId);
     }
 }
