@@ -7,7 +7,7 @@ using AndroAdminDataAccess.DataAccess;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
-    public class StoreDevicesDataService : IStoreDevicesDataService 
+    public class StoreDevicesDataService : IStoreDevicesDataService
     {
         public StoreDevice New()
         {
@@ -20,11 +20,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         public IEnumerable<StoreDevice> List()
         {
             var results = Enumerable.Empty<StoreDevice>();
-            using (var dbContext = new EntityFramework.AndroAdminEntities()) 
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.StoreDevices
                                      .Include(e => e.Device)
-                                     .Where(e=> !e.Removed);
+                                     .Include(e => e.Store)
+                                     .Where(e => !e.Removed);
 
                 results = table.ToArray();
             }
@@ -39,7 +40,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 var table = dbContext.StoreDevices
                                      .Include(e => e.Device)
-                                     .Where(e=> !e.Removed)
+                                     .Include(e => e.Store)
+                                     .Where(e => !e.Removed)
                                      .Where(query);
 
                 results = table.ToArray();
@@ -55,7 +57,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 var table = dbContext.StoreDevices
                                      .Include(e => e.Device)
-                                     .Where(e=> e.Removed)
+                                     .Include(e=>e.Store)
+                                     .Where(e => e.Removed)
                                      .Where(query);
                 results = table.ToArray();
             }
@@ -83,7 +86,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(StoreDevice model)
         {
-            using (var dbContext = new EntityFramework.AndroAdminEntities()) 
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.StoreDevices.Include(e => e.Device);
                 var entity = table.FirstOrDefault(e => e.Id == model.Id);
@@ -103,7 +106,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var devicesTable = dbContext.Devices.Include(e => e.ExternalApi);
                 var table = dbContext.StoreDevices;
 
-                if (model.Device == null) 
+                if (model.Device == null)
                 {
                     model.Device = devicesTable.SingleOrDefault(e => model.DeviceId == e.Id);
                     model.DataVersion = dbContext.GetNextDataVersionForEntity();
@@ -136,6 +139,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         }
 
 
-        
+
     }
 }
