@@ -10,24 +10,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class AuditDataAccess : IAuditDataAccess
     {
+        public string ConnectionStringOverride { get; set; }
+
         public string Add(string sourceId, string hardwareId, string ipPort, string action, int responseTime)
         {
-            ACSEntities acsEntities = new ACSEntities();
-
-            Audit audit = new Audit
+            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             {
-                SrcID = sourceId,
-                HardwareID = hardwareId,
-                IP_Port = ipPort,
-                Action = action,
-                ResponseTime = responseTime,
-                ID = Guid.NewGuid(),
-                DateCreated = DateTime.UtcNow
-            };
+                Audit audit = new Audit
+                {
+                    SrcID = sourceId,
+                    HardwareID = hardwareId,
+                    IP_Port = ipPort,
+                    Action = action,
+                    ResponseTime = responseTime,
+                    ID = Guid.NewGuid(),
+                    DateCreated = DateTime.UtcNow
+                };
 
-            acsEntities.AddToAudits(audit);
+                acsEntities.AddToAudits(audit);
 
-            acsEntities.SaveChanges();
+                acsEntities.SaveChanges();
+            }
 
             return "";
         }

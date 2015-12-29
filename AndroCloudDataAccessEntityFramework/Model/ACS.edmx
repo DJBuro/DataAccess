@@ -13,46 +13,23 @@
           <EntitySet Name="Addresses" EntityType="ACSModel.Store.Addresses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Audit" EntityType="ACSModel.Store.Audit" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Employees" EntityType="ACSModel.Store.Employees" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Groups" EntityType="ACSModel.Store.Groups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Hosts" EntityType="ACSModel.Store.Hosts" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUser" EntityType="ACSModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Partners" EntityType="ACSModel.Store.Partners" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Settings" EntityType="ACSModel.Store.Settings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SitesGroups" EntityType="ACSModel.Store.SitesGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteStatuses" EntityType="ACSModel.Store.SiteStatuses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StorePaymentProvider" EntityType="ACSModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_ACSApplication_Partner" Association="ACSModel.Store.FK_ACSApplication_Partner">
+          <AssociationSet Name="FK_ACSApplication_Partners" Association="ACSModel.Store.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="ACSModel.Store.FK_ACSApplicationSite_ACSApplication">
-            <End Role="ACSApplication" EntitySet="ACSApplication" />
-            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSite" />
           </AssociationSet>
           <AssociationSet Name="FK_ACSApplicationSite_Sites" Association="ACSModel.Store.FK_ACSApplicationSite_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSite" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.Store.FK_Chains_Partners">
-            <End Role="Partners" EntitySet="Partners" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employees_Sites" Association="ACSModel.Store.FK_Employees_Sites">
-            <End Role="Sites" EntitySet="Sites" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUser_Employees" Association="ACSModel.Store.FK_MyAndromedaUser_Employees">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUser_Groups" Association="ACSModel.Store.FK_MyAndromedaUser_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHours_Day" Association="ACSModel.Store.FK_OpeningHours_Day">
             <End Role="Day" EntitySet="Day" />
@@ -90,32 +67,23 @@
             <End Role="SiteStatuses" EntitySet="SiteStatuses" />
             <End Role="Sites" EntitySet="Sites" />
           </AssociationSet>
-          <AssociationSet Name="FK_SitesGroups_Groups" Association="ACSModel.Store.FK_SitesGroups_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="SitesGroups" EntitySet="SitesGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SitesGroups_Sites" Association="ACSModel.Store.FK_SitesGroups_Sites">
-            <End Role="Sites" EntitySet="Sites" />
-            <End Role="SitesGroups" EntitySet="SitesGroups" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ExternalApplicationId" Type="nvarchar" Nullable="false" MaxLength="40" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="PartnerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PartnerId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ACSApplicationId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="ACSApplicationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ACSLog">
           <Key>
@@ -193,28 +161,6 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Employees">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="SiteID" Type="uniqueidentifier" />
-          <Property Name="Firstname" Type="nvarchar" MaxLength="64" />
-          <Property Name="Surname" Type="nvarchar" MaxLength="64" />
-          <Property Name="Role" Type="nvarchar" MaxLength="32" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="32" />
-          <Property Name="Notes" Type="nvarchar" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="Groups">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PartnerID" Type="uniqueidentifier" />
-          <Property Name="GroupName" Type="nvarchar" MaxLength="64" />
-          <Property Name="LastUpdated" Type="datetime" />
-          <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
-        </EntityType>
         <EntityType Name="Hosts">
           <Key>
             <PropertyRef Name="ID" />
@@ -224,17 +170,6 @@
           <Property Name="Order" Type="int" Nullable="false" />
           <Property Name="Port" Type="int" Nullable="false" />
           <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUser">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="GroupID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EmployeeID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IsEnabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -268,11 +203,19 @@
         </EntityType>
         <EntityType Name="Partners">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="SiteMenus">
           <Key>
@@ -305,14 +248,6 @@
           <Property Name="StorePaymentProviderID" Type="uniqueidentifier" />
           <Property Name="SiteStatusID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="SitesGroups">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="SiteID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="GroupID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
         <EntityType Name="SiteStatuses">
           <Key>
             <PropertyRef Name="ID" />
@@ -330,27 +265,15 @@
           <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_ACSApplication_Partner">
+        <Association Name="FK_ACSApplication_Partners">
           <End Role="Partners" Type="ACSModel.Store.Partners" Multiplicity="1" />
           <End Role="ACSApplication" Type="ACSModel.Store.ACSApplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Partners">
-              <PropertyRef Name="ID" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ACSApplication">
               <PropertyRef Name="PartnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACSApplicationSite_ACSApplication">
-          <End Role="ACSApplication" Type="ACSModel.Store.ACSApplication" Multiplicity="1" />
-          <End Role="ACSApplicationSite" Type="ACSModel.Store.ACSApplicationSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplicationSite">
-              <PropertyRef Name="ACSApplicationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -363,54 +286,6 @@
             </Principal>
             <Dependent Role="ACSApplicationSite">
               <PropertyRef Name="SiteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Chains_Partners">
-          <End Role="Partners" Type="ACSModel.Store.Partners" Multiplicity="0..1" />
-          <End Role="Groups" Type="ACSModel.Store.Groups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partners">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Groups">
-              <PropertyRef Name="PartnerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employees_Sites">
-          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
-          <End Role="Employees" Type="ACSModel.Store.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sites">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUser_Employees">
-          <End Role="Employees" Type="ACSModel.Store.Employees" Multiplicity="1" />
-          <End Role="MyAndromedaUser" Type="ACSModel.Store.MyAndromedaUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MyAndromedaUser">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUser_Groups">
-          <End Role="Groups" Type="ACSModel.Store.Groups" Multiplicity="1" />
-          <End Role="MyAndromedaUser" Type="ACSModel.Store.MyAndromedaUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MyAndromedaUser">
-              <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -522,106 +397,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SitesGroups_Groups">
-          <End Role="Groups" Type="ACSModel.Store.Groups" Multiplicity="1" />
-          <End Role="SitesGroups" Type="ACSModel.Store.SitesGroups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SitesGroups">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SitesGroups_Sites">
-          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1" />
-          <End Role="SitesGroups" Type="ACSModel.Store.SitesGroups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sites">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SitesGroups">
-              <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ACSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="ACSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ACSLogs" EntityType="ACSModel.ACSLog" />
-          <EntitySet Name="ACSQueues" EntityType="ACSModel.ACSQueue" />
-          <EntitySet Name="Audits" EntityType="ACSModel.Audit" />
-          <EntitySet Name="Days" EntityType="ACSModel.Day" />
-          <EntitySet Name="Employees" EntityType="ACSModel.Employee" />
-          <EntitySet Name="Groups" EntityType="ACSModel.Group" />
-          <EntitySet Name="MyAndromedaUsers" EntityType="ACSModel.MyAndromedaUser" />
-          <EntitySet Name="OpeningHours" EntityType="ACSModel.OpeningHour" />
-          <EntitySet Name="Orders" EntityType="ACSModel.Order" />
-          <EntitySet Name="OrderStatus1" EntityType="ACSModel.OrderStatus" />
-          <EntitySet Name="SiteMenus" EntityType="ACSModel.SiteMenu" />
-          <EntitySet Name="SitesGroups" EntityType="ACSModel.SitesGroup" />
-          <AssociationSet Name="FK_Orders_ACSQueue" Association="ACSModel.FK_Orders_ACSQueue">
-            <End Role="ACSQueue" EntitySet="ACSQueues" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OpeningHours_Day" Association="ACSModel.FK_OpeningHours_Day">
-            <End Role="Day" EntitySet="Days" />
-            <End Role="OpeningHour" EntitySet="OpeningHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUser_Employees" Association="ACSModel.FK_MyAndromedaUser_Employees">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUser_Groups" Association="ACSModel.FK_MyAndromedaUser_Groups">
-            <End Role="Group" EntitySet="Groups" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SitesGroups_Groups" Association="ACSModel.FK_SitesGroups_Groups">
-            <End Role="Group" EntitySet="Groups" />
-            <End Role="SitesGroup" EntitySet="SitesGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_OrderStatus" Association="ACSModel.FK_Orders_OrderStatus">
-            <End Role="OrderStatu" EntitySet="OrderStatus1" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <EntitySet Name="Addresses" EntityType="ACSModel.Address" />
-          <EntitySet Name="Partners" EntityType="ACSModel.Partner" />
-          <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.FK_Chains_Partners">
-            <End Role="Partner" EntitySet="Partners" />
-            <End Role="Group" EntitySet="Groups" />
-          </AssociationSet>
-          <EntitySet Name="Hosts" EntityType="ACSModel.Host" />
-          <EntitySet Name="StorePaymentProviders" EntityType="ACSModel.StorePaymentProvider" />
-          <EntitySet Name="SiteStatuses" EntityType="ACSModel.SiteStatus" />
           <EntitySet Name="ACSApplications" EntityType="ACSModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="ACSModel.ACSApplicationSite" />
-          <AssociationSet Name="FK_ACSApplication_Partner" Association="ACSModel.FK_ACSApplication_Partner">
+          <EntitySet Name="ACSLogs" EntityType="ACSModel.ACSLog" />
+          <EntitySet Name="ACSQueues" EntityType="ACSModel.ACSQueue" />
+          <EntitySet Name="Addresses" EntityType="ACSModel.Address" />
+          <EntitySet Name="Audits" EntityType="ACSModel.Audit" />
+          <EntitySet Name="Days" EntityType="ACSModel.Day" />
+          <EntitySet Name="Hosts" EntityType="ACSModel.Host" />
+          <EntitySet Name="OpeningHours" EntityType="ACSModel.OpeningHour" />
+          <EntitySet Name="Orders" EntityType="ACSModel.Order" />
+          <EntitySet Name="OrderStatus" EntityType="ACSModel.OrderStatu" />
+          <EntitySet Name="Partners" EntityType="ACSModel.Partner" />
+          <EntitySet Name="Settings" EntityType="ACSModel.Setting" />
+          <EntitySet Name="SiteMenus" EntityType="ACSModel.SiteMenu" />
+          <EntitySet Name="Sites" EntityType="ACSModel.Site" />
+          <EntitySet Name="SiteStatuses" EntityType="ACSModel.SiteStatus" />
+          <EntitySet Name="StorePaymentProviders" EntityType="ACSModel.StorePaymentProvider" />
+          <AssociationSet Name="FK_ACSApplication_Partners" Association="ACSModel.FK_ACSApplication_Partners">
             <End Role="Partner" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
           </AssociationSet>
-          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="ACSModel.FK_ACSApplicationSite_ACSApplication">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
-          </AssociationSet>
-          <EntitySet Name="Sites" EntityType="ACSModel.Site" />
           <AssociationSet Name="FK_ACSApplicationSite_Sites" Association="ACSModel.FK_ACSApplicationSite_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_ACSQueue" Association="ACSModel.FK_Orders_ACSQueue">
+            <End Role="ACSQueue" EntitySet="ACSQueues" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.FK_Sites_Addresses">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employees_Sites" Association="ACSModel.FK_Employees_Sites">
-            <End Role="Site" EntitySet="Sites" />
-            <End Role="Employee" EntitySet="Employees" />
+          <AssociationSet Name="FK_OpeningHours_Day" Association="ACSModel.FK_OpeningHours_Day">
+            <End Role="Day" EntitySet="Days" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHours_Sites" Association="ACSModel.FK_OpeningHours_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="OpeningHour" EntitySet="OpeningHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_OrderStatus" Association="ACSModel.FK_Orders_OrderStatus">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Sites" Association="ACSModel.FK_Orders_Sites">
             <End Role="Site" EntitySet="Sites" />
@@ -639,11 +463,26 @@
             <End Role="SiteStatus" EntitySet="SiteStatuses" />
             <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
-          <AssociationSet Name="FK_SitesGroups_Sites" Association="ACSModel.FK_SitesGroups_Sites">
-            <End Role="Site" EntitySet="Sites" />
-            <End Role="SitesGroup" EntitySet="SitesGroups" />
-          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ACSApplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="ExternalApplicationId" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PartnerId" Nullable="false" />
+          <NavigationProperty Name="Partner" Relationship="ACSModel.FK_ACSApplication_Partners" FromRole="ACSApplication" ToRole="Partner" />
+        </EntityType>
+        <EntityType Name="ACSApplicationSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="SiteId" Nullable="false" />
+          <Property Type="Int32" Name="ACSApplicationId" Nullable="false" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_ACSApplicationSite_Sites" FromRole="ACSApplicationSite" ToRole="Site" />
+        </EntityType>
         <EntityType Name="ACSLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -673,6 +512,33 @@
           <Property Type="String" Name="Packet" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_ACSQueue" FromRole="ACSQueue" ToRole="Order" />
         </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Lat" />
+          <Property Type="Double" Name="Long" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Address" ToRole="Site" />
+        </EntityType>
         <EntityType Name="Audit">
           <Key>
             <PropertyRef Name="ID" />
@@ -693,45 +559,15 @@
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Day" FromRole="Day" ToRole="OpeningHour" />
         </EntityType>
-        <EntityType Name="Employee">
+        <EntityType Name="Host">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="SiteID" />
-          <Property Type="String" Name="Firstname" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Surname" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Role" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Phone" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Notes" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="Employee" ToRole="MyAndromedaUser" />
-          <NavigationProperty Name="Site" Relationship="ACSModel.FK_Employees_Sites" FromRole="Employee" ToRole="Site" />
-        </EntityType>
-        <EntityType Name="Group">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="PartnerID" />
-          <Property Type="String" Name="GroupName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
-          <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="Group" ToRole="MyAndromedaUser" />
-          <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Groups" FromRole="Group" ToRole="SitesGroup" />
-          <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Group" ToRole="Partner" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUser">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="GroupID" Nullable="false" />
-          <Property Type="Guid" Name="EmployeeID" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="MyAndromedaUser" ToRole="Employee" />
-          <NavigationProperty Name="Group" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="MyAndromedaUser" ToRole="Group" />
-          <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
+          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Int32" Name="Port" Nullable="false" />
+          <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -760,7 +596,7 @@
           <NavigationProperty Name="OrderStatu" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="Order" ToRole="OrderStatu" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_Orders_Sites" FromRole="Order" ToRole="Site" />
         </EntityType>
-        <EntityType Name="OrderStatus">
+        <EntityType Name="OrderStatu">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -768,6 +604,23 @@
           <Property Type="Int32" Name="RamesesStatusId" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="OrderStatu" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ACSApplications" Relationship="ACSModel.FK_ACSApplication_Partners" FromRole="Partner" ToRole="ACSApplication" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
@@ -781,212 +634,6 @@
           <Property Type="DateTime" Name="LastUpdated" Precision="3" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenu" ToRole="Site" />
         </EntityType>
-        <EntityType Name="SitesGroup">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="SiteID" Nullable="false" />
-          <Property Type="Guid" Name="GroupID" Nullable="false" />
-          <NavigationProperty Name="Group" Relationship="ACSModel.FK_SitesGroups_Groups" FromRole="SitesGroup" ToRole="Group" />
-          <NavigationProperty Name="Site" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="SitesGroup" ToRole="Site" />
-        </EntityType>
-        <Association Name="FK_Orders_ACSQueue">
-          <End Type="ACSModel.ACSQueue" Role="ACSQueue" Multiplicity="0..1" />
-          <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSQueue">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ACSQueueID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OpeningHours_Day">
-          <End Type="ACSModel.Day" Role="Day" Multiplicity="1" />
-          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Day">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OpeningHour">
-              <PropertyRef Name="DayID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUser_Employees">
-          <End Type="ACSModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="ACSModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MyAndromedaUser">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUser_Groups">
-          <End Type="ACSModel.Group" Role="Group" Multiplicity="1" />
-          <End Type="ACSModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Group">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MyAndromedaUser">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SitesGroups_Groups">
-          <End Type="ACSModel.Group" Role="Group" Multiplicity="1" />
-          <End Type="ACSModel.SitesGroup" Role="SitesGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Group">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SitesGroup">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_OrderStatus">
-          <End Type="ACSModel.OrderStatus" Role="OrderStatu" Multiplicity="0..1" />
-          <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderStatu">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Address">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="Lat" />
-          <Property Type="Double" Name="Long" />
-          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Address" ToRole="Site" />
-        </EntityType>
-        <EntityType Name="Partner">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Groups" Relationship="ACSModel.FK_Chains_Partners" FromRole="Partner" ToRole="Group" />
-          <NavigationProperty Name="ACSApplications" Relationship="ACSModel.FK_ACSApplication_Partner" FromRole="Partner" ToRole="ACSApplication" />
-        </EntityType>
-        <Association Name="FK_Chains_Partners">
-          <End Type="ACSModel.Partner" Role="Partner" Multiplicity="0..1" />
-          <End Type="ACSModel.Group" Role="Group" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partner">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Group">
-              <PropertyRef Name="PartnerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Host">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="Order" Nullable="false" />
-          <Property Type="Int32" Name="Port" Nullable="false" />
-          <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StorePaymentProvider">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ClientId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ClientPassword" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_PaymentProvider" FromRole="StorePaymentProvider" ToRole="Site" />
-        </EntityType>
-        <EntityType Name="SiteStatus">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_SiteStatuses" FromRole="SiteStatus" ToRole="Site" />
-        </EntityType>
-        <EntityType Name="ACSApplication">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="String" Name="ExternalApplicationId" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Guid" Name="PartnerId" Nullable="false" />
-          <NavigationProperty Name="Partner" Relationship="ACSModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
-          <NavigationProperty Name="ACSApplicationSites" Relationship="ACSModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
-        </EntityType>
-        <EntityType Name="ACSApplicationSite">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Guid" Name="SiteId" Nullable="false" />
-          <Property Type="Guid" Name="ACSApplicationId" Nullable="false" />
-          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="ACSModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
-          <NavigationProperty Name="Site" Relationship="ACSModel.FK_ACSApplicationSite_Sites" FromRole="ACSApplicationSite" ToRole="Site" />
-        </EntityType>
-        <Association Name="FK_ACSApplication_Partner">
-          <End Type="ACSModel.Partner" Role="Partner" Multiplicity="1" />
-          <End Type="ACSModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partner">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ACSApplication">
-              <PropertyRef Name="PartnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACSApplicationSite_ACSApplication">
-          <End Type="ACSModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
-          <End Type="ACSModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplicationSite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Site">
           <Key>
             <PropertyRef Name="ID" />
@@ -1008,14 +655,43 @@
           <Property Type="Guid" Name="SiteStatusID" Nullable="false" />
           <NavigationProperty Name="ACSApplicationSites" Relationship="ACSModel.FK_ACSApplicationSite_Sites" FromRole="Site" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
-          <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Site" ToRole="Order" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
           <NavigationProperty Name="StorePaymentProvider" Relationship="ACSModel.FK_Sites_PaymentProvider" FromRole="Site" ToRole="StorePaymentProvider" />
           <NavigationProperty Name="SiteStatus" Relationship="ACSModel.FK_Sites_SiteStatuses" FromRole="Site" ToRole="SiteStatus" />
-          <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
         </EntityType>
+        <EntityType Name="SiteStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_SiteStatuses" FromRole="SiteStatus" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ProviderName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientPassword" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_PaymentProvider" FromRole="StorePaymentProvider" ToRole="Site" />
+        </EntityType>
+        <Association Name="FK_ACSApplication_Partners">
+          <End Type="ACSModel.Partner" Role="Partner" Multiplicity="1" />
+          <End Type="ACSModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ACSApplicationSite_Sites">
           <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
           <End Type="ACSModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
@@ -1025,6 +701,18 @@
             </Principal>
             <Dependent Role="ACSApplicationSite">
               <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_ACSQueue">
+          <End Type="ACSModel.ACSQueue" Role="ACSQueue" Multiplicity="0..1" />
+          <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSQueue">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ACSQueueID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1040,15 +728,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employees_Sites">
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
-          <End Type="ACSModel.Employee" Role="Employee" Multiplicity="*" />
+        <Association Name="FK_OpeningHours_Day">
+          <End Type="ACSModel.Day" Role="Day" Multiplicity="1" />
+          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Site">
+            <Principal Role="Day">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="SiteID" />
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="DayID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1061,6 +749,18 @@
             </Principal>
             <Dependent Role="OpeningHour">
               <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_OrderStatus">
+          <End Type="ACSModel.OrderStatu" Role="OrderStatu" Multiplicity="0..1" />
+          <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1112,24 +812,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SitesGroups_Sites">
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
-          <End Type="ACSModel.SitesGroup" Role="SitesGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Site">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SitesGroup">
-              <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ACSModelStoreContainer" CdmEntityContainer="ACSEntities">
+          <EntitySetMapping Name="ACSApplications">
+            <EntityTypeMapping TypeName="ACSModel.ACSApplication">
+              <MappingFragment StoreEntitySet="ACSApplication">
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACSApplicationSites">
+            <EntityTypeMapping TypeName="ACSModel.ACSApplicationSite">
+              <MappingFragment StoreEntitySet="ACSApplicationSite">
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ACSLogs">
             <EntityTypeMapping TypeName="ACSModel.ACSLog">
               <MappingFragment StoreEntitySet="ACSLog">
@@ -1156,117 +863,6 @@
                 <ScalarProperty Name="SrcSiteGuid" ColumnName="SrcSiteGuid" />
                 <ScalarProperty Name="SrcSiteID" ColumnName="SrcSiteID" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Audits">
-            <EntityTypeMapping TypeName="ACSModel.Audit">
-              <MappingFragment StoreEntitySet="Audit">
-                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />
-                <ScalarProperty Name="HardwareID" ColumnName="HardwareID" />
-                <ScalarProperty Name="SrcID" ColumnName="SrcID" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Days">
-            <EntityTypeMapping TypeName="ACSModel.Day">
-              <MappingFragment StoreEntitySet="Day">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="ACSModel.Employee">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="ACSModel.Group">
-              <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
-                <ScalarProperty Name="PartnerID" ColumnName="PartnerID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MyAndromedaUsers">
-            <EntityTypeMapping TypeName="ACSModel.MyAndromedaUser">
-              <MappingFragment StoreEntitySet="MyAndromedaUser">
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OpeningHours">
-            <EntityTypeMapping TypeName="ACSModel.OpeningHour">
-              <MappingFragment StoreEntitySet="OpeningHours">
-                <ScalarProperty Name="DayID" ColumnName="DayID" />
-                <ScalarProperty Name="OpenAllDay" ColumnName="OpenAllDay" />
-                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
-                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="ACSModel.Order">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
-                <ScalarProperty Name="InternetOrderNumber" ColumnName="InternetOrderNumber" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="ACSQueueID" ColumnName="ACSQueueID" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderStatus1">
-            <EntityTypeMapping TypeName="ACSModel.OrderStatus">
-              <MappingFragment StoreEntitySet="OrderStatus">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RamesesStatusId" ColumnName="RamesesStatusId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SiteMenus">
-            <EntityTypeMapping TypeName="ACSModel.SiteMenu">
-              <MappingFragment StoreEntitySet="SiteMenus">
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="menuData" ColumnName="menuData" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SitesGroups">
-            <EntityTypeMapping TypeName="ACSModel.SitesGroup">
-              <MappingFragment StoreEntitySet="SitesGroups">
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1298,11 +894,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Partners">
-            <EntityTypeMapping TypeName="ACSModel.Partner">
-              <MappingFragment StoreEntitySet="Partners">
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="Audits">
+            <EntityTypeMapping TypeName="ACSModel.Audit">
+              <MappingFragment StoreEntitySet="Audit">
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />
+                <ScalarProperty Name="HardwareID" ColumnName="HardwareID" />
+                <ScalarProperty Name="SrcID" ColumnName="SrcID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Days">
+            <EntityTypeMapping TypeName="ACSModel.Day">
+              <MappingFragment StoreEntitySet="Day">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1318,42 +926,66 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StorePaymentProviders">
-            <EntityTypeMapping TypeName="ACSModel.StorePaymentProvider">
-              <MappingFragment StoreEntitySet="StorePaymentProvider">
-                <ScalarProperty Name="ClientPassword" ColumnName="ClientPassword" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+          <EntitySetMapping Name="OpeningHours">
+            <EntityTypeMapping TypeName="ACSModel.OpeningHour">
+              <MappingFragment StoreEntitySet="OpeningHours">
+                <ScalarProperty Name="DayID" ColumnName="DayID" />
+                <ScalarProperty Name="OpenAllDay" ColumnName="OpenAllDay" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SiteStatuses">
-            <EntityTypeMapping TypeName="ACSModel.SiteStatus">
-              <MappingFragment StoreEntitySet="SiteStatuses">
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="ACSModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
+                <ScalarProperty Name="InternetOrderNumber" ColumnName="InternetOrderNumber" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ACSQueueID" ColumnName="ACSQueueID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="ACSModel.OrderStatu">
+              <MappingFragment StoreEntitySet="OrderStatus">
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RamesesStatusId" ColumnName="RamesesStatusId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ACSApplications">
-            <EntityTypeMapping TypeName="ACSModel.ACSApplication">
-              <MappingFragment StoreEntitySet="ACSApplication">
-                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+          <EntitySetMapping Name="Partners">
+            <EntityTypeMapping TypeName="ACSModel.Partner">
+              <MappingFragment StoreEntitySet="Partners">
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ACSApplicationSites">
-            <EntityTypeMapping TypeName="ACSModel.ACSApplicationSite">
-              <MappingFragment StoreEntitySet="ACSApplicationSite">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
-                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="ACSModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteMenus">
+            <EntityTypeMapping TypeName="ACSModel.SiteMenu">
+              <MappingFragment StoreEntitySet="SiteMenus">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="menuData" ColumnName="menuData" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1374,6 +1006,25 @@
                 <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
                 <ScalarProperty Name="SessionID" ColumnName="SessionID" />
                 <ScalarProperty Name="SignalRConnectionID" ColumnName="SignalRConnectionID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteStatuses">
+            <EntityTypeMapping TypeName="ACSModel.SiteStatus">
+              <MappingFragment StoreEntitySet="SiteStatuses">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StorePaymentProviders">
+            <EntityTypeMapping TypeName="ACSModel.StorePaymentProvider">
+              <MappingFragment StoreEntitySet="StorePaymentProvider">
+                <ScalarProperty Name="ClientPassword" ColumnName="ClientPassword" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1399,65 +1050,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="ACS" ZoomLevel="85">
-        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="8.75" PointY="2" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="6" PointY="0.75" Height="3.3263964843750031" />
-        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="10.75" PointY="2" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="3" PointY="6.375" Height="1.5956835937500067" />
-        <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.25" PointY="15.5" Height="2.749492187499996" />
-        <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="3" PointY="0.875" Height="2.5571907552083317" />
-        <EntityTypeShape EntityType="ACSModel.MyAndromedaUser" Width="1.5" PointX="7.5" PointY="15.5" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="5.25" PointY="10.875" Height="2.5571907552083353" />
-        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="8.25" PointY="6.75" Height="2.7494921875000102" />
-        <EntityTypeShape EntityType="ACSModel.OrderStatus" Width="1.5" PointX="6" PointY="5.25" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="5.25" PointY="25.125" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="5.25" PointY="8.125" Height="1.9802864583333388" />
-        <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" >
-          <ConnectorPoint PointX="11.3125" PointY="9.7013964843750031" />
-          <ConnectorPoint PointX="11.3125" PointY="11.25" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" >
-          <ConnectorPoint PointX="7.25" PointY="16.466095377604169" />
-          <ConnectorPoint PointX="8.25" PointY="16.466095377604169" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Employees" >
-          <ConnectorPoint PointX="5.75" PointY="8.1535953776041659" />
-          <ConnectorPoint PointX="2.25" PointY="8.1535953776041659" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Groups" >
-          <ConnectorPoint PointX="1.5" PointY="10.25" />
-          <ConnectorPoint PointX="1.5" PointY="9.4321907552083335" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_SitesGroups_Groups" >
-          <ConnectorPoint PointX="2.25" PointY="11.240143229166666" />
-          <ConnectorPoint PointX="3.25" PointY="11.240143229166666" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Orders_OrderStatus" >
-          <ConnectorPoint PointX="11.25" PointY="14.875" />
-          <ConnectorPoint PointX="11.25" PointY="13.9994921875" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="0.75" PointY="5.125" Height="5.2494108072916656" IsExpanded="true" />
-        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="1.875" Height="1.7879850260416674" />
-        <AssociationConnector Association="ACSModel.FK_Chains_Partners" >
-          <ConnectorPoint PointX="1.5" PointY="13.625" />
-          <ConnectorPoint PointX="1.5" PointY="12.807190755208334" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="10.75" PointY="6" />
-        <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="0.75" PointY="14.125" />
-        <EntityTypeShape EntityType="ACSModel.SiteStatus" Width="1.5" PointX="0.75" PointY="11.25" />
-        <EntityTypeShape EntityType="ACSModel.ACSApplication" Width="1.5" PointX="6" PointY="19" />
-        <EntityTypeShape EntityType="ACSModel.ACSApplicationSite" Width="1.5" PointX="8.25" PointY="11" />
-        <AssociationConnector Association="ACSModel.FK_ACSApplication_Partner" />
-        <AssociationConnector Association="ACSModel.FK_ACSApplicationSite_ACSApplication" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="3" PointY="9.375" />
+        <EntityTypeShape EntityType="ACSModel.ACSApplication" Width="1.5" PointX="11" PointY="1.375" />
+        <EntityTypeShape EntityType="ACSModel.ACSApplicationSite" Width="1.5" PointX="5.25" PointY="5.25" />
+        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="2.75" PointY="1.125" />
+        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="8.75" PointY="10.125" />
+        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="10.75" PointY="4.125" />
+        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="5.25" PointY="8.375" />
+        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="8.25" PointY="6.25" />
+        <EntityTypeShape EntityType="ACSModel.OrderStatu" Width="1.5" PointX="6" PointY="11.875" />
+        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="8.75" PointY="1.375" />
+        <EntityTypeShape EntityType="ACSModel.Setting" Width="1.5" PointX="10.75" PointY="7.125" />
+        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="5.25" PointY="14.625" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="ACSModel.SiteStatus" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="ACSModel.StorePaymentProvider" Width="1.5" PointX="0.75" PointY="12" />
+        <AssociationConnector Association="ACSModel.FK_ACSApplication_Partners" />
         <AssociationConnector Association="ACSModel.FK_ACSApplicationSite_Sites" />
+        <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" />
         <AssociationConnector Association="ACSModel.FK_Sites_Addresses" />
-        <AssociationConnector Association="ACSModel.FK_Employees_Sites" />
+        <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" />
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" />
+        <AssociationConnector Association="ACSModel.FK_Orders_OrderStatus" />
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" />
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" />
         <AssociationConnector Association="ACSModel.FK_Sites_PaymentProvider" />
         <AssociationConnector Association="ACSModel.FK_Sites_SiteStatuses" />
-        <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" />
       </Diagram>
     </Diagrams>
   </Designer>

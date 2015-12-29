@@ -7,7 +7,7 @@ namespace AndroCloudDataAccess.Domain
 {
     public class ACSApplication
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string ExternalApplicationId { get; set;}
         public string Name { get; set;}
     }

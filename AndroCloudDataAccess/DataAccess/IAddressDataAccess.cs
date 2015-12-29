@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IAddressDataAccess
     {
+        string ConnectionStringOverride { get; set; }
         string UpsertByExternalSiteIdMyAndromedaUserId(string externalSiteId, string myAndromedaUserId, Address address);
     }
 }
