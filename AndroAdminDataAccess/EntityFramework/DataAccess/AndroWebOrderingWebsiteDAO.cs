@@ -51,7 +51,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         {
                             foreach (var store in entity.ACSApplication.ACSApplicationSites)
                             {
-                                model.MappedSiteIds.Add(store.SiteId);
+                                // Duplicates for different versions
+                                if (!model.MappedSiteIds.Contains(store.SiteId))
+                                    model.MappedSiteIds.Add(store.SiteId);
                             }
                         }
                     }
@@ -150,7 +152,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     {
                         //yes eventually we want to check if this exists to exclude it from adding in a website and acs application for it. 
                         //it will block the creation. 
-                        errorMsgs.Add("AddWebsite: ACS application already exists 'andromeda'");
+                        //errorMsgs.Add("AddWebsite: ACS application already exists 'andromeda'");
+
+                        // Use the exising ACS Application Id
                     }
 
                     if (acsApplication == null)
