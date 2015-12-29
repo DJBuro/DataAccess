@@ -5,8 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="790df1f696b84cdeb48c584e36672a58" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="3" PointY="24.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="5.25" PointY="21.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.875" PointX="5.375" PointY="20.5" />
         <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="8.375" PointY="13.25" />
         <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="12.75" PointY="13.75" />
         <EntityTypeShape EntityType="AndroAdminModel.AMSServerChain" Width="1.5" PointX="15" PointY="14.75" />
@@ -43,9 +42,6 @@
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenuThumbnail" Width="1.5" PointX="12.75" PointY="21.125" />
         <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="8.25" PointY="32.5" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="8.25" PointY="30" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
-        <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_Address_Country" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Address" />
@@ -79,8 +75,6 @@
         <AssociationConnector Association="AndroAdminModel.FK_StoreMenuThumbnails_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreTypes_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" />
-        <AssociationConnector Association="AndroAdminModel.ACSApplicationHostsV2" />
-        <AssociationConnector Association="AndroAdminModel.HostAcsApplication" />
         <AssociationConnector Association="AndroAdminModel.StoreHostsV2" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreLoyalty" Width="1.5" PointX="12.75" PointY="46.625" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreLoyalty_Store" />
@@ -92,9 +86,15 @@
         <AssociationConnector Association="AndroAdminModel.FK_StoreBringgSettings_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreDrivers_Store" />
         <EntityTypeShape EntityType="AndroAdminModel.Environment" Width="1.5" PointX="3.375" PointY="4.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="5.625" PointY="11.125" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_ACSApplication" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Environment" />
-      </Diagram>
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
+        <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
+        <AssociationConnector Association="AndroAdminModel.ACSApplicationHostsV2" />
+        <AssociationConnector Association="AndroAdminModel.HostAcsApplication" />
+        </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />
         </Diagram>

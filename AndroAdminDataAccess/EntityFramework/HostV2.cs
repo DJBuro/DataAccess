@@ -18,8 +18,8 @@ namespace AndroAdminDataAccess.EntityFramework
         public HostV2()
         {
             this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
-            this.ACSApplications = new HashSet<ACSApplication>();
             this.Stores = new HashSet<Store>();
+            this.ACSApplications = new HashSet<ACSApplication>();
         }
     
         public System.Guid Id { get; set; }
@@ -38,8 +38,8 @@ namespace AndroAdminDataAccess.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
     }
 }
