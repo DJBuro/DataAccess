@@ -8,9 +8,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public SocialNetworkSiteSettings InstagramSettings { get; set; }
 
-        public SocialNetworkSiteSettings PinterestSettings { get; set; }
-
-        public SocialNetworkSiteSettings TripAdvisorSettings { set; get; }
+        public SocialNetworkSiteSettings PinterestSettings { get; set; }       
 
         //public List<SocialNetworkSiteSettings> Settings { get; set; }
         public void DefaultSocialNetwork()
