@@ -12,7 +12,7 @@ namespace MyAndromedaDataAccess
         ISiteDataAccess SiteDataAccess { get; set; }
         //IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
-        IEmployeeDataAccess EmployeeDataAccess { get; set; }
+        //IEmployeeDataAccess EmployeeDataAccess { get; set; }
         IOpeningHoursDataAccess OpeningHoursDataAccess { get; set; }
         ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
         ICountryDataAccess CountryDataAccess { get; set; }

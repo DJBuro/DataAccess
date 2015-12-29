@@ -6,10 +6,10 @@ using MyAndromedaDataAccess.Domain;
 
 namespace MyAndromedaDataAccess.DataAccess
 {
-    public interface IEmployeeDataAccess
-    {
-        string GetBySiteId(int siteId, out List<Employee> employees);
-        string DeleteById(int siteId, int employeeId);
-        string Add(int siteId, MyAndromedaDataAccess.Domain.Employee employee);
-    }
+    //public interface IEmployeeDataAccess
+    //{
+    //    string GetBySiteId(int siteId, out List<Employee> employees);
+    //    string DeleteById(int siteId, int employeeId);
+    //    string Add(int siteId, MyAndromedaDataAccess.Domain.Employee employee);
+    //}
 }

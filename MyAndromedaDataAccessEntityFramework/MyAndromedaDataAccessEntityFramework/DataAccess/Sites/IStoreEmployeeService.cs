@@ -66,6 +66,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
                     //you would think they would add in NI insurance number
                     //|| (employeeA.Person.NationallnsuranceNumber == employeeB.Person.NationallnsuranceNumber)
                     ;
+
+                Func<Person, Person, bool> existingPersonComparer = (personA, personB) =>
+                        personA.NationallnsuranceNumber.Equals(personB.NationallnsuranceNumber, StringComparison.InvariantCultureIgnoreCase) &&
+                        personA.FullName.Equals(personB.FullName, StringComparison.InvariantCultureIgnoreCase); 
+
                 //find those not saved in the database
                 storeEmployeeAddList = employees.Where(e => !storeEmployees.Any(em => equalityComparer(em,e))).ToArray();
                 
@@ -91,14 +96,24 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
                     dbEntity.LastUpdated = externalEntity.LastUpdated;
                 }
 
+
                 foreach (var item in storeEmployeeAddList) 
                 {
                     //NI seems like a good limiter
-                    var natiuonalInsuranceNumbers = storeEmployeeAddList.Select(e=> e.Person.NationallnsuranceNumber).ToArray();
-                    var existingPeople = peopleTable.Where(e => natiuonalInsuranceNumbers.Contains(e.NationallnsuranceNumber)).ToArray();
+                    var nationalInsuranceNumbers = storeEmployeeAddList
+                        .Select(e=> e.Person.NationallnsuranceNumber)
+                        .ToArray();
 
-                    //This person exits. lets use the entity  
-                    if (existingPeople.Any(e => e.NationallnsuranceNumber == item.Person.NationallnsuranceNumber)) 
+                    var fullNamesList = 
+                        storeEmployeeAddList.Select(e => e.Person.FullName)
+                        .ToArray();
+
+                    var existingPeople = peopleTable
+                        .Where(e => nationalInsuranceNumbers.Contains(e.NationallnsuranceNumber) || fullNamesList.Contains(e.FullName))
+                        .ToArray();
+                    
+                    //This person exits already. Lets use the entity  
+                    if (existingPeople.Any(existingPerson => existingPersonComparer(existingPerson, item.Person))) 
                     {
                         item.Person = existingPeople.FirstOrDefault(e => e.NationallnsuranceNumber == item.Person.NationallnsuranceNumber);
                     }
@@ -115,7 +130,5 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 
             return storeEmployeeResult;
         }
-
-
     }
 }
