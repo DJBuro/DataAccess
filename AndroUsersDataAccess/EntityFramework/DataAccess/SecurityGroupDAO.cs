@@ -42,22 +42,45 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                // Get the permissions
-                var permissionsQuery = from s in entitiesContext.SecurityGroupPermissions.Include("Permission")
-                        where s.SecurityGroupId == id
-                        select s;
-
-                foreach (var permissionEntity in permissionsQuery)
+                // Is this the admin security group?  If so, we need to return ALL permissions
+                if (securityGroup.Name == Domain.SecurityGroup.AdministratorSecurityGroup)
                 {
-                    securityGroup.Permissions.Add
-                    (
-                        new Domain.Permission()
-                        {
-                            Id = permissionEntity.Permission.Id,
-                            Name = permissionEntity.Permission.Name,
-                            Description = permissionEntity.Permission.Description
-                        }
-                    );
+                    // Get all permissions
+                    var permissionsQuery = from s in entitiesContext.Permissions
+                                           select s;
+
+                    foreach (var permissionEntity in permissionsQuery)
+                    {
+                        securityGroup.Permissions.Add
+                        (
+                            new Domain.Permission()
+                            {
+                                Id = permissionEntity.Id,
+                                Name = permissionEntity.Name,
+                                Description = permissionEntity.Description
+                            }
+                        );
+                    }
+                }
+                else 
+                {
+                    // Get the permissions for the security group
+                    var permissionsQuery = from s in entitiesContext.SecurityGroupPermissions.Include("Permission")
+                                           where s.SecurityGroupId == id
+                                           select s;
+
+                    foreach (var permissionEntity in permissionsQuery)
+                    {
+                        securityGroup.Permissions.Add
+                        (
+                            new Domain.Permission()
+                            {
+                                Id = permissionEntity.Permission.Id,
+                                Name = permissionEntity.Permission.Name,
+                                Description = permissionEntity.Permission.Description
+                            }
+                        );
+                    }
                 }
             }
 

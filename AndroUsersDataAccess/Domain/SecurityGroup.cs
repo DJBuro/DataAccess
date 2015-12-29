@@ -8,6 +8,8 @@ namespace AndroUsersDataAccess.Domain
 {
     public class SecurityGroup
     {
+        public const string AdministratorSecurityGroup = "Andro Admin Administrator";
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter a name")]
