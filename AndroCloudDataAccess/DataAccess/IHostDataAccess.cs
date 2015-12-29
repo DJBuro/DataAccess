@@ -150,5 +150,19 @@ namespace AndroCloudDataAccess.DataAccess
         /// <param name="hosts">The hosts.</param>
         /// <returns></returns>
         string GetMenuChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts);
+
+        /// <summary>
+        /// Gets the order status changed hosts.
+        /// </summary>
+        /// <param name="hosts">The hosts.</param>
+        /// <returns></returns>
+        string GetOrderStatusChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts);
+
+        /// <summary>
+        /// Gets the etd changed hosts.
+        /// </summary>
+        /// <param name="hosts">The hosts.</param>
+        /// <returns></returns>
+        string GetEdtChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts);
     }
 }

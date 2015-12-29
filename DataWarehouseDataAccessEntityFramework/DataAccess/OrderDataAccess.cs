@@ -209,6 +209,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             int ramesesOrderStatusId, 
             string driverName,
             int? driverId,
+            string driverMobileNumber,
             int? ticketNumber)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
@@ -235,6 +236,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     orderHeaderEntity.DriverName = driverName;
                     orderHeaderEntity.DriverId = driverId;
+                    orderHeaderEntity.DriverPhoneNumber = driverMobileNumber;
                     orderHeaderEntity.TicketNumber = ticketNumber;
                 }
 
