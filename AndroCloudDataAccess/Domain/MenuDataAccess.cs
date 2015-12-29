@@ -44,7 +44,7 @@ namespace AndroCloudDataAccess.Domain
                         // But we need to know the menu type ????
 
                         var sm = new Model.SiteMenu
-                                     {MenuType = "XML", Version = version, menuData = data, SiteID = site.ID};
+                                     {MenuType = "XML", Version = version, menuData = data, SiteID = site.ID,ID = Guid.NewGuid()};
 
                         site.SiteMenus.Add(sm);
 
