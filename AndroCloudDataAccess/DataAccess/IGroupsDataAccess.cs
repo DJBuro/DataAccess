@@ -6,7 +6,7 @@ using AndroCloudDataAccess.Domain;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface IChainsDataAccess
+    public interface IGroupsDataAccess
     {
         string Get(Guid partnerId, string externalChainId, out Group chain);
     }

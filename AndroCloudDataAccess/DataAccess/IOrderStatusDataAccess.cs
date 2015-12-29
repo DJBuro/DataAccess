@@ -6,8 +6,8 @@ using AndroCloudDataAccess.Domain;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface IACSQueueDataAccess
+    public interface IOrderStatusDataAccess
     {
-        string GetById(Guid externalOrderId, out ACSQueue acsQueue);
+        string GetByRamesesStatusId(int ramesesStatusId, out OrderStatus orderStatus);
     }
 }
