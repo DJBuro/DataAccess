@@ -35,13 +35,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 }
 
                 // Make the changes
-                addressEntity.Country = new MyAndromedaDataAccessEntityFramework.Model.Country()
-                {
-                    CountryName = countryEntity.CountryName,
-                    Id = countryEntity.Id,
-                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
-                };
+                addressEntity.Country = countryEntity;
                 addressEntity.County = address.County;
                 addressEntity.Locality = address.Locality;
                 addressEntity.Org1 = address.Org1;

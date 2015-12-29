@@ -10,60 +10,23 @@ namespace MyAndromedaDataAccess.Domain
 {
     public class SiteDetails
     {
-        [JsonIgnore]
-        [XmlIgnore]
         public int Id { get; set; }
-
-        [JsonIgnore]
-        [XmlIgnore]
         public string LicenceKey { get; set; }
-
-        //[JsonProperty(PropertyName = "siteId")]
-        //[XmlElement("SiteId", DataType = "string")]
         public int AndroSiteId { get; set; }
-
-        //[JsonProperty(PropertyName = "siteId")]
-        //[XmlElement("SiteId", DataType = "string")]
         public string CustomerSiteId { get; set; }
-
         public string ExternalSiteId { get; set; }
-
         public string AndroSiteName { get; set; }
-
-        //[JsonProperty(PropertyName = "name")]
         public string ClientSiteName { get; set; }
-
-        //[JsonProperty(PropertyName = "name")]
         public string ExternalSiteName { get; set; }
-
-        //[JsonProperty(PropertyName = "menuVersion")]
         public int MenuVersion { get; set; }
-
-        //[JsonProperty(PropertyName = "isOpen")]
         public bool IsOpen { get; set; }
-
-        //[JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
-
-        //[JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
-
-        //[JsonProperty(PropertyName = "phone")]
         public string Phone { get; set; }
-
-        //[JsonProperty(PropertyName = "address", NullValueHandling=NullValueHandling.Ignore)]
         public Address Address { get; set; }
-
-        //[JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
         public List<TimeSpanBlock> OpeningHours { get; set; }
-
-        //[JsonProperty(PropertyName = "paymentProvider")]
         public string PaymentProvider { get; set; }
-
-        //[JsonProperty(PropertyName = "paymentClientId")]
         public string PaymentClientId { get; set; }
-
-        //[JsonProperty(PropertyName = "paymentClientPassword")]
         public string PaymentClientPassword { get; set; }
     }
 }
