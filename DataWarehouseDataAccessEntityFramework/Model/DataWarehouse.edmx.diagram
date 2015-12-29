@@ -51,8 +51,8 @@
         <AssociationConnector Association="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderAddress" />
         <EntityTypeShape EntityType="DataWarehouseModel.CustomerLoyalty" Width="1.5" PointX="7.5" PointY="24.5" />
-        <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="9.75" PointY="18" />
         <AssociationConnector Association="DataWarehouseModel.FK_CustomerLoyalty_Customer" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="9.75" PointY="17.125" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
         </Diagram>
     </edmx:Diagrams>

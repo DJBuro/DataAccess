@@ -17,6 +17,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
+        
+
         public string GetByUsernamePassword(string username, string password, int applicationId, out DataWarehouseDataAccess.Domain.Customer customer)
         {
             customer = null;
@@ -511,6 +513,78 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string UpdateCustomerLoyaltyPoints(string userName, int applicationId, string externalOrderRef, bool commit)
+        {
+            using (new TransactionScope(TransactionScopeOption.Suppress))
+            {
+                using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+                {
+                    var customerEntity = dataWarehouseEntities.Customers
+                        .Where(e => e.ACSAplicationId == applicationId)
+                        .Where(e => e.CustomerAccount.Username == userName)
+                        .FirstOrDefault();
+
+                    var loyaltyEntities = customerEntity.CustomerLoyalties;
+
+                    var table = dataWarehouseEntities.OrderLoyalties.Include(e => e.OrderHeader.Customer);
+
+                    var query = table
+                        .Where(e => e.OrderHeader.ExternalOrderRef == externalOrderRef)
+                        .Where(e => e.OrderHeader.CustomerID == customerEntity.ID)
+                        .Where(e => !e.Applied);
+
+                    var result = query.ToArray();
+
+                    //add in any loyalty points
+                    foreach (var update in result.Where(e => e.PointsGained > 0))
+                    {
+                        var customerLoyaltyEntity = loyaltyEntities
+                            .FirstOrDefault(e => e.ProviderName.Equals(update.ProviderName, StringComparison.InvariantCultureIgnoreCase));
+                        
+                        //he who doesn't exist...
+                        if (customerLoyaltyEntity == null) 
+                        {
+                            customerLoyaltyEntity = new Model.CustomerLoyalty()
+                            {
+                                Id = Guid.NewGuid(),
+                                Points = 0,
+                                ProviderName = update.ProviderName
+                            };
+                            loyaltyEntities.Add(customerLoyaltyEntity);    
+                        }
+
+                        customerLoyaltyEntity.Points += update.PointsGained;
+                        update.Applied = true;
+                    }
+
+                    //take away any loyalty points 
+                    foreach (var update in result.Where(e => e.PointsUsed > 0))
+                    {
+                        var customerLoyaltyEntity = loyaltyEntities
+                            .FirstOrDefault(e => e.ProviderName.Equals(update.ProviderName, StringComparison.InvariantCultureIgnoreCase));
+
+                        //he who doesn't exist...
+                        if (customerLoyaltyEntity == null)
+                        {
+                            customerLoyaltyEntity = new Model.CustomerLoyalty()
+                            {
+                                Id = Guid.NewGuid(),
+                                Points = 0,
+                                ProviderName = update.ProviderName
+                            };
+                            loyaltyEntities.Add(customerLoyaltyEntity); 
+                        }
+
+                        customerLoyaltyEntity.Points -= update.PointsUsed;
+                        update.Applied = true;
+                    }
+
+                    dataWarehouseEntities.SaveChanges();
+                }
+            }
+
+            return string.Empty;
+        }
 
         public string UpdateCustomerLoyalty(string username, int applicationId, DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
         {
@@ -549,7 +623,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         {
                             // insert
                             customerEntity.CustomerLoyalties = new List<Model.CustomerLoyalty>();
-                            customerEntity.CustomerLoyalties.Add(prepareCustomerLoyalty(customerLoyalty));
+                            customerEntity.CustomerLoyalties.Add(PrepareCustomerLoyalty(customerLoyalty));
                         }
                         else
                         {
@@ -563,7 +637,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             }
                             else
                             {
-                                customerEntity.CustomerLoyalties.Add(prepareCustomerLoyalty(customerLoyalty));
+                                customerEntity.CustomerLoyalties.Add(PrepareCustomerLoyalty(customerLoyalty));
                             }
                         }
 
@@ -576,12 +650,15 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        private Model.CustomerLoyalty prepareCustomerLoyalty(DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
+        private Model.CustomerLoyalty PrepareCustomerLoyalty(DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
         {
-            Model.CustomerLoyalty cl = new Model.CustomerLoyalty();
-            cl.Id = Guid.NewGuid();
-            cl.CustomerId = customerLoyalty.Id;
-            cl.ProviderName = customerLoyalty.ProviderName;
+            Model.CustomerLoyalty cl = new Model.CustomerLoyalty()
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = customerLoyalty.Id,
+                ProviderName = customerLoyalty.ProviderName
+            };
+
             decimal calculatedPoints = ((customerLoyalty.PointsGained ?? 0) - (customerLoyalty.PointsUsed ?? 0));
             cl.Points = (calculatedPoints < 0) ? 0 : calculatedPoints;
 
