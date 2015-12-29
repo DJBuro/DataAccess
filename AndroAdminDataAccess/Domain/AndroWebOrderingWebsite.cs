@@ -18,6 +18,8 @@ namespace AndroAdminDataAccess.Domain
     public class AndroWebOrderingWebsite
     {
         public int Id { set; get; }
+
+        [Required]
         public string Name { set; get; }
         public int? ChainId { set; get; }
         public bool Enabled { set; get; }
@@ -44,6 +46,7 @@ namespace AndroAdminDataAccess.Domain
 
         public string SelectedTimeZoneId { get; set; }
         public string SelectedCultureType { get; set; }
+
         public IEnumerable<CultureChoiceViewModel> CultureChoices { get; set; }
         public IOrderedEnumerable<TimeZoneViewModel> TimezoneChoices { get; set; }
     }
