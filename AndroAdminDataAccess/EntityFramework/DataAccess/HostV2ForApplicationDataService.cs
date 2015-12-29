@@ -86,6 +86,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 }
 
                 applicationEntity.HostV2.Clear();
+                dbContext.SaveChanges();
 
                 foreach (var server in newConnectionHostEntities)
                 {
@@ -116,6 +117,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 {
                     application.HostV2 = new List<HostV2>();
                 }
+
                 application.HostV2.Clear();
 
                 dbContext.SaveChanges();
