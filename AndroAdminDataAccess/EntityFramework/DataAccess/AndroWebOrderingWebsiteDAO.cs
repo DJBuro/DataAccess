@@ -124,8 +124,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
                     ACSApplicationDAO acsDAO = new ACSApplicationDAO();
-                    Partner partner = entitiesContext.Partners.Where(c => c.Name.Equals("andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
+                    Partner partner = entitiesContext.Partners.Where(c => c.Name.Equals("andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();                    
+                    
                     if (partner != null)
                     {
                         if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null
@@ -135,12 +135,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                             acsDAO.Add(webOrderingSite.ACSApplication);
 
-                            DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+                            int newVersion = entitiesContext.GetDataVersion();
+                            partner.DataVersion = newVersion;
 
-                            entitiesContext.Database.Connection.Open();
-
-                            var dataVersionResult = entitiesContext.Settings.Where(s => s.Name.Equals("DataVersion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                            int newVersion = dataVersionResult != null ? Convert.ToInt32(dataVersionResult.Value) : 0;
 
                             var acsApplication = entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                             if (acsApplication != null)
@@ -191,6 +188,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         if (dupACSApp == null && dupWebsite == null)
                         {
                             int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+                            var partner = entitiesContext.Partners.Where(p => p.Name.Equals("Andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                            
+                            if (partner != null)
+                                partner.DataVersion = newVersion;
 
                             webSite.ChainId = webOrderingSite.ChainId;
                             webSite.DataVersion = newVersion;
@@ -250,7 +251,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     transactionScope.Complete();
                 }
             }
-            return 0;
+            return success;
         }
     }
 }
