@@ -19,5 +19,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public string WebsiteLogoPath { get; set; }
 
         public string MobileLogoPath { get; set; }
+
+        public string FaviconPath { set; get; }
     }
 }
