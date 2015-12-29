@@ -32,7 +32,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     order = new AndroCloudDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
                     order.StoreOrderId = acsQueryEntity.ExternalID;
-                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber;
+                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber.GetValueOrDefault(-1);
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.RamesesStatusId;
                 }
             }
@@ -60,7 +60,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     order = new AndroCloudDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
                     order.StoreOrderId = acsQueryEntity.ExternalID;
-                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber;
+                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber.GetValueOrDefault(-1);
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.RamesesStatusId;
                 }
             }
@@ -88,7 +88,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     order = new AndroCloudDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
                     order.StoreOrderId = acsQueryEntity.ExternalID;
-                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber;
+                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber.GetValueOrDefault(-1);
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.RamesesStatusId;
                 }
             }
@@ -149,7 +149,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     order = new AndroCloudDataAccess.Domain.Order();
                     order.ID = acsQueryEntity.ID;
                     order.StoreOrderId = acsQueryEntity.ExternalID;
-                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber;
+                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber.GetValueOrDefault(-1);
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.RamesesStatusId;
                 }
             }

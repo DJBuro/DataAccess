@@ -19,5 +19,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public int Order { get; set; }
         public int Port { get; set; }
         public string PrivateHostName { get; set; }
+        public string SignalRHostName { get; set; }
     }
 }

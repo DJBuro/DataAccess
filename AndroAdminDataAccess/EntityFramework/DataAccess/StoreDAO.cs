@@ -122,64 +122,45 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatusId, Status = entity.StoreStatusStatus, Description = entity.StoreStatusDescription },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
 
-                    // Get the address
-                    //var addressQuery = from s in entitiesContext.Addresses
-                    //                   where s.Id == entity.AddressId
-                    //                   select s;
-
-                    //var addressEntity = addressQuery.FirstOrDefault();
-
-                    //if (addressEntity != null)
-                    //{
-                        //var countryQuery = from c in entitiesContext.Countries
-                        //                   where c.Id == addressEntity.CountryId
-                        //                   select c;
-
-                        //var countryEntity = countryQuery.FirstOrDefault();
-
-                        //if (addressEntity != null)
-                        //{
-                            model.Address = new Domain.Address()
-                            {
-                                Id = entity.AddressId,
-                                Org1 = entity.AddressOrg1,
-                                Org2 = entity.AddressOrg2,
-                                Org3 = entity.AddressOrg3,
-                                Prem1 = entity.AddressPrem1,
-                                Prem2 = entity.AddressPrem2,
-                                Prem3 = entity.AddressPrem3,
-                                Prem4 = entity.AddressPrem4,
-                                Prem5 = entity.AddressPrem5,
-                                Prem6 = entity.AddressPrem6,
-                                RoadNum = entity.AddressRoadNum,
-                                RoadName = entity.AddressRoadName,
-                                Locality = entity.AddressLocality,
-                                Town = entity.AddressTown,
-                                County = entity.AddressCounty,
-                                State = entity.AddressState,
-                                PostCode = entity.AddressPostCode,
-                                DPS = entity.AddressDPS,
-                                Lat = entity.AddressLat,
-                                Long = entity.AddressLong,
-                                Country = new Domain.Country()
-                                {
-                                    CountryName = entity.CountryCountryName,
-                                    Id = entity.CountryId,
-                                    ISO3166_1_alpha_2 = entity.CountryISO3166_1_alpha_2,
-                                    ISO3166_1_numeric = entity.CountryISO3166_1_numeric
-                                }
-                            };
-                    //    }
-                    //}
+                    model.Address = new Domain.Address()
+                    {
+                        Id = entity.AddressId,
+                        Org1 = entity.AddressOrg1,
+                        Org2 = entity.AddressOrg2,
+                        Org3 = entity.AddressOrg3,
+                        Prem1 = entity.AddressPrem1,
+                        Prem2 = entity.AddressPrem2,
+                        Prem3 = entity.AddressPrem3,
+                        Prem4 = entity.AddressPrem4,
+                        Prem5 = entity.AddressPrem5,
+                        Prem6 = entity.AddressPrem6,
+                        RoadNum = entity.AddressRoadNum,
+                        RoadName = entity.AddressRoadName,
+                        Locality = entity.AddressLocality,
+                        Town = entity.AddressTown,
+                        County = entity.AddressCounty,
+                        State = entity.AddressState,
+                        PostCode = entity.AddressPostCode,
+                        DPS = entity.AddressDPS,
+                        Lat = entity.AddressLat,
+                        Long = entity.AddressLong,
+                        Country = new Domain.Country()
+                        {
+                            CountryName = entity.CountryCountryName,
+                            Id = entity.CountryId,
+                            ISO3166_1_alpha_2 = entity.CountryISO3166_1_alpha_2,
+                            ISO3166_1_numeric = entity.CountryISO3166_1_numeric
+                        }
+                    };
 
                     models.Add(model);
                 }
@@ -249,12 +230,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = store.Name, // Andro site name
                         AndromedaSiteId = store.AndromedaSiteId,
                         CustomerSiteId = store.CustomerSiteId,
+                        ClientSiteName = store.CustomerSiteName,
                         LastFTPUploadDateTime = store.LastFTPUploadDateTime,
                         StoreStatusId = store.StoreStatus.Id,
                         DataVersion = newVersion,
                         ExternalId = store.ExternalSiteId,
                         ExternalSiteName = store.ExternalSiteName,
-                        ClientSiteName = store.ClientSiteName,
                         AddressId = addressEntity.Id,
                         Telephone = store.Telephone,
                         TimeZone = store.TimeZone,
@@ -411,11 +392,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
@@ -498,11 +479,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
@@ -585,11 +566,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
@@ -674,11 +655,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
@@ -762,11 +743,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };
@@ -853,11 +834,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Name = entity.Name,
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
+                        CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
-                        ClientSiteName = entity.ClientSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone
                     };

@@ -18,7 +18,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public Nullable<System.Guid> SiteID { get; set; }
         public Nullable<System.Guid> ACSQueueID { get; set; }
         public Nullable<System.Guid> StatusId { get; set; }
-        public int InternetOrderNumber { get; set; }
+        public Nullable<int> InternetOrderNumber { get; set; }
         public string ExternalID { get; set; }
     
         public virtual ACSQueue ACSQueue { get; set; }
