@@ -4,6 +4,7 @@ using System.Linq;
 using MyAndromeda.Core;
 using MyAndromedaDataAccess.Domain.Menus.Items;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
+using System.Data.Entity;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
@@ -273,7 +274,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             
 
             var menuItemTable = dbContext.MenuItems;
-            var menuItemQuery = menuItemTable.Where(e => e.SiteMenu.Id == menu.Id);
+            var menuItemQuery = menuItemTable.Include(m=>m.MenuItemThumbnailsLinkTables).Where(e => e.SiteMenu.Id == menu.Id);
             var allMenuItemResult = menuItemQuery.ToArray();
 
             List<MenuItem> menuItemsToCreate = new List<MenuItem>();
