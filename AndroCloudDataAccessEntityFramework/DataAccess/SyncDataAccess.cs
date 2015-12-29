@@ -767,6 +767,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 SiteStatus = siteStatusEntity,
                 Telephone = store.Phone,
                 TimeZone = store.TimeZone,
+                TimeZoneInfoId = store.TimeZoneInfoId,
+                UiCulture = store.UiCulture,
                 StorePaymentProviderID = storePaymentProviderId
             };
 
