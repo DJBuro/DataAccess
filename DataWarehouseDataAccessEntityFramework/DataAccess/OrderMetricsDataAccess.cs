@@ -119,8 +119,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     }
                     orderMetrics.OrderList.Add(order);
                 }
-                //orderMetrics.OrderList.Where(o=>o.ACSErrorCodeNumber == 0).GroupBy(o=>o.OrderPlacedTime)
-
+                prepareChartData(orderMetrics);
                 #region old-query
                 //using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
                 //{
@@ -167,6 +166,27 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             }
                 #endregion
             return string.Empty;
+        }
+
+        private void prepareChartData(OrderMetrics orderMetrics)
+        {
+            IEnumerable<IGrouping<DateTime, OrderHeaderDAO>> GroupListByDate = orderMetrics.OrderList.OrderBy(o => o.OrderPlacedTime.Value.Date).GroupBy(o => o.OrderPlacedTime.Value.Date);
+            List<DateTime> dateList = new List<DateTime>();
+            List<string> dateSeries = new List<string>();
+            List<double> successSeries = new List<double>();
+            List<double> failedSeries = new List<double>();
+            foreach (var group in GroupListByDate)
+                dateList.Add(group.Key);
+
+            foreach (DateTime dt in dateList)
+            {
+                dateSeries.Add(dt.ToString("dd-MMM-yyyy"));
+                successSeries.Add(orderMetrics.OrderList.Where(o => o.ACSErrorCodeNumber == 0 && o.OrderPlacedTime.Value.Date.Equals(dt.Date)).Count());
+                failedSeries.Add(orderMetrics.OrderList.Where(o => o.ACSErrorCodeNumber != 0 && o.OrderPlacedTime.Value.Date.Equals(dt.Date)).Count());
+            }
+            orderMetrics.DateSeries = dateSeries.ToArray();
+            orderMetrics.SuccessSeries = successSeries.ToArray();
+            orderMetrics.FailedSeries = failedSeries.ToArray();
         }
 
         public OrderMetrics GetOrderMetricsByACSOrder(Guid acsOrderId)
