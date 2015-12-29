@@ -54,6 +54,8 @@
         <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="9.75" PointY="18" />
         <AssociationConnector Association="DataWarehouseModel.FK_CustomerLoyalty_Customer" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
+        <AssociationConnector Association="DataWarehouseModel.FK_CustomerLoyalty_Customer" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
