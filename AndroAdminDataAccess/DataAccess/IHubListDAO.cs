@@ -77,12 +77,11 @@ namespace AndroAdminDataAccess.DataAccess
         /// <param name="store">The store.</param>
         /// <returns></returns>
         IEnumerable<Domain.StoreHub> GetSelectedHubs(Store store);
-
     }
 
     public interface IHubResetDataService 
     {
-        IEnumerable<Domain.Store> GetResetsAfterDataVersion(int fromVersion);
+        IEnumerable<Domain.Store> GetStoresToResetAfterDataVersion(int fromVersion);
 
         void ResetStore(int storeId);
     }

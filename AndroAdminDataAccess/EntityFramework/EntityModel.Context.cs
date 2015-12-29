@@ -56,5 +56,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<StoreMenu> StoreMenus { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
+        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
     }
 }

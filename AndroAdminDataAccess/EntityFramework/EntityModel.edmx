@@ -36,6 +36,16 @@
           <EntitySet Name="StoreHubReset" EntityType="AndroAdminModel.Store.StoreHubReset" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreHubs" EntityType="AndroAdminModel.Store.StoreHubs" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreMenu" EntityType="AndroAdminModel.Store.StoreMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.Store.StoreMenuThumbnails" store:Type="Tables" store:Schema="dbo" store:Name="StoreMenuThumbnails">
+            <DefiningQuery>SELECT 
+      [StoreMenuThumbnails].[Id] AS [Id], 
+      [StoreMenuThumbnails].[StoreId] AS [StoreId], 
+      [StoreMenuThumbnails].[Version] AS [Version], 
+      [StoreMenuThumbnails].[XmlMenuThumbnailData] AS [XmlMenuThumbnailData], 
+      [StoreMenuThumbnails].[JsonMenuThumbnailsData] AS [JsonMenuThumbnailsData], 
+      [StoreMenuThumbnails].[LastUpdate] AS [LastUpdate]
+      FROM [dbo].[StoreMenuThumbnails] AS [StoreMenuThumbnails]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.Store.FK_ACSApplication_Partner">
@@ -488,6 +498,25 @@
           <Property Name="MenuData" Type="text" />
           <Property Name="LastUpdated" Type="datetime" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'AndroAdmin.dbo.StoreMenuThumbnails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="StoreMenuThumbnails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="XmlMenuThumbnailData" />
+            <PropertyRef Name="JsonMenuThumbnailsData" />
+            <PropertyRef Name="LastUpdate" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="XmlMenuThumbnailData" Type="ntext" Nullable="false" />
+          <Property Name="JsonMenuThumbnailsData" Type="ntext" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="StorePaymentProvider">
           <Key>
@@ -1086,6 +1115,7 @@
             <End Role="HubAddresses" EntitySet="HubAddresses" />
             <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
+          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -1865,6 +1895,22 @@
           <End Role="HubAddresses" Type="AndroAdminModel.HubAddress" Multiplicity="*" />
           <End Role="Store" Type="AndroAdminModel.Store" Multiplicity="*" />
         </Association>
+        <EntityType Name="StoreMenuThumbnail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="XmlMenuThumbnailData" />
+            <PropertyRef Name="JsonMenuThumbnailsData" />
+            <PropertyRef Name="LastUpdate" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="Int32" Name="Version" Nullable="false" />
+          <Property Type="String" Name="XmlMenuThumbnailData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="JsonMenuThumbnailsData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2232,6 +2278,18 @@
               <ScalarProperty Name="Id" ColumnName="StoreId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="StoreMenuThumbnails">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreMenuThumbnail">
+              <MappingFragment StoreEntitySet="StoreMenuThumbnails">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="JsonMenuThumbnailsData" ColumnName="JsonMenuThumbnailsData" />
+                <ScalarProperty Name="XmlMenuThumbnailData" ColumnName="XmlMenuThumbnailData" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

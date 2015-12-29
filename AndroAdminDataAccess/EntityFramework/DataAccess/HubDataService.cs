@@ -9,14 +9,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HubDataService : IHubDataService, IHubResetDataService
     {
-
-        
         public void ResetStore(int storeId)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             { 
-                //var result = dbContext.Stores.Single(e=> e.Id == storeId);
-
                 var entity = dbContext.StoreHubResets.Create();
 
                 int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
@@ -117,19 +113,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
-                var data = dbContext.HubAddresses
-                    .WhereValidItems()
-                    .ToArray();
-                
-                var results = data.Select(e => e.ToDomain()).ToArray();
+                var table = dbContext.HubAddresses;
+                var query = table.WhereValidItems().ToArray();
+
+                var results = query.Select(e => e.ToDomain()).ToArray();
 
                 return results;
             }
         }
 
-        public IEnumerable<AndroAdminDataAccess.Domain.Store> GetResetsAfterDataVersion(int fromVersion)
+        public IEnumerable<AndroAdminDataAccess.Domain.Store> GetStoresToResetAfterDataVersion(int fromVersion)
         {
-
             IEnumerable<AndroAdminDataAccess.Domain.Store> results; 
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
