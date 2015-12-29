@@ -15,5 +15,17 @@ namespace MyAndromedaDataAccess
         IOpeningHoursDataAccess OpeningHoursDataAccess { get; set; }
         ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
         ICountryDataAccess CountryDataAccess { get; set; }
+
+        /// <summary>
+        /// Gets the customer data access.
+        /// </summary>
+        /// <value>The customer data access.</value>
+        ICustomerDataAccess CustomerDataAccess { get; }
+
+        /// <summary>
+        /// Gets the email campaign data access.
+        /// </summary>
+        /// <value>The email campaign data access.</value>
+        IEmailCampaignDataAccess EmailCampaignDataAccess { get; }
     }
 }
