@@ -56,6 +56,7 @@
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
+    <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
@@ -110,6 +111,9 @@
       <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EmailCampaignSite.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EmailCampaignTask.cs">
       <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Employee.cs">

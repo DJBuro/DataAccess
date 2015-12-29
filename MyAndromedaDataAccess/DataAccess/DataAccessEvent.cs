@@ -7,6 +7,6 @@ namespace MyAndromedaDataAccess.DataAccess
 {
     public interface IDataAccessOptions
     {
-        Action<IEnumerable<string>> OnValidationErrors { get; set; }
+        //Action<IEnumerable<string>> OnValidationErrors { get; set; }
     }
 }
