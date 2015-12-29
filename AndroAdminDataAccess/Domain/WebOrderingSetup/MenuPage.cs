@@ -32,13 +32,13 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         /// Gets or sets the is double toppings enabled.
         /// </summary>
         /// <value>The is double toppings enabled.</value>
-        public bool IsDoubleToppingsEnabled { get; set; }
+        public bool IsSingleToppingsOnlyEnabled { get; set; }
 
         public void DefaultMenuPage()
         {
             this.IsThumbnailsEnabled = true;
             this.IsQuantityDropdownEnabled = true;
-            this.IsDoubleToppingsEnabled = true;
+            this.IsSingleToppingsOnlyEnabled = false;
         }
     }
 }
