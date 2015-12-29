@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IACSApplicationEFDAO.cs" />
+    <Compile Include="DataAccess\IAndroWebOrderingWebsiteDAO.cs" />
     <Compile Include="DataAccess\IChainDAO.cs" />
     <Compile Include="DataAccess\IHostTypesDataService.cs" />
     <Compile Include="DataAccess\IHostV2DataService.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="DataAccess\IStoreTypesDataService.cs" />
     <Compile Include="Domain\ACSApplicationEF.cs" />
+    <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
     <Compile Include="Domain\StoreHub.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
@@ -198,6 +200,9 @@
     <Compile Include="EntityFramework\AMSServerChain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\AndroWebOrderingSubscriptionType.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\AndroWebOrderingWebsite.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -214,6 +219,7 @@
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AndroWebOrderingWebsiteDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DeliveryAreaDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\ExternalApiDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\IExternalApiDataService.cs" />
