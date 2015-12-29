@@ -17,6 +17,7 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
             Map(x => x.Name);
             Map(x => x.AndromedaSiteId);
             Map(x => x.CustomerSiteId);
+            Map(x => x.LastFTPUploadDateTime);
             HasMany(x => x.AMSServerFTPServerPairs).KeyColumn("StoreId").Inverse().Cascade.All().Not.LazyLoad(); 
         }
     }
