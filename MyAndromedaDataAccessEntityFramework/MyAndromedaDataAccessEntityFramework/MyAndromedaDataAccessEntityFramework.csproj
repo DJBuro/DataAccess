@@ -92,10 +92,11 @@
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaMediaProfilesDataService.cs" />
-    <Compile Include="DataAccess\Menu\IMyAndromedaMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaMenuItemDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaMenuSyncDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\Permissions\IEnrolmentDataService.cs" />
@@ -297,6 +298,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuFtpBackup.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuMediaProfile.cs">

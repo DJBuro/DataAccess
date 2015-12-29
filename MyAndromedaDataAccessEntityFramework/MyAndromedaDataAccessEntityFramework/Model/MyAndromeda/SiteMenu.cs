@@ -25,9 +25,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public System.DateTime LastUpdated { get; set; }
         public Nullable<int> SiteMenuMediaServerId { get; set; }
         public Nullable<int> SiteMenuMediaProfileId { get; set; }
+        public Nullable<int> SiteMenuFtpBackupId { get; set; }
     
         public virtual ICollection<MenuItem> MenuItems { get; set; }
         public virtual SiteMenuMediaProfile SiteMenuMediaProfile { get; set; }
         public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
+        public virtual SiteMenuFtpBackup SiteMenuFtpBackup { get; set; }
     }
 }
