@@ -36,8 +36,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.AndroWebOrderingWebsites.Include(c => c.ACSApplication).Include(c => c.ACSApplication.ACSApplicationSites).Include(c => c.ACSApplication.ACSApplicationSites).Include(c => c.Chain).Include(c => c.Chain.Stores).Include(c => c.AndroWebOrderingSubscriptionType)
-                            select s;
+                //var query = from s in entitiesContext.AndroWebOrderingWebsites.Include(c => c.ACSApplication).Include(c => c.ACSApplication.ACSApplicationSites).Include(c => c.ACSApplication.ACSApplicationSites).Include(c => c.Chain).Include(c => c.Chain.Stores).Include(c => c.AndroWebOrderingSubscriptionType)
+                //            select s;
+
+                var query = entitiesContext.AndroWebOrderingWebsites
+                    .Include(c => c.ACSApplication)
+                    .Include(c => c.ACSApplication.ACSApplicationSites)
+                    .Include(c => c.Chain)
+                    .Include(c => c.Chain.Stores)
+                    .Include(c => c.AndroWebOrderingSubscriptionType)
+                    .ToArray();
 
                 foreach (var entity in query)
                 {
@@ -61,12 +69,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         PreviewSettings = entity.PreviewSettings,
                         ThemeId = entity.ThemeId
                     };
+
                     model.MappedSiteIds = new List<int>();
                     if (entity.ACSApplication != null)
                     {
                         if (entity.ACSApplication.ACSApplicationSites != null)
                         {
-                            foreach (var store in entity.ACSApplication.ACSApplicationSites)
+                            var stores = entity.ACSApplication.ACSApplicationSites.ToArray();
+                            foreach (var store in stores)
                             {
                                 // Duplicates for different versions
                                 if (!model.MappedSiteIds.Contains(store.SiteId))
@@ -82,6 +92,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
+        public IQueryable<AndroWebOrderingWebsite> Query()
+        {
+            AndroAdminEntities entitiesContext = new AndroAdminEntities();
+
+            return entitiesContext.AndroWebOrderingWebsites.AsQueryable();
+        }
+
         public Domain.AndroWebOrderingWebsite GetAndroWebOrderingWebsiteById(int id)
         {
             Domain.AndroWebOrderingWebsite webOrderingSite = new Domain.AndroWebOrderingWebsite();
@@ -90,7 +107,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 if (id > 0)
                 {
-                    var result = entitiesContext.AndroWebOrderingWebsites.Include(c => c.ACSApplication).Include(c => c.ACSApplication.ACSApplicationSites).Include(c => c.Chain).Include(c => c.Chain.Stores).Where(c => c.Id == id).FirstOrDefault();
+                    var result = entitiesContext.AndroWebOrderingWebsites
+                        .Include(c => c.ACSApplication)
+                        .Include(c => c.ACSApplication.ACSApplicationSites)
+                        .Include(c => c.Chain)
+                        .Include(c => c.Chain.Stores)
+                        .Where(c => c.Id == id)
+                        .FirstOrDefault();
 
                     if (result != null)
                     {
@@ -134,10 +157,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.Chains.Add(chainObj);
                     }
                 }
-                webOrderingSite.AllStores = entitiesContext.Stores.Include(s => s.StoreStatu).Select(s => new Domain.Store { Id = s.Id, Name = s.Name, AndromedaSiteId = s.AndromedaSiteId, ChainId = s.ChainId, StoreStatus = new Domain.StoreStatus { Id = s.StoreStatu.Id, Status = s.StoreStatu.Status } }).ToList();
-                webOrderingSite.SubscriptionsList = entitiesContext.AndroWebOrderingSubscriptionTypes.Select(s => new Domain.AndroWebOrderingSubscriptionType { Id = s.Id, Subscription = s.Subscription, DisplayOrder = s.DisplayOrder }).OrderBy(o => o.DisplayOrder).ToList();
-            }
 
+                webOrderingSite.AllStores =
+                    entitiesContext.Stores.Include(s => s.StoreStatu).ToArray()
+                    .Select(s => new Domain.Store { Id = s.Id, Name = s.Name, AndromedaSiteId = s.AndromedaSiteId, ChainId = s.ChainId, StoreStatus = new Domain.StoreStatus { Id = s.StoreStatu.Id, Status = s.StoreStatu.Status } }).ToList();
+                
+                webOrderingSite.SubscriptionsList = 
+                    entitiesContext.AndroWebOrderingSubscriptionTypes.ToArray()
+                    .Select(s => new Domain.AndroWebOrderingSubscriptionType { Id = s.Id, Subscription = s.Subscription, DisplayOrder = s.DisplayOrder })
+                    .OrderBy(o => o.DisplayOrder).ToList();
+            }
 
             return webOrderingSite;
         }
