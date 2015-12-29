@@ -26,5 +26,7 @@ namespace AndroCloudDataAccess.DataAccess
         string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site);
 
         string GetByIdAndApplication(int applicationId, Guid siteId, out Site site);
+
+        string Update(int andromedaSiteId, int etd);
     }
 }

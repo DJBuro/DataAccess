@@ -48,6 +48,10 @@
             <End Role="Sites" EntitySet="Sites" />
             <End Role="OpeningHours" EntitySet="OpeningHours" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_ACSApplication" Association="ACSModel.Store.FK_Orders_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_ACSQueue" Association="ACSModel.Store.FK_Orders_ACSQueue">
             <End Role="ACSQueue" EntitySet="ACSQueue" />
             <End Role="Orders" EntitySet="Orders" />
@@ -209,6 +213,7 @@
           <Property Name="StatusId" Type="uniqueidentifier" />
           <Property Name="InternetOrderNumber" Type="int" StoreGeneratedPattern="Identity" />
           <Property Name="ExternalID" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApplicationID" Type="int" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -351,6 +356,18 @@
             </Principal>
             <Dependent Role="OpeningHours">
               <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_ACSApplication">
+          <End Role="ACSApplication" Type="ACSModel.Store.ACSApplication" Multiplicity="0..1" />
+          <End Role="Orders" Type="ACSModel.Store.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ApplicationID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -497,6 +514,10 @@
             <End Role="SiteStatus" EntitySet="SiteStatuses" />
             <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_ACSApplication" Association="ACSModel.FK_Orders_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -509,6 +530,7 @@
           <Property Type="Int32" Name="PartnerId" Nullable="false" />
           <NavigationProperty Name="Partner" Relationship="ACSModel.FK_ACSApplication_Partners" FromRole="ACSApplication" ToRole="Partner" />
           <NavigationProperty Name="ACSApplicationSites" Relationship="ACSModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
+          <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_ACSApplication" FromRole="ACSApplication" ToRole="Order" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
@@ -645,6 +667,8 @@
           <NavigationProperty Name="ACSQueue" Relationship="ACSModel.FK_Orders_ACSQueue" FromRole="Order" ToRole="ACSQueue" />
           <NavigationProperty Name="OrderStatu" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="Order" ToRole="OrderStatu" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_Orders_Sites" FromRole="Order" ToRole="Site" />
+          <Property Type="Int32" Name="ApplicationID" />
+          <NavigationProperty Name="ACSApplication" Relationship="ACSModel.FK_Orders_ACSApplication" FromRole="Order" ToRole="ACSApplication" />
         </EntityType>
         <EntityType Name="OrderStatu">
           <Key>
@@ -872,6 +896,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_ACSApplication">
+          <End Type="ACSModel.ACSApplication" Role="ACSApplication" Multiplicity="0..1" />
+          <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1014,6 +1050,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="ACSModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
                 <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
                 <ScalarProperty Name="InternetOrderNumber" ColumnName="InternetOrderNumber" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />

@@ -17,6 +17,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public ACSApplication()
         {
             this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -27,5 +28,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
     
         public virtual Partner Partner { get; set; }
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

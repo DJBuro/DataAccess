@@ -254,5 +254,28 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string Update(int andromedaSiteId, int etd)
+        {
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var acsQuery = from o in acsEntities.Sites
+                               where o.AndroID == andromedaSiteId
+                               select o;
+
+                var acsQueryEntity = acsQuery.FirstOrDefault();
+
+                // Update the site record
+                if (acsQueryEntity != null)
+                {
+                    acsQueryEntity.EstimatedDeliveryTime = etd;
+                    acsEntities.SaveChanges();
+                }
+            }
+
+            return "";
+        }
     }
 }
