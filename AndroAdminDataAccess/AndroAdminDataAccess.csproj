@@ -132,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IChainDAO.cs" />
+    <Compile Include="DataAccess\IHostTypesDataService.cs" />
+    <Compile Include="DataAccess\IHostV2DataService.cs" />
+    <Compile Include="DataAccess\IHostV2ForStoreDataService.cs" />
     <Compile Include="DataAccess\IHubListDAO.cs" />
     <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
     <Compile Include="DataAccess\IStoreMenuThumbnailsDataService.cs" />
@@ -199,6 +202,9 @@
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2ForApplicationDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2ForStoreDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreHubDataService.cs" />
@@ -252,22 +258,19 @@
     <Compile Include="EntityFramework\FTPSiteType.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\Group.cs">
+    <Compile Include="EntityFramework\Host.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\Host.cs">
+    <Compile Include="EntityFramework\HostType.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\HostV2.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\HubAddress.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Log.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUser.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUserStore.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\OpeningHour.cs">
@@ -306,7 +309,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="EntityFramework\EntityModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityModel.Designer.cs</LastGenOutput>

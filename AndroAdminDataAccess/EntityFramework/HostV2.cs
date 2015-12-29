@@ -12,20 +12,25 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class StorePaymentProvider
+    public partial class HostV2
     {
-        public StorePaymentProvider()
+        public HostV2()
         {
+            this.ACSApplications = new HashSet<ACSApplication>();
             this.Stores = new HashSet<Store>();
         }
     
-        public int Id { get; set; }
-        public string ProviderName { get; set; }
-        public string ClientId { get; set; }
-        public string ClientPassword { get; set; }
-        public string DisplayText { get; set; }
-        public int DataVersion { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid HostTypeId { get; set; }
+        public string Url { get; set; }
+        public int Version { get; set; }
+        public int Order { get; set; }
+        public bool Public { get; set; }
+        public bool OptInOnly { get; set; }
+        public bool Enabled { get; set; }
     
+        public virtual HostType HostType { get; set; }
+        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
     }
 }
