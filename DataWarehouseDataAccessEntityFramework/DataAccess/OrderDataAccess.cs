@@ -129,5 +129,33 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string GetByExternalIdApplicationId(string externalOrderId, int applicationId, out DataWarehouseDataAccess.Domain.Order order)
+        {
+            order = null;
+
+            using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+            {
+                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+
+                var acsQuery = from o in dataWarehouseEntities.OrderHeaders
+                               where o.ExternalOrderRef == externalOrderId
+                                    && o.ApplicationID == applicationId
+                               select o;
+
+                var acsQueryEntity = acsQuery.FirstOrDefault();
+
+                if (acsQueryEntity != null)
+                {
+                    order = new DataWarehouseDataAccess.Domain.Order();
+                    order.ID = acsQueryEntity.ID;
+                    order.StoreOrderId = acsQueryEntity.ExternalOrderRef;
+                    order.InternetOrderNumber = acsQueryEntity.RamesesOrderNum;
+                    order.RamesesStatusId = acsQueryEntity.OrderStatu.Id;
+                }
+            }
+
+            return "";
+        }
     }
 }

@@ -125,10 +125,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             where ca.Username == username
                                 && c.ACSAplicationId == applicationId
                               select c).Count() > 0;
-
-                //exists =
-                //    dataWarehouseEntities.Customers
-                //    .Any(e => e.ACSAplicationId == applicationId && e.Username == username);
             }
 
             return "";
@@ -162,6 +158,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     // Create a customer entity
                     Model.Customer customerEntity = new Model.Customer()
                     {
+                        ID = Guid.NewGuid(),
                         FirstName = customer.FirstName,
                         LastName = customer.Surname,
                         Title = customer.Title,
@@ -169,6 +166,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         RegisteredDateTime = DateTime.UtcNow,
                         CustomerAccount = new CustomerAccount()
                             {
+                                ID = Guid.NewGuid(),
                                 Username = username,
                                 Password = passwordHash,
                                 PasswordSalt = salt,

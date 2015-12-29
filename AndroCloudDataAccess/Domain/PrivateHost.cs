@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace AndroCloudDataAccess.Domain
 {
     [XmlType("Host")]
-    public class PrivateHost
+    public class PrivateHost : IHost
     {
         [JsonIgnore]
         [XmlIgnore]

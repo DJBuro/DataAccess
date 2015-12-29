@@ -179,6 +179,7 @@
     <Compile Include="Domain\DeliveryZoneRoad.cs" />
     <Compile Include="Domain\DeliveryZoneTown.cs" />
     <Compile Include="Domain\HostV2.cs" />
+    <Compile Include="Domain\IHost.cs" />
     <Compile Include="Domain\PrivateHostV2.cs" />
     <Compile Include="Domain\PrivateHost.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />

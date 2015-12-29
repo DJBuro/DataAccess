@@ -35,11 +35,11 @@ namespace AndroCloudDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public AndroCloudDataAccess.DataAccess.IOrdersDataAccess OrderDataAccess
-        {
-            get { return new OrderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
-            set { throw new NotImplementedException(); }
-        }
+        //public AndroCloudDataAccess.DataAccess.IOrdersDataAccess OrderDataAccess
+        //{
+        //    get { return new OrderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+        //    set { throw new NotImplementedException(); }
+        //}
 
         public AndroCloudDataAccess.DataAccess.IAuditDataAccess AuditDataAccess
         {
@@ -47,11 +47,11 @@ namespace AndroCloudDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public AndroCloudDataAccess.DataAccess.IOrderStatusDataAccess OrderStatusDataAccess
-        {
-            get { return new OrderStatusDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
-            set { throw new NotImplementedException(); }
-        }
+        //public AndroCloudDataAccess.DataAccess.IOrderStatusDataAccess OrderStatusDataAccess
+        //{
+        //    get { return new OrderStatusDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+        //    set { throw new NotImplementedException(); }
+        //}
 
         public AndroCloudDataAccess.DataAccess.IAddressDataAccess AddressDataAccess
         {
