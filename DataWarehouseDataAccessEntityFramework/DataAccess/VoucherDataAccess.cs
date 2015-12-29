@@ -82,7 +82,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     voucherCodeObj.AvailableOnDays = voucherEntity.AvailableOnDays != null ? new List<string>(voucherEntity.AvailableOnDays.Split(',')) : new List<string>();
                     voucherCodeObj.StartTimeOfDayAvailable = voucherEntity.StartTimeOfDayAvailable;
                     voucherCodeObj.EndTimeOfDayAvailable = voucherEntity.EndTimeOfDayAvailable;
-                    voucherCodeObj.IsActive = !voucherEntity.Removed;
+                    voucherCodeObj.IsActive = voucherEntity.Active;
                     voucherCodeObj.DiscountType = voucherEntity.DiscountType;
                     voucherCodeObj.DiscountValue = voucherEntity.DiscountValue;
                     voucherCodeObj.stringOccasions = voucherEntity.Occasion;
