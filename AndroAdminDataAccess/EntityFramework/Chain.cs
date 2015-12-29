@@ -27,11 +27,13 @@ namespace AndroAdminDataAccess.EntityFramework
         public string Name { get; set; }
         public string Description { get; set; }
         public string Culture { get; set; }
+        public Nullable<int> MasterMenuId { get; set; }
     
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
         public virtual ICollection<ChainChain> ChainChains { get; set; }
         public virtual ICollection<ChainChain> ChainChains1 { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

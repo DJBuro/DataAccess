@@ -27,6 +27,7 @@ namespace AndroAdminDataAccess.EntityFramework
             this.StoreDevices = new HashSet<StoreDevice>();
             this.DeliveryAreas = new HashSet<DeliveryArea>();
             this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
+            this.Chains = new HashSet<Chain>();
         }
     
         public int Id { get; set; }
@@ -62,5 +63,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<StoreDevice> StoreDevices { get; set; }
         public virtual ICollection<DeliveryArea> DeliveryAreas { get; set; }
         public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
+        public virtual ICollection<Chain> Chains { get; set; }
     }
 }
