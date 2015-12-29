@@ -26,17 +26,23 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         }
     
         public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<ACSErrorCode> ACSErrorCodes { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Audit> Audits { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactType> ContactTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerAccount> CustomerAccounts { get; set; }
         public DbSet<CustomerAddress> CustomerAddresses { get; set; }
+        public DbSet<CustomerFeedback> CustomerFeedbacks { get; set; }
+        public DbSet<CustomerFeedbackCategory> CustomerFeedbackCategories { get; set; }
+        public DbSet<CustomerLoyalty> CustomerLoyalties { get; set; }
         public DbSet<MarketingLevel> MarketingLevels { get; set; }
         public DbSet<modifier> modifiers { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
         public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
@@ -45,10 +51,5 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<UsedVoucher> UsedVouchers { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
-        public DbSet<Applications_vw> Applications_vw { get; set; }
-        public DbSet<Audit> Audits { get; set; }
-        public DbSet<ACSErrorCode> ACSErrorCodes { get; set; }
-        public DbSet<CustomerLoyalty> CustomerLoyalties { get; set; }
-        public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public OrderLine()
         {
             this.modifiers = new HashSet<modifier>();
-            this.modifiers1 = new HashSet<modifier>();
         }
     
         public System.Guid ID { get; set; }
@@ -31,8 +30,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string DisplayCategory { get; set; }
     
         public virtual ICollection<modifier> modifiers { get; set; }
-        public virtual ICollection<modifier> modifiers1 { get; set; }
         public virtual OrderHeader OrderHeader { get; set; }
-        public virtual OrderHeader OrderHeader1 { get; set; }
     }
 }

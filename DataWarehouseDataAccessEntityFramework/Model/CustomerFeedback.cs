@@ -12,16 +12,17 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class modifier
+    public partial class CustomerFeedback
     {
-        public System.Guid ID { get; set; }
-        public Nullable<System.Guid> OrderLineID { get; set; }
-        public Nullable<int> ProductID { get; set; }
-        public string Description { get; set; }
-        public Nullable<int> Qty { get; set; }
-        public Nullable<bool> Removed { get; set; }
-        public Nullable<int> Price { get; set; }
+        public System.Guid Id { get; set; }
+        public int ACSApplicationId { get; set; }
+        public string ExternalSiteId { get; set; }
+        public System.DateTime DateTimeCreated { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerEmailAddress { get; set; }
+        public Nullable<int> CustomerFeedbackCategoryId { get; set; }
+        public string Feedback { get; set; }
     
-        public virtual OrderLine OrderLine { get; set; }
+        public virtual CustomerFeedbackCategory CustomerFeedbackCategory { get; set; }
     }
 }
