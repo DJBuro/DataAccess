@@ -211,7 +211,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             string driverName,
             int? driverId,
             string driverMobileNumber,
-            int? ticketNumber)
+            int? ticketNumber,
+            int? bags)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {
@@ -239,6 +240,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     orderHeaderEntity.DriverId = driverId;
                     orderHeaderEntity.DriverPhoneNumber = driverMobileNumber;
                     orderHeaderEntity.TicketNumber = ticketNumber;
+                    orderHeaderEntity.Bags = bags;
                 }
 
                 // Update the order status history
