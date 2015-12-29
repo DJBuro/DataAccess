@@ -322,6 +322,22 @@ namespace AndroCloudDataAccessEntityFramework.Model
             }
         }
         private ObjectSet<Site> _Sites;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Host> Hosts
+        {
+            get
+            {
+                if ((_Hosts == null))
+                {
+                    _Hosts = base.CreateObjectSet<Host>("Hosts");
+                }
+                return _Hosts;
+            }
+        }
+        private ObjectSet<Host> _Hosts;
 
         #endregion
 
@@ -445,6 +461,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public void AddToSites(Site site)
         {
             base.AddObject("Sites", site);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToHosts(Host host)
+        {
+            base.AddObject("Hosts", host);
         }
 
         #endregion
@@ -2359,6 +2383,141 @@ namespace AndroCloudDataAccessEntityFramework.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="Host")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Host : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Host object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="hostName">Initial value of the HostName property.</param>
+        /// <param name="order">Initial value of the Order property.</param>
+        /// <param name="port">Initial value of the Port property.</param>
+        public static Host CreateHost(global::System.Guid id, global::System.String hostName, global::System.Int32 order, global::System.Int32 port)
+        {
+            Host host = new Host();
+            host.ID = id;
+            host.HostName = hostName;
+            host.Order = order;
+            host.Port = port;
+            return host;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String HostName
+        {
+            get
+            {
+                return _HostName;
+            }
+            set
+            {
+                OnHostNameChanging(value);
+                ReportPropertyChanging("HostName");
+                _HostName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("HostName");
+                OnHostNameChanged();
+            }
+        }
+        private global::System.String _HostName;
+        partial void OnHostNameChanging(global::System.String value);
+        partial void OnHostNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Order
+        {
+            get
+            {
+                return _Order;
+            }
+            set
+            {
+                OnOrderChanging(value);
+                ReportPropertyChanging("Order");
+                _Order = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Order");
+                OnOrderChanged();
+            }
+        }
+        private global::System.Int32 _Order;
+        partial void OnOrderChanging(global::System.Int32 value);
+        partial void OnOrderChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Port
+        {
+            get
+            {
+                return _Port;
+            }
+            set
+            {
+                OnPortChanging(value);
+                ReportPropertyChanging("Port");
+                _Port = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Port");
+                OnPortChanged();
+            }
+        }
+        private global::System.Int32 _Port;
+        partial void OnPortChanging(global::System.Int32 value);
+        partial void OnPortChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="MyAndromedaUser")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -3471,10 +3630,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// Create a new Site object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        public static Site CreateSite(global::System.Guid id)
+        /// <param name="androSiteName">Initial value of the AndroSiteName property.</param>
+        /// <param name="androID">Initial value of the AndroID property.</param>
+        public static Site CreateSite(global::System.Guid id, global::System.String androSiteName, global::System.Int32 androID)
         {
             Site site = new Site();
             site.ID = id;
+            site.AndroSiteName = androSiteName;
+            site.AndroID = androID;
             return site;
         }
 
@@ -3560,7 +3723,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String AndroSiteName
         {
@@ -3572,7 +3735,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
             {
                 OnAndroSiteNameChanging(value);
                 ReportPropertyChanging("AndroSiteName");
-                _AndroSiteName = StructuralObject.SetValidValue(value, true);
+                _AndroSiteName = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("AndroSiteName");
                 OnAndroSiteNameChanged();
             }
@@ -3632,9 +3795,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> AndroID
+        public global::System.Int32 AndroID
         {
             get
             {
@@ -3649,8 +3812,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 OnAndroIDChanged();
             }
         }
-        private Nullable<global::System.Int32> _AndroID;
-        partial void OnAndroIDChanging(Nullable<global::System.Int32> value);
+        private global::System.Int32 _AndroID;
+        partial void OnAndroIDChanging(global::System.Int32 value);
         partial void OnAndroIDChanged();
     
         /// <summary>

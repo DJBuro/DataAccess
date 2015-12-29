@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess
 {
     public interface IDataAccessFactory
     {
+        IHostDataAccess HostDataAccess { get; set; }
         ISiteDataAccess SiteDataAccess { get; set; }
         IOrdersDataAccess OrderDataAccess { get; set; }
         IAuditDataAccess AuditDataAccess { get; set; }

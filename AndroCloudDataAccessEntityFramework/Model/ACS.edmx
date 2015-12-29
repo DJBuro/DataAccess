@@ -13,6 +13,7 @@
           <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employees" EntityType="ACSModel.Store.Employees" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="ACSModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Hosts" EntityType="ACSModel.Store.Hosts" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MyAndromedaUser" EntityType="ACSModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" />
@@ -172,6 +173,15 @@
           <Property Name="LastUpdated" Type="datetime" />
           <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
         </EntityType>
+        <EntityType Name="Hosts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Port" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="MyAndromedaUser">
           <Key>
             <PropertyRef Name="ID" />
@@ -239,10 +249,10 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SignalRConnectionID" Type="uniqueidentifier" />
           <Property Name="SessionID" Type="uniqueidentifier" />
-          <Property Name="AndroSiteName" Type="nvarchar" MaxLength="64" />
+          <Property Name="AndroSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="ClientSiteName" Type="nvarchar" MaxLength="64" />
           <Property Name="ExternalSiteName" Type="nvarchar" MaxLength="64" />
-          <Property Name="AndroID" Type="int" />
+          <Property Name="AndroID" Type="int" Nullable="false" />
           <Property Name="AddressID" Type="uniqueidentifier" />
           <Property Name="StoreConnected" Type="bit" />
           <Property Name="LastUpdated" Type="datetime" />
@@ -250,7 +260,7 @@
           <Property Name="EstimatedDeliveryTime" Type="int" />
           <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
-          <Property Name="LicenceKey" Type="nvarchar" MaxLength="25" />
+          <Property Name="LicenceKey" Type="nvarchar" MaxLength="64" />
         </EntityType>
         <EntityType Name="SitesGroups">
           <Key>
@@ -488,13 +498,14 @@
             <End Role="Site" EntitySet="Sites" />
             <End Role="SitesGroup" EntitySet="SitesGroups" />
           </AssociationSet>
+          <EntitySet Name="Hosts" EntityType="ACSModel.Host" />
         </EntityContainer>
         <EntityType Name="ACSLog">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="Date" />
+          <Property Type="DateTime" Name="Date" Precision="3" />
           <Property Type="String" Name="Thread" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Level" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Logger" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -506,7 +517,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="TimeStamp" />
+          <Property Type="DateTime" Name="TimeStamp" Precision="3" />
           <Property Type="Int32" Name="SrcSiteID" />
           <Property Type="Guid" Name="SrcSiteGuid" />
           <Property Type="Int32" Name="DestSiteID" />
@@ -523,7 +534,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="DateTime" Name="DateCreated" />
+          <Property Type="DateTime" Name="DateCreated" Precision="3" />
           <Property Type="String" Name="SrcID" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="HardwareID" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="IP_Port" MaxLength="32" FixedLength="false" Unicode="true" />
@@ -559,7 +570,7 @@
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="PartnerID" />
           <Property Type="String" Name="GroupName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="LastUpdated" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
           <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="Group" ToRole="MyAndromedaUser" />
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Groups" FromRole="Group" ToRole="SitesGroup" />
@@ -584,8 +595,8 @@
           </Key>
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="SiteID" Nullable="false" />
-          <Property Type="Time" Name="TimeStart" Nullable="false" />
-          <Property Type="Time" Name="TimeEnd" Nullable="false" />
+          <Property Type="Time" Name="TimeStart" Nullable="false" Precision="7" />
+          <Property Type="Time" Name="TimeEnd" Nullable="false" Precision="7" />
           <Property Type="Boolean" Name="OpenAllDay" Nullable="false" />
           <Property Type="Guid" Name="DayID" Nullable="false" />
           <NavigationProperty Name="Day" Relationship="ACSModel.FK_OpeningHours_Day" FromRole="OpeningHour" ToRole="Day" />
@@ -623,7 +634,7 @@
           <Property Type="Int32" Name="Version" />
           <Property Type="String" Name="MenuType" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="menuData" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="LastUpdated" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenu" ToRole="Site" />
         </EntityType>
         <EntityType Name="SitesGroup">
@@ -763,18 +774,18 @@
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="SignalRConnectionID" />
           <Property Type="Guid" Name="SessionID" />
-          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="String" Name="ClientSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ExternalSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AndroID" />
+          <Property Type="Int32" Name="AndroID" Nullable="false" />
           <Property Type="Guid" Name="AddressID" />
           <Property Type="Boolean" Name="StoreConnected" />
-          <Property Type="DateTime" Name="LastUpdated" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
           <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="EstimatedDeliveryTime" />
           <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenceKey" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LicenceKey" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
           <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
@@ -854,6 +865,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Int32" Name="Port" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1058,6 +1078,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Hosts">
+            <EntityTypeMapping TypeName="ACSModel.Host">
+              <MappingFragment StoreEntitySet="Hosts">
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1146,6 +1176,7 @@
           <ConnectorPoint PointX="5.75" PointY="11.240143229166666" />
           <ConnectorPoint PointX="4.75" PointY="11.240143229166666" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="ACSModel.Host" Width="1.5" PointX="6.25" PointY="3.875" />
       </Diagram>
     </Diagrams>
   </Designer>
