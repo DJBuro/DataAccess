@@ -14,12 +14,18 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     
     public partial class AndroWebOrderingTheme
     {
+        public AndroWebOrderingTheme()
+        {
+            this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
+        }
+    
         public int Id { get; set; }
-        public string Source { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
-        public string FileName { get; set; }
-        public string InternalName { get; set; }
         public string Description { get; set; }
+        public string ThemePath { get; set; }
+        public string ThemeName { get; set; }
+    
+        public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
     }
 }
