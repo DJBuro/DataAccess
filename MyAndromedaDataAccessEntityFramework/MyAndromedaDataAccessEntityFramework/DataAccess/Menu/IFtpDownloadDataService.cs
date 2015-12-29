@@ -54,8 +54,15 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
         public void FoundNewPublishDate(SiteMenu siteMenu, DateTime? menuPublishDate)
         {
-            // TODO: Implement this method
-            throw new NotImplementedException();
+            siteMenu.SiteMenuPublishTask.LastKnownFtpSitePublish = menuPublishDate;
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var publishContext = dbContext.SiteMenuPublishTasks.Single(e => e.SiteMenus.Any(menu => menu.Id == siteMenu.Id));
+                
+                publishContext.LastKnownFtpSitePublish = menuPublishDate;
+
+                dbContext.SaveChanges();
+            }
         }
 
         public void SetDownloadTaskStatus(SiteMenu siteMenu, TaskStatus status)

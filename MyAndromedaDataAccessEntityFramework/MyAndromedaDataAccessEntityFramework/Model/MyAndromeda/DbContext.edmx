@@ -436,6 +436,7 @@
           <Property Name="LastStartedUtc" Type="datetime" />
           <Property Name="LastCompletedUtc" Type="datetime" />
           <Property Name="LastKnownFtpSitePublish" Type="datetime" />
+          <Property Name="PublishOn" Type="datetime" />
         </EntityType>
         <EntityType Name="SiteMenuPublishTaskHistory">
           <Key>
@@ -1632,6 +1633,7 @@
           <Property Type="DateTime" Name="LastCompletedUtc" Precision="3" />
           <Property Type="DateTime" Name="LastKnownFtpSitePublish" Precision="3" />
           <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuPublishTask" FromRole="SiteMenuPublishTask" ToRole="SiteMenu" />
+          <Property Type="DateTime" Name="PublishOn" Precision="3" />
         </EntityType>
         <Association Name="FK_SiteMenu_SiteMenuFtpBackupDownloadTask">
           <End Type="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" Role="SiteMenuFtpBackupDownloadTask" Multiplicity="0..1" />
@@ -2056,6 +2058,7 @@
           <EntitySetMapping Name="SiteMenuPublishTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuPublishTask">
               <MappingFragment StoreEntitySet="SiteMenuPublishTask">
+                <ScalarProperty Name="PublishOn" ColumnName="PublishOn" />
                 <ScalarProperty Name="LastKnownFtpSitePublish" ColumnName="LastKnownFtpSitePublish" />
                 <ScalarProperty Name="LastCompletedUtc" ColumnName="LastCompletedUtc" />
                 <ScalarProperty Name="LastStartedUtc" ColumnName="LastStartedUtc" />

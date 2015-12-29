@@ -78,6 +78,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 
             //publish specific
             item.LastKnownFtpSitePublish = copyFrom.LastKnownFtpSitePublish;
+            item.PublishOn = copyFrom.PublishOn;
         }
     }
 }
