@@ -74,9 +74,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 foreach (OpeningHour openingHour in siteEntity.OpeningHours)
                 {
                     TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                    timeSpanBlock.ID = openingHour.ID;
                     timeSpanBlock.Day = openingHour.Day.Description;
-                    timeSpanBlock.StartTime = openingHour.TimeStart.Hours + ":" + openingHour.TimeStart.Minutes;
-                    timeSpanBlock.EndTime = openingHour.TimeEnd.Hours + ":" + openingHour.TimeStart.Minutes;
+                    timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                    timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                    timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
 
                     siteDetails.OpeningHours.Add(timeSpanBlock);
                 }
@@ -107,57 +109,61 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             Model.Site acsEntity = acsQuery.FirstOrDefault();
 
-            // Create a serializable SiteDetails object
-            siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();
-            siteDetails.Id = acsEntity.ID;
-            siteDetails.ExternalId = acsEntity.ExternalId;
-            siteDetails.Name = acsEntity.SiteName;
-            siteDetails.IsOpen = acsEntity.StoreConnected.GetValueOrDefault(false);
-            siteDetails.EstDelivTime = acsEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
-            siteDetails.TimeZone = acsEntity.TimeZone;
-            siteDetails.Phone = acsEntity.Telephone;
-
-            // Address
-            if (acsEntity.Address != null)
+            if (acsEntity != null)
             {
-                Model.Address dbAddress = acsEntity.Address;
+                // Create a serializable SiteDetails object
+                siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();
+                siteDetails.Id = acsEntity.ID;
+                siteDetails.ExternalId = acsEntity.ExternalId;
+                siteDetails.Name = acsEntity.SiteName;
+                siteDetails.IsOpen = acsEntity.StoreConnected.GetValueOrDefault(false);
+                siteDetails.EstDelivTime = acsEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                siteDetails.TimeZone = acsEntity.TimeZone;
+                siteDetails.Phone = acsEntity.Telephone;
 
-                siteDetails.Address = new AndroCloudDataAccess.Domain.Address();
-                siteDetails.Address.Country = dbAddress.Country;
-                siteDetails.Address.County = dbAddress.County;
-                siteDetails.Address.Dps = dbAddress.DPS;
-                siteDetails.Address.Lat = dbAddress.Lat.HasValue ? dbAddress.Lat.ToString() : "";
-                siteDetails.Address.Locality = dbAddress.Locality;
-                siteDetails.Address.Long = dbAddress.Long.HasValue ? dbAddress.Lat.ToString() : "";
-                siteDetails.Address.Org1 = dbAddress.Org1;
-                siteDetails.Address.Org2 = dbAddress.Org2;
-                siteDetails.Address.Org3 = dbAddress.Org3;
-                siteDetails.Address.Postcode = dbAddress.PostCode;
-                siteDetails.Address.Prem1 = dbAddress.Prem1;
-                siteDetails.Address.Prem2 = dbAddress.Prem2;
-                siteDetails.Address.Prem3 = dbAddress.Prem3;
-                siteDetails.Address.Prem4 = dbAddress.Prem4;
-                siteDetails.Address.Prem5 = dbAddress.Prem5;
-                siteDetails.Address.Prem6 = dbAddress.Prem6;
-                siteDetails.Address.RoadName = dbAddress.RoadName;
-                siteDetails.Address.RoadNum = dbAddress.RoadNum;
-                siteDetails.Address.Town = dbAddress.Town;
-            }
-
-            // Opening hours
-            siteDetails.OpeningHours = new List<TimeSpanBlock>();
-            if (acsEntity.OpeningHours != null)
-            {
-                foreach (OpeningHour openingHour in acsEntity.OpeningHours)
+                // Address
+                if (acsEntity.Address != null)
                 {
-                    TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
-                    timeSpanBlock.Day = openingHour.Day.Description;
-                    timeSpanBlock.StartTime = openingHour.TimeStart.Hours + ":" + openingHour.TimeStart.Minutes;
-                    timeSpanBlock.EndTime = openingHour.TimeEnd.Hours + ":" + openingHour.TimeStart.Minutes;
+                    Model.Address dbAddress = acsEntity.Address;
 
-                    siteDetails.OpeningHours.Add(timeSpanBlock);
+                    siteDetails.Address = new AndroCloudDataAccess.Domain.Address();
+                    siteDetails.Address.Country = dbAddress.Country;
+                    siteDetails.Address.County = dbAddress.County;
+                    siteDetails.Address.Dps = dbAddress.DPS;
+                    siteDetails.Address.Lat = dbAddress.Lat.HasValue ? dbAddress.Lat.ToString() : "";
+                    siteDetails.Address.Locality = dbAddress.Locality;
+                    siteDetails.Address.Long = dbAddress.Long.HasValue ? dbAddress.Lat.ToString() : "";
+                    siteDetails.Address.Org1 = dbAddress.Org1;
+                    siteDetails.Address.Org2 = dbAddress.Org2;
+                    siteDetails.Address.Org3 = dbAddress.Org3;
+                    siteDetails.Address.Postcode = dbAddress.PostCode;
+                    siteDetails.Address.Prem1 = dbAddress.Prem1;
+                    siteDetails.Address.Prem2 = dbAddress.Prem2;
+                    siteDetails.Address.Prem3 = dbAddress.Prem3;
+                    siteDetails.Address.Prem4 = dbAddress.Prem4;
+                    siteDetails.Address.Prem5 = dbAddress.Prem5;
+                    siteDetails.Address.Prem6 = dbAddress.Prem6;
+                    siteDetails.Address.RoadName = dbAddress.RoadName;
+                    siteDetails.Address.RoadNum = dbAddress.RoadNum;
+                    siteDetails.Address.Town = dbAddress.Town;
                 }
 
+                // Opening hours
+                siteDetails.OpeningHours = new List<TimeSpanBlock>();
+                if (acsEntity.OpeningHours != null)
+                {
+                    foreach (OpeningHour openingHour in acsEntity.OpeningHours)
+                    {
+                        TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                        timeSpanBlock.ID = openingHour.ID;
+                        timeSpanBlock.Day = openingHour.Day.Description;
+                        timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                        timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                        timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+
+                        siteDetails.OpeningHours.Add(timeSpanBlock);
+                    }
+                }
             }
 
             return "";

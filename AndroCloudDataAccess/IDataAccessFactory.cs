@@ -18,5 +18,7 @@ namespace AndroCloudDataAccess
         IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
         IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
+        IEmployeeDataAccess EmployeeDataAccess { get; set; }
+        IOpeningHoursDataAccess OpeningHoursDataAccess { get; set; }
     }
 }

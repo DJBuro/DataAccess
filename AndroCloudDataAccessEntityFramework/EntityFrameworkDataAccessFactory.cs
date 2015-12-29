@@ -70,5 +70,19 @@ namespace AndroCloudDataAccessEntityFramework
             get { return new AddressDataAccess(); }
             set { throw new NotImplementedException(); }
         }
+
+
+        public AndroCloudDataAccess.DataAccess.IEmployeeDataAccess EmployeeDataAccess
+        {
+            get { return new EmployeeDataAccess(); }
+            set { throw new NotImplementedException(); }
+        }
+
+
+        public AndroCloudDataAccess.DataAccess.IOpeningHoursDataAccess OpeningHoursDataAccess
+        {
+            get { return new OpeningHoursDataAccess(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
