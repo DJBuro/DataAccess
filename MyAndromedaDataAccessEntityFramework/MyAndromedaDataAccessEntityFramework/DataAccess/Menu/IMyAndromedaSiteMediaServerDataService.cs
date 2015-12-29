@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using MyAndromeda.Core;
-using MyAndromeda.Storage.Azure;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
@@ -26,12 +25,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
     {
         private readonly IMyAndromedaDbWorkContextAccessor dbWork;
 
-        private readonly IBlobStorageService blobStorageService;
-
-        public MyAndromedaSiteMediaServerService(IMyAndromedaDbWorkContextAccessor dbWork, IBlobStorageService blobStorageService)
+        public MyAndromedaSiteMediaServerService(IMyAndromedaDbWorkContextAccessor dbWork)
         { 
             this.dbWork = dbWork;
-            this.blobStorageService = blobStorageService;
         }
 
         public SiteMenuMediaServer GetDefault()
@@ -43,8 +39,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             if (result == null) { 
                 result = new SiteMenuMediaServer(){
                     Name = "Default",
-                    Address = this.blobStorageService.RemoteLocation(),
-                    ContentPath = "https://{0}/menus/{1}/",
+                    Address = "http://cdn.myandromedaweb.co.uk/",
+                    ContentPath = "http://{0}/menus/{1}/",
                     StoragePath = "menus/{0}"
                 };
                 this.dbWork.DbContext.SiteMenuMediaServers.Add(result);

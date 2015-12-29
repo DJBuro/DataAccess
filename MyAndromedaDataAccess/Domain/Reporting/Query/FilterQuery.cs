@@ -27,7 +27,7 @@ namespace MyAndromedaDataAccess.Domain.Reporting.Query
                 if (!FilterTo.HasValue && !FilterFrom.HasValue)
                     return 0;
 
-                TimeSpan block = FilterTo.Value.Subtract(FilterFrom.Value);
+                TimeSpan block = FilterTo.GetValueOrDefault(FilterFrom.GetValueOrDefault()).Subtract(FilterFrom.GetValueOrDefault());
 
                 return block.TotalDays;
             } 
