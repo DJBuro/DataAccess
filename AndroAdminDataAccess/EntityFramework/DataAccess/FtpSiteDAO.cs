@@ -15,8 +15,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.FTPSite> ftpSites = new List<Domain.FTPSite>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.FTPSites.Include("FTPSiteType")
                             select s;
 
@@ -42,8 +45,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.FTPSite ftpSite)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 FTPSite entity = new FTPSite()
                 {
                     Name = ftpSite.Name,
@@ -54,15 +60,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     FTPSiteType_Id = ftpSite.FTPSiteType.Id
                 };
 
-                entitiesContext.AddToFTPSites(entity);
+                entitiesContext.FTPSites.Add(entity);
                 entitiesContext.SaveChanges();
             }
         }
 
         public void Update(Domain.FTPSite ftpSite)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.FTPSites
                             where ftpSite.Id == s.Id
                             select s;
@@ -87,8 +96,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.FTPSite model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.FTPSites
                             where id == s.Id
                             select s;
@@ -117,8 +129,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.FTPSite model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.FTPSites
                             where name == s.Name
                             select s;
@@ -146,8 +161,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Delete(int ftpSiteId)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.FTPSites
                             where ftpSiteId == s.Id
                             select s;
@@ -156,7 +174,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    entitiesContext.FTPSites.DeleteObject(entity);
+                    entitiesContext.FTPSites.Remove(entity);
 
                     entitiesContext.SaveChanges();
                 }

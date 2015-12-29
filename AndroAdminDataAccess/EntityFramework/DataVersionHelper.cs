@@ -29,7 +29,7 @@ namespace AndroAdminDataAccess.EntityFramework
             // Note that the current database version is stored in the settings table.  The setting values are strings.
 
             // Get a SQL connection from EF
-            SqlConnection sqlConnection = (SqlConnection)((EntityConnection)entitiesContext.Connection).StoreConnection;
+            SqlConnection sqlConnection = (SqlConnection)((EntityConnection)entitiesContext.Database.Connection).StoreConnection;
 
             // Get a SQL transaction from EF
             SqlTransaction sqlTransaction = (SqlTransaction)transaction.GetType().InvokeMember(

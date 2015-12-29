@@ -22,8 +22,8 @@ namespace AndroCloudDataAccess.Domain
         [XmlIgnore]
         public int InternetOrderNumber { get; set;}
 
-        [JsonProperty(PropertyName = "orderId")]
-        [XmlElement(ElementName="OrderId")]
-        public string ExternalID { get; set;}
+        [JsonProperty(PropertyName = "storeOrderId")]
+        [XmlElement(ElementName="storeOrderId")]
+        public string StoreOrderId { get; set;}
     }
 }

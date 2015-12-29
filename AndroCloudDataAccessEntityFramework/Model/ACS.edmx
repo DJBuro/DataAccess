@@ -158,6 +158,7 @@
           <Property Name="IP_Port" Type="nvarchar" MaxLength="32" />
           <Property Name="Action" Type="nvarchar" MaxLength="64" />
           <Property Name="ResponseTime" Type="int" />
+          <Property Name="ErrorCode" Type="int" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -545,6 +546,7 @@
           <Property Type="String" Name="IP_Port" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Action" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ResponseTime" />
+          <Property Type="Int32" Name="ErrorCode" />
         </EntityType>
         <EntityType Name="Day">
           <Key>
@@ -915,6 +917,7 @@
           <EntitySetMapping Name="Audits">
             <EntityTypeMapping TypeName="ACSModel.Audit">
               <MappingFragment StoreEntitySet="Audit">
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
                 <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
                 <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />

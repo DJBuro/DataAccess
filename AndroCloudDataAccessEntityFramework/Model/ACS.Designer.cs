@@ -2174,6 +2174,30 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private Nullable<global::System.Int32> _ResponseTime;
         partial void OnResponseTimeChanging(Nullable<global::System.Int32> value);
         partial void OnResponseTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ErrorCode
+        {
+            get
+            {
+                return _ErrorCode;
+            }
+            set
+            {
+                OnErrorCodeChanging(value);
+                ReportPropertyChanging("ErrorCode");
+                _ErrorCode = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ErrorCode");
+                OnErrorCodeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ErrorCode;
+        partial void OnErrorCodeChanging(Nullable<global::System.Int32> value);
+        partial void OnErrorCodeChanged();
 
         #endregion
 

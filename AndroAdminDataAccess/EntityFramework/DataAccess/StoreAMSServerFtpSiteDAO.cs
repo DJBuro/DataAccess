@@ -16,8 +16,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             .Include("StoreAMSServer")
                             .Include("StoreAMSServer.Store")
@@ -79,8 +82,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             .Include("StoreAMSServer.Store")
                             .Include("StoreAMSServer.AMSServer")
@@ -142,15 +148,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.StoreAMSServerFtpSite storeAMSServerFtpSite)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 StoreAMSServerFtpSite entity = new StoreAMSServerFtpSite()
                 {
                     FTPSiteId = storeAMSServerFtpSite.FTPSite.Id,
                     StoreAMSServerId = storeAMSServerFtpSite.StoreAMSServer.Id,
                 };
 
-                entitiesContext.AddToStoreAMSServerFtpSites(entity);
+                entitiesContext.StoreAMSServerFtpSites.Add(entity);
                 entitiesContext.SaveChanges();
             }
         }
@@ -159,8 +168,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.StoreAMSServerFtpSite model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             where storeAMSServerId == s.StoreAMSServerId
                             && ftpSiteId == s.FTPSiteId
@@ -181,15 +193,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteByFTPSiteId(int ftpSiteId)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             where s.FTPSiteId == ftpSiteId
                             select s;
 
                 foreach (var entity in query)
                 {
-                    entitiesContext.StoreAMSServerFtpSites.DeleteObject(entity);
+                    entitiesContext.StoreAMSServerFtpSites.Remove(entity);
                 }
 
                 entitiesContext.SaveChanges();
@@ -198,15 +213,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteByAMSServerId(int amsServerId)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             where s.StoreAMSServer.AMSServerId == amsServerId
                             select s;
 
                 foreach (var entity in query)
                 {
-                    entitiesContext.StoreAMSServerFtpSites.DeleteObject(entity);
+                    entitiesContext.StoreAMSServerFtpSites.Remove(entity);
                 }
 
                 entitiesContext.SaveChanges();
@@ -215,15 +233,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteById(int id)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             where s.Id == id
                             select s;
 
                 var entity = query.FirstOrDefault();
 
-                entitiesContext.StoreAMSServerFtpSites.DeleteObject(entity);
+                entitiesContext.StoreAMSServerFtpSites.Remove(entity);
 
                 entitiesContext.SaveChanges();
             }
@@ -234,8 +255,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites.Include("StoreAMSServer")
                                 .Include("StoreAMSServer.Store")
                                 .Include("StoreAMSServer.AMSServer")
@@ -298,8 +322,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.StoreAMSServerFtpSite model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.StoreAMSServerFtpSites
                             .Include("StoreAMSServer.Store")
                             .Include("StoreAMSServer.AMSServer")
