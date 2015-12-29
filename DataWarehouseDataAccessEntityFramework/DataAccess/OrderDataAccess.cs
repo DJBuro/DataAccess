@@ -124,8 +124,19 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         // It's a deal or deal line
                         if (orderLineEntity.IsDeal.HasValue && orderLineEntity.IsDeal.Value)
                         {
-                            // It's a deal
-                            dealsLookup.Add(orderLineEntity.DealID.Value, orderLine);
+                            // Is there already a placeholder deal?
+                            DataWarehouseDataAccess.Domain.OrderLine dealOrderLine = null;
+                            if (dealsLookup.TryGetValue(orderLineEntity.ID, out dealOrderLine))
+                            {
+                                // Copy the child deal lines over from the placeholder deal and then remove the placeholder
+                                orderLine.ChildOrderLines = dealOrderLine.ChildOrderLines;
+                                dealsLookup.Remove(orderLineEntity.ID);
+                            }
+
+                            if (orderLine.ChildOrderLines == null) orderLine.ChildOrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>();
+
+                            // It's a deal - add it to the lookup
+                            dealsLookup.Add(orderLineEntity.ID, orderLine);
 
                             // Add the deal to the order
                             orderDetails.Deals.Add(orderLine);
@@ -134,13 +145,18 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         {
                             // It's a deal line
                             DataWarehouseDataAccess.Domain.OrderLine dealOrderLine = null;
-
-                            // Get the deal
-                            if (dealsLookup.TryGetValue(orderLineEntity.DealID.Value, out dealOrderLine))
+                            if (!dealsLookup.TryGetValue(orderLineEntity.DealID.Value, out dealOrderLine))
                             {
-                                // Add the deal line to the deal
-                                dealOrderLine.ChildOrderLines.Add(orderLine);
+                                // No deal for this deal line
+                                // Because the order of the order lines can be random we might have got a deal line before the deal itself
+                                // Add a place holder for the deal which we can replace later
+                                dealOrderLine = new DataWarehouseDataAccess.Domain.OrderLine();
+                                dealOrderLine.ChildOrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>();
+                                dealsLookup.Add(orderLineEntity.DealID.Value, dealOrderLine);
                             }
+
+                            // Add the deal line to the deal
+                            dealOrderLine.ChildOrderLines.Add(orderLine);
                         }
                     }
                     else
