@@ -16,5 +16,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         void Update(DeliveryArea deliveryArea);
         bool Delete(DeliveryArea deliveryArea);
         bool Delete(int storeId);
+        DeliveryZoneName GetDeliveryZonesByRadius(int storeId);
+        bool SaveDeliveryZones(DeliveryZoneName deliveryZone);
     }
 }
