@@ -31,14 +31,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     acsEntities.Database.Connection.Open();
 
                     // Update the data version.  We're using this as a guard to prevent multiple simultanous syncs
-                    bool success = DataVersionHelper.SetVersion(syncModel.FromDataVersion, syncModel.ToDataVersion, acsEntities);
+                    //bool success = DataVersionHelper.SetVersion(syncModel.FromDataVersion, syncModel.ToDataVersion, acsEntities);
 
                     // Did we successfully update the version
-                    if (!success)
-                    {
-                        // Someone probably sneaked in and applied another sync
-                        return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
-                    }
+                    //if (!success)
+                    //{
+                    //    // Someone probably sneaked in and applied another sync
+                    //    return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
+                    //}
+
+                    ISettingsDataAccess settingsDataAccess = new SettingsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                    
+                    settingsDataAccess.Update("dataversion", syncModel.ToDataVersion.ToString());
 
                     // Update all store payment providers in the local db that have changed on the master server
                     foreach (CloudSyncModel.StorePaymentProvider storePaymentProvider in syncModel.StorePaymentProviders)
