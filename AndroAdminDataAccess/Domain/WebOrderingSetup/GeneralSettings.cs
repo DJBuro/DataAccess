@@ -13,5 +13,13 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public bool IsList { get; set; }
 
         public bool IsEnterPostCode { get; set; }
+
+        public bool EnableHomePage { get; set; }
+
+        public bool EnableAndromedaLogin { get; set; }
+
+        public bool EnableFacebookLogin { get; set; }
+
+        public string FacebookApplicationId { get; set; }
     }
 }

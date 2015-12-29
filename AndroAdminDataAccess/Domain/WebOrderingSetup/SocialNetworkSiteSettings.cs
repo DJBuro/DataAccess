@@ -10,6 +10,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public bool IsFollow { get; set; }
 
         public string FollowURL { get; set; }
+        public string LikeURL { get; set; }
 
         public bool EnableFacebookLike { get; set; }
         public bool EnableFacebookActivityFeeds { get; set; }

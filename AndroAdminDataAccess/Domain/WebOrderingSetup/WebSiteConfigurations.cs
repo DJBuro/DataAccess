@@ -35,7 +35,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             this.UpSellingSettings = new UpSelling();
 
             this.LastUpdatedUtc = DateTime.UtcNow;
-            this.Analytics = new Analytics();
+            this.AnalyticsSettings = new Analytics();
             
             this.CustomThemeSettings = new CustomThemeSettings();
             this.CustomThemeSettings.DefaultCustomThemeSettings();
@@ -88,7 +88,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public DateTime LastUpdatedUtc { get; set; }
 
-        public Analytics Analytics { set; get; }
+        public Analytics AnalyticsSettings { set; get; }
 
         public CustomThemeSettings CustomThemeSettings { set; get; }
 
