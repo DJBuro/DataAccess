@@ -15,9 +15,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public string RequestPasswordReset(string username, int applicationId, out string token)
+        public string RequestPasswordReset(string username, int applicationId, out string token, out bool isFacebook)
         {
             token = "";
+            isFacebook = false;
 
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
             {
@@ -38,12 +39,17 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         return "Unknown username: " + username;
                     }
-                    else
+                    else if (customerEntity.CustomerAccount.FacebookId != null)
                     {
+                        isFacebook = true;
+                        return "";
+                    }
+                    else
+                    {                       
                         // Is there an existing password reset request?
                         var passwordResetQuery = from p in dataWarehouseEntities.PasswordResetRequests
-                                                where p.CustomerId == customerEntity.ID
-                                                select p;
+                                                    where p.CustomerId == customerEntity.ID
+                                                    select p;
 
                         var passwordResetEntity = passwordResetQuery.FirstOrDefault();
 

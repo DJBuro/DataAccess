@@ -30,5 +30,11 @@ namespace DataWarehouseDataAccess.Domain
 
         [JsonProperty(PropertyName = "address")]
         public Address Address { get; set; }
+
+        [JsonProperty(PropertyName = "facebookId")]
+        public string FacebookId { get; set; }
+
+        [JsonProperty(PropertyName = "facebookUsername")]
+        public string FacebookUsername { get; set; }
     }
 }

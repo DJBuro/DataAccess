@@ -9,7 +9,7 @@ namespace DataWarehouseDataAccess.DataAccess
     public interface IPasswordResetRequestDataAccess
     {
         string ConnectionStringOverride { get; set; }
-        string RequestPasswordReset(string username, int applicationId, out string token);
+        string RequestPasswordReset(string username, int applicationId, out string token, out bool isFacebook);
         string PasswordReset(string username, string token, string newPassword, out Guid? customerId);
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityType Name="AccountType">
           <Key>
             <PropertyRef Name="Id" />
@@ -22,7 +22,7 @@
           <Property Name="LongDescription" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'DataWarehouse.dbo.Address' in the table 'Location' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
+warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'Location' in the table 'DataWarehouse.dbo.Address' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="Id" />
@@ -117,6 +117,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="PasswordSalt" Type="varbinary" MaxLength="100" Nullable="false" />
           <Property Name="AccountTypeId" Type="int" Nullable="false" />
           <Property Name="RegisteredDateTime" Type="datetime" Nullable="false" />
+          <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FacebookUsername" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="CustomerAddress">
           <Key>
@@ -181,6 +183,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DestinationDevice" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CustomerAddressID" Type="uniqueidentifier" />
           <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
+          <Property Name="CookingInstructions" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -192,6 +195,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Description" Type="nvarchar" MaxLength="96" />
           <Property Name="Qty" Type="int" />
           <Property Name="Price" Type="int" />
+          <Property Name="Cat1" Type="nvarchar" MaxLength="48" />
+          <Property Name="Cat2" Type="nvarchar" MaxLength="48" />
+          <Property Name="DisplayCategory" Type="nvarchar" MaxLength="48" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -380,18 +386,6 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_modifiers_OrderLines">
-          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="0..1" />
-          <End Role="modifiers" Type="Self.modifiers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderLines">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="modifiers">
-              <PropertyRef Name="OrderLineID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Modifiers_Orderlines_Cascade">
           <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -454,7 +448,9 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderLines_OrderHeader">
-          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="0..1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
@@ -500,20 +496,6 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
             </Principal>
             <Dependent Role="SiteVoucher">
               <PropertyRef Name="VoucherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TABLE_NAME_PARENT_TABLE_NAME">
-          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="OrderLines" Type="Self.OrderLines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderLines">
-              <PropertyRef Name="OrderHeaderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -624,10 +606,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="OrderLines" EntitySet="OrderLines" />
             <End Role="modifiers" EntitySet="modifiers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Modifiers_Orderlines_Cascade" Association="Self.FK_Modifiers_Orderlines_Cascade">
-            <End Role="OrderLines" EntitySet="OrderLines" />
-            <End Role="modifiers" EntitySet="modifiers" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderAddress" Association="Self.FK_OrderAddress">
             <End Role="CustomerAddress" EntitySet="CustomerAddress" />
             <End Role="OrderHeader" EntitySet="OrderHeader" />
@@ -659,10 +637,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <AssociationSet Name="FK_SiteVoucher_Voucher" Association="Self.FK_SiteVoucher_Voucher">
             <End Role="Voucher" EntitySet="Voucher" />
             <End Role="SiteVoucher" EntitySet="SiteVoucher" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TABLE_NAME_PARENT_TABLE_NAME" Association="Self.FK_TABLE_NAME_PARENT_TABLE_NAME">
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-            <End Role="OrderLines" EntitySet="OrderLines" />
           </AssociationSet>
           <AssociationSet Name="FK_UsedVoucher_Customer" Association="Self.FK_UsedVoucher_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -898,6 +872,8 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="RegisteredDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="CustomerAccount" ToRole="AccountType" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="CustomerAccount" ToRole="Customer" />
+          <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookUsername" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CustomerAddress">
           <Key>
@@ -974,6 +950,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <NavigationProperty Name="ACSErrorCode1" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="OrderHeader" ToRole="ACSErrorCode" />
           <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
           <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CookingInstructions" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -989,6 +966,9 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <NavigationProperty Name="modifiers1" Relationship="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" FromRole="OrderLine" ToRole="modifier" />
           <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderLine" ToRole="OrderHeader" />
           <NavigationProperty Name="OrderHeader1" Relationship="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" FromRole="OrderLine" ToRole="OrderHeader" />
+          <Property Name="Cat1" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="Cat2" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayCategory" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderStatu">
           <Key>
@@ -1479,6 +1459,8 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="CustomerAccounts">
             <EntityTypeMapping TypeName="DataWarehouseModel.CustomerAccount">
               <MappingFragment StoreEntitySet="CustomerAccount">
+                <ScalarProperty Name="FacebookUsername" ColumnName="FacebookUsername" />
+                <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
                 <ScalarProperty Name="RegisteredDateTime" ColumnName="RegisteredDateTime" />
                 <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
                 <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
@@ -1528,6 +1510,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="CookingInstructions" ColumnName="CookingInstructions" />
                 <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
                 <ScalarProperty Name="CustomerAddressID" ColumnName="CustomerAddressID" />
                 <ScalarProperty Name="DestinationDevice" ColumnName="DestinationDevice" />
@@ -1560,6 +1543,9 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderLines">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderLine">
               <MappingFragment StoreEntitySet="OrderLines">
+                <ScalarProperty Name="DisplayCategory" ColumnName="DisplayCategory" />
+                <ScalarProperty Name="Cat2" ColumnName="Cat2" />
+                <ScalarProperty Name="Cat1" ColumnName="Cat1" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

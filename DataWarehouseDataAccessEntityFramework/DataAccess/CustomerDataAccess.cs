@@ -165,13 +165,15 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         ACSAplicationId = applicationId,
                         RegisteredDateTime = DateTime.UtcNow,
                         CustomerAccount = new CustomerAccount()
-                            {
-                                ID = Guid.NewGuid(),
-                                Username = username,
-                                Password = passwordHash,
-                                PasswordSalt = salt,
-                                RegisteredDateTime = DateTime.UtcNow
-                            }
+                        {
+                            ID = Guid.NewGuid(),
+                            Username = username,
+                            Password = passwordHash,
+                            PasswordSalt = salt,
+                            RegisteredDateTime = DateTime.UtcNow,
+                            FacebookId = customer.FacebookId,
+                            FacebookUsername = customer.FacebookUsername
+                        }
                     };
 
                     // Is there an address?

@@ -26,6 +26,9 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string Description { get; set; }
         public Nullable<int> Qty { get; set; }
         public Nullable<int> Price { get; set; }
+        public string Cat1 { get; set; }
+        public string Cat2 { get; set; }
+        public string DisplayCategory { get; set; }
     
         public virtual ICollection<modifier> modifiers { get; set; }
         public virtual ICollection<modifier> modifiers1 { get; set; }
