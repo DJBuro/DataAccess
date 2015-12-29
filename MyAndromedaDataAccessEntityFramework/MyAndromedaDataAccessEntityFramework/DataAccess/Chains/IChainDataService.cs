@@ -29,6 +29,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
         /// </summary>
         /// <param name="chainId">The chain id.</param>
         /// <returns></returns>
-        IEnumerable<MyAndromedaDataAccess.Domain.Site> GetChainsSiteList(int chainId); 
+        IEnumerable<MyAndromedaDataAccess.Domain.Site> GetSiteList(int chainId);
+
+        /// <summary>
+        /// Updates the specified chain.
+        /// </summary>
+        /// <param name="chain">The chain.</param>
+        void Update(MyAndromedaDataAccess.Domain.Chain chain); 
+        
     }
 }

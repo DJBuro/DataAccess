@@ -9,7 +9,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
 {
     public class ChainDataService : IChainDataService 
     {
-        public IEnumerable<Site> GetChainsSiteList(int chainId)
+        public IEnumerable<Site> GetSiteList(int chainId)
         {
             IEnumerable<MyAndromedaDataAccess.Domain.Site> sites;
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
@@ -24,6 +24,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
             return sites;
         }
 
+        public void Update(Chain chain)
+        {
+            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
+            {
+                var table = dbContext.Chains;
+                var query = table.Where(e => chain.Id == e.Id);
+                var result = query.Single();
+
+                result.Name = chain.Name;
+                result.Culture = chain.Culture;
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public MyAndromedaDataAccess.Domain.Chain Get(int chainId)
         {
             MyAndromedaDataAccess.Domain.Chain entity = null;
@@ -36,7 +51,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                 entity = new MyAndromedaDataAccess.Domain.Chain()
                 {
                     Id = result.Id,
-                    Name = result.Name
+                    Name = result.Name,
+                    Culture = result.Culture
                 };
             }
 
@@ -56,7 +72,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                 chains = result.Select(e=> new MyAndromedaDataAccess.Domain.Chain()
                 {
                     Id = e.Id,
-                    Name = e.Name
+                    Name = e.Name,
+                    Culture = e.Culture
                 }).ToArray();
             }
 

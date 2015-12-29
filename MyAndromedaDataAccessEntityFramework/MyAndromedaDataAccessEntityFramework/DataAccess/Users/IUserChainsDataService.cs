@@ -191,7 +191,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 .Select(e=> new {
                     e.ParentChainId,
                     e.ChildChain.Id,
-                    e.ChildChain.Name
+                    e.ChildChain.Name,
+                    e.ChildChain.Culture
                 })
                 .ToLookup(e => e.ParentChainId);
             
@@ -214,6 +215,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     { 
                         Id = lookup.Id,
                         Name = lookup.Name,
+                        Culture = lookup.Culture,
                         Items = new List<Chain>()
                     };
 
@@ -229,6 +231,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 {  
                     Id = result.Id,
                     Name = result.Name,
+                    Culture = result.Culture,
                     Items = Enumerable.Empty<Chain>()
                 };
 

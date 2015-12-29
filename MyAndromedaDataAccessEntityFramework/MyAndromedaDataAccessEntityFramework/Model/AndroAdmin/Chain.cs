@@ -26,6 +26,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Culture { get; set; }
     
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
         public virtual ICollection<ChainChain> Parents { get; set; }

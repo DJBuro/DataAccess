@@ -36,6 +36,12 @@ namespace MyAndromedaDataAccess.Domain
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
+        /// <value>The culture.</value>
+        public string Culture { get; set; }
+
+        /// <summary>
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
@@ -46,5 +52,7 @@ namespace MyAndromedaDataAccess.Domain
         /// </summary>
         /// <value>The stores.</value>
         public IEnumerable<Site> Stores { get; set; }
+
+        
     }
 }

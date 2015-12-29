@@ -36,7 +36,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public string TimeZone { get; set; }
         public string Telephone { get; set; }
         public string LicenseKey { get; set; }
-        public Nullable<int> AddressId { get; set; }
+        public int AddressId { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
         public int ChainId { get; set; }
