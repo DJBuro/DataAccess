@@ -71,6 +71,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 xmlRecord.DataVersion = dataVersion;
                 jsonRecord.DataVersion = dataVersion;
+
                 jsonRecord.MenuData = json;
 
                 xmlRecord.Version = version.GetValueOrDefault();
@@ -127,10 +128,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             xmlEntity.LastUpdated = DateTime.UtcNow;
             
             return xmlEntity;
-            //todo: set 
-            //data version 
-            //last updated 
-            //check menu type 
         }
 
         private Model.AndroAdmin.StoreMenu CreateJsonMenuRow(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromedaSiteId) 
@@ -141,7 +138,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             var jsonEntity = table.Add(table.Create());
             jsonEntity.MenuType = "JSON";
             jsonEntity.Store = store;
-            jsonEntity.DataVersion = dbContext.GetNextDataVersionForEntity();
             jsonEntity.LastUpdated = DateTime.UtcNow;
 
             return jsonEntity;
