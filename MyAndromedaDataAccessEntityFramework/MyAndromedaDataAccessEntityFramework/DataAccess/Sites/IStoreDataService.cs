@@ -10,6 +10,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 {
     public interface IStoreDataService: IDependency, IDataProvider<Store> 
     {
+        void Update(Store store);
     }
 
     public class StoreDataService : IStoreDataService 
@@ -49,6 +50,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
         public IQueryable<Store> List()
         {
             return this.TableQuery;
+        }
+
+        public void Update(Store store) 
+        {
+            this.androAdminDbContext.SaveChanges();
         }
 
         public IQueryable<Store> List(Expression<Func<Store, bool>> predicate)
