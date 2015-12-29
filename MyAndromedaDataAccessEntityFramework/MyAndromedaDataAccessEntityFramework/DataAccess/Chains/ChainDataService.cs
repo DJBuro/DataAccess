@@ -52,7 +52,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                 {
                     Id = result.Id,
                     Name = result.Name,
-                    Culture = result.Culture
+                    Culture = result.Culture,
+                    MasterMenuId = result.MasterMenuId
                 };
             }
 
@@ -73,7 +74,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    Culture = e.Culture
+                    Culture = e.Culture,
+                    MasterMenuId = e.MasterMenuId
                 }).ToArray();
             }
 
