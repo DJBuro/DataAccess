@@ -10,6 +10,8 @@ namespace AndroCloudDataAccessEntityFramework
 {
     public class EntityFrameworkDataAccessFactory : IDataAccessFactory
     {
+        private volatile Type _dependency = typeof(System.Data.Entity.SqlServer.SqlProviderServices);
+
         public string ConnectionStringOverride { get; set; }
 
         public AndroCloudDataAccess.DataAccess.IHostDataAccess HostDataAccess

@@ -124,6 +124,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         Modifier modifier = new Modifier()
                         {
+                            Id = modifierEntity.ProductID.Value,
                             Description = modifierEntity.Description,
                             Price = modifierEntity.Price,
                             Quantity = modifierEntity.Qty,
