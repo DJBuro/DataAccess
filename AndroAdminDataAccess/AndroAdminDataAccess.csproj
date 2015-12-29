@@ -205,6 +205,7 @@
     <Compile Include="Domain\Log.cs" />
     <Content Include="EntityFramework\CreateAndroAdminDatabase.sql" />
     <Compile Include="Domain\TimeSpanBlock.cs" />
+    <Compile Include="Domain\WebOrderingSetup\Analytics.cs" />
     <Compile Include="Domain\WebOrderingSetup\Carousel.cs" />
     <Compile Include="Domain\WebOrderingSetup\CarouselContainerOptions.cs" />
     <Compile Include="Domain\WebOrderingSetup\CarouselDealItem.cs" />
