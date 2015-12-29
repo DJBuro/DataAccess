@@ -14,9 +14,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// </summary>
         /// <param name="siteMenuFtpBackup">The site menu FTP backup.</param>
         //void SetVersion(SiteMenu siteMenuFtpBackup);
-
         //void NewPublishDate(SiteMenu siteMenu, DateTime? menuPublishDate);
-
         /// <summary>
         /// Gets the menu.
         /// </summary>
@@ -51,5 +49,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <returns></returns>
         IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query);
 
+        /// <summary>
+        /// Deletes the menu.
+        /// </summary>
+        /// <param name="siteMenu">The site menu.</param>
+        void Delete(SiteMenu siteMenu);
     }
 }
