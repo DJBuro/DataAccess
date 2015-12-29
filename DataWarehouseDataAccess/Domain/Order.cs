@@ -26,5 +26,14 @@ namespace DataWarehouseDataAccess.Domain
         [JsonProperty(PropertyName = "storeOrderId")]
         [XmlElement(ElementName = "storeOrderId")]
         public string StoreOrderId { get; set; }
+
+        [JsonProperty(PropertyName = "isProvisional")]
+        [XmlElement(ElementName = "IsProvisional")]
+        public bool IsProvisional { get; set; }
+
+        public Order()
+        {
+            this.IsProvisional = false;
+        }
     }
 }
