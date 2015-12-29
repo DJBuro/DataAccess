@@ -16,5 +16,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public bool EnableFacebookActivityFeeds { get; set; }
 
         //public string FacebookLikeButtonScript { get; set; }
+
+        public string Script { set; get; }
     }
 }
