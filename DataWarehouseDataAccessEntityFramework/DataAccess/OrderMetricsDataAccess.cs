@@ -131,6 +131,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                 .Include(e => e.Customer)
                                 .Include(e => e.CustomerAddress)
                                 .Include(e => e.ACSErrorCode1)
+                                .Include(e => e.UsedVouchers)
+                                .Include(e => e.UsedVouchers.Select(x => x.Voucher))
                                 .Where(x => x.ACSOrderId == acsOrderId)
                             select oh);
 
