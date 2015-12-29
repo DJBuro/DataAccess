@@ -156,6 +156,7 @@
     <Compile Include="DataAccess\IDataAccess.cs" />
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
+    <Compile Include="DataAccess\IStoreTypesDataService.cs" />
     <Compile Include="Domain\StoreHub.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
@@ -197,12 +198,16 @@
     <Compile Include="EntityFramework\ChainChain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Chains_Parent_Child.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\Country.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\ApiCredentialsDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HostV2DataService.cs" />
@@ -225,8 +230,12 @@
     <Compile Include="EntityFramework\DataAccess\StoreAMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DevicesDataService.cs" />
     <Compile Include="EntityFramework\DataVersionHelper.cs" />
     <Compile Include="EntityFramework\Day.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Device.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Employee.cs">
@@ -252,6 +261,9 @@
       <DependentUpon>EntityModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Extensions\DbExtensions.cs" />
+    <Compile Include="EntityFramework\ExternalApi.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\FTPSite.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -297,6 +309,9 @@
     <Compile Include="EntityFramework\StoreAMSServerFtpSite.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\StoreDevice.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\StoreHubReset.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -310,6 +325,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreStatu.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\TrimedStore.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
