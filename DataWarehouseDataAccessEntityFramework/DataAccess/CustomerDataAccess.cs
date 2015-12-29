@@ -87,7 +87,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             RoadName = entity.Address.RoadName,
                             RoadNum = entity.Address.RoadNum,
                             State = entity.Address.State,
-                            Town = entity.Address.Town
+                            Town = entity.Address.Town,
+                            Directions = entity.Address.Directions
                         };
                     }
 
@@ -145,7 +146,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         Title = customer.Title,
                         Password = passwordHash,
                         PasswordSalt = salt,
-                        ACSAplicationId = applicationId
+                        ACSAplicationId = applicationId,
+                        RegisteredDateTime = DateTime.UtcNow
                     };
 
                     // Is there an address?
@@ -170,7 +172,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             RoadName = customer.Address.RoadName,
                             RoadNum = customer.Address.RoadNum,
                             State = customer.Address.State,
-                            Town = customer.Address.Town
+                            Town = customer.Address.Town,
+                            Directions = customer.Address.Directions
                         };
 
                         // Get the country
@@ -325,6 +328,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             addressEntity.RoadNum = customer.Address.RoadNum;
                             addressEntity.State = customer.Address.State;
                             addressEntity.Town = customer.Address.Town;
+                            addressEntity.Directions = customer.Address.Directions;
 
                             // Get the country
                             var countryQuery = from c in dataWarehouseEntities.Countries

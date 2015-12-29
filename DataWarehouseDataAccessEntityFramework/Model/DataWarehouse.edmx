@@ -75,6 +75,7 @@
           <Property Name="Long" Type="nvarchar" MaxLength="15" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Directions" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -117,6 +118,7 @@
           <Property Name="ACSAplicationId" Type="int" Nullable="false" />
           <Property Name="PasswordSalt" Type="varbinary" Nullable="false" MaxLength="100" />
           <Property Name="AccountTypeId" Type="int" Nullable="false" />
+          <Property Name="RegisteredDateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="MarketingLevel">
           <Key>
@@ -204,16 +206,28 @@
       <Schema Namespace="DataWarehouseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="DataWarehouseEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="AccountTypes" EntityType="DataWarehouseModel.AccountType" />
-          <EntitySet Name="Addresses" EntityType="DataWarehouseModel.Address" />
           <EntitySet Name="Contacts" EntityType="DataWarehouseModel.Contact" />
           <EntitySet Name="ContactTypes" EntityType="DataWarehouseModel.ContactType" />
           <EntitySet Name="Countries" EntityType="DataWarehouseModel.Country" />
-          <EntitySet Name="Customers" EntityType="DataWarehouseModel.Customer" />
           <EntitySet Name="MarketingLevels" EntityType="DataWarehouseModel.MarketingLevel" />
+          <AssociationSet Name="FK_Contact_ContactType" Association="DataWarehouseModel.FK_Contact_ContactType">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_MarketingLevel" Association="DataWarehouseModel.FK_Contact_MarketingLevel">
+            <End Role="MarketingLevel" EntitySet="MarketingLevels" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="DataWarehouseModel.Customer" />
           <AssociationSet Name="FK_Customer_AccountType" Association="DataWarehouseModel.FK_Customer_AccountType">
             <End Role="AccountType" EntitySet="AccountTypes" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Contact_Customer" Association="DataWarehouseModel.FK_Contact_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <EntitySet Name="Addresses" EntityType="DataWarehouseModel.Address" />
           <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.FK_Address_Country">
             <End Role="Country" EntitySet="Countries" />
             <End Role="Address" EntitySet="Addresses" />
@@ -221,18 +235,6 @@
           <AssociationSet Name="FK_Customer_Address" Association="DataWarehouseModel.FK_Customer_Address">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contact_ContactType" Association="DataWarehouseModel.FK_Contact_ContactType">
-            <End Role="ContactType" EntitySet="ContactTypes" />
-            <End Role="Contact" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contact_Customer" Association="DataWarehouseModel.FK_Contact_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Contact" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contact_MarketingLevel" Association="DataWarehouseModel.FK_Contact_MarketingLevel">
-            <End Role="MarketingLevel" EntitySet="MarketingLevels" />
-            <End Role="Contact" EntitySet="Contacts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AccountType">
@@ -244,6 +246,114 @@
           <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="AccountType" ToRole="Customer" />
         </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ContactTypeId" Nullable="false" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="MarketingLevelId" Nullable="false" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <NavigationProperty Name="ContactType" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="Contact" ToRole="ContactType" />
+          <NavigationProperty Name="MarketingLevel" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="Contact" ToRole="MarketingLevel" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_Contact_Customer" FromRole="Contact" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="ContactType" ToRole="Contact" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ISO3166_1_alpha_2" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ISO3166_1_numeric" Nullable="false" />
+          <NavigationProperty Name="Addresses" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Country" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="MarketingLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="MarketingLevel" ToRole="Contact" />
+        </EntityType>
+        <Association Name="FK_Contact_ContactType">
+          <End Type="DataWarehouseModel.ContactType" Role="ContactType" Multiplicity="1" />
+          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_MarketingLevel">
+          <End Type="DataWarehouseModel.MarketingLevel" Role="MarketingLevel" Multiplicity="1" />
+          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MarketingLevel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="MarketingLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AddressId" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ACSAplicationId" Nullable="false" />
+          <Property Type="Binary" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Type="Int32" Name="AccountTypeId" Nullable="false" />
+          <Property Type="DateTime" Name="RegisteredDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="Customer" ToRole="AccountType" />
+          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_Customer" FromRole="Customer" ToRole="Contact" />
+          <NavigationProperty Name="Address" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
+        </EntityType>
+        <Association Name="FK_Customer_AccountType">
+          <End Type="DataWarehouseModel.AccountType" Role="AccountType" Multiplicity="1" />
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="AccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_Customer">
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="Id" />
@@ -270,80 +380,10 @@
           <Property Type="String" Name="Long" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="String" Name="Directions" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
         </EntityType>
-        <EntityType Name="Contact">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="ContactTypeId" Nullable="false" />
-          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="MarketingLevelId" Nullable="false" />
-          <Property Type="Int32" Name="CustomerId" Nullable="false" />
-          <NavigationProperty Name="ContactType" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="Contact" ToRole="ContactType" />
-          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_Contact_Customer" FromRole="Contact" ToRole="Customer" />
-          <NavigationProperty Name="MarketingLevel" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="Contact" ToRole="MarketingLevel" />
-        </EntityType>
-        <EntityType Name="ContactType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_ContactType" FromRole="ContactType" ToRole="Contact" />
-        </EntityType>
-        <EntityType Name="Country">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ISO3166_1_alpha_2" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ISO3166_1_numeric" Nullable="false" />
-          <NavigationProperty Name="Addresses" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Country" ToRole="Address" />
-        </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Surname" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ACSAplicationId" Nullable="false" />
-          <Property Type="Binary" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" />
-          <Property Type="Int32" Name="AccountTypeId" Nullable="false" />
-          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="Customer" ToRole="AccountType" />
-          <NavigationProperty Name="Address" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
-          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_Customer" FromRole="Customer" ToRole="Contact" />
-        </EntityType>
-        <EntityType Name="MarketingLevel">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_MarketingLevel" FromRole="MarketingLevel" ToRole="Contact" />
-        </EntityType>
-        <Association Name="FK_Customer_AccountType">
-          <End Type="DataWarehouseModel.AccountType" Role="AccountType" Multiplicity="1" />
-          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="AccountTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Address_Country">
           <End Type="DataWarehouseModel.Country" Role="Country" Multiplicity="1" />
           <End Type="DataWarehouseModel.Address" Role="Address" Multiplicity="*" />
@@ -368,42 +408,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Contact_ContactType">
-          <End Type="DataWarehouseModel.ContactType" Role="ContactType" Multiplicity="1" />
-          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ContactType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Contact">
-              <PropertyRef Name="ContactTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contact_Customer">
-          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Contact">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contact_MarketingLevel">
-          <End Type="DataWarehouseModel.MarketingLevel" Role="MarketingLevel" Multiplicity="1" />
-          <End Type="DataWarehouseModel.Contact" Role="Contact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MarketingLevel">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Contact">
-              <PropertyRef Name="MarketingLevelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -415,34 +419,6 @@
               <MappingFragment StoreEntitySet="AccountType">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Addresses">
-            <EntityTypeMapping TypeName="DataWarehouseModel.Address">
-              <MappingFragment StoreEntitySet="Address">
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="Long" ColumnName="Long" />
-                <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="DPS" ColumnName="DPS" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="County" ColumnName="County" />
-                <ScalarProperty Name="Town" ColumnName="Town" />
-                <ScalarProperty Name="Locality" ColumnName="Locality" />
-                <ScalarProperty Name="RoadName" ColumnName="RoadName" />
-                <ScalarProperty Name="RoadNum" ColumnName="RoadNum" />
-                <ScalarProperty Name="Prem6" ColumnName="Prem6" />
-                <ScalarProperty Name="Prem5" ColumnName="Prem5" />
-                <ScalarProperty Name="Prem4" ColumnName="Prem4" />
-                <ScalarProperty Name="Prem3" ColumnName="Prem3" />
-                <ScalarProperty Name="Prem2" ColumnName="Prem2" />
-                <ScalarProperty Name="Prem1" ColumnName="Prem1" />
-                <ScalarProperty Name="Org3" ColumnName="Org3" />
-                <ScalarProperty Name="Org2" ColumnName="Org2" />
-                <ScalarProperty Name="Org1" ColumnName="Org1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -477,9 +453,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MarketingLevels">
+            <EntityTypeMapping TypeName="DataWarehouseModel.MarketingLevel">
+              <MappingFragment StoreEntitySet="MarketingLevel">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="DataWarehouseModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="RegisteredDateTime" ColumnName="RegisteredDateTime" />
                 <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
                 <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
                 <ScalarProperty Name="ACSAplicationId" ColumnName="ACSAplicationId" />
@@ -493,11 +479,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MarketingLevels">
-            <EntityTypeMapping TypeName="DataWarehouseModel.MarketingLevel">
-              <MappingFragment StoreEntitySet="MarketingLevel">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="DataWarehouseModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Directions" ColumnName="Directions" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="DPS" ColumnName="DPS" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="RoadName" ColumnName="RoadName" />
+                <ScalarProperty Name="RoadNum" ColumnName="RoadNum" />
+                <ScalarProperty Name="Prem6" ColumnName="Prem6" />
+                <ScalarProperty Name="Prem5" ColumnName="Prem5" />
+                <ScalarProperty Name="Prem4" ColumnName="Prem4" />
+                <ScalarProperty Name="Prem3" ColumnName="Prem3" />
+                <ScalarProperty Name="Prem2" ColumnName="Prem2" />
+                <ScalarProperty Name="Prem1" ColumnName="Prem1" />
+                <ScalarProperty Name="Org3" ColumnName="Org3" />
+                <ScalarProperty Name="Org2" ColumnName="Org2" />
+                <ScalarProperty Name="Org1" ColumnName="Org1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

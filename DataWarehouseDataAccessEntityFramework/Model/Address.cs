@@ -41,6 +41,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string Long { get; set; }
         public int DataVersion { get; set; }
         public int CountryId { get; set; }
+        public string Directions { get; set; }
     
         public virtual Country Country { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }

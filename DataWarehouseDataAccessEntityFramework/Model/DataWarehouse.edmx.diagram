@@ -5,19 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ca6bf338572c4543b104ddc3130b9bdd" Name="Diagram1">
-        <EntityTypeShape EntityType="DataWarehouseModel.AccountType" Width="1.5" PointX="3" PointY="9.5" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Address" Width="1.5" PointX="3" PointY="2.5" />
+        <EntityTypeShape EntityType="DataWarehouseModel.AccountType" Width="1.5" PointX="3" PointY="10.5" />
         <EntityTypeShape EntityType="DataWarehouseModel.Contact" Width="1.5" PointX="7.5" PointY="4.125" />
-        <EntityTypeShape EntityType="DataWarehouseModel.ContactType" Width="1.5" PointX="5.25" PointY="8.25" />
+        <EntityTypeShape EntityType="DataWarehouseModel.ContactType" Width="1.5" PointX="5.25" PointY="0.75" />
         <EntityTypeShape EntityType="DataWarehouseModel.Country" Width="1.5" PointX="0.75" PointY="4.375" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Customer" Width="1.5" PointX="5.25" PointY="3.625" />
-        <EntityTypeShape EntityType="DataWarehouseModel.MarketingLevel" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="DataWarehouseModel.MarketingLevel" Width="1.5" PointX="5.25" PointY="8.25" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_ContactType" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_MarketingLevel" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Customer" Width="1.5" PointX="5.25" PointY="3.5" />
         <AssociationConnector Association="DataWarehouseModel.FK_Customer_AccountType" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_Customer" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Address" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="DataWarehouseModel.FK_Address_Country" />
         <AssociationConnector Association="DataWarehouseModel.FK_Customer_Address" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_ContactType" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_Customer" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_MarketingLevel" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
