@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IAddressDAO.cs" />
     <Compile Include="DataAccess\ISettingsDAO.cs" />
     <Compile Include="DataAccess\ICountryDAO.cs" />
     <Compile Include="DataAccess\IHostDAO.cs" />
@@ -117,6 +118,7 @@
     </Compile>
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
     <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\CountryDAO.cs" />

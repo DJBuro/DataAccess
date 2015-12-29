@@ -20,7 +20,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Country> models = new List<Domain.Country>();
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -43,6 +42,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
 
             return models;
+        }
+
+
+        public Domain.Country GetById(int countryId)
+        {
+            Domain.Country model = null;
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.Countries
+                            where s.Id == countryId
+                            select s;
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    model = new Domain.Country()
+                    {
+                        Id = entity.Id,
+                        CountryName = entity.CountryName,
+                        ISO3166_1_alpha_2 = entity.ISO3166_1_alpha_2,
+                        ISO3166_1_numeric = entity.ISO3166_1_numeric
+                    };
+                }
+            }
+
+            return model;
         }
     }
 }
