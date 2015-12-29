@@ -75,6 +75,7 @@
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\ACSApplicationDataAccess.cs" />
+    <Compile Include="DataAccess\DeliveryZoneDataAccess.cs" />
     <Compile Include="DataAccess\StorePaymentProviderDataAccess.cs" />
     <Compile Include="DataAccess\DataAccessHelper.cs" />
     <Compile Include="DataAccess\PartnersDataAccess.cs" />
@@ -127,7 +128,16 @@
     <Compile Include="Model\Day.cs">
       <DependentUpon>ACS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\DeliveryArea.cs">
+      <DependentUpon>ACS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Host.cs">
+      <DependentUpon>ACS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HostsV2.cs">
+      <DependentUpon>ACS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HostType.cs">
       <DependentUpon>ACS.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OpeningHour.cs">

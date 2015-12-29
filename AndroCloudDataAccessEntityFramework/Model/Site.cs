@@ -20,6 +20,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
             this.OpeningHours = new HashSet<OpeningHour>();
             this.Orders = new HashSet<Order>();
             this.SiteMenus = new HashSet<SiteMenu>();
+            this.DeliveryAreas = new HashSet<DeliveryArea>();
         }
     
         public System.Guid ID { get; set; }
@@ -45,5 +46,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public virtual ICollection<Order> Orders { get; set; }
         public virtual SiteStatus SiteStatus { get; set; }
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
+        public virtual ICollection<DeliveryArea> DeliveryAreas { get; set; }
     }
 }

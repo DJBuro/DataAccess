@@ -70,5 +70,11 @@ namespace AndroCloudDataAccessEntityFramework
             get { return new SettingsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
+
+        public AndroCloudDataAccess.DataAccess.IDeliveryZoneDataAccess DeliveryZoneDataAccess
+        {
+            get { return new DeliveryZoneDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
