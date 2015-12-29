@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AndroAdminModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="AndroAdminModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AndroAdminModelStoreContainer">
           <EntitySet Name="ACSApplication" EntityType="AndroAdminModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
@@ -144,6 +144,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ExternalApplicationId" Type="nvarchar" Nullable="false" MaxLength="40" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ExternalDisplayName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="PartnerId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
@@ -318,7 +319,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
@@ -729,8 +730,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AndroAdminModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -870,9 +870,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ExternalApplicationId" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ExternalDisplayName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="PartnerId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
@@ -882,7 +883,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="SiteId" Type="Int32" Nullable="false" />
           <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
@@ -1070,7 +1071,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="ExternalId" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
@@ -1519,6 +1520,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExternalDisplayName" ColumnName="ExternalDisplayName" />
                 <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
               </MappingFragment>

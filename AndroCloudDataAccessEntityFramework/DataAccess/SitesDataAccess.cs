@@ -25,7 +25,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             sites = new List<AndroCloudDataAccess.Domain.Site>();
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -118,7 +117,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             site = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -148,11 +146,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site)
+        public string GetByAndromedaSiteIdAndLive(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site)
         {
             site = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -182,11 +179,42 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site)
+        {
+            site = null;
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var sitesQuery = from s in acsEntities.Sites
+                                 join ss in acsEntities.SiteStatuses
+                                   on s.SiteStatusID equals ss.ID
+                                 where s.AndroID == andromedaSiteId
+                                 select s;
+                Model.Site siteEntity = sitesQuery.FirstOrDefault();
+
+                if (siteEntity != null)
+                {
+                    site = new AndroCloudDataAccess.Domain.Site();
+                    site.Id = siteEntity.ID;
+                    site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                    site.MenuVersion = 0;
+                    site.Name = siteEntity.ExternalSiteName;
+                    site.ExternalId = siteEntity.ExternalId;
+                    site.LicenceKey = siteEntity.LicenceKey;
+                    site.AndroId = siteEntity.AndroID;
+                }
+            }
+
+            return "";
+        }
+
         public string GetByIdAndApplication(int applicationId, Guid siteId, out AndroCloudDataAccess.Domain.Site site)
         {
             site = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);

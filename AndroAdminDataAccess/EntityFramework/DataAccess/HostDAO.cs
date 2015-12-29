@@ -16,7 +16,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Host> models = new List<Domain.Host>();
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

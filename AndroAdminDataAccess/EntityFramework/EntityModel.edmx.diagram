@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cf858579a21f45c782a856799f60b334" Name="Diagram1">
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="5.25" PointY="20.375" IsExpanded="true" />
+      <Diagram DiagramId="ef6325cde4614f3d9c73e759275880f0" Name="Diagram1">
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="5.25" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />

@@ -16,7 +16,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             value = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);

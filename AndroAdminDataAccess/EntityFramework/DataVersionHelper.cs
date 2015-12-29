@@ -11,7 +11,7 @@ namespace AndroAdminDataAccess.EntityFramework
 {
     public class DataVersionHelper
     {
-        public static int GetNextDataVersion(AndroAdminEntities entitiesContext, DbTransaction transaction)
+        public static int GetNextDataVersion(AndroAdminEntities entitiesContext)
         {
             // We need to do something a little unusual here.  All database changes are versioned and to do this we need a new version
             // number.  The problem is when two people make changes at exactly the same time.  We need to be careful to make sure
@@ -31,18 +31,9 @@ namespace AndroAdminDataAccess.EntityFramework
             // Get a SQL connection from EF
             SqlConnection sqlConnection = (SqlConnection)entitiesContext.Database.Connection;
 
-            // Get a SQL transaction from EF
-            //SqlTransaction sqlTransaction = (SqlTransaction)transaction.GetType().InvokeMember(
-            //    "StoreTransaction",
-            //    BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic,
-            //    null,
-            //    transaction,
-            //    new object[0]);
-
             // We're gonna do this in a SQL command
             SqlCommand command = new SqlCommand();            
             command.Connection = sqlConnection;
- //           command.Transaction = (SqlTransaction)transaction;
             command.CommandText = "UPDATE [Settings] SET [Value] = cast([Value] as int) + 1 output inserted.[Value] where [name] = 'dataversion'";
             
             // We're using an output clause in the SQL so we can do the update and get the result back all in one go
