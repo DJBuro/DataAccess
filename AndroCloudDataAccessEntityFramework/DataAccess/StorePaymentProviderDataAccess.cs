@@ -21,7 +21,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
                 var acsQuery = from os in acsEntities.StorePaymentProviders
-                               where os.Id == id
+                               where os.ID == id
                                select os;
 
                 var acsQueryEntity = acsQuery.FirstOrDefault();
@@ -32,7 +32,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     {
                         ClientId = acsQueryEntity.ClientId,
                         ClientPassword = acsQueryEntity.ClientPassword,
-                        Id = acsQueryEntity.Id,
+                        Id = acsQueryEntity.ID,
                         ProviderName = acsQueryEntity.ProviderName
                     };
                 }

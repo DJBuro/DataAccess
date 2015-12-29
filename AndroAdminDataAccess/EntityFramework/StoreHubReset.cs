@@ -12,20 +12,13 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Partner
+    public partial class StoreHubReset
     {
-        public Partner()
-        {
-            this.ACSApplications = new HashSet<ACSApplication>();
-            this.Groups = new HashSet<Group>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string ExternalId { get; set; }
+        public int StoreId { get; set; }
         public int DataVersion { get; set; }
+        public System.DateTime AddedOn { get; set; }
     
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

@@ -12,16 +12,16 @@ namespace AndroCloudDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class HostType
+    public partial class HubHost
     {
-        public HostType()
+        public HubHost()
         {
-            this.HostsV2 = new HashSet<HostsV2>();
+            this.Sites = new HashSet<Site>();
         }
     
         public System.Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Url { get; set; }
     
-        public virtual ICollection<HostsV2> HostsV2 { get; set; }
+        public virtual ICollection<Site> Sites { get; set; }
     }
 }

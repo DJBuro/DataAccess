@@ -4,40 +4,58 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ef6325cde4614f3d9c73e759275880f0" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="7.5" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="8.25" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="10.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="8.25" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="10.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="12.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="7.875" PointY="24.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="13.5" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserStore" Width="1.5" PointX="7.5" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="10.5" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="12.75" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="12.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreGroup" Width="1.5" PointX="10.5" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="7.5" PointY="27.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
+      <Diagram DiagramId="790df1f696b84cdeb48c584e36672a58" Name="Diagram1">
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="11.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="13.5" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="9" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="0.75" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServerChain" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="0.75" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="3" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="3.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="14.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteChain" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="6" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="9" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="6" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="8.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserStore" Width="1.5" PointX="13.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="16.5" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="9" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="11.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="13.5" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="15.75" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreGroup" Width="1.5" PointX="16.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreHubReset" Width="1.5" PointX="13.5" PointY="30.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="13.5" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="9" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="9" PointY="26.375" IsExpanded="true" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_Address_Country" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_AMSServerChain_AMSServer" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_AMSServer" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_AMSServerChain_Chain" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_FTPSiteChain_Chain" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_Group_Chain" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_Chain" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_Group_Country" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_OpeningHour_Day" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_FTPSite_FTPSiteType" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_FTPSiteChain_FTPSite" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserGroup_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_Group" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreGroup_Group" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser" ManuallyRouted="false" />
@@ -47,22 +65,10 @@
         <AssociationConnector Association="AndroAdminModel.FK_Store_StoreStatus" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_Store" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreGroup_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroAdminModel.FK_StoreHubReset_Store" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreMenu_Store" ManuallyRouted="false" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="6" PointY="5.375" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
-        <AssociationConnector Association="AndroAdminModel.FK_Group_Partner" />
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServerChain" Width="1.5" PointX="13.5" PointY="13.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="14.875" PointY="21.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="13.375" PointY="27" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteChain" Width="1.5" PointX="15.75" PointY="11.25" />
-        <AssociationConnector Association="AndroAdminModel.FK_AMSServerChain_AMSServer" />
-        <AssociationConnector Association="AndroAdminModel.FK_AMSServerChain_Chain" />
-        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
-        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
-        <AssociationConnector Association="AndroAdminModel.FK_FTPSiteChain_Chain" />
-        <AssociationConnector Association="AndroAdminModel.FK_FTPSiteChain_FTPSite" />
-        <AssociationConnector Association="AndroAdminModel.FK_Store_Chain" />
+        <AssociationConnector Association="AndroAdminModel.StoreHubs" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

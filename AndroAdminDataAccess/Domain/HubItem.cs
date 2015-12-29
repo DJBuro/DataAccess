@@ -27,5 +27,11 @@ namespace AndroAdminDataAccess.Domain
         /// </summary>
         /// <value>The active.</value>
         public bool Active { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the item has been removed.
+        /// </summary>
+        /// <value>The removed.</value>
+        public bool Removed { get; set; }
     }
 }

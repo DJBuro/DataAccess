@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using AndroCloudDataAccess.DataAccess;
 using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
-using AndroCloudDataAccess.Domain;
-using AndroCloudWCFHelper;
-using AndroCloudHelper;
 using CloudSyncModel;
-using System.Data.Common;
 using System.Transactions;
+using CloudSyncModel.Hubs;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class SyncDataAccess : ISyncDataAccess
     {
+        /// <summary>
+        /// Gets or sets the connection string override.
+        /// </summary>
+        /// <value>The connection string override.</value>
         public string ConnectionStringOverride { get; set; }
-
+        
         public string Sync(CloudSyncModel.SyncModel syncModel)
         {
-            string errorMessage = "";
+            string errorMessage = string.Empty;
 
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
             {
@@ -30,7 +29,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     acsEntities.Database.Connection.Open();
 
-                    // Update the data version.  We're using this as a guard to prevent multiple simultanous syncs
+                    // Update the data version.  We're using this as a guard to prevent multiple simultaneous syncs
                     bool success = DataVersionHelper.SetVersion(syncModel.FromDataVersion, syncModel.ToDataVersion, acsEntities);
 
                     // Did we successfully update the version
@@ -40,174 +39,282 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
                     }
 
-                    // Update all store payment providers in the local db that have changed on the master server
-                    foreach (CloudSyncModel.StorePaymentProvider storePaymentProvider in syncModel.StorePaymentProviders)
-                    {
-                        // Does the store payment provider already exist?
-                        IStorePaymentProviderDataAccess storePaymentProviderDataAccess = new StorePaymentProviderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                        AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider = null;
-                        storePaymentProviderDataAccess.GetById(storePaymentProvider.Id, out existingStorePaymentProvider);
+                    this.SyncStorePaymentProviders(acsEntities, syncModel.StorePaymentProviders);
+                    this.SyncStoreModels(acsEntities, syncModel.Stores);
 
-                        if (existingStorePaymentProvider == null)
-                        {
-                            // Store payment provider does not exist.  Create it
-                            this.AddStorePaymentProvider(acsEntities, storePaymentProvider);
-                        }
-                        else
-                        {
-                            // The store payment provider already exists.  Update it
-                            this.UpdateStorePaymentProvider(acsEntities, existingStorePaymentProvider, storePaymentProvider);
-                        }
-                    }
+                    //when syncing partners then sync applications
+                    this.SyncPartners(acsEntities, syncModel.Partners, (withPartner) => {
+                        //... then sync applications 
+                        this.SyncPartnerApplications(acsEntities, withPartner);
+                    });
 
-                    // Update all stores in the local db that have changed on the master server
-                    foreach (CloudSyncModel.Store store in syncModel.Stores)
-                    {
-                        // Does the site already exist?
-                        ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                        AndroCloudDataAccess.Domain.Site existingSite = null;
-                        sitesDataAccess.GetByAndromedaSiteId(store.AndromedaSiteId, out existingSite);
+                    this.SyncHubAddresses(acsEntities, syncModel.HubUpdates, (withHub) => {
+                        //... then sync relationship to sites
+                        this.SyncStoreAndHubLinks(acsEntities, withHub);
+                    });
 
-                        if (existingSite == null)
-                        {
-                            // Site does not exist.  Create it
-                            this.AddSite(acsEntities, store);
-                        }
-                        else
-                        {
-                            // The site already exists.  Update it
-                            this.UpdateSite(acsEntities, store);
-                        }
-                    }
-
-                    // Update all partners in the local db that have changed on the master server
-                    foreach (CloudSyncModel.Partner partner in syncModel.Partners)
-                    {
-                        // Does the partner exist?
-                        IPartnersDataAccess partnersDataAccess = new PartnersDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                        AndroCloudDataAccess.Domain.Partner existingPartner = null;
-                        partnersDataAccess.GetById(partner.Id, out existingPartner);
-
-                        int? partnerId = null;
-
-                        if (existingPartner == null)
-                        {
-                            // Partner does not exist.  Create it
-                            this.AddPartner(acsEntities, partner, out partnerId);
-                        }
-                        else
-                        {
-                            // The partner already exists.  Update it
-                            this.UpdatePartner(acsEntities, partner);
-                            partnerId = existingPartner.Id;
-                        }
-
-                        ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-
-                        // Update all the partners applications
-                        foreach (CloudSyncModel.Application application in partner.Applications)
-                        {
-                            // Does the application exist?
-                            IACSApplicationDataAccess applicationDataAccess = new ACSApplicationDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                            AndroCloudDataAccess.Domain.ACSApplication acsApplication = null;
-                            applicationDataAccess.GetById(application.Id, out acsApplication);
-
-                            if (acsApplication == null)
-                            {
-                                // Application does not exist.  Create it
-                                this.AddApplication(acsEntities, partnerId.Value, application);
-                            }
-                            else
-                            {
-                                // The application already exists.  Update it
-                                this.UpdateApplication(acsEntities, application);
-                            }
-
-                            // Update all the sites in the application
-                            string[] siteIds = application.Sites.Split(',');
-                            foreach (string siteIdText in siteIds)
-                            {
-                                int androSiteId = 0;
-                                if (Int32.TryParse(siteIdText, out androSiteId))
-                                {
-                                    // Get the site that the application has permission to access
-                                    AndroCloudDataAccess.Domain.Site existingSite = null;
-                                    sitesDataAccess.GetByAndromedaSiteId(androSiteId, out existingSite);
-
-                                    if (existingSite != null)
-                                    {
-                                        var query = from acsa in acsEntities.ACSApplications
-                                                    join acss in acsEntities.ACSApplicationSites
-                                                    on acsa.Id equals acss.ACSApplicationId
-                                                    where acsa.Id == application.Id
-                                                    && acss.SiteId == existingSite.Id
-                                                    select acss;
-
-                                        var entity = query.FirstOrDefault();
-
-                                        // Is the site already associated with the application?
-                                        if (entity == null)
-                                        {
-                                            // Site not associated with the application.  Associate it
-                                            this.AddApplicationSite(acsEntities, existingSite.Id, application.Id);
-                                        }
-                                    }
-                                }
-                            }
-
-                            // Is there an existing application?
-                            if (acsApplication != null)
-                            {
-                                // REMOVE EXISTING SITES NOT IN siteIds
-
-                                // Get a list of existing sites
-                                var sitesQuery = from s in acsEntities.Sites
-                                                    join acss in acsEntities.ACSApplicationSites
-                                                    on s.ID equals acss.SiteId
-                                                    join a in acsEntities.ACSApplications
-                                                    on acss.ACSApplicationId equals a.Id
-                                                    join ss in acsEntities.SiteStatuses
-                                                    on s.SiteStatusID equals ss.ID
-                                                    where a.Id == acsApplication.Id
-                                                    select s;
-
-                                //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
-                                //Console.WriteLine(sql);
-
-                                IList<Model.Site> existingSites = sitesQuery.ToList();
-
-                                if (sitesQuery != null && existingSites.Count > 0)
-                                {
-                                    // Check each existing site to see if it's still in the application
-                                    foreach (Model.Site existingSite in existingSites)
-                                    {
-                                        // Is the existing site in the application?
-                                        if (!siteIds.Contains(existingSite.AndroID.ToString()))
-                                        {
-                                            // Site is no longer in the application
-                                            this.DeleteApplicationSite(acsEntities, existingSite.ID, application.Id);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // Commit the transacton
+                    this.SyncHubResets(acsEntities, syncModel.HubUpdates);
+                    
+                    // Commit the transaction
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
         }
+  
+        private void SyncHubResets(ACSEntities acsEntities, HubUpdates hubUpdates)
+        {
+            foreach (var hubthing in hubUpdates.SiteHubHardwareKeyResets) 
+            {
+                var store = acsEntities.Sites
+                    .Where(e => e.ExternalId == hubthing.ExternalSiteId).SingleOrDefault();
 
+                if (store == null)
+                    continue; //she doesn't exist anymore? 
+
+                store.HardwareKey = null;
+                acsEntities.SaveChanges();
+            }
+        }
+  
+        private void SyncHubAddresses(ACSEntities acsEntities, HubUpdates hubUpdates, Action<HubHostModel> withHub)
+        {
+            IHubDataAccess hubDataAccess = new HubDataAccess() { 
+                ConnectionStringOverride = this.ConnectionStringOverride,
+                AcsEntities = acsEntities
+            }; 
+            //remove all of these
+            foreach (var update in hubUpdates.InActiveHubList) 
+            {
+                hubDataAccess.TryToRemoveHub(update.Id);
+            }
+
+            //make sure all these exist
+            foreach (var model in hubUpdates.ActiveHubList) 
+            {
+                hubDataAccess.AddOrUpdate(model);
+
+                withHub(model);
+            }
+
+        }
+
+        private void SyncStoreAndHubLinks(ACSEntities acsEntities, HubHostModel withHub)
+        {
+            ISiteHubDataAccess siteHubDataAccess = new SiteHubDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+
+            //go and remove all the associated records
+            siteHubDataAccess.ClearByHub(withHub);
+
+            foreach (var model in withHub.SiteHubs) 
+            {
+                siteHubDataAccess.AddLink(model);
+            }
+        }
+  
+  
+        /// <summary>
+        /// Syncs the applications.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="partner">The partner.</param>
+        private void SyncPartnerApplications(ACSEntities acsEntities, CloudSyncModel.Partner partner)
+        {
+            ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+
+            // Update all the partners applications
+            foreach (CloudSyncModel.Application application in partner.Applications)
+            {
+                // Does the application exist?
+                IACSApplicationDataAccess applicationDataAccess = new ACSApplicationDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                AndroCloudDataAccess.Domain.ACSApplication acsApplication = null;
+                applicationDataAccess.GetById(application.Id, out acsApplication);
+
+                if (acsApplication == null)
+                {
+                    // Application does not exist.  Create it
+                    this.AddApplication(acsEntities, partner.Id, application);
+                }
+                else
+                {
+                    // The application already exists.  Update it
+                    this.UpdateApplication(acsEntities, application);
+                }
+
+                // Update all the sites in the application
+                string[] siteIds = application.Sites.Split(',');
+                foreach (string siteIdText in siteIds)
+                {
+                    int androSiteId = 0;
+                    if (Int32.TryParse(siteIdText, out androSiteId))
+                    {
+                        // Get the site that the application has permission to access
+                        AndroCloudDataAccess.Domain.Site existingSite = null;
+                        sitesDataAccess.GetByAndromedaSiteId(androSiteId, out existingSite);
+
+                        if (existingSite != null)
+                        {
+                            var query = from acsa in acsEntities.ACSApplications
+                                        join acss in acsEntities.ACSApplicationSites
+                                        on acsa.Id equals acss.ACSApplicationId
+                                        where acsa.Id == application.Id
+                                        && acss.SiteId == existingSite.Id
+                                        select acss;
+
+                            var entity = query.FirstOrDefault();
+
+                            // Is the site already associated with the application?
+                            if (entity == null)
+                            {
+                                // Site not associated with the application.  Associate it
+                                this.AddApplicationSite(acsEntities, existingSite.Id, application.Id);
+                            }
+                        }
+                    }
+                }
+
+                // Is there an existing application?
+                if (acsApplication != null)
+                {
+                    // REMOVE EXISTING SITES NOT IN siteIds
+
+                    // Get a list of existing sites
+                    var sitesQuery = from site in acsEntities.Sites
+                                        join acss in acsEntities.ACSApplicationSites
+                                            on site.ID equals acss.SiteId
+                                        join a in acsEntities.ACSApplications
+                                            on acss.ACSApplicationId equals a.Id
+                                        join ss in acsEntities.SiteStatuses
+                                            on site.SiteStatusID equals ss.ID
+                                     where a.Id == acsApplication.Id
+                                     select site;
+
+                    //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
+                    //Console.WriteLine(sql);
+
+                    IList<Model.Site> existingSites = sitesQuery.ToList();
+
+                    if (sitesQuery != null && existingSites.Count > 0)
+                    {
+                        // Check each existing site to see if it's still in the application
+                        foreach (Model.Site existingSite in existingSites)
+                        {
+                            // Is the existing site in the application?
+                            if (!siteIds.Contains(existingSite.AndroID.ToString()))
+                            {
+                                // Site is no longer in the application
+                                this.DeleteApplicationSite(acsEntities, existingSite.ID, application.Id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Syncs the partners.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="partners">The partners.</param>
+        /// <param name="withPartner">The with partner.</param>
+        private void SyncPartners(ACSEntities acsEntities, List<CloudSyncModel.Partner> partners, Action<CloudSyncModel.Partner> withPartner)
+        {
+            // Update all partners in the local db that have changed on the master server
+            foreach (CloudSyncModel.Partner partner in partners)
+            {
+                // Does the partner exist?
+                IPartnersDataAccess partnersDataAccess = new PartnersDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                AndroCloudDataAccess.Domain.Partner existingPartner = null;
+                partnersDataAccess.GetById(partner.Id, out existingPartner);
+
+                int? partnerId = null;
+
+                if (existingPartner == null)
+                {
+                    // Partner does not exist.  Create it
+                    this.AddPartner(acsEntities, partner, out partnerId);
+                }
+                else
+                {
+                    // The partner already exists.  Update it
+                    this.UpdatePartner(acsEntities, partner);
+                    partnerId = existingPartner.Id;
+                }
+
+                partner.Id = partnerId.Value;
+                withPartner(partner);
+            }
+        }
+
+        /// <summary>
+        /// Syncs the store models.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="stores">The stores.</param>
+        private void SyncStoreModels(ACSEntities acsEntities, List<Store> stores)
+        {
+            // Update all stores in the local db that have changed on the master server
+            foreach (CloudSyncModel.Store store in stores)
+            {
+                // Does the site already exist?
+                ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                AndroCloudDataAccess.Domain.Site existingSite = null;
+                sitesDataAccess.GetByAndromedaSiteId(store.AndromedaSiteId, out existingSite);
+
+                if (existingSite == null)
+                {
+                    // Site does not exist.  Create it
+                    this.AddSite(acsEntities, store);
+                }
+                else
+                {
+                    // The site already exists.  Update it
+                    this.UpdateSite(acsEntities, store);
+                }
+            }
+        }
+  
+        /// <summary>
+        /// Syncs the store payment providers.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="storePaymentProviders">The store payment providers.</param>
+        private void SyncStorePaymentProviders(ACSEntities acsEntities, List<CloudSyncModel.StorePaymentProvider> storePaymentProviders)
+        {
+            // Update all store payment providers in the local db that have changed on the master server
+            foreach (CloudSyncModel.StorePaymentProvider storePaymentProvider in storePaymentProviders)
+            {
+                // Does the store payment provider already exist?
+                IStorePaymentProviderDataAccess storePaymentProviderDataAccess = new StorePaymentProviderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider = null;
+                storePaymentProviderDataAccess.GetById(storePaymentProvider.Id, out existingStorePaymentProvider);
+
+                if (existingStorePaymentProvider == null)
+                {
+                    // Store payment provider does not exist.  Create it
+                    this.AddStorePaymentProvider(acsEntities, storePaymentProvider);
+                }
+                else
+                {
+                    // The store payment provider already exists.  Update it
+                    this.UpdateStorePaymentProvider(acsEntities, existingStorePaymentProvider, storePaymentProvider);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the store payment provider.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="storePaymentProvider">The store payment provider.</param>
         private void AddStorePaymentProvider(ACSEntities acsEntities, CloudSyncModel.StorePaymentProvider storePaymentProvider)
         {
             Model.StorePaymentProvider entity = new Model.StorePaymentProvider()
             {
                 ClientId = storePaymentProvider.ClientId,
                 ClientPassword = storePaymentProvider.ClientPassword,
-                Id = storePaymentProvider.Id,
+                ID = storePaymentProvider.Id,
                 ProviderName = storePaymentProvider.ProviderName
             };
 
@@ -215,6 +322,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates the store payment provider.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="existingStorePaymentProvider">The existing store payment provider.</param>
+        /// <param name="storePaymentProvider">The store payment provider.</param>
         private void UpdateStorePaymentProvider(ACSEntities acsEntities, AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider, CloudSyncModel.StorePaymentProvider storePaymentProvider)
         {
             existingStorePaymentProvider.ClientId = storePaymentProvider.ClientId;
@@ -224,23 +337,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.SaveChanges();
         }
 
+        /// <summary>
+        /// Adds the site.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="store">The store.</param>
         private void AddSite(ACSEntities acsEntities, Store store)
         {
             // Get the site status
             var siteStatusQuery = from s in acsEntities.SiteStatuses
                              where s.Status == store.StoreStatus
                              select s;
+
             Model.SiteStatus siteStatusEntity = siteStatusQuery.FirstOrDefault();
 
             if (siteStatusEntity == null)
             {
-//TODO ERROR??
+                //TODO ERROR??
             }
 
             // Get the country
             var countryQuery = from s in acsEntities.Countries
                                   where s.Id == store.Address.CountryId
                                   select s;
+
             Model.Country countryEntity = countryQuery.FirstOrDefault();
 
             if (countryEntity == null)
@@ -298,13 +418,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 SiteStatus = siteStatusEntity,
                 Telephone = store.Phone,
                 TimeZone = store.TimeZone,
-                StorePaymentProviderId = storePaymentProviderId
+                StorePaymentProviderID = storePaymentProviderId
             };
 
             acsEntities.Sites.Add(siteEntity);
             acsEntities.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates the site.
+        /// </summary>
+        /// <param name="acsEntities">The acs entities.</param>
+        /// <param name="store">The store.</param>
         private void UpdateSite(ACSEntities acsEntities, Store store)
         {
             // Get the site status
@@ -355,25 +480,25 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     addressEntity = new Model.Address()
                     {
                         ID = Guid.NewGuid(),
-                        County = "",
-                        DPS = "",
-                        Lat = "",
-                        Locality = "",
-                        Long = "",
-                        Org1 = "",
-                        Org2 = "",
-                        Org3 = "",
-                        PostCode = "",
-                        Prem1 = "",
-                        Prem2 = "",
-                        Prem3 = "",
-                        Prem4 = "",
-                        Prem5 = "",
-                        Prem6 = "",
-                        RoadName = "",
-                        RoadNum = "",
-                        State = "",
-                        Town = "",
+                        County = string.Empty,
+                        DPS = string.Empty,
+                        Lat = string.Empty,
+                        Locality = string.Empty,
+                        Long = string.Empty,
+                        Org1 = string.Empty,
+                        Org2 = string.Empty,
+                        Org3 = string.Empty,
+                        PostCode = string.Empty,
+                        Prem1 = string.Empty,
+                        Prem2 = string.Empty,
+                        Prem3 = string.Empty,
+                        Prem4 = string.Empty,
+                        Prem5 = string.Empty,
+                        Prem6 = string.Empty,
+                        RoadName = string.Empty,
+                        RoadNum = string.Empty,
+                        State = string.Empty,
+                        Town = string.Empty,
                         Country = countryEntity
                     };
 
@@ -438,7 +563,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.SiteStatus = siteStatusEntity;
                 siteEntity.Telephone = store.Phone;
                 siteEntity.TimeZone = store.TimeZone;
-                siteEntity.StorePaymentProviderId = storePaymentProviderId;
+                siteEntity.StorePaymentProviderID = storePaymentProviderId;
 
                 // Commit the first lot of changes
                 acsEntities.SaveChanges();
@@ -505,6 +630,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             var query = from s in acsEntities.Partners
                              where s.Id == partner.Id
                              select s;
+
             Model.Partner entity = query.FirstOrDefault();
 
             if (entity != null)

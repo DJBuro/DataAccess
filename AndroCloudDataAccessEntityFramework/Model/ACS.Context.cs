@@ -13,10 +13,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ACSEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public ACSEntities()
-            : base("name=ACSEntities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     
@@ -30,21 +30,23 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<ACSLog> ACSLogs { get; set; }
         public DbSet<ACSQueue> ACSQueues { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Audit> Audits { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
+        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
         public DbSet<Host> Hosts { get; set; }
+        public DbSet<HostsV2> HostsV2 { get; set; }
+        public DbSet<HostType> HostTypes { get; set; }
+        public DbSet<HubHost> HubHosts { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
-        public DbSet<Site> Sites { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
-        public DbSet<Audit> Audits { get; set; }
-        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
-        public DbSet<HostsV2> HostsV2 { get; set; }
-        public DbSet<HostType> HostTypes { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
