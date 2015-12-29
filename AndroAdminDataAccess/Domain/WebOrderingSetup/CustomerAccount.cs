@@ -2,7 +2,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 {
     public class CustomerAccount
     {
-        //public bool IsEnable { get; set; }
+        public bool IsEnable { get; set; }
 
         public bool EnableAndromedaLogin { get; set; }
 
@@ -19,5 +19,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         //public bool IsEnableOrderHistory { get; set; }
 
         //public bool IsEnableRepeatOrder { get; set; }
+
+        
     }
 }
