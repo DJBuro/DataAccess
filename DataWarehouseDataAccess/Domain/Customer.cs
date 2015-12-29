@@ -12,6 +12,7 @@ namespace DataWarehouseDataAccess.Domain
     public class Customer
     {
         [JsonProperty(PropertyName = "accountNumber")]
+        [XmlElement(ElementName = "AccountNumber")]
         public Guid Id { get; set; }
 
         [JsonProperty(PropertyName = "title")]
@@ -23,6 +24,7 @@ namespace DataWarehouseDataAccess.Domain
         [JsonProperty(PropertyName = "surname")]
         public string Surname { get; set; }
 
+        [XmlArray]
         [JsonProperty(PropertyName = "contacts")]
         public List<Contact> Contacts { get; set; }
 
