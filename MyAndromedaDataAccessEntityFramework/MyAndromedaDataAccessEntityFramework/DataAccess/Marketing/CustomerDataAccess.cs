@@ -17,7 +17,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             {
                 var customers = dbContext.CustomerRecords;
 
-                return customers.Select(e => e.ToDomainModel()).ToList();
+                return customers.ToList().Select(e => e.ToDomainModel()).ToList();
             }
         }
 
@@ -27,7 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             {
                 var customers = dbContext.CustomerRecords;
 
-                return customers.Select(e => e.ToDomainModel()).ToList();
+                return customers.ToList().Select(e => e.ToDomainModel()).ToList();
             }
         }
     }
