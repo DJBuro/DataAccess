@@ -10,5 +10,6 @@ namespace DataWarehouseDataAccess
     {
         ICustomerDataAccess CustomerDataAccess { get; set; }
         IPasswordResetRequestDataAccess PasswordResetRequestDataAccess { get; set; }
+        IOrderDataAccess OrderDataAccess { get; set; }
     }
 }

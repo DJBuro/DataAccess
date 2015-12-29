@@ -10,6 +10,6 @@ namespace DataWarehouseDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         string RequestPasswordReset(string username, int applicationId, out string token);
-        string PasswordReset(string username, string token, string newPassword, out int customerId);
+        string PasswordReset(string username, string token, string newPassword, out Guid? customerId);
     }
 }

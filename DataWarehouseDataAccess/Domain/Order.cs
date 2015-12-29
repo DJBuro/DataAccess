@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataWarehouseDataAccess.Domain
 {
-    public class Customer
+    public class Order
     {
         [JsonProperty(PropertyName = "accountNumber")]
         public Guid Id { get; set; }

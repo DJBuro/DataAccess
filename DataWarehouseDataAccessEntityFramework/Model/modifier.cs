@@ -12,18 +12,17 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class modifier
     {
-        public Country()
-        {
-            this.Addresses = new HashSet<Address>();
-        }
+        public System.Guid ID { get; set; }
+        public Nullable<System.Guid> OrderLineID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> Qty { get; set; }
+        public Nullable<bool> Removed { get; set; }
+        public Nullable<int> Price { get; set; }
     
-        public int Id { get; set; }
-        public string CountryName { get; set; }
-        public string ISO3166_1_alpha_2 { get; set; }
-        public int ISO3166_1_numeric { get; set; }
-    
-        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual OrderLine OrderLine { get; set; }
+        public virtual OrderLine OrderLine1 { get; set; }
     }
 }

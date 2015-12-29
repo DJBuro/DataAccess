@@ -40,7 +40,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         // Is there an existing password reset request?
                         var passwordResetQuery = from p in dataWarehouseEntities.PasswordResetRequests
-                                                where p.CustomerId == customerEntity.Id
+                                                where p.CustomerId == customerEntity.ID
                                                 select p;
 
                         var passwordResetEntity = passwordResetQuery.FirstOrDefault();
@@ -51,7 +51,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             // No existing request - create one
                             passwordResetEntity = new PasswordResetRequest()
                             {
-                                Customer = customerEntity
+                                CustomerId = customerEntity.ID
                             };
 
                             dataWarehouseEntities.PasswordResetRequests.Add(passwordResetEntity);
@@ -72,9 +72,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string PasswordReset(string username, string token, string newPassword, out int customerId)
+        public string PasswordReset(string username, string token, string newPassword, out Guid? customerId)
         {
-            customerId = 0;
+            customerId = null;
 
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
             {
@@ -94,7 +94,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     else 
                     {
                         var customerQuery = from p in dataWarehouseEntities.Customers
-                                            where p.Id == passwordResetEntity.CustomerId
+                                            where p.ID == passwordResetEntity.CustomerId
                                             && p.Username == username
                                             select p;
 
@@ -126,7 +126,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             dataWarehouseEntities.SaveChanges();
 
                             // Return the customer id so it can be logged
-                            customerId = customerEntity.Id;
+                            customerId = customerEntity.ID;
                         }
                     }
                 }

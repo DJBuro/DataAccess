@@ -23,5 +23,11 @@ namespace DataWarehouseDataAccessEntityFramework
             get { return new PasswordResetRequestDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
+
+        public IOrderDataAccess OrderDataAccess
+        {
+            get { return new OrderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
