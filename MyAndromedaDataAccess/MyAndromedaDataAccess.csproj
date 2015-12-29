@@ -76,6 +76,7 @@
     <Compile Include="Domain\Marketing\EmailCampaign.cs" />
     <Compile Include="Domain\Marketing\EmailCampaignTask.cs" />
     <Compile Include="Domain\Marketing\EmailSettings.cs" />
+    <Compile Include="Domain\Menus\Items\ThumbnailImage.cs" />
     <Compile Include="Domain\Menus\SiteMenu.cs" />
     <Compile Include="Domain\MyAndromedaUser.cs" />
     <Compile Include="Domain\Marketing\Customer.cs" />

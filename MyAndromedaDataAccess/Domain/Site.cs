@@ -11,6 +11,7 @@ namespace MyAndromedaDataAccess.Domain
     public class Site
     {
         public int Id { get; set; }
+        public int AndromediaSiteId { get; set; }
         public string LicenceKey { get; set; }
         public string CustomerSiteId { get; set; }
         public string ClientSiteName { get; set; }

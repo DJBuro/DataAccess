@@ -65,6 +65,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         CustomerSiteId = entity.CustomerSiteId == null ? "" : entity.CustomerSiteId,
                         LicenceKey = entity.LicenseKey,
                         ExternalSiteId = entity.ExternalId,
+                        AndromediaSiteId = entity.AndromedaSiteId,
                         ChainId = entity.ChainId
                     };
                 }
@@ -114,6 +115,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             CustomerSiteId = entity.CustomerSiteId == null ? "" : entity.CustomerSiteId,
                             LicenceKey = entity.LicenseKey,
                             ExternalSiteId = entity.ExternalId,
+                            AndromediaSiteId = entity.AndromedaSiteId,
                             ChainId = entity.ChainId
                         };
 
@@ -146,6 +148,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             CustomerSiteId = entity.CustomerSiteId == null ? "" : entity.CustomerSiteId,
                             LicenceKey = entity.LicenseKey == null ? "" : entity.LicenseKey,
                             ExternalSiteId = entity.ExternalId,
+                            AndromediaSiteId = entity.AndromedaSiteId,
                             ChainId = entity.ChainId
                         };
 

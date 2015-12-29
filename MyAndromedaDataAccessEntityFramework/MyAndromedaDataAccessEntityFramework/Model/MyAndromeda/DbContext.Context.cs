@@ -35,5 +35,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<MenuItemGroup> MenuItemGroups { get; set; }
         public DbSet<MenuItemThumbnail> MenuItemThumbnails { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<SiteMenuMediaServer> SiteMenuMediaServers { get; set; }
+        public DbSet<SiteMenuMediaServerAuthentication> SiteMenuMediaServerAuthentications { get; set; }
     }
 }
