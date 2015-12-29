@@ -25,6 +25,11 @@ namespace AndroAdminDataAccess.Domain
         public virtual int PartnerId { get; set; }
 
         public virtual int DataVersion { get; set; }
+
+        public virtual Guid EnvironmentId { get; set; }
+
+        [Display(Name = "Environment")]
+        public virtual string EnvironmentName { get; set; }
     }
 
     public static class ACSApplicationExtensions
@@ -37,6 +42,8 @@ namespace AndroAdminDataAccess.Domain
             vm.ExternalApplicationId = model.ExternalApplicationId;
             vm.PartnerId = model.PartnerId;
             vm.DataVersion = model.DataVersion;
+            vm.EnvironmentId = model.Environment.Id;
+            vm.EnvironmentName = model.Environment.Name;
             return vm;
         }
     }

@@ -306,6 +306,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Environment.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\ExternalApi.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>

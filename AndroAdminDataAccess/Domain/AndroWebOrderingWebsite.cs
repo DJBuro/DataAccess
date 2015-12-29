@@ -14,7 +14,13 @@ namespace AndroAdminDataAccess.Domain
         public string Description { set; get; }
         public int DisplayOrder { set; get; }
     }
-     
+
+    public class Environment
+    {
+        public Guid Id { set; get; }
+        public string Name { set; get; }
+    }
+
     public class AndroWebOrderingWebsite
     {
         public int Id { set; get; }
@@ -46,6 +52,10 @@ namespace AndroAdminDataAccess.Domain
 
         public string SelectedTimeZoneId { get; set; }
         public string SelectedCultureType { get; set; }
+
+        public string EnvironmentName { get; set; }
+        public IList<Environment> EnvironmentsList { set; get; }
+        public Guid EnvironmentId { set; get; }
 
         public IEnumerable<CultureChoiceViewModel> CultureChoices { get; set; }
         public IOrderedEnumerable<TimeZoneViewModel> TimezoneChoices { get; set; }

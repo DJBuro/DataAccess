@@ -24,6 +24,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         }
     }
 
+    public class EnvironmentsDAO : IEnvironmentsDAO
+    {
+        public IList<AndroAdminDataAccess.Domain.Environment> GetAll()
+        {
+            IList<AndroAdminDataAccess.Domain.Environment> result = null;
+            using (AndroAdminEntities dataContext = new AndroAdminEntities())
+            {
+                result = dataContext.Environments
+                    .Select(s => new Domain.Environment { Id = s.Id, Name = s.Name })
+                    .ToList();
+            }
+
+            return result;
+        }
+    }
+
     public class AndroWebOrderingWebsiteDAO : IAndroWebOrderingWebsiteDAO
     {
         public string ConnectionStringOverride { get; set; }
@@ -45,6 +61,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     .Include(c => c.Chain)
                     .Include(c => c.Chain.Stores)
                     .Include(c => c.AndroWebOrderingSubscriptionType)
+                    .Include(c => c.ACSApplication.Environment)
                     .ToArray();
 
                 foreach (var entity in query)
@@ -63,7 +80,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         SubscriptionTypeId = entity.SubscriptionTypeId,
                         SubscriptionName = (entity.AndroWebOrderingSubscriptionType != null) ? entity.AndroWebOrderingSubscriptionType.Subscription : string.Empty,
                         LiveDomainName = entity.LiveDomainName,
-
+                        EnvironmentName = entity.ACSApplication.Environment.Name,
+                        EnvironmentId = entity.ACSApplication.Environment.Id,
                         LiveSettings = entity.LiveSettings,
                         PreviewDomainName = entity.PreviewDomainName,
                         PreviewSettings = entity.PreviewSettings,
@@ -112,6 +130,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         .Include(c => c.ACSApplication.ACSApplicationSites)
                         .Include(c => c.Chain)
                         .Include(c => c.Chain.Stores)
+                        .Include(c => c.ACSApplication.Environment)
                         .Where(c => c.Id == id)
                         .FirstOrDefault();
 
@@ -134,6 +153,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.LiveSettings = result.LiveSettings;
                         webOrderingSite.PreviewDomainName = result.PreviewDomainName;
                         webOrderingSite.ThemeId = result.ThemeId;
+
+                        webOrderingSite.EnvironmentId = result.ACSApplication.EnvironmentId.Value;
+                        webOrderingSite.EnvironmentName = result.ACSApplication.Environment.Name;
                     }
 
                 }
@@ -166,6 +188,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     entitiesContext.AndroWebOrderingSubscriptionTypes.ToArray()
                     .Select(s => new Domain.AndroWebOrderingSubscriptionType { Id = s.Id, Subscription = s.Subscription, DisplayOrder = s.DisplayOrder })
                     .OrderBy(o => o.DisplayOrder).ToList();
+
+                webOrderingSite.EnvironmentsList =
+                    entitiesContext.Environments.ToArray()
+                    .Select(s => new Domain.Environment { Id = s.Id, Name = s.Name }).ToList();
             }
 
             return webOrderingSite;
@@ -194,7 +220,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     if (acsApplication == null) 
                     {
-                        var acsExists = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+                        var acsExists = entitiesContext.ACSApplications.FirstOrDefault
+                            (a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
                         if (acsExists != null) 
                         {
                             errorMsgs.Add("AddWebsite: This website name cannot be used. An ACS application application already exists with the given name: " + webOrderingSite.Name);
@@ -206,9 +233,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     if (acsApplication == null)
                     {
                         webOrderingSite.ACSApplication.PartnerId = partner.Id;
+                        webOrderingSite.ACSApplication.EnvironmentId = webOrderingSite.EnvironmentId;
+
                         acsDAO.Add(webOrderingSite.ACSApplication);
 
-                        acsApplication = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+                        acsApplication = entitiesContext.ACSApplications.FirstOrDefault
+                            (a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
                     }
 
                     var website = entitiesContext.AndroWebOrderingWebsites
@@ -328,6 +358,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 webSite.ACSApplication.Name = webOrderingSite.Name;
                                 webSite.ACSApplication.ExternalDisplayName = webOrderingSite.Name;
                                 webSite.ACSApplication.DataVersion = newVersion;
+                                webSite.ACSApplication.EnvironmentId = webOrderingSite.EnvironmentId;
                             }
                             var acsApplicationSites = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == webSite.ACSApplicationId).ToList();
 

@@ -46,7 +46,14 @@ namespace AndroAdminDataAccess.DataAccess
         /// </summary>
         /// <returns></returns>
         IList<AndroWebOrderingSubscriptionType> GetAll();
+    }
 
-
+    public interface IEnvironmentsDAO
+    {
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns></returns>
+        IList<AndroAdminDataAccess.Domain.Environment> GetAll();
     }
 }
