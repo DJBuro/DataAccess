@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using AndroAdminDataAccess.DataAccess;
@@ -9,6 +10,36 @@ namespace AndroAdminDataAccess.EntityFramework
 {
     public class EntityFrameworkDataAccessFactory
     {
+        public static string DBServer
+        {
+            get 
+            { 
+                string dbServer = "";
+
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+                {
+                    dbServer = ((SqlConnection)entitiesContext.Database.Connection).DataSource;
+                }
+
+                return dbServer; 
+            }
+        }
+
+        public static string DBName
+        {
+            get
+            {
+                string dbName = "";
+
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+                {
+                    dbName = ((SqlConnection)entitiesContext.Database.Connection).Database;
+                }
+
+                return dbName;
+            }
+        }
+
         public IAMSServerDAO AMSServerDAO
         {
             get { return new AMSServerDAO(); }
