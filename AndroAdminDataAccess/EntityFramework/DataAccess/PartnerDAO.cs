@@ -174,10 +174,55 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
+        /// <summary>
+        /// Updates the version number only
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="newVersion"></param>
+        public void UpdateDataVersion(int partnerId, int newVersion)
+        {
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from s in entitiesContext.Partners
+                            where partnerId == s.Id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.DataVersion = newVersion;
+
+                    entitiesContext.SaveChanges();
+                }
+            }
+        }
 
         public IList<Domain.Partner> GetAfterDataVersion(int dataVersion)
         {
-            throw new NotImplementedException();
+            List<Domain.Partner> models = new List<Domain.Partner>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from p in entitiesContext.Partners
+                            where p.DataVersion > dataVersion
+                            select p;
+
+                foreach (var entity in query)
+                {
+                    Domain.Partner model = new Domain.Partner()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        DataVersion = entity.DataVersion,
+                        ExternalId = entity.ExternalId
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
         }
     }
 }

@@ -16,5 +16,6 @@ namespace AndroAdminDataAccess.DataAccess
         Store GetByName(string name);
         IList<Domain.Store> GetByACSApplicationId(int acsApplicationId);
         IList<Domain.Store> GetAfterDataVersion(int dataVersion);
+        IList<Domain.Store> GetByACSApplicationIdAfterDataVersion(int acsApplicationId, int dataVersion);
     }
 }

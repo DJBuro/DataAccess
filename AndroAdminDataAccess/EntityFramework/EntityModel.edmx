@@ -150,7 +150,6 @@
           <Property Name="SiteId" Type="int" Nullable="false" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6005: The data type 'geography' is not supported for the target .NET Framework version. The column 'Location' in the table 'AndroAdmin.dbo.Address' was excluded from the model. To use the data type 'geography', target the .NET Framework 4.5 or higher.
@@ -711,7 +710,6 @@
       <Schema Namespace="AndroAdminModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
-          <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
           <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
           <EntitySet Name="AMSServers" EntityType="AndroAdminModel.AMSServer" />
           <EntitySet Name="Days" EntityType="AndroAdminModel.Day" />
@@ -733,14 +731,6 @@
           <EntitySet Name="StoreMenus" EntityType="AndroAdminModel.StoreMenu" />
           <EntitySet Name="StorePaymentProviders" EntityType="AndroAdminModel.StorePaymentProvider" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.StoreStatu" />
-          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.FK_ACSApplicationSite_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
-          </AssociationSet>
           <AssociationSet Name="FK_Store_Address" Association="AndroAdminModel.FK_Store_Address">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Store" EntitySet="Stores" />
@@ -835,6 +825,15 @@
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
           <EntitySet Name="Hosts" EntityType="AndroAdminModel.Host" />
+          <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
+          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.FK_ACSApplicationSite_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -845,20 +844,8 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PartnerId" Nullable="false" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
-        </EntityType>
-        <EntityType Name="ACSApplicationSite">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="SiteId" Nullable="false" />
-          <Property Type="Int32" Name="ACSApplicationId" Nullable="false" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="ACSApplicationSite" ToRole="Store" />
-          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
@@ -1044,7 +1031,6 @@
           <Property Type="Int32" Name="AddressId" />
           <Property Type="Int32" Name="StorePaymentProviderID" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="Store" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="Address" Relationship="AndroAdminModel.FK_Store_Address" FromRole="Store" ToRole="Address" />
           <NavigationProperty Name="MyAndromedaUserStores" Relationship="AndroAdminModel.FK_MyAndromedaUserStore_Store" FromRole="Store" ToRole="MyAndromedaUserStore" />
           <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Store" FromRole="Store" ToRole="OpeningHour" />
@@ -1054,6 +1040,7 @@
           <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="Store" ToRole="StoreAMSServerFTPSitePair" />
           <NavigationProperty Name="StoreGroups" Relationship="AndroAdminModel.FK_StoreGroup_Store" FromRole="Store" ToRole="StoreGroup" />
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
+          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="Store" ToRole="ACSApplicationSite" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -1134,30 +1121,6 @@
           <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
         </EntityType>
-        <Association Name="FK_ACSApplicationSite_ACSApplication">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
-          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplicationSite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACSApplicationSite_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
-          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplicationSite">
-              <PropertyRef Name="SiteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Store_Address">
           <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="0..1" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
@@ -1456,6 +1419,41 @@
           <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
         </EntityType>
+        <EntityType Name="ACSApplicationSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="Int32" Name="ACSApplicationId" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="ACSApplicationSite" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_ACSApplicationSite_ACSApplication">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1469,17 +1467,6 @@
                 <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ACSApplicationSites">
-            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplicationSite">
-              <MappingFragment StoreEntitySet="ACSApplicationSite">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
-                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1757,6 +1744,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ACSApplicationSites">
+            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplicationSite">
+              <MappingFragment StoreEntitySet="ACSApplicationSite">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1778,31 +1775,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="EntityModel" ZoomLevel="85">
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="3" PointY="22.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="5.25" PointY="15.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="0.75" PointY="5.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="3" PointY="2.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="6" PointY="18.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="10.75" PointY="1.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="6" PointY="17.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="6" PointY="5.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="8.25" PointY="0.75" />
         <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="6" PointY="1.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="6" PointY="5.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="12.75" PointY="1.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="3" PointY="18.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="11.25" PointY="13" />
-        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserStore" Width="1.5" PointX="5.25" PointY="12.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="8.25" PointY="16.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="12.75" PointY="5.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="3" PointY="10.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="5.25" PointY="9.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="10.5" PointY="9.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" Width="1.5" PointX="8.25" PointY="12" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreGroup" Width="1.5" PointX="8.25" PointY="8.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="5.25" PointY="31.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="0.75" PointY="12.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="0.75" PointY="15.75" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
-        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
+        <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="3" PointY="19.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="3" PointY="23.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="5.25" PointY="21.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserStore" Width="1.5" PointX="5.25" PointY="14.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="8.25" PointY="7.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="5.25" PointY="8.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="10.5" PointY="8.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" Width="1.5" PointX="8.25" PointY="11" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreGroup" Width="1.5" PointX="5.25" PointY="11.5" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="5.25" PointY="27" />
+        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="0.75" PointY="16" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Address" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_AMSServer" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" />
@@ -1824,10 +1818,13 @@
         <AssociationConnector Association="AndroAdminModel.FK_StoreGroup_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreMenu_Store" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" />
-        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="3.75" PointY="5.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="0.75" PointY="19.375" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
         <AssociationConnector Association="AndroAdminModel.FK_Group_Partner" />
-        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="4.9434680756849554" PointY="7.1772624734683257" />
+        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="8.25" PointY="15.375" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
+        <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
       </Diagram>
     </Diagrams>
   </Designer>

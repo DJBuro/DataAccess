@@ -25,5 +25,22 @@ namespace AndroAdminDataAccess.Domain
 
         [Display(Name = "Store status")]
         public virtual StoreStatus StoreStatus { get; set; }
+
+        [Display(Name = "External site id")]
+        public virtual string ExternalSiteId { get; set; }
+
+        [Display(Name = "External site name")]
+        public virtual string ExternalSiteName { get; set; }
+
+        public Store()
+        {
+            this.Name = "";
+            this.AndromedaSiteId = 0;
+            this.CustomerSiteId = "";
+            this.LastFTPUploadDateTime = null;
+            this.StoreStatus = null;
+            this.ExternalSiteId = Guid.NewGuid().ToString().Replace("{", "").Replace("}", "").ToUpper();
+            this.ExternalSiteName = "";
+        }
    }
 }
