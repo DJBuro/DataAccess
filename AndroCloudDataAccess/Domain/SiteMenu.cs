@@ -9,6 +9,6 @@ namespace AndroCloudDataAccess.Domain
         public Guid SiteID { get; set; }
         public string MenuType { get; set; }
         public int Version { get; set; }
-        public string menuData { get; set; }
+        public string MenuData { get; set; }
     }
 }

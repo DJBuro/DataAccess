@@ -32,7 +32,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 if (siteMenuEntity != null)
                 {
                     siteMenu = new AndroCloudDataAccess.Domain.SiteMenu();
-                    siteMenu.menuData = siteMenuEntity.menuData;
+                    siteMenu.MenuData = siteMenuEntity.MenuData;
                     siteMenu.MenuType = siteMenuEntity.MenuType;
                     siteMenu.SiteID = siteMenuEntity.SiteID.GetValueOrDefault();
                     siteMenu.Version = siteMenuEntity.Version.GetValueOrDefault(0);
@@ -59,7 +59,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // Update the menu record
                 if (siteMenuEntity != null)
                 {
-                    siteMenuEntity.menuData = data;
+                    siteMenuEntity.MenuData = data;
                     siteMenuEntity.Version = version;
                     siteMenuEntity.LastUpdated = DateTime.UtcNow;
 
@@ -71,7 +71,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     {
                         MenuType = dataType.ToString(),
                         Version = version,
-                        menuData = data,
+                        MenuData = data,
                         SiteID = siteId,
                         ID = Guid.NewGuid()
                     };

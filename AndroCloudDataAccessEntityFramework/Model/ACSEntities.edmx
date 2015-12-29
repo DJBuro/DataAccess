@@ -352,6 +352,7 @@
           <Property Name="MenuType" Type="nvarchar" MaxLength="8" />
           <Property Name="menuData" Type="text" />
           <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="menuDataThumbnails" Type="text" />
         </EntityType>
         <EntityType Name="Sites">
           <Key>
@@ -1233,9 +1234,10 @@
           <Property Type="Guid" Name="SiteID" />
           <Property Type="Int32" Name="Version" />
           <Property Type="String" Name="MenuType" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="menuData" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MenuData" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="LastUpdated" Precision="3" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenu" ToRole="Site" />
+          <Property Type="String" Name="MenuDataThumbnails" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_SiteMenus_Sites">
           <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
@@ -1562,8 +1564,9 @@
           <EntitySetMapping Name="SiteMenus">
             <EntityTypeMapping TypeName="ACSModel.SiteMenu">
               <MappingFragment StoreEntitySet="SiteMenus">
+                <ScalarProperty Name="MenuDataThumbnails" ColumnName="menuDataThumbnails" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="menuData" ColumnName="menuData" />
+                <ScalarProperty Name="MenuData" ColumnName="menuData" />
                 <ScalarProperty Name="MenuType" ColumnName="MenuType" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />

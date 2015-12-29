@@ -27,5 +27,15 @@ namespace AndroAdminDataAccess.EntityFramework.Extensions
                 StoreExternalId = store.ExternalId
             };
         }
+
+        public static AndroAdminDataAccess.Domain.Store ToDomain(this Store store) 
+        {
+            return new Domain.Store() 
+            { 
+                Id =store.Id,
+                AndromedaSiteId = store.AndromedaSiteId,
+                ExternalSiteId = store.ExternalId
+            };
+        }
     }
 }
