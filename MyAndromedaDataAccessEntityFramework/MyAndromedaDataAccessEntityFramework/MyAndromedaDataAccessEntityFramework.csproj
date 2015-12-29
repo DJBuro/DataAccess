@@ -104,7 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\WebSites\MyAndromeda\Version.cs">
+    <Compile Include="..\..\..\WebSites\MyAndromeda-dev-1.x\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Comparer\StoreComparer.cs" />
@@ -511,15 +511,15 @@
       <Project>{d9959d2f-2016-4355-bc22-061ea8a5e267}</Project>
       <Name>AndroCloudHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Core\MyAndromeda.Core.csproj">
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Core\MyAndromeda.Core.csproj">
       <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
       <Name>MyAndromeda.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Logging\MyAndromeda.Logging.csproj">
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Logging\MyAndromeda.Logging.csproj">
       <Project>{865B78BD-51B5-4B1D-9BC7-CFB814EBE1EE}</Project>
       <Name>MyAndromeda.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
       <Project>{2F4679FC-4B16-4B28-BA25-2223C597DF32}</Project>
       <Name>MyAndromeda.Storage</Name>
     </ProjectReference>
