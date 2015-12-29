@@ -33,8 +33,9 @@ namespace DataWarehouseDataAccess.Domain
         public bool Cancelled { get; set; }
         public int Status { get; set; }
         public int ACSErrorCodeNumber { get; set; }
-        public int IsFailed { get { return ACSErrorCodeNumber != 0 ? 1 : 0; } }
-        public int IsSuccess { get { return ACSErrorCodeNumber == 0 ? 1 : 0; } }
+        public int IsFailed { get { return (ACSErrorCodeNumber != 0 && Status != 6) ? 1 : 0; } }
+        public int IsSuccess { get { return (ACSErrorCodeNumber == 0 && Status != 6) ? 1 : 0; } }
+        public int IsCancelled { get { return Status == 6 ? 1 : 0; } }
         public string DestinationDevice { get; set; }
         public Nullable<System.Guid> CustomerAddressID { get; set; }
         public string ACSServer { get; set; }
