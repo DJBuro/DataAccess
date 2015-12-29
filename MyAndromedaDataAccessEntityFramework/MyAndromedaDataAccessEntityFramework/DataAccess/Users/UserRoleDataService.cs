@@ -84,6 +84,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 var allRoles = table.ToArray();
                 var user = dbContext.UserRecords.Single(e=> e.Id == userId);
 
+                user.Roles.Clear();
+                dbContext.SaveChanges();
+
                 foreach (var userRole in userRoles) 
                 {
                     var role = allRoles.Single(e => e.Id == userRole.Id);
