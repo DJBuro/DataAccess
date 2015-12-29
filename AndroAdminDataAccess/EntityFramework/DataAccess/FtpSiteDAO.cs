@@ -45,7 +45,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.FTPSite ftpSite)
         {
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -66,8 +65,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         }
 
         public void Update(Domain.FTPSite ftpSite)
-        {
-             
+        {    
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

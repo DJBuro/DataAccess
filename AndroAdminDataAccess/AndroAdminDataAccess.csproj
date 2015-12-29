@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
     <Compile Include="DataAccess\ISettingsDAO.cs" />
     <Compile Include="DataAccess\ICountryDAO.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
     <Compile Include="Domain\StoreListItem.cs" />
     <Compile Include="Domain\Country.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
     <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\CountryDAO.cs" />
@@ -197,9 +200,6 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreAMSServerFtpSite.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreAMSServerFTPSitePair.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreGroup.cs">

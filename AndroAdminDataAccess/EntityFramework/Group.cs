@@ -26,8 +26,8 @@ namespace AndroAdminDataAccess.EntityFramework
         public Nullable<System.DateTime> LastUpdated { get; set; }
         public string ExternalId { get; set; }
     
-        public virtual Partner Partner { get; set; }
         public virtual ICollection<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
         public virtual ICollection<StoreGroup> StoreGroups { get; set; }
+        public virtual Partner Partner { get; set; }
     }
 }

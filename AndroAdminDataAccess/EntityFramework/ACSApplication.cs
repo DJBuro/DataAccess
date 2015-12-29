@@ -26,7 +26,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public int PartnerId { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual Partner Partner { get; set; }
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
+        public virtual Partner Partner { get; set; }
     }
 }
