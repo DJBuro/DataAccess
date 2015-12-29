@@ -16,13 +16,14 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     {
         public OrderStatu()
         {
+            this.OrderHeaders = new HashSet<OrderHeader>();
             this.OrderStatusHistories = new HashSet<OrderStatusHistory>();
         }
     
-        public System.Guid Id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
-        public int RamesesStatusId { get; set; }
     
+        public virtual ICollection<OrderHeader> OrderHeaders { get; set; }
         public virtual ICollection<OrderStatusHistory> OrderStatusHistories { get; set; }
     }
 }

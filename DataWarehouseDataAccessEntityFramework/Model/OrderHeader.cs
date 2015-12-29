@@ -16,7 +16,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     {
         public OrderHeader()
         {
-            this.OrderStatusHistories = new HashSet<OrderStatusHistory>();
             this.OrderLines = new HashSet<OrderLine>();
             this.OrderLines1 = new HashSet<OrderLine>();
         }
@@ -43,10 +42,9 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string PartnerName { get; set; }
         public bool Cancelled { get; set; }
         public int Status { get; set; }
-        public Nullable<System.Guid> StatusId { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual ICollection<OrderStatusHistory> OrderStatusHistories { get; set; }
+        public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
         public virtual ICollection<OrderLine> OrderLines1 { get; set; }
     }

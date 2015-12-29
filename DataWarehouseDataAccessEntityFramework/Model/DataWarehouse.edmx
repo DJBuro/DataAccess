@@ -20,14 +20,6 @@
           <EntitySet Name="OrderStatus" EntityType="DataWarehouseModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderStatusHistory" EntityType="DataWarehouseModel.Store.OrderStatusHistory" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PasswordResetRequest" EntityType="DataWarehouseModel.Store.PasswordResetRequest" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__OrderStat__Order__71D1E811" Association="DataWarehouseModel.Store.FK__OrderStat__Order__71D1E811">
-            <End Role="OrderStatus" EntitySet="OrderStatus" />
-            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistory" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OrderStat__Order__73BA3083" Association="DataWarehouseModel.Store.FK__OrderStat__Order__73BA3083">
-            <End Role="OrderHeader" EntitySet="OrderHeader" />
-            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistory" />
-          </AssociationSet>
           <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.Store.FK_Address_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
@@ -68,9 +60,17 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="OrderHeader" EntitySet="OrderHeader" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderHeader_OrderStatus" Association="DataWarehouseModel.Store.FK_OrderHeader_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderLines_OrderHeader" Association="DataWarehouseModel.Store.FK_OrderLines_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeader" />
             <End Role="OrderLines" EntitySet="OrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="DataWarehouseModel.Store.FK_OrderStatusHistory_OrderStatus">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistory" />
           </AssociationSet>
           <AssociationSet Name="fk_passwordresetrequest_customer" Association="DataWarehouseModel.Store.fk_passwordresetrequest_customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -225,7 +225,6 @@
           <Property Name="PartnerName" Type="nvarchar" MaxLength="64" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="StatusId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -242,17 +241,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="RamesesStatusId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderStatusHistory">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderHeaderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
           <Key>
@@ -263,30 +261,6 @@
           <Property Name="Token" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <Association Name="FK__OrderStat__Order__71D1E811">
-          <End Role="OrderStatus" Type="DataWarehouseModel.Store.OrderStatus" Multiplicity="1" />
-          <End Role="OrderStatusHistory" Type="DataWarehouseModel.Store.OrderStatusHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderStatusHistory">
-              <PropertyRef Name="OrderStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OrderStat__Order__73BA3083">
-          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="1" />
-          <End Role="OrderStatusHistory" Type="DataWarehouseModel.Store.OrderStatusHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderStatusHistory">
-              <PropertyRef Name="OrderHeaderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Address_Country">
           <End Role="Country" Type="DataWarehouseModel.Store.Country" Multiplicity="1" />
           <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="*" />
@@ -409,6 +383,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderHeader_OrderStatus">
+          <End Role="OrderStatus" Type="DataWarehouseModel.Store.OrderStatus" Multiplicity="1" />
+          <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderLines_OrderHeader">
           <End Role="OrderHeader" Type="DataWarehouseModel.Store.OrderHeader" Multiplicity="0..1" />
           <End Role="OrderLines" Type="DataWarehouseModel.Store.OrderLines" Multiplicity="*" />
@@ -418,6 +404,18 @@
             </Principal>
             <Dependent Role="OrderLines">
               <PropertyRef Name="OrderHeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderStatusHistory_OrderStatus">
+          <End Role="OrderStatus" Type="DataWarehouseModel.Store.OrderStatus" Multiplicity="1" />
+          <End Role="OrderStatusHistory" Type="DataWarehouseModel.Store.OrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderStatusHistory">
+              <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -510,9 +508,9 @@
             <End Role="OrderLine" EntitySet="OrderLines" />
             <End Role="modifier" EntitySet="modifiers" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderStat__Order__73BA3083" Association="DataWarehouseModel.FK__OrderStat__Order__73BA3083">
+          <AssociationSet Name="FK_OrderHeader_OrderStatus" Association="DataWarehouseModel.FK_OrderHeader_OrderStatus">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
-            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderLines_OrderHeader" Association="DataWarehouseModel.FK_OrderLines_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
@@ -522,7 +520,7 @@
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderLine" EntitySet="OrderLines" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderStat__Order__71D1E811" Association="DataWarehouseModel.FK__OrderStat__Order__71D1E811">
+          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus">
             <End Role="OrderStatu" EntitySet="OrderStatus" />
             <End Role="OrderStatusHistory" EntitySet="OrderStatusHistories" />
           </AssociationSet>
@@ -686,9 +684,8 @@
           <Property Type="String" Name="PartnerName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Cancelled" Nullable="false" />
           <Property Type="Int32" Name="Status" Nullable="false" />
-          <Property Type="Guid" Name="StatusId" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="OrderHeader" ToRole="Customer" />
-          <NavigationProperty Name="OrderStatusHistories" Relationship="DataWarehouseModel.FK__OrderStat__Order__73BA3083" FromRole="OrderHeader" ToRole="OrderStatusHistory" />
+          <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderHeader" ToRole="OrderStatu" />
           <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
           <NavigationProperty Name="OrderLines1" Relationship="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" FromRole="OrderHeader" ToRole="OrderLine" />
         </EntityType>
@@ -711,20 +708,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="RamesesStatusId" Nullable="false" />
-          <NavigationProperty Name="OrderStatusHistories" Relationship="DataWarehouseModel.FK__OrderStat__Order__71D1E811" FromRole="OrderStatu" ToRole="OrderStatusHistory" />
+          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderStatu" ToRole="OrderHeader" />
+          <NavigationProperty Name="OrderStatusHistories" Relationship="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" FromRole="OrderStatu" ToRole="OrderStatusHistory" />
         </EntityType>
         <EntityType Name="OrderStatusHistory">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Guid" Name="OrderStatusId" Nullable="false" />
           <Property Type="Guid" Name="OrderHeaderId" Nullable="false" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK__OrderStat__Order__73BA3083" FromRole="OrderStatusHistory" ToRole="OrderHeader" />
-          <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK__OrderStat__Order__71D1E811" FromRole="OrderStatusHistory" ToRole="OrderStatu" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" FromRole="OrderStatusHistory" ToRole="OrderStatu" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
           <Key>
@@ -870,15 +866,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderStat__Order__73BA3083">
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
-          <End Type="DataWarehouseModel.OrderStatusHistory" Role="OrderStatusHistory" Multiplicity="*" />
+        <Association Name="FK_OrderHeader_OrderStatus">
+          <End Type="DataWarehouseModel.OrderStatu" Role="OrderStatu" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OrderStatusHistory">
-              <PropertyRef Name="OrderHeaderId" />
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -908,7 +904,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderStat__Order__71D1E811">
+        <Association Name="FK_OrderStatusHistory_OrderStatus">
           <End Type="DataWarehouseModel.OrderStatu" Role="OrderStatu" Multiplicity="1" />
           <End Type="DataWarehouseModel.OrderStatusHistory" Role="OrderStatusHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -916,7 +912,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderStatusHistory">
-              <PropertyRef Name="OrderStatusId" />
+              <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1053,7 +1049,6 @@
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="PartnerName" ColumnName="PartnerName" />
@@ -1094,7 +1089,6 @@
           <EntitySetMapping Name="OrderStatus">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderStatu">
               <MappingFragment StoreEntitySet="OrderStatus">
-                <ScalarProperty Name="RamesesStatusId" ColumnName="RamesesStatusId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1103,8 +1097,8 @@
           <EntitySetMapping Name="OrderStatusHistories">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderStatusHistory">
               <MappingFragment StoreEntitySet="OrderStatusHistory">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OrderHeaderId" ColumnName="OrderHeaderId" />
-                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

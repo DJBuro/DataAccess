@@ -15,10 +15,9 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     public partial class OrderStatusHistory
     {
         public System.Guid Id { get; set; }
-        public System.Guid OrderStatusId { get; set; }
         public System.Guid OrderHeaderId { get; set; }
+        public int Status { get; set; }
     
-        public virtual OrderHeader OrderHeader { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
     }
 }
