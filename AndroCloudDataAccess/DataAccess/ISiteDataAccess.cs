@@ -20,6 +20,8 @@ namespace AndroCloudDataAccess.DataAccess
             DataTypeEnum dataType,
             out List<Site> sites);
 
+        string GetById(Guid siteId, out AndroCloudDataAccess.Domain.Site site);
+
         string GetByExternalSiteId(string externalSiteId, out Site site);
 
         string GetByAndromedaSiteIdAndLive(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site);
