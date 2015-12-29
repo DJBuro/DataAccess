@@ -32,13 +32,26 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// <value>The surname.</value>
         public string Surname { get; set; }
 
+        public string Email { get { return this.GetEmail(); } }
+
         /// <summary>
         /// Gets or sets the contact details.
         /// </summary>
         /// <value>The contact details.</value>
         public ICollection<Contact> ContactDetails { get; set; }
-
     }
+
+    public static class CustomerExtensions
+    {
+        public static string GetEmail(this Customer customer) 
+        {
+            var contactDetail = customer.ContactDetails.FirstOrDefault(e => e.ContactType == ContactType.Email);
+
+            return contactDetail == null ? string.Empty : contactDetail.Value;
+        }
+    }
+
+
 
     public class Contact 
     {

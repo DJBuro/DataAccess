@@ -31,10 +31,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         public IEnumerable<Customer> ListBySite(int siteId)
         {
             IList<int> acsApplicationIds; 
-
             using (var androAdminContext = new Model.AndroAdmin.AndroAdminDbContext()) 
             {
-                acsApplicationIds = androAdminContext.Stores.GetApplication(siteId).Select(e=> e.Id).ToList();
+                acsApplicationIds = androAdminContext.Stores.GetAcsApplications(siteId).Select(e=> e.Id).ToList();
             }
 
             var customers = ListByApplicaitonIds(acsApplicationIds);

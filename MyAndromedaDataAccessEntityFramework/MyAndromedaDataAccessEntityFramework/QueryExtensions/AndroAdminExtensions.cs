@@ -11,7 +11,7 @@ namespace MyAndromedaDataAccessEntityFramework.QueryExtensions
 {
     public static class AndroAdminExtensions
     {
-        public static IQueryable<Model.AndroAdmin.ACSApplication> GetApplication(this DbSet<Store> Store, int storeId) 
+        public static IQueryable<Model.AndroAdmin.ACSApplication> GetAcsApplications(this DbSet<Store> Store, int storeId) 
         {
             return Store.Where(e => e.Id == storeId).SelectMany(e => e.ACSApplicationSites.Select(appplicationSite => appplicationSite.ACSApplication));
         }
