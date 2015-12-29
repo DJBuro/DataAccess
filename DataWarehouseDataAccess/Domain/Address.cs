@@ -87,6 +87,10 @@ namespace DataWarehouseDataAccess.Domain
         [JsonProperty(PropertyName = "locality")]
         public string Locality { get; set;}
 
+        [StringLength(255, ErrorMessage = "Directions cannot be longer than 64 characters.")]
+        [JsonProperty(PropertyName = "directions")]
+        public string Directions { get; set; }
+
         [JsonProperty(PropertyName = "country")]
         public string Country { get; set; }
     }
