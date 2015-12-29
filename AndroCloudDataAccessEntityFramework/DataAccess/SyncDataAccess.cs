@@ -348,6 +348,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     //TODO ERROR??
                 }
 
+                // Update the address
                 if (addressEntity == null)
                 {
                     // No address - we need to create one
@@ -402,6 +403,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     addressEntity.Town = store.Address.Town;
                 }
 
+                // Update the payment provider
                 int? storePaymentProviderId = null;
                 int storePaymentProviderIdTemp = 0;
                 if (store.StorePaymentProviderId != null && int.TryParse(store.StorePaymentProviderId, out storePaymentProviderIdTemp))
@@ -409,6 +411,24 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     storePaymentProviderId = storePaymentProviderIdTemp;
                 }
 
+                // Remove all opening hours
+                if (siteEntity.OpeningHours != null)
+                {
+                    // Get the opening hours to delete
+                    List<OpeningHour> openingHoursToDelete = new List<OpeningHour>();
+                    foreach (OpeningHour openingHour in siteEntity.OpeningHours)
+                    {
+                        openingHoursToDelete.Add(openingHour);
+                    }
+
+                    // Delete the opening hours
+                    foreach (OpeningHour openingHour in openingHoursToDelete)
+                    {
+                        acsEntities.OpeningHours.Remove(openingHour);
+                    }
+                }
+
+                // Update the site details
                 siteEntity.AndroID = store.AndromedaSiteId;
                 siteEntity.EstimatedDeliveryTime = null;
                 siteEntity.ExternalId = store.ExternalSiteId;
@@ -420,6 +440,45 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.TimeZone = store.TimeZone;
                 siteEntity.StorePaymentProviderId = storePaymentProviderId;
 
+                // Commit the first lot of changes
+                acsEntities.SaveChanges();
+
+                // Add the correct opening hours back in
+                foreach (CloudSyncModel.TimeSpanBlock timeSpanBlock in store.OpeningHours)
+                {
+                    // Get the day
+                    var daysQuery = from d in acsEntities.Days
+                                    where d.Description == timeSpanBlock.Day
+                                    select d;
+
+                    Day dayEntity = daysQuery.FirstOrDefault();
+
+                    // Take the textual representation of the start and end time and split them into seperate times
+                    TimeSpan startTimeSpan = new TimeSpan();
+                    TimeSpan endTimeSpan = new TimeSpan();
+
+                    if (!timeSpanBlock.OpenAllDay)
+                    {
+                        string[] startTimeBits = timeSpanBlock.StartTime.Split(':');
+                        startTimeSpan = new TimeSpan(int.Parse(startTimeBits[0]), int.Parse(startTimeBits[1]), 0);
+                        string[] endTimeBits = timeSpanBlock.EndTime.Split(':');
+                        endTimeSpan = new TimeSpan(int.Parse(endTimeBits[0]), int.Parse(endTimeBits[1]), 0);
+                    }
+
+                    // Create an object we can add
+                    Model.OpeningHour openingHour = new Model.OpeningHour();
+                    openingHour.Day = dayEntity;
+                    openingHour.OpenAllDay = timeSpanBlock.OpenAllDay;
+                    openingHour.SiteID = siteEntity.ID;
+                    openingHour.TimeStart = startTimeSpan;
+                    openingHour.TimeEnd = endTimeSpan;
+                    openingHour.ID = Guid.NewGuid();
+
+                    // Add the opening times
+                    acsEntities.OpeningHours.Add(openingHour);
+                }
+
+                // Commit the first lot of changes
                 acsEntities.SaveChanges();
             }
         }

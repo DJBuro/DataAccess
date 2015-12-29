@@ -870,6 +870,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         }
                     }
 
+                    // Opening hours
+                    model.OpeningHours = new List<TimeSpanBlock>();
+                    if (entity.OpeningHours != null)
+                    {
+                        foreach (OpeningHour openingHour in entity.OpeningHours)
+                        {
+                            TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                            timeSpanBlock.Id = openingHour.Id;
+                            timeSpanBlock.Day = openingHour.Day.Description;
+                            timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                            timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
+                            timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+
+                            model.OpeningHours.Add(timeSpanBlock);
+                        }
+                    }
+
                     models.Add(model);
                 }
             }
@@ -957,6 +974,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                     ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
                                 }
                             };
+                        }
+                    }
+
+                    // Opening hours
+                    model.OpeningHours = new List<TimeSpanBlock>();
+                    if (entity.OpeningHours != null)
+                    {
+                        foreach (OpeningHour openingHour in entity.OpeningHours)
+                        {
+                            TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                            timeSpanBlock.Id = openingHour.Id;
+                            timeSpanBlock.Day = openingHour.Day.Description;
+                            timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                            timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
+                            timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+
+                            model.OpeningHours.Add(timeSpanBlock);
                         }
                     }
 

@@ -21,7 +21,26 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                 var query = from oh in entitiesContext.OpeningHours
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                entitiesContext.Database.Connection.Open();
+
+                // Get the next data version (see comments inside the function)
+                int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
+                // Get the store that needs to be updated
+                var storeQuery = from s in entitiesContext.Stores
+                                 where siteId == s.Id
+                                 select s;
+
+                Store storeEntity = storeQuery.FirstOrDefault();
+
+                if (storeEntity == null)
+                {
+                    return "Unknown store"; 
+                }
+
+                var query = from oh in entitiesContext.OpeningHours
                                        join s in entitiesContext.Stores
                                          on oh.SiteId equals s.Id
                                        where s.Id == siteId
@@ -32,7 +51,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
+                    // Increment the version of the store data
+                    storeEntity.DataVersion = newVersion;
+
+                    // Remove the opening hour
                     entitiesContext.OpeningHours.Remove(entity);
+
+                    // Done
                     entitiesContext.SaveChanges();
                 }
             }
@@ -50,6 +75,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                entitiesContext.Database.Connection.Open();
+
+                // Get the next data version (see comments inside the function)
+                int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
+                // Get the store that needs to be updated
+                var storeQuery = from s in entitiesContext.Stores
+                                 where siteId == s.Id
+                                 select s;
+
+                Store storeEntity = storeQuery.FirstOrDefault();
+
+                if (storeEntity == null)
+                {
+                    return "Unknown store";
+                }
+
                 var query = from oh in entitiesContext.OpeningHours
                                        join s in entitiesContext.Stores
                                          on oh.SiteId equals s.Id
@@ -61,7 +105,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
+                    // Increment the version of the store data
+                    storeEntity.DataVersion = newVersion;
+
+                    // Remove the opening hour
                     entitiesContext.OpeningHours.Remove(entity);
+
+                    // Done
                     entitiesContext.SaveChanges();
                 }
             }
@@ -79,6 +129,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                entitiesContext.Database.Connection.Open();
+
+                // Get the next data version (see comments inside the function)
+                int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
                 // Get the store
                 var storeQuery = from s in entitiesContext.Stores
                                            where s.Id == siteId
@@ -125,6 +182,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 // Add the opening times
                 entitiesContext.OpeningHours.Add(openingHour);
+
+                // Increment the version of the store data
+                storeEntity.DataVersion = newVersion;
+
+                // Done
                 entitiesContext.SaveChanges();
             }
 
