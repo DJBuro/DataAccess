@@ -12,7 +12,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public string Get(string externalApplicationId, out AndroCloudDataAccess.Domain.ACSApplication acsApplication)
+        public string GetByExternalId(string externalApplicationId, out AndroCloudDataAccess.Domain.ACSApplication acsApplication)
         {
             acsApplication = null;
 
