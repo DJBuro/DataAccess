@@ -41,7 +41,6 @@
         <EntityTypeShape EntityType="AndroAdminModel.StoreDevice" Width="1.5" PointX="8.25" PointY="14.625" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreHostV2ApiCredentials" Width="1.5" PointX="11.25" PointY="21.875" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreHubReset" Width="1.5" PointX="8.25" PointY="36.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreHub" Width="1.5" PointX="8.25" PointY="39.5" />
         <AssociationConnector Association="AndroAdminModel.FK_Devices_ExternalApi" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreTypes_StoreType" />
         <AssociationConnector Association="AndroAdminModel.FK_HostV2_HostTypes" />
@@ -52,6 +51,8 @@
         <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="1.5" PointY="31.75" />
         <AssociationConnector Association="AndroAdminModel.FK_Address_Country" />
         <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="3" PointY="24.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.DeliveryArea" Width="1.5" PointX="6.6029610198936242" PointY="17.899414860596607" />
+        <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="8.0850503072538658" PointY="3.5438540147356008" />
         </Diagram>
       <Diagram DiagramId="c938ca2b9f614ef687c67228383e368e" Name="Menu" >
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="7.125" PointY="2.375" />
