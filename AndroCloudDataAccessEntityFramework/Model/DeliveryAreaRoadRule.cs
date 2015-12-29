@@ -12,17 +12,16 @@ namespace AndroCloudDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Partner
+    public partial class DeliveryAreaRoadRule
     {
-        public Partner()
+        public DeliveryAreaRoadRule()
         {
-            this.ACSApplications = new HashSet<ACSApplication>();
+            this.DeliveryAreaRoads = new HashSet<DeliveryAreaRoad>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string ExternalId { get; set; }
+        public string Rule { get; set; }
     
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
+        public virtual ICollection<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
     }
 }

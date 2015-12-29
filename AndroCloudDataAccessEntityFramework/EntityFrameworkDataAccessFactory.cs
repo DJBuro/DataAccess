@@ -71,9 +71,22 @@ namespace AndroCloudDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public AndroCloudDataAccess.DataAccess.IDeliveryZoneDataAccess DeliveryZoneDataAccess
+        public AndroCloudDataAccess.DataAccess.IDeliveryAreaDataAccess DeliveryZoneDataAccess
         {
             get { return new DeliveryZoneDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
+
+
+        public AndroCloudDataAccess.DataAccess.IDeliveryAreaTownDataAccess DeliveryAreaTownDataAccess
+        {
+            get { return new DeliveryZoneTownsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public AndroCloudDataAccess.DataAccess.IDeliveryAreaRoadDataAccess DeliveryAreaRoadDataAccess
+        {
+            get { return new DeliveryZoneRoadsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
     }

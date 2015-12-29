@@ -112,6 +112,8 @@
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\ACSApplicationDataAccess.cs" />
+    <Compile Include="DataAccess\DeliveryZoneRoadsDataAccess.cs" />
+    <Compile Include="DataAccess\DeliveryZoneTownsDataAccess.cs" />
     <Compile Include="DataAccess\DeliveryZoneDataAccess.cs" />
     <Compile Include="DataAccess\HubDataAccess.cs" />
     <Compile Include="DataAccess\SiteHubDataAccess.cs" />
@@ -158,9 +160,6 @@
     <Compile Include="Model\Address.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\address_vw.cs">
-      <DependentUpon>ACSEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Audit.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
@@ -171,6 +170,15 @@
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DeliveryArea.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DeliveryAreaRoad.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DeliveryAreaRoadRule.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DeliveryAreaTown.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Host.cs">
@@ -192,9 +200,6 @@
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderStatu.cs">
-      <DependentUpon>ACSEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\orders_vw.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Partner.cs">

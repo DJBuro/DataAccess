@@ -18,6 +18,8 @@ namespace AndroCloudDataAccess
         IAddressDataAccess AddressDataAccess { get; set; }
         IACSApplicationDataAccess AcsApplicationDataAccess { get; set; }
         ISettingsDataAccess SettingsDataAccess { get; set; }
-        IDeliveryZoneDataAccess DeliveryZoneDataAccess { get; set; }
+        IDeliveryAreaDataAccess DeliveryZoneDataAccess { get; set; }
+        IDeliveryAreaTownDataAccess DeliveryAreaTownDataAccess { get; set; }
+        IDeliveryAreaRoadDataAccess DeliveryAreaRoadDataAccess { get; set; }
     }
 }
