@@ -110,9 +110,12 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
           <Property Name="SubscriptionTypeId" Type="int" Nullable="false" />
           <Property Name="URL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="1000" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="Settings" Type="nvarchar(max)" />
+          <Property Name="PreviewSettings" Type="nvarchar(max)" />
+          <Property Name="ThemeId" Type="int" />
         </EntityType>
         <EntityType Name="Chain">
           <Key>
@@ -594,6 +597,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="AndroWebOrderingWebsite">
               <PropertyRef Name="SubscriptionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+          <End Role="AndroWebOrderingTheme" Type="Self.AndroWebOrderingTheme" Multiplicity="0..1" />
+          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingTheme">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ThemeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1097,6 +1112,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="AndroWebOrderingSubscriptionType" EntitySet="AndroWebOrderingSubscriptionType" />
             <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
           </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" Association="Self.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+            <End Role="AndroWebOrderingTheme" EntitySet="AndroWebOrderingTheme" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
+          </AssociationSet>
           <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="Self.FK_AndroWebOrderingWebsite_Chain">
             <End Role="Chain" EntitySet="Chain" />
             <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
@@ -1426,6 +1445,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
           </AssociationSet>
           <EntitySet Name="AndroWebOrderingThemes" EntityType="AndroAdminModel.AndroWebOrderingTheme" />
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+            <End Role="AndroWebOrderingTheme" EntitySet="AndroWebOrderingThemes" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
           <Key>
@@ -2328,6 +2351,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
           <Property Name="Settings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PreviewDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ThemeId" Type="Int32" />
+          <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
         </EntityType>
         <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
@@ -2376,7 +2403,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="InternalName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingTheme" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+          <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingTheme">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ThemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2848,6 +2888,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="AndroWebOrderingWebsites">
             <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
               <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
+                <ScalarProperty Name="ThemeId" ColumnName="ThemeId" />
+                <ScalarProperty Name="PreviewSettings" ColumnName="PreviewSettings" />
+                <ScalarProperty Name="PreviewDomainName" ColumnName="PreviewDomainName" />
                 <ScalarProperty Name="Settings" ColumnName="Settings" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />

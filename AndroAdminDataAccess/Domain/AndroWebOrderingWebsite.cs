@@ -25,7 +25,7 @@ namespace AndroAdminDataAccess.Domain
         public string DisabledReason { set; get; }
         public int SubscriptionTypeId { set; get; }
         public string SubscriptionName { set; get; }
-        public string URL { set; get; }
+        public string LiveDomainName { set; get; } // to be changed to LiveDomainName
         public int ACSApplicationId { set; get; }
         public int DataVersion { set; get; }
         public ACSApplication ACSApplication { set; get; }
@@ -35,7 +35,10 @@ namespace AndroAdminDataAccess.Domain
         public string StoresCount { set; get; }
         public IList<AndroWebOrderingSubscriptionType> SubscriptionsList { set; get; }
         public string UpdatedMappedStoreIds { set; get; }
+
+        public string Settings { get; set; }
+        public string PreviewSettings { get; set; }
+        public string PreviewDomainName { get; set; }
+        public int? ThemeId { get; set; }
     }
-
-
 }

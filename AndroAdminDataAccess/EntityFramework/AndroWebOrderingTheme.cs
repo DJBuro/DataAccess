@@ -14,6 +14,11 @@ namespace AndroAdminDataAccess.EntityFramework
     
     public partial class AndroWebOrderingTheme
     {
+        public AndroWebOrderingTheme()
+        {
+            this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
+        }
+    
         public int Id { get; set; }
         public string Source { get; set; }
         public int Height { get; set; }
@@ -21,5 +26,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public string FileName { get; set; }
         public string InternalName { get; set; }
         public string Description { get; set; }
+    
+        public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
     }
 }
