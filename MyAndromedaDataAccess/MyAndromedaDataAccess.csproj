@@ -67,6 +67,8 @@
     <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Country.cs" />
+    <Compile Include="Domain\DataWarehouse\ContactType.cs" />
+    <Compile Include="Domain\DataWarehouse\MarketingLevelType.cs" />
     <Compile Include="Domain\Employee.cs" />
     <Compile Include="Domain\Group.cs" />
     <Compile Include="Domain\Marketing\EmailCampaign.cs" />
@@ -97,6 +99,7 @@
       <Name>AndroCloudHelper</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

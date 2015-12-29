@@ -7,6 +7,7 @@ using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
 using AndroCloudHelper;
 using MyAndromedaDataAccessEntityFramework.Model;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -16,7 +17,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             models = new List<MyAndromedaDataAccess.Domain.Country>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Countries
                                  select s;

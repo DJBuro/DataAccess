@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MyAndromedaModelStoreContainer">
+          <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignAudit" EntityType="MyAndromedaModel.Store.EmailCampaignAudit" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.Store.EmailCampaignSentEmails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.Store.EmailCampaignSettings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.Store.EmailCampaignSites" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.Store.EmailCampaignTasks" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaign" />
+            <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignSentEmails_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignSentEmails_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaign" />
+            <End Role="EmailCampaignSentEmails" EntitySet="EmailCampaignSentEmails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignSites_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignSites_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaign" />
+            <End Role="EmailCampaignSites" EntitySet="EmailCampaignSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignTasks_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignTasks_EmailCampaign">
+            <End Role="EmailCampaignSettings" EntitySet="EmailCampaignSettings" />
+            <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignTasks_EmailCampaign1" Association="MyAndromedaModel.Store.FK_EmailCampaignTasks_EmailCampaign1">
+            <End Role="EmailCampaign" EntitySet="EmailCampaign" />
+            <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CustomerRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Surname" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Title" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="EmailCampaign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Reference" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="EmailTemplate" Type="text" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modified" Type="datetime" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+          <Property Name="ChainId" Type="int" Nullable="false" />
+          <Property Name="ChainOnly" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaignAudit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmailCampaignId" Type="int" Nullable="false" />
+          <Property Name="EditedByUserName" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="ActionOn" Type="datetime" Nullable="false" />
+          <Property Name="Message" Type="varchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSentEmails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="SendTo" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="SendFrom" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="Message" Type="text" Nullable="false" />
+          <Property Name="EmailCampaignId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Port" Type="int" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="FromEmail" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="SSL" Type="bit" Nullable="false" />
+          <Property Name="ChainId" Type="int" />
+          <Property Name="SiteId" Type="int" />
+          <Property Name="DropFolder" Type="varchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSites">
+          <Key>
+            <PropertyRef Name="EmailCampaignId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="EmailCampaignId" Type="int" Nullable="false" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="Editable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaignTasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmailCampaignId" Type="int" Nullable="false" />
+          <Property Name="Started" Type="bit" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="EmailCampaignSettingsId" Type="int" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="datetime" Nullable="false" />
+          <Property Name="RunLaterOnUtc" Type="datetime" />
+          <Property Name="RanAtUtc" Type="datetime" />
+          <Property Name="RetryAfter" Type="datetime" />
+          <Property Name="Canceled" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmailCampaignAudit_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignAudit" Type="MyAndromedaModel.Store.EmailCampaignAudit" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignAudit">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignSentEmails_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignSentEmails" Type="MyAndromedaModel.Store.EmailCampaignSentEmails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignSentEmails">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignSites_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignSites" Type="MyAndromedaModel.Store.EmailCampaignSites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignSites">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignTasks_EmailCampaign">
+          <End Role="EmailCampaignSettings" Type="MyAndromedaModel.Store.EmailCampaignSettings" Multiplicity="1" />
+          <End Role="EmailCampaignTasks" Type="MyAndromedaModel.Store.EmailCampaignTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaignSettings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignTasks">
+              <PropertyRef Name="EmailCampaignSettingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignTasks_EmailCampaign1">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignTasks" Type="MyAndromedaModel.Store.EmailCampaignTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignTasks">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyAndromedaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyAndromedaDbContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerRecords" EntityType="MyAndromedaModel.CustomerRecord" />
+          <EntitySet Name="EmailCampaigns" EntityType="MyAndromedaModel.EmailCampaign" />
+          <EntitySet Name="EmailCampaignAudits" EntityType="MyAndromedaModel.EmailCampaignAudit" />
+          <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.EmailCampaignSentEmail" />
+          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.EmailCampaignSetting" />
+          <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.EmailCampaignSite" />
+          <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.EmailCampaignTask" />
+          <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaigns" />
+            <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignSentEmails_EmailCampaign" Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaigns" />
+            <End Role="EmailCampaignSentEmails" EntitySet="EmailCampaignSentEmails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignSites_EmailCampaign" Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign">
+            <End Role="EmailCampaign" EntitySet="EmailCampaigns" />
+            <End Role="EmailCampaignSites" EntitySet="EmailCampaignSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignTasks_EmailCampaign1" Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1">
+            <End Role="EmailCampaign" EntitySet="EmailCampaigns" />
+            <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailCampaignTasks_EmailCampaign" Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign">
+            <End Role="EmailCampaignSettings" EntitySet="EmailCampaignSettings" />
+            <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CustomerRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Reference" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="EmailTemplate" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <Property Name="ChainId" Type="Int32" Nullable="false" />
+          <Property Name="ChainOnly" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmailCampaignAudit" Relationship="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" FromRole="EmailCampaign" ToRole="EmailCampaignAudit" />
+          <NavigationProperty Name="EmailCampaignSentEmails" Relationship="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" FromRole="EmailCampaign" ToRole="EmailCampaignSentEmails" />
+          <NavigationProperty Name="EmailCampaignSites" Relationship="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" FromRole="EmailCampaign" ToRole="EmailCampaignSites" />
+          <NavigationProperty Name="EmailCampaignTasks" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" FromRole="EmailCampaign" ToRole="EmailCampaignTasks" />
+        </EntityType>
+        <EntityType Name="EmailCampaignAudit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailCampaignId" Type="Int32" Nullable="false" />
+          <Property Name="EditedByUserName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="ActionOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" FromRole="EmailCampaignAudit" ToRole="EmailCampaign" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSentEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="SendTo" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="SendFrom" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="EmailCampaignId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" FromRole="EmailCampaignSentEmails" ToRole="EmailCampaign" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Port" Type="Int32" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="FromEmail" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="SSL" Type="Boolean" Nullable="false" />
+          <Property Name="ChainId" Type="Int32" />
+          <Property Name="SiteId" Type="Int32" />
+          <Property Name="DropFolder" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="EmailCampaignTasks" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" FromRole="EmailCampaignSettings" ToRole="EmailCampaignTasks" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSite">
+          <Key>
+            <PropertyRef Name="EmailCampaignId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="EmailCampaignId" Type="Int32" Nullable="false" />
+          <Property Name="SiteId" Type="Int32" Nullable="false" />
+          <Property Name="Editable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" FromRole="EmailCampaignSites" ToRole="EmailCampaign" />
+        </EntityType>
+        <EntityType Name="EmailCampaignTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailCampaignId" Type="Int32" Nullable="false" />
+          <Property Name="Started" Type="Boolean" Nullable="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="EmailCampaignSettingsId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RunLaterOnUtc" Type="DateTime" Precision="3" />
+          <Property Name="RanAtUtc" Type="DateTime" Precision="3" />
+          <Property Name="RetryAfter" Type="DateTime" Precision="3" />
+          <Property Name="Canceled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" FromRole="EmailCampaignTasks" ToRole="EmailCampaign" />
+          <NavigationProperty Name="EmailCampaignSetting" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" FromRole="EmailCampaignTasks" ToRole="EmailCampaignSettings" />
+        </EntityType>
+        <Association Name="FK_EmailCampaignAudit_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignAudit" Type="MyAndromedaModel.EmailCampaignAudit" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignAudit">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignSentEmails_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignSentEmails" Type="MyAndromedaModel.EmailCampaignSentEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignSentEmails">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignSites_EmailCampaign">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignSites" Type="MyAndromedaModel.EmailCampaignSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignSites">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignTasks_EmailCampaign1">
+          <End Role="EmailCampaign" Type="MyAndromedaModel.EmailCampaign" Multiplicity="1" />
+          <End Role="EmailCampaignTasks" Type="MyAndromedaModel.EmailCampaignTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaign">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignTasks">
+              <PropertyRef Name="EmailCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailCampaignTasks_EmailCampaign">
+          <End Role="EmailCampaignSettings" Type="MyAndromedaModel.EmailCampaignSetting" Multiplicity="1" />
+          <End Role="EmailCampaignTasks" Type="MyAndromedaModel.EmailCampaignTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailCampaignSettings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailCampaignTasks">
+              <PropertyRef Name="EmailCampaignSettingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyAndromedaModelStoreContainer" CdmEntityContainer="MyAndromedaDbContext">
+          <EntitySetMapping Name="CustomerRecords">
+            <EntityTypeMapping TypeName="MyAndromedaModel.CustomerRecord">
+              <MappingFragment StoreEntitySet="CustomerRecord">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaigns">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaign">
+              <MappingFragment StoreEntitySet="EmailCampaign">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="EmailTemplate" ColumnName="EmailTemplate" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="ChainOnly" ColumnName="ChainOnly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignAudits">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignAudit">
+              <MappingFragment StoreEntitySet="EmailCampaignAudit">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
+                <ScalarProperty Name="EditedByUserName" ColumnName="EditedByUserName" />
+                <ScalarProperty Name="ActionOn" ColumnName="ActionOn" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignSentEmails">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignSentEmail">
+              <MappingFragment StoreEntitySet="EmailCampaignSentEmails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="SendTo" ColumnName="SendTo" />
+                <ScalarProperty Name="SendFrom" ColumnName="SendFrom" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignSettings">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignSetting">
+              <MappingFragment StoreEntitySet="EmailCampaignSettings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
+                <ScalarProperty Name="SSL" ColumnName="SSL" />
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="DropFolder" ColumnName="DropFolder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignSites">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignSite">
+              <MappingFragment StoreEntitySet="EmailCampaignSites">
+                <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Editable" ColumnName="Editable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignTasks">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignTask">
+              <MappingFragment StoreEntitySet="EmailCampaignTasks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
+                <ScalarProperty Name="Started" ColumnName="Started" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="EmailCampaignSettingsId" ColumnName="EmailCampaignSettingsId" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="RunLaterOnUtc" ColumnName="RunLaterOnUtc" />
+                <ScalarProperty Name="RanAtUtc" ColumnName="RanAtUtc" />
+                <ScalarProperty Name="RetryAfter" ColumnName="RetryAfter" />
+                <ScalarProperty Name="Canceled" ColumnName="Canceled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

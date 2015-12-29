@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
-using MyAndromedaDataAccessEntityFramework.Model;
-using MyAndromedaDataAccess.Domain;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
@@ -12,7 +9,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
     {
         public string UpsertBySiteId(int siteId, MyAndromedaDataAccess.Domain.Address address)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from c in entitiesContext.Countries
                                    where c.Id == address.CountryId
@@ -26,12 +23,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                                       where s.Id == siteId
                                       select a;
 
-                Model.Address addressEntity = query2.FirstOrDefault();
+                Model.AndroAdmin.Address addressEntity = query2.FirstOrDefault();
 
                 // Insert or update?
                 if (addressEntity == null)
                 {
-                    addressEntity = new Model.Address();
+                    addressEntity = new Model.AndroAdmin.Address();
                 }
 
                 // Make the changes

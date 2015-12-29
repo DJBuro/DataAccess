@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
-using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
-using AndroCloudHelper;
-using MyAndromedaDataAccessEntityFramework.Model;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -14,7 +10,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public bool ValidateUser(string username, string password)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from u in entitiesContext.MyAndromedaUsers
                                        where u.Username == username
@@ -38,7 +34,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             siteId = -1;
             myAndromedaUser = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Is the store in any of the groups that the user is associated with?
                 var query = from u in entitiesContext.MyAndromedaUsers
@@ -103,7 +99,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetByUsername(string username, out MyAndromedaDataAccess.Domain.MyAndromedaUser myAndromedaUser)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 myAndromedaUser = null;
 
