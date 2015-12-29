@@ -262,7 +262,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return order;
         }
 
-        IList<DataWarehouseDataAccess.Domain.ACSErrorCode> IOrderMetricsDataAccess.GetACSErrorCodes()
+        IList<DataWarehouseDataAccess.Domain.ACSErrorCode> IOrderMetricsDataAccess.GetAllACSErrorCodes()
         {
             IList<DataWarehouseDataAccess.Domain.ACSErrorCode> errorCodes = new List<DataWarehouseDataAccess.Domain.ACSErrorCode>();
             using (DataWarehouseEntities entites = new DataWarehouseEntities())
@@ -278,5 +278,20 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             return errorCodes;
         }
+
+        IList<OrderStatus> IOrderMetricsDataAccess.GetAllOrderStatus()
+        {
+            IList<DataWarehouseDataAccess.Domain.OrderStatus> orderStatusList = new List<DataWarehouseDataAccess.Domain.OrderStatus>();
+            using(DataWarehouseEntities entities = new DataWarehouseEntities()){
+                orderStatusList = entities.OrderStatus.Distinct().Select(o => new DataWarehouseDataAccess.Domain.OrderStatus
+                {
+                    Description = o.Description,
+                    Id = o.Id
+                }).ToList();
+            }
+
+            return orderStatusList;
+        }
+        
     }
 }
