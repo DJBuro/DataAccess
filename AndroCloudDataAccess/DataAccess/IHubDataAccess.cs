@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CloudSyncModel.Hubs;
+using CloudSyncModel.HostV2;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface IHubDataAccess 
-    {
-        void AddOrUpdate(HubHostModel model);
+    //public interface IHubDataAccess 
+    //{
+    //    void AddOrUpdate(HubHostModel model);
 
-        bool TryToRemoveHub(Guid id);
-    }
+    //    bool TryToRemoveHub(Guid id);
+    //}
 
-    public interface ISiteHubDataAccess
-    { 
-        void AddLink(SiteHubs model);
+    //public interface ISiteHubDataAccess
+    //{ 
+    //    void AddLink(SiteHubs model);
 
-        void ClearByHub(HubHostModel withHub);
+    //    void ClearByHub(HubHostModel withHub);
 
-        /// <summary>
-        /// Resets the Site.HardwareKey. Setting the value to null
-        /// </summary>
-        /// <param name="reset">The reset.</param>
-        void ResetSiteHardwareKey(SiteHubReset reset);
-    }
+    //    /// <summary>
+    //    /// Resets the Site.HardwareKey. Setting the value to null
+    //    /// </summary>
+    //    /// <param name="reset">The reset.</param>
+    //    void ResetSiteHardwareKey(SiteHubReset reset);
+    //}
 }

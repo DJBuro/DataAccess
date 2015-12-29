@@ -9,8 +9,13 @@ using System.Text;
 
 namespace AndroAdminDataAccess.EntityFramework
 {
-    public class DataVersionHelper
+    public static class DataVersionHelper
     {
+        public static int GetNextDataVersionForEntity(this AndroAdminEntities entitiesContext) 
+        {
+            return GetNextDataVersion(entitiesContext);
+        }
+
         public static int GetNextDataVersion(AndroAdminEntities entitiesContext)
         {
             // We need to do something a little unusual here.  All database changes are versioned and to do this we need a new version

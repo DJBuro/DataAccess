@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
 using CloudSyncModel;
 using System.Transactions;
+using CloudSyncModel.HostV2;
 using CloudSyncModel.Hubs;
 using CloudSyncModel.Menus;
 
@@ -55,21 +56,161 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         this.SyncPartnerApplications(acsEntities, withPartner);
                     });
 
-                    this.SyncHubAddresses(acsEntities, syncModel.HubUpdates, (withHub) => {
-                        //... then sync relationship to sites
-                        this.SyncStoreAndHubLinks(acsEntities, withHub);
-                    });
+                    //this.SyncHubAddresses(acsEntities, syncModel.HubUpdates, (withHub) => {
+                    //    //... then sync relationship to sites
+                    //    this.SyncStoreAndHubLinks(acsEntities, withHub);
+                    //});
 
                     this.SyncHubResets(acsEntities, syncModel.HubUpdates);
 
+                    //update the host v2 tables - types - relations
+                    this.SyncHostTypes(acsEntities, syncModel.HostV2Models.HostTypes);
+                    this.SyncHostV2TablesAddUpdateAndRemove(acsEntities, syncModel.HostV2Models);
+                    this.SyncHostRelations(acsEntities, syncModel.HostV2Models);
+                    // Commit the transaction
+
                     this.SyncStoreMenuChanges(acsEntities, syncModel.MenuUpdates);
 
-                    // Commit the transaction
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
+        }
+  
+        private void SyncHostRelations(ACSEntities acsEntities, HostV2Models hostV2Models)
+        {
+            var andromedaSiteIds = hostV2Models.StoreLinks.Select(e=> e.AndromedaStoreId).Distinct().ToArray();
+            var applicationIds = hostV2Models.ApplicationLinks.Select(e => e.ApplicationId).Distinct().ToArray();
+
+            var hostV2Entities = acsEntities.HostsV2
+                .ToArray();
+            //get all stores mentioned in the update
+            var siteEntities = acsEntities.Sites.Where(e=> andromedaSiteIds.Contains(e.AndroID)).ToArray();
+            //get all applications mentioned in the update
+            var appplicationEntities = acsEntities.ACSApplications.Where(e=> applicationIds.Contains(e.Id)).ToArray();
+
+            //each update for a host will contain all of its relevant links for stores and applications
+            //any exception will mean that a entity does not exist by an id that should be there. :-/
+
+            //update site - host links
+            var siteList = hostV2Models.StoreLinks.GroupBy(e=> e.HostId).ToDictionary(e=> e.Key, e=> e.ToArray());
+            foreach (var host in hostV2Models.Hosts)
+            {
+                var hostEntity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
+
+                if (hostEntity.Sites == null) { hostEntity.Sites = new List<Site>(); }
+
+                if (hostEntity.Sites.Any()) { 
+                    hostEntity.Sites.Clear();
+                }
+
+                if (!siteList.ContainsKey(hostEntity.Id)) 
+                {
+                    continue;
+                }
+
+                var relations = siteList[hostEntity.Id];
+
+                foreach (var relation in relations) 
+                {
+                    var site = siteEntities.Single(e => e.AndroID == relation.AndromedaStoreId);
+                    hostEntity.Sites.Add(site);
+                }
+            }
+
+            var applicationLists = hostV2Models.ApplicationLinks.GroupBy(e => e.HostId).ToDictionary(e=> e.Key, e=> e.ToArray());
+            //update application - host links 
+            foreach (var host in hostV2Models.Hosts) 
+            {
+                var hostEntity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
+                if (hostEntity.ACSApplications == null) { hostEntity.ACSApplications = new List<ACSApplication>(); }
+
+                if (hostEntity.Sites.Any())
+                {
+                    hostEntity.ACSApplications.Clear();
+                }
+
+                if (!applicationLists.ContainsKey(hostEntity.Id))
+                {
+                    continue;
+                }
+
+                var relations = applicationLists[hostEntity.Id];
+                
+                foreach (var relation in relations) 
+                {
+                    var application = appplicationEntities.Single(e => e.Id == relation.ApplicationId);
+                    hostEntity.ACSApplications.Add(application);
+                }
+            }
+
+            acsEntities.SaveChanges();
+        }
+  
+        private void SyncHostV2TablesAddUpdateAndRemove(ACSEntities acsEntities, HostV2Models hostV2Models)
+        {
+            var hostV2Table = acsEntities.HostsV2;
+            var hostTypesTableEntities = acsEntities.HostTypes.ToArray();
+            
+            var removeHostsFromTable = hostV2Models.DeletedHosts.Select(e => e.Id).ToArray();
+            
+            //don't need these at the moment or possibly ever again. 
+            foreach (var host in hostV2Table.Where(e=> removeHostsFromTable.Contains(e.Id))) 
+            {
+                hostV2Table.Remove(host);
+            }
+
+            acsEntities.SaveChanges();
+
+            var hostV2Entities = acsEntities.HostsV2.ToArray();
+
+            //do want to add or update these. 
+            foreach (var host in hostV2Models.Hosts) 
+            {
+                var entity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
+                if (entity == null)
+                { 
+                    hostV2Table.Add(new HostsV2() { 
+                        Id = host.Id,
+                        HostType = hostTypesTableEntities.FirstOrDefault(e=> e.Name == host.HostTypeName),
+                        OptInOnly = host.OptInOnly,
+                        Order = host.Order,
+                        Public = host.Public,
+                        Url = host.Url,
+                        Version = host.Version
+                    });
+
+                    continue;
+                }
+
+                entity.HostType = hostTypesTableEntities.FirstOrDefault(e=> e.Name == host.HostTypeName);
+                entity.OptInOnly = host.OptInOnly;
+                entity.Order = host.Order;
+                entity.Public = host.Public;
+                entity.Url = host.Url;
+                entity.Version = host.Version;
+            }
+
+            acsEntities.SaveChanges();
+        }
+
+        private void SyncHostTypes(ACSEntities acsEntities, IEnumerable<string> hostTypes) 
+        {
+            var table = acsEntities.HostTypes;
+            var tableEntities = table.ToArray();
+
+            var addList = hostTypes.Where(e => !tableEntities.Any(entity => entity.Name.Equals(e)));
+
+            foreach (var item in addList) 
+            {
+                table.Add(new HostType() { 
+                    Id = Guid.NewGuid(),
+                    Name = item
+                });
+            }
+
+            acsEntities.SaveChanges();
         }
   
         private void SyncStoreMenuChanges(ACSEntities acsEntities, StoreMenuUpdates menuUpdates)
@@ -115,51 +256,51 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.SaveChanges();
         }
   
-        private void SyncHubAddresses(ACSEntities acsEntities, HubUpdates hubUpdates, Action<HubHostModel> withHub)
-        {
-            IHubDataAccess hubDataAccess = new HubDataAccess() { 
-                ConnectionStringOverride = this.ConnectionStringOverride,
-                AcsEntities = acsEntities
-            };
+        //private void SyncHubAddresses(ACSEntities acsEntities, HubUpdates hubUpdates, Action<HubHostModel> withHub)
+        //{
+        //    IHubDataAccess hubDataAccess = new HubDataAccess() { 
+        //        ConnectionStringOverride = this.ConnectionStringOverride,
+        //        AcsEntities = acsEntities
+        //    };
 
-            if (hubUpdates == null) { return; }
+        //    if (hubUpdates == null) { return; }
            
-            if (hubUpdates.InActiveHubList != null)
-            {  
-                //remove all of these
-                foreach (var update in hubUpdates.InActiveHubList) 
-                {
-                    hubDataAccess.TryToRemoveHub(update.Id);
-                }
-            }
+        //    if (hubUpdates.InActiveHubList != null)
+        //    {  
+        //        //remove all of these
+        //        foreach (var update in hubUpdates.InActiveHubList) 
+        //        {
+        //            hubDataAccess.TryToRemoveHub(update.Id);
+        //        }
+        //    }
 
             
-            if (hubUpdates.ActiveHubList != null)
-            {
-                //make sure all these exist
-                foreach (var model in hubUpdates.ActiveHubList) 
-                {
-                    hubDataAccess.AddOrUpdate(model);
+        //    if (hubUpdates.ActiveHubList != null)
+        //    {
+        //        //make sure all these exist
+        //        foreach (var model in hubUpdates.ActiveHubList) 
+        //        {
+        //            hubDataAccess.AddOrUpdate(model);
 
-                    withHub(model);
-                }
-            }
+        //            withHub(model);
+        //        }
+        //    }
 
-        }
+        //}
 
-        private void SyncStoreAndHubLinks(ACSEntities acsEntities, HubHostModel withHub)
-        {
-            ISiteHubDataAccess siteHubDataAccess = new SiteHubDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+        //private void SyncStoreAndHubLinks(ACSEntities acsEntities, HubHostModel withHub)
+        //{
+        //    ISiteHubDataAccess siteHubDataAccess = new SiteHubDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
 
-            //go and remove all the associated records
-            siteHubDataAccess.ClearByHub(withHub);
+        //    //go and remove all the associated records
+        //    siteHubDataAccess.ClearByHub(withHub);
 
-            foreach (var model in withHub.SiteHubs) 
-            {
-                siteHubDataAccess.AddLink(model);
-            }
+        //    foreach (var model in withHub.SiteHubs) 
+        //    {
+        //        siteHubDataAccess.AddLink(model);
+        //    }
 
-        }
+        //}
   
   
         /// <summary>

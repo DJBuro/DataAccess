@@ -359,6 +359,7 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="LastUpdateUtc" Type="datetime" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HubAddresses">
           <Key>
@@ -1526,6 +1527,7 @@
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHostsV2" FromRole="HostV2" ToRole="Store" />
           <Property Type="DateTime" Name="LastUpdateUtc" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
         </EntityType>
         <Association Name="FK_HostV2_HostTypes">
           <End Type="AndroAdminModel.HostType" Role="HostType" Multiplicity="1">
@@ -2038,6 +2040,7 @@
           <EntitySetMapping Name="HostV2">
             <EntityTypeMapping TypeName="AndroAdminModel.HostV2">
               <MappingFragment StoreEntitySet="HostV2">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="LastUpdateUtc" ColumnName="LastUpdateUtc" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
