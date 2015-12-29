@@ -17,6 +17,8 @@ namespace AndroAdminDataAccess.Domain
         /// Gets or sets the hub.
         /// </summary>
         /// <value>The hub.</value>
-        public HubItem Hub { get; set; }
+        //public HubItem Hub { get; set; }
+
+        public Guid HubAddressId { get; set; }
     }
 }

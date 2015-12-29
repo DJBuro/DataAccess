@@ -20,7 +20,7 @@
         <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.Group" Width="1.5" PointX="6" PointY="16.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="9" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="8.125" PointY="20.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUser" Width="1.5" PointX="6" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.MyAndromedaUserGroup" Width="1.5" PointX="8.25" PointY="17" IsExpanded="true" />

@@ -7,13 +7,34 @@ using AndroAdminDataAccess.EntityFramework.Extensions;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
-    public class HubDataService : IHubDataService
+    public class HubDataService : IHubDataService, IHubResetDataService
     {
+        public void ResetStore(int storeId)
+        {
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            { 
+                //var result = dbContext.Stores.Single(e=> e.Id == storeId);
+
+                var entity = dbContext.StoreHubResets.Create();
+
+                int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
+                entity.DataVersion = newVersion;
+                entity.AddedOn = DateTime.UtcNow;
+                entity.StoreId = storeId;
+                
+                dbContext.StoreHubResets.Add(entity);
+                dbContext.SaveChanges();
+            }
+        }
+
         public IEnumerable<AndroAdminDataAccess.Domain.HubItem> GetAfterDataVersion(int fromVersion)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
-                var dataResult = dbContext.HubAddresses.Where(e => e.DataVersion > fromVersion).ToArray();
+                var dataResult = dbContext.HubAddresses
+                    .Where(e => e.DataVersion > fromVersion)
+                    .WhereValidItems()
+                    .ToArray();
 
                 var results = dataResult.Select(e => e.ToDomain()).ToList();
 
@@ -21,17 +42,19 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void Add(AndroAdminDataAccess.Domain.HubItem dbModel)
+        public void Add(AndroAdminDataAccess.Domain.HubItem domainModel)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
                 var table = dbContext.HubAddresses;
                 var entity = table.Create();
-                entity.Active = dbModel.Active;
-                entity.Address = dbModel.Address;
+
+                entity.Id = Guid.NewGuid();
+                entity.Active = domainModel.Active;
+                entity.Address = domainModel.Address;
                 entity.DataVersion = 0;
-                entity.Name = dbModel.Name;
-                entity.Removed = dbModel.Removed;
+                entity.Name = domainModel.Name;
+                entity.Removed = domainModel.Removed;
 
                 int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
                 entity.DataVersion = newVersion;
@@ -41,17 +64,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void Update(AndroAdminDataAccess.Domain.HubItem dbModel)
+        public void Update(AndroAdminDataAccess.Domain.HubItem domainModel)
         {
             using(var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.HubAddresses;
-                var entity = table.Single(e => e.Id == dbModel.Id);
+                var entity = table.Single(e => e.Id == domainModel.Id);
 
-                entity.Name = dbModel.Name;
-                entity.Removed = dbModel.Removed;
-                entity.Address = dbModel.Address;
-                entity.Active = dbModel.Active;
+                entity.Name = domainModel.Name;
+                entity.Removed = domainModel.Removed;
+                entity.Address = domainModel.Address;
+                entity.Active = domainModel.Active;
 
                 int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
                 entity.DataVersion = newVersion;
@@ -60,12 +83,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void Remove(AndroAdminDataAccess.Domain.HubItem dbModel)
+        public void Remove(AndroAdminDataAccess.Domain.HubItem domainModel)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.HubAddresses;
-                var entity = table.Single(e => e.Id == dbModel.Id);
+                var entity = table.Single(e => e.Id == domainModel.Id);
 
                 entity.Removed = true;
 
@@ -92,11 +115,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
-                var data = dbContext.HubAddresses.ToArray();
+                var data = dbContext.HubAddresses
+                    .WhereValidItems()
+                    .ToArray();
+                
                 var results = data.Select(e => e.ToDomain()).ToArray();
 
                 return results;
             }
+        }
+    }
+
+    public static class HubAddressExtensions 
+    {
+        public static IQueryable<HubAddress> WhereValidItems(this IQueryable<HubAddress> hubAddressQuery) 
+        {
+            return hubAddressQuery.Where(e => !e.Removed);
         }
     }
 }

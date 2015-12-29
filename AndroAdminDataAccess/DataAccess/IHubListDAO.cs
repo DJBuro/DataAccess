@@ -82,6 +82,8 @@ namespace AndroAdminDataAccess.DataAccess
 
     public interface IHubResetDataService 
     {
-        
+        IEnumerable<Store> GetResetsAfterDataVersion(int fromVersion);
+
+        void ResetStore(int storeId);
     }
 }
