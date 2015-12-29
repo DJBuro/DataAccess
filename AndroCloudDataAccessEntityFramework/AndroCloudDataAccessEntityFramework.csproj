@@ -288,10 +288,16 @@
     <Compile Include="Model\SiteMenu.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SitesOffline.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SiteStatus.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\StorePaymentProvider.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
