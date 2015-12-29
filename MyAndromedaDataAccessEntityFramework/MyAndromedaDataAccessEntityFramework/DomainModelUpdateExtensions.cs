@@ -183,7 +183,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.Site ToDomain(this Model.AndroAdmin.Store entity)
+        public static Domain.Site ToDomainModel(this Model.AndroAdmin.Store entity)
         {
             var site = new MyAndromedaDataAccess.Domain.Site()
             {

@@ -75,7 +75,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 var storeQuery = storesTable.Where(e => accessibleStores.Contains(e.Id));
                 var storeResults = storeQuery.ToArray();
 
-                sites = storeResults.Select(e => e.ToDomain()).ToArray();
+                sites = storeResults.Select(e => e.ToDomainModel()).ToArray();
             }
 
             return sites;
@@ -102,7 +102,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 var storesQuery = storesTable.Where(e => e.ChainId == chainId);
                 var storesResult = storesQuery.ToArray();
 
-                sites = storesResult.Select(e => e.ToDomain()).ToArray();
+                sites = storesResult.Select(e => e.ToDomainModel()).ToArray();
             }
 
             return sites;
