@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
+namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 {
     using System;
     using System.Data.Entity;
@@ -25,12 +25,15 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<CustomerRecord> CustomerRecords { get; set; }
         public DbSet<EmailCampaign> EmailCampaigns { get; set; }
         public DbSet<EmailCampaignAudit> EmailCampaignAudits { get; set; }
         public DbSet<EmailCampaignSentEmail> EmailCampaignSentEmails { get; set; }
         public DbSet<EmailCampaignSetting> EmailCampaignSettings { get; set; }
         public DbSet<EmailCampaignSite> EmailCampaignSites { get; set; }
         public DbSet<EmailCampaignTask> EmailCampaignTasks { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<MenuItemGroup> MenuItemGroups { get; set; }
+        public DbSet<MenuItemThumbnail> MenuItemThumbnails { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
     }
 }

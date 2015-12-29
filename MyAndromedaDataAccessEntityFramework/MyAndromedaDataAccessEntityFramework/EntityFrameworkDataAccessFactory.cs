@@ -3,6 +3,7 @@ using System.Linq;
 using AndroCloudDataAccessEntityFramework.DataAccess;
 using MyAndromedaDataAccess;
 using MyAndromedaDataAccess.DataAccess;
+using MyAndromedaDataAccess.DataAccess.MyAndromeda.Email;
 using MyAndromedaDataAccessEntityFramework.DataAccess;
 
 namespace MyAndromedaDataAccessEntityFramework
@@ -61,7 +62,7 @@ namespace MyAndromedaDataAccessEntityFramework
             }
         }
 
-        public MyAndromedaDataAccess.DataAccess.IEmailCampaignDataAccess EmailCampaignDataAccess
+        public MyAndromedaDataAccess.DataAccess.MyAndromeda.Email.IEmailCampaignDataAccess EmailCampaignDataAccess
         { 
             get 
             {

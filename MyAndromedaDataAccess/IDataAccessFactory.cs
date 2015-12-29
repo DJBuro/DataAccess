@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MyAndromedaDataAccess.DataAccess;
+using MyAndromedaDataAccess.DataAccess.MyAndromeda.Email;
 
 namespace MyAndromedaDataAccess
 {
@@ -39,5 +40,6 @@ namespace MyAndromedaDataAccess
         /// </summary>
         /// <value>The order reporting service.</value>
         IOrderReportingService OrderReportingService { get; }
+
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
+namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 {
     using System;
     using System.Collections.Generic;

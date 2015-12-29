@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain.Marketing;
 
-namespace MyAndromedaDataAccess.DataAccess
+namespace MyAndromedaDataAccess.DataAccess.MyAndromeda.Email
 {
     public interface IEmailCampaignDataAccess : IDataAccessOptions
     { 

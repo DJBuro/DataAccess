@@ -9,6 +9,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class SitesDataAccess : ISiteDataAccess
     {
+
+        public string GetExternalApplicationIds(int siteId, out IEnumerable<string> externalApplicationIds)
+        {
+            externalApplicationIds = Enumerable.Empty<string>();
+
+            using (var dbContext = new AndroAdminDbContext()) 
+            {
+                var query = dbContext
+                    .ACSApplications
+                    .Where(e => e.ACSApplicationSites.Any(acsSite => acsSite.SiteId == siteId))
+                    .Select(e=> e.ExternalApplicationId);
+                
+                var result = query.ToArray();
+
+                externalApplicationIds = result;
+            }
+
+            return string.Empty;
+        }
+
+
         public string GetAcsApplicationIds(int siteId, out IEnumerable<int> application)
         {
             application = null;
