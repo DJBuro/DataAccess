@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IHostDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<Host> GetAll();
     }
 }

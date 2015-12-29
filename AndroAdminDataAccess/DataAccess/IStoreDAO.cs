@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IStoreDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<Store> GetAll();
         void Add(Store store);
         void Update(Store store);

@@ -10,11 +10,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class AMSServerDAO : IAMSServerDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IList<Domain.AMSServer> GetAll()
         {
             List<Domain.AMSServer> amsServers = new List<Domain.AMSServer>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.AMSServers
                             select s;
@@ -37,7 +39,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.AMSServer amsServer)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 AMSServer entity = new AMSServer()
                 {
@@ -52,7 +54,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(Domain.AMSServer amsServer)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.AMSServers
                             where amsServer.Id == s.Id
@@ -74,7 +76,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.AMSServer model = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.AMSServers
                             where id == s.Id
@@ -100,7 +102,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.AMSServer model = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.AMSServers
                             where name == s.Name
@@ -125,7 +127,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Delete(int amsServerId)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 // Delete the StoreAMSServerFTPSite objects that reference the AMS server
                 var storeAMSServerFTPSiteQuery = from s in entitiesContext.StoreAMSServerFtpSites

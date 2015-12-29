@@ -32,6 +32,9 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "External site name")]
         public virtual string ExternalSiteName { get; set; }
 
+        [Display(Name = "Client site name")]
+        public virtual string ClientSiteName { get; set; }
+
         [Display(Name = "Country")]
         public Country Country { get; set; }
 

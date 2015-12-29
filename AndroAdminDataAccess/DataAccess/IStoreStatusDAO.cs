@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IStoreStatusDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<StoreStatus> GetAll();
     }
 }

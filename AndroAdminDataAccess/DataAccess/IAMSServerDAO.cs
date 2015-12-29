@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IAMSServerDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<AMSServer> GetAll();
         void Add(AMSServer amsServer);
         void Update(AMSServer amsServer);

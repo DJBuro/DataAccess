@@ -15,10 +15,9 @@ namespace AndroAdminDataAccess.Domain
         public virtual string Name { get; set; }
 
         [Required]
-        [Display(Name = "ExternalId")]
+        [Display(Name = "Partner id")]
         public virtual string ExternalId { get; set; }
 
-        [Display(Name = "DataVersion")]
         public virtual int DataVersion { get; set; }
     }
 }

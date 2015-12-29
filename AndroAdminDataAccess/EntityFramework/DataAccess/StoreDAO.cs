@@ -11,12 +11,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreDAO : IStoreDAO
     {
+        public string ConnectionStringOverride { get; set; }
 
         public IList<Domain.Store> GetAll()
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
@@ -34,7 +35,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -73,7 +75,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Store store)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -83,14 +85,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     Store entity = new Store()
                     {
-                        Name = store.Name,
+                        Name = store.Name, // Andro site name
                         AndromedaSiteId = store.AndromedaSiteId,
                         CustomerSiteId = store.CustomerSiteId,
                         LastFTPUploadDateTime = store.LastFTPUploadDateTime,
                         StoreStatusId = store.StoreStatus.Id,
                         DataVersion = newVersion,
                         ExternalId = store.ExternalSiteId,
-                        ExternalSiteName = store.ExternalSiteName
+                        ExternalSiteName = store.ExternalSiteName,
+                        ClientSiteName = store.ClientSiteName
                     };
 
                     entitiesContext.AddToStores(entity);
@@ -104,7 +107,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(Domain.Store store)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -189,7 +192,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             where id == s.Id
@@ -208,7 +211,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -247,7 +251,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             where id == s.AndromedaSiteId
@@ -266,7 +270,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -305,7 +310,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store store = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             where name == s.Name
@@ -324,7 +329,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -363,7 +369,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             IList<Domain.Store> stores = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
@@ -384,7 +390,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -425,7 +432,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
@@ -443,7 +450,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
@@ -484,7 +492,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
@@ -505,7 +513,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
                         StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                         ExternalSiteId = entity.ExternalId,
-                        ExternalSiteName = entity.ExternalSiteName
+                        ExternalSiteName = entity.ExternalSiteName,
+                        ClientSiteName = entity.ClientSiteName
                     };
 
                     // Get the address
