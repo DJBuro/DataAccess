@@ -66,7 +66,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     //update the host v2 tables - types - relations
                     this.SyncHostTypes(acsEntities, syncModel.HostV2Models.HostTypes);
                     this.SyncHostV2TablesAddUpdateAndRemove(acsEntities, syncModel.HostV2Models);
-                    this.SyncHostRelations(acsEntities, syncModel.HostV2Models);
+                    this.SyncHostV2Relations(acsEntities, syncModel.HostV2Models);
                     // Commit the transaction
 
                     this.SyncStoreMenuChanges(acsEntities, syncModel.MenuUpdates);
@@ -78,7 +78,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return errorMessage;
         }
   
-        private void SyncHostRelations(ACSEntities acsEntities, HostV2Models hostV2Models)
+        private void SyncHostV2Relations(ACSEntities acsEntities, HostV2Models hostV2Models)
         {
             var andromedaSiteIds = hostV2Models.StoreLinks.Select(e=> e.AndromedaStoreId).Distinct().ToArray();
             var applicationIds = hostV2Models.ApplicationLinks.Select(e => e.ApplicationId).Distinct().ToArray();
@@ -126,7 +126,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 var hostEntity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
                 if (hostEntity.ACSApplications == null) { hostEntity.ACSApplications = new List<ACSApplication>(); }
 
-                if (hostEntity.Sites.Any())
+                if (hostEntity.ACSApplications.Any())
                 {
                     hostEntity.ACSApplications.Clear();
                 }
