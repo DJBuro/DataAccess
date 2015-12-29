@@ -53,6 +53,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public string ACSApplicationId { get; set; }
 
+        public string MasterStoreId { get; set; }
+
         public string LiveDomainName { get; set; }
 
         public string PreviewDomainName { get; set; }
