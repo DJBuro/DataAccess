@@ -97,6 +97,8 @@
     <Compile Include="DataAccess\Chains\IChainDataService.cs" />
     <Compile Include="DataAccess\CountryDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
+    <Compile Include="DataAccess\DeliveryZone\DeliveryZoneDataService.cs" />
+    <Compile Include="DataAccess\DeliveryZone\IDeliveryZoneDataService.cs" />
     <Compile Include="DataAccess\Devices\DevicesDataService.cs" />
     <Compile Include="DataAccess\Devices\IStoreDevices.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
