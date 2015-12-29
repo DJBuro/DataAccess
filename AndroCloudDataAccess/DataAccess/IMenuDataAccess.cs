@@ -5,7 +5,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IMenuDataAccess
     {
-        string Put(Guid securityGuid, int siteID, string data, int version, DataTypeEnum dataType);
-        string Get(Guid securityGuid, int siteID, DataTypeEnum dataType, out SiteMenu siteMenu);
+        string Put(Guid siteGuid, string licenseKey, string hardwareKey, string data, int version, DataTypeEnum dataType);
+        string Get(Guid securityGuid, Guid siteGuid, DataTypeEnum dataType, out SiteMenu siteMenu);
     }
 }
