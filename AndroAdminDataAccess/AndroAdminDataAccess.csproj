@@ -217,6 +217,7 @@
     <Compile Include="Domain\WebOrderingSetup\CarouselNavigatorOptions.cs" />
     <Compile Include="Domain\WebOrderingSetup\Checkout.cs" />
     <Compile Include="Domain\WebOrderingSetup\CheckoutPolicy.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CustomEmailTemplate.cs" />
     <Compile Include="Domain\WebOrderingSetup\CustomerAccount.cs" />
     <Compile Include="Domain\WebOrderingSetup\CustomThemeSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\GeneralSettings.cs" />
