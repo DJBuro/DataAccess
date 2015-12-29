@@ -90,89 +90,92 @@
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="DataVersionHelper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
-    <Compile Include="Model\ACS.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ACS.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ACS.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ACS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ACS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ACS.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Model\ACSApplication.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ACSApplicationSite.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ACSEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ACSEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ACSEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ACSEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ACSEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\ACSLog.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ACSQueue.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Address.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\address_vw.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Audit.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Country.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Day.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DeliveryArea.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Host.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HostsV2.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HostType.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HubHost.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OpeningHour.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Order.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderStatu.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\orders_vw.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Partner.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Setting.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Site.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SiteMenu.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SiteStatus.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\StorePaymentProvider.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>ACS.tt</DependentUpon>
+      <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -192,22 +195,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Model\ACS.edmx">
+    <EntityDeploy Include="Model\ACSEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ACS.Designer.cs</LastGenOutput>
+      <LastGenOutput>ACSEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\ACS.Context.tt">
+    <None Include="Model\ACSEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ACS.edmx</DependentUpon>
-      <LastGenOutput>ACS.Context.cs</LastGenOutput>
+      <DependentUpon>ACSEntities.edmx</DependentUpon>
+      <LastGenOutput>ACSEntities.Context.cs</LastGenOutput>
     </None>
-    <None Include="Model\ACS.edmx.diagram">
-      <DependentUpon>ACS.edmx</DependentUpon>
+    <None Include="Model\ACSEntities.edmx.diagram">
+      <DependentUpon>ACSEntities.edmx</DependentUpon>
     </None>
-    <None Include="Model\ACS.tt">
+    <None Include="Model\ACSEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ACS.edmx</DependentUpon>
-      <LastGenOutput>ACS.cs</LastGenOutput>
+      <DependentUpon>ACSEntities.edmx</DependentUpon>
+      <LastGenOutput>ACSEntities.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

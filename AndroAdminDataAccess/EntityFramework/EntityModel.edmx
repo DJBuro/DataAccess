@@ -923,7 +923,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AndroAdminModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
           <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
@@ -1871,7 +1871,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AndroAdminModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="AndroAdminModelStoreContainer" CdmEntityContainer="AndroAdminEntities">
           <EntitySetMapping Name="ACSApplications">
             <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
               <MappingFragment StoreEntitySet="ACSApplication">

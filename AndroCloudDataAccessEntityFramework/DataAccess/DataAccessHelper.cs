@@ -10,6 +10,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public static void FixConnectionString(ACSEntities entitiesContext, string connectionString)
         {
+            
             if (connectionString != null)
             {
                 entitiesContext.Database.Connection.ConnectionString = connectionString;

@@ -13,10 +13,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Entities : DbContext
+    public partial class ACSEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public ACSEntities()
+            : base("name=ACSEntities")
         {
         }
     
@@ -43,10 +43,11 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<address_vw> address_vw { get; set; }
+        public DbSet<orders_vw> orders_vw { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
     }
 }
