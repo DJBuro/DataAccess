@@ -123,6 +123,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EntityFramework\CreateAndroUsersData.sql" />
     <Content Include="EntityFramework\CreateAndroUsersDatabase.sql" />
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace AndroUsersDataAccess.EntityFramework
         public int SecurityGroupId { get; set; }
         public int UserId { get; set; }
     
-        public virtual SecurityGroup SecurityGroup { get; set; }
         public virtual tbl_AndroUser tbl_AndroUser { get; set; }
+        public virtual SecurityGroup SecurityGroup { get; set; }
     }
 }

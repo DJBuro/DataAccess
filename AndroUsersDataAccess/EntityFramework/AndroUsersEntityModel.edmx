@@ -8,13 +8,7 @@
         <EntityContainer Name="AndroUsersModelStoreContainer">
           <EntitySet Name="Permission" EntityType="AndroUsersModel.Store.Permission" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SecurityGroup" EntityType="AndroUsersModel.Store.SecurityGroup" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SecurityGroupPermission" EntityType="AndroUsersModel.Store.SecurityGroupPermission" store:Type="Tables" store:Schema="dbo" store:Name="SecurityGroupPermission">
-            <DefiningQuery>SELECT 
-      [SecurityGroupPermission].[Id] AS [Id], 
-      [SecurityGroupPermission].[SecurityGroupId] AS [SecurityGroupId], 
-      [SecurityGroupPermission].[PermissionId] AS [PermissionId]
-      FROM [dbo].[SecurityGroupPermission] AS [SecurityGroupPermission]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="SecurityGroupPermission" EntityType="AndroUsersModel.Store.SecurityGroupPermission" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SecurityGroupUser" EntityType="AndroUsersModel.Store.SecurityGroupUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tbl_AndroUser" EntityType="AndroUsersModel.Store.tbl_AndroUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tbl_AndroUserPermission" EntityType="AndroUsersModel.Store.tbl_AndroUserPermission" store:Type="Tables" Schema="dbo" />
@@ -58,16 +52,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'AndroUsers.dbo.SecurityGroupPermission' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="SecurityGroupPermission">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="SecurityGroupId" />
-            <PropertyRef Name="PermissionId" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SecurityGroupId" Type="int" Nullable="false" />
@@ -198,23 +188,23 @@
             <End Role="tbl_AndroUserPermission" EntitySet="tbl_AndroUserPermission" />
           </AssociationSet>
           <EntitySet Name="Permissions" EntityType="AndroUsersModel.Permission" />
-          <EntitySet Name="SecurityGroups" EntityType="AndroUsersModel.SecurityGroup" />
+          <EntitySet Name="SecurityGroupUsers" EntityType="AndroUsersModel.SecurityGroupUser" />
+          <AssociationSet Name="FK_SecurityGroupUser_tbl_AndroUser" Association="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser">
+            <End Role="tbl_AndroUser" EntitySet="tbl_AndroUser" />
+            <End Role="SecurityGroupUser" EntitySet="SecurityGroupUsers" />
+          </AssociationSet>
           <EntitySet Name="SecurityGroupPermissions" EntityType="AndroUsersModel.SecurityGroupPermission" />
           <AssociationSet Name="FK_SecurityGroupPermission_Permission" Association="AndroUsersModel.FK_SecurityGroupPermission_Permission">
             <End Role="Permission" EntitySet="Permissions" />
             <End Role="SecurityGroupPermission" EntitySet="SecurityGroupPermissions" />
           </AssociationSet>
+          <EntitySet Name="SecurityGroups" EntityType="AndroUsersModel.SecurityGroup" />
           <AssociationSet Name="FK_SecurityGroupPermission_SecurityGroup" Association="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup">
             <End Role="SecurityGroup" EntitySet="SecurityGroups" />
             <End Role="SecurityGroupPermission" EntitySet="SecurityGroupPermissions" />
           </AssociationSet>
-          <EntitySet Name="SecurityGroupUsers" EntityType="AndroUsersModel.SecurityGroupUser" />
           <AssociationSet Name="FK_SecurityGroupUser_SecurityGroup" Association="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup">
             <End Role="SecurityGroup" EntitySet="SecurityGroups" />
-            <End Role="SecurityGroupUser" EntitySet="SecurityGroupUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SecurityGroupUser_tbl_AndroUser" Association="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser">
-            <End Role="tbl_AndroUser" EntitySet="tbl_AndroUser" />
             <End Role="SecurityGroupUser" EntitySet="SecurityGroupUsers" />
           </AssociationSet>
         </EntityContainer>
@@ -282,23 +272,34 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SecurityGroupPermissions" Relationship="AndroUsersModel.FK_SecurityGroupPermission_Permission" FromRole="Permission" ToRole="SecurityGroupPermission" />
           <Property Type="Int32" Name="DisplayOrder" />
+          <NavigationProperty Name="SecurityGroupPermissions" Relationship="AndroUsersModel.FK_SecurityGroupPermission_Permission" FromRole="Permission" ToRole="SecurityGroupPermission" />
         </EntityType>
-        <EntityType Name="SecurityGroup">
+        <EntityType Name="SecurityGroupUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SecurityGroupPermissions" Relationship="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" FromRole="SecurityGroup" ToRole="SecurityGroupPermission" />
-          <NavigationProperty Name="SecurityGroupUsers" Relationship="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" FromRole="SecurityGroup" ToRole="SecurityGroupUser" />
+          <Property Type="Int32" Name="SecurityGroupId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <NavigationProperty Name="tbl_AndroUser" Relationship="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser" FromRole="SecurityGroupUser" ToRole="tbl_AndroUser" />
+          <NavigationProperty Name="SecurityGroup" Relationship="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" FromRole="SecurityGroupUser" ToRole="SecurityGroup" />
         </EntityType>
+        <Association Name="FK_SecurityGroupUser_tbl_AndroUser">
+          <End Type="AndroUsersModel.tbl_AndroUser" Role="tbl_AndroUser" Multiplicity="1" />
+          <End Type="AndroUsersModel.SecurityGroupUser" Role="SecurityGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_AndroUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SecurityGroupUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="SecurityGroupPermission">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="SecurityGroupId" />
-            <PropertyRef Name="PermissionId" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="SecurityGroupId" Nullable="false" />
@@ -318,6 +319,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SecurityGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SecurityGroupPermissions" Relationship="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" FromRole="SecurityGroup" ToRole="SecurityGroupPermission" />
+          <NavigationProperty Name="SecurityGroupUsers" Relationship="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" FromRole="SecurityGroup" ToRole="SecurityGroupUser" />
+        </EntityType>
         <Association Name="FK_SecurityGroupPermission_SecurityGroup">
           <End Type="AndroUsersModel.SecurityGroup" Role="SecurityGroup" Multiplicity="1" />
           <End Type="AndroUsersModel.SecurityGroupPermission" Role="SecurityGroupPermission" Multiplicity="*" />
@@ -330,16 +341,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SecurityGroupUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="SecurityGroupId" Nullable="false" />
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-          <NavigationProperty Name="SecurityGroup" Relationship="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" FromRole="SecurityGroupUser" ToRole="SecurityGroup" />
-          <NavigationProperty Name="tbl_AndroUser" Relationship="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser" FromRole="SecurityGroupUser" ToRole="tbl_AndroUser" />
-        </EntityType>
         <Association Name="FK_SecurityGroupUser_SecurityGroup">
           <End Type="AndroUsersModel.SecurityGroup" Role="SecurityGroup" Multiplicity="1" />
           <End Type="AndroUsersModel.SecurityGroupUser" Role="SecurityGroupUser" Multiplicity="*" />
@@ -349,18 +350,6 @@
             </Principal>
             <Dependent Role="SecurityGroupUser">
               <PropertyRef Name="SecurityGroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SecurityGroupUser_tbl_AndroUser">
-          <End Type="AndroUsersModel.tbl_AndroUser" Role="tbl_AndroUser" Multiplicity="1" />
-          <End Type="AndroUsersModel.SecurityGroupUser" Role="SecurityGroupUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_AndroUser">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="SecurityGroupUser">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -411,10 +400,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SecurityGroups">
-            <EntityTypeMapping TypeName="AndroUsersModel.SecurityGroup">
-              <MappingFragment StoreEntitySet="SecurityGroup">
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="SecurityGroupUsers">
+            <EntityTypeMapping TypeName="AndroUsersModel.SecurityGroupUser">
+              <MappingFragment StoreEntitySet="SecurityGroupUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SecurityGroupId" ColumnName="SecurityGroupId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -428,11 +418,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SecurityGroupUsers">
-            <EntityTypeMapping TypeName="AndroUsersModel.SecurityGroupUser">
-              <MappingFragment StoreEntitySet="SecurityGroupUser">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="SecurityGroupId" ColumnName="SecurityGroupId" />
+          <EntitySetMapping Name="SecurityGroups">
+            <EntityTypeMapping TypeName="AndroUsersModel.SecurityGroup">
+              <MappingFragment StoreEntitySet="SecurityGroup">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

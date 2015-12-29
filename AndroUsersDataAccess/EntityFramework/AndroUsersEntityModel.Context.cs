@@ -29,8 +29,8 @@ namespace AndroUsersDataAccess.EntityFramework
         public DbSet<tbl_AndroUserPermission> tbl_AndroUserPermission { get; set; }
         public DbSet<tbl_Project> tbl_Project { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<SecurityGroup> SecurityGroups { get; set; }
-        public DbSet<SecurityGroupPermission> SecurityGroupPermissions { get; set; }
         public DbSet<SecurityGroupUser> SecurityGroupUsers { get; set; }
+        public DbSet<SecurityGroupPermission> SecurityGroupPermissions { get; set; }
+        public DbSet<SecurityGroup> SecurityGroups { get; set; }
     }
 }
