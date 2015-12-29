@@ -218,10 +218,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="64" />
-          <Property Name="ChainID" Type="int" />
-          <Property Name="SecurityID" Type="uniqueidentifier" />
-          <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
         </EntityType>
         <EntityType Name="SiteMenus">
           <Key>
@@ -242,17 +240,17 @@
           <Property Name="SignalRConnectionID" Type="uniqueidentifier" />
           <Property Name="SessionID" Type="uniqueidentifier" />
           <Property Name="AndroSiteName" Type="nvarchar" MaxLength="64" />
-          <Property Name="ClientSiteName" Type="nchar" MaxLength="10" />
-          <Property Name="ExternalSiteName" Type="nchar" MaxLength="10" />
+          <Property Name="ClientSiteName" Type="nvarchar" MaxLength="64" />
+          <Property Name="ExternalSiteName" Type="nvarchar" MaxLength="64" />
           <Property Name="AndroID" Type="int" />
           <Property Name="AddressID" Type="uniqueidentifier" />
           <Property Name="StoreConnected" Type="bit" />
           <Property Name="LastUpdated" Type="datetime" />
-          <Property Name="LicenceKey" Type="nvarchar" MaxLength="64" />
           <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
           <Property Name="EstimatedDeliveryTime" Type="int" />
           <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
+          <Property Name="LicenceKey" Type="nvarchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="SitesGroups">
           <Key>
@@ -433,9 +431,7 @@
           <EntitySet Name="OpeningHours" EntityType="ACSModel.OpeningHour" />
           <EntitySet Name="Orders" EntityType="ACSModel.Order" />
           <EntitySet Name="OrderStatus1" EntityType="ACSModel.OrderStatus" />
-          <EntitySet Name="Partners" EntityType="ACSModel.Partner" />
           <EntitySet Name="SiteMenus" EntityType="ACSModel.SiteMenu" />
-          <EntitySet Name="Sites" EntityType="ACSModel.Site" />
           <EntitySet Name="SitesGroups" EntityType="ACSModel.SitesGroup" />
           <AssociationSet Name="FK_Orders_ACSQueue" Association="ACSModel.FK_Orders_ACSQueue">
             <End Role="ACSQueue" EntitySet="ACSQueues" />
@@ -445,17 +441,9 @@
             <End Role="Day" EntitySet="Days" />
             <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employees_Sites" Association="ACSModel.FK_Employees_Sites">
-            <End Role="Site" EntitySet="Sites" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK_MyAndromedaUser_Employees" Association="ACSModel.FK_MyAndromedaUser_Employees">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.FK_Chains_Partners">
-            <End Role="Partner" EntitySet="Partners" />
-            <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
           <AssociationSet Name="FK_MyAndromedaUser_Groups" Association="ACSModel.FK_MyAndromedaUser_Groups">
             <End Role="Group" EntitySet="Groups" />
@@ -469,6 +457,25 @@
             <End Role="OrderStatu" EntitySet="OrderStatus1" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <EntitySet Name="Addresses" EntityType="ACSModel.Address" />
+          <EntitySet Name="Partners" EntityType="ACSModel.Partner" />
+          <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.FK_Chains_Partners">
+            <End Role="Partner" EntitySet="Partners" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <EntitySet Name="Sites" EntityType="ACSModel.Site" />
+          <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.FK_Sites_Addresses">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Site" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Sites" Association="ACSModel.FK_Employees_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHours_Sites" Association="ACSModel.FK_OpeningHours_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_Sites" Association="ACSModel.FK_Orders_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="Order" EntitySet="Orders" />
@@ -480,15 +487,6 @@
           <AssociationSet Name="FK_SitesGroups_Sites" Association="ACSModel.FK_SitesGroups_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="SitesGroup" EntitySet="SitesGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OpeningHours_Sites" Association="ACSModel.FK_OpeningHours_Sites">
-            <End Role="Site" EntitySet="Sites" />
-            <End Role="OpeningHour" EntitySet="OpeningHours" />
-          </AssociationSet>
-          <EntitySet Name="Addresses" EntityType="ACSModel.Address" />
-          <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.FK_Sites_Addresses">
-            <End Role="Address" EntitySet="Addresses" />
-            <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSLog">
@@ -551,8 +549,8 @@
           <Property Type="String" Name="Role" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Phone" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Notes" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Site" Relationship="ACSModel.FK_Employees_Sites" FromRole="Employee" ToRole="Site" />
           <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="Employee" ToRole="MyAndromedaUser" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_Employees_Sites" FromRole="Employee" ToRole="Site" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -563,9 +561,9 @@
           <Property Type="String" Name="GroupName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="LastUpdated" />
           <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Group" ToRole="Partner" />
           <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="Group" ToRole="MyAndromedaUser" />
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Groups" FromRole="Group" ToRole="SitesGroup" />
+          <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Group" ToRole="Partner" />
         </EntityType>
         <EntityType Name="MyAndromedaUser">
           <Key>
@@ -616,17 +614,6 @@
           <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="OrderStatu" ToRole="Order" />
         </EntityType>
-        <EntityType Name="Partner">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Name" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ChainID" />
-          <Property Type="Guid" Name="SecurityID" />
-          <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Groups" Relationship="ACSModel.FK_Chains_Partners" FromRole="Partner" ToRole="Group" />
-        </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
             <PropertyRef Name="ID" />
@@ -638,32 +625,6 @@
           <Property Type="String" Name="menuData" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="LastUpdated" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenu" ToRole="Site" />
-        </EntityType>
-        <EntityType Name="Site">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="Guid" Name="SignalRConnectionID" />
-          <Property Type="Guid" Name="SessionID" />
-          <Property Type="Int32" Name="AndroID" />
-          <Property Type="Guid" Name="AddressID" />
-          <Property Type="Boolean" Name="StoreConnected" />
-          <Property Type="DateTime" Name="LastUpdated" />
-          <Property Type="String" Name="LicenceKey" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="EstimatedDeliveryTime" />
-          <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
-          <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Site" ToRole="Order" />
-          <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
-          <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
-          <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
-          <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
-          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ClientSiteName" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="ExternalSiteName" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="SitesGroup">
           <Key>
@@ -699,18 +660,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employees_Sites">
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
-          <End Type="ACSModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Site">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MyAndromedaUser_Employees">
           <End Type="ACSModel.Employee" Role="Employee" Multiplicity="1" />
           <End Type="ACSModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
@@ -720,18 +669,6 @@
             </Principal>
             <Dependent Role="MyAndromedaUser">
               <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Chains_Partners">
-          <End Type="ACSModel.Partner" Role="Partner" Multiplicity="0..1" />
-          <End Type="ACSModel.Group" Role="Group" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partner">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Group">
-              <PropertyRef Name="PartnerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -771,6 +708,116 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Lat" />
+          <Property Type="Double" Name="Long" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Address" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="Partner">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Groups" Relationship="ACSModel.FK_Chains_Partners" FromRole="Partner" ToRole="Group" />
+        </EntityType>
+        <Association Name="FK_Chains_Partners">
+          <End Type="ACSModel.Partner" Role="Partner" Multiplicity="0..1" />
+          <End Type="ACSModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="PartnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="SignalRConnectionID" />
+          <Property Type="Guid" Name="SessionID" />
+          <Property Type="String" Name="AndroSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClientSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalSiteName" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AndroID" />
+          <Property Type="Guid" Name="AddressID" />
+          <Property Type="Boolean" Name="StoreConnected" />
+          <Property Type="DateTime" Name="LastUpdated" />
+          <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="EstimatedDeliveryTime" />
+          <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LicenceKey" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Address" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Site" ToRole="Address" />
+          <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
+          <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
+          <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Site" ToRole="Order" />
+          <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
+          <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
+        </EntityType>
+        <Association Name="FK_Sites_Addresses">
+          <End Type="ACSModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Site">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Sites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
+          <End Type="ACSModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHours_Sites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
+          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_Sites">
           <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
           <End Type="ACSModel.Order" Role="Order" Multiplicity="*" />
@@ -804,57 +851,6 @@
             </Principal>
             <Dependent Role="SitesGroup">
               <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OpeningHours_Sites">
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
-          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Site">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OpeningHour">
-              <PropertyRef Name="SiteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Address">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Guid" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Org1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Org3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem1" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem2" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem3" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem4" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem5" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Prem6" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadNum" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="RoadName" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Locality" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Town" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="County" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="Lat" />
-          <Property Type="Double" Name="Long" />
-          <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Addresses" FromRole="Address" ToRole="Site" />
-        </EntityType>
-        <Association Name="FK_Sites_Addresses">
-          <End Type="ACSModel.Address" Role="Address" Multiplicity="0..1" />
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Site">
-              <PropertyRef Name="AddressID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -984,17 +980,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Partners">
-            <EntityTypeMapping TypeName="ACSModel.Partner">
-              <MappingFragment StoreEntitySet="Partners">
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="SecurityID" ColumnName="SecurityID" />
-                <ScalarProperty Name="ChainID" ColumnName="ChainID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SiteMenus">
             <EntityTypeMapping TypeName="ACSModel.SiteMenu">
               <MappingFragment StoreEntitySet="SiteMenus">
@@ -1003,27 +988,6 @@
                 <ScalarProperty Name="MenuType" ColumnName="MenuType" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sites">
-            <EntityTypeMapping TypeName="ACSModel.Site">
-              <MappingFragment StoreEntitySet="Sites">
-                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
-                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
-                <ScalarProperty Name="AndroSiteName" ColumnName="AndroSiteName" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-                <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="LicenceKey" ColumnName="LicenceKey" />
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="StoreConnected" ColumnName="StoreConnected" />
-                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
-                <ScalarProperty Name="AndroID" ColumnName="AndroID" />
-                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-                <ScalarProperty Name="SignalRConnectionID" ColumnName="SignalRConnectionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1064,6 +1028,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Partners">
+            <EntityTypeMapping TypeName="ACSModel.Partner">
+              <MappingFragment StoreEntitySet="Partners">
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="ACSModel.Site">
+              <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="LicenceKey" ColumnName="LicenceKey" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
+                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="StoreConnected" ColumnName="StoreConnected" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="AndroID" ColumnName="AndroID" />
+                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
+                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
+                <ScalarProperty Name="AndroSiteName" ColumnName="AndroSiteName" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="SignalRConnectionID" ColumnName="SignalRConnectionID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1092,12 +1086,10 @@
         <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.75" PointY="6.75" Height="2.749492187499996" />
         <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="0.75" PointY="10.25" Height="2.5571907552083317" />
         <EntityTypeShape EntityType="ACSModel.MyAndromedaUser" Width="1.5" PointX="0.75" PointY="6.875" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="8.375" PointY="14.375" Height="2.5571907552083353" />
+        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="8.25" PointY="14.375" Height="2.5571907552083353" />
         <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="10.5" PointY="11.25" Height="2.7494921875000102" />
         <EntityTypeShape EntityType="ACSModel.OrderStatus" Width="1.5" PointX="10.5" PointY="14.875" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="13.625" Height="2.172587890624996" />
         <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="3.25" PointY="13" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="5.057109375" />
         <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="3.25" PointY="10.25" Height="1.9802864583333388" />
         <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" >
           <ConnectorPoint PointX="11.3125" PointY="9.7013964843750031" />
@@ -1105,52 +1097,54 @@
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" >
           <ConnectorPoint PointX="7.25" PointY="16.466095377604169" />
-          <ConnectorPoint PointX="8.375" PointY="16.466095377604169" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Employees_Sites" >
-          <ConnectorPoint PointX="6.5" PointY="10.25" />
-          <ConnectorPoint PointX="6.5" PointY="9.499492187499996" />
+          <ConnectorPoint PointX="8.25" PointY="16.466095377604169" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Employees" >
-          <ConnectorPoint PointX="5.75" PointY="8.0574446614583337" />
-          <ConnectorPoint PointX="2.25" PointY="8.0574446614583337" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Chains_Partners" >
-          <ConnectorPoint PointX="1.5" PointY="13.625" />
-          <ConnectorPoint PointX="1.5" PointY="12.807190755208332" />
+          <ConnectorPoint PointX="5.75" PointY="8.1535953776041659" />
+          <ConnectorPoint PointX="2.25" PointY="8.1535953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Groups" >
-          <ConnectorPoint PointX="1.5567500050472229" PointY="10.25" />
-          <ConnectorPoint PointX="1.5567500050472229" PointY="9.2398893229166674" />
+          <ConnectorPoint PointX="1.5" PointY="10.25" />
+          <ConnectorPoint PointX="1.5" PointY="9.4321907552083335" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SitesGroups_Groups" >
-          <ConnectorPoint PointX="2.25" PointY="11.240143229166669" />
-          <ConnectorPoint PointX="3.25" PointY="11.240143229166669" />
+          <ConnectorPoint PointX="2.25" PointY="11.240143229166666" />
+          <ConnectorPoint PointX="3.25" PointY="11.240143229166666" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_OrderStatus" >
           <ConnectorPoint PointX="11.25" PointY="14.875" />
-          <ConnectorPoint PointX="11.25" PointY="13.99949218750001" />
+          <ConnectorPoint PointX="11.25" PointY="13.9994921875" />
         </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_Orders_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="12.624705403645834" />
-          <ConnectorPoint PointX="10.5" PointY="12.624705403645834" />
+        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.25" PointY="6.25" Height="5.2494108072916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="13.625" Height="1.7879850260416674" />
+        <AssociationConnector Association="ACSModel.FK_Chains_Partners" >
+          <ConnectorPoint PointX="1.5" PointY="13.625" />
+          <ConnectorPoint PointX="1.5" PointY="12.807190755208334" />
         </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" >
-          <ConnectorPoint PointX="5.75" PointY="14.1535546875" />
-          <ConnectorPoint PointX="4.75" PointY="14.1535546875" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="5.0571093750000031" />
+        <AssociationConnector Association="ACSModel.FK_Sites_Addresses" >
+          <ConnectorPoint PointX="8.25" PointY="10.874705403645834" />
+          <ConnectorPoint PointX="7.25" PointY="10.874705403645834" />
         </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" >
-          <ConnectorPoint PointX="5.75" PointY="11.240143229166669" />
-          <ConnectorPoint PointX="4.75" PointY="11.240143229166669" />
+        <AssociationConnector Association="ACSModel.FK_Employees_Sites" >
+          <ConnectorPoint PointX="6.5" PointY="10.25" />
+          <ConnectorPoint PointX="6.5" PointY="9.4994921875" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" >
-          <ConnectorPoint PointX="7.25" PointY="14.8410546875" />
-          <ConnectorPoint PointX="8.375" PointY="14.8410546875" />
+          <ConnectorPoint PointX="7.25" PointY="14.841054687500002" />
+          <ConnectorPoint PointX="8.25" PointY="14.841054687500002" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.125" PointY="6.25" Height="5.2494108072916674" />
-        <AssociationConnector Association="ACSModel.FK_Sites_Addresses" >
-          <ConnectorPoint PointX="8.125" PointY="10.874705403645834" />
-          <ConnectorPoint PointX="7.25" PointY="10.874705403645834" />
+        <AssociationConnector Association="ACSModel.FK_Orders_Sites" >
+          <ConnectorPoint PointX="7.25" PointY="12.780701497395832" />
+          <ConnectorPoint PointX="10.5" PointY="12.780701497395832" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" >
+          <ConnectorPoint PointX="5.75" PointY="14.153554687500002" />
+          <ConnectorPoint PointX="4.75" PointY="14.153554687500002" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" >
+          <ConnectorPoint PointX="5.75" PointY="11.240143229166666" />
+          <ConnectorPoint PointX="4.75" PointY="11.240143229166666" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
