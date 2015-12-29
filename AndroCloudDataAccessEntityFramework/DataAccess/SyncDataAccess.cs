@@ -72,7 +72,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 ConnectionStringOverride = this.ConnectionStringOverride
             };
             
-            
             foreach (var menuUpdate in menuUpdates.MenuThumbnailChanges) 
             {
                 var site = acsEntities.Sites.Single(e=> e.AndroID == menuUpdate.AndromediaSiteId);
