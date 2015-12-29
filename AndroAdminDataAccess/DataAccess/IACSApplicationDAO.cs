@@ -14,5 +14,8 @@ namespace AndroAdminDataAccess.DataAccess
         ACSApplication GetByExternalId(string externalId);
         void Add(Domain.ACSApplication acsApplication);
         void Update(ACSApplication acsApplication);
+        void AddStore(int storeId, int acsApplicatiopnId);
+        void RemoveStore(int storeId, int acsApplicatiopnId);
+        IList<Domain.ACSApplication> GetAfterDataVersion(int dataVersion);
     }
 }

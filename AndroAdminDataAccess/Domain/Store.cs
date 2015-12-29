@@ -25,5 +25,5 @@ namespace AndroAdminDataAccess.Domain
 
         [Display(Name = "Store status")]
         public virtual StoreStatus StoreStatus { get; set; }
-    }
+   }
 }

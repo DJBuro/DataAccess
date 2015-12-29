@@ -5,6 +5,10 @@ using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using System.Transactions;
+using System.Data.EntityClient;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Reflection;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -124,16 +128,26 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                ACSApplication entity = new ACSApplication()
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    Name = acsApplication.Name,
-                    ExternalApplicationId = acsApplication.ExternalApplicationId,
-                    DataVersion = 0,
-                    PartnerId = acsApplication.PartnerId
-                };
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                entitiesContext.AddToACSApplications(entity);
-                entitiesContext.SaveChanges();
+                    ACSApplication entity = new ACSApplication()
+                    {
+                        Name = acsApplication.Name,
+                        ExternalApplicationId = acsApplication.ExternalApplicationId,
+                        DataVersion = newVersion,
+                        PartnerId = acsApplication.PartnerId
+                    };
+
+                    entitiesContext.AddToACSApplications(entity);
+                    entitiesContext.SaveChanges();
+
+                    // Fin...
+                    transaction.Commit();
+                }
             }
         }
 
@@ -141,20 +155,115 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                var query = from s in entitiesContext.ACSApplications
-                            where acsApplication.Id == s.Id
-                            select s;
-
-                var entity = query.FirstOrDefault();
-
-                if (entity != null)
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    entity.Name = acsApplication.Name;
-                    entity.ExternalApplicationId = acsApplication.ExternalApplicationId;
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    entitiesContext.SaveChanges();
+                    var query = from s in entitiesContext.ACSApplications
+                                where acsApplication.Id == s.Id
+                                select s;
+
+                    var entity = query.FirstOrDefault();
+
+                    if (entity != null)
+                    {
+                        entity.Name = acsApplication.Name;
+                        entity.ExternalApplicationId = acsApplication.ExternalApplicationId;
+                        entity.DataVersion = newVersion;
+                        entitiesContext.SaveChanges();
+
+                        // Fin...
+                        transaction.Commit();
+                    }
                 }
             }
+        }
+
+        public void AddStore(int storeId, int acsApplicationId)
+        {
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                {
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+
+                    // We don't delete application stores - we mark them as deleted.
+                    // When adding an application store we could be effectively "undeleting" a store previously marked as deleted
+
+                    // Get the existing application store so we can delete it
+                    var query2 = from s in entitiesContext.ACSApplicationSites
+                            where storeId == s.SiteId
+                            && acsApplicationId == s.ACSApplicationId
+                            select s;
+                    var entity2 = query2.FirstOrDefault();
+
+                    // Does the application store already exist?
+                    if (entity2 == null)
+                    {
+                        // No existing application store - add one
+                        ACSApplicationSite acsApplicationSite = new ACSApplicationSite();
+                        acsApplicationSite.IsDeleted = false;
+                        acsApplicationSite.SiteId = storeId;
+                        acsApplicationSite.ACSApplicationId = acsApplicationId;
+                        acsApplicationSite.DataVersion = newVersion;
+
+                        entitiesContext.AddToACSApplicationSites(acsApplicationSite);
+                        entitiesContext.SaveChanges();
+                    }
+                    else
+                    {
+                        // Un-delete the existing application store
+                        entity2.IsDeleted = false;
+                        entity2.DataVersion = newVersion;
+                        entitiesContext.SaveChanges();
+                    }
+
+                    // Fin...
+                    transaction.Commit();
+                }
+            }
+        }
+
+        public void RemoveStore(int storeId, int acsApplicationId)
+        {
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                {
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+
+                    // Get the existing application store so we can delete it
+                    var query = from s in entitiesContext.ACSApplicationSites
+                                where storeId == s.SiteId
+                                && acsApplicationId == s.ACSApplicationId
+                                select s;
+
+                    var entity = query.FirstOrDefault();
+
+                    if (entity != null)
+                    {
+                        // Delete the application store (not really, just mark it as deleted)
+                        entity.IsDeleted = true;
+                        entity.DataVersion = newVersion;
+                        entitiesContext.SaveChanges();
+
+                        // Fin...
+                        transaction.Commit();
+                    }
+                }
+            }
+        }
+
+
+        public IList<Domain.ACSApplication> GetAfterDataVersion(int dataVersion)
+        {
+            throw new NotImplementedException();
         }
     }
 }

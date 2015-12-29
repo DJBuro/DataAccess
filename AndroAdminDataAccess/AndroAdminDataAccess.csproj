@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IHostDAO.cs" />
     <Compile Include="DataAccess\IACSApplicationDAO.cs" />
     <Compile Include="DataAccess\IPartnerDAO.cs" />
     <Compile Include="DataAccess\IStoreStatusDAO.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
+    <Compile Include="Domain\Host.cs" />
     <Compile Include="Domain\Partner.cs" />
     <Compile Include="Domain\StoreStatus.cs" />
     <Compile Include="Domain\StoreAMSServer.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Domain\Log.cs" />
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\PartnerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreStatusDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\FtpSiteDAO.cs" />
@@ -101,6 +104,7 @@
     <Compile Include="EntityFramework\DataAccess\StoreAMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreDAO.cs" />
+    <Compile Include="EntityFramework\DataVersionHelper.cs" />
     <Compile Include="EntityFramework\EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="EntityFramework\EntityModel.Designer.cs">
       <AutoGen>True</AutoGen>
