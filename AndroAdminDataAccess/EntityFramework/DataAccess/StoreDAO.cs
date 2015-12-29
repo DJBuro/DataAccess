@@ -184,6 +184,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
+        public IList<Domain.Store> GetAllStores() { 
+            
+            List<Domain.Store> stores = new List<Domain.Store>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                entitiesContext.Configuration.LazyLoadingEnabled = false;
+
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                stores = entitiesContext.Stores.Include("StoreStatu").Distinct().Select(s => new Domain.Store { Id = s.Id, Name = s.Name, AndromedaSiteId = s.AndromedaSiteId, ExternalSiteName = s.ExternalSiteName, ExternalSiteId = s.ExternalId, StoreStatus = new Domain.StoreStatus { Description = s.StoreStatu.Description, Id = s.StoreStatu.Id, Status = s.StoreStatu.Status } }).Distinct().ToList();
+            }
+
+            return stores;
+        }
+
         public void Add(Domain.Store store)
         {
             // We will use transactionscope to implicitly enrole both EF and direct SQL in the same transaction
