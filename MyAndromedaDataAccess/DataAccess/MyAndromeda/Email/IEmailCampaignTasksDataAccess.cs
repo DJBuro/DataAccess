@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain.Marketing;
 
 namespace MyAndromedaDataAccess.DataAccess.MyAndromeda.Email
