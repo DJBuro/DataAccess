@@ -63,5 +63,12 @@ namespace AndroCloudDataAccessEntityFramework
             get { return new MyAndromedaUserDataAccess(); }
             set { throw new NotImplementedException(); }
         }
+
+
+        public AndroCloudDataAccess.DataAccess.IAddressDataAccess AddressDataAccess
+        {
+            get { return new AddressDataAccess(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
