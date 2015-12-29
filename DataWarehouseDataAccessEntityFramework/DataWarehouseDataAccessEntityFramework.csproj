@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\PasswordResetRequestDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\DataAccessHelper.cs" />
     <Compile Include="Domain\CustomerWrapper.cs" />
@@ -100,6 +101,9 @@
       <DependentUpon>DataWarehouse.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\MarketingLevel.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PasswordResetRequest.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="PasswordHelper.cs" />

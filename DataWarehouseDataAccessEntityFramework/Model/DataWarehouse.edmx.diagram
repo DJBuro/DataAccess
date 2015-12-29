@@ -18,6 +18,8 @@
         <EntityTypeShape EntityType="DataWarehouseModel.Address" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="DataWarehouseModel.FK_Address_Country" />
         <AssociationConnector Association="DataWarehouseModel.FK_Customer_Address" />
+        <EntityTypeShape EntityType="DataWarehouseModel.PasswordResetRequest" Width="1.5" PointX="2.4466459874280941" PointY="9.5680217936486116" />
+        <AssociationConnector Association="DataWarehouseModel.FK_PasswordResetRequest_Customer" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

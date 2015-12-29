@@ -9,5 +9,6 @@ namespace DataWarehouseDataAccess
     public interface IDataAccessFactory
     {
         ICustomerDataAccess CustomerDataAccess { get; set; }
+        IPasswordResetRequestDataAccess PasswordResetRequestDataAccess { get; set; }
     }
 }
