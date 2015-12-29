@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 
 namespace DashboardDataAccess.Domain
 {
-    public class Site
+    public class HistoricalData
     {
         public virtual int Id { get; set; }
         public virtual int SiteId { get; set; }
         public virtual string Name { get; set; }
-        public virtual int HeadOfficeID { get; set; }
-        public virtual string IPAddress { get; set; }
-        public virtual int SiteTypeId { get; set; }
-        public virtual bool Enabled { get; set; }
-        public virtual int SiteKey { get; set; }
- //       public virtual int RegionId { get; set; }
-        public virtual DateTime? LastUpdated { get; set; }
+        public virtual int HeadOfficeId { get; set; }
+        public virtual DateTime LastUpdated { get; set; }
         public virtual int Column_1 { get; set; }
         public virtual int Column_2 { get; set; }
         public virtual int Column_3 { get; set; }
@@ -37,8 +32,6 @@ namespace DashboardDataAccess.Domain
         public virtual int Column_18 { get; set; }
         public virtual int Column_19 { get; set; }
         public virtual int Column_20 { get; set; }
-        public virtual bool? Comp { get; set; }
-        public virtual int? Column_21 { get; set; }
-        public virtual Region Region { get; set; }
+        public virtual DateTime? TradingDay { get; set; }
     }
 }

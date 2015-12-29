@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DashboardDataAccess
+namespace DashboardDataAccess.Domain
 {
     public class Log
     {
@@ -14,10 +14,5 @@ namespace DashboardDataAccess
         public virtual string Method{get; set;}
         public virtual string Source{get; set;}
         public virtual DateTime Created { get; set; }
-
-        public static void Create(Log log)
-        {
-            tbl_Log.Create(log);
-        }
     }
 }

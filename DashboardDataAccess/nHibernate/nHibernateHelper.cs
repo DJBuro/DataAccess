@@ -5,6 +5,7 @@ using System.Text;
 using NHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using DashboardDataAccess.nHibernate.Mappings;
 
 namespace DashboardDataAccess
 {
@@ -24,6 +25,7 @@ namespace DashboardDataAccess
               )
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Log>())
               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Site>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_HistoricalData>())
               .BuildSessionFactory();
         }
     }

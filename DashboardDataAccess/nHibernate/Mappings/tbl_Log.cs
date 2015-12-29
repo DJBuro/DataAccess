@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate;
+using DashboardDataAccess.Domain;
 
-namespace DashboardDataAccess
+namespace DashboardDataAccess.nHibernate.Mappings
 {
     public class tbl_Log : ClassMap<Log>
     {

@@ -47,10 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="nHibernate\nHibernateDataAccess.cs" />
+    <Compile Include="Domain\Region.cs" />
+    <Compile Include="Domain\HistoricalData.cs" />
     <Compile Include="Domain\Log.cs" />
-    <Compile Include="Mappings\tbl_Log.cs" />
-    <Compile Include="nHibernateHelper.cs" />
-    <Compile Include="Mappings\tbl_Site.cs" />
+    <Compile Include="DataAccess\HistoricalDataDAO.cs" />
+    <Compile Include="DataAccess\LogDAO.cs" />
+    <Compile Include="DataAccess\RegionDAO.cs" />
+    <Compile Include="DataAccess\SiteDAO.cs" />
+    <Compile Include="nHibernate\Mappings\tbl_Region.cs" />
+    <Compile Include="nHibernate\Mappings\tbl_HistoricalData.cs" />
+    <Compile Include="nHibernate\Mappings\tbl_Log.cs" />
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="nHibernate\nHibernateHelper.cs" />
+    <Compile Include="nHibernate\Mappings\tbl_Site.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Site.cs" />
   </ItemGroup>
