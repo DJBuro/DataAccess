@@ -71,22 +71,21 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 // Get the order lines
                 var orderLinesQuery =
                     from ol in dataWarehouseEntities.OrderLines
-                    join oh in dataWarehouseEntities.OrderHeaders
-                        on ol.OrderHeaderID equals oh.ID
-                    where oh.ID == orderDetailsEntity.Id
-                        && oh.ApplicationID == applicationId
-                        && oh.CustomerID == customerId
+                    where ol.OrderHeaderID == orderDetailsEntity.Id
                     select ol;
 
                 // Get the order discounts
                 var orderDiscountsQuery =
                     from od in dataWarehouseEntities.OrderDiscounts
-                    join oh in dataWarehouseEntities.OrderHeaders
-                        on od.OrderHeaderId equals oh.ID
-                    where oh.ID == orderDetailsEntity.Id
-                        && oh.ApplicationID == applicationId
-                        && oh.CustomerID == customerId
+                    where od.OrderHeaderId == orderDetailsEntity.Id
                     select od;
+
+                // Get the order payment
+                var orderPaymentsQuery =
+                    from op in dataWarehouseEntities.OrderPayments
+                    where op.OrderHeaderID == orderDetailsEntity.Id
+                    select op;
+                OrderPayment orderPaymentsEntity = orderPaymentsQuery.FirstOrDefault();
 
                 // Prepare the results
                 orderDetails = new OrderDetails()
@@ -96,6 +95,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     OrderStatus = orderDetailsEntity.OrderStatus,
                     OrderTotal = orderDetailsEntity.OrderTotal,
                     DeliveryCharge = orderDetailsEntity.DeliveryCharge,
+                    PaymentCharge = orderPaymentsEntity.PaymentCharge.HasValue ? orderPaymentsEntity.PaymentCharge.Value : 0,
                     OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
                     Deals = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
                     Discounts = new List<DataWarehouseDataAccess.Domain.OrderDiscount>()

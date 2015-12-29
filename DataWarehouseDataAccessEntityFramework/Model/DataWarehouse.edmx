@@ -313,6 +313,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="PayTypeName" Type="nvarchar" MaxLength="32" />
           <Property Name="LastFourDigits" Type="varchar" MaxLength="4" />
           <Property Name="PayProcessor" Type="nvarchar" MaxLength="32" />
+          <Property Name="PaymentCharge" Type="int" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -578,7 +579,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderDiscount_OrderHeader">
-          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderDiscount" Type="Self.OrderDiscount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
@@ -640,7 +643,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderLoyalty_OrderHeader">
-          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderLoyalty" Type="Self.OrderLoyalty" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
@@ -652,7 +657,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderPaymentPSP_OrderPayment">
-          <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="0..1" />
+          <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderPaymentPSP" Type="Self.OrderPaymentPSP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderPayments">
@@ -664,7 +671,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderPayments_OrderHeader">
-          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderPayments" Type="Self.OrderPayments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
@@ -1040,8 +1049,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </AssociationSet>
           <EntitySet Name="OrderDiscounts" EntityType="DataWarehouseModel.OrderDiscount" />
           <EntitySet Name="OrderDiscountTypes" EntityType="DataWarehouseModel.OrderDiscountType" />
-          <EntitySet Name="OrderPaymentPSPs" EntityType="DataWarehouseModel.OrderPaymentPSP" />
-          <EntitySet Name="OrderPayments" EntityType="DataWarehouseModel.OrderPayment" />
           <AssociationSet Name="FK_OrderDiscount_OrderDiscountType" Association="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType">
             <End Role="OrderDiscountType" EntitySet="OrderDiscountTypes" />
             <End Role="OrderDiscount" EntitySet="OrderDiscounts" />
@@ -1050,6 +1057,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderDiscount" EntitySet="OrderDiscounts" />
           </AssociationSet>
+          <EntitySet Name="OrderPaymentPSPs" EntityType="DataWarehouseModel.OrderPaymentPSP" />
+          <EntitySet Name="OrderPayments" EntityType="DataWarehouseModel.OrderPayment" />
           <AssociationSet Name="FK_OrderPayments_OrderHeader" Association="DataWarehouseModel.FK_OrderPayments_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderPayment" EntitySet="OrderPayments" />
@@ -1788,33 +1797,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderDiscounts" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderDiscountType" FromRole="OrderDiscountType" ToRole="OrderDiscount" />
         </EntityType>
-        <EntityType Name="OrderPaymentPSP">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="OrderPaymentID" Type="Guid" />
-          <Property Name="PSPName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="UniqueTransactionRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="MerchantRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderPayment" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPaymentPSP" ToRole="OrderPayment" />
-        </EntityType>
-        <EntityType Name="OrderPayment">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="OrderHeaderID" Type="Guid" Nullable="false" />
-          <Property Name="PaymentType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="Value" Type="Int32" Nullable="false" />
-          <Property Name="AuthCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="CVVStatus" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="PayTypeName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="LastFourDigits" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="PayProcessor" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderPayments_OrderHeader" FromRole="OrderPayment" ToRole="OrderHeader" />
-          <NavigationProperty Name="OrderPaymentPSPs" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPayment" ToRole="OrderPaymentPSP" />
-        </EntityType>
         <Association Name="FK_OrderDiscount_OrderDiscountType">
           <End Type="DataWarehouseModel.OrderDiscountType" Role="OrderDiscountType" Multiplicity="1" />
           <End Type="DataWarehouseModel.OrderDiscount" Role="OrderDiscount" Multiplicity="*" />
@@ -1839,8 +1821,38 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderPaymentPSP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderPaymentID" Type="Guid" />
+          <Property Name="PSPName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="UniqueTransactionRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="MerchantRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderPayment" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPaymentPSP" ToRole="OrderPayment" />
+        </EntityType>
+        <EntityType Name="OrderPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderHeaderID" Type="Guid" Nullable="false" />
+          <Property Name="PaymentType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <Property Name="AuthCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="CVVStatus" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="PayTypeName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="LastFourDigits" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="PayProcessor" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentCharge" Type="Int32" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderPayments_OrderHeader" FromRole="OrderPayment" ToRole="OrderHeader" />
+          <NavigationProperty Name="OrderPaymentPSPs" Relationship="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" FromRole="OrderPayment" ToRole="OrderPaymentPSP" />
+        </EntityType>
         <Association Name="FK_OrderPayments_OrderHeader">
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="DataWarehouseModel.OrderPayment" Role="OrderPayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderHeader">
@@ -1852,7 +1864,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderPaymentPSP_OrderPayment">
-          <End Type="DataWarehouseModel.OrderPayment" Role="OrderPayment" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.OrderPayment" Role="OrderPayment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="DataWarehouseModel.OrderPaymentPSP" Role="OrderPaymentPSP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderPayment">
@@ -2272,6 +2286,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="OrderPayments">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderPayment">
               <MappingFragment StoreEntitySet="OrderPayments">
+                <ScalarProperty Name="PaymentCharge" ColumnName="PaymentCharge" />
                 <ScalarProperty Name="PayProcessor" ColumnName="PayProcessor" />
                 <ScalarProperty Name="LastFourDigits" ColumnName="LastFourDigits" />
                 <ScalarProperty Name="PayTypeName" ColumnName="PayTypeName" />
@@ -2284,7 +2299,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
