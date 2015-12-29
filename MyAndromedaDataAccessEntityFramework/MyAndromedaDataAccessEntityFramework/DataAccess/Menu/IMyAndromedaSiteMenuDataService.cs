@@ -6,6 +6,7 @@ using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
@@ -23,7 +24,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// Sets the version.
         /// </summary>
         /// <param name="siteMenuFtpBackup">The site menu FTP backup.</param>
-        void SetVersion(SiteMenuFtpBackup siteMenuFtpBackup);
+        //void SetVersion(SiteMenu siteMenuFtpBackup);
+
 
         /// <summary>
         /// Gets the menu.
@@ -52,19 +54,22 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <returns></returns>
         IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query);
 
+        
         /// <summary>
         /// Sets the upload flag.
         /// </summary>
         /// <param name="siteMenuFtp">The site menu FTP.</param>
         /// <param name="value">The value.</param>
-        void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false);
+        void SetUploadTask(SiteMenu siteMenu, TaskStatus status);
 
         /// <summary>
         /// Sets the download flag.
         /// </summary>
         /// <param name="siteMenuFtp">The site menu FTP.</param>
         /// <param name="value">The value.</param>
-        void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false);
+        void SetDownloadTask(SiteMenu siteMenu, TaskStatus status);
 
     }
+
+
 }

@@ -34,5 +34,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public virtual ICollection<UserChain> UserChains { get; set; }
         public virtual ICollection<UserStore> UserStores { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual UserIpLock UserIpLock { get; set; }
     }
 }

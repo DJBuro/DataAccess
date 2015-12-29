@@ -17,19 +17,24 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public SiteMenu()
         {
             this.MenuItems = new HashSet<MenuItem>();
+            this.SiteMenuPublishTasks = new HashSet<SiteMenuPublishTask>();
         }
     
         public System.Guid Id { get; set; }
         public int AndromediaId { get; set; }
         public int DataVersion { get; set; }
-        public System.DateTime LastUpdated { get; set; }
+        public Nullable<System.DateTime> LastUpdatedUtc { get; set; }
         public Nullable<int> SiteMenuMediaServerId { get; set; }
         public Nullable<int> SiteMenuMediaProfileId { get; set; }
-        public Nullable<int> SiteMenuFtpBackupId { get; set; }
+        public Nullable<int> AccessMenuVersion { get; set; }
+        public Nullable<int> SiteMenuFtpBackupDownloadTaskId { get; set; }
+        public Nullable<int> SiteMenuFtpBackupUploadTaskId { get; set; }
     
         public virtual ICollection<MenuItem> MenuItems { get; set; }
+        public virtual SiteMenuFtpBackupDownloadTask SiteMenuFtpBackupDownloadTask { get; set; }
+        public virtual SiteMenuFtpBackupUploadTask SiteMenuFtpBackupUploadTask { get; set; }
         public virtual SiteMenuMediaProfile SiteMenuMediaProfile { get; set; }
         public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
-        public virtual SiteMenuFtpBackup SiteMenuFtpBackup { get; set; }
+        public virtual ICollection<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
     }
 }
