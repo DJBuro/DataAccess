@@ -11,5 +11,7 @@ namespace DataWarehouseDataAccess.Domain
         public System.Guid CustomerId { get; set; }
         public string ProviderName { get; set; }
         public Nullable<decimal> Points { get; set; }
+        public Nullable<decimal> PointsGained { get; set; }
+        public Nullable<decimal> PointsUsed { get; set; }
     }
 }
