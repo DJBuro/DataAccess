@@ -8,6 +8,7 @@
         <EntityContainer Name="MyAndromedaModelStoreContainer">
           <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.Store.EmailCampaignSettings" store:Type="Tables" Schema="dbo" />
         </EntityContainer>
         <EntityType Name="CustomerRecord">
           <Key>
@@ -28,6 +29,19 @@
           <Property Name="EmailTemplate" Type="text" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Host" Type="varchar" MaxLength="250" />
+          <Property Name="Port" Type="varchar" MaxLength="10" />
+          <Property Name="UserName" Type="varchar" MaxLength="250" />
+          <Property Name="Password" Type="varchar" MaxLength="250" />
+          <Property Name="ChainId" Type="int" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -36,6 +50,7 @@
         <EntityContainer Name="MyAndromedaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CustomerRecords" EntityType="MyAndromedaModel.CustomerRecord" />
           <EntitySet Name="EmailCampaigns" EntityType="MyAndromedaModel.EmailCampaign" />
+          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.EmailCampaignSetting" />
         </EntityContainer>
         <EntityType Name="CustomerRecord">
           <Key>
@@ -56,6 +71,19 @@
           <Property Type="String" Name="EmailTemplate" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" Precision="3" />
           <Property Type="DateTime" Name="Modified" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailCampaignSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Host" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Port" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserName" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Password" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ChainId" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -77,10 +105,24 @@
           <EntitySetMapping Name="EmailCampaigns">
             <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaign">
               <MappingFragment StoreEntitySet="EmailCampaign">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="EmailTemplate" ColumnName="EmailTemplate" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailCampaignSettings">
+            <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignSetting">
+              <MappingFragment StoreEntitySet="EmailCampaignSettings">
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

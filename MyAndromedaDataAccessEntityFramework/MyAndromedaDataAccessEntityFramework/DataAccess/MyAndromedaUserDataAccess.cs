@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Objects;
 using System.Linq;
@@ -116,7 +117,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 if (entity != null)
                 {
                     // Get the users sites
-                    System.Collections.Generic.List<MyAndromedaDataAccess.Domain.Site> sites = null;
+                    List<MyAndromedaDataAccess.Domain.Site> sites = null;
                     SitesDataAccess sitesDataAccess = new SitesDataAccess();
                     sitesDataAccess.GetByMyAndromedaUserId(entity.Id, out sites);
 

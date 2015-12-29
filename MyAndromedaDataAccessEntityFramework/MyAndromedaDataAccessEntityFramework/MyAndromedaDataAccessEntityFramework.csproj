@@ -100,9 +100,13 @@
     <Compile Include="Model\EmailCampaign.cs">
       <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\EmailCampaignSetting.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Employee.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExpressionRewriter.cs" />
     <Compile Include="Model\FTPSite.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>

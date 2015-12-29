@@ -27,5 +27,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     
         public DbSet<CustomerRecord> CustomerRecords { get; set; }
         public DbSet<EmailCampaign> EmailCampaigns { get; set; }
+        public DbSet<EmailCampaignSetting> EmailCampaignSettings { get; set; }
     }
 }
