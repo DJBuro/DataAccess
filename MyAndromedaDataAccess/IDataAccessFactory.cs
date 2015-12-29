@@ -33,5 +33,11 @@ namespace MyAndromedaDataAccess
         /// </summary>
         /// <value>The email campaign tasks data access.</value>
         IEmailCampaignTasksDataAccess EmailCampaignTasksDataAccess { get; }
+
+        /// <summary>
+        /// Gets the order reporting service.
+        /// </summary>
+        /// <value>The order reporting service.</value>
+        IOrderReportingService OrderReportingService { get; }
     }
 }

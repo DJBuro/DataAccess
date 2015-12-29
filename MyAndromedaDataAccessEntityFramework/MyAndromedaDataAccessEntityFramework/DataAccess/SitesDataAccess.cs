@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
 using AndroCloudHelper;
+using MyAndromedaDataAccessEntityFramework.Comparer;
 using MyAndromedaDataAccessEntityFramework.Model;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
@@ -56,14 +57,16 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetByMyAndromedaUserId(int myAndromedaUserId, out List<MyAndromedaDataAccess.Domain.Site> sites)
         {
-            sites = new List<MyAndromedaDataAccess.Domain.Site>();
+            var siteDictionary = new Dictionary<int, MyAndromedaDataAccess.Domain.Site>(); 
+
+            //sites = new List<MyAndromedaDataAccess.Domain.Site>();
 
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 // A user can be associated with zero or more groups of stores.
                 // The user has permission to access any of the stores in these groups.
                 // For example, there might be a group called "PJ UK" containing all PJ UK stores
-                var query = from u in entitiesContext.MyAndromedaUsers
+                var query = (from u in entitiesContext.MyAndromedaUsers
                             join mug in entitiesContext.MyAndromedaUserGroups
                                 on u.Id equals mug.MyAndromedaUserId
                             join g in entitiesContext.Groups
@@ -73,10 +76,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             join s in entitiesContext.Stores
                                 on sg.StoreId equals s.Id
                             where u.Id == myAndromedaUserId
-                            select s;
+                            select s).ToArray();
 
-                if (query != null)
+                if (query != null && query.Length > 0)
                 {
+
                     foreach (Store entity in query)
                     {
                         MyAndromedaDataAccess.Domain.Site site = new MyAndromedaDataAccess.Domain.Site()
@@ -91,7 +95,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             ChainId = entity.ChainId
                         };
 
-                        sites.Add(site);
+                        if(!siteDictionary.ContainsKey(site.Id))
+                            siteDictionary.Add(site.Id, site);
                     }
                 }
 
@@ -121,10 +126,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             ChainId = entity.ChainId
                         };
 
-                        sites.Add(site);
+                        if (!siteDictionary.ContainsKey(site.Id))
+                            siteDictionary.Add(site.Id, site);
                     }
                 }
             }
+
+            sites = siteDictionary.Values.ToList();
 
             return "";
         }
