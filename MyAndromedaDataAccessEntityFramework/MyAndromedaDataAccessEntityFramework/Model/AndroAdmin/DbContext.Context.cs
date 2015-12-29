@@ -59,5 +59,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<Store> Stores { get; set; }
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
         public DbSet<HubAddress> HubAddresses { get; set; }
+        public DbSet<Site_AMS_upload> Site_AMS_upload { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
