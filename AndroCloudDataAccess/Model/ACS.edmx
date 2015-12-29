@@ -396,7 +396,6 @@
           <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Chains" ToRole="Partners" />
           <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Chains" FromRole="Chains" ToRole="Sites" />
           <Property Type="DateTime" Name="LastUpdated" />
-          <Property Type="Guid" Name="SecurityID" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -459,7 +458,6 @@
           <Property Name="AndroID" Type="Int32" />
           <Property Name="AddressID" Type="Guid" />
           <Property Name="OpeningHoursID" Type="Guid" />
-          <Property Name="SessionID" Type="Guid" />
           <NavigationProperty Name="Addresses" Relationship="ACSModel.FK_Addresses_Sites" FromRole="Sites" ToRole="Addresses" />
           <NavigationProperty Name="Chain" Relationship="ACSModel.FK_Sites_Chains" FromRole="Sites" ToRole="Chains" />
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Sites" ToRole="OpeningHours" />
@@ -699,13 +697,13 @@
         <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="0.75" PointY="1" Height="2.9417936197916665" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.ACSQueueStatu" Width="1.5" PointX="3" PointY="1.5" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="7.5" PointY="1.375" Height="3.1340950520833317" IsExpanded="true" />
-        <EntityTypeShape EntityType="ACSModel.Chain" Width="1.5" PointX="3" PointY="6.125" Height="1.9802864583333344" IsExpanded="true" />
+        <EntityTypeShape EntityType="ACSModel.Chain" Width="1.5" PointX="3" PointY="6.125" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="7.5" PointY="5.25" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.OrderLine" Width="1.5" PointX="9.75" PointY="7.875" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="7.5" PointY="7.625" Height="2.3648893229166674" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="6.25" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="7.5" PointY="10.75" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.25" PointY="5.5" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.25" PointY="5.5" Height="4.0956022135416656" IsExpanded="true" />
         <AssociationConnector Association="ACSModel.FK_MsgStatus_Queue" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="2.4901432291666667" />
           <ConnectorPoint PointX="3" PointY="2.4901432291666667" />
@@ -716,12 +714,12 @@
           <ConnectorPoint PointX="7.5" PointY="2.9420475260416659" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Chains_Partners" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="7.1439925130208337" />
-          <ConnectorPoint PointX="3" PointY="7.1439925130208337" />
+          <ConnectorPoint PointX="2.25" PointY="7.2401432291666667" />
+          <ConnectorPoint PointX="3" PointY="7.2401432291666667" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Sites_Chains" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="7.3074446614583328" />
-          <ConnectorPoint PointX="5.25" PointY="7.3074446614583328" />
+          <ConnectorPoint PointX="4.5" PointY="7.2112939453125" />
+          <ConnectorPoint PointX="5.25" PointY="7.2112939453125" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="6.172841796875" />
@@ -732,11 +730,11 @@
           <ConnectorPoint PointX="9.75" PointY="8.7689925130208337" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="8.7064518229166659" />
-          <ConnectorPoint PointX="7.5" PointY="8.7064518229166659" />
+          <ConnectorPoint PointX="6.75" PointY="8.6103011067708337" />
+          <ConnectorPoint PointX="7.5" PointY="8.6103011067708337" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" ManuallyRouted="false">
-          <ConnectorPoint PointX="6" PointY="9.7879036458333317" />
+          <ConnectorPoint PointX="6" PointY="9.5956022135416656" />
           <ConnectorPoint PointX="6" PointY="11.932444661458334" />
           <ConnectorPoint PointX="7.5" PointY="11.932444661458334" />
         </AssociationConnector>
@@ -747,8 +745,8 @@
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_ACSQueue_SrcSites" >
           <ConnectorPoint PointX="5.8487116154725953" PointY="5.5" />
-          <ConnectorPoint PointX="5.8487116154725953" PointY="4.38499844563802" />
-          <ConnectorPoint PointX="2.25" PointY="4.38499844563802" />
+          <ConnectorPoint PointX="5.8487116154725953" PointY="4.3530721504720047" />
+          <ConnectorPoint PointX="2.25" PointY="4.3530721504720047" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
