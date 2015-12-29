@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using MyAndromeda.Core;
 using MyAndromeda.Core.Data;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
-
+using MyAndromedaDataAccessEntityFramework.Model;
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 {
     public interface IStoreDataService: IDependency, IDataProvider<Store> 
@@ -54,6 +54,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 
         public void Update(Store store) 
         {
+            store.DataVersion = this.androAdminDbContext.GetNextDataVersionForEntity();
+
             this.androAdminDbContext.SaveChanges();
         }
 
