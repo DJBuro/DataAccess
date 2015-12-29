@@ -11,6 +11,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
     public interface ISiteDataService : IDependency
     {
         IEnumerable<Site> Query(Expression<Func<Store, bool>> query);
+        IEnumerable<TResult> QueryTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform);
     }
 
     public class SiteDataService : ISiteDataService 
@@ -29,6 +30,20 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
             }
 
             return sites;
+        }
+
+        public IEnumerable<TResult> QueryTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform)
+        {
+            IEnumerable<TResult> data;
+
+            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
+            {
+                var table = dbContext.Stores;
+                var storeQuery = table.Where(query).Select(transform);
+                data = storeQuery.ToArray();
+            }
+
+            return data;
         }
 
         //public bool SiteBelongsToChain(int siteId) 

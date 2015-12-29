@@ -94,6 +94,42 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public void GetPublicV2(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
+        {
+            applicationHostList = new List<AndroCloudDataAccess.Domain.HostV2>();
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var acsQuery = acsEntities.HostsV2
+                    .Where(e => e.Public)
+                    .Where(e=> e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                    .Select(e=> new {
+                        e.Id,
+                        e.Order,
+                        TypeName = e.HostType.Name,
+                        e.Url,
+                        e.Version
+                    }).ToArray();
+
+                foreach (var hostEntity in acsQuery)
+                {
+                    AndroCloudDataAccess.Domain.HostV2 host = new AndroCloudDataAccess.Domain.HostV2()
+                    {
+                        Id = hostEntity.Id,
+                        Order = hostEntity.Order,
+                        Type = hostEntity.TypeName,
+                        Url = hostEntity.Url,
+                        Version = hostEntity.Version
+                    };
+
+                    applicationHostList.Add(host);
+                }
+            }
+
+            
+        }
+
         public string GetAllPrivate(out List<AndroCloudDataAccess.Domain.PrivateHost> hosts)
         {
             hosts = new List<AndroCloudDataAccess.Domain.PrivateHost>();
@@ -150,11 +186,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public void GetPublicV2(out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
-        {
-            applicationHostList = new List<AndroCloudDataAccess.Domain.HostV2>();
-            // TODO: Implement this method
-            //throw new NotImplementedException();
-        }
+        
     }
 }
