@@ -10,7 +10,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class HostDataAccess : IHostDataAccess
     {
-        public string GetAll(out List<AndroCloudDataAccess.Domain.Host> hosts)
+        public string GetAllPublic(out List<AndroCloudDataAccess.Domain.Host> hosts)
         {
             hosts = new List<AndroCloudDataAccess.Domain.Host>();
             var acsEntities = new ACSEntities();
@@ -21,9 +21,28 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             foreach (Host hostEntity in acsQuery)
             {
                 AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
-                host.Name = hostEntity.HostName;
+                host.Url = hostEntity.HostName;
                 host.Order = hostEntity.Order;
-                host.Port = hostEntity.Port;
+
+                hosts.Add(host);
+            }
+
+            return "";
+        }
+
+        public string GetAllPrivate(out List<AndroCloudDataAccess.Domain.Host> hosts)
+        {
+            hosts = new List<AndroCloudDataAccess.Domain.Host>();
+            var acsEntities = new ACSEntities();
+
+            var acsQuery = from h in acsEntities.Hosts
+                           select h;
+
+            foreach (Host hostEntity in acsQuery)
+            {
+                AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
+                host.Url = hostEntity.PrivateHostName;
+                host.Order = hostEntity.Order;
 
                 hosts.Add(host);
             }

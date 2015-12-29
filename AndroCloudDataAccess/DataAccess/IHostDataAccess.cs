@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IHostDataAccess
     {
-        string GetAll(out List<Host> hosts);
+        string GetAllPublic(out List<Host> hosts);
+        string GetAllPrivate(out List<AndroCloudDataAccess.Domain.Host> hosts);
     }
 }

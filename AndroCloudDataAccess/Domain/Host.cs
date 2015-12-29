@@ -8,20 +8,16 @@ using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
-    [DataContract]
     public class Host
     {
         [JsonIgnore]
         [XmlIgnore]
         public Guid Id { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "url")]
+        public string Url { get; set; }
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
-
-        [JsonProperty(PropertyName = "port")]
-        public int Port { get; set; }
     }
 }

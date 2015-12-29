@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
 using AndroCloudDataAccess.Domain;
 using AndroCloudWCFHelper;
+using AndroCloudHelper;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {

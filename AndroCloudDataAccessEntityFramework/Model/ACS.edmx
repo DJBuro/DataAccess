@@ -186,6 +186,7 @@
           <Property Name="HostName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Order" Type="int" Nullable="false" />
           <Property Name="Port" Type="int" Nullable="false" />
+          <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="MyAndromedaUser">
           <Key>
@@ -807,6 +808,7 @@
           <Property Type="String" Name="HostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Order" Nullable="false" />
           <Property Type="Int32" Name="Port" Nullable="false" />
+          <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Site">
           <Key>
@@ -1116,6 +1118,7 @@
           <EntitySetMapping Name="Hosts">
             <EntityTypeMapping TypeName="ACSModel.Host">
               <MappingFragment StoreEntitySet="Hosts">
+                <ScalarProperty Name="PrivateHostName" ColumnName="PrivateHostName" />
                 <ScalarProperty Name="Port" ColumnName="Port" />
                 <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="HostName" ColumnName="HostName" />
