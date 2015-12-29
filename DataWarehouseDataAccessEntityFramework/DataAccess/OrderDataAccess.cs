@@ -89,7 +89,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string UpdateOrderStatus(string internetOrderNumber, string externalSiteID, int ramesesOrderStatusId)
+        public string UpdateOrderStatus(int ramesesOrderNumber, string externalSiteID, int ramesesOrderStatusId)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {
@@ -98,14 +98,14 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 var query =
                     from oh in dataWarehouseEntities.OrderHeaders
                     where oh.ExternalSiteID == externalSiteID
-                    && oh.ExternalOrderRef == internetOrderNumber
+                    && oh.RamesesOrderNum == ramesesOrderNumber
                     select oh;
 
                 var orderHeaderEntity = query.FirstOrDefault();
 
                 if (orderHeaderEntity == null)
                 {
-                    return "Unknown orderId '" + internetOrderNumber + "' and site id '" + externalSiteID + "' combination";
+                    return "Unknown orderId '" + ramesesOrderNumber + "' and site id '" + externalSiteID + "' combination";
                 }
                 
                 // Update the order status

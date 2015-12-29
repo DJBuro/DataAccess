@@ -12,7 +12,7 @@ namespace DataWarehouseDataAccess.DataAccess
 
         string GetOrderHeadersByApplicationIdCustomerId(Guid? customerId, int applicationId, out List<DataWarehouseDataAccess.Domain.OrderHeader> orderHeaders);
         string GetOrderByOrderIdApplicationIdCustomerId(string externalOrderRef, Guid? customerId, int applicationId, out OrderDetails orderDetails);
-        string UpdateOrderStatus(string internetOrderNumber, string externalSiteID, int ramesesOrderStatusId);
+        string UpdateOrderStatus(int ramesesOrderNumber, string externalSiteID, int ramesesOrderStatusId);
         string GetByExternalIdApplicationId(string externalOrderId, int applicationId, out DataWarehouseDataAccess.Domain.Order order);
     }
 }
