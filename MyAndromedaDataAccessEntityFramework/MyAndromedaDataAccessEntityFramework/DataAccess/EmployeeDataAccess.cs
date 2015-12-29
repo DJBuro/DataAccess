@@ -15,28 +15,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         public string GetBySiteId(int siteId, out List<MyAndromedaDataAccess.Domain.Employee> employees)
         {
             employees = new List<MyAndromedaDataAccess.Domain.Employee>();
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
 
-            // Check that the myAndromeda user is allowed to access this site
-            var myAndromedaQuery = from e in androAdminEntities.Employees
-                                   where e.SiteId == siteId
-                                   select e;
-
-            List<MyAndromedaDataAccessEntityFramework.Model.Employee> myAndromedaEntity = myAndromedaQuery.ToList();
-
-            if (myAndromedaEntity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                foreach (MyAndromedaDataAccessEntityFramework.Model.Employee employeeEntity in myAndromedaEntity)
+                // Check that the myAndromeda user is allowed to access this site
+                var query = from e in entitiesContext.Employees
+                                       where e.SiteId == siteId
+                                       select e;
+
+                List<MyAndromedaDataAccessEntityFramework.Model.Employee> entity = query.ToList();
+
+                if (entity != null)
                 {
-                    MyAndromedaDataAccess.Domain.Employee employee = new MyAndromedaDataAccess.Domain.Employee();
+                    foreach (MyAndromedaDataAccessEntityFramework.Model.Employee employeeEntity in entity)
+                    {
+                        MyAndromedaDataAccess.Domain.Employee employee = new MyAndromedaDataAccess.Domain.Employee();
 
-                    employee.Id = employeeEntity.Id;
-                    employee.Firstname = employeeEntity.Firstname;
-                    employee.Role = employeeEntity.Role;
-                    employee.Surname = employeeEntity.Surname;
-                    employee.Phone = employeeEntity.Phone;
+                        employee.Id = employeeEntity.Id;
+                        employee.Firstname = employeeEntity.Firstname;
+                        employee.Role = employeeEntity.Role;
+                        employee.Surname = employeeEntity.Surname;
+                        employee.Phone = employeeEntity.Phone;
 
-                    employees.Add(employee);
+                        employees.Add(employee);
+                    }
                 }
             }
 
@@ -45,22 +47,23 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string DeleteById(int siteId, int employeeId)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            // Get the employee to be deleted
-            var myAndromedaQuery = from e in androAdminEntities.Employees
-                                   join s in androAdminEntities.Stores
-                                     on e.SiteId equals s.Id
-                                   where e.Id == employeeId
-                                     && s.Id == siteId
-                                   select e;
-
-            MyAndromedaDataAccessEntityFramework.Model.Employee myAndromedaEntity = myAndromedaQuery.FirstOrDefault();
-
-            if (myAndromedaEntity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                androAdminEntities.Employees.Remove(myAndromedaEntity);
-                androAdminEntities.SaveChanges();
+                // Get the employee to be deleted
+                var query = from e in entitiesContext.Employees
+                                       join s in entitiesContext.Stores
+                                         on e.SiteId equals s.Id
+                                       where e.Id == employeeId
+                                         && s.Id == siteId
+                                       select e;
+
+                MyAndromedaDataAccessEntityFramework.Model.Employee entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entitiesContext.Employees.Remove(entity);
+                    entitiesContext.SaveChanges();
+                }
             }
 
             return "";
@@ -68,18 +71,20 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Add(int siteId, MyAndromedaDataAccess.Domain.Employee employee)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                // Create an object we can add
+                MyAndromedaDataAccessEntityFramework.Model.Employee entity = new MyAndromedaDataAccessEntityFramework.Model.Employee();
 
-            // Create an object we can add
-            MyAndromedaDataAccessEntityFramework.Model.Employee employeeEntity = new MyAndromedaDataAccessEntityFramework.Model.Employee();
-            employeeEntity.Firstname = employee.Firstname;
-            employeeEntity.Surname = employee.Surname;
-            employeeEntity.Role = employee.Role;
-            employeeEntity.SiteId = siteId;
-            employeeEntity.Phone = employee.Phone;
+                entity.Firstname = employee.Firstname;
+                entity.Surname = employee.Surname;
+                entity.Role = employee.Role;
+                entity.SiteId = siteId;
+                entity.Phone = employee.Phone;
 
-            androAdminEntities.Employees.Add(employeeEntity);
-            androAdminEntities.SaveChanges();
+                entitiesContext.Employees.Add(entity);
+                entitiesContext.SaveChanges();
+            }
 
             return "";
         }

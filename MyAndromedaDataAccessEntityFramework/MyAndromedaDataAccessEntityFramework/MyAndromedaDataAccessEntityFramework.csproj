@@ -53,12 +53,17 @@
   <ItemGroup>
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
-    <Compile Include="DataAccess\GroupsDataAccess.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
+    <Compile Include="Model\ACSApplication.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ACSApplicationSite.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Address.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
@@ -80,6 +85,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AndroAdmin.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Country.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Day.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
@@ -93,6 +101,9 @@
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Group.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Host.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Log.cs">
@@ -113,6 +124,9 @@
     <Compile Include="Model\Partner.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Setting.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Store.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
@@ -122,10 +136,13 @@
     <Compile Include="Model\StoreAMSServerFtpSite.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StoreAMSServerFTPSitePair.cs">
+    <Compile Include="Model\StoreGroup.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StoreGroup.cs">
+    <Compile Include="Model\StoreMenu.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StorePaymentProvider.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\StoreStatu.cs">

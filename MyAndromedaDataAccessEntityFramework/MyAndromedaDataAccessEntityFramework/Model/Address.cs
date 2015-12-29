@@ -37,10 +37,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public string State { get; set; }
         public string PostCode { get; set; }
         public string DPS { get; set; }
-        public string Country { get; set; }
-        public Nullable<double> Lat { get; set; }
-        public Nullable<double> Long { get; set; }
+        public string Lat { get; set; }
+        public string Long { get; set; }
+        public int DataVersion { get; set; }
+        public int CountryId { get; set; }
     
+        public virtual Country Country { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
     }
 }

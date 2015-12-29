@@ -12,17 +12,16 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class OpeningHour
+    public partial class StoreMenu
     {
         public int Id { get; set; }
-        public int SiteId { get; set; }
-        public System.TimeSpan TimeStart { get; set; }
-        public System.TimeSpan TimeEnd { get; set; }
-        public bool OpenAllDay { get; set; }
-        public int DayId { get; set; }
+        public Nullable<int> StoreId { get; set; }
+        public Nullable<int> Version { get; set; }
+        public string MenuType { get; set; }
+        public string MenuData { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual Day Day { get; set; }
         public virtual Store Store { get; set; }
     }
 }

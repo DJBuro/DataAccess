@@ -25,24 +25,30 @@ namespace MyAndromedaDataAccessEntityFramework.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<ACSApplication> ACSApplications { get; set; }
+        public DbSet<ACSApplicationSite> ACSApplicationSites { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<AMSServer> AMSServers { get; set; }
+        public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<FTPSite> FTPSites { get; set; }
         public DbSet<FTPSiteType> FTPSiteTypes { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Host> Hosts { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<MyAndromedaUser> MyAndromedaUsers { get; set; }
         public DbSet<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
         public DbSet<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<Setting> Settings { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreAMSServer> StoreAMSServers { get; set; }
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
-        public DbSet<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
         public DbSet<StoreGroup> StoreGroups { get; set; }
+        public DbSet<StoreMenu> StoreMenus { get; set; }
+        public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
     }
 }

@@ -12,17 +12,18 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class OpeningHour
+    public partial class Country
     {
-        public int Id { get; set; }
-        public int SiteId { get; set; }
-        public System.TimeSpan TimeStart { get; set; }
-        public System.TimeSpan TimeEnd { get; set; }
-        public bool OpenAllDay { get; set; }
-        public int DayId { get; set; }
-        public int DataVersion { get; set; }
+        public Country()
+        {
+            this.Addresses = new HashSet<Address>();
+        }
     
-        public virtual Day Day { get; set; }
-        public virtual Store Store { get; set; }
+        public int Id { get; set; }
+        public string CountryName { get; set; }
+        public string ISO3166_1_alpha_2 { get; set; }
+        public int ISO3166_1_numeric { get; set; }
+    
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }
