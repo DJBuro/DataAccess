@@ -38,6 +38,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <returns></returns>
         //IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch);
         void RemoveStoreLinkToUser(int userId, int storeId);
+
+        /// <summary>
+        /// Adds store to user
+        /// </summary>
+        /// <param name="storeId"></param>
+        /// <param name="userId"></param>
+        void AddStoreLinkToUser(int storeId, int userId);
     }
 
     public class UserSitesDataService : IUserSitesDataService
@@ -111,6 +118,23 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
                 foreach (var result in results) { myAndromedaDbContext.UserStores.Remove(result); }
 
+                myAndromedaDbContext.SaveChanges();
+            }
+        }
+
+        public void AddStoreLinkToUser(int storeId, int userId)
+        {
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
+            {
+                var userStoreTable = myAndromedaDbContext.UserStores;
+                if (userStoreTable.Any(e => e.StoreId == storeId && e.UserRecordId == userId))
+                    return;
+
+                var link = userStoreTable.Create();
+                link.StoreId = storeId;
+                link.UserRecordId = userId;
+
+                userStoreTable.Add(link);
                 myAndromedaDbContext.SaveChanges();
             }
         }
