@@ -75,7 +75,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 entity.PublishOnUtc = publishOnUtc.GetValueOrDefault(now);
                 entity.PublishedBy = userName;
                 entity.PublishAll = publishAll;
-                
+
+                table.Add(entity);
+
                 dbContex.SaveChanges();
             }
         }
