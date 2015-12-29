@@ -107,13 +107,13 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
           <Property Name="SubscriptionTypeId" Type="int" Nullable="false" />
-          <Property Name="LiveDomainName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LiveDomainName" Type="nvarchar" MaxLength="253" Nullable="false" />
+          <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="253" Nullable="false" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="LiveSettings" Type="nvarchar(max)" />
           <Property Name="PreviewSettings" Type="nvarchar(max)" />
-          <Property Name="ThemeId" Type="int" />
+          <Property Name="ThemeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Chain">
           <Key>
@@ -158,6 +158,17 @@
           <Property Name="DeliveryArea" Type="nvarchar" MaxLength="16" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeliveryZoneNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RadiusCovered" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="OriginPostCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsCustom" Type="bit" />
         </EntityType>
         <EntityType Name="Devices">
           <Key>
@@ -304,6 +315,16 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="ExternalId" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostCodeSectors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryZoneId" Type="int" Nullable="false" />
+          <Property Name="PostCodeSector" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsSelected" Type="bit" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Settings">
@@ -599,7 +620,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
-          <End Role="AndroWebOrderingTheme" Type="Self.AndroWebOrderingTheme" Multiplicity="0..1" />
+          <End Role="AndroWebOrderingTheme" Type="Self.AndroWebOrderingTheme" Multiplicity="1" />
           <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AndroWebOrderingTheme">
@@ -656,6 +677,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DeliveryArea">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryZoneNames_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryZoneNames">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -771,6 +804,18 @@
             </Principal>
             <Dependent Role="OpeningHour">
               <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
+          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="1" />
+          <End Role="PostCodeSectors" Type="Self.PostCodeSectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryZoneNames">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostCodeSectors">
+              <PropertyRef Name="DeliveryZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1037,6 +1082,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Day" EntityType="Self.Day" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryArea" EntityType="Self.DeliveryArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryZoneNames" EntityType="Self.DeliveryZoneNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExternalApi" EntityType="Self.ExternalApi" Schema="dbo" store:Type="Tables" />
@@ -1051,6 +1097,7 @@
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpeningHour" EntityType="Self.OpeningHour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partner" EntityType="Self.Partner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostCodeSectors" EntityType="Self.PostCodeSectors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Site_AMS_upload" EntityType="Self.Site_AMS_upload" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
@@ -1130,6 +1177,10 @@
             <End Role="Store" EntitySet="Store" />
             <End Role="DeliveryArea" EntitySet="DeliveryArea" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryZoneNames_Store" Association="Self.FK_DeliveryZoneNames_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="DeliveryZoneNames" EntitySet="DeliveryZoneNames" />
+          </AssociationSet>
           <AssociationSet Name="FK_Devices_ExternalApi" Association="Self.FK_Devices_ExternalApi">
             <End Role="ExternalApi" EntitySet="ExternalApi" />
             <End Role="Devices" EntitySet="Devices" />
@@ -1165,6 +1216,10 @@
           <AssociationSet Name="FK_OpeningHour_Store" Association="Self.FK_OpeningHour_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="OpeningHour" EntitySet="OpeningHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostCodeSectors_DeliveryZoneNames" Association="Self.FK_PostCodeSectors_DeliveryZoneNames">
+            <End Role="DeliveryZoneNames" EntitySet="DeliveryZoneNames" />
+            <End Role="PostCodeSectors" EntitySet="PostCodeSectors" />
           </AssociationSet>
           <AssociationSet Name="FK_Store_Address" Association="Self.FK_Store_Address">
             <End Role="Address" EntitySet="Address" />
@@ -1446,6 +1501,16 @@
           <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
             <End Role="AndroWebOrderingTheme" EntitySet="AndroWebOrderingThemes" />
             <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <EntitySet Name="DeliveryZoneNames" EntityType="AndroAdminModel.DeliveryZoneName" />
+          <EntitySet Name="PostCodeSectors" EntityType="AndroAdminModel.PostCodeSector" />
+          <AssociationSet Name="FK_DeliveryZoneNames_Store" Association="AndroAdminModel.FK_DeliveryZoneNames_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="DeliveryZoneName" EntitySet="DeliveryZoneNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostCodeSectors_DeliveryZoneNames" Association="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames">
+            <End Role="DeliveryZoneName" EntitySet="DeliveryZoneNames" />
+            <End Role="PostCodeSector" EntitySet="PostCodeSectors" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -2049,6 +2114,7 @@
           <NavigationProperty Name="Chains" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Store" ToRole="Chain" />
           <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DeliveryZoneNames" Relationship="AndroAdminModel.FK_DeliveryZoneNames_Store" FromRole="Store" ToRole="DeliveryZoneName" />
         </EntityType>
         <Association Name="FK_ACSApplicationSite_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
@@ -2318,11 +2384,11 @@
           <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
           <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
-          <Property Name="PreviewDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PreviewDomainName" Type="String" MaxLength="253" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ThemeId" Type="Int32" />
+          <Property Name="ThemeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
-          <Property Name="LiveDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LiveDomainName" Type="String" MaxLength="253" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LiveSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
@@ -2404,7 +2470,7 @@
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
-          <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="1" />
           <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AndroWebOrderingTheme">
@@ -2412,6 +2478,54 @@
             </Principal>
             <Dependent Role="AndroWebOrderingWebsite">
               <PropertyRef Name="ThemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DeliveryZoneName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RadiusCovered" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="OriginPostCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsCustom" Type="Boolean" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_DeliveryZoneNames_Store" FromRole="DeliveryZoneName" ToRole="Store" />
+          <NavigationProperty Name="PostCodeSectors" Relationship="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" FromRole="DeliveryZoneName" ToRole="PostCodeSector" />
+        </EntityType>
+        <EntityType Name="PostCodeSector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryZoneId" Type="Int32" Nullable="false" />
+          <Property Name="PostCodeSector1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsSelected" Type="Boolean" Nullable="false" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DeliveryZoneName" Relationship="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" FromRole="PostCodeSector" ToRole="DeliveryZoneName" />
+        </EntityType>
+        <Association Name="FK_DeliveryZoneNames_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryZoneName">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
+          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="1" />
+          <End Type="AndroAdminModel.PostCodeSector" Role="PostCodeSector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryZoneName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostCodeSector">
+              <PropertyRef Name="DeliveryZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2912,6 +3026,29 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryZoneNames">
+            <EntityTypeMapping TypeName="AndroAdminModel.DeliveryZoneName">
+              <MappingFragment StoreEntitySet="DeliveryZoneNames">
+                <ScalarProperty Name="IsCustom" ColumnName="IsCustom" />
+                <ScalarProperty Name="OriginPostCode" ColumnName="OriginPostCode" />
+                <ScalarProperty Name="RadiusCovered" ColumnName="RadiusCovered" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostCodeSectors">
+            <EntityTypeMapping TypeName="AndroAdminModel.PostCodeSector">
+              <MappingFragment StoreEntitySet="PostCodeSectors">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="PostCodeSector1" ColumnName="PostCodeSector" />
+                <ScalarProperty Name="DeliveryZoneId" ColumnName="DeliveryZoneId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

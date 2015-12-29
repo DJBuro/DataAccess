@@ -61,6 +61,9 @@
         <EntityTypeShape EntityType="AndroAdminModel.Site_AMS_upload" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="AndroAdminModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" />
+        <EntityTypeShape EntityType="AndroAdminModel.DeliveryZoneName" Width="1.5" PointX="10.375" PointY="1" />
+        <EntityTypeShape EntityType="AndroAdminModel.PostCodeSector" Width="1.5" PointX="12.625" PointY="1.125" />
+        <AssociationConnector Association="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" />
         </Diagram>
       <Diagram DiagramId="c938ca2b9f614ef687c67228383e368e" Name="Menu" >
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="7.125" PointY="2.375" />

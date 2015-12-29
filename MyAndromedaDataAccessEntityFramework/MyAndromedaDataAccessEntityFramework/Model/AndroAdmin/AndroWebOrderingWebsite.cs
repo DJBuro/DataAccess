@@ -24,7 +24,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public int DataVersion { get; set; }
         public string PreviewDomainName { get; set; }
         public string PreviewSettings { get; set; }
-        public Nullable<int> ThemeId { get; set; }
+        public int ThemeId { get; set; }
         public string LiveDomainName { get; set; }
         public string LiveSettings { get; set; }
     

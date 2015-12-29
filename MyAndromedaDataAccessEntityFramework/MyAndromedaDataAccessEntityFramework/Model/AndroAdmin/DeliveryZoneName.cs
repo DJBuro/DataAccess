@@ -12,20 +12,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class AndroWebOrderingTheme
+    public partial class DeliveryZoneName
     {
-        public AndroWebOrderingTheme()
+        public DeliveryZoneName()
         {
-            this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
+            this.PostCodeSectors = new HashSet<PostCodeSector>();
         }
     
         public int Id { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-        public string Description { get; set; }
-        public string ThemePath { get; set; }
-        public string ThemeName { get; set; }
+        public int StoreId { get; set; }
+        public string Name { get; set; }
+        public Nullable<decimal> RadiusCovered { get; set; }
+        public string OriginPostCode { get; set; }
+        public Nullable<bool> IsCustom { get; set; }
     
-        public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
+        public virtual Store Store { get; set; }
+        public virtual ICollection<PostCodeSector> PostCodeSectors { get; set; }
     }
 }
