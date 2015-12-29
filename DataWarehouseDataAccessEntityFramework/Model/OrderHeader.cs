@@ -18,6 +18,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         {
             this.OrderLines = new HashSet<OrderLine>();
             this.OrderLines1 = new HashSet<OrderLine>();
+            this.UsedVouchers = new HashSet<UsedVoucher>();
         }
     
         public System.Guid ID { get; set; }
@@ -47,5 +48,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
         public virtual ICollection<OrderLine> OrderLines1 { get; set; }
+        public virtual ICollection<UsedVoucher> UsedVouchers { get; set; }
     }
 }

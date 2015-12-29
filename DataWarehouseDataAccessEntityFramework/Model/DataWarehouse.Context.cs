@@ -40,5 +40,11 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
         public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
+        public DbSet<Site> Sites { get; set; }
+        public DbSet<SiteVoucher> SiteVouchers { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<UsedVoucher> UsedVouchers { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
+        public DbSet<Applications_vw> Applications_vw { get; set; }
     }
 }

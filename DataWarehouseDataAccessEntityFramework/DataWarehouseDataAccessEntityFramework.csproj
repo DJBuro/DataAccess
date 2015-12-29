@@ -66,12 +66,16 @@
     <Compile Include="DataAccess\PasswordResetRequestDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\DataAccessHelper.cs" />
+    <Compile Include="DataAccess\VoucherDataAccess.cs" />
     <Compile Include="Domain\CustomerWrapper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AccountType.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Address.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Applications_vw.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Contact.cs">
@@ -126,6 +130,21 @@
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PasswordResetRequest.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Site.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SiteVoucher.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UsedVoucher.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Voucher.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="PasswordHelper.cs" />

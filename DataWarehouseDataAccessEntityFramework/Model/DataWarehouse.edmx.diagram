@@ -36,6 +36,16 @@
         <AssociationConnector Association="DataWarehouseModel.FK_OrderLines_OrderHeader" />
         <AssociationConnector Association="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Site" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DataWarehouseModel.SiteVoucher" Width="1.5" PointX="13.125" PointY="4.625" />
+        <EntityTypeShape EntityType="DataWarehouseModel.sysdiagram" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="DataWarehouseModel.UsedVoucher" Width="1.5" PointX="13.125" PointY="9.375" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Voucher" Width="1.5" PointX="10.875" PointY="3.375" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Applications_vw" Width="1.5" PointX="10.75" PointY="0.75" />
+        <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_Customer" />
+        <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_OrderHeader" />
+        <AssociationConnector Association="DataWarehouseModel.FK_SiteVoucher_Voucher" />
+        <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_Voucher" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
