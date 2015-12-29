@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3ECF6405-90D5-4C8B-ABCC-C0BAEDFDEEF9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AndroAdminDataAccess</RootNamespace>
+    <AssemblyName>AndroAdminDataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=1.3.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL" />
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate, Version=3.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="DataAccess\AMSServerDAO.cs" />
+    <Compile Include="DataAccess\AMSServerFTPServerPairDAO.cs" />
+    <Compile Include="DataAccess\RegionDAO.cs" />
+    <Compile Include="DataAccess\StoreDAO.cs" />
+    <Compile Include="Domain\AMSServer.cs" />
+    <Compile Include="Domain\AMSServerFTPServerPair.cs" />
+    <Compile Include="Domain\Region.cs" />
+    <Compile Include="Domain\Store.cs" />
+    <Compile Include="nHibernate\Mappings\AMSServerFTPServerPairMap.cs" />
+    <Compile Include="nHibernate\Mappings\AMSServerMap.cs" />
+    <Compile Include="nHibernate\Mappings\RegionMap.cs" />
+    <Compile Include="nHibernate\Mappings\StoreMap.cs" />
+    <Compile Include="nHibernate\nHibernateDataAccess.cs" />
+    <Compile Include="nHibernate\nHibernateHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Binaries\FluentNHibernate.dll" />
+    <Content Include="Binaries\FluentNHibernate.pdb" />
+    <Content Include="Binaries\FluentNHibernate.XML" />
+    <Content Include="Binaries\Iesi.Collections.dll" />
+    <Content Include="Binaries\Iesi.Collections.pdb" />
+    <Content Include="Binaries\Iesi.Collections.xml" />
+    <Content Include="Binaries\NHibernate.dll" />
+    <Content Include="Binaries\NHibernate.pdb" />
+    <Content Include="Binaries\NHibernate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Binaries\nhibernate-mapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

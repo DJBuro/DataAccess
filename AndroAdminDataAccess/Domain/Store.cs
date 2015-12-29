@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace DashboardDataAccess.Domain
+{
+    public class Store
+    {
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual int AndromedaSiteId { get; set; }
+        public virtual int CustomerSiteId { get; set; }
+        public virtual List<AMSServerFTPServerPair> AMSServerFTPServerPairs { get; set; }
+    }
+}
