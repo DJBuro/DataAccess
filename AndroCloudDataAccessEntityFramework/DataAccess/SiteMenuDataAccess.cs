@@ -6,6 +6,7 @@ using AndroCloudDataAccess.DataAccess;
 using AndroCloudDataAccessEntityFramework.Model;
 using AndroCloudDataAccess.Domain;
 using AndroCloudHelper;
+using System.Collections.Generic;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -38,6 +39,26 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     siteMenu.SiteID = siteMenuEntity.SiteID.GetValueOrDefault();
                     siteMenu.Version = siteMenuEntity.Version.GetValueOrDefault(0);
                 }
+            }
+
+            return "";
+        }
+
+        public string GetMenuImagesBySiteId(Guid siteId, DataTypeEnum dataType, out string siteImages)
+        {
+            siteImages = "";
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                string dataTypeString = dataType.ToString();
+                var siteMenuQuery = from sm in acsEntities.SiteMenus
+                                    where sm.SiteID == siteId
+                                    && sm.MenuType == dataTypeString
+                                    select sm.MenuDataThumbnails;
+
+                siteImages = siteMenuQuery.FirstOrDefault();
             }
 
             return "";

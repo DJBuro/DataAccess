@@ -42,18 +42,18 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<Host> Hosts { get; set; }
         public DbSet<HubAddress> HubAddresses { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<MyAndromedaUser> MyAndromedaUsers { get; set; }
+        public DbSet<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Store> Stores { get; set; }
         public DbSet<StoreAMSServer> StoreAMSServers { get; set; }
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
         public DbSet<StoreHubReset> StoreHubResets { get; set; }
         public DbSet<StoreMenu> StoreMenus { get; set; }
+        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
-        public DbSet<MyAndromedaUser> MyAndromedaUsers { get; set; }
-        public DbSet<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
-        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
-        public DbSet<Store> Stores { get; set; }
     }
 }

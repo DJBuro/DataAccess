@@ -12,20 +12,16 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class HubAddress
+    public partial class StoreMenu
     {
-        public HubAddress()
-        {
-            this.Stores = new HashSet<Store>();
-        }
-    
-        public System.Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public bool Active { get; set; }
-        public bool Removed { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> StoreId { get; set; }
+        public Nullable<int> Version { get; set; }
+        public string MenuType { get; set; }
+        public string MenuData { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual ICollection<Store> Stores { get; set; }
+        public virtual Store Store { get; set; }
     }
 }
