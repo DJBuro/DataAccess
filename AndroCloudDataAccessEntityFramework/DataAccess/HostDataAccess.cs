@@ -293,7 +293,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         public string GetMenuChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
         {
             var results = this
-                .QueryHostsV2(e => 
+                .QueryHostsV2(e =>
+                                          //WebHooks - Update Menu
                     e.HostType.Name.Equals("WebHooks - Update Menu", StringComparison.CurrentCultureIgnoreCase))
                 .Select(e=> e.ToPublicDomainModel());
 
@@ -307,7 +308,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             var results = this
                 .QueryHostsV2(e =>
-                    e.HostType.Name.Equals("WebHooks - Update Store Status", StringComparison.CurrentCultureIgnoreCase))
+                                          //WebHooks - Update Order Status
+                    e.HostType.Name.Equals("WebHooks - Update Order Status", StringComparison.CurrentCultureIgnoreCase))
                 .Select(e => e.ToPublicDomainModel());
 
             hosts = results.ToList();
@@ -319,6 +321,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             var results = this
                 .QueryHostsV2(e =>
+                                          //WebHooks - Update EDT
                     e.HostType.Name.Equals("WebHooks - Update EDT", StringComparison.CurrentCultureIgnoreCase))
                 .Select(e => e.ToPublicDomainModel());
 
