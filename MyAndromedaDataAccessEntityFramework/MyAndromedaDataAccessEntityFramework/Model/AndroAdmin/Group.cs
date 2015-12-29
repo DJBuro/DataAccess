@@ -17,17 +17,17 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Group()
         {
             this.MyAndromedaUserGroups = new HashSet<MyAndromedaUserGroup>();
-            this.StoreGroups = new HashSet<StoreGroup>();
+            this.Stores = new HashSet<Store>();
         }
     
         public int Id { get; set; }
-        public Nullable<int> PartnerId { get; set; }
         public string GroupName { get; set; }
-        public Nullable<System.DateTime> LastUpdated { get; set; }
-        public string ExternalId { get; set; }
+        public Nullable<int> ChainId { get; set; }
+        public int CountryId { get; set; }
     
-        public virtual Partner Partner { get; set; }
+        public virtual Chain Chain { get; set; }
+        public virtual Country Country { get; set; }
         public virtual ICollection<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
-        public virtual ICollection<StoreGroup> StoreGroups { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.ChainChains1 = new HashSet<ChainChain>();
             this.FTPSiteChains = new HashSet<FTPSiteChain>();
             this.Stores = new HashSet<Store>();
+            this.Groups = new HashSet<Group>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual ICollection<ChainChain> ChainChains1 { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

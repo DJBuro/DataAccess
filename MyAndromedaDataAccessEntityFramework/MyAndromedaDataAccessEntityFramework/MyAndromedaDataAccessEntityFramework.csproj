@@ -192,9 +192,6 @@
     <Compile Include="Model\AndroAdmin\StoreAMSServerFtpSite.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\StoreGroup.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\StoreMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>

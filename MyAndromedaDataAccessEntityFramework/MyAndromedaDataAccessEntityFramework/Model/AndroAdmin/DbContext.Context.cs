@@ -38,11 +38,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<FTPSite> FTPSites { get; set; }
         public DbSet<FTPSiteChain> FTPSiteChains { get; set; }
         public DbSet<FTPSiteType> FTPSiteTypes { get; set; }
-        public DbSet<Group> Groups { get; set; }
         public DbSet<Host> Hosts { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<MyAndromedaUser> MyAndromedaUsers { get; set; }
-        public DbSet<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
         public DbSet<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Partner> Partners { get; set; }
@@ -50,10 +48,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreAMSServer> StoreAMSServers { get; set; }
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
-        public DbSet<StoreGroup> StoreGroups { get; set; }
         public DbSet<StoreMenu> StoreMenus { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Partner()
         {
             this.ACSApplications = new HashSet<ACSApplication>();
-            this.Groups = new HashSet<Group>();
         }
     
         public int Id { get; set; }
@@ -26,6 +25,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public int DataVersion { get; set; }
     
         public virtual ICollection<ACSApplication> ACSApplications { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
     }
 }

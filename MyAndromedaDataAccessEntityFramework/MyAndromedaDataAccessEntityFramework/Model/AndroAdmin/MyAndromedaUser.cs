@@ -16,8 +16,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     {
         public MyAndromedaUser()
         {
-            this.MyAndromedaUserGroups = new HashSet<MyAndromedaUserGroup>();
             this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
+            this.MyAndromedaUserGroups = new HashSet<MyAndromedaUserGroup>();
         }
     
         public int Id { get; set; }
@@ -27,7 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public string FirstName { get; set; }
         public string LastName { get; set; }
     
-        public virtual ICollection<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
         public virtual ICollection<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
+        public virtual ICollection<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
     }
 }
