@@ -120,6 +120,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     // Get rid of spaces
                     deliveryZoneFilter = deliveryZoneFilter.Replace(" ", "").Trim();
 
+                    // Add the space back in, in the correct place
+                    string cleanedUpDeliveryZoneFilter = 
+                        deliveryZoneFilter.Substring(0, deliveryZoneFilter.Length - 3) + 
+                        " " + 
+                        deliveryZoneFilter.Substring(deliveryZoneFilter.Length - 3, 3);
+
                     // Filter by delivery zone
                     var sitesQuery = from s in acsEntities.Sites
                                      join acss in acsEntities.ACSApplicationSites
@@ -135,8 +141,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      where sm.MenuType == dataTypeString
                                        && a.Id == applicationId
                                        && ss.Status == "Live"
-                                       && deliveryZoneFilter.StartsWith(da.DeliveryArea1.ToUpper().Replace(" ", "").Trim())
-                                       //&& da.DeliveryArea1.ToUpper().Replace(" ", "").Trim() == (deliveryZoneFilter.Length > da.DeliveryArea1.Replace(" ", "").Trim().Length ? deliveryZoneFilter.Substring(0, da.DeliveryArea1.Replace(" ", "").Trim().Length).ToUpper() : "")
+                                       && cleanedUpDeliveryZoneFilter.StartsWith(da.DeliveryArea1.ToUpper().Trim())
                                      select new
                                      {
                                          s.ID,
