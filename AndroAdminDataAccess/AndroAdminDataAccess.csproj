@@ -344,6 +344,9 @@
     <Compile Include="EntityFramework\StoreHubReset.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\StoreLoyalty.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\StoreMenu.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>

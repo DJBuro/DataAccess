@@ -8,6 +8,8 @@ using DataWarehouseDataAccess.Domain;
 using System.Collections.Generic;
 using System.Transactions;
 using DataWarehouseDataAccessEntityFramework.Domain;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace DataWarehouseDataAccessEntityFramework.DataAccess
 {
@@ -24,6 +26,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
                 var query = from c in dataWarehouseEntities.Customers
+                                .Include(e=>e.CustomerLoyalties)
                             join ca in dataWarehouseEntities.CustomerAccounts
                                 on c.CustomerAccountId equals ca.ID
                             where c.ACSAplicationId == applicationId
@@ -36,6 +39,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                 c.LastName,
                                 c.Address,
                                 Contacts = c.Contacts.Select(contact => new { ContactType = contact.ContactType.Name, MarketingLevel = contact.MarketingLevel.Name, contact.Value }),
+                                c.CustomerLoyalties,
                                 ca.Password,
                                 ca.PasswordSalt
                             };
@@ -107,6 +111,24 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             );
                         }
                     }
+
+                    if (entity.CustomerLoyalties != null)
+                    {
+                        customer.CustomerLoyalties = new List<DataWarehouseDataAccess.Domain.CustomerLoyalty>();
+                        foreach (var loyalty in entity.CustomerLoyalties)
+                        {
+                            customer.CustomerLoyalties.Add
+                            (
+                                new DataWarehouseDataAccess.Domain.CustomerLoyalty()
+                                {
+                                    Id = loyalty.Id,
+                                    CustomerId = loyalty.CustomerId,
+                                    ProviderName = loyalty.ProviderName,
+                                    Points = (loyalty.Points ?? 0)
+                                }
+                            );
+                        }
+                    }
                 }
             }
 
@@ -120,11 +142,12 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
                 exists = (from c in dataWarehouseEntities.Customers
-                            join ca in dataWarehouseEntities.CustomerAccounts
-                                on c.CustomerAccountId equals ca.ID
-                            where ca.Username == username
-                                && c.ACSAplicationId == applicationId
-                              select c).Count() > 0;
+                          .Include(e => e.CustomerLoyalties)
+                          join ca in dataWarehouseEntities.CustomerAccounts
+                              on c.CustomerAccountId equals ca.ID
+                          where ca.Username == username
+                              && c.ACSAplicationId == applicationId
+                          select c).Count() > 0;
             }
 
             return "";
@@ -286,7 +309,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                    var customerQuery = from c in dataWarehouseEntities.Customers
+                    var customerQuery = from c in dataWarehouseEntities.Customers.Include(e => e.CustomerLoyalties)
                                         join ca in dataWarehouseEntities.CustomerAccounts
                                             on c.CustomerAccountId equals ca.ID
                                         where ca.Username == username
@@ -483,6 +506,76 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             }
 
             return "";
+        }
+
+
+        public string UpdateCustomerLoyalty(string username, int applicationId, DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
+        {
+            if (customerLoyalty == null)
+            {
+                return "Customer Loyalty NULL: " + username;
+            }
+
+            using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
+            {
+                using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+                {
+                    DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+
+                    var customerQuery = from c in dataWarehouseEntities.Customers.Include(e => e.CustomerLoyalties)
+                                        join ca in dataWarehouseEntities.CustomerAccounts
+                                            on c.CustomerAccountId equals ca.ID
+                                        where ca.Username == username
+                                            && c.ACSAplicationId == applicationId
+                                        select c;
+
+                    var customerEntity = customerQuery.FirstOrDefault();
+
+                    if (customerEntity == null)
+                    {
+                        return "Unknown username: " + username;
+                    }
+                    else
+                    {
+                        bool isAddLoyalty = customerEntity.CustomerLoyalties == null || (customerEntity.CustomerLoyalties != null && customerEntity.CustomerLoyalties.Count == 0);
+                        if (isAddLoyalty)
+                        {
+                            // insert
+                            customerEntity.CustomerLoyalties = new List<Model.CustomerLoyalty>();
+                            customerEntity.CustomerLoyalties.Add(prepareCustomerLoyalty(customerLoyalty));
+                        }
+                        else
+                        {
+                            // Update 
+                            Model.CustomerLoyalty existingConfig = customerEntity.CustomerLoyalties.FirstOrDefault(c => c.ProviderName.ToLower().Equals(customerLoyalty.ProviderName.ToLower()));
+                            if (existingConfig != null)
+                            {
+                                existingConfig.Points = customerLoyalty.Points ?? 0;
+                            }
+                            else
+                            {
+                                customerEntity.CustomerLoyalties.Add(prepareCustomerLoyalty(customerLoyalty));
+                            }
+                        }
+
+                        // Commit the customer loyalty
+                        dataWarehouseEntities.SaveChanges();
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        private Model.CustomerLoyalty prepareCustomerLoyalty(DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
+        {
+            Model.CustomerLoyalty cl = new Model.CustomerLoyalty();
+            cl.Id = Guid.NewGuid();
+            cl.CustomerId = customerLoyalty.Id;
+            cl.ProviderName = customerLoyalty.ProviderName;
+            cl.Points = customerLoyalty.Points ?? 0;
+
+            return cl;
         }
     }
 }

@@ -109,6 +109,9 @@
     <Compile Include="Model\CustomerAddress.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CustomerLoyalty.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataWarehouse.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -134,6 +137,9 @@
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderLine.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OrderLoyalty.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\OrderStatu.cs">

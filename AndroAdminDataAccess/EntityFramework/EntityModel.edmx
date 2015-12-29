@@ -164,8 +164,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="StoreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="RadiusCovered" Type="decimal" Precision="8" Scale="2" />
           <Property Name="OriginPostCode" Type="nvarchar" MaxLength="20" />
@@ -432,6 +432,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="HubAddressId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StoreId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreMenu">
           <Key>
             <PropertyRef Name="Id" />
@@ -683,7 +692,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeliveryZoneNames_Store">
-          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Store">
@@ -1016,6 +1027,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreLoyalty_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreLoyalty" Type="Self.StoreLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreLoyalty">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreMenu_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="StoreMenu" Type="Self.StoreMenu" Multiplicity="*" />
@@ -1111,6 +1134,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="StoreHostV2ApiCredentials" EntityType="Self.StoreHostV2ApiCredentials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreHubReset" EntityType="Self.StoreHubReset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreHubs" EntityType="Self.StoreHubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreLoyalty" EntityType="Self.StoreLoyalty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreMenu" EntityType="Self.StoreMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreMenuThumbnails" EntityType="Self.StoreMenuThumbnails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
@@ -1283,6 +1307,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_StoreHubs_Store" Association="Self.FK_StoreHubs_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreHubs" EntitySet="StoreHubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreLoyalty_Store" Association="Self.FK_StoreLoyalty_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreLoyalty" EntitySet="StoreLoyalty" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreMenu_Store" Association="Self.FK_StoreMenu_Store">
             <End Role="Store" EntitySet="Store" />
@@ -1514,6 +1542,11 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="StoreHubs" Association="AndroAdminModel.StoreHubs">
             <End Role="HubAddress" EntitySet="HubAddresses" />
             <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <EntitySet Name="StoreLoyalties" EntityType="AndroAdminModel.StoreLoyalty" />
+          <AssociationSet Name="FK_StoreLoyalty_Store" Association="AndroAdminModel.FK_StoreLoyalty_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreLoyalty" EntitySet="StoreLoyalties" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
@@ -1930,6 +1963,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="Store" ToRole="StoreDevice" />
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.StoreHostsV2" FromRole="Store" ToRole="HostV2" />
           <NavigationProperty Name="HubAddresses" Relationship="AndroAdminModel.StoreHubs" FromRole="Store" ToRole="HubAddress" />
+          <NavigationProperty Name="StoreLoyalties" Relationship="AndroAdminModel.FK_StoreLoyalty_Store" FromRole="Store" ToRole="StoreLoyalty" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -2535,6 +2569,28 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <End Type="AndroAdminModel.HubAddress" Role="HubAddress" Multiplicity="*" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
         </Association>
+        <EntityType Name="StoreLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Configuration" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreLoyalty_Store" FromRole="StoreLoyalty" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_StoreLoyalty_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreLoyalty" Role="StoreLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreLoyalty">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3057,6 +3113,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <ScalarProperty Name="Id" ColumnName="HubAddressId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="StoreLoyalties">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreLoyalty">
+              <MappingFragment StoreEntitySet="StoreLoyalty">
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -204,6 +204,7 @@
     <Compile Include="Domain\IHost.cs" />
     <Compile Include="Domain\PrivateHostV2.cs" />
     <Compile Include="Domain\PrivateHost.cs" />
+    <Compile Include="Domain\SiteLoyalty.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\Host.cs" />
     <Compile Include="Domain\OrderStatus.cs" />

@@ -36,5 +36,8 @@ namespace DataWarehouseDataAccess.Domain
 
         [JsonProperty(PropertyName = "facebookUsername")]
         public string FacebookUsername { get; set; }
+
+        [JsonProperty(PropertyName = "loyalties")]
+        public List<CustomerLoyalty> CustomerLoyalties { get; set; }
     }
 }

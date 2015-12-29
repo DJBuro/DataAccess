@@ -29,6 +29,7 @@ namespace AndroAdminDataAccess.EntityFramework
             this.StoreDevices = new HashSet<StoreDevice>();
             this.HostV2 = new HashSet<HostV2>();
             this.HubAddresses = new HashSet<HubAddress>();
+            this.StoreLoyalties = new HashSet<StoreLoyalty>();
         }
     
         public int Id { get; set; }
@@ -68,5 +69,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<StoreDevice> StoreDevices { get; set; }
         public virtual ICollection<HostV2> HostV2 { get; set; }
         public virtual ICollection<HubAddress> HubAddresses { get; set; }
+        public virtual ICollection<StoreLoyalty> StoreLoyalties { get; set; }
     }
 }

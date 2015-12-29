@@ -48,5 +48,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<Applications_vw> Applications_vw { get; set; }
         public DbSet<Audit> Audits { get; set; }
         public DbSet<ACSErrorCode> ACSErrorCodes { get; set; }
+        public DbSet<CustomerLoyalty> CustomerLoyalties { get; set; }
+        public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
     }
 }

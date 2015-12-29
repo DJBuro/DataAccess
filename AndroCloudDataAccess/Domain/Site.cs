@@ -38,5 +38,8 @@ namespace AndroCloudDataAccess.Domain
         [JsonIgnore]
         [XmlIgnore]
         public int AndroId { get; set; }
+
+        [JsonProperty(PropertyName = "siteLoyalties")]
+        public List<SiteLoyalty> SiteLoyalties { get; set; }
     }
 }

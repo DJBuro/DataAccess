@@ -54,5 +54,8 @@ namespace AndroCloudDataAccess.Domain
 
         [JsonProperty(PropertyName = "paymentClientPassword")]
         public string PaymentClientPassword { get; set; }
+
+        [JsonProperty(PropertyName = "siteLoyalties")]
+        public List<SiteLoyalty> SiteLoyalties { get; set; }
     }
 }

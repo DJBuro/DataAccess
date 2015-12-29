@@ -282,6 +282,9 @@
     <Compile Include="Model\SiteDevice.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SiteLoyalty.cs">
+      <DependentUpon>ACSEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SiteMenu.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>

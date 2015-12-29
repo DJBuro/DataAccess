@@ -11,8 +11,8 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ExternalApplicationId" Type="nvarchar" MaxLength="40" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="100" />
           <Property Name="PartnerId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AcsApplicationHosts">
@@ -298,6 +298,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="HubId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="SiteLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="SiteMenus">
           <Key>
             <PropertyRef Name="ID" />
@@ -337,6 +346,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="TimeZoneInfoId" Type="nvarchar" MaxLength="100" />
           <Property Name="UiCulture" Type="nvarchar" MaxLength="8" />
         </EntityType>
+        <EntityType Name="SitesOffline">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SiteID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmailLastSent" Type="datetime" Nullable="false" />
+          <Property Name="EmailNextSent" Type="datetime" Nullable="false" />
+          <Property Name="EmailSentTimes" Type="int" Nullable="false" />
+          <Property Name="SendEmailNow" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="SiteStatuses">
           <Key>
             <PropertyRef Name="ID" />
@@ -353,6 +373,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ClientId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ClientPassword" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partners">
           <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
@@ -716,6 +746,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SiteLoyalty_Sites">
+          <End Role="Sites" Type="Self.Sites" Multiplicity="1" />
+          <End Role="SiteLoyalty" Type="Self.SiteLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteLoyalty">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteMenus_Sites">
           <End Role="Sites" Type="Self.Sites" Multiplicity="0..1" />
           <End Role="SiteMenus" Type="Self.SiteMenus" Multiplicity="*" />
@@ -794,10 +836,13 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="SiteHostV1" EntityType="Self.SiteHostV1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteHostV2" EntityType="Self.SiteHostV2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteHubs" EntityType="Self.SiteHubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteLoyalty" EntityType="Self.SiteLoyalty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteMenus" EntityType="Self.SiteMenus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sites" EntityType="Self.Sites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitesOffline" EntityType="Self.SitesOffline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteStatuses" EntityType="Self.SiteStatuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ACSApplication_Partners" Association="Self.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -909,6 +954,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_SiteHubs_Sites" Association="Self.FK_SiteHubs_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SiteHubs" EntitySet="SiteHubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteLoyalty_Sites" Association="Self.FK_SiteLoyalty_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="SiteLoyalty" EntitySet="SiteLoyalty" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteMenus_Sites" Association="Self.FK_SiteMenus_Sites">
             <End Role="Sites" EntitySet="Sites" />
@@ -1067,6 +1116,13 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_SiteDevices_Sites" Association="ACSModel.FK_SiteDevices_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="SiteDevice" EntitySet="SiteDevices" />
+          </AssociationSet>
+          <EntitySet Name="SiteLoyalties" EntityType="ACSModel.SiteLoyalty" />
+          <EntitySet Name="SitesOfflines" EntityType="ACSModel.SitesOffline" />
+          <EntitySet Name="sysdiagrams" EntityType="ACSModel.sysdiagram" />
+          <AssociationSet Name="FK_SiteLoyalty_Sites" Association="ACSModel.FK_SiteLoyalty_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="SiteLoyalty" EntitySet="SiteLoyalties" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplicationSite">
@@ -1275,6 +1331,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="SiteDevices" Relationship="ACSModel.FK_SiteDevices_Sites" FromRole="Site" ToRole="SiteDevice" />
           <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SiteLoyalties" Relationship="ACSModel.FK_SiteLoyalty_Sites" FromRole="Site" ToRole="SiteLoyalty" />
         </EntityType>
         <EntityType Name="SiteStatus">
           <Key>
@@ -1724,6 +1781,49 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SiteLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="SiteId" Type="Guid" Nullable="false" />
+          <Property Name="Configuration" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteLoyalty_Sites" FromRole="SiteLoyalty" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="SitesOffline">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="SiteID" Type="Guid" Nullable="false" />
+          <Property Name="EmailLastSent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmailNextSent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmailSentTimes" Type="Int32" Nullable="false" />
+          <Property Name="SendEmailNow" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_SiteLoyalty_Sites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
+          <End Type="ACSModel.SiteLoyalty" Role="SiteLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteLoyalty">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2101,6 +2201,39 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Parameters" ColumnName="Parameters" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteLoyalties">
+            <EntityTypeMapping TypeName="ACSModel.SiteLoyalty">
+              <MappingFragment StoreEntitySet="SiteLoyalty">
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitesOfflines">
+            <EntityTypeMapping TypeName="ACSModel.SitesOffline">
+              <MappingFragment StoreEntitySet="SitesOffline">
+                <ScalarProperty Name="SendEmailNow" ColumnName="SendEmailNow" />
+                <ScalarProperty Name="EmailSentTimes" ColumnName="EmailSentTimes" />
+                <ScalarProperty Name="EmailNextSent" ColumnName="EmailNextSent" />
+                <ScalarProperty Name="EmailLastSent" ColumnName="EmailLastSent" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ACSModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
