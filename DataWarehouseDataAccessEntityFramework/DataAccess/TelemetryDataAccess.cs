@@ -61,7 +61,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                    // Create a customer feedback entity
+                    // Create a telemetry entity
                     Model.AndroWebTelemetry androWebTelemetryEntity = new Model.AndroWebTelemetry()
                     {
                         Id = Guid.NewGuid(),
@@ -76,6 +76,55 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     // Commit the telemetry
                     dataWarehouseEntities.SaveChanges();
+                }
+            }
+
+            return "";
+        }
+
+        public string UpdateTelemetrySession
+        (
+            int applicationId,
+            string customerAccountId,
+            string sessionId
+        )
+        {
+            using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
+            {
+                using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+                {
+                    DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+
+                    // Lookup the customer account using the username in extrainfo
+                    var customerQuery =
+                    from c in dataWarehouseEntities.Customers
+                    join ca in dataWarehouseEntities.CustomerAccounts
+                        on c.CustomerAccountId equals ca.ID
+                    where ca.Username == customerAccountId
+                    && c.ACSAplicationId == applicationId
+                    select c;
+
+                    var customerEntity = customerQuery.FirstOrDefault();
+
+                    if (customerEntity != null)
+                    {
+                        // Get the telemetry session
+                        var telemetryQuery =
+                        from ts in dataWarehouseEntities.AndroWebTelemetrySessions
+                        where ts.Id == new Guid(sessionId)
+                        select ts;
+                        
+                        var telemetryEntity = telemetryQuery.FirstOrDefault();
+
+                        if (telemetryEntity != null)
+                        {
+                            // Associate the telemetry session with the customer
+                            telemetryEntity.CustomerId = customerEntity.ID;
+
+                            // Commit the telemetry session
+                            dataWarehouseEntities.SaveChanges();
+                        }
+                    }
                 }
             }
 
