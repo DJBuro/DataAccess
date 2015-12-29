@@ -20,6 +20,8 @@ namespace AndroCloudDataAccess.DataAccess
 
         string GetByExternalSiteId(string externalSiteId, out Site site);
 
+        string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site);
+
         string GetByIdAndPartner(Guid partnerId, Guid siteId, out Site site);
     }
 }
