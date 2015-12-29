@@ -15,8 +15,8 @@ namespace AndroCloudDataAccess.Domain
         [XmlIgnore]
         public Guid Id { get; set; }
 
-        [JsonProperty(PropertyName = "hostName")]
-        public string HostName { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }

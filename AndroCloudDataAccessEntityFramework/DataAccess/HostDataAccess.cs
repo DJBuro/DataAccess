@@ -21,7 +21,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             foreach (Host hostEntity in acsQuery)
             {
                 AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
-                host.HostName = hostEntity.HostName;
+                host.Name = hostEntity.HostName;
                 host.Order = hostEntity.Order;
                 host.Port = hostEntity.Port;
 
