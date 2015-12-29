@@ -3,6 +3,11 @@ using System.Linq;
 
 namespace MyAndromedaDataAccess.Domain.Reporting
 {
+    public class OrderOverview 
+    {
+    
+    }
+
     public class SalesOverview
     {
         /// <summary>
