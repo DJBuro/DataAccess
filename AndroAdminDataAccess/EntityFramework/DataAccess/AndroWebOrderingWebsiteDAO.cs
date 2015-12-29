@@ -41,9 +41,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Status = (entity.Enabled ? "Enabled" : "Disabled"),
                         SubscriptionTypeId = entity.SubscriptionTypeId,
                         SubscriptionName = (entity.AndroWebOrderingSubscriptionType != null) ? entity.AndroWebOrderingSubscriptionType.Subscription : string.Empty,
-                        LiveDomainName = entity.URL,
+                        LiveDomainName = entity.LiveDomainName,
 
-                        Settings = entity.Settings,
+                        LiveSettings = entity.LiveSettings,
                         PreviewDomainName = entity.PreviewDomainName,
                         PreviewSettings = entity.PreviewSettings,
                         ThemeId = entity.ThemeId
@@ -82,7 +82,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.Id = result.Id;
                         webOrderingSite.Name = result.Name;
                         webOrderingSite.SubscriptionTypeId = result.SubscriptionTypeId;
-                        webOrderingSite.LiveDomainName = result.URL;
+                        webOrderingSite.LiveDomainName = result.LiveDomainName;
                         webOrderingSite.Enabled = result.Enabled;
                         webOrderingSite.DisabledReason = result.DisabledReason;
                         webOrderingSite.DataVersion = result.DataVersion;
@@ -92,7 +92,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.MappedSiteIds = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == result.ACSApplicationId).Select(s => s.SiteId).ToList();
 
                         webOrderingSite.PreviewSettings = result.PreviewSettings;
-                        webOrderingSite.Settings = result.Settings;
+                        webOrderingSite.LiveSettings = result.LiveSettings;
                         webOrderingSite.PreviewDomainName = result.PreviewDomainName;
                         webOrderingSite.ThemeId = result.ThemeId;
                     }
@@ -161,10 +161,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                     Enabled = webOrderingSite.Enabled,
                                     Name = webOrderingSite.Name,
                                     SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
-                                    URL = webOrderingSite.LiveDomainName,
+                                    LiveDomainName = webOrderingSite.LiveDomainName,
 
                                     PreviewSettings = webOrderingSite.PreviewSettings,
-                                    Settings = webOrderingSite.Settings,
+                                    LiveSettings = webOrderingSite.LiveSettings,
                                     PreviewDomainName = webOrderingSite.PreviewDomainName,
                                     ThemeId = webOrderingSite.ThemeId
                                 });
@@ -214,12 +214,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             webSite.Enabled = webOrderingSite.Enabled;
                             webSite.Name = webOrderingSite.Name;
                             webSite.SubscriptionTypeId = webOrderingSite.SubscriptionTypeId;
-                            webSite.URL = webOrderingSite.LiveDomainName;
+                            webSite.LiveDomainName = webOrderingSite.LiveDomainName;
 
                             if (!string.IsNullOrEmpty(webOrderingSite.PreviewSettings))
                                 webSite.PreviewSettings = webOrderingSite.PreviewSettings;
-                            if (!string.IsNullOrEmpty(webOrderingSite.Settings))
-                                webSite.Settings = webOrderingSite.Settings;
+                            if (!string.IsNullOrEmpty(webOrderingSite.LiveSettings))
+                                webSite.LiveSettings = webOrderingSite.LiveSettings;
                             webSite.PreviewDomainName = webOrderingSite.PreviewDomainName;
                             webSite.ThemeId = webOrderingSite.ThemeId;
 
