@@ -318,34 +318,37 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 ConnectionStringOverride = this.ConnectionStringOverride
             };
 
-            foreach (var menuUpdate in menuUpdates.MenuChanges) 
+            foreach (var updateMenuAction in menuUpdates.MenuChanges) 
             {
-                var site = acsEntities.Sites.Single(e => e.AndroID == menuUpdate.AndromediaSiteId);
+                var site = acsEntities.Sites.Single(e => e.AndroID == updateMenuAction.AndromediaSiteId);
                 var menus = site.SiteMenus.ToArray();
 
-                if (menuUpdate.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase) && !string.IsNullOrWhiteSpace(menuUpdate.Data)) 
+                if (updateMenuAction.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase) && 
+                    !string.IsNullOrWhiteSpace(updateMenuAction.Data)) 
                 {
-                    var xmlMenu = menus
+                    var xmlMenuEntity = menus
                         .Where(e => e.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
                         .SingleOrDefault();
 
-                    if (xmlMenu == null) continue;
+                    if (xmlMenuEntity == null) continue;
 
-                    xmlMenu.menuData = menuUpdate.Data;
-                    xmlMenu.LastUpdated = DateTime.UtcNow;
-                    xmlMenu.Version = menuUpdate.Version;
+                    xmlMenuEntity.menuData = updateMenuAction.Data;
+                    xmlMenuEntity.LastUpdated = DateTime.UtcNow;
+                    xmlMenuEntity.Version +=1;
                 }
 
-                if (menuUpdate.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase) && !string.IsNullOrWhiteSpace(menuUpdate.Data)) {
-                    var jsonMenu = menus
+                if (updateMenuAction.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase) && 
+                    !string.IsNullOrWhiteSpace(updateMenuAction.Data)) 
+                {
+                    var jsonMenuEntity = menus
                         .Where(e => e.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase))
                         .SingleOrDefault();
 
-                    if (jsonMenu == null) continue;
+                    if (jsonMenuEntity == null) continue;
 
-                    jsonMenu.menuData = menuUpdate.Data;
-                    jsonMenu.LastUpdated = DateTime.UtcNow;
-                    jsonMenu.Version = menuUpdate.Version;
+                    jsonMenuEntity.menuData = updateMenuAction.Data;
+                    jsonMenuEntity.LastUpdated = DateTime.UtcNow;
+                    jsonMenuEntity.Version += 1;
                 }
 
                 acsEntities.SaveChanges();
