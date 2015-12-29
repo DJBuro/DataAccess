@@ -16,7 +16,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var query = table.Where(e => e.Version > fromVersion);
                 var result = query.ToArray();
                 var resultGroup = result.Select(e => {
-                    var storeEntity = dbContext.Stores.Single(store => store.Id == e.Id);
+                    var storeEntity = dbContext.Stores.Single(store => store.Id == e.StoreId);
 
                     return new[] {
                         new AndroAdminDataAccess.Domain.StoreMenuThumbnails() { 
@@ -34,7 +34,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             AndromediaSiteId = storeEntity.AndromedaSiteId
                         }
                     };
-                });
+                }).ToArray();
 
                 return resultGroup.SelectMany(e=> e);
             }
