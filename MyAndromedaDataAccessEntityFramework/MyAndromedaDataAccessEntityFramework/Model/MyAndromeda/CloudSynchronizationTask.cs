@@ -20,5 +20,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public System.DateTime Timestamp { get; set; }
         public Nullable<System.DateTime> LastAttempt { get; set; }
         public bool Completed { get; set; }
+        public Nullable<int> StoreId { get; set; }
+        public Nullable<int> InvokedByUserId { get; set; }
+        public string InvokedByUserName { get; set; }
     }
 }
