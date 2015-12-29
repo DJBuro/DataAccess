@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\IMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
+    <Compile Include="Domain\SiteDataAccess.cs" />
     <Compile Include="Domain\MenuDataAccess.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteMenu.cs" />
