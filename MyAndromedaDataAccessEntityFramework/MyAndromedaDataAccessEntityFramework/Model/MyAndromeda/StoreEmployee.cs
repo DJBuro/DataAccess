@@ -14,10 +14,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     
     public partial class StoreEmployee
     {
-        public int SiteId { get; set; }
         public string EmployeeId { get; set; }
         public int PersonId { get; set; }
         public string JobTitle { get; set; }
+        public int AndromedaSiteId { get; set; }
+        public System.DateTime LastUpdated { get; set; }
+        public string PayrollNumber { get; set; }
+        public string PhoneNumber { get; set; }
     
         public virtual Person Person { get; set; }
     }

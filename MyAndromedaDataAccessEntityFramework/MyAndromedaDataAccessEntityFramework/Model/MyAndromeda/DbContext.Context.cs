@@ -46,7 +46,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<EnrolmentLevel> EnrolmentLevels { get; set; }
         public DbSet<MenuItemInGroup> MenuItemInGroups { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<StoreView> StoreViews { get; set; }
         public DbSet<StoreEnrolment> StoreEnrolments { get; set; }
         public DbSet<RolePermissions> RolePermissions { get; set; }
         public DbSet<CloudSynchronizationTask> CloudSynchronizationTasks { get; set; }

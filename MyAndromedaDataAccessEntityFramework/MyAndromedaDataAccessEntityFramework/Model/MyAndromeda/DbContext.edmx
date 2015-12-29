@@ -42,27 +42,6 @@
           <EntitySet Name="UserRecords" EntityType="MyAndromedaModel.Store.UserRecords" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRole" EntityType="MyAndromedaModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserStore" EntityType="MyAndromedaModel.Store.UserStore" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Stores" EntityType="MyAndromedaModel.Store.Stores" store:Type="Views" store:Schema="dbo" store:Name="Stores">
-            <DefiningQuery>SELECT 
-      [Stores].[Id] AS [Id], 
-      [Stores].[Name] AS [Name], 
-      [Stores].[AndromedaSiteId] AS [AndromedaSiteId], 
-      [Stores].[CustomerSiteId] AS [CustomerSiteId], 
-      [Stores].[LastFTPUploadDateTime] AS [LastFTPUploadDateTime], 
-      [Stores].[StoreStatusId] AS [StoreStatusId], 
-      [Stores].[ClientSiteName] AS [ClientSiteName], 
-      [Stores].[ExternalSiteName] AS [ExternalSiteName], 
-      [Stores].[ExternalId] AS [ExternalId], 
-      [Stores].[EstimatedDeliveryTime] AS [EstimatedDeliveryTime], 
-      [Stores].[TimeZone] AS [TimeZone], 
-      [Stores].[Telephone] AS [Telephone], 
-      [Stores].[LicenseKey] AS [LicenseKey], 
-      [Stores].[AddressId] AS [AddressId], 
-      [Stores].[StorePaymentProviderID] AS [StorePaymentProviderID], 
-      [Stores].[DataVersion] AS [DataVersion], 
-      [Stores].[ChainId] AS [ChainId]
-      FROM [dbo].[Stores] AS [Stores]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
@@ -314,8 +293,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FullName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="NationallnsuranceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DrivingLicenceNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RolePermissions">
           <Key>
@@ -404,13 +386,16 @@
         </EntityType>
         <EntityType Name="StoreEmployee">
           <Key>
-            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="AndromedaSiteId" />
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="AndromedaSiteId" Type="int" Nullable="false" />
           <Property Name="EmployeeId" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="PersonId" Type="int" Nullable="false" />
           <Property Name="JobTitle" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="PayrollNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StoreEnrolment">
           <Key>
@@ -458,40 +443,6 @@
           </Key>
           <Property Name="UserRecordId" Type="int" Nullable="false" />
           <Property Name="StoreId" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'MyAndromeda.dbo.Stores' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="Stores">
-          <Key>
-            <PropertyRef Name="Id" />
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="AndromedaSiteId" Type="int" Nullable="false" />
-          <Property Name="CustomerSiteId" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastFTPUploadDateTime" Type="datetime" />
-          <Property Name="StoreStatusId" Type="int" Nullable="false" />
-          <Property Name="ClientSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="ExternalSiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="ExternalId" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="EstimatedDeliveryTime" Type="int" />
-          <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
-          <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
-          <Property Name="LicenseKey" Type="nvarchar" MaxLength="64" />
-          <Property Name="AddressId" Type="int" Nullable="false" />
-          <Property Name="StorePaymentProviderID" Type="int" />
-          <Property Name="DataVersion" Type="int" Nullable="false" />
-          <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
@@ -879,7 +830,6 @@
           <EntitySet Name="EnrolmentLevels" EntityType="MyAndromedaModel.EnrolmentLevel" />
           <EntitySet Name="MenuItemInGroups" EntityType="MyAndromedaModel.MenuItemInGroup" />
           <EntitySet Name="Permissions" EntityType="MyAndromedaModel.Permission" />
-          <EntitySet Name="StoreViews" EntityType="MyAndromedaModel.StoreView" />
           <AssociationSet Name="EnrolmentPermissions" Association="MyAndromedaModel.EnrolmentPermissions">
             <End Role="EnrolmentLevel" EntitySet="EnrolmentLevels" />
             <End Role="Permission" EntitySet="Permissions" />
@@ -887,10 +837,6 @@
           <EntitySet Name="StoreEnrolments" EntityType="MyAndromedaModel.StoreEnrolment" />
           <AssociationSet Name="FK_StoreEnrolment_EnrolmentLevel" Association="MyAndromedaModel.FK_StoreEnrolment_EnrolmentLevel">
             <End Role="EnrolmentLevel" EntitySet="EnrolmentLevels" />
-            <End Role="StoreEnrolment" EntitySet="StoreEnrolments" />
-          </AssociationSet>
-          <AssociationSet Name="StoreViewStoreEnrolment" Association="MyAndromedaModel.StoreViewStoreEnrolment">
-            <End Role="StoreView" EntitySet="StoreViews" />
             <End Role="StoreEnrolment" EntitySet="StoreEnrolments" />
           </AssociationSet>
           <EntitySet Name="RolePermissions" EntityType="MyAndromedaModel.RolePermissions" />
@@ -1353,27 +1299,6 @@
           <Property Type="String" Name="Category" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RolePermissions" Relationship="MyAndromedaModel.PermissionRolePermissions" FromRole="Permission" ToRole="RolePermissions" />
         </EntityType>
-        <EntityType Name="StoreView">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AndromedaSiteId" Nullable="false" />
-          <Property Type="String" Name="CustomerSiteId" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="StoreStatusId" Nullable="false" />
-          <Property Type="String" Name="ClientSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalSiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="EstimatedDeliveryTime" />
-          <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LicenseKey" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" Nullable="false" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="Int32" Name="ChainId" Nullable="false" />
-          <NavigationProperty Name="StoreEnrolments" Relationship="MyAndromedaModel.StoreViewStoreEnrolment" FromRole="StoreView" ToRole="StoreEnrolment" />
-        </EntityType>
         <Association Name="EnrolmentPermissions">
           <End Type="MyAndromedaModel.EnrolmentLevel" Role="EnrolmentLevel" Multiplicity="*" />
           <End Type="MyAndromedaModel.Permission" Role="Permission" Multiplicity="*" />
@@ -1387,7 +1312,6 @@
           <Property Type="Int32" Name="EnrolmentLevelId" Nullable="false" />
           <Property Type="Boolean" Name="Active" Nullable="false" />
           <NavigationProperty Name="EnrolmentLevel" Relationship="MyAndromedaModel.FK_StoreEnrolment_EnrolmentLevel" FromRole="StoreEnrolment" ToRole="EnrolmentLevel" />
-          <NavigationProperty Name="StoreView" Relationship="MyAndromedaModel.StoreViewStoreEnrolment" FromRole="StoreEnrolment" ToRole="StoreView" />
         </EntityType>
         <Association Name="FK_StoreEnrolment_EnrolmentLevel">
           <End Type="MyAndromedaModel.EnrolmentLevel" Role="EnrolmentLevel" Multiplicity="1">
@@ -1400,18 +1324,6 @@
             </Principal>
             <Dependent Role="StoreEnrolment">
               <PropertyRef Name="EnrolmentLevelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="StoreViewStoreEnrolment">
-          <End Type="MyAndromedaModel.StoreView" Role="StoreView" Multiplicity="1" />
-          <End Type="MyAndromedaModel.StoreEnrolment" Role="StoreEnrolment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StoreView">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreEnrolment">
-              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1494,20 +1406,26 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="StoreEmployees" Relationship="MyAndromedaModel.FK_StoreEmployee_Person" FromRole="Person" ToRole="StoreEmployee" />
+          <Property Type="String" Name="DrivingLicenceNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NationallnsuranceNumber" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StoreEmployee">
           <Key>
-            <PropertyRef Name="SiteId" />
             <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="AndromedaSiteId" />
           </Key>
-          <Property Type="Int32" Name="SiteId" Nullable="false" />
           <Property Type="String" Name="EmployeeId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PersonId" Nullable="false" />
           <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Person" Relationship="MyAndromedaModel.FK_StoreEmployee_Person" FromRole="StoreEmployee" ToRole="Person" />
+          <Property Type="Int32" Name="AndromedaSiteId" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="3" />
+          <Property Type="String" Name="PayrollNumber" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PhoneNumber" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_StoreEmployee_Person">
           <End Type="MyAndromedaModel.Person" Role="Person" Multiplicity="1" />
@@ -1770,27 +1688,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StoreViews">
-            <EntityTypeMapping TypeName="MyAndromedaModel.StoreView">
-              <MappingFragment StoreEntitySet="Stores">
-                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="LicenseKey" ColumnName="LicenseKey" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-                <ScalarProperty Name="EstimatedDeliveryTime" ColumnName="EstimatedDeliveryTime" />
-                <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
-                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
-                <ScalarProperty Name="ClientSiteName" ColumnName="ClientSiteName" />
-                <ScalarProperty Name="StoreStatusId" ColumnName="StoreStatusId" />
-                <ScalarProperty Name="CustomerSiteId" ColumnName="CustomerSiteId" />
-                <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="EnrolmentPermissions" TypeName="MyAndromedaModel.EnrolmentPermissions" StoreEntitySet="EnrolmentPermissions">
             <EndProperty Name="Permission">
               <ScalarProperty Name="Id" ColumnName="PermissionId" />
@@ -1848,6 +1745,9 @@
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="MyAndromedaModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="NationallnsuranceNumber" ColumnName="NationallnsuranceNumber" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DrivingLicenceNumber" ColumnName="DrivingLicenceNumber" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1857,10 +1757,13 @@
           <EntitySetMapping Name="StoreEmployees">
             <EntityTypeMapping TypeName="MyAndromedaModel.StoreEmployee">
               <MappingFragment StoreEntitySet="StoreEmployee">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PayrollNumber" ColumnName="PayrollNumber" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
                 <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

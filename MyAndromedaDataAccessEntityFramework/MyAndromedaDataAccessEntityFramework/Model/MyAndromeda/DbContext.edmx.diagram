@@ -23,10 +23,9 @@
         <EntityTypeShape EntityType="MyAndromedaModel.EnrolmentLevel" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItemInGroup" Width="1.5" PointX="0.75" PointY="10.625" />
         <EntityTypeShape EntityType="MyAndromedaModel.Permission" Width="1.5" PointX="6" PointY="2.75" />
-        <EntityTypeShape EntityType="MyAndromedaModel.StoreView" Width="1.5" PointX="2.75" PointY="11.625" />
         <AssociationConnector Association="MyAndromedaModel.EnrolmentPermissions" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackup" Width="3" PointX="12.25" PointY="9" />
-        <EntityTypeShape EntityType="MyAndromedaModel.Person" Width="1.5" PointX="1.75" PointY="3.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.Person" Width="2" PointX="3.75" PointY="3.375" />
         <EntityTypeShape EntityType="MyAndromedaModel.StoreEmployee" Width="1.5" PointX="1.75" PointY="0.875" />
         <AssociationConnector Association="MyAndromedaModel.FK_StoreEmployee_Person" />
         </Diagram>
@@ -35,8 +34,8 @@
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="16.875" PointY="22.75" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="14.5" PointY="22.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="7" PointY="26.5" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="9.0389987812559109" PointY="30.975524991273659" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="6.625" PointY="26.5" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="6.5" PointY="29.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" />
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="4.25" PointY="22.5" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="6.625" PointY="22.5" />
@@ -64,10 +63,8 @@
         <AssociationConnector Association="MyAndromedaModel.FK_UserChain_UserRecords" />
         <AssociationConnector Association="MyAndromedaModel.FK_UserStore_UserRecords" />
         <AssociationConnector Association="MyAndromedaModel.UserRole" />
-        <EntityTypeShape EntityType="MyAndromedaModel.StoreView" Width="1.5" PointX="10.75" PointY="9.5" />
         <EntityTypeShape EntityType="MyAndromedaModel.StoreEnrolment" Width="1.5" PointX="6.375" PointY="9.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_StoreEnrolment_EnrolmentLevel" />
-        <AssociationConnector Association="MyAndromedaModel.StoreViewStoreEnrolment" />
         <EntityTypeShape EntityType="MyAndromedaModel.RolePermissions" Width="1.5" PointX="4.375" PointY="1.75" />
         <AssociationConnector Association="MyAndromedaModel.PermissionRolePermissions" />
         <AssociationConnector Association="MyAndromedaModel.RoleRolePermissions" />

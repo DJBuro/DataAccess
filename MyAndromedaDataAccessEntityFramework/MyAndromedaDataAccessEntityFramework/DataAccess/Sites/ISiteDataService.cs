@@ -11,13 +11,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 {
     public interface ISiteDataService : IDependency
     {
-        IEnumerable<Site> Query(Expression<Func<Store, bool>> query);
-        IEnumerable<TResult> QueryTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform);
+        IEnumerable<Site> List(Expression<Func<Store, bool>> query);
+        IEnumerable<TResult> ListAndTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform);
     }
 
     public class SiteDataService : ISiteDataService 
     {
-        public IEnumerable<Site> Query(Expression<Func<Store, bool>> query)
+        public IEnumerable<Site> List(Expression<Func<Store, bool>> query)
         {
             IEnumerable<Site> sites;
 
@@ -33,7 +33,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
             return sites;
         }
 
-        public IEnumerable<TResult> QueryTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform)
+        public IEnumerable<TResult> ListAndTransform<TResult>(Expression<Func<Store, bool>> query, Expression<Func<Store, TResult>> transform)
         {
             IEnumerable<TResult> data;
 
