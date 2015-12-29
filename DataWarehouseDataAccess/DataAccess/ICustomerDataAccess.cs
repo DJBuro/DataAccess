@@ -18,5 +18,6 @@ namespace DataWarehouseDataAccess.DataAccess
         string UpdateCustomerLoyalty(string username, int applicationId, DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty);
         string UpdateCustomerLoyaltyPoints(string userName, int applicationId, string externalOrderRef, bool commit);
 
+        void AddLoyaltyProvider(DataWarehouseDataAccess.Domain.Customer customer, AndroCloudDataAccess.Domain.SiteLoyalty loyalty);
     }
 }

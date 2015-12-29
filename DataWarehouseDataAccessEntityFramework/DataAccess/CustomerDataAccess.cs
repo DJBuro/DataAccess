@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
+using AndroCloudDataAccess.Domain;
 using DataWarehouseDataAccess.DataAccess;
 using DataWarehouseDataAccessEntityFramework.Model;
-using DataWarehouseDataAccess.Domain;
 using System.Collections.Generic;
 using System.Transactions;
-using DataWarehouseDataAccessEntityFramework.Domain;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 
 namespace DataWarehouseDataAccessEntityFramework.DataAccess
 {
@@ -17,7 +13,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        
 
         public string GetByUsernamePassword(string username, string password, int applicationId, out DataWarehouseDataAccess.Domain.Customer customer)
         {
@@ -173,7 +168,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     if (customerQuery.Count() > 0)
                     {
-                        return "Username already used: " + username;
+                        return "User-name already used: " + username;
                     }
 
                     // Hash the password
@@ -292,6 +287,13 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         }
                     }
 
+                    //if (customerEntity.CustomerLoyalties == null) 
+                    //{
+                    //    using(var acsEntities = new Acsen)
+                    //    var storeLoyalty = dataWarehouseEntities
+                    //    if()
+                    //}
+                    
                     // Add the customer to the database
                     dataWarehouseEntities.Customers.Add(customerEntity);
 
@@ -586,6 +588,44 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return string.Empty;
         }
 
+        public void AddLoyaltyProvider(DataWarehouseDataAccess.Domain.Customer customer, SiteLoyalty loyalty)
+        {
+            bool exists = customer.CustomerLoyalties.Any(e => e.ProviderName.Equals(loyalty.ProviderName, StringComparison.InvariantCultureIgnoreCase));
+
+            if (exists) { return; }
+
+            using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities()) 
+            {
+                var customerTable = dataWarehouseEntities.Customers;
+
+                var customerEntity = customerTable.FirstOrDefault(e => customer.Id == e.ID);
+                var customerLoyalty = new CustomerLoyalty
+                {
+                    ProviderName = loyalty.ProviderName,
+                    Customer = customerEntity
+                };
+
+                if (loyalty.ProviderName.Equals("Andromeda", StringComparison.InvariantCultureIgnoreCase)) 
+                {
+                    if (loyalty.Configuration != null) 
+                    {
+                        if (loyalty.Configuration.AwardOnRegiration != null)
+                        {
+                            customerLoyalty.Points = loyalty.Configuration.AwardOnRegiration;
+                        }
+                        else 
+                        {
+                            customerLoyalty.Points = 0;
+                        }
+                    }
+                }
+
+                customerEntity.CustomerLoyalties.Add(customerLoyalty);
+
+                dataWarehouseEntities.SaveChanges();
+            }
+        }
+
         public string UpdateCustomerLoyalty(string username, int applicationId, DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty)
         {
             if (customerLoyalty == null)
@@ -664,5 +704,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             return cl;
         }
+    
     }
+
 }
