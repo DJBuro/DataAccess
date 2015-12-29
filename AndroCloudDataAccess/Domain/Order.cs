@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace AndroCloudDataAccess.Domain
 {
+    [DataContract]
     public class Order
     {
-        [XmlElement("Guid")]
-        public Guid OrderGuid { get; set; }
-        public int Status { get; set; }
+        [DataMember(Name = "orderId")]
+        public string OrderId { get; set;}
+
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
     }
 }
