@@ -46,6 +46,7 @@
         <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_OrderHeader" />
         <AssociationConnector Association="DataWarehouseModel.FK_SiteVoucher_Voucher" />
         <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_Voucher" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Audit" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

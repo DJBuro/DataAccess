@@ -12,5 +12,6 @@ namespace DataWarehouseDataAccess
         IPasswordResetRequestDataAccess PasswordResetRequestDataAccess { get; set; }
         IOrderDataAccess OrderDataAccess { get; set; }
         IVoucherDataAccess VoucherDataAccess { get; set; }
+        IOrderMetricsDataAccess OrderMetricsDataAccess { get; set; }
     }
 }

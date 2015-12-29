@@ -30,6 +30,7 @@ namespace AndroUsersDataAccess.Domain
         AddACSPartner,
         EditACSPartner,
         ViewCloudServers,
-        ViewAndroAdminLinks
+        ViewAndroAdminLinks,
+        ViewACSMetrics,
     }
 }

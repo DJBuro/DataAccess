@@ -35,6 +35,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string DiscountType { get; set; }
         public decimal DiscountValue { get; set; }
         public bool Removed { get; set; }
+        public bool Active { get; set; }
     
         public virtual ICollection<SiteVoucher> SiteVouchers { get; set; }
         public virtual ICollection<UsedVoucher> UsedVouchers { get; set; }

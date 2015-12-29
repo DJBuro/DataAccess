@@ -62,16 +62,20 @@
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
     <Compile Include="DataAccess\IOrderDataAccess.cs" />
+    <Compile Include="DataAccess\IOrderMetricsDataAccess.cs" />
     <Compile Include="DataAccess\IPasswordResetRequestDataAccess.cs" />
     <Compile Include="DataAccess\ICustomerDataAccess.cs" />
     <Compile Include="DataAccess\IVoucherDataAccess.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Contact.cs" />
+    <Compile Include="Domain\FailedOrder.cs" />
     <Compile Include="Domain\OrderDetails.cs" />
     <Compile Include="Domain\OrderLine.cs" />
     <Compile Include="Domain\OrderHeader.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Customer.cs" />
+    <Compile Include="Domain\OrderMetrics.cs" />
+    <Compile Include="Domain\SuccessfulOrder.cs" />
     <Compile Include="Domain\VoucherCode.cs" />
     <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

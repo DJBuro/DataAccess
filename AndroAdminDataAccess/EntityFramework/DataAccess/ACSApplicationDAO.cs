@@ -47,6 +47,36 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
+        public IList<Domain.ACSApplication> GetAll()
+        {
+            List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.ACSApplications 
+                            select s;
+
+                foreach (ACSApplication acsApplication in query)
+                {
+                    Domain.ACSApplication model = new Domain.ACSApplication()
+                    {
+                        Id = acsApplication.Id,
+                        Name = acsApplication.Name,
+                        ExternalApplicationId = acsApplication.ExternalApplicationId,
+                        ExternalApplicationName = acsApplication.ExternalDisplayName,
+                        DataVersion = acsApplication.DataVersion,
+                        PartnerId = acsApplication.PartnerId
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
+        }
+
         public Domain.ACSApplication GetById(int acsApplicationId)
         {
             Domain.ACSApplication model = null;
