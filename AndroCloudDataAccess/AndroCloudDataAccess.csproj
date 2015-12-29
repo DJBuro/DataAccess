@@ -59,6 +59,7 @@
     <Compile Include="Domain\ACSQueue.cs" />
     <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\DataTypeEnum.cs" />
+    <Compile Include="Domain\ResultEnum.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Partner.cs" />
     <Compile Include="Domain\Site.cs" />
