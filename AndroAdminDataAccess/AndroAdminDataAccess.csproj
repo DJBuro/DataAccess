@@ -283,6 +283,9 @@
     <Compile Include="EntityFramework\Setting.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Site_AMS_upload.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\Store.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>

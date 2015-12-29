@@ -88,5 +88,46 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string UpdateOrderStatus(string internetOrderNumber, string externalSiteID, int ramesesOrderStatusId)
+        {
+            using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+            {
+                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+
+                var query =
+                    from oh in dataWarehouseEntities.OrderHeaders
+                    where oh.ExternalSiteID == externalSiteID
+                    && oh.ExternalOrderRef == internetOrderNumber
+                    select oh;
+
+                var orderHeaderEntity = query.FirstOrDefault();
+
+                if (orderHeaderEntity == null)
+                {
+                    return "Unknown orderId '" + internetOrderNumber + "' and site id '" + externalSiteID + "' combination";
+                }
+                
+                // Update the order status
+                orderHeaderEntity.Status = ramesesOrderStatusId;
+
+                // Update the order status history
+                dataWarehouseEntities.OrderStatusHistories.Add
+                (
+                    new OrderStatusHistory() 
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderHeaderId = orderHeaderEntity.ID,
+                        Status = ramesesOrderStatusId,
+                        ChangedDateTime = DateTime.UtcNow
+                    }
+                );
+
+                dataWarehouseEntities.SaveChanges();
+
+            }
+
+            return "";
+        }
     }
 }

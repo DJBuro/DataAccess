@@ -214,7 +214,7 @@
           <Property Name="ApplicationName" Type="nvarchar" MaxLength="64" />
           <Property Name="RamesesOrderNum" Type="int" Nullable="false" />
           <Property Name="ExternalOrderRef" Type="nvarchar" MaxLength="64" />
-          <Property Name="SiteID" Type="nvarchar" MaxLength="64" />
+          <Property Name="ExternalSiteID" Type="nvarchar" MaxLength="64" />
           <Property Name="SiteName" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="ACSOrderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="paytype" Type="nvarchar" MaxLength="32" />
@@ -251,6 +251,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderHeaderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ChangedDateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
           <Key>
@@ -673,7 +674,7 @@
           <Property Type="String" Name="ApplicationName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="RamesesOrderNum" Nullable="false" />
           <Property Type="String" Name="ExternalOrderRef" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SiteID" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalSiteID" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SiteName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="ACSOrderId" Nullable="false" />
           <Property Type="String" Name="paytype" MaxLength="32" FixedLength="false" Unicode="true" />
@@ -720,6 +721,7 @@
           <Property Type="Guid" Name="Id" Nullable="false" />
           <Property Type="Guid" Name="OrderHeaderId" Nullable="false" />
           <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="ChangedDateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" FromRole="OrderStatusHistory" ToRole="OrderStatu" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
@@ -1059,7 +1061,7 @@
                 <ScalarProperty Name="paytype" ColumnName="paytype" />
                 <ScalarProperty Name="ACSOrderId" ColumnName="ACSOrderId" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ExternalSiteID" ColumnName="ExternalSiteID" />
                 <ScalarProperty Name="ExternalOrderRef" ColumnName="ExternalOrderRef" />
                 <ScalarProperty Name="RamesesOrderNum" ColumnName="RamesesOrderNum" />
                 <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
@@ -1097,6 +1099,7 @@
           <EntitySetMapping Name="OrderStatusHistories">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderStatusHistory">
               <MappingFragment StoreEntitySet="OrderStatusHistory">
+                <ScalarProperty Name="ChangedDateTime" ColumnName="ChangedDateTime" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OrderHeaderId" ColumnName="OrderHeaderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
