@@ -1,5 +1,6 @@
 ﻿using MyAndromeda.Core;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using MyAndromedaDataAccess.Domain;
@@ -22,7 +23,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
             {
-                var table = dbContext.Stores;
+                var table = dbContext.Stores.Include(e => e.Address);
                 var storeQuery = table.Where(query);
                 var storeResult = storeQuery.ToArray();
 

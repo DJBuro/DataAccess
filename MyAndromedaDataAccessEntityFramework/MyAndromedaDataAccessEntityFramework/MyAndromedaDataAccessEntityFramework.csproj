@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Comparer\StoreComparer.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
+    <Compile Include="DataAccess\Chains\ChainDataService.cs" />
     <Compile Include="DataAccess\Chains\IChainDataService.cs" />
     <Compile Include="DataAccess\CountryDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
