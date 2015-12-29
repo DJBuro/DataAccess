@@ -23,6 +23,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public string URL { get; set; }
         public int ACSApplicationId { get; set; }
         public int DataVersion { get; set; }
+        public string Settings { get; set; }
     
         public virtual ACSApplication ACSApplication { get; set; }
         public virtual AndroWebOrderingSubscriptionType AndroWebOrderingSubscriptionType { get; set; }
