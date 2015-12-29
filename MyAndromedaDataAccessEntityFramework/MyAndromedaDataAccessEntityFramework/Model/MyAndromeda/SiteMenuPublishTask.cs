@@ -14,14 +14,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     
     public partial class SiteMenuPublishTask
     {
-        public int Id { get; set; }
-        public System.Guid SiteMenuId { get; set; }
-        public System.DateTime PublishOnUtc { get; set; }
-        public bool Completed { get; set; }
-        public bool Canceled { get; set; }
-        public string PublishedBy { get; set; }
-        public System.DateTime CreatedOn { get; set; }
+        public SiteMenuPublishTask()
+        {
+            this.SiteMenus = new HashSet<SiteMenu>();
+        }
     
-        public virtual SiteMenu SiteMenu { get; set; }
+        public int Id { get; set; }
+        public bool TryTask { get; set; }
+        public bool TaskStarted { get; set; }
+        public bool TaskComplete { get; set; }
+        public Nullable<System.DateTime> LastTriedUtc { get; set; }
+        public int LastTryCount { get; set; }
+        public Nullable<System.DateTime> LastStartedUtc { get; set; }
+        public Nullable<System.DateTime> LastCompletedUtc { get; set; }
+        public Nullable<System.DateTime> LastKnownFtpSitePublish { get; set; }
+    
+        public virtual ICollection<SiteMenu> SiteMenus { get; set; }
     }
 }

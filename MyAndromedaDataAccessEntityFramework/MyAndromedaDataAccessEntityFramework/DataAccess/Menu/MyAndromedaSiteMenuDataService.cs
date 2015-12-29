@@ -10,27 +10,46 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
     public class MyAndromedaSiteMenuDataService : IMyAndromedaSiteMenuDataService 
     {
-        private readonly IMyAndromedaDbWorkContextAccessor dbWork;
-
-        public MyAndromedaSiteMenuDataService(IMyAndromedaDbWorkContextAccessor dbWork)
+        public MyAndromedaSiteMenuDataService()
         { 
-            this.dbWork = dbWork;
         }
+
+        public SiteMenu GetMenu(int andromedaSiteId)
+        {
+            SiteMenu result = null;
+
+            using (var dbContext = new MyAndromedaDbContext())
+            {
+                //will go off and create one if needed
+                result = dbContext.GetMenuWithTasks(andromedaSiteId);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query)
+        {
+            IEnumerable<SiteMenu> results = Enumerable.Empty<SiteMenu>();
+            
+            using (var dbContext = new MyAndromedaDbContext())
+            {
+                var tableQuery = dbContext.QueryMenusWithTasks(query);
+
+                results = tableQuery.ToArray();
+            }
+
+            return results;
+        }
+
+        
 
         public SiteMenu Create(int andromedaSiteId)
         {
             SiteMenu menu;
-            using (var dbContext = NewContext())
+
+            using (var dbContext = new MyAndromedaDbContext())
             {
-                var table = dbContext.SiteMenus;
-                var entity = table.Create();
-
-                entity.AndromediaId = andromedaSiteId;
-                entity.LastUpdatedUtc = DateTime.UtcNow;
-                table.Add(entity);
-
-                dbContext.SaveChanges();
-                menu = entity;
+                menu = dbContext.CreateNewMenuForAndromedaId(andromedaSiteId);
             }
 
             return menu;
@@ -38,9 +57,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
         public void Update(SiteMenu siteMenu)
         {
-            using (var dbContext = NewContext()) 
+            using (var dbContext = new MyAndromedaDbContext()) 
             {
-                var result = this.GetMenuWithContext(dbContext, siteMenu.AndromediaId);
+                var result = dbContext.GetMenuWithTasks(siteMenu.AndromediaId);
                 
                 /* update menu details  */ 
                 result.LastUpdatedUtc = siteMenu.LastUpdatedUtc;
@@ -56,250 +75,24 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 {
                     result.SiteMenuFtpBackupUploadTask = new SiteMenuFtpBackupUploadTask();
                 }
+                if (result.SiteMenuPublishTaskId == 0) 
+                {
+                    result.SiteMenuPublishTask = new SiteMenuPublishTask();
+                }
 
                 result.SiteMenuFtpBackupUploadTask.Copy(siteMenu.SiteMenuFtpBackupUploadTask);
                 result.SiteMenuFtpBackupDownloadTask.Copy(siteMenu.SiteMenuFtpBackupDownloadTask);
+                result.SiteMenuPublishTask.Copy(siteMenu.SiteMenuPublishTask);
 
                 dbContext.SaveChanges();
             }
         }
 
-        public IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query)
-        {
-            IEnumerable<SiteMenu> results = Enumerable.Empty<SiteMenu>();
-            using (var dbContext = NewContext()) 
-            {
-                var table = dbContext.SiteMenus;
-
-                results = table
-                    .Include(e=> e.SiteMenuFtpBackupDownloadTask)
-                    .Include(e=> e.SiteMenuFtpBackupUploadTask)
-                    .Where(query)
-                    .ToArray();
-
-            }
-            return results;
-        }
-
-        public void SetUploadTask(SiteMenu siteMenu, TaskStatus status)
-        {
-            switch (status)
-            {
-                case TaskStatus.Created:
-                    {
-                        siteMenu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        siteMenu.SiteMenuFtpBackupUploadTask.TaskComplete = false;
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastTryCount = 0;
-
-                        break;
-                    }
-                case TaskStatus.Running:
-                    {
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastTryCount++;
-                        siteMenu.SiteMenuFtpBackupUploadTask.TaskStarted = true;
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastStartedUtc = DateTime.UtcNow;
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastTriedUtc = DateTime.UtcNow;
-
-                        break;
-                    }
-                case TaskStatus.RanToCompletion:
-                    {
-                        siteMenu.SiteMenuFtpBackupUploadTask.TryTask = false;
-                        siteMenu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-                        siteMenu.SiteMenuFtpBackupUploadTask.TaskComplete = true;
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastCompletedUtc = DateTime.UtcNow;
-
-                        break;
-                    }
-                case TaskStatus.Faulted:
-                    {
-                        //reset to run again.
-                        siteMenu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        siteMenu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-
-                        break;
-                    }
-
-                default: { break; }
-            }
-
-            this.Update(siteMenu);
-        }
-
-        public void SetDownloadTask(SiteMenu siteMenu, TaskStatus status)
-        {
-            switch (status) 
-            {
-                case TaskStatus.Created: 
-                {
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastTryCount = 0;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TryTask = true;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskCompleted = false;
-
-                    break; 
-                }
-                case TaskStatus.Running: 
-                {
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastTryCount++;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskStarted = true;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastStartedUtc = DateTime.UtcNow;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastTriedUtc = DateTime.UtcNow;
-
-                    break;
-                }
-                case TaskStatus.RanToCompletion: 
-                {
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TryTask = false;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskStarted = false;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskCompleted = true;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastCompletedUtc = DateTime.UtcNow;
-
-                    break; 
-                }
-                case TaskStatus.Faulted: 
-                {
-                    //reset to run again.
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TryTask = true;
-                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskStarted = false;
-                    
-                    break;
-                }
-
-                default: { break; }
-            }
-
-            this.Update(siteMenu);
-        }
-
-        public void SetLastDownloadDate(SiteMenu siteMenu, DateTime dateUtc) 
-        {
-            using (var dbContext = NewContext()) 
-            {
-                var downloadContext = dbContext.SiteMenuFtpBackupDownloadTasks.Single(e => e.SiteMenus.Any(menu => menu.Id == siteMenu.Id));
-
-                downloadContext.LastDownloadedDateUtc = dateUtc;
-            }
-        }
-
-        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status)
-        {
-            switch (status)
-            {
-                case TaskStatus.Created:
-                    {
-                        menu.SiteMenuFtpBackupUploadTask.LastTryCount = 0;
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        menu.SiteMenuFtpBackupUploadTask.TaskComplete = false;
-
-                        break;
-                    }
-                case TaskStatus.Running:
-                    {
-                        menu.SiteMenuFtpBackupUploadTask.LastTryCount++;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = true;
-                        menu.SiteMenuFtpBackupUploadTask.LastStartedUtc = DateTime.UtcNow;
-                        menu.SiteMenuFtpBackupUploadTask.LastTriedUtc = DateTime.UtcNow;
-
-                        break;
-                    }
-                case TaskStatus.RanToCompletion:
-                    {
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = false;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-                        menu.SiteMenuFtpBackupUploadTask.TaskComplete = true;
-                        menu.SiteMenuFtpBackupUploadTask.LastCompletedUtc = DateTime.UtcNow;
-
-                        break;
-                    }
-                case TaskStatus.Faulted:
-                    {
-                        //reset to run again.
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-
-                        break;
-                    }
-
-                default: { break; }
-            }
-
-            this.Update(menu);
-        }
-
-        public IEnumerable<SiteMenu> ResetUploadTasks(DateTime notFinishedBy)
-        {
-            var results = Enumerable.Empty<SiteMenu>();
-
-            using (var dbContext = NewContext()) 
-            {
-                var table = dbContext.SiteMenus
-                    .Include(e => e.SiteMenuFtpBackupUploadTask);
-
-                var query = table
-                    .Where(e => !e.SiteMenuFtpBackupUploadTask.TaskComplete)
-                    .Where(e => e.SiteMenuFtpBackupUploadTask.TaskStarted)
-                    .Where(e => e.SiteMenuFtpBackupUploadTask.LastTriedUtc < notFinishedBy);
-                
-                results = query.ToArray();
-
-                foreach (var menu in results) 
-                {
-                    menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-                    menu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                }
-
-                dbContext.SaveChanges();
-            }
-
-            return results;
-        }
-
-        public IEnumerable<SiteMenu> ResetDownloadTasks(DateTime notFinishedBy)
-        {
-            var results = Enumerable.Empty<SiteMenu>();
-
-            using (var dbContext = NewContext())
-            {
-                var table = dbContext.SiteMenus
-                    .Include(e => e.SiteMenuFtpBackupDownloadTask);
-
-                var query = table
-                    .Where(e => !e.SiteMenuFtpBackupDownloadTask.TaskCompleted)
-                    .Where(e => e.SiteMenuFtpBackupDownloadTask.TaskStarted)
-                    .Where(e => e.SiteMenuFtpBackupDownloadTask.LastTriedUtc < notFinishedBy);
-
-                results = query.ToArray();
-
-                foreach (var menu in results)
-                {
-                    menu.SiteMenuFtpBackupDownloadTask.TaskStarted = false;
-                    menu.SiteMenuFtpBackupDownloadTask.TryTask = true;
-                }
-
-                dbContext.SaveChanges();
-            }
-
-            return results;
-        }
-
-        public void CreateAcsUploadMenuDataTask(SiteMenu menu)
-        {
-            using (var dbContext = NewContext()) 
-            {
-                var dbItem = this.GetMenuWithContext(dbContext, menu.AndromediaId);
-
-                dbItem.SiteMenuPublishTasks.Add(new SiteMenuPublishTask() {
-                    CreatedOn = DateTime.UtcNow,
-                    
-                });
-
-                dbContext.SaveChanges();
-            }
-        }
+        
 
         public void SetVersion(SiteMenu siteMenu)
         {
-            using (var dbContext = NewContext()) 
+            using (var dbContext = new MyAndromedaDbContext())
             {
                 var dbItem = dbContext.SiteMenus.Where(e => e.AndromediaId == siteMenu.AndromediaId).SingleOrDefault();
 
@@ -307,59 +100,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 dbContext.SaveChanges();
             }
-        }
-
-        public SiteMenu GetMenu(int andromedaSiteId)
-        {
-            using (var dbContext = NewContext())
-            {
-                var result = this.GetMenuWithContext(dbContext, andromedaSiteId);
-
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            //obviously there isn't one already. Need to go make another. 
-            return this.Create(andromedaSiteId);
-        }
-
-        private static MyAndromedaDbContext NewContext()
-        {
-            return new MyAndromedaDbContext();
-        }
-
-        private SiteMenu GetMenuWithContext(MyAndromedaDbContext dbContext, int andromedaSiteId)
-        {
-            var table = dbContext.SiteMenus;
-            var query = table
-                             //.Include(e => e.SiteMenuFtpBackup)
-                             .Include(e=> e.SiteMenuFtpBackupDownloadTask)
-                             .Include(e=> e.SiteMenuFtpBackupDownloadTask)
-                             //.Include(e=> e.SiteMenuPublishTasks)
-                             ///.Include(e=> e.
-                             .Where(e => e.AndromediaId == andromedaSiteId);
-
-            var result = query.SingleOrDefault();
-            if (result == null) 
-            {
-                this.Create(andromedaSiteId);
-            }
-            
-            //if (result.SiteMenuFtpBackupId == 0 || result.SiteMenuFtpBackupId== null) 
-            if(result.SiteMenuFtpBackupUploadTask == null)
-            {
-                result.SiteMenuFtpBackupUploadTask = dbContext.SiteMenuFtpBackupUploadTasks.Create();
-                dbContext.SaveChanges();
-            }
-            if (result.SiteMenuFtpBackupDownloadTask == null) 
-            {
-                result.SiteMenuFtpBackupDownloadTask = dbContext.SiteMenuFtpBackupDownloadTasks.Create();
-                dbContext.SaveChanges();
-            }
-
-            return result;
         }
     }
 }
