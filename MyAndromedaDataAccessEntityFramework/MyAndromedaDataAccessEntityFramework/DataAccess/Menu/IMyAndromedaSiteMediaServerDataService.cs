@@ -34,7 +34,18 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         {
             var table = this.dbWork.DbContext.SiteMenuMediaServers;
             var query = table.Where(e => e.Name.Equals("Default"));
-            var result = query.Single();
+            var result = query.SingleOrDefault();
+
+            if (result == null) { 
+                result = new SiteMenuMediaServer(){
+                    Name = "Default",
+                    Address = "/",
+                    ContentPath = "/",
+                    StoragePath = "/"
+                };
+                this.dbWork.DbContext.SiteMenuMediaServers.Add(result);
+                this.dbWork.DbContext.SaveChanges();
+            }
 
             return result;
         }
