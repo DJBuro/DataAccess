@@ -19,7 +19,6 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_OpeningHour_Day", "Day", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Day), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.OpeningHour), true)]
@@ -28,7 +27,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite1", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_FTPSite", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUser), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUser), "MyAndromedaUserStore", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserStore), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "MyAndromedaUserStore", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserStore), true)]
@@ -37,7 +35,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_StoreStatus", "StoreStatu", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreStatu), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreMenu_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreMenu), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), true)]
@@ -46,6 +43,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Address_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Address), "Address1", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Address_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Country), "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Address), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
 
 #endregion
 
@@ -112,22 +110,6 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<ACSApplication> _ACSApplications;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Address> Addresses
-        {
-            get
-            {
-                if ((_Addresses == null))
-                {
-                    _Addresses = base.CreateObjectSet<Address>("Addresses");
-                }
-                return _Addresses;
-            }
-        }
-        private ObjectSet<Address> _Addresses;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -388,22 +370,6 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<StoreGroup> StoreGroups
-        {
-            get
-            {
-                if ((_StoreGroups == null))
-                {
-                    _StoreGroups = base.CreateObjectSet<StoreGroup>("StoreGroups");
-                }
-                return _StoreGroups;
-            }
-        }
-        private ObjectSet<StoreGroup> _StoreGroups;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<StoreMenu> StoreMenus
         {
             get
@@ -512,6 +478,22 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<Country> _Countries;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Address> Addresses
+        {
+            get
+            {
+                if ((_Addresses == null))
+                {
+                    _Addresses = base.CreateObjectSet<Address>("Addresses");
+                }
+                return _Addresses;
+            }
+        }
+        private ObjectSet<Address> _Addresses;
 
         #endregion
 
@@ -523,14 +505,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToACSApplications(ACSApplication aCSApplication)
         {
             base.AddObject("ACSApplications", aCSApplication);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Addresses EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToAddresses(Address address)
-        {
-            base.AddObject("Addresses", address);
         }
     
         /// <summary>
@@ -662,14 +636,6 @@ namespace AndroAdminDataAccess.EntityFramework
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the StoreGroups EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToStoreGroups(StoreGroup storeGroup)
-        {
-            base.AddObject("StoreGroups", storeGroup);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the StoreMenus EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToStoreMenus(StoreMenu storeMenu)
@@ -723,6 +689,14 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToCountries(Country country)
         {
             base.AddObject("Countries", country);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Addresses EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToAddresses(Address address)
+        {
+            base.AddObject("Addresses", address);
         }
 
         #endregion
@@ -1640,7 +1614,7 @@ namespace AndroAdminDataAccess.EntityFramework
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> Lat
+        public global::System.String Lat
         {
             get
             {
@@ -1650,13 +1624,13 @@ namespace AndroAdminDataAccess.EntityFramework
             {
                 OnLatChanging(value);
                 ReportPropertyChanging("Lat");
-                _Lat = StructuralObject.SetValidValue(value);
+                _Lat = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Lat");
                 OnLatChanged();
             }
         }
-        private Nullable<global::System.Double> _Lat;
-        partial void OnLatChanging(Nullable<global::System.Double> value);
+        private global::System.String _Lat;
+        partial void OnLatChanging(global::System.String value);
         partial void OnLatChanged();
     
         /// <summary>
@@ -1664,7 +1638,7 @@ namespace AndroAdminDataAccess.EntityFramework
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> Long
+        public global::System.String Long
         {
             get
             {
@@ -1674,13 +1648,13 @@ namespace AndroAdminDataAccess.EntityFramework
             {
                 OnLongChanging(value);
                 ReportPropertyChanging("Long");
-                _Long = StructuralObject.SetValidValue(value);
+                _Long = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Long");
                 OnLongChanged();
             }
         }
-        private Nullable<global::System.Double> _Long;
-        partial void OnLongChanging(Nullable<global::System.Double> value);
+        private global::System.String _Long;
+        partial void OnLongChanging(global::System.String value);
         partial void OnLongChanged();
     
         /// <summary>
@@ -1735,28 +1709,6 @@ namespace AndroAdminDataAccess.EntityFramework
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Store")]
-        public EntityCollection<Store> Stores
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1868,6 +1820,28 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Country>("AndroAdminModel.FK_Address_Country", "Country", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Store")]
+        public EntityCollection<Store> Stores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store", value);
                 }
             }
         }
@@ -3155,28 +3129,6 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUserGroup>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "MyAndromedaUserGroup", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Group", "StoreGroup")]
-        public EntityCollection<StoreGroup> StoreGroups
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Group", "StoreGroup");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Group", "StoreGroup", value);
                 }
             }
         }
@@ -5248,44 +5200,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Address")]
-        public Address Address
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Address> AddressReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_Store", "MyAndromedaUserStore")]
         public EntityCollection<MyAndromedaUserStore> MyAndromedaUserStores
         {
@@ -5450,28 +5364,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Store", "StoreGroup")]
-        public EntityCollection<StoreGroup> StoreGroups
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Store", "StoreGroup");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Store", "StoreGroup", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreMenu_Store", "StoreMenu")]
         public EntityCollection<StoreMenu> StoreMenus
         {
@@ -5506,6 +5398,44 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Address")]
+        public Address Address
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Address> AddressReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address", value);
                 }
             }
         }
@@ -6271,195 +6201,6 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StoreGroup")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class StoreGroup : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new StoreGroup object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="storeId">Initial value of the StoreId property.</param>
-        /// <param name="groupId">Initial value of the GroupId property.</param>
-        public static StoreGroup CreateStoreGroup(global::System.Int32 id, global::System.Int32 storeId, global::System.Int32 groupId)
-        {
-            StoreGroup storeGroup = new StoreGroup();
-            storeGroup.Id = id;
-            storeGroup.StoreId = storeId;
-            storeGroup.GroupId = groupId;
-            return storeGroup;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 StoreId
-        {
-            get
-            {
-                return _StoreId;
-            }
-            set
-            {
-                OnStoreIdChanging(value);
-                ReportPropertyChanging("StoreId");
-                _StoreId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("StoreId");
-                OnStoreIdChanged();
-            }
-        }
-        private global::System.Int32 _StoreId;
-        partial void OnStoreIdChanging(global::System.Int32 value);
-        partial void OnStoreIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 GroupId
-        {
-            get
-            {
-                return _GroupId;
-            }
-            set
-            {
-                OnGroupIdChanging(value);
-                ReportPropertyChanging("GroupId");
-                _GroupId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GroupId");
-                OnGroupIdChanged();
-            }
-        }
-        private global::System.Int32 _GroupId;
-        partial void OnGroupIdChanging(global::System.Int32 value);
-        partial void OnGroupIdChanged();
-
-        #endregion
-
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Group", "Group")]
-        public Group Group
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Group> GroupReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Store", "Store")]
-        public Store Store
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Store> StoreReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store", value);
                 }
             }
         }

@@ -26,8 +26,8 @@ namespace AndroAdminDataAccess.Domain
         public virtual string State { get; set; }
         public virtual string PostCode { get; set; }
         public virtual string DPS { get; set; }
-        public virtual double? Lat { get; set; }
-        public virtual double? Long { get; set; }
+        public virtual string Lat { get; set; }
+        public virtual string Long { get; set; }
         public virtual Country Country { get; set; }
 
         public Address()
@@ -50,8 +50,8 @@ namespace AndroAdminDataAccess.Domain
             this.State = "";
             this.PostCode = "";
             this.DPS = "";
-            this.Lat = null;
-            this.Long = null;
+            this.Lat = "";
+            this.Long = "";
             this.Country = null;
         }
    }
