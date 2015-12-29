@@ -18,6 +18,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public System.DateTime LoggedDateTime { get; set; }
         public System.Guid AndroWebSessionID { get; set; }
         public string Action { get; set; }
+        public string ExtraInfo { get; set; }
     
         public virtual AndroWebTelemetrySession AndroWebTelemetrySession { get; set; }
     }

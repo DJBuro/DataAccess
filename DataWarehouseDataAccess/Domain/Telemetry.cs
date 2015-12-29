@@ -22,5 +22,9 @@ namespace DataWarehouseDataAccess.Domain
         [JsonProperty(PropertyName = "dateTime")]
         [XmlElement(ElementName = "DateTime")]
         public string DateTime { get; set; }
+
+        [JsonProperty(PropertyName = "extraInfo")]
+        [XmlElement(ElementName = "ExtraInfo")]
+        public string ExtraInfo { get; set; }
     }
 }

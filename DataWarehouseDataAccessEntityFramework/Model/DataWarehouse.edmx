@@ -59,6 +59,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="LoggedDateTime" Type="datetime" Nullable="false" />
           <Property Name="AndroWebSessionID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Action" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ExtraInfo" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="AndroWebTelemetrySession">
           <Key>
@@ -1589,6 +1590,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="AndroWebSessionID" Type="Guid" Nullable="false" />
           <Property Name="Action" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AndroWebTelemetrySession" Relationship="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession" FromRole="AndroWebTelemetry" ToRole="AndroWebTelemetrySession" />
+          <Property Name="ExtraInfo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AndroWebTelemetrySession">
           <Key>
@@ -1979,6 +1981,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="AndroWebTelemetries">
             <EntityTypeMapping TypeName="DataWarehouseModel.AndroWebTelemetry">
               <MappingFragment StoreEntitySet="AndroWebTelemetry">
+                <ScalarProperty Name="ExtraInfo" ColumnName="ExtraInfo" />
                 <ScalarProperty Name="Action" ColumnName="Action" />
                 <ScalarProperty Name="AndroWebSessionID" ColumnName="AndroWebSessionID" />
                 <ScalarProperty Name="LoggedDateTime" ColumnName="LoggedDateTime" />
