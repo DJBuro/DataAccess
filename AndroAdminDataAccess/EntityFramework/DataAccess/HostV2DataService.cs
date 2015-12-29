@@ -9,6 +9,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HostV2DataService : IHostV2DataService 
     {
+        public void UpdateVersionForAll()
+        {
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                var table = dbContext.HostV2;
+                var tableEntities = table.ToArray();
+
+                int newVersion = dbContext.GetNextDataVersionForEntity();
+
+                foreach (var entity in tableEntities) 
+                {
+                    entity.DataVersion = newVersion;
+                    entity.LastUpdateUtc = DateTime.UtcNow;
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public void Add(HostV2 model)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())

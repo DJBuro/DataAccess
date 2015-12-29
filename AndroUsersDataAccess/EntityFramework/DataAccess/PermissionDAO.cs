@@ -137,5 +137,28 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
 
             return false;
         }
+
+        public void AddPermissions(IEnumerable<Domain.Permission> permissions)
+        {
+            using (AndroUsersEntities entitiesContext = new AndroUsersEntities()) 
+            {
+                var table = entitiesContext.Permissions;
+                var allEntities = table.ToArray();
+
+                var newEntities = permissions
+                    .Where(e => !allEntities.Any(permission => permission.Name.Equals(e.Name)))
+                    .Select(e=> new Permission() { 
+                        Name = e.Name, 
+                        Description = e.Description
+                    });
+
+                foreach (var newEntity in newEntities) 
+                {
+                    table.Add(newEntity);
+                }
+                
+                entitiesContext.SaveChanges();
+            }
+        }
     }
 }

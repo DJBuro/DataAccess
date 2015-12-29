@@ -44,14 +44,40 @@ namespace AndroAdminDataAccess.DataAccess
 
     public interface IHostV2ForApplicationDataService
     {
-        //List<T> List<T>(Expression<Func<ACSApplication, bool>> query, Func<ACSApplication, T> transform = null);
-
+        /// <summary>
+        /// Lists the by host id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns></returns>
         IEnumerable<ACSApplication> ListByHostId(Guid id);
+
+        /// <summary>
+        /// Lists the connected hosts for application.
+        /// </summary>
+        /// <param name="applicationId">The application id.</param>
+        /// <returns></returns>
         IEnumerable<HostV2> ListConnectedHostsForApplication(int applicationId);
+
+        /// <summary>
+        /// Lists the host connections.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
         IEnumerable<HostApplicationConnection> ListHostConnections(Expression<Func<ACSApplication, bool>> query); 
+
+        /// <summary>
+        /// Adds the complete range.
+        /// </summary>
+        /// <param name="applicationId">The application id.</param>
+        /// <param name="selectServerListIds">The select server list ids.</param>
         void AddCompleteRange(int applicationId, IEnumerable<Guid> selectServerListIds);
+
+        /// <summary>
+        /// Clears all.
+        /// </summary>
+        /// <param name="applicationId">The application id.</param>
         void ClearAll(int applicationId);
-    } 
+    }
     
     public class HostApplicationConnection 
     {

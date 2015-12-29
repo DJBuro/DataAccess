@@ -8,6 +8,11 @@ namespace AndroAdminDataAccess.DataAccess
     public interface IHostV2DataService 
     {
         /// <summary>
+        /// Updates the version for all.
+        /// </summary>
+        void UpdateVersionForAll();
+
+        /// <summary>
         /// Adds the specified model.
         /// </summary>
         /// <param name="model">The model.</param>

@@ -71,5 +71,7 @@ namespace AndroAdminDataAccess.Domain
             this.TimeZone = "";
             this.Chain = null;
         }
-   }
+
+        public string LicenceKey { get; set; }
+    }
 }
