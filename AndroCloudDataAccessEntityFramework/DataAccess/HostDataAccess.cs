@@ -159,8 +159,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     .Include(e => e.HostType);
 
                 var acsQuery = acsTable
-                    .Where(e=> e.Public)
-                    .Where(query)
+                    .Where(e=> e.Public).Where(query)
                     .OrderBy(e=> e.HostType.Name)
                     .ThenBy(e=> e.Order)
                     .ToArray();

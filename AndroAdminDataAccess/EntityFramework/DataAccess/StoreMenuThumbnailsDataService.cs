@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreMenuThumbnailsDataService : IStoreMenuThumbnailsDataService
     {
-        public IEnumerable<AndroAdminDataAccess.Domain.StoreMenuThumbnails> GetAfterDataVersion(int fromVersion)
+        public IEnumerable<AndroAdminDataAccess.Domain.StoreMenu> GetStoreMenuChangesAfterDataVersion(int fromVersion)
+        {
+            IEnumerable<AndroAdminDataAccess.Domain.StoreMenu> results = Enumerable.Empty<AndroAdminDataAccess.Domain.StoreMenu>();
+
+            using (var dbContext = new AndroAdminDataAccess.EntityFramework.AndroAdminEntities()) 
+            {
+                var table = dbContext.StoreMenus.Include(e=> e.Store);
+                var query = table.Where(e => e.DataVersion > fromVersion);
+                var result = query.ToArray();
+
+                results = result.Select(e => e.ToDomain()).ToArray();
+            }
+
+            return results;
+        }
+
+        public IEnumerable<AndroAdminDataAccess.Domain.StoreMenuThumbnails> GetStoreMenuThumbnailChangesAfterDataVersion(int fromVersion)
         {
             using (var dbContext = new AndroAdminDataAccess.EntityFramework.AndroAdminEntities()) 
             {
@@ -40,6 +57,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 return resultGroup.SelectMany(e=> e);
             }
+        }
+
+    }
+    public static class DomainExtensiosn 
+    {
+        public static Domain.StoreMenu ToDomain(this StoreMenu storeMenu) 
+        {
+            return new Domain.StoreMenu() 
+            {
+                Id = storeMenu.Id,
+                AndromedaSiteId = storeMenu.Store.AndromedaSiteId,
+                LastUpdated = storeMenu.LastUpdated.GetValueOrDefault(),
+                MenuData = storeMenu.MenuData,
+                MenuType = storeMenu.MenuType,
+                Version = storeMenu.Version.GetValueOrDefault()
+            };
         }
     }
 }

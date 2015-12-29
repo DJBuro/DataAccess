@@ -118,6 +118,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\..\WebSites\AndroAdmin\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Services\AndroCloudServices\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -165,6 +168,7 @@
     <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\HubItem.cs" />
     <Compile Include="Domain\Permission.cs" />
+    <Compile Include="Domain\StoreMenu.cs" />
     <Compile Include="Domain\StoreMenuThumbnail.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
@@ -235,6 +239,9 @@
     <Compile Include="EntityFramework\DataAccess\DevicesDataService.cs" />
     <Compile Include="EntityFramework\DataVersionHelper.cs" />
     <Compile Include="EntityFramework\Day.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\DeliveryArea.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Device.cs">
@@ -312,6 +319,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreDevice.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\StoreHostV2ApiCredentials.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreHubReset.cs">

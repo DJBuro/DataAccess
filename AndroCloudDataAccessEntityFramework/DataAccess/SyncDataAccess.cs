@@ -318,11 +318,44 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 ConnectionStringOverride = this.ConnectionStringOverride
             };
 
+            foreach (var menuUpdate in menuUpdates.MenuChanges) 
+            {
+                var site = acsEntities.Sites.Single(e => e.AndroID == menuUpdate.AndromediaSiteId);
+                var menus = site.SiteMenus.ToArray();
+
+                if (menuUpdate.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase) && !string.IsNullOrWhiteSpace(menuUpdate.Data)) 
+                {
+                    var xmlMenu = menus
+                        .Where(e => e.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
+                        .SingleOrDefault();
+
+                    if (xmlMenu == null) continue;
+
+                    xmlMenu.menuData = menuUpdate.Data;
+                    xmlMenu.LastUpdated = DateTime.UtcNow;
+                    xmlMenu.Version = menuUpdate.Version;
+                }
+
+                if (menuUpdate.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase) && !string.IsNullOrWhiteSpace(menuUpdate.Data)) {
+                    var jsonMenu = menus
+                        .Where(e => e.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase))
+                        .SingleOrDefault();
+
+                    if (jsonMenu == null) continue;
+
+                    jsonMenu.menuData = menuUpdate.Data;
+                    jsonMenu.LastUpdated = DateTime.UtcNow;
+                    jsonMenu.Version = menuUpdate.Version;
+                }
+
+                acsEntities.SaveChanges();
+            }
+
             foreach (var menuUpdate in menuUpdates.MenuThumbnailChanges)
             {
                 var site = acsEntities.Sites.Single(e => e.AndroID == menuUpdate.AndromediaSiteId);
 
-                if (menuUpdate.MenuType.ToLower() == "xml")
+                if (menuUpdate.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
                 {
                     dataAccess.UpdateThumbnailData(site.ID, menuUpdate.Data, AndroCloudHelper.DataTypeEnum.XML);
                     continue;
