@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AndroCloudDataAccess;
+using AndroCloudDataAccess.DataAccess;
 using AndroCloudDataAccessEntityFramework.DataAccess;
 
 namespace AndroCloudDataAccessEntityFramework
@@ -77,7 +78,6 @@ namespace AndroCloudDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
-
         public AndroCloudDataAccess.DataAccess.IDeliveryAreaTownDataAccess DeliveryAreaTownDataAccess
         {
             get { return new DeliveryZoneTownsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
@@ -88,6 +88,11 @@ namespace AndroCloudDataAccessEntityFramework
         {
             get { return new DeliveryZoneRoadsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
+        }
+
+        public ISiteLoyaltyDataAccess SiteLoyaltyDataAccess
+        {
+            get { return new StoreLoyaltyDataAccess(); }
         }
     }
 }

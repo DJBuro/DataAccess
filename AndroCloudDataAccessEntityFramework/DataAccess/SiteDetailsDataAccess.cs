@@ -25,14 +25,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from site in acsEntities.Sites.Include(e=>e.SiteLoyalties)
+                var sitesQuery = from site in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join siteStatus in acsEntities.SiteStatuses
                                    on site.SiteStatusID equals siteStatus.ID
                                  join spp in acsEntities.StorePaymentProviders
                                    on site.StorePaymentProviderID equals spp.ID
                                  into spp2
                                  from spp3 in spp2.DefaultIfEmpty()
-                                 where 
+                                 where
                                     site.ID == siteId
                                     && siteStatus.Status == "Live"
                                  select new
@@ -127,24 +127,25 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     {
                         AndroCloudDataAccess.Domain.SiteLoyalty siteConfig = new AndroCloudDataAccess.Domain.SiteLoyalty();
                         siteConfig.Id = config.Id;
-                        siteConfig.SiteId = config.SiteId;
-                        siteConfig.Configuration = config.Configuration;
+                        //siteConfig.SiteId = config.SiteId;
+                        siteConfig.RawConfiguration = config.Configuration;
                         siteConfig.ProviderName = config.ProviderName;
-                        if (!string.IsNullOrEmpty(config.Configuration))
+                        siteConfig.RawConfiguration = config.Configuration;
+                        var t =  JsonConvert.DeserializeObject(string.IsNullOrWhiteSpace(config.Configuration) ? "{}" : config.Configuration);
+                        
+
+                        if(config.ProviderName.Equals("Andromeda", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            siteConfig.ConfigurationTypes = new LoyaltyConfiguration();
-                            //try
-                            //{
-                                siteConfig.ConfigurationTypes = JsonConvert.DeserializeObject<LoyaltyConfiguration>(config.Configuration);
-                            //}
-                            //catch (Exception ex)
-                            //{ 
-                            //    // log - 
-                            //}
+                            siteConfig.Configuration = JsonConvert.DeserializeObject<AndromedaLoyaltyConfiguration>(string.IsNullOrWhiteSpace(config.Configuration) ? "{}" : config.Configuration);
                         }
-                        if (siteConfig.ConfigurationTypes != null && siteConfig.ConfigurationTypes.isEnabled)
+                        else 
                         {
-                            siteDetails.SiteLoyalties.Add(siteConfig);
+                            siteConfig.Configuration = new AndromedaLoyaltyConfiguration(){ };
+                        }
+                        
+                        if (siteConfig.Configuration != null && siteConfig.Configuration.Enabled.GetValueOrDefault())
+                        {
+                           siteDetails.SiteLoyalties.Add(siteConfig);
                         }
                     }
                 }

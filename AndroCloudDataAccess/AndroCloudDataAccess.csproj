@@ -183,6 +183,7 @@
     <Compile Include="DataAccess\IDeliveryAreaDataAccess.cs" />
     <Compile Include="DataAccess\IHostV2UpdateDataAccess.cs" />
     <Compile Include="DataAccess\IHubDataAccess.cs" />
+    <Compile Include="DataAccess\IStoreLoyaltyDataAcces.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDataAccess.cs" />
     <Compile Include="DataAccess\IPartnersDataAccess.cs" />
     <Compile Include="DataAccess\ISettingsDataAccess.cs" />

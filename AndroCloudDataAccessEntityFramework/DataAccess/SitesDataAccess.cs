@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using AndroCloudDataAccess.DataAccess;
 using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
-using AndroCloudDataAccess.Domain;
 using AndroCloudWCFHelper;
 using AndroCloudHelper;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using Newtonsoft.Json;
+using AndroCloudDataAccess.Domain;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -111,6 +108,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             site.ExternalId = siteEntity.ExternalId;
                             site.LicenceKey = siteEntity.LicenceKey;
                             site.AndroId = siteEntity.AndroID;
+
                             GetLoyaltyConfiguration(site, siteEntity);
 
                             sites.Add(site);
@@ -426,22 +424,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     {
                         AndroCloudDataAccess.Domain.SiteLoyalty siteConfig = new AndroCloudDataAccess.Domain.SiteLoyalty();
                         siteConfig.Id = config.Id;
-                        siteConfig.SiteId = config.SiteId;
-                        siteConfig.Configuration = config.Configuration;
+                        siteConfig.RawConfiguration = config.Configuration;
                         siteConfig.ProviderName = config.ProviderName;
+                        
                         if (!string.IsNullOrEmpty(config.Configuration))
                         {
-                            siteConfig.ConfigurationTypes = new LoyaltyConfiguration();
-                            //try
-                            //{
-                                siteConfig.ConfigurationTypes = JsonConvert.DeserializeObject<LoyaltyConfiguration>(config.Configuration);
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //    // log - 
-                            //}
+                            siteConfig.Configuration = JsonConvert.DeserializeObject<AndromedaLoyaltyConfiguration>(config.Configuration);
                         }
-                        if (siteConfig.ConfigurationTypes != null && siteConfig.ConfigurationTypes.isEnabled)
+                        if (siteConfig.Configuration != null && siteConfig.Configuration.Enabled.GetValueOrDefault())
                         {
                             site.SiteLoyalties.Add(siteConfig);
                         }
