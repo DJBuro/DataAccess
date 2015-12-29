@@ -13,7 +13,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-
         public string GetByUsernamePassword(string username, string password, int applicationId, out DataWarehouseDataAccess.Domain.Customer customer)
         {
             customer = null;
@@ -286,13 +285,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             customerEntity.Contacts.Add(contactEntity);
                         }
                     }
-
-                    //if (customerEntity.CustomerLoyalties == null) 
-                    //{
-                    //    using(var acsEntities = new Acsen)
-                    //    var storeLoyalty = dataWarehouseEntities
-                    //    if()
-                    //}
                     
                     // Add the customer to the database
                     dataWarehouseEntities.Customers.Add(customerEntity);
@@ -628,6 +620,19 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 customerEntity.CustomerLoyalties.Add(customerLoyalty);
 
                 dataWarehouseEntities.SaveChanges();
+
+                customer.CustomerLoyalties = new List<DataWarehouseDataAccess.Domain.CustomerLoyalty>();
+                foreach (CustomerLoyalty customerLoyaltyEntity in customerEntity.CustomerLoyalties)
+                {
+                    customer.CustomerLoyalties.Add
+                    (
+                        new DataWarehouseDataAccess.Domain.CustomerLoyalty() 
+                        {
+                            Points = customerLoyaltyEntity.Points,
+                            ProviderName = customerLoyaltyEntity.ProviderName
+                        }
+                    );
+                }
             }
         }
 
