@@ -234,7 +234,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         entitiesContext.SaveChanges();
                     }
 
-                    // Commit the transacton
+                    // Commit the transaction
                     transactionScope.Complete();
                 }
             }
