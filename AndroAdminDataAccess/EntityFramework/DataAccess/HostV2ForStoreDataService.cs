@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AndroAdminDataAccess.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,32 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HostV2ForStoreDataService : IHostV2ForStoreDataService 
     {
+        public IEnumerable<HostStoreConnection> ListHostConnections(Expression<Func<Store, bool>> query)
+        {
+            IEnumerable<HostStoreConnection> results = Enumerable.Empty<HostStoreConnection>();
+
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                var storeTable = dbContext.Stores;
+                var hostV2Table = dbContext.HostV2;
+               
+                var innerQuery = 
+                    (
+                        from store in storeTable
+                        from hostV2List in store.HostV2
+                        select new HostStoreConnection
+                        {
+                            AndromedaSiteId = store.AndromedaSiteId,
+                            HostId = hostV2List.Id
+                        }
+                    );
+
+                results = innerQuery.ToArray();
+            }
+
+            return results;
+        }
+
         public IEnumerable<Store> ListByHostId(Guid id)
         {
             IEnumerable<Store> results = Enumerable.Empty<Store>();

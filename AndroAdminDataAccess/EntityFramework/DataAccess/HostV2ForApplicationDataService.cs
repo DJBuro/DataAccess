@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AndroAdminDataAccess.DataAccess;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HostV2ForApplicationDataService : IHostV2ForApplicationDataService 
     {
+        //public List<T> List<T>(Expression<Func<ACSApplication, bool>> query, Func<ACSApplication, T> transform = null)
+        //{
+            
+        //}
+
         public IEnumerable<ACSApplication> ListByHostId(Guid id)
         {
             IEnumerable<ACSApplication> results = Enumerable.Empty<ACSApplication>();
@@ -31,6 +37,29 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var query = table.Where(e => e.ACSApplications.Any(application => application.Id == applicationId));
 
                 results = query.ToArray();
+            }
+
+            return results;
+        }
+
+        public IEnumerable<HostApplicationConnection> ListHostConnections(Expression<Func<ACSApplication, bool>> query)
+        {
+            IEnumerable<HostApplicationConnection> results = Enumerable.Empty<HostApplicationConnection>();
+            using (var dbContext = new EntityFramework.AndroAdminEntities()) 
+            {
+                var table = dbContext.ACSApplications;
+                var innerQuery =
+                    (
+                        from application in table
+                        from hostV2List in application.HostV2
+                        select new HostApplicationConnection
+                        {
+                            ApplicationId = application.Id,
+                            HostId = hostV2List.Id
+                        }
+                    );
+
+                results = innerQuery.ToArray();
             }
 
             return results;
