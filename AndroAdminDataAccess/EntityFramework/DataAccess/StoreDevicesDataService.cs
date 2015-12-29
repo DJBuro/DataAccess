@@ -60,6 +60,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                      .Include(e=>e.Store)
                                      .Where(e => e.Removed)
                                      .Where(query);
+
                 results = table.ToArray();
             }
 
@@ -109,8 +110,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 if (model.Device == null)
                 {
                     model.Device = devicesTable.SingleOrDefault(e => model.DeviceId == e.Id);
-                    model.DataVersion = dbContext.GetNextDataVersionForEntity();
+                    
                 }
+                if(model.Store == null){
+                    model.Store = dbContext.Stores.FirstOrDefault(e => e.Id == model.StoreId);
+                }
+
+                model.DataVersion = dbContext.GetNextDataVersionForEntity();
 
                 table.Add(model);
 
