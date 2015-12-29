@@ -25,7 +25,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<ACSApplication> ACSApplications { get; set; }
         public DbSet<ACSApplicationSite> ACSApplicationSites { get; set; }
         public DbSet<ACSLog> ACSLogs { get; set; }
         public DbSet<ACSQueue> ACSQueues { get; set; }
@@ -34,15 +33,12 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
-        public DbSet<DeliveryAreaTown> DeliveryAreaTowns { get; set; }
         public DbSet<HostType> HostTypes { get; set; }
-        public DbSet<HubHost> HubHosts { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
@@ -50,5 +46,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Host> Hosts { get; set; }
         public DbSet<HostsV2> HostsV2 { get; set; }
         public DbSet<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
+        public DbSet<DeliveryAreaTown> DeliveryAreaTowns { get; set; }
+        public DbSet<HubHost> HubHosts { get; set; }
+        public DbSet<ACSApplication> ACSApplications { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
     }
 }

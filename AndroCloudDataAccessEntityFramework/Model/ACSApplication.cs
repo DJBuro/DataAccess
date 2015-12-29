@@ -17,10 +17,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public ACSApplication()
         {
             this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
+            this.DeliveryAreaRoads = new HashSet<DeliveryAreaRoad>();
             this.DeliveryAreaTowns = new HashSet<DeliveryAreaTown>();
             this.Hosts = new HashSet<Host>();
             this.HostsV2 = new HashSet<HostsV2>();
-            this.DeliveryAreaRoads = new HashSet<DeliveryAreaRoad>();
         }
     
         public int Id { get; set; }
@@ -31,9 +31,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
     
         public virtual Partner Partner { get; set; }
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
+        public virtual ICollection<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
         public virtual ICollection<DeliveryAreaTown> DeliveryAreaTowns { get; set; }
         public virtual ICollection<Host> Hosts { get; set; }
         public virtual ICollection<HostsV2> HostsV2 { get; set; }
-        public virtual ICollection<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
     }
 }
