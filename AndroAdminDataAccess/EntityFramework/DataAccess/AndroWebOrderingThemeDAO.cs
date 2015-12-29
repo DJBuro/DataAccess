@@ -72,7 +72,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return model;
         }
 
-        public void Add(Domain.ThemeAndroWebOrdering webOrderingTheme)
+        public Domain.ThemeAndroWebOrdering Add(Domain.ThemeAndroWebOrdering webOrderingTheme)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -88,8 +88,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     Description = webOrderingTheme.Description
                 };
                 entitiesContext.AndroWebOrderingThemes.Add(entity);
-                entitiesContext.SaveChanges();
+                entitiesContext.SaveChanges();                
+                webOrderingTheme.Id = entity.Id;                     
             }
+            return webOrderingTheme;
         }
 
         public void Update(Domain.ThemeAndroWebOrdering webOrderingTheme)
@@ -109,7 +111,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     entity.InternalName = webOrderingTheme.InternalName;
                     entity.Description = webOrderingTheme.Description;
                 };
-                entitiesContext.SaveChanges();
+                entitiesContext.SaveChanges();               
             }
         }
 

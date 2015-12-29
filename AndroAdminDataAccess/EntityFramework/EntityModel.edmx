@@ -91,11 +91,13 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="Height" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="InternalName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="AndroWebOrderingWebsite">
           <Key>
@@ -2372,6 +2374,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Height" Type="Int32" Nullable="false" />
           <Property Name="Width" Type="Int32" Nullable="false" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="InternalName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2860,6 +2864,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="AndroWebOrderingThemes">
             <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingTheme">
               <MappingFragment StoreEntitySet="AndroWebOrderingTheme">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InternalName" ColumnName="InternalName" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
