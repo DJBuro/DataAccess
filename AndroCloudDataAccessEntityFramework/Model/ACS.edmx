@@ -1086,7 +1086,7 @@
     <Diagrams>
       <Diagram Name="ACS" ZoomLevel="85">
         <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="2.25" PointY="3.875" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="10.5" PointY="7" Height="3.3263964843750031" />
+        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="10.625" PointY="6.375" Height="3.3263964843750031" />
         <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="4.25" PointY="3.875" Height="2.3648893229166674" />
         <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.75" PointY="16" Height="1.5956835937500067" />
         <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.75" PointY="6.75" Height="2.749492187499996" />
@@ -1100,8 +1100,8 @@
         <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="5.057109375" />
         <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="3.25" PointY="10.25" Height="1.9802864583333388" />
         <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" >
-          <ConnectorPoint PointX="11.25" PointY="10.326396484375003" />
-          <ConnectorPoint PointX="11.25" PointY="11.25" />
+          <ConnectorPoint PointX="11.3125" PointY="9.7013964843750031" />
+          <ConnectorPoint PointX="11.3125" PointY="11.25" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" >
           <ConnectorPoint PointX="7.25" PointY="16.466095377604169" />
