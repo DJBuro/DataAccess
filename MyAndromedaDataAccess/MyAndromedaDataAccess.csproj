@@ -126,6 +126,7 @@
     <Compile Include="Domain\Reporting\Query\FilterQuery.cs" />
     <Compile Include="Domain\Reporting\SalesOverview.cs" />
     <Compile Include="Domain\Reporting\TopSalesViewModel.cs" />
+    <Compile Include="Domain\Reporting\VoucherSummary.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteDetails.cs" />
     <Compile Include="Domain\TimeSpanBlock.cs" />
