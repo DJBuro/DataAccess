@@ -130,9 +130,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 entity.LastName = user.LastName;
                 entity.IsEnabled = user.IsEnabled;
                 entity.Password = user.Password;
+                entity.PasswordSalt = user.PasswordSalt;
+                entity.PasswordFormat = user.PasswordFormat;
+                entity.HashAlgorithm = user.HashAlgorithm;
+
+                dbContext.SaveChanges();
             }
         }
-
     }
 
     public static class UserDataServiceExtensions 

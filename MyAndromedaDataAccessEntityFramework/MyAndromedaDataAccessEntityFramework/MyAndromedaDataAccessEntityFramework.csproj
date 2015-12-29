@@ -91,6 +91,7 @@
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\Permissions\IEnrolmentDataService.cs" />
     <Compile Include="DataAccess\Permissions\IPermissionDataAccessService.cs" />
+    <Compile Include="DataAccess\Permissions\IStoreEnrolmentDataService.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="DataAccess\Sites\ISiteAddressDataService.cs" />
