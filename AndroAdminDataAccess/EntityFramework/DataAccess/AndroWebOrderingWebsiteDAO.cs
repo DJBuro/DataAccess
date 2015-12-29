@@ -128,16 +128,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return webOrderingSite;
         }
 
-        public int Add(Domain.AndroWebOrderingWebsite webOrderingSite)
+        public List<string> Add(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
-            int success = 0;
+            List<string> ErrorMsgs = new List<string>();
+            //int success = 0;
             using (TransactionScope transactionScope = new TransactionScope())
             {
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
                     ACSApplicationDAO acsDAO = new ACSApplicationDAO();
-                    Partner partner = entitiesContext.Partners.Where(c => c.Name.Equals("andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();                    
-                    
+                    Partner partner = entitiesContext.Partners.Where(c => c.Name.Equals("andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
                     if (partner != null)
                     {
                         if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null
@@ -181,17 +182,30 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             }
                             entitiesContext.SaveChanges();
                             transactionScope.Complete();
-                            success = 1;
+                            //success = 1;
                         }
+                        else
+                        {
+                            if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() != null)
+                                ErrorMsgs.Add("AddWebsite: sorry, this domain already has a website");
+                            else
+                                ErrorMsgs.Add("AddWebsite: sorry, this website name already exists");
+
+                        }
+                    }
+                    else
+                    {
+                        ErrorMsgs.Add("AddWebsite: Partner not found");
                     }
                 }
             }
-            return success;
+            return ErrorMsgs;
         }
 
-        public int Update(Domain.AndroWebOrderingWebsite webOrderingSite)
+        public List<string> Update(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
-            int success = 0;
+            List<string> ErrorMsgs = new List<string>();
+            //int success = 0;
             using (TransactionScope transactionScope = new TransactionScope())
             {
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
@@ -265,17 +279,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 }
                             }
                             entitiesContext.SaveChanges();
-                            success = 1;
+                            //success = 1;
                         }
                         else
                         {
-                            success = 0;
+                            //success = 0;
+                            if (dupACSApp != null)
+                                ErrorMsgs.Add("AddWebsite: sorry, this domain already has a website");
+                            else
+                                ErrorMsgs.Add("AddWebsite: sorry, this website name already exists");
                         }
                     }
                     transactionScope.Complete();
                 }
             }
-            return success;
+            //return success;
+            return ErrorMsgs;
         }
     }
 }
