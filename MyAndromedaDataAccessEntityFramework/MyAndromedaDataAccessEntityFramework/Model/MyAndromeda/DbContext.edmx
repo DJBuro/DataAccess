@@ -36,12 +36,7 @@
           <EntitySet Name="StoreEnrolment" EntityType="MyAndromedaModel.Store.StoreEnrolment" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserChain" EntityType="MyAndromedaModel.Store.UserChain" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRecords" EntityType="MyAndromedaModel.Store.UserRecords" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserRole" EntityType="MyAndromedaModel.Store.UserRole" store:Type="Tables" store:Schema="dbo" store:Name="UserRole">
-            <DefiningQuery>SELECT 
-      [UserRole].[UserRecordId] AS [UserRecordId], 
-      [UserRole].[RoleId] AS [RoleId]
-      FROM [dbo].[UserRole] AS [UserRole]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="UserRole" EntityType="MyAndromedaModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserStore" EntityType="MyAndromedaModel.Store.UserStore" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Stores" EntityType="MyAndromedaModel.Store.Stores" store:Type="Views" store:Schema="dbo" store:Name="Stores">
             <DefiningQuery>SELECT 
@@ -388,9 +383,6 @@
           <Property Name="PasswordFormat" Type="nvarchar" MaxLength="20" />
           <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'MyAndromeda.dbo.UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="UserRole">
           <Key>
             <PropertyRef Name="UserRecordId" />
@@ -808,10 +800,6 @@
             <End Role="EnrolmentLevel" EntitySet="EnrolmentLevels" />
             <End Role="Permission" EntitySet="Permissions" />
           </AssociationSet>
-          <AssociationSet Name="RolePermissions1" Association="MyAndromedaModel.RolePermissions1">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="Permission" EntitySet="Permissions" />
-          </AssociationSet>
           <EntitySet Name="StoreEnrolments" EntityType="MyAndromedaModel.StoreEnrolment" />
           <AssociationSet Name="FK_StoreEnrolment_EnrolmentLevel" Association="MyAndromedaModel.FK_StoreEnrolment_EnrolmentLevel">
             <End Role="EnrolmentLevel" EntitySet="EnrolmentLevels" />
@@ -820,6 +808,15 @@
           <AssociationSet Name="StoreViewStoreEnrolment" Association="MyAndromedaModel.StoreViewStoreEnrolment">
             <End Role="StoreView" EntitySet="StoreViews" />
             <End Role="StoreEnrolment" EntitySet="StoreEnrolments" />
+          </AssociationSet>
+          <EntitySet Name="RolePermissions" EntityType="MyAndromedaModel.RolePermissions" />
+          <AssociationSet Name="PermissionRolePermissions" Association="MyAndromedaModel.PermissionRolePermissions">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="RoleRolePermissions" Association="MyAndromedaModel.RoleRolePermissions">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -1124,7 +1121,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserRecords" Relationship="MyAndromedaModel.UserRole" FromRole="Role" ToRole="UserRecord" />
-          <NavigationProperty Name="Permissions" Relationship="MyAndromedaModel.RolePermissions1" FromRole="Role" ToRole="Permission" />
+          <NavigationProperty Name="RolePermissions" Relationship="MyAndromedaModel.RoleRolePermissions" FromRole="Role" ToRole="RolePermissions" />
         </EntityType>
         <EntityType Name="UserChain">
           <Key>
@@ -1253,8 +1250,8 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EnrolmentLevels" Relationship="MyAndromedaModel.EnrolmentPermissions" FromRole="Permission" ToRole="EnrolmentLevel" />
-          <NavigationProperty Name="Roles" Relationship="MyAndromedaModel.RolePermissions1" FromRole="Permission" ToRole="Role" />
           <Property Type="String" Name="Category" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RolePermissions" Relationship="MyAndromedaModel.PermissionRolePermissions" FromRole="Permission" ToRole="RolePermissions" />
         </EntityType>
         <EntityType Name="StoreView">
           <Key>
@@ -1279,10 +1276,6 @@
         </EntityType>
         <Association Name="EnrolmentPermissions">
           <End Type="MyAndromedaModel.EnrolmentLevel" Role="EnrolmentLevel" Multiplicity="*" />
-          <End Type="MyAndromedaModel.Permission" Role="Permission" Multiplicity="*" />
-        </Association>
-        <Association Name="RolePermissions1">
-          <End Type="MyAndromedaModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MyAndromedaModel.Permission" Role="Permission" Multiplicity="*" />
         </Association>
         <EntityType Name="StoreEnrolment">
@@ -1319,6 +1312,40 @@
             </Principal>
             <Dependent Role="StoreEnrolment">
               <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RolePermissions" >
+          <Key>
+            <PropertyRef Name="PermissionId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <NavigationProperty Name="Permission" Relationship="MyAndromedaModel.PermissionRolePermissions" FromRole="RolePermissions" ToRole="Permission" />
+          <Property Type="Int32" Name="PermissionId" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="MyAndromedaModel.RoleRolePermissions" FromRole="RolePermissions" ToRole="Role" />
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+        </EntityType>
+        <Association Name="PermissionRolePermissions">
+          <End Type="MyAndromedaModel.Permission" Role="Permission" Multiplicity="1" />
+          <End Type="MyAndromedaModel.RolePermissions" Role="RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleRolePermissions">
+          <End Type="MyAndromedaModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="MyAndromedaModel.RolePermissions" Role="RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1597,20 +1624,20 @@
               <ScalarProperty Name="Id" ColumnName="EnrolmentLevelId" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="RolePermissions1" TypeName="MyAndromedaModel.RolePermissions1" StoreEntitySet="RolePermissions">
-            <EndProperty Name="Permission">
-              <ScalarProperty Name="Id" ColumnName="PermissionId" />
-            </EndProperty>
-            <EndProperty Name="Role">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="StoreEnrolments">
             <EntityTypeMapping TypeName="MyAndromedaModel.StoreEnrolment">
               <MappingFragment StoreEntitySet="StoreEnrolment">
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="EnrolmentLevelId" ColumnName="EnrolmentLevelId" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolePermissions">
+            <EntityTypeMapping TypeName="IsTypeOf(MyAndromedaModel.RolePermissions)">
+              <MappingFragment StoreEntitySet="RolePermissions">
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

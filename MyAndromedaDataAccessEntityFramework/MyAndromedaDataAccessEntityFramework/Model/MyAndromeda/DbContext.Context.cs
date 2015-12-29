@@ -48,5 +48,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<StoreView> StoreViews { get; set; }
         public DbSet<StoreEnrolment> StoreEnrolments { get; set; }
+        public DbSet<RolePermissions> RolePermissions { get; set; }
     }
 }

@@ -25,7 +25,6 @@
         <EntityTypeShape EntityType="MyAndromedaModel.Permission" Width="1.5" PointX="6" PointY="2.75" />
         <EntityTypeShape EntityType="MyAndromedaModel.StoreView" Width="1.5" PointX="2.75" PointY="11.625" />
         <AssociationConnector Association="MyAndromedaModel.EnrolmentPermissions" />
-        <AssociationConnector Association="MyAndromedaModel.RolePermissions1" />
         </Diagram>
       <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="93" >
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="4.25" PointY="19.5" />
@@ -45,11 +44,14 @@
         <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailLinkTable" />
       </Diagram>
       <Diagram DiagramId="15b5cf8a859948dbbc59dff0ae86a3c7" Name="Authorization" ZoomLevel="108" >
-        <EntityTypeShape EntityType="MyAndromedaModel.Permission" Width="1.5" PointX="4" PointY="4" />
+        <EntityTypeShape EntityType="MyAndromedaModel.Permission" Width="1.5" PointX="2.375" PointY="4" />
         <EntityTypeShape EntityType="MyAndromedaModel.EnrolmentLevel" Width="1.5" PointX="4" PointY="9.5" />
-        <AssociationConnector Association="MyAndromedaModel.EnrolmentPermissions" />
+        <AssociationConnector Association="MyAndromedaModel.EnrolmentPermissions" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.21875" PointY="9.5" />
+          <ConnectorPoint PointX="4.21875" PointY="5.3180503007710129" />
+          <ConnectorPoint PointX="3.875" PointY="5.3180503007710129" />
+        </AssociationConnector>
         <EntityTypeShape EntityType="MyAndromedaModel.Role" Width="1.5" PointX="6.375" PointY="4" />
-        <AssociationConnector Association="MyAndromedaModel.RolePermissions1" />
         <EntityTypeShape EntityType="MyAndromedaModel.UserChain" Width="1.5" PointX="10.75" PointY="4" />
         <EntityTypeShape EntityType="MyAndromedaModel.UserStore" Width="1.5" PointX="10.75" PointY="5.75" />
         <EntityTypeShape EntityType="MyAndromedaModel.UserRecord" Width="1.5" PointX="8.625" PointY="4" />
@@ -60,6 +62,9 @@
         <EntityTypeShape EntityType="MyAndromedaModel.StoreEnrolment" Width="1.5" PointX="6.375" PointY="9.5" />
         <AssociationConnector Association="MyAndromedaModel.FK_StoreEnrolment_EnrolmentLevel" />
         <AssociationConnector Association="MyAndromedaModel.StoreViewStoreEnrolment" />
+        <EntityTypeShape EntityType="MyAndromedaModel.RolePermissions" Width="1.5" PointX="4.375" PointY="1.75" />
+        <AssociationConnector Association="MyAndromedaModel.PermissionRolePermissions" />
+        <AssociationConnector Association="MyAndromedaModel.RoleRolePermissions" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

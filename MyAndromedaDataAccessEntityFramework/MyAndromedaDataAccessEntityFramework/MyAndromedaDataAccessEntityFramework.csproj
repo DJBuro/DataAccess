@@ -277,7 +277,10 @@
     <Compile Include="Model\MyAndromeda\Role.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda\RoleExtension.cs" />
+    <Compile Include="Model\MyAndromeda\ModelExtension.cs" />
+    <Compile Include="Model\MyAndromeda\RolePermissions.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
