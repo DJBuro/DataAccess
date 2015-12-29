@@ -67,24 +67,6 @@
     <Compile Include="DataAccess\DataAccessHelper.cs" />
     <Compile Include="Domain\CustomerWrapper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
-    <Compile Include="Model\AccountType.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Address.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Contact.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ContactType.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Country.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Customer.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\DataWarehouse.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -99,12 +81,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataWarehouse.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MarketingLevel.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PasswordResetRequest.cs">
-      <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
