@@ -26,10 +26,10 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
             this.CustomerAccountSettings = new CustomerAccount();            
 
-            this.MenuPageSettings = new MenuPage();
+            this.MenuPageSettings = new MenuPageSettings();
             this.MenuPageSettings.DefaultMenuPage();
 
-            this.CheckoutSettings = new Checkout();
+            this.CheckoutSettings = new CheckoutSettings();
             this.CheckoutSettings.DefaultCheckOutPolicy();
 
             this.UpSellingSettings = new UpSelling();
@@ -45,6 +45,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
             this.FacebookCrawlerSettings = new FacebookCrawlerSettings();
             this.FacebookCrawlerSettings.DefaultFacebookCrawlerSettings();
+
         }
 
         public int WebSiteId { get; set; }
@@ -87,9 +88,9 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public CustomerAccount CustomerAccountSettings { get; set; }
 
-        public MenuPage MenuPageSettings { get; set; }
+        public MenuPageSettings MenuPageSettings { get; set; }
 
-        public Checkout CheckoutSettings { get; set; }
+        public CheckoutSettings CheckoutSettings { get; set; }
 
         public UpSelling UpSellingSettings { get; set; }
 

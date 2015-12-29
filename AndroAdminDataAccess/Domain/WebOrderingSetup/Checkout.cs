@@ -1,6 +1,6 @@
 namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 {
-    public class Checkout
+    public class CheckoutSettings
     {
         public bool IsEnableCustomerDetailsCheckoutPage { get; set; }
 
