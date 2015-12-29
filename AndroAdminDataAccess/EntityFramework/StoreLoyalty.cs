@@ -18,6 +18,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public int StoreId { get; set; }
         public string Configuration { get; set; }
         public string ProviderName { get; set; }
+        public int DataVersion { get; set; }
     
         public virtual Store Store { get; set; }
     }

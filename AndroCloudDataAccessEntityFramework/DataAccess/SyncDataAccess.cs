@@ -7,6 +7,7 @@ using CloudSyncModel;
 using System.Transactions;
 using CloudSyncModel.HostV2;
 using CloudSyncModel.Hubs;
+using CloudSyncModel.Loyalty;
 using CloudSyncModel.Menus;
 using CloudSyncModel.StoreDeviceModels;
 
@@ -80,11 +81,60 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     //Sync Postcode sectors
                     this.SyncPostcodeSectors(acsEntities, syncModel.PostCodeSectors);
 
+                    this.SyncStoreLoyalty(acsEntities, syncModel.LoyaltyUpdates);
+
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
+        }
+ 
+        private void SyncStoreLoyalty(ACSEntities acsEntities, LoyaltyUpdates loyaltyUpdates)
+        {
+            //no updates
+            if (loyaltyUpdates == null) { return; }
+
+            //have updates to add or remove 
+            if (loyaltyUpdates.AddOrUpdate != null) 
+            {
+                var ids = loyaltyUpdates.AddOrUpdate.Select(e=> e.Id).ToArray();
+                var current = acsEntities.SiteLoyalties.Where(e => ids.Contains(e.Id)).ToArray();
+
+                foreach (var item in loyaltyUpdates.AddOrUpdate) 
+                {
+                    SiteLoyalty model = current.FirstOrDefault(e => e.Id == item.Id) ?? acsEntities.SiteLoyalties.Create();
+
+                    if (model.Id == default(Guid) || model.Id == null) 
+                    {
+                        var site = acsEntities.Sites.FirstOrDefault(e=> e.AndroID == item.AndromedaSiteId);
+
+                        model.Id = item.Id;
+                        model.Site = site;
+                        acsEntities.SiteLoyalties.Add(model);
+                    }
+
+                    model.Configuration = item.Configuration;
+                    model.ProviderName = item.ProviderName;
+                }
+            }
+
+            if (loyaltyUpdates.TryToRemove != null) 
+            {
+                var current = acsEntities.SiteLoyalties.Where(e => loyaltyUpdates.TryToRemove.Contains(e.Id)).ToArray();
+
+                foreach (var id in loyaltyUpdates.TryToRemove)
+                {
+                    SiteLoyalty model = current.FirstOrDefault(e => e.Id == id);
+
+                    //cant remove what does not exist
+                    if (model == null) { continue; }
+
+                    acsEntities.SiteLoyalties.Remove(model);
+                }
+            }
+
+            acsEntities.SaveChanges();
         }
 
         private void SyncPostcodeSectors(ACSEntities acsEntities, IList<CloudSyncModel.PostCodeSector> postCodeSectors)

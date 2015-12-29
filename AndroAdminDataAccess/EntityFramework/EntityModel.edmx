@@ -440,6 +440,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreMenu">
           <Key>
@@ -2578,6 +2579,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Configuration" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreLoyalty_Store" FromRole="StoreLoyalty" ToRole="Store" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_StoreLoyalty_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
@@ -3116,6 +3118,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="StoreLoyalties">
             <EntityTypeMapping TypeName="AndroAdminModel.StoreLoyalty">
               <MappingFragment StoreEntitySet="StoreLoyalty">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="Configuration" ColumnName="Configuration" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
