@@ -40,8 +40,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
-        public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
+        public DbSet<Site> Sites { get; set; }
     }
 }

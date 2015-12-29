@@ -14,16 +14,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
     
     public partial class StorePaymentProvider
     {
-        public StorePaymentProvider()
-        {
-            this.Sites = new HashSet<Site>();
-        }
-    
-        public System.Guid ID { get; set; }
+        public int Id { get; set; }
         public string ProviderName { get; set; }
         public string ClientId { get; set; }
         public string ClientPassword { get; set; }
-    
-        public virtual ICollection<Site> Sites { get; set; }
     }
 }

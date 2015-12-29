@@ -35,15 +35,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public string TimeZone { get; set; }
         public string Telephone { get; set; }
         public string LicenceKey { get; set; }
-        public Nullable<System.Guid> StorePaymentProviderID { get; set; }
         public System.Guid SiteStatusID { get; set; }
+        public Nullable<int> StorePaymentProviderId { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<OpeningHour> OpeningHours { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
-        public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual SiteStatus SiteStatus { get; set; }
     }
 }
