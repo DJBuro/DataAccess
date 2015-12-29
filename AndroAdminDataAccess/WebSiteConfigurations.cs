@@ -4,6 +4,13 @@ using Newtonsoft.Json;
 
 namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 {
+    public class Website 
+    {
+        public int Id { get; set; }
+        public string LiveDomainName { get; set; }
+        public string PreviewDomainName { get; set; }
+    }
+
     /// <summary>
     /// TBD: Class to be moved to another layer and method access-specifiers to be modified.
     /// TBD: JSON serialized-object format to be freezed.
