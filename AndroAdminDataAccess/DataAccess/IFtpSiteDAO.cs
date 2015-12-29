@@ -6,11 +6,12 @@ using AndroAdminDataAccess.Domain;
 
 namespace AndroAdminDataAccess.DataAccess
 {
-    public interface IFtpSiteDAO
+    public interface IFTPSiteDAO
     {
-        IEnumerable<AndroAdminDataAccess.Domain.FTPSite> GetAll();
-        void Add(AndroAdminDataAccess.Domain.FTPSite amsServer);
-        void Update(AndroAdminDataAccess.Domain.FTPSite amsServer);
-        AndroAdminDataAccess.Domain.FTPSite GetById(int id);
+        IList<FTPSite> GetAll();
+        void Add(FTPSite amsServer);
+        void Update(FTPSite amsServer);
+        FTPSite GetById(int id);
+        IList<FTPSite> GetByIsPrimary(bool isPrimary);
     }
 }

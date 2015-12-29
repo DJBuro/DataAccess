@@ -11,6 +11,6 @@ namespace AndroAdminDataAccess.Domain
         public virtual string Name { get; set; }
         public virtual int AndromedaSiteId { get; set; }
         public virtual int CustomerSiteId { get; set; }
-        public virtual List<AMSServerFTPServerPair> AMSServerFTPServerPairs { get; set; }
+        public virtual IList<AMSServerFTPServerPair> AMSServerFTPServerPairs { get; set; }
     }
 }

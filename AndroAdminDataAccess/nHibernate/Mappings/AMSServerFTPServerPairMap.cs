@@ -12,12 +12,16 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
     {
         public AMSServerFTPServerPairMap()
         {
-            Table("AMSServerFTPServerPair");
+            // Note there is no mapping for x.AMSServerId, x.PrimaryFTPSiteId or x.SecondaryFTPSiteId as you can't map the same column
+            // to multiple properties (at least not as far as I am aware).  These properties are needed to get round a problem 
+            // data mapping in MVC3 and they are populated manually in code.  Fudgetastic...
+            Table("StoreAMSServerFTPSitePair");
             Id(x => x.Id);
-            References(x => x.Store).ForeignKey("FK_StoreAMSServerFTPServerPair_Store").Column("StoreId").Not.LazyLoad();
-            References(x => x.AMSServer).ForeignKey("FK_StoreAMSServerFTPServerPair_AMSServer").Column("AMSServerId").Not.LazyLoad();
-            References(x => x.PrimaryFTPSite).ForeignKey("FK_StoreAMSServerFTPServerPair_FTPSite").Column("PrimaryFTPSiteId").Not.LazyLoad();
-            References(x => x.SecondaryFTPSite).ForeignKey("FK_StoreAMSServerFTPServerPair_FTPSite1").Column("SecondaryFTPSiteId").Not.LazyLoad();
+            Map(x => x.StoreId);
+            Map(x => x.Priority);
+            References(x => x.AMSServer, "AMSServerId").Cascade.None().Not.LazyLoad();
+            References(x => x.PrimaryFTPSite, "PrimaryFTPSiteId").Cascade.None().Not.LazyLoad();
+            References(x => x.SecondaryFTPSite, "SecondaryFTPSiteId").Cascade.None().Not.LazyLoad();
         }
     }
 }

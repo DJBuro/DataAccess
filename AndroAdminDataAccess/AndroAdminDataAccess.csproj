@@ -51,7 +51,7 @@
     <Compile Include="DataAccess\IAMSServerDAO.cs" />
     <Compile Include="DataAccess\IAMSServerFTPServerPairDAO.cs" />
     <Compile Include="DataAccess\IDataAccess.cs" />
-    <Compile Include="DataAccess\IFtpSiteDAO.cs" />
+    <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\Log.cs" />
     <Compile Include="nHibernate\DataAccess\FtpSiteDAO.cs" />

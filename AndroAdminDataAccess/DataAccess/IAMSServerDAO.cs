@@ -8,9 +8,9 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IAMSServerDAO
     {
-        IEnumerable<AndroAdminDataAccess.Domain.AMSServer> GetAll();
-        void Add(AndroAdminDataAccess.Domain.AMSServer amsServer);
-        void Update(AndroAdminDataAccess.Domain.AMSServer amsServer);
-        AndroAdminDataAccess.Domain.AMSServer GetById(int id);
+        IList<AMSServer> GetAll();
+        void Add(AMSServer amsServer);
+        void Update(AMSServer amsServer);
+        AMSServer GetById(int id);
     }
 }
