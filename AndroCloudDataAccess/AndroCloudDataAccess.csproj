@@ -91,6 +91,7 @@
     <Compile Include="DataAccess\IOrdersDataAccess.cs" />
     <Compile Include="DataAccess\ISiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
+    <Compile Include="Domain\HubItem.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\HostV2.cs" />
