@@ -77,5 +77,11 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
 
             return ftpSite;
         }
+
+
+        public void Delete(int ftpSiteId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

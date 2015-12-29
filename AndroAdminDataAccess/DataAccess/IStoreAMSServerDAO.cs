@@ -10,6 +10,7 @@ namespace AndroAdminDataAccess.DataAccess
     {
         IEnumerable<StoreAMSServer> GetAll();
         void Add(StoreAMSServer storeAMSServer);
+        void DeleteByAMSServerId(int amsServerId);
         StoreAMSServer GetByStoreIdAMServerId(int storeId, int amsServerId);
     }
 }

@@ -78,5 +78,11 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
 
             return amsServer;
         }
+
+
+        public void Delete(int amsServerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

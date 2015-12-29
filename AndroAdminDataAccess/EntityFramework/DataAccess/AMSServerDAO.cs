@@ -116,5 +116,24 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             return model;
         }
+
+
+        public void Delete(int amsServerId)
+        {
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.AMSServers
+                        where amsServerId == s.Id
+                        select s;
+
+            var entity = query.FirstOrDefault();
+
+            if (entity != null)
+            {
+                androAdminEntities.AMSServers.DeleteObject(entity);
+
+                androAdminEntities.SaveChanges();
+            }
+        }
     }
 }

@@ -69,5 +69,32 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
 
             return storeAMSServerFtpSite;
         }
+
+
+        public IEnumerable<StoreAMSServerFtpSite> GetByFTPSiteId(int ftpSiteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<StoreAMSServerFtpSite> IStoreAMSServerFTPSiteDAO.GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<StoreAMSServerFtpSite> IStoreAMSServerFTPSiteDAO.GetBySiteId(int siteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteByFTPSiteId(int ftpSiteId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void DeleteByAMSServerId(int amsServerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
