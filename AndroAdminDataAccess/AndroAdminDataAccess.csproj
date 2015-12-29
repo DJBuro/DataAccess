@@ -89,6 +89,8 @@
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
+    <Compile Include="Domain\StoreListItem.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\Host.cs" />
     <Compile Include="Domain\Partner.cs" />

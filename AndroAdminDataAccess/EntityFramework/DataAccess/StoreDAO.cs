@@ -15,19 +15,104 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public IList<Domain.Store> GetAll()
+        public IList<Domain.StoreListItem> GetAllStoreListItems()
         {
-            List<Domain.Store> models = new List<Domain.Store>();
+            List<Domain.StoreListItem> models = new List<Domain.StoreListItem>();
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                entitiesContext.Configuration.LazyLoadingEnabled = false;
+
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
                             orderby s.Name
-                            select s;
+                            select new
+                            {
+                                s.Id,
+                                s.Name,
+                                s.AndromedaSiteId,
+                                s.CustomerSiteId,
+                                StoreStatusStatus = s.StoreStatu.Status
+                            };
+
+                foreach (var entity in query)
+                {
+                    Domain.StoreListItem model = new Domain.StoreListItem()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        StoreStatus = entity.StoreStatusStatus
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
+        }
+
+        public IList<Domain.Store> GetAll()
+        {
+            List<Domain.Store> models = new List<Domain.Store>();
+             
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                entitiesContext.Configuration.LazyLoadingEnabled = false;
+
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.Stores
+                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            join a in entitiesContext.Addresses.DefaultIfEmpty()
+                            on s.AddressId equals a.Id
+                            join c in entitiesContext.Countries.DefaultIfEmpty()
+                            on a.CountryId equals c.Id
+                            orderby s.Name
+                            select new
+                            {
+                                s.Id,
+                                s.Name,
+                                s.AndromedaSiteId,
+                                s.CustomerSiteId,
+                                s.LastFTPUploadDateTime,
+//                                StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                                StoreStatusId = s.StoreStatu.Id,
+                                StoreStatusStatus = s.StoreStatu.Status,
+                                StoreStatusDescription = s.StoreStatu.Description,
+                                s.ExternalId,
+                                s.ExternalSiteName,
+                                s.ClientSiteName,
+                                s.Telephone,
+                                s.TimeZone,
+                                AddressId = a.Id,
+                                AddressOrg1 = a.Org1,
+                                AddressOrg2 = a.Org2,
+                                AddressOrg3 = a.Org3,
+                                AddressPrem1 = a.Prem1,
+                                AddressPrem2 = a.Prem2,
+                                AddressPrem3 = a.Prem3,
+                                AddressPrem4 = a.Prem4,
+                                AddressPrem5 = a.Prem5,
+                                AddressPrem6 = a.Prem6,
+                                AddressRoadNum = a.RoadNum,
+                                AddressRoadName = a.RoadName,
+                                AddressLocality = a.Locality,
+                                AddressTown = a.Town,
+                                AddressCounty = a.County,
+                                AddressState = a.State,
+                                AddressPostCode = a.PostCode,
+                                AddressDPS = a.DPS,
+                                AddressLat = a.Lat,
+                                AddressLong = a.Long,
+                                CountryCountryName = c.CountryName,
+                                CountryId = c.Id,
+                                CountryISO3166_1_alpha_2 = c.ISO3166_1_alpha_2,
+                                CountryISO3166_1_numeric = c.ISO3166_1_numeric
+                            };
 
                 foreach (var entity in query)
                 {
@@ -38,7 +123,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatusId, Status = entity.StoreStatusStatus, Description = entity.StoreStatusDescription },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
                         ClientSiteName = entity.ClientSiteName,
@@ -47,54 +132,54 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     };
 
                     // Get the address
-                    var addressQuery = from s in entitiesContext.Addresses
-                                       where s.Id == entity.AddressId
-                                       select s;
+                    //var addressQuery = from s in entitiesContext.Addresses
+                    //                   where s.Id == entity.AddressId
+                    //                   select s;
 
-                    var addressEntity = addressQuery.FirstOrDefault();
+                    //var addressEntity = addressQuery.FirstOrDefault();
 
-                    if (addressEntity != null)
-                    {
-                        var countryQuery = from c in entitiesContext.Countries
-                                           where c.Id == addressEntity.CountryId
-                                           select c;
+                    //if (addressEntity != null)
+                    //{
+                        //var countryQuery = from c in entitiesContext.Countries
+                        //                   where c.Id == addressEntity.CountryId
+                        //                   select c;
 
-                        var countryEntity = countryQuery.FirstOrDefault();
+                        //var countryEntity = countryQuery.FirstOrDefault();
 
-                        if (addressEntity != null)
-                        {
+                        //if (addressEntity != null)
+                        //{
                             model.Address = new Domain.Address()
                             {
-                                Id = addressEntity.Id,
-                                Org1 = addressEntity.Org1,
-                                Org2 = addressEntity.Org2,
-                                Org3 = addressEntity.Org3,
-                                Prem1 = addressEntity.Prem1,
-                                Prem2 = addressEntity.Prem2,
-                                Prem3 = addressEntity.Prem3,
-                                Prem4 = addressEntity.Prem4,
-                                Prem5 = addressEntity.Prem5,
-                                Prem6 = addressEntity.Prem6,
-                                RoadNum = addressEntity.RoadNum,
-                                RoadName = addressEntity.RoadName,
-                                Locality = addressEntity.Locality,
-                                Town = addressEntity.Town,
-                                County = addressEntity.County,
-                                State = addressEntity.State,
-                                PostCode = addressEntity.PostCode,
-                                DPS = addressEntity.DPS,
-                                Lat = addressEntity.Lat,
-                                Long = addressEntity.Long,
+                                Id = entity.AddressId,
+                                Org1 = entity.AddressOrg1,
+                                Org2 = entity.AddressOrg2,
+                                Org3 = entity.AddressOrg3,
+                                Prem1 = entity.AddressPrem1,
+                                Prem2 = entity.AddressPrem2,
+                                Prem3 = entity.AddressPrem3,
+                                Prem4 = entity.AddressPrem4,
+                                Prem5 = entity.AddressPrem5,
+                                Prem6 = entity.AddressPrem6,
+                                RoadNum = entity.AddressRoadNum,
+                                RoadName = entity.AddressRoadName,
+                                Locality = entity.AddressLocality,
+                                Town = entity.AddressTown,
+                                County = entity.AddressCounty,
+                                State = entity.AddressState,
+                                PostCode = entity.AddressPostCode,
+                                DPS = entity.AddressDPS,
+                                Lat = entity.AddressLat,
+                                Long = entity.AddressLong,
                                 Country = new Domain.Country()
                                 {
-                                    CountryName = countryEntity.CountryName,
-                                    Id = countryEntity.Id,
-                                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
-                                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                                    CountryName = entity.CountryCountryName,
+                                    Id = entity.CountryId,
+                                    ISO3166_1_alpha_2 = entity.CountryISO3166_1_alpha_2,
+                                    ISO3166_1_numeric = entity.CountryISO3166_1_numeric
                                 }
                             };
-                        }
-                    }
+                    //    }
+                    //}
 
                     models.Add(model);
                 }
