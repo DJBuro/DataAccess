@@ -44,15 +44,15 @@
         <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailMenuItemThumbnailsLinkTable" />
         <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailLinkTable" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuPublishTask" Width="1.5" PointX="8.25" PointY="3.5" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="6" PointY="4.375" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" Width="1.5" PointX="3.75" PointY="8.75" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackupUploadTask" Width="1.5" PointX="3.75" PointY="12.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="2.5" PointX="5.375" PointY="4.375" />
         <AssociationConnector Association="MyAndromedaModel.FK_MenuItem_SiteMenu" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
         <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuPublishTask_SiteMenu" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" Width="1.5" PointX="7.9361594263166939" PointY="19.087497734971112" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuFtpBackupUploadTask" Width="1.5" PointX="8.20265785800417" PointY="4.1020826865462974" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" />
       </Diagram>
       <Diagram DiagramId="15b5cf8a859948dbbc59dff0ae86a3c7" Name="Authorization" ZoomLevel="108" >
         <EntityTypeShape EntityType="MyAndromedaModel.Permission" Width="1.5" PointX="2.375" PointY="4" />

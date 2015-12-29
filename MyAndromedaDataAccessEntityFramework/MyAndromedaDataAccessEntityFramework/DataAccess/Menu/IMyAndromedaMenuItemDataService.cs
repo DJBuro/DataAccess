@@ -188,7 +188,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                     return;
                 }
 
-                menu.LastUpdated = DateTime.UtcNow;
+                menu.LastUpdatedUtc = DateTime.UtcNow;
                 dbContext.SaveChanges();
             }
         }
@@ -201,8 +201,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 var table = dbContext.MenuItems;
                 var query = table
-                                 .Where(e => e.ItemId == itemId)
-                                 .Where(e => e.SiteMenu.Id == menu.Id);
+                                .Where(e => e.SiteMenu.Id == menu.Id)
+                                .Where(e => e.ItemId == itemId);
                 //.Where(e => e.SiteMenus.Any(itemMenu => itemMenu.Id == menu.Id));
 
                 var result = query.SingleOrDefault();

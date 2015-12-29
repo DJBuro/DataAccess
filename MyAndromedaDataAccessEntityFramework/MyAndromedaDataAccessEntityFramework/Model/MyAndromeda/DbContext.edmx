@@ -938,19 +938,9 @@
           </AssociationSet>
           <EntitySet Name="SiteMenuPublishTasks" EntityType="MyAndromedaModel.SiteMenuPublishTask" />
           <EntitySet Name="SiteMenus" EntityType="MyAndromedaModel.SiteMenu" />
-          <EntitySet Name="SiteMenuFtpBackupDownloadTasks" EntityType="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" />
-          <EntitySet Name="SiteMenuFtpBackupUploadTasks" EntityType="MyAndromedaModel.SiteMenuFtpBackupUploadTask" />
           <AssociationSet Name="FK_MenuItem_SiteMenu" Association="MyAndromedaModel.FK_MenuItem_SiteMenu">
             <End Role="SiteMenu" EntitySet="SiteMenus" />
             <End Role="MenuItem" EntitySet="MenuItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SiteMenu_SiteMenuFtpBackupDownloadTask" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask">
-            <End Role="SiteMenuFtpBackupDownloadTask" EntitySet="SiteMenuFtpBackupDownloadTasks" />
-            <End Role="SiteMenu" EntitySet="SiteMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SiteMenu_SiteMenuFtpBackupUploadTask" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask">
-            <End Role="SiteMenuFtpBackupUploadTask" EntitySet="SiteMenuFtpBackupUploadTasks" />
-            <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteMenu_SiteMenuMediaProfile" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile">
             <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfiles" />
@@ -963,6 +953,16 @@
           <AssociationSet Name="FK_SiteMenuPublishTask_SiteMenu" Association="MyAndromedaModel.FK_SiteMenuPublishTask_SiteMenu">
             <End Role="SiteMenu" EntitySet="SiteMenus" />
             <End Role="SiteMenuPublishTask" EntitySet="SiteMenuPublishTasks" />
+          </AssociationSet>
+          <EntitySet Name="SiteMenuFtpBackupDownloadTasks" EntityType="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" />
+          <EntitySet Name="SiteMenuFtpBackupUploadTasks" EntityType="MyAndromedaModel.SiteMenuFtpBackupUploadTask" />
+          <AssociationSet Name="FK_SiteMenu_SiteMenuFtpBackupDownloadTask" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask">
+            <End Role="SiteMenuFtpBackupDownloadTask" EntitySet="SiteMenuFtpBackupDownloadTasks" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMenu_SiteMenuFtpBackupUploadTask" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask">
+            <End Role="SiteMenuFtpBackupUploadTask" EntitySet="SiteMenuFtpBackupUploadTasks" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -1511,44 +1511,11 @@
           <Property Type="Int32" Name="SiteMenuFtpBackupDownloadTaskId" />
           <Property Type="Int32" Name="SiteMenuFtpBackupUploadTaskId" />
           <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.FK_MenuItem_SiteMenu" FromRole="SiteMenu" ToRole="MenuItem" />
-          <NavigationProperty Name="SiteMenuFtpBackupDownloadTask" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" FromRole="SiteMenu" ToRole="SiteMenuFtpBackupDownloadTask" />
-          <NavigationProperty Name="SiteMenuFtpBackupUploadTask" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" FromRole="SiteMenu" ToRole="SiteMenuFtpBackupUploadTask" />
           <NavigationProperty Name="SiteMenuMediaProfile" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" FromRole="SiteMenu" ToRole="SiteMenuMediaProfile" />
           <NavigationProperty Name="SiteMenuMediaServer" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenu" ToRole="SiteMenuMediaServer" />
           <NavigationProperty Name="SiteMenuPublishTasks" Relationship="MyAndromedaModel.FK_SiteMenuPublishTask_SiteMenu" FromRole="SiteMenu" ToRole="SiteMenuPublishTask" />
-        </EntityType>
-        <EntityType Name="SiteMenuFtpBackupDownloadTask">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Boolean" Name="TryTask" Nullable="false" />
-          <Property Type="Boolean" Name="TaskStarted" Nullable="false" />
-          <Property Type="Boolean" Name="TaskCompleted" Nullable="false" />
-          <Property Type="DateTime" Name="LastTriedUtc" Precision="3" />
-          <Property Type="Int32" Name="LastTryCount" Nullable="false" />
-          <Property Type="DateTime" Name="LastCompleted" Precision="3" />
-          <Property Type="DateTime" Name="LastModifiedFtpDate" Precision="3" />
-          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" FromRole="SiteMenuFtpBackupDownloadTask" ToRole="SiteMenu" />
-          <Property Type="DateTime" Name="LastDownloadedDateUtc" Precision="3" />
-          <Property Type="DateTime" Name="LastCompletedUtc" Precision="3" />
-          <Property Type="DateTime" Name="LastModifiedFtpDateUtc" Precision="3" />
-          <Property Type="DateTime" Name="LastStartedUtc" Precision="3" />
-        </EntityType>
-        <EntityType Name="SiteMenuFtpBackupUploadTask">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Boolean" Name="TryTask" Nullable="false" />
-          <Property Type="Boolean" Name="TaskStarted" Nullable="false" />
-          <Property Type="Boolean" Name="TaskComplete" Nullable="false" />
-          <Property Type="DateTime" Name="LastTriedUtc" Precision="3" />
-          <Property Type="Int32" Name="LastTryCount" Nullable="false" />
-          <Property Type="DateTime" Name="LastCompleted" Precision="3" />
-          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" FromRole="SiteMenuFtpBackupUploadTask" ToRole="SiteMenu" />
-          <Property Type="DateTime" Name="LastStartedUtc" Precision="3" />
-          <Property Type="DateTime" Name="LastCompletedUtc" Precision="3" />
+          <NavigationProperty Name="SiteMenuFtpBackupDownloadTask" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" FromRole="SiteMenu" ToRole="SiteMenuFtpBackupDownloadTask" />
+          <NavigationProperty Name="SiteMenuFtpBackupUploadTask" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" FromRole="SiteMenu" ToRole="SiteMenuFtpBackupUploadTask" />
         </EntityType>
         <Association Name="FK_MenuItem_SiteMenu">
           <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="1">
@@ -1561,30 +1528,6 @@
             </Principal>
             <Dependent Role="MenuItem">
               <PropertyRef Name="SiteMenuId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SiteMenu_SiteMenuFtpBackupDownloadTask">
-          <End Type="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" Role="SiteMenuFtpBackupDownloadTask" Multiplicity="0..1" />
-          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SiteMenuFtpBackupDownloadTask">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SiteMenu">
-              <PropertyRef Name="SiteMenuFtpBackupDownloadTaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SiteMenu_SiteMenuFtpBackupUploadTask">
-          <End Type="MyAndromedaModel.SiteMenuFtpBackupUploadTask" Role="SiteMenuFtpBackupUploadTask" Multiplicity="0..1" />
-          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SiteMenuFtpBackupUploadTask">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SiteMenu">
-              <PropertyRef Name="SiteMenuFtpBackupUploadTaskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1623,6 +1566,60 @@
             </Principal>
             <Dependent Role="SiteMenuPublishTask">
               <PropertyRef Name="SiteMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SiteMenuFtpBackupDownloadTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="TryTask" Nullable="false" />
+          <Property Type="Boolean" Name="TaskStarted" Nullable="false" />
+          <Property Type="Boolean" Name="TaskCompleted" Nullable="false" />
+          <Property Type="DateTime" Name="LastTriedUtc" Precision="3" />
+          <Property Type="Int32" Name="LastTryCount" Nullable="false" />
+          <Property Type="DateTime" Name="LastStartedUtc" Precision="3" />
+          <Property Type="DateTime" Name="LastCompletedUtc" Precision="3" />
+          <Property Type="DateTime" Name="LastModifiedFtpDateUtc" Precision="3" />
+          <Property Type="DateTime" Name="LastDownloadedDateUtc" Precision="3" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupDownloadTask" FromRole="SiteMenuFtpBackupDownloadTask" ToRole="SiteMenu" />
+        </EntityType>
+        <EntityType Name="SiteMenuFtpBackupUploadTask">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="TryTask" Nullable="false" />
+          <Property Type="Boolean" Name="TaskStarted" Nullable="false" />
+          <Property Type="Boolean" Name="TaskComplete" Nullable="false" />
+          <Property Type="DateTime" Name="LastTriedUtc" Precision="3" />
+          <Property Type="Int32" Name="LastTryCount" Nullable="false" />
+          <Property Type="DateTime" Name="LastStartedUtc" Precision="3" />
+          <Property Type="DateTime" Name="LastCompletedUtc" Precision="3" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuFtpBackupUploadTask" FromRole="SiteMenuFtpBackupUploadTask" ToRole="SiteMenu" />
+        </EntityType>
+        <Association Name="FK_SiteMenu_SiteMenuFtpBackupDownloadTask">
+          <End Type="MyAndromedaModel.SiteMenuFtpBackupDownloadTask" Role="SiteMenuFtpBackupDownloadTask" Multiplicity="0..1" />
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenuFtpBackupDownloadTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteMenuFtpBackupDownloadTaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteMenu_SiteMenuFtpBackupUploadTask">
+          <End Type="MyAndromedaModel.SiteMenuFtpBackupUploadTask" Role="SiteMenuFtpBackupUploadTask" Multiplicity="0..1" />
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenuFtpBackupUploadTask">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteMenuFtpBackupUploadTaskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1968,10 +1965,10 @@
           <EntitySetMapping Name="SiteMenuFtpBackupDownloadTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuFtpBackupDownloadTask">
               <MappingFragment StoreEntitySet="SiteMenuFtpBackupDownloadTask">
-                <ScalarProperty Name="LastStartedUtc" ColumnName="LastStartedUtc" />
+                <ScalarProperty Name="LastDownloadedDateUtc" ColumnName="LastDownloadedDateUtc" />
                 <ScalarProperty Name="LastModifiedFtpDateUtc" ColumnName="LastModifiedFtpDateUtc" />
                 <ScalarProperty Name="LastCompletedUtc" ColumnName="LastCompletedUtc" />
-                <ScalarProperty Name="LastDownloadedDateUtc" ColumnName="LastDownloadedDateUtc" />
+                <ScalarProperty Name="LastStartedUtc" ColumnName="LastStartedUtc" />
                 <ScalarProperty Name="LastTryCount" ColumnName="LastTryCount" />
                 <ScalarProperty Name="LastTriedUtc" ColumnName="LastTriedUtc" />
                 <ScalarProperty Name="TaskCompleted" ColumnName="TaskCompleted" />

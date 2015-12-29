@@ -36,7 +36,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     {
         public static void Copy(this SiteMenuFtpBackupUploadTask item, SiteMenuFtpBackupUploadTask copyFrom) 
         {
-            item.LastCompleted = copyFrom.LastCompleted;
+            item.LastCompletedUtc = copyFrom.LastCompletedUtc;
             item.LastTriedUtc = copyFrom.LastTriedUtc;
             item.LastTryCount = copyFrom.LastTryCount;
             item.TaskComplete = copyFrom.TaskComplete;
@@ -46,13 +46,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 
         public static void Copy(this SiteMenuFtpBackupDownloadTask item, SiteMenuFtpBackupDownloadTask copyFrom) 
         {
-            item.LastCompleted = copyFrom.LastCompleted;
+            item.LastCompletedUtc = copyFrom.LastCompletedUtc;
             item.LastTriedUtc = copyFrom.LastTriedUtc;
             item.LastTryCount = copyFrom.LastTryCount;
             item.TaskCompleted = copyFrom.TaskCompleted;
             item.TaskStarted = copyFrom.TaskStarted;
             item.TryTask = copyFrom.TryTask;
-            item.LastModifiedFtpDate = copyFrom.LastModifiedFtpDate;
+            item.LastModifiedFtpDateUtc = copyFrom.LastModifiedFtpDateUtc;
         }
     }
 }

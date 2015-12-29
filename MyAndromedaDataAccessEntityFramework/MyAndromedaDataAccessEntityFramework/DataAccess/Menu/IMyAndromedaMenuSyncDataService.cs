@@ -71,7 +71,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                         return true;
                     }
 
-                    result = menuThumbnailResult.LastUpdate < menuResult.LastUpdated; 
+                    result = menuThumbnailResult.LastUpdate < menuResult.LastUpdatedUtc; 
                 }
             }
 
