@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using AndroAdminDataAccess.Domain;
+using AndroAdminDataAccess.DataAccess;
+
+namespace AndroAdminDataAccess.EntityFramework.DataAccess
+{
+    public class FtpSiteTypeDAO : IFTPSiteTypeDAO
+    {
+        public IList<Domain.FTPSiteType> GetAll()
+        {
+            List<Domain.FTPSiteType> ftpSiteTypes = new List<Domain.FTPSiteType>();
+
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.FTPSiteTypes
+                        select s;
+
+            foreach (var entity in query)
+            {
+                Domain.FTPSiteType model = new Domain.FTPSiteType()
+                {
+                    Id = entity.Id,
+                    Name = entity.Name
+                };
+
+                ftpSiteTypes.Add(model);
+            }
+
+            return ftpSiteTypes;
+        }
+    }
+}
