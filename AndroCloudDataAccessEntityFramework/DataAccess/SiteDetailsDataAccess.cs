@@ -82,7 +82,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     siteDetails.OpeningHours.Add(timeSpanBlock);
                 }
-
             }
 
             return "";
