@@ -19,7 +19,7 @@ namespace DataWarehouseDataAccess.Domain
         public Nullable<System.DateTime> OrderWantedTime { get; set; }
         public int ApplicationID { get; set; }
         public string ApplicationName { get; set; }
-        public int RamesesOrderNum { get; set; }
+        public string RamesesOrderNum { get; set; }
         public string ExternalOrderRef { get; set; }
         public string ExternalSiteID { get; set; }
         public string SiteName { get; set; }

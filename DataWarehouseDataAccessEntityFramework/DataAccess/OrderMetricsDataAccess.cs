@@ -156,7 +156,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 OrderWantedTime = oh.OrderWantedTime,
                 ApplicationID = oh.ApplicationID,
                 ApplicationName = oh.ApplicationName,
-                RamesesOrderNum = oh.RamesesOrderNum,
+                RamesesOrderNum = oh.RamesesOrderNum.ToString(),
                 ExternalOrderRef = oh.ExternalOrderRef,
                 ExternalSiteID = oh.ExternalSiteID,
                 SiteName = oh.SiteName,
