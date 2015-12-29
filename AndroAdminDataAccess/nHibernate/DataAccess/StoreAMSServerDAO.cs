@@ -61,5 +61,11 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
         {
             throw new NotImplementedException();
         }
+
+
+        public void DeleteById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

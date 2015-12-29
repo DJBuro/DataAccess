@@ -41,14 +41,45 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.StoreAMSServer storeAMSServer)
         {
-            throw new NotImplementedException();
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            StoreAMSServer entity = new StoreAMSServer()
+            {
+                AMSServerId = storeAMSServer.AMSServer.Id,
+                Priority = storeAMSServer.Priority,
+                StoreId = storeAMSServer.Store.Id
+            };
+
+            androAdminEntities.AddToStoreAMSServers(entity);
+            androAdminEntities.SaveChanges();
+
+            storeAMSServer.Id = entity.Id;
         }
 
         public Domain.StoreAMSServer GetByStoreIdAMServerId(int storeId, int amsServerId)
         {
-            throw new NotImplementedException();
-        }
+            Domain.StoreAMSServer model = null;
 
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.StoreAMSServers
+                        where s.StoreId == storeId
+                        && s.AMSServerId == amsServerId
+                        select s;
+
+            var entity = query.FirstOrDefault();
+
+            if (entity != null)
+            {
+                model = new Domain.StoreAMSServer()
+                {
+                    Id = entity.Id,
+                    Priority = entity.Priority
+                };
+            }
+
+            return model;
+        }
 
         public void DeleteByAMSServerId(int amsServerId)
         {
@@ -63,7 +94,26 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             foreach (var entity in query)
             {
                 androAdminEntities.StoreAMSServers.DeleteObject(entity);
+            }
 
+            androAdminEntities.SaveChanges();
+        }
+
+        public void DeleteById(int id)
+        {
+            List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
+
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.StoreAMSServers
+                        where s.Id == id
+                        select s;
+
+            var entity = query.FirstOrDefault();
+
+            if (entity != null)
+            {
+                androAdminEntities.StoreAMSServers.DeleteObject(entity);
                 androAdminEntities.SaveChanges();
             }
         }
