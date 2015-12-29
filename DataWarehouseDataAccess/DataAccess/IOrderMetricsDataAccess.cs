@@ -10,5 +10,6 @@ namespace DataWarehouseDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         string GetOrderMetrics(DateTime? fromDate, DateTime? toDate, int? applicationId, List<string> externalSiteId, out OrderMetrics orderMetrics);
+        OrderMetrics GetOrderMetricsByACSOrder(Guid acsOrderId);
     }
 }

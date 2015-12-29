@@ -8,7 +8,7 @@ namespace DataWarehouseDataAccess.Domain
     /// <summary>
     /// Data from OrderHeader table in Datawarehouse schema
     /// </summary>
-    public class SuccessfulOrder
+    public class OrderHeaderDAO
     {
         public System.Guid ID { get; set; }
         public System.DateTime TimeStamp { get; set; }
@@ -32,7 +32,16 @@ namespace DataWarehouseDataAccess.Domain
         public string PartnerName { get; set; }
         public bool Cancelled { get; set; }
         public int Status { get; set; }
+        public int ACSErrorCodeNumber { get; set; }
+        public string DestinationDevice { get; set; }
+        public Nullable<System.Guid> CustomerAddressID { get; set; }
+
         public string Payload { get; set; }
-        public string ACSServer { get; set; }
+
+        public CustomerDAO Customer { get; set; }
+        public CustomerAddress CustomerAddress { get; set; }
+        public ACSErrorCode ACSErrorCode { get; set; }
+        public ICollection<OrderLineDAO> OrderLines { get; set; }
+        public ICollection<UsedVoucher> UsedVouchers { get; set; }
     }
 }

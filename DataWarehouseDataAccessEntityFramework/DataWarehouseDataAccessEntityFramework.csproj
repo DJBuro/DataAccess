@@ -79,6 +79,9 @@
     <Compile Include="Model\AccountType.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ACSErrorCode.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Address.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
