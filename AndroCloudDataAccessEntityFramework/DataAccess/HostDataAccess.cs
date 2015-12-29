@@ -290,5 +290,16 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return string.Empty;
         }
         
+        public string GetMenuChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e => 
+                    e.HostType.Name.Equals("WebHooks - Update Menu", StringComparison.CurrentCultureIgnoreCase))
+                .Select(e=> e.ToPublicDomainModel());
+
+            hosts = results.ToList();
+
+            return string.Empty;
+        }
     }
 }
