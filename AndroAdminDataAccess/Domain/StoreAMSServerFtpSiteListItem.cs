@@ -9,8 +9,11 @@ namespace AndroAdminDataAccess.Domain
     {
         public virtual int StoreId { get; set; }
         public virtual string StoreName { get; set; }
+        public virtual int AndroStoreId { get; set; }
+        public virtual string StoreStatus { get; set; }
         public virtual string AMSServerName { get; set; }
         public virtual string FTPSite { get; set; }
         public virtual DateTime? LastUploaded { get; set; }
+        public virtual string Country { get; set; }
     }
 }
