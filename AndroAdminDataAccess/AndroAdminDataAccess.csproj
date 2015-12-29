@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
     <Compile Include="DataAccess\ISettingsDAO.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Domain\StoreAMSServerFtpSite.cs" />
     <Compile Include="Domain\Log.cs" />
     <Content Include="EntityFramework\CreateAndroAdminDatabase.sql" />
+    <Compile Include="Domain\TimeSpanBlock.cs" />
     <Compile Include="EntityFramework\ACSApplication.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -122,6 +124,7 @@
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
     <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
