@@ -130,7 +130,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentChainId" Type="int" Nullable="false" />
           <Property Name="ChildChainId" Type="int" Nullable="false" />
         </EntityType>
@@ -1345,7 +1345,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="AndroWebOrderingThemes" EntityType="AndroAdminModel.AndroWebOrderingTheme" />
           <EntitySet Name="AndroWebOrderingWebsites" EntityType="AndroAdminModel.AndroWebOrderingWebsite" />
           <EntitySet Name="Chains" EntityType="AndroAdminModel.Chain" />
-          <EntitySet Name="ChainChains" EntityType="AndroAdminModel.ChainChain" />
           <EntitySet Name="Countries" EntityType="AndroAdminModel.Country" />
           <EntitySet Name="Days" EntityType="AndroAdminModel.Day" />
           <EntitySet Name="DeliveryAreas" EntityType="AndroAdminModel.DeliveryArea" />
@@ -1427,14 +1426,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Stores" />
             <End Role="Chain" EntitySet="Chains" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChainChain_Chain" Association="AndroAdminModel.FK_ChainChain_Chain">
-            <End Role="Chain" EntitySet="Chains" />
-            <End Role="ChainChain" EntitySet="ChainChains" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChainChain_Chain1" Association="AndroAdminModel.FK_ChainChain_Chain1">
-            <End Role="Chain" EntitySet="Chains" />
-            <End Role="ChainChain" EntitySet="ChainChains" />
           </AssociationSet>
           <AssociationSet Name="FK_FTPSiteChain_Chain" Association="AndroAdminModel.FK_FTPSiteChain_Chain">
             <End Role="Chain" EntitySet="Chains" />
@@ -1548,6 +1539,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_StoreLoyalty_Store" Association="AndroAdminModel.FK_StoreLoyalty_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreLoyalty" EntitySet="StoreLoyalties" />
+          </AssociationSet>
+          <EntitySet Name="ChainChains" EntityType="AndroAdminModel.ChainChain" />
+          <AssociationSet Name="FK_ChainChain_Chain" Association="AndroAdminModel.FK_ChainChain_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="ChainChain" EntitySet="ChainChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChainChain_Chain1" Association="AndroAdminModel.FK_ChainChain_Chain1">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="ChainChain" EntitySet="ChainChains" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
@@ -1694,20 +1694,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="Chain" ToRole="AMSServerChain" />
           <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="Chain" ToRole="AndroWebOrderingWebsite" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Chain" ToRole="Store" />
-          <NavigationProperty Name="ChainChains" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
-          <NavigationProperty Name="ChainChains1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
           <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="Chain" ToRole="FTPSiteChain" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
-        </EntityType>
-        <EntityType Name="ChainChain">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="ParentChainId" Type="Int32" Nullable="false" />
-          <Property Name="ChildChainId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="ChainChain" ToRole="Chain" />
-          <NavigationProperty Name="Chain1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="ChainChain" ToRole="Chain" />
+          <NavigationProperty Name="ChainChains" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
+          <NavigationProperty Name="ChainChains1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -2236,30 +2226,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ChainChain_Chain">
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
-          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Chain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ChainChain">
-              <PropertyRef Name="ChildChainId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChainChain_Chain1">
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
-          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Chain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ChainChain">
-              <PropertyRef Name="ParentChainId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FTPSiteChain_Chain">
           <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
           <End Type="AndroAdminModel.FTPSiteChain" Role="FTPSiteChain" Multiplicity="*" />
@@ -2593,6 +2559,40 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ChainChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentChainId" Type="Int32" Nullable="false" />
+          <Property Name="ChildChainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="ChainChain" ToRole="Chain" />
+          <NavigationProperty Name="Chain1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="ChainChain" ToRole="Chain" />
+        </EntityType>
+        <Association Name="FK_ChainChain_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ChildChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChainChain_Chain1">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ParentChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2727,15 +2727,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Culture" ColumnName="Culture" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ChainChains">
-            <EntityTypeMapping TypeName="AndroAdminModel.ChainChain">
-              <MappingFragment StoreEntitySet="ChainChain">
-                <ScalarProperty Name="ChildChainId" ColumnName="ChildChainId" />
-                <ScalarProperty Name="ParentChainId" ColumnName="ParentChainId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3122,6 +3113,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
                 <ScalarProperty Name="Configuration" ColumnName="Configuration" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChainChains">
+            <EntityTypeMapping TypeName="AndroAdminModel.ChainChain">
+              <MappingFragment StoreEntitySet="ChainChain">
+                <ScalarProperty Name="ChildChainId" ColumnName="ChildChainId" />
+                <ScalarProperty Name="ParentChainId" ColumnName="ParentChainId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -272,7 +272,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Telephone = store.Telephone,
                         TimeZone = store.TimeZone,
                         LicenseKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D",
-                        ChainId = store.Chain.Id
+                        ChainId = store.Chain.Id.Value
                     };
 
                     entitiesContext.Stores.Add(storeEntity);
@@ -338,7 +338,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     if (!string.IsNullOrEmpty(store.UiCulture))
                         storeEntity.UiCulture = store.UiCulture;
                     storeEntity.StorePaymentProviderID = (store.PaymentProvider == null ? null : (int?)store.PaymentProvider.Id);
-                    storeEntity.ChainId = store.Chain.Id;
+                    storeEntity.ChainId = store.Chain.Id.Value;
 
                     // Update / create an address
                     var addressQuery = from s in entitiesContext.Addresses

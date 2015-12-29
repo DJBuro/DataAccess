@@ -23,8 +23,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.Chains.Include("Store")
-                            select s;
+                //var query = from s in entitiesContext.Chains.Include("Store")
+                //            select s;
+
+                var query = from c in entitiesContext.Chains.Include("Store")
+                            join cc in entitiesContext.ChainChains
+                            on c.Id equals cc.ChildChainId into ps
+                            from p in ps.DefaultIfEmpty()
+                            select new
+                            {
+                                c.Id,
+                                c.Name,
+                                c.Description,
+                                c.MasterMenuId,
+                                ParentChainId = (int?)p.ParentChainId,
+                                c.Stores
+                            };
 
 
                 foreach (var entity in query)
@@ -34,9 +48,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = entity.Id,
                         Name = entity.Name,
                         Description = entity.Description,
-                        MasterMenuId = entity.MasterMenuId
-
+                        MasterMenuId = entity.MasterMenuId,
+                        ParentChainId = entity.ParentChainId
                     };
+
                     model.Stores = new List<Domain.Store>();
                     foreach (var store in entity.Stores)
                     {
@@ -62,6 +77,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     chain.Name = result.Name;
                     chain.MasterMenuId = result.MasterMenuId;
 
+                    var chainChain = result.ChainChains.FirstOrDefault();
+                    chain.ParentChainId = chainChain != null ? chainChain.ParentChainId : (int?)null;
+
                     if (result.Stores != null)
                     {
                         chain.Stores = new List<Domain.Store>();
@@ -86,38 +104,50 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Chain currentChain = new Chain
             {
-                Id = chain.Id,
+                Id = chain.Id.HasValue ? chain.Id.Value : -1,
                 MasterMenuId = chain.MasterMenuId,
                 Name = chain.Name,
                 Description = chain.Description == null ? string.Empty : chain.Description
             };
 
-
+            // Add or update the chain
             using (AndroAdminEntities entities = new AndroAdminEntities())
             {
                 Chain existingChain = entities.Chains.Where(c => c.Id == chain.Id).FirstOrDefault();
 
-                //New Record - add
-                if (chain.Id <= 0 && entities.Stores.Where(s => s.Name.Equals(chain.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null)
+                if (chain.Id.HasValue && existingChain != null)
                 {
-                    entities.Chains.Add(currentChain);
-                }
-                //existing record - update
-                else if (existingChain != null)
-                {
+                    // Existing chain - update
                     var entityWithSameName = entities.Chains.Where(c => c.Id != existingChain.Id && c.Name.Equals(currentChain.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                     if (entityWithSameName == null)
                     {
-                        //update
                         var masterStore = entities.Stores.Where(c => c.Id == chain.MasterMenuId).FirstOrDefault();
                         existingChain.Name = chain.Name;
-                        existingChain.Description = string.IsNullOrEmpty(chain.Description) ? string.IsNullOrEmpty(existingChain.Description) ? string.Empty : existingChain.Description : string.Empty;
+                        existingChain.Description = string.IsNullOrEmpty(chain.Description) ? (string.IsNullOrEmpty(existingChain.Description) ? string.Empty : existingChain.Description) : chain.Description;
                         if (masterStore != null) { existingChain.MasterMenuId = masterStore.Id; }
                     }
+                    else
+                    {
+                        // It's a new chain but an existing chain already has that name
+                        throw new Exception("A chain with that name already exists");
+                    }
+                }
+                else if (entities.Chains.Where(s => s.Name.Equals(chain.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() != null)
+                {
+                    // It's a new chain but an existing chain already has that name
+                    throw new Exception("A chain with that name already exists");
+                }
+                else
+                {
+                    // It's a new chain
+                    entities.Chains.Add(currentChain);
                 }
 
                 entities.SaveChanges();
             }
+
+            // Add or update the chains stores
+            int currentChainId = 0;
             using (AndroAdminEntities entities = new AndroAdminEntities())
             {
                 if (chain.Stores != null)
@@ -130,7 +160,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 }
 
                 Chain existingChain = entities.Chains.Where(c => c.Id == chain.Id).FirstOrDefault();
-                int currentChainId = existingChain == null ? currentChain.Id : existingChain.Id;
+                currentChainId = existingChain == null ? currentChain.Id : existingChain.Id;
                 int otherChainId = entities.Chains.Where(c => c.Name.ToLower() == "other").FirstOrDefault().Id;
 
                 IList<Store> chainOldStores = entities.Stores.Where(s => s.ChainId == currentChainId).ToList();
@@ -164,11 +194,41 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         }
                     }
                 }
-                return currentChainId;
             }
-           
+
+            if (chain.Id.HasValue)
+            {
+                // Remove all child chain<>chain relationships for this chain
+                using (AndroAdminEntities entities = new AndroAdminEntities())
+                {
+                    var chainChainsToDelete = entities.ChainChains.Where(c => !c.ParentChainId.Equals(null) && c.ChildChainId == chain.Id);
+
+                    foreach (ChainChain chainChainToDelete in chainChainsToDelete)
+                    {
+                        entities.ChainChains.Remove(chainChainToDelete);
+                    }
+
+                    entities.SaveChanges();
+                }
+            }
+
+            // Add the new chain<>chain link
+            if (chain.ParentChainId.HasValue)
+            {
+                using (AndroAdminEntities entities = new AndroAdminEntities())
+                {                
+                    ChainChain newChainChain = new ChainChain()
+                    {
+                        ParentChainId = chain.ParentChainId.Value,
+                        ChildChainId = currentChain.Id
+                    };
+                    entities.ChainChains.Add(newChainChain);
+
+                    entities.SaveChanges();
+                }
+            }
+
+            return currentChainId;
         }
-
-
     }
 }
