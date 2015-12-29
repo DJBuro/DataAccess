@@ -9,10 +9,10 @@ namespace AndroAdminDataAccess.DataAccess
     public interface IAndroWebOrderingThemeDAO
     {
         string ConnectionStringOverride { get; set; }
-        IList<Domain.AndroWebOrderingTheme> GetAll();
-        Domain.AndroWebOrderingTheme GetAndroWebOrderingThemeById(int id);
-        void Add(Domain.AndroWebOrderingTheme webOrderingTheme);
-        void Update(Domain.AndroWebOrderingTheme webOrderingTheme);
-        void Delete(Domain.AndroWebOrderingTheme webOrderingTheme);
+        IList<Domain.ThemeAndroWebOrdering> GetAll();
+        Domain.ThemeAndroWebOrdering GetAndroWebOrderingThemeById(int id);
+        void Add(Domain.ThemeAndroWebOrdering webOrderingTheme);
+        void Update(Domain.ThemeAndroWebOrdering webOrderingTheme);
+        void Delete(Domain.ThemeAndroWebOrdering webOrderingTheme);
     }
 }
