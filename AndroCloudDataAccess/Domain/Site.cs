@@ -4,26 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace AndroCloudDataAccess.Domain
 {
-    [DataContract]
     public class Site
     {
-        [DataMember(Name = "siteGuid")]
-        [XmlElement("Guid")]
-        public Guid SiteGuid { get; set; }
+        [JsonIgnore]
+        [NonSerialized]
+        public Guid Id { get; set; }
 
-        [DataMember(Name = "name")]
+        [JsonIgnore]
+        [NonSerialized]
+        public string LicenceKey { get; set; }
+
+        [JsonProperty(PropertyName = "siteGuid")]
+        public string ExternalId { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "menuVersion")]
+        [JsonProperty(PropertyName = "menuVersion")]
         public int MenuVersion { get; set; }
 
-        [DataMember(Name = "isOpen")]
+        [JsonProperty(PropertyName = "isOpen")]
         public bool IsOpen { get; set; }
 
-        [DataMember(Name = "estDelivTime")]
+        [JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
     }
 }

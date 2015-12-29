@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Services\AndroCloudServices\AndroCloudWCFServices\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
@@ -47,16 +50,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IChainsDataAccess.cs" />
+    <Compile Include="DataAccess\IPartnersDataAccess.cs" />
     <Compile Include="DataAccess\IAuditDataAccess.cs" />
-    <Compile Include="DataAccess\IOrderDataAccess.cs" />
-    <Compile Include="DataAccess\IMenuDataAccess.cs" />
+    <Compile Include="DataAccess\IACSQueueDataAccess.cs" />
+    <Compile Include="DataAccess\ISiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
+    <Compile Include="Domain\ACSQueue.cs" />
+    <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\DataTypeEnum.cs" />
+    <Compile Include="Domain\Partner.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteMenu.cs" />
     <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
