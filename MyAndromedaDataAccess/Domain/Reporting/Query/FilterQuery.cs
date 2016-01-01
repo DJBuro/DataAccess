@@ -19,5 +19,18 @@ namespace MyAndromedaDataAccess.Domain.Reporting.Query
         /// </summary>
         /// <value>To.</value>
         public DateTime? FilterTo { get; set; }
+
+        public double TotalDays 
+        {
+            get 
+            {
+                if (!FilterTo.HasValue && !FilterFrom.HasValue)
+                    return 0;
+
+                TimeSpan block = FilterTo.Value.Subtract(FilterFrom.Value);
+
+                return block.TotalDays;
+            } 
+        }
     }
 }
