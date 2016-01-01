@@ -236,8 +236,6 @@
     <Compile Include="Domain\WebOrderingSetup\UpSelling.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategory.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategoryItem.cs" />
-    <Compile Include="WebSiteConfigurations.cs" />
-    <Compile Include="Domain\WebOrderingSetup\WebsiteHome.cs" />
     <Compile Include="EntityFramework\ACSApplication.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -271,44 +269,13 @@
     <Compile Include="EntityFramework\Country.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\DataAccess\ACSApplicationEFDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\AndroWebOrderingThemeDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\AndroWebOrderingWebsiteDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\DeliveryAreaDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\ExternalApiDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\IExternalApiDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\HostV2DataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\HostV2ForApplicationDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\HostV2ForStoreDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreDevicesDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreHubDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreMenuThumbnailsDataService.cs" />
-    <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
-    <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\CountryDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\HostDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\PartnerDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreStatusDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\FtpSiteDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\FtpSiteTypeDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\LogDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreAMSServerDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\StoreDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\DevicesDataService.cs" />
-    <Compile Include="EntityFramework\DataVersionHelper.cs" />
     <Compile Include="EntityFramework\Day.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DeliveryArea.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\DeliveryZoneName.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Device.cs">
@@ -317,26 +284,6 @@
     <Compile Include="EntityFramework\Employee.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\EntityFrameworkDataAccessFactory.cs" />
-    <Compile Include="Domain\AMSServer.cs" />
-    <Compile Include="Domain\FTPSite.cs" />
-    <Compile Include="Domain\Store.cs" />
-    <Compile Include="EntityFramework\EntityModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\EntityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\EntityModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Extensions\DbExtensions.cs" />
     <Compile Include="EntityFramework\ExternalApi.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -368,6 +315,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Partner.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PostCodeSector.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Setting.cs">
@@ -409,6 +359,62 @@
     <Compile Include="EntityFramework\sysdiagram.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebSiteConfigurations.cs" />
+    <Compile Include="Domain\WebOrderingSetup\WebsiteHome.cs" />
+    <Compile Include="EntityFramework\DataAccess\ACSApplicationEFDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AndroWebOrderingThemeDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\AndroWebOrderingWebsiteDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DeliveryAreaDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\ExternalApiDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\IExternalApiDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2DataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2ForApplicationDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2ForStoreDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreDevicesDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreHubDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreMenuThumbnailsDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
+    <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\CountryDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\PartnerDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreStatusDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\FtpSiteDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\FtpSiteTypeDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\LogDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreAMSServerDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DevicesDataService.cs" />
+    <Compile Include="EntityFramework\DataVersionHelper.cs" />
+    <Compile Include="EntityFramework\EntityFrameworkDataAccessFactory.cs" />
+    <Compile Include="Domain\AMSServer.cs" />
+    <Compile Include="Domain\FTPSite.cs" />
+    <Compile Include="Domain\Store.cs" />
+    <Compile Include="EntityFramework\EntityModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\EntityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\EntityModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Extensions\DbExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

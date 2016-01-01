@@ -12,16 +12,21 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreMenu
+    public partial class DeliveryZoneName
     {
+        public DeliveryZoneName()
+        {
+            this.PostCodeSectors = new HashSet<PostCodeSector>();
+        }
+    
         public int Id { get; set; }
-        public Nullable<int> StoreId { get; set; }
-        public Nullable<int> Version { get; set; }
-        public string MenuType { get; set; }
-        public string MenuData { get; set; }
-        public Nullable<System.DateTime> LastUpdated { get; set; }
-        public int DataVersion { get; set; }
+        public int StoreId { get; set; }
+        public string Name { get; set; }
+        public Nullable<decimal> RadiusCovered { get; set; }
+        public string OriginPostCode { get; set; }
+        public Nullable<bool> IsCustom { get; set; }
     
         public virtual Store Store { get; set; }
+        public virtual ICollection<PostCodeSector> PostCodeSectors { get; set; }
     }
 }

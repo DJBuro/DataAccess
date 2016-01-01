@@ -103,18 +103,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ChainId" Type="int" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
           <Property Name="SubscriptionTypeId" Type="int" Nullable="false" />
-          <Property Name="LiveDomainName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LiveDomainName" Type="nvarchar" MaxLength="253" Nullable="false" />
+          <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="253" Nullable="false" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="LiveSettings" Type="nvarchar(max)" />
           <Property Name="PreviewSettings" Type="nvarchar(max)" />
-          <Property Name="ThemeId" Type="int" />
+          <Property Name="ThemeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Chain">
           <Key>
@@ -159,6 +159,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DeliveryArea" Type="nvarchar" MaxLength="16" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeliveryZoneNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RadiusCovered" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="OriginPostCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsCustom" Type="bit" />
         </EntityType>
         <EntityType Name="Devices">
           <Key>
@@ -307,6 +318,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ExternalId" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PostCodeSectors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryZoneId" Type="int" Nullable="false" />
+          <Property Name="PostCodeSector" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsSelected" Type="bit" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Settings">
           <Key>
             <PropertyRef Name="Id" />
@@ -438,7 +459,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ClientId" Type="nvarchar" MaxLength="150" />
           <Property Name="ClientPassword" Type="nvarchar" MaxLength="150" />
@@ -600,7 +621,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
-          <End Role="AndroWebOrderingTheme" Type="Self.AndroWebOrderingTheme" Multiplicity="0..1" />
+          <End Role="AndroWebOrderingTheme" Type="Self.AndroWebOrderingTheme" Multiplicity="1" />
           <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AndroWebOrderingTheme">
@@ -657,6 +678,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DeliveryArea">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryZoneNames_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryZoneNames">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -772,6 +805,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="OpeningHour">
               <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
+          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PostCodeSectors" Type="Self.PostCodeSectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryZoneNames">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostCodeSectors">
+              <PropertyRef Name="DeliveryZoneId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1038,6 +1085,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Day" EntityType="Self.Day" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryArea" EntityType="Self.DeliveryArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryZoneNames" EntityType="Self.DeliveryZoneNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExternalApi" EntityType="Self.ExternalApi" Schema="dbo" store:Type="Tables" />
@@ -1052,6 +1100,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpeningHour" EntityType="Self.OpeningHour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partner" EntityType="Self.Partner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostCodeSectors" EntityType="Self.PostCodeSectors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Site_AMS_upload" EntityType="Self.Site_AMS_upload" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
@@ -1131,6 +1180,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Store" EntitySet="Store" />
             <End Role="DeliveryArea" EntitySet="DeliveryArea" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryZoneNames_Store" Association="Self.FK_DeliveryZoneNames_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="DeliveryZoneNames" EntitySet="DeliveryZoneNames" />
+          </AssociationSet>
           <AssociationSet Name="FK_Devices_ExternalApi" Association="Self.FK_Devices_ExternalApi">
             <End Role="ExternalApi" EntitySet="ExternalApi" />
             <End Role="Devices" EntitySet="Devices" />
@@ -1166,6 +1219,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_OpeningHour_Store" Association="Self.FK_OpeningHour_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="OpeningHour" EntitySet="OpeningHour" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostCodeSectors_DeliveryZoneNames" Association="Self.FK_PostCodeSectors_DeliveryZoneNames">
+            <End Role="DeliveryZoneNames" EntitySet="DeliveryZoneNames" />
+            <End Role="PostCodeSectors" EntitySet="PostCodeSectors" />
           </AssociationSet>
           <AssociationSet Name="FK_Store_Address" Association="Self.FK_Store_Address">
             <End Role="Address" EntitySet="Address" />
@@ -1255,11 +1312,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
           <EntitySet Name="AMSServers" EntityType="AndroAdminModel.AMSServer" />
           <EntitySet Name="AMSServerChains" EntityType="AndroAdminModel.AMSServerChain" />
+          <EntitySet Name="AndroWebOrderingSubscriptionTypes" EntityType="AndroAdminModel.AndroWebOrderingSubscriptionType" />
+          <EntitySet Name="AndroWebOrderingThemes" EntityType="AndroAdminModel.AndroWebOrderingTheme" />
+          <EntitySet Name="AndroWebOrderingWebsites" EntityType="AndroAdminModel.AndroWebOrderingWebsite" />
           <EntitySet Name="Chains" EntityType="AndroAdminModel.Chain" />
           <EntitySet Name="ChainChains" EntityType="AndroAdminModel.ChainChain" />
           <EntitySet Name="Countries" EntityType="AndroAdminModel.Country" />
           <EntitySet Name="Days" EntityType="AndroAdminModel.Day" />
+          <EntitySet Name="DeliveryAreas" EntityType="AndroAdminModel.DeliveryArea" />
+          <EntitySet Name="DeliveryZoneNames" EntityType="AndroAdminModel.DeliveryZoneName" />
+          <EntitySet Name="Devices" EntityType="AndroAdminModel.Device" />
           <EntitySet Name="Employees" EntityType="AndroAdminModel.Employee" />
+          <EntitySet Name="ExternalApis" EntityType="AndroAdminModel.ExternalApi" />
           <EntitySet Name="FTPSites" EntityType="AndroAdminModel.FTPSite" />
           <EntitySet Name="FTPSiteChains" EntityType="AndroAdminModel.FTPSiteChain" />
           <EntitySet Name="FTPSiteTypes" EntityType="AndroAdminModel.FTPSiteType" />
@@ -1269,15 +1333,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Logs" EntityType="AndroAdminModel.Log" />
           <EntitySet Name="OpeningHours" EntityType="AndroAdminModel.OpeningHour" />
           <EntitySet Name="Partners" EntityType="AndroAdminModel.Partner" />
+          <EntitySet Name="PostCodeSectors" EntityType="AndroAdminModel.PostCodeSector" />
           <EntitySet Name="Settings" EntityType="AndroAdminModel.Setting" />
           <EntitySet Name="Site_AMS_upload" EntityType="AndroAdminModel.Site_AMS_upload" />
           <EntitySet Name="Stores" EntityType="AndroAdminModel.Store" />
           <EntitySet Name="StoreAMSServers" EntityType="AndroAdminModel.StoreAMSServer" />
           <EntitySet Name="StoreAMSServerFtpSites" EntityType="AndroAdminModel.StoreAMSServerFtpSite" />
+          <EntitySet Name="StoreDevices" EntityType="AndroAdminModel.StoreDevice" />
+          <EntitySet Name="StoreHostV2ApiCredentials" EntityType="AndroAdminModel.StoreHostV2ApiCredentials" />
           <EntitySet Name="StoreHubResets" EntityType="AndroAdminModel.StoreHubReset" />
           <EntitySet Name="StoreMenus" EntityType="AndroAdminModel.StoreMenu" />
+          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
           <EntitySet Name="StorePaymentProviders" EntityType="AndroAdminModel.StorePaymentProvider" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.StoreStatu" />
+          <EntitySet Name="sysdiagrams" EntityType="AndroAdminModel.sysdiagram" />
           <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.FK_ACSApplication_Partner">
             <End Role="Partner" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
@@ -1285,6 +1354,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
             <End Role="ACSApplication" EntitySet="ACSApplications" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
           </AssociationSet>
           <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.FK_ACSApplicationSite_Store">
             <End Role="Store" EntitySet="Stores" />
@@ -1310,6 +1383,22 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Chain" EntitySet="Chains" />
             <End Role="AMSServerChain" EntitySet="AMSServerChains" />
           </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+            <End Role="AndroWebOrderingSubscriptionType" EntitySet="AndroWebOrderingSubscriptionTypes" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+            <End Role="AndroWebOrderingTheme" EntitySet="AndroWebOrderingThemes" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="Chain" EntitySet="Chains" />
+          </AssociationSet>
           <AssociationSet Name="FK_ChainChain_Chain" Association="AndroAdminModel.FK_ChainChain_Chain">
             <End Role="Chain" EntitySet="Chains" />
             <End Role="ChainChain" EntitySet="ChainChains" />
@@ -1330,6 +1419,26 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Day" EntitySet="Days" />
             <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="AndroAdminModel.FK_DeliveryArea_DeliveryArea">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="DeliveryArea" EntitySet="DeliveryAreas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryZoneNames_Store" Association="AndroAdminModel.FK_DeliveryZoneNames_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="DeliveryZoneName" EntitySet="DeliveryZoneNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostCodeSectors_DeliveryZoneNames" Association="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames">
+            <End Role="DeliveryZoneName" EntitySet="DeliveryZoneNames" />
+            <End Role="PostCodeSector" EntitySet="PostCodeSectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Devices_ExternalApi" Association="AndroAdminModel.FK_Devices_ExternalApi">
+            <End Role="ExternalApi" EntitySet="ExternalApis" />
+            <End Role="Device" EntitySet="Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreTypes_StoreType" Association="AndroAdminModel.FK_StoreTypes_StoreType">
+            <End Role="Device" EntitySet="Devices" />
+            <End Role="StoreDevice" EntitySet="StoreDevices" />
+          </AssociationSet>
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteTypes" />
             <End Role="FTPSite" EntitySet="FTPSites" />
@@ -1345,6 +1454,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_HostV2_HostTypes" Association="AndroAdminModel.FK_HostV2_HostTypes">
             <End Role="HostType" EntitySet="HostTypes" />
             <End Role="HostV2" EntitySet="HostV2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreHostV2ApiCredentials_HostV2" Association="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2">
+            <End Role="HostV2" EntitySet="HostV2" />
+            <End Role="StoreHostV2ApiCredentials" EntitySet="StoreHostV2ApiCredentials" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Store" Association="AndroAdminModel.FK_OpeningHour_Store">
             <End Role="Store" EntitySet="Stores" />
@@ -1362,6 +1475,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreHostV2ApiCredentials_Store" Association="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreHostV2ApiCredentials" EntitySet="StoreHostV2ApiCredentials" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreHubReset_Store" Association="AndroAdminModel.FK_StoreHubReset_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreHubReset" EntitySet="StoreHubResets" />
@@ -1369,6 +1486,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.FK_StoreMenu_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreMenu" EntitySet="StoreMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="AndroAdminModel.FK_StoreMenuThumbnails_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreMenuThumbnail" EntitySet="StoreMenuThumbnails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreTypes_Store" Association="AndroAdminModel.FK_StoreTypes_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreDevice" EntitySet="StoreDevices" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreAMSServerFtpSite_StoreAMSServer" Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer">
             <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
@@ -1390,64 +1515,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="HubAddress" EntitySet="HubAddresses" />
             <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
-          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
-          <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="AndroAdminModel.FK_StoreMenuThumbnails_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreMenuThumbnail" EntitySet="StoreMenuThumbnails" />
-          </AssociationSet>
-          <EntitySet Name="Devices" EntityType="AndroAdminModel.Device" />
-          <EntitySet Name="ExternalApis" EntityType="AndroAdminModel.ExternalApi" />
-          <AssociationSet Name="FK_Devices_ExternalApi" Association="AndroAdminModel.FK_Devices_ExternalApi">
-            <End Role="ExternalApi" EntitySet="ExternalApis" />
-            <End Role="Device" EntitySet="Devices" />
-          </AssociationSet>
-          <EntitySet Name="StoreDevices" EntityType="AndroAdminModel.StoreDevice" />
-          <AssociationSet Name="FK_StoreTypes_StoreType" Association="AndroAdminModel.FK_StoreTypes_StoreType">
-            <End Role="Device" EntitySet="Devices" />
-            <End Role="StoreDevice" EntitySet="StoreDevices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreTypes_Store" Association="AndroAdminModel.FK_StoreTypes_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreDevice" EntitySet="StoreDevices" />
-          </AssociationSet>
-          <EntitySet Name="DeliveryAreas" EntityType="AndroAdminModel.DeliveryArea" />
-          <EntitySet Name="StoreHostV2ApiCredentials" EntityType="AndroAdminModel.StoreHostV2ApiCredentials" />
-          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="AndroAdminModel.FK_DeliveryArea_DeliveryArea">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="DeliveryArea" EntitySet="DeliveryAreas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreHostV2ApiCredentials_HostV2" Association="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2">
-            <End Role="HostV2" EntitySet="HostV2" />
-            <End Role="StoreHostV2ApiCredentials" EntitySet="StoreHostV2ApiCredentials" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreHostV2ApiCredentials_Store" Association="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreHostV2ApiCredentials" EntitySet="StoreHostV2ApiCredentials" />
-          </AssociationSet>
-          <EntitySet Name="sysdiagrams" EntityType="AndroAdminModel.sysdiagram" />
-          <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="Chain" EntitySet="Chains" />
-          </AssociationSet>
-          <EntitySet Name="AndroWebOrderingSubscriptionTypes" EntityType="AndroAdminModel.AndroWebOrderingSubscriptionType" />
-          <EntitySet Name="AndroWebOrderingWebsites" EntityType="AndroAdminModel.AndroWebOrderingWebsite" />
-          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
-            <End Role="AndroWebOrderingSubscriptionType" EntitySet="AndroWebOrderingSubscriptionTypes" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain">
-            <End Role="Chain" EntitySet="Chains" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
-          </AssociationSet>
-          <EntitySet Name="AndroWebOrderingThemes" EntityType="AndroAdminModel.AndroWebOrderingTheme" />
-          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
-            <End Role="AndroWebOrderingTheme" EntitySet="AndroWebOrderingThemes" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
-          </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
           <Key>
@@ -1467,15 +1534,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExternalApplicationId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ExternalDisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExternalDisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PartnerId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
           <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
           <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
@@ -1537,22 +1604,66 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_AMSServerChain_AMSServer" FromRole="AMSServerChain" ToRole="AMSServer" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="AMSServerChain" ToRole="Chain" />
         </EntityType>
-        <EntityType Name="Chain">
+        <EntityType Name="AndroWebOrderingSubscriptionType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Subscription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingSubscriptionType" ToRole="AndroWebOrderingWebsite" />
+        </EntityType>
+        <EntityType Name="AndroWebOrderingTheme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ThemePath" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="ThemeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingTheme" ToRole="AndroWebOrderingWebsite" />
+        </EntityType>
+        <EntityType Name="AndroWebOrderingWebsite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ChainId" Type="Int32" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="DisabledReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LiveDomainName" Type="String" Nullable="false" MaxLength="253" FixedLength="false" Unicode="true" />
+          <Property Name="PreviewDomainName" Type="String" Nullable="false" MaxLength="253" FixedLength="false" Unicode="true" />
+          <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="LiveSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ThemeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
+          <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
+          <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
+        </EntityType>
+        <EntityType Name="Chain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Culture" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="MasterMenuId" Type="Int32" />
           <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="Chain" ToRole="AMSServerChain" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="Chain" ToRole="AndroWebOrderingWebsite" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Chain" ToRole="Store" />
           <NavigationProperty Name="ChainChains" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
           <NavigationProperty Name="ChainChains1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
           <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="Chain" ToRole="FTPSiteChain" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
-          <Property Name="MasterMenuId" Type="Int32" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Chain" ToRole="Store" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="Chain" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -1582,6 +1693,42 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Day" FromRole="Day" ToRole="OpeningHour" />
         </EntityType>
+        <EntityType Name="DeliveryArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryArea1" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="DeliveryArea" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="DeliveryZoneName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RadiusCovered" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="OriginPostCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsCustom" Type="Boolean" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_DeliveryZoneNames_Store" FromRole="DeliveryZoneName" ToRole="Store" />
+          <NavigationProperty Name="PostCodeSectors" Relationship="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" FromRole="DeliveryZoneName" ToRole="PostCodeSector" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="ExternalApiId" Type="Guid" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ExternalApi" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="Device" ToRole="ExternalApi" />
+          <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="Device" ToRole="StoreDevice" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
@@ -1593,6 +1740,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Role" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Notes" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ExternalApi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DefinitionParameters" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Parameters" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Devices" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="ExternalApi" ToRole="Device" />
         </EntityType>
         <EntityType Name="FTPSite">
           <Key>
@@ -1664,9 +1823,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="HostType" Relationship="AndroAdminModel.FK_HostV2_HostTypes" FromRole="HostV2" ToRole="HostType" />
+          <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="HostV2" ToRole="StoreHostV2ApiCredentials" />
           <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="HostV2" ToRole="ACSApplication" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHostsV2" FromRole="HostV2" ToRole="Store" />
-          <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="HostV2" ToRole="StoreHostV2ApiCredentials" />
         </EntityType>
         <EntityType Name="Log">
           <Key>
@@ -1703,6 +1862,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ExternalId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="Partner" ToRole="ACSApplication" />
+        </EntityType>
+        <EntityType Name="PostCodeSector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryZoneId" Type="Int32" Nullable="false" />
+          <Property Name="PostCodeSector1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsSelected" Type="Boolean" Nullable="false" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DeliveryZoneName" Relationship="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" FromRole="PostCodeSector" ToRole="DeliveryZoneName" />
         </EntityType>
         <EntityType Name="Setting">
           <Key>
@@ -1741,24 +1911,25 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="StorePaymentProviderID" Type="Int32" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <Property Name="ChainId" Type="Int32" Nullable="false" />
+          <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="Store" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="Address" Relationship="AndroAdminModel.FK_Store_Address" FromRole="Store" ToRole="Address" />
+          <NavigationProperty Name="Chains" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Store" ToRole="Chain" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Store" ToRole="Chain" />
+          <NavigationProperty Name="DeliveryAreas" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="Store" ToRole="DeliveryArea" />
+          <NavigationProperty Name="DeliveryZoneNames" Relationship="AndroAdminModel.FK_DeliveryZoneNames_Store" FromRole="Store" ToRole="DeliveryZoneName" />
           <NavigationProperty Name="OpeningHours" Relationship="AndroAdminModel.FK_OpeningHour_Store" FromRole="Store" ToRole="OpeningHour" />
           <NavigationProperty Name="StorePaymentProvider" Relationship="AndroAdminModel.FK_Store_StorePaymentProvider" FromRole="Store" ToRole="StorePaymentProvider" />
           <NavigationProperty Name="StoreStatu" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="Store" ToRole="StoreStatu" />
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
+          <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" FromRole="Store" ToRole="StoreHostV2ApiCredentials" />
           <NavigationProperty Name="StoreHubResets" Relationship="AndroAdminModel.FK_StoreHubReset_Store" FromRole="Store" ToRole="StoreHubReset" />
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
-          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.StoreHostsV2" FromRole="Store" ToRole="HostV2" />
-          <NavigationProperty Name="HubAddresses" Relationship="AndroAdminModel.StoreHubs" FromRole="Store" ToRole="HubAddress" />
           <NavigationProperty Name="StoreMenuThumbnails" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="Store" ToRole="StoreMenuThumbnail" />
           <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="Store" ToRole="StoreDevice" />
-          <NavigationProperty Name="DeliveryAreas" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="Store" ToRole="DeliveryArea" />
-          <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" FromRole="Store" ToRole="StoreHostV2ApiCredentials" />
-          <NavigationProperty Name="Chains" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Store" ToRole="Chain" />
-          <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.StoreHostsV2" FromRole="Store" ToRole="HostV2" />
+          <NavigationProperty Name="HubAddresses" Relationship="AndroAdminModel.StoreHubs" FromRole="Store" ToRole="HubAddress" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -1781,6 +1952,32 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="FTPSiteId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="StoreAMSServerFtpSite" ToRole="FTPSite" />
           <NavigationProperty Name="StoreAMSServer" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" FromRole="StoreAMSServerFtpSite" ToRole="StoreAMSServer" />
+        </EntityType>
+        <EntityType Name="StoreDevice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="DeviceId" Type="Guid" Nullable="false" />
+          <Property Name="Parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Device" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="StoreDevice" ToRole="Device" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="StoreDevice" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreHostV2ApiCredentials">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="HostV2Id" />
+            <PropertyRef Name="ApiCredentialsId" />
+          </Key>
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="HostV2Id" Type="Guid" Nullable="false" />
+          <Property Name="ApiCredentialsId" Type="Guid" Nullable="false" />
+          <Property Name="Parameters" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="StoreHostV2ApiCredentials" ToRole="HostV2" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" FromRole="StoreHostV2ApiCredentials" ToRole="Store" />
         </EntityType>
         <EntityType Name="StoreHubReset">
           <Key>
@@ -1805,11 +2002,23 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="StoreMenu" ToRole="Store" />
         </EntityType>
-        <EntityType Name="StorePaymentProvider">
+        <EntityType Name="StoreMenuThumbnail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="XmlMenuThumbnailData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JsonMenuThumbnailsData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="StoreMenuThumbnail" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StorePaymentProvider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ClientId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ClientPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -1825,6 +2034,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Status" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partner">
           <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="1" />
@@ -1846,6 +2065,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
               <PropertyRef Name="ACSApplicationId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1922,6 +2153,54 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+          <End Type="AndroAdminModel.AndroWebOrderingSubscriptionType" Role="AndroWebOrderingSubscriptionType" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingSubscriptionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="SubscriptionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
+          <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingTheme">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ThemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Chain__MasterMen__671F4F74">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Chain">
+              <PropertyRef Name="MasterMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ChainChain_Chain">
           <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
           <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
@@ -1959,7 +2238,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Store_Chain">
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Chain">
@@ -1979,6 +2260,72 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="OpeningHour">
               <PropertyRef Name="DayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryArea_DeliveryArea">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.DeliveryArea" Role="DeliveryArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryArea">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryZoneNames_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryZoneName">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
+          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.PostCodeSector" Role="PostCodeSector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryZoneName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostCodeSector">
+              <PropertyRef Name="DeliveryZoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Devices_ExternalApi">
+          <End Type="AndroAdminModel.ExternalApi" Role="ExternalApi" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Device" Role="Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalApi">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Device">
+              <PropertyRef Name="ExternalApiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreTypes_StoreType">
+          <End Type="AndroAdminModel.Device" Role="Device" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.StoreDevice" Role="StoreDevice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreDevice">
+              <PropertyRef Name="DeviceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2032,6 +2379,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreHostV2ApiCredentials_HostV2">
+          <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.StoreHostV2ApiCredentials" Role="StoreHostV2ApiCredentials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HostV2">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreHostV2ApiCredentials">
+              <PropertyRef Name="HostV2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OpeningHour_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
           <End Type="AndroAdminModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
@@ -2080,6 +2441,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreHostV2ApiCredentials_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreHostV2ApiCredentials" Role="StoreHostV2ApiCredentials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreHostV2ApiCredentials">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreHubReset_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2102,6 +2475,34 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StoreMenu">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreMenuThumbnails_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.StoreMenuThumbnail" Role="StoreMenuThumbnail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreMenuThumbnail">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreTypes_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.StoreDevice" Role="StoreDevice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreDevice">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2133,287 +2534,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
         <Association Name="StoreHubs">
           <End Type="AndroAdminModel.HubAddress" Role="HubAddress" Multiplicity="*" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
-        </Association>
-        <EntityType Name="StoreMenuThumbnail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <Property Type="Int32" Name="Version" Nullable="false" />
-          <Property Type="String" Name="XmlMenuThumbnailData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="JsonMenuThumbnailsData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="LastUpdate" Precision="3" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="StoreMenuThumbnail" ToRole="Store" />
-        </EntityType>
-        <Association Name="FK_StoreMenuThumbnails_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.StoreMenuThumbnail" Role="StoreMenuThumbnail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreMenuThumbnail">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Device">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="Guid" Name="ExternalApiId" />
-          <NavigationProperty Name="ExternalApi" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="Device" ToRole="ExternalApi" />
-          <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="Device" ToRole="StoreDevice" />
-          <Property Type="Boolean" Name="Removed" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ExternalApi">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DefinitionParameters" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Parameters" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <NavigationProperty Name="Devices" Relationship="AndroAdminModel.FK_Devices_ExternalApi" FromRole="ExternalApi" ToRole="Device" />
-          <Property Type="Boolean" Name="Removed" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_Devices_ExternalApi">
-          <End Type="AndroAdminModel.ExternalApi" Role="ExternalApi" Multiplicity="0..1" />
-          <End Type="AndroAdminModel.Device" Role="Device" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ExternalApi">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Device">
-              <PropertyRef Name="ExternalApiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="StoreDevice">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <Property Type="Guid" Name="DeviceId" Nullable="false" />
-          <Property Type="String" Name="Parameters" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <NavigationProperty Name="Device" Relationship="AndroAdminModel.FK_StoreTypes_StoreType" FromRole="StoreDevice" ToRole="Device" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="StoreDevice" ToRole="Store" />
-          <Property Type="Boolean" Name="Removed" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_StoreTypes_StoreType">
-          <End Type="AndroAdminModel.Device" Role="Device" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.StoreDevice" Role="StoreDevice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Device">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreDevice">
-              <PropertyRef Name="DeviceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreTypes_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.StoreDevice" Role="StoreDevice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreDevice">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DeliveryArea">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <Property Type="String" Name="DeliveryArea1" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="Boolean" Name="Removed" Nullable="false" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="DeliveryArea" ToRole="Store" />
-        </EntityType>
-        <EntityType Name="StoreHostV2ApiCredentials">
-          <Key>
-            <PropertyRef Name="StoreId" />
-            <PropertyRef Name="HostV2Id" />
-            <PropertyRef Name="ApiCredentialsId" />
-          </Key>
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <Property Type="Guid" Name="HostV2Id" Nullable="false" />
-          <Property Type="Guid" Name="ApiCredentialsId" Nullable="false" />
-          <Property Type="String" Name="Parameters" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="StoreHostV2ApiCredentials" ToRole="HostV2" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" FromRole="StoreHostV2ApiCredentials" ToRole="Store" />
-        </EntityType>
-        <Association Name="FK_DeliveryArea_DeliveryArea">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.DeliveryArea" Role="DeliveryArea" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DeliveryArea">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreHostV2ApiCredentials_HostV2">
-          <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.StoreHostV2ApiCredentials" Role="StoreHostV2ApiCredentials" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HostV2">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreHostV2ApiCredentials">
-              <PropertyRef Name="HostV2Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreHostV2ApiCredentials_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
-          <End Type="AndroAdminModel.StoreHostV2ApiCredentials" Role="StoreHostV2ApiCredentials" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreHostV2ApiCredentials">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <Association Name="FK__Chain__MasterMen__671F4F74">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="0..1" />
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Chain">
-              <PropertyRef Name="MasterMenuId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AndroWebOrderingSubscriptionType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Subscription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingSubscriptionType" ToRole="AndroWebOrderingWebsite" />
-        </EntityType>
-        <EntityType Name="AndroWebOrderingWebsite">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ChainId" Type="Int32" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="DisabledReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SubscriptionTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
-          <Property Name="DataVersion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
-          <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
-          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
-          <Property Name="PreviewDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ThemeId" Type="Int32" />
-          <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
-          <Property Name="LiveDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="LiveSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
-          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
-          <End Type="AndroAdminModel.AndroWebOrderingSubscriptionType" Role="AndroWebOrderingSubscriptionType" Multiplicity="1" />
-          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AndroWebOrderingSubscriptionType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="SubscriptionTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AndroWebOrderingWebsite_Chain">
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="0..1" />
-          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Chain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="ChainId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AndroWebOrderingTheme">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Height" Type="Int32" Nullable="false" />
-          <Property Name="Width" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingTheme" ToRole="AndroWebOrderingWebsite" />
-          <Property Name="ThemePath" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
-          <Property Name="ThemeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
-          <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="0..1" />
-          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AndroWebOrderingTheme">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="ThemeId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2501,6 +2621,47 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebOrderingSubscriptionTypes">
+            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingSubscriptionType">
+              <MappingFragment StoreEntitySet="AndroWebOrderingSubscriptionType">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Subscription" ColumnName="Subscription" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebOrderingThemes">
+            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingTheme">
+              <MappingFragment StoreEntitySet="AndroWebOrderingTheme">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ThemeName" ColumnName="ThemeName" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="ThemePath" ColumnName="ThemePath" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebOrderingWebsites">
+            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
+              <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
+                <ScalarProperty Name="ThemeId" ColumnName="ThemeId" />
+                <ScalarProperty Name="PreviewSettings" ColumnName="PreviewSettings" />
+                <ScalarProperty Name="LiveSettings" ColumnName="LiveSettings" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="PreviewDomainName" ColumnName="PreviewDomainName" />
+                <ScalarProperty Name="LiveDomainName" ColumnName="LiveDomainName" />
+                <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
+                <ScalarProperty Name="DisabledReason" ColumnName="DisabledReason" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Chains">
             <EntityTypeMapping TypeName="AndroAdminModel.Chain">
               <MappingFragment StoreEntitySet="Chain">
@@ -2539,6 +2700,40 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryAreas">
+            <EntityTypeMapping TypeName="AndroAdminModel.DeliveryArea">
+              <MappingFragment StoreEntitySet="DeliveryArea">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="DeliveryArea1" ColumnName="DeliveryArea" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryZoneNames">
+            <EntityTypeMapping TypeName="AndroAdminModel.DeliveryZoneName">
+              <MappingFragment StoreEntitySet="DeliveryZoneNames">
+                <ScalarProperty Name="IsCustom" ColumnName="IsCustom" />
+                <ScalarProperty Name="OriginPostCode" ColumnName="OriginPostCode" />
+                <ScalarProperty Name="RadiusCovered" ColumnName="RadiusCovered" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="AndroAdminModel.Device">
+              <MappingFragment StoreEntitySet="Devices">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="ExternalApiId" ColumnName="ExternalApiId" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="AndroAdminModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
@@ -2548,6 +2743,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
                 <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExternalApis">
+            <EntityTypeMapping TypeName="AndroAdminModel.ExternalApi">
+              <MappingFragment StoreEntitySet="ExternalApi">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
+                <ScalarProperty Name="DefinitionParameters" ColumnName="DefinitionParameters" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2656,6 +2863,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PostCodeSectors">
+            <EntityTypeMapping TypeName="AndroAdminModel.PostCodeSector">
+              <MappingFragment StoreEntitySet="PostCodeSectors">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="PostCodeSector1" ColumnName="PostCodeSector" />
+                <ScalarProperty Name="DeliveryZoneId" ColumnName="DeliveryZoneId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="AndroAdminModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
@@ -2718,6 +2936,28 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="StoreDevices">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreDevice">
+              <MappingFragment StoreEntitySet="StoreDevices">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreHostV2ApiCredentials">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreHostV2ApiCredentials">
+              <MappingFragment StoreEntitySet="StoreHostV2ApiCredentials">
+                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
+                <ScalarProperty Name="ApiCredentialsId" ColumnName="ApiCredentialsId" />
+                <ScalarProperty Name="HostV2Id" ColumnName="HostV2Id" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StoreHubResets">
             <EntityTypeMapping TypeName="AndroAdminModel.StoreHubReset">
               <MappingFragment StoreEntitySet="StoreHubReset">
@@ -2735,6 +2975,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
                 <ScalarProperty Name="MenuData" ColumnName="MenuData" />
                 <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreMenuThumbnails">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreMenuThumbnail">
+              <MappingFragment StoreEntitySet="StoreMenuThumbnails">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="JsonMenuThumbnailsData" ColumnName="JsonMenuThumbnailsData" />
+                <ScalarProperty Name="XmlMenuThumbnailData" ColumnName="XmlMenuThumbnailData" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -2759,6 +3011,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AndroAdminModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2794,126 +3057,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               <ScalarProperty Name="Id" ColumnName="HubAddressId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="StoreMenuThumbnails">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreMenuThumbnail">
-              <MappingFragment StoreEntitySet="StoreMenuThumbnails">
-                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
-                <ScalarProperty Name="JsonMenuThumbnailsData" ColumnName="JsonMenuThumbnailsData" />
-                <ScalarProperty Name="XmlMenuThumbnailData" ColumnName="XmlMenuThumbnailData" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Devices">
-            <EntityTypeMapping TypeName="AndroAdminModel.Device">
-              <MappingFragment StoreEntitySet="Devices">
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="ExternalApiId" ColumnName="ExternalApiId" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ExternalApis">
-            <EntityTypeMapping TypeName="AndroAdminModel.ExternalApi">
-              <MappingFragment StoreEntitySet="ExternalApi">
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
-                <ScalarProperty Name="DefinitionParameters" ColumnName="DefinitionParameters" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StoreDevices">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreDevice">
-              <MappingFragment StoreEntitySet="StoreDevices">
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DeliveryAreas">
-            <EntityTypeMapping TypeName="AndroAdminModel.DeliveryArea">
-              <MappingFragment StoreEntitySet="DeliveryArea">
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="DeliveryArea1" ColumnName="DeliveryArea" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StoreHostV2ApiCredentials">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreHostV2ApiCredentials">
-              <MappingFragment StoreEntitySet="StoreHostV2ApiCredentials">
-                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
-                <ScalarProperty Name="ApiCredentialsId" ColumnName="ApiCredentialsId" />
-                <ScalarProperty Name="HostV2Id" ColumnName="HostV2Id" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AndroAdminModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AndroWebOrderingSubscriptionTypes">
-            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingSubscriptionType">
-              <MappingFragment StoreEntitySet="AndroWebOrderingSubscriptionType">
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Subscription" ColumnName="Subscription" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AndroWebOrderingWebsites">
-            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
-              <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
-                <ScalarProperty Name="LiveSettings" ColumnName="LiveSettings" />
-                <ScalarProperty Name="LiveDomainName" ColumnName="LiveDomainName" />
-                <ScalarProperty Name="ThemeId" ColumnName="ThemeId" />
-                <ScalarProperty Name="PreviewSettings" ColumnName="PreviewSettings" />
-                <ScalarProperty Name="PreviewDomainName" ColumnName="PreviewDomainName" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
-                <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
-                <ScalarProperty Name="DisabledReason" ColumnName="DisabledReason" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AndroWebOrderingThemes">
-            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingTheme">
-              <MappingFragment StoreEntitySet="AndroWebOrderingTheme">
-                <ScalarProperty Name="ThemeName" ColumnName="ThemeName" />
-                <ScalarProperty Name="ThemePath" ColumnName="ThemePath" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

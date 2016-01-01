@@ -31,11 +31,18 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<Address> Addresses { get; set; }
         public DbSet<AMSServer> AMSServers { get; set; }
         public DbSet<AMSServerChain> AMSServerChains { get; set; }
+        public DbSet<AndroWebOrderingSubscriptionType> AndroWebOrderingSubscriptionTypes { get; set; }
+        public DbSet<AndroWebOrderingTheme> AndroWebOrderingThemes { get; set; }
+        public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
         public DbSet<Chain> Chains { get; set; }
         public DbSet<ChainChain> ChainChains { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
+        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
+        public DbSet<DeliveryZoneName> DeliveryZoneNames { get; set; }
+        public DbSet<Device> Devices { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<ExternalApi> ExternalApis { get; set; }
         public DbSet<FTPSite> FTPSites { get; set; }
         public DbSet<FTPSiteChain> FTPSiteChains { get; set; }
         public DbSet<FTPSiteType> FTPSiteTypes { get; set; }
@@ -45,24 +52,19 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<Log> Logs { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<PostCodeSector> PostCodeSectors { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Site_AMS_upload> Site_AMS_upload { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreAMSServer> StoreAMSServers { get; set; }
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
+        public DbSet<StoreDevice> StoreDevices { get; set; }
+        public DbSet<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public DbSet<StoreHubReset> StoreHubResets { get; set; }
         public DbSet<StoreMenu> StoreMenus { get; set; }
+        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
-        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
-        public DbSet<Device> Devices { get; set; }
-        public DbSet<ExternalApi> ExternalApis { get; set; }
-        public DbSet<StoreDevice> StoreDevices { get; set; }
-        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
-        public DbSet<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
-        public DbSet<AndroWebOrderingSubscriptionType> AndroWebOrderingSubscriptionTypes { get; set; }
-        public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
-        public DbSet<AndroWebOrderingTheme> AndroWebOrderingThemes { get; set; }
     }
 }
