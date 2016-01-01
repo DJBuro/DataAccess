@@ -8,6 +8,6 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface ISiteDataAccess
     {
-        List<Site> Get();
+        List<Site> Get(Guid securityGuidstring, Guid? chainGuidText, float? maxDistance, float? longitude, float? latitude);
     }
 }
