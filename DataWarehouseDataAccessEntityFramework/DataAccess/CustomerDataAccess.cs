@@ -23,24 +23,22 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                var query =
-                dataWarehouseEntities.Customers
-                    .Where(e => e.ACSAplicationId == applicationId)
-                    .Where(e => e.Username == username)
-                    .Select
-                    (
-                        e => new
-                        {
-                            e.ID,
-                            e.Title,
-                            e.FirstName,
-                            e.LastName,
-                            e.Address,
-                            Contacts = e.Contacts.Select(contact => new { ContactType = contact.ContactType.Name, MarketingLevel = contact.MarketingLevel.Name, contact.Value }),
-                            e.Password,
-                            e.PasswordSalt
-                        }
-                    );
+                var query = from c in dataWarehouseEntities.Customers
+                            join ca in dataWarehouseEntities.CustomerAccounts
+                                on c.CustomerAccountId equals ca.ID
+                            where c.ACSAplicationId == applicationId
+                                && ca.Username == username
+                            select new
+                            {
+                                c.ID,
+                                c.Title,
+                                c.FirstName,
+                                c.LastName,
+                                c.Address,
+                                Contacts = c.Contacts.Select(contact => new { ContactType = contact.ContactType.Name, MarketingLevel = contact.MarketingLevel.Name, contact.Value }),
+                                ca.Password,
+                                ca.PasswordSalt
+                            };
 
                 var entity = query.FirstOrDefault();
 
@@ -121,9 +119,16 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                exists =
-                    dataWarehouseEntities.Customers
-                    .Any(e => e.ACSAplicationId == applicationId && e.Username == username);
+                exists = (from c in dataWarehouseEntities.Customers
+                            join ca in dataWarehouseEntities.CustomerAccounts
+                                on c.CustomerAccountId equals ca.ID
+                            where ca.Username == username
+                                && c.ACSAplicationId == applicationId
+                              select c).Count() > 0;
+
+                //exists =
+                //    dataWarehouseEntities.Customers
+                //    .Any(e => e.ACSAplicationId == applicationId && e.Username == username);
             }
 
             return "";
@@ -139,8 +144,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     // Has the username already been used for this application?
                     var customerQuery = from c in dataWarehouseEntities.Customers
-                                        where c.Username == username
-                                        && c.ACSAplicationId == applicationId
+                                        join ca in dataWarehouseEntities.CustomerAccounts
+                                            on c.CustomerAccountId equals ca.ID
+                                        where ca.Username == username
+                                            && c.ACSAplicationId == applicationId
                                         select c;
 
                     if (customerQuery.Count() > 0)
@@ -155,14 +162,18 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     // Create a customer entity
                     Model.Customer customerEntity = new Model.Customer()
                     {
-                        Username = username,
                         FirstName = customer.FirstName,
                         LastName = customer.Surname,
                         Title = customer.Title,
-                        Password = passwordHash,
-                        PasswordSalt = salt,
                         ACSAplicationId = applicationId,
-                        RegisteredDateTime = DateTime.UtcNow
+                        RegisteredDateTime = DateTime.UtcNow,
+                        CustomerAccount = new CustomerAccount()
+                            {
+                                Username = username,
+                                Password = passwordHash,
+                                PasswordSalt = salt,
+                                RegisteredDateTime = DateTime.UtcNow
+                            }
                     };
 
                     // Is there an address?
@@ -275,10 +286,12 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                    var customerQuery = from p in dataWarehouseEntities.Customers
-                                where p.Username == username
-                                && p.ACSAplicationId == applicationId
-                                select p;
+                    var customerQuery = from c in dataWarehouseEntities.Customers
+                                        join ca in dataWarehouseEntities.CustomerAccounts
+                                            on c.CustomerAccountId equals ca.ID
+                                        where ca.Username == username
+                                            && c.ACSAplicationId == applicationId
+                                        select c;
 
                     var customerEntity = customerQuery.FirstOrDefault();
 
@@ -290,10 +303,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         // Hash the password
                         byte[] salt = null;
-                        string passwordHash = PasswordHash.CreateHash(password, customerEntity.PasswordSalt, out salt);
+                        string passwordHash = PasswordHash.CreateHash(password, customerEntity.CustomerAccount.PasswordSalt, out salt);
 
                         // Does the password provided match the one in the database?
-                        if (passwordHash != customerEntity.Password)
+                        if (passwordHash != customerEntity.CustomerAccount.Password)
                         {
                             return "Incorrect password";
                         }
@@ -301,8 +314,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         // Does the customer want to change their password?
                         if (newPassword != null && newPassword.Length > 0)
                         {
-                            string newPasswordHash = PasswordHash.CreateHash(newPassword, customerEntity.PasswordSalt, out salt);
-                            customerEntity.Password = newPasswordHash;
+                            string newPasswordHash = PasswordHash.CreateHash(newPassword, customerEntity.CustomerAccount.PasswordSalt, out salt);
+                            customerEntity.CustomerAccount.Password = newPasswordHash;
                         }
 
                         if (customer != null)
@@ -444,7 +457,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             // Is the customer changing their username?
                             if (newUsername.Length > 0)
                             {
-                                customerEntity.Username = newUsername;
+                                customerEntity.CustomerAccount.Username = newUsername;
                             }
                         }
 

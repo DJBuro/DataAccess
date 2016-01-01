@@ -12,6 +12,7 @@
           <EntitySet Name="ContactType" EntityType="DataWarehouseModel.Store.ContactType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Country" EntityType="DataWarehouseModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Customer" EntityType="DataWarehouseModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CustomerAccount" EntityType="DataWarehouseModel.Store.CustomerAccount" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CustomerAddress" EntityType="DataWarehouseModel.Store.CustomerAddress" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MarketingLevel" EntityType="DataWarehouseModel.Store.MarketingLevel" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="modifiers" EntityType="DataWarehouseModel.Store.modifiers" store:Type="Tables" Schema="dbo" />
@@ -36,13 +37,17 @@
             <End Role="MarketingLevel" EntitySet="MarketingLevel" />
             <End Role="Contact" EntitySet="Contact" />
           </AssociationSet>
-          <AssociationSet Name="FK_Customer_AccountType" Association="DataWarehouseModel.Store.FK_Customer_AccountType">
-            <End Role="AccountType" EntitySet="AccountType" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
           <AssociationSet Name="FK_Customer_Address" Association="DataWarehouseModel.Store.FK_Customer_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_CustomerAccount" Association="DataWarehouseModel.Store.FK_Customer_CustomerAccount">
+            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAccount_AccountType" Association="DataWarehouseModel.Store.FK_CustomerAccount_AccountType">
+            <End Role="AccountType" EntitySet="AccountType" />
+            <End Role="CustomerAccount" EntitySet="CustomerAccount" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerAddress_Customer" Association="DataWarehouseModel.Store.FK_CustomerAddress_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -155,13 +160,19 @@
           <Property Name="Title" Type="nvarchar" MaxLength="16" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="48" />
           <Property Name="LastName" Type="nvarchar" MaxLength="48" />
-          <Property Name="Email" Type="nvarchar" MaxLength="128" />
-          <Property Name="Mobile" Type="nvarchar" MaxLength="24" />
-          <Property Name="AccountNumber" Type="nvarchar" MaxLength="16" />
           <Property Name="AddressId" Type="int" />
+          <Property Name="ACSAplicationId" Type="int" Nullable="false" />
+          <Property Name="RegisteredDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CustomerAccountId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="CustomerAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="16" />
           <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="ACSAplicationId" Type="int" Nullable="false" />
           <Property Name="PasswordSalt" Type="varbinary" Nullable="false" MaxLength="100" />
           <Property Name="AccountTypeId" Type="int" Nullable="false" />
           <Property Name="RegisteredDateTime" Type="datetime" Nullable="false" />
@@ -310,18 +321,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Customer_AccountType">
-          <End Role="AccountType" Type="DataWarehouseModel.Store.AccountType" Multiplicity="1" />
-          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="AccountTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Customer_Address">
           <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="0..1" />
           <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
@@ -331,6 +330,30 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_CustomerAccount">
+          <End Role="CustomerAccount" Type="DataWarehouseModel.Store.CustomerAccount" Multiplicity="0..1" />
+          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CustomerAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAccount_AccountType">
+          <End Role="AccountType" Type="DataWarehouseModel.Store.AccountType" Multiplicity="1" />
+          <End Role="CustomerAccount" Type="DataWarehouseModel.Store.CustomerAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAccount">
+              <PropertyRef Name="AccountTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -457,6 +480,7 @@
           <EntitySet Name="ContactTypes" EntityType="DataWarehouseModel.ContactType" />
           <EntitySet Name="Countries" EntityType="DataWarehouseModel.Country" />
           <EntitySet Name="Customers" EntityType="DataWarehouseModel.Customer" />
+          <EntitySet Name="CustomerAccounts" EntityType="DataWarehouseModel.CustomerAccount" />
           <EntitySet Name="CustomerAddresses" EntityType="DataWarehouseModel.CustomerAddress" />
           <EntitySet Name="MarketingLevels" EntityType="DataWarehouseModel.MarketingLevel" />
           <EntitySet Name="modifiers" EntityType="DataWarehouseModel.modifier" />
@@ -465,9 +489,9 @@
           <EntitySet Name="OrderStatus" EntityType="DataWarehouseModel.OrderStatu" />
           <EntitySet Name="OrderStatusHistories" EntityType="DataWarehouseModel.OrderStatusHistory" />
           <EntitySet Name="PasswordResetRequests" EntityType="DataWarehouseModel.PasswordResetRequest" />
-          <AssociationSet Name="FK_Customer_AccountType" Association="DataWarehouseModel.FK_Customer_AccountType">
+          <AssociationSet Name="FK_CustomerAccount_AccountType" Association="DataWarehouseModel.FK_CustomerAccount_AccountType">
             <End Role="AccountType" EntitySet="AccountTypes" />
-            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerAccount" EntitySet="CustomerAccounts" />
           </AssociationSet>
           <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.FK_Address_Country">
             <End Role="Country" EntitySet="Countries" />
@@ -488,6 +512,10 @@
           <AssociationSet Name="FK_Contact_MarketingLevel" Association="DataWarehouseModel.FK_Contact_MarketingLevel">
             <End Role="MarketingLevel" EntitySet="MarketingLevels" />
             <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_CustomerAccount" Association="DataWarehouseModel.FK_Customer_CustomerAccount">
+            <End Role="CustomerAccount" EntitySet="CustomerAccounts" />
+            <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerAddress_Customer" Association="DataWarehouseModel.FK_CustomerAddress_Customer">
             <End Role="Customer" EntitySet="Customers" />
@@ -533,7 +561,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="AccountType" ToRole="Customer" />
+          <NavigationProperty Name="CustomerAccounts" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="AccountType" ToRole="CustomerAccount" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
@@ -605,22 +633,30 @@
           <Property Type="String" Name="Title" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FirstName" MaxLength="48" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LastName" MaxLength="48" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Mobile" MaxLength="24" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="AccountNumber" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AddressId" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ACSAplicationId" Nullable="false" />
-          <Property Type="Binary" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" />
-          <Property Type="Int32" Name="AccountTypeId" Nullable="false" />
           <Property Type="DateTime" Name="RegisteredDateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="Customer" ToRole="AccountType" />
+          <Property Type="Guid" Name="CustomerAccountId" />
           <NavigationProperty Name="Address" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.fk_contact_customer" FromRole="Customer" ToRole="Contact" />
+          <NavigationProperty Name="CustomerAccount" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="Customer" ToRole="CustomerAccount" />
           <NavigationProperty Name="CustomerAddresses" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="Customer" ToRole="CustomerAddress" />
           <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="Customer" ToRole="OrderHeader" />
           <NavigationProperty Name="PasswordResetRequests" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="Customer" ToRole="PasswordResetRequest" />
+        </EntityType>
+        <EntityType Name="CustomerAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="AccountNumber" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Binary" Name="PasswordSalt" Nullable="false" MaxLength="100" FixedLength="false" />
+          <Property Type="Int32" Name="AccountTypeId" Nullable="false" />
+          <Property Type="DateTime" Name="RegisteredDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="CustomerAccount" ToRole="AccountType" />
+          <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="CustomerAccount" ToRole="Customer" />
         </EntityType>
         <EntityType Name="CustomerAddress">
           <Key>
@@ -734,14 +770,14 @@
           <Property Type="Guid" Name="CustomerId" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="PasswordResetRequest" ToRole="Customer" />
         </EntityType>
-        <Association Name="FK_Customer_AccountType">
+        <Association Name="FK_CustomerAccount_AccountType">
           <End Type="DataWarehouseModel.AccountType" Role="AccountType" Multiplicity="1" />
-          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="*" />
+          <End Type="DataWarehouseModel.CustomerAccount" Role="CustomerAccount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Customer">
+            <Dependent Role="CustomerAccount">
               <PropertyRef Name="AccountTypeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -803,6 +839,18 @@
             </Principal>
             <Dependent Role="Contact">
               <PropertyRef Name="MarketingLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_CustomerAccount">
+          <End Type="DataWarehouseModel.CustomerAccount" Role="CustomerAccount" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CustomerAccountId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -995,19 +1043,26 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="DataWarehouseModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerAccountId" ColumnName="CustomerAccountId" />
                 <ScalarProperty Name="RegisteredDateTime" ColumnName="RegisteredDateTime" />
-                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
                 <ScalarProperty Name="ACSAplicationId" ColumnName="ACSAplicationId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerAccounts">
+            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerAccount">
+              <MappingFragment StoreEntitySet="CustomerAccount">
+                <ScalarProperty Name="RegisteredDateTime" ColumnName="RegisteredDateTime" />
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

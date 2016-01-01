@@ -86,6 +86,9 @@
     <Compile Include="Model\Customer.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CustomerAccount.cs">
+      <DependentUpon>DataWarehouse.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\CustomerAddress.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>

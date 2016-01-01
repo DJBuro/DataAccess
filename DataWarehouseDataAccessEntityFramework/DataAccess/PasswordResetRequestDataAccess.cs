@@ -25,10 +25,12 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 {
                     DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                    var customerQuery = from p in dataWarehouseEntities.Customers
-                                        where p.Username == username
-                                        && p.ACSAplicationId == applicationId
-                                        select p;
+                    var customerQuery = from c in dataWarehouseEntities.Customers
+                                        join ca in dataWarehouseEntities.CustomerAccounts
+                                            on c.CustomerAccountId equals ca.ID
+                                        where ca.Username == username
+                                        && c.ACSAplicationId == applicationId
+                                        select c;
 
                     var customerEntity = customerQuery.FirstOrDefault();
 
@@ -93,10 +95,12 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     }
                     else 
                     {
-                        var customerQuery = from p in dataWarehouseEntities.Customers
-                                            where p.ID == passwordResetEntity.CustomerId
-                                            && p.Username == username
-                                            select p;
+                        var customerQuery = from c in dataWarehouseEntities.Customers
+                                            join ca in dataWarehouseEntities.CustomerAccounts
+                                                on c.CustomerAccountId equals ca.ID
+                                            where c.ID == passwordResetEntity.CustomerId
+                                                && ca.Username == username
+                                            select c;
 
                         var customerEntity = customerQuery.FirstOrDefault();
 
@@ -115,9 +119,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                             // Reset the password
                             byte[] salt = null;
-                            string passwordHash = PasswordHash.CreateHash(newPassword, customerEntity.PasswordSalt, out salt);
+                            string passwordHash = PasswordHash.CreateHash(newPassword, customerEntity.CustomerAccount.PasswordSalt, out salt);
 
-                            customerEntity.Password = passwordHash;
+                            customerEntity.CustomerAccount.Password = passwordHash;
 
                             // Delete the password reset request
                             dataWarehouseEntities.PasswordResetRequests.Remove(passwordResetEntity);
