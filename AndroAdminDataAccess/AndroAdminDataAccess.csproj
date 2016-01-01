@@ -47,18 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\DataAccess.cs" />
-    <Compile Include="DataAccess\AMSServerDAO.cs" />
-    <Compile Include="DataAccess\AMSServerFTPServerPairDAO.cs" />
-    <Compile Include="DataAccess\RegionDAO.cs" />
-    <Compile Include="DataAccess\StoreDAO.cs" />
+    <Compile Include="DataAccess\IAMSServerDAO.cs" />
+    <Compile Include="DataAccess\IAMSServerFTPServerPairDAO.cs" />
+    <Compile Include="DataAccess\IDataAccess.cs" />
+    <Compile Include="DataAccess\IFtpServerDAO.cs" />
+    <Compile Include="DataAccess\IStoreDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\FtpServerDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\DataAccess.cs" />
+    <Compile Include="nHibernate\DataAccess\AMSServerDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\AMSServerFTPServerPairDAO.cs" />
+    <Compile Include="nHibernate\DataAccess\StoreDAO.cs" />
     <Compile Include="Domain\AMSServer.cs" />
     <Compile Include="Domain\AMSServerFTPServerPair.cs" />
-    <Compile Include="Domain\Region.cs" />
+    <Compile Include="Domain\FTPSite.cs" />
     <Compile Include="Domain\Store.cs" />
     <Compile Include="nHibernate\Mappings\AMSServerFTPServerPairMap.cs" />
     <Compile Include="nHibernate\Mappings\AMSServerMap.cs" />
-    <Compile Include="nHibernate\Mappings\RegionMap.cs" />
+    <Compile Include="nHibernate\Mappings\FTPSiteMap.cs" />
     <Compile Include="nHibernate\Mappings\StoreMap.cs" />
     <Compile Include="nHibernate\nHibernateDataAccess.cs" />
     <Compile Include="nHibernate\nHibernateHelper.cs" />

@@ -5,9 +5,9 @@ using System.Text;
 using NHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using DashboardDataAccess.nHibernate.Mappings;
+using AndroAdminDataAccess.nHibernate.Mappings;
 
-namespace DashboardDataAccess
+namespace AndroAdminDataAccess
 {
     internal class nHibernateHelper
     {
@@ -23,9 +23,10 @@ namespace DashboardDataAccess
               (
                 MsSqlConfiguration.MsSql2008.ConnectionString("Server=.;initial catalog=dashboard;password=D45hb0ardPa55;user=DashboardUser;")
               )
-              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Log>())
-              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Site>())
-              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_HistoricalData>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerFTPServerPairMap>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<AMSServerMap>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<FTPSiteMap>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<StoreMap>())
               .BuildSessionFactory();
         }
     }
