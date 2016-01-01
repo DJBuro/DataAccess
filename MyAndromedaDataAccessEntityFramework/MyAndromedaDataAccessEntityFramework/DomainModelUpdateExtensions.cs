@@ -159,7 +159,8 @@ namespace MyAndromedaDataAccessEntityFramework
                 RetryAfter = entity.RetryAfter,
                 Started = entity.Started,
                 EmailSettings = entity.EmailCampaignSetting == null ? null : entity.EmailCampaignSetting.ToDomainModel(),
-                EmailCampaign = entity.EmailCampaign == null ? null : entity.EmailCampaign.ToDomainModel()
+                EmailCampaign = entity.EmailCampaign == null ? null : entity.EmailCampaign.ToDomainModel(),
+                CompletedAt = entity.CompletedAt
             };
         }
 
@@ -177,6 +178,7 @@ namespace MyAndromedaDataAccessEntityFramework
             entity.RetryAfter = domainModel.RetryAfter;
             entity.RunLaterOnUtc = domainModel.RunLaterOnUtc;
             entity.Started = domainModel.Started;
+            entity.CompletedAt = domainModel.CompletedAt;
         }
 
     }

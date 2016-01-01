@@ -8,6 +8,19 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class SitesDataAccess : ISiteDataAccess
     {
+        public string GetAcsApplicationIds(int siteId, out IEnumerable<int> application)
+        {
+            application = null;
+            using(var dbContext = new AndroAdminDbContext())
+            {
+                var query = dbContext.ACSApplications.Where(e => e.ACSApplicationSites.Any(acsSite => acsSite.SiteId == siteId));
+                var result = query.Select(e => e.Id).ToArray();
+                application = result;
+            }
+
+            return string.Empty;
+        }
+
         public string GetById(int siteId, out MyAndromedaDataAccess.Domain.Site site)
         {
             site = null;
