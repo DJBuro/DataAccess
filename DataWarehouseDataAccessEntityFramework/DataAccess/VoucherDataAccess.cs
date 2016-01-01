@@ -92,5 +92,19 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string GetUsedVoucherCount(string voucherId, string customerId, out int usedVoucherCount)
+        {
+            using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
+            {
+                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
+                var query = (from usedVoucher in dataWarehouseEntities.UsedVouchers
+                             join customer in dataWarehouseEntities.Customers on usedVoucher.CustomerId equals customer.ID
+                             where usedVoucher.VoucherId == new Guid(voucherId) && customer.ID == new Guid(customerId)
+                             select usedVoucher);
+                usedVoucherCount = query.Count();
+            }
+            return "";
+        }
     }
 }
