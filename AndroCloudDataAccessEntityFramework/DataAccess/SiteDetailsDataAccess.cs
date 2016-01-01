@@ -157,7 +157,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         timeSpanBlock.ID = openingHour.ID;
                         timeSpanBlock.Day = openingHour.Day.Description;
                         timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
-                        timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                        timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
                         timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
 
                         siteDetails.OpeningHours.Add(timeSpanBlock);
