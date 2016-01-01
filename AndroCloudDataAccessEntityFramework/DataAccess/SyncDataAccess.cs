@@ -140,21 +140,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                 // REMOVE EXISTING SITES NOT IN siteIds
 
                                 // Get a list of existing sites
-                                List<Model.Site> sitesQuery = (from s in acsEntities.Sites
+                                var sitesQuery = from s in acsEntities.Sites
                                                      join acss in acsEntities.ACSApplicationSites
                                                        on s.ID equals acss.SiteId
                                                      join a in acsEntities.ACSApplications
                                                        on acss.ACSApplicationId equals a.Id
-                                                     join sm in acsEntities.SiteMenus
-                                                       on s.ID equals sm.SiteID
                                                      join ss in acsEntities.SiteStatuses
                                                        on s.SiteStatusID equals ss.ID
                                                      where a.Id == acsApplication.Id
-                                                      select s)
-                                                    .ToList();
+                                                     select s;
 
+                                //string sql = ((ObjectQuery)sitesQuery).ToTraceString();
+                                //Console.WriteLine(sql);
 
-                                if (sitesQuery != null && sitesQuery.Count > 0)
+                                List<Model.Site> existingSites = sitesQuery.ToList();
+
+                                if (sitesQuery != null && existingSites.Count > 0)
                                 {
                                     // Check each existing site to see if it's still in the application
                                     foreach (Model.Site existingSite in sitesQuery)
@@ -413,8 +414,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         select s;
             Model.ACSApplicationSite entity = query.FirstOrDefault();
 
-            acsEntities.ACSApplicationSites.DeleteObject(entity);
-            acsEntities.SaveChanges();
+            if (entity != null)
+            {
+                acsEntities.ACSApplicationSites.DeleteObject(entity);
+                acsEntities.SaveChanges();
+            }
         }
     }
 }
