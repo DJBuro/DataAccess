@@ -151,7 +151,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
                 //    .Where(e => e.OriginPostCode.Equals(deliveryZoneEnity.OriginPostCode, StringComparison.CurrentCultureIgnoreCase))
                 //    .FirstOrDefault();
 
-                if (deliveryZoneEntity != null)
+                if (deliveryZoneEntity.Id != 0)
                 {
                     this.UpdateDeliveryZones(deliveryZoneEntity);
                 }
@@ -173,32 +173,41 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         private void UpdateDeliveryZones(DeliveryZoneName entity)
         {
             var newDataVersion = dataContext.GetNextDataVersionForEntity();
-            
-            //deliveryZone.PostCodeSectors.ToList().ForEach(f => f.DataVersion = newDataVersion);
-            //List<PostCodeSector> existingPostCodeSectors = dataContext.PostCodeSectors.Where(w => w.DeliveryZoneId == deliveryZone.Id).ToList();
-            //List<PostCodeSector> newPostCodeSectors = deliveryZone.PostCodeSectors.Except(existingPostCodeSectors).ToList();
-            //existingPostCodeSectors.ForEach(f => f = (deliveryZone.PostCodeSectors.Where(p => p.Id == f.Id && p.PostCodeSector1 == f.PostCodeSector1)).FirstOrDefault());
-            //newPostCodeSectors.ForEach(f => dataContext.PostCodeSectors.Add(f));
 
-            foreach (PostCodeSector item in entity.PostCodeSectors)
+            List<PostCodeSector> existingPostCodeSectors = dataContext.PostCodeSectors.Where(pc => pc.DeliveryZoneId == entity.Id).ToList();
+
+            if (existingPostCodeSectors != null && existingPostCodeSectors.Count() > 0)
             {
-                item.DataVersion = newDataVersion;
-
-
-                //item.DataVersion = newDataVersion;
-                //var existingpostcode = existingDeliveryzone.PostCodeSectors.ToList().Where(f => f.DeliveryZoneId == item.DeliveryZoneId).FirstOrDefault();
-                //if (existingpostcode == null)
-                //{
-                //    dataContext.PostCodeSectors.Add(item);
-                //}
-                //else
-                //{
-                //    existingpostcode = item;
-                //}
+                foreach (var item in existingPostCodeSectors)
+                {
+                    var pcExisting = entity.PostCodeSectors.Where(pc => pc.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                    if (pcExisting == null)
+                    {
+                        dataContext.PostCodeSectors.Remove(item);
+                    }
+                }
             }
-
-                
-            
+            //foreach (PostCodeSector item in entity.PostCodeSectors)
+            //{
+            //    item.DataVersion = newDataVersion;
+            //    var existingItem = existingPostCodeSectors.Where(w => w.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            //    if (existingItem == null)
+            //    {
+            //        dataContext.PostCodeSectors.Add(item);
+            //    }
+            //    else
+            //    {
+            //        existingItem = item;
+            //    }
+            //}
+            //var deliveryZone = dataContext.DeliveryZoneNames.Where(d => d.Id == entity.Id).FirstOrDefault();
+            //if (deliveryZone != null)
+            //{
+            //    deliveryZone.PostCodeSectors = entity.PostCodeSectors.Where(p => p.Id != 0).ToList();
+            //    foreach (var item in entity.PostCodeSectors.Where(p => p.Id == 0)) {
+            //        deliveryZone.PostCodeSectors.Add(item);
+            //    }
+            //}
             dataContext.SaveChanges();
         }
 
@@ -210,12 +219,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
             deliveryzoneName.PostCodeSectors.ToList().ForEach(f => { f.DeliveryZoneId = deliveryzoneName.Id; f.DataVersion = dataVersion; });
             dataContext.DeliveryZoneNames.Add(deliveryzoneName);
             dataContext.SaveChanges();
-            
-            //foreach (var item in deliveryzoneName.PostCodeSectors)
-            //{
-            //    dataContext.PostCodeSectors.Add(item);
-            //}
-            //dataContext.SaveChanges();
+
         }
 
     }
