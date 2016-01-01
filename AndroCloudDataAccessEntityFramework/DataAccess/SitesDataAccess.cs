@@ -123,6 +123,31 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site)
+        {
+            site = null;
+            ACSEntities acsEntities = new ACSEntities();
+
+            var sitesQuery = from s in acsEntities.Sites
+                             where s.AndroID == andromedaSiteId
+                             select s;
+            Model.Site siteEntity = sitesQuery.FirstOrDefault();
+
+            if (siteEntity != null)
+            {
+                site = new AndroCloudDataAccess.Domain.Site();
+                site.Id = siteEntity.ID;
+                site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                site.MenuVersion = 0;
+                site.Name = siteEntity.ExternalSiteName;
+                site.ExternalId = siteEntity.ExternalId;
+                site.LicenceKey = siteEntity.LicenceKey;
+            }
+
+            return "";
+        }
+
         public string GetByIdAndPartner(Guid partnerId, Guid siteId, out AndroCloudDataAccess.Domain.Site site)
         {
             site = null;
