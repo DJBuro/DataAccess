@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="70">
+      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="17">
         <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MyAndromedaModel.sysdiagram" Width="1.5" PointX="4.90383597319193" PointY="7.32772784276294" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="8.875" PointY="3.25" />
@@ -14,7 +14,7 @@
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="5.125" PointY="2" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="11.401005372126123" PointY="20.542100796728441" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="4.4084681777322983" PointY="30.4329168789242" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

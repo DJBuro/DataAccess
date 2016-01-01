@@ -19,6 +19,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public Nullable<int> Port { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public Nullable<int> ChainId { get; set; }
+        public int ChainId { get; set; }
+        public string FromEmail { get; set; }
+        public bool SSL { get; set; }
     }
 }

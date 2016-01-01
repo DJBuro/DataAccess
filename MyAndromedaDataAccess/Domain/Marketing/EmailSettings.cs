@@ -1,13 +1,17 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security;
 
 namespace MyAndromedaDataAccess.Domain.Marketing
 {
     public class EmailSettings 
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the host.
         /// </summary>
         /// <value>The host.</value>
+        [Required]
         public string Host { get; set; }
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// Gets or sets from.
         /// </summary>
         /// <value>From.</value>
+        [Required]
         public string From { get; set; }
 
         public bool Authenticated { 

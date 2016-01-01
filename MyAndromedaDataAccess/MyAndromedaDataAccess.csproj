@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\DataAccessEvent.cs" />
     <Compile Include="DataAccess\ICustomerDataAccess.cs" />
     <Compile Include="DataAccess\ICountryDataAccess.cs" />
     <Compile Include="DataAccess\IAddressDataAccess.cs" />
