@@ -19,12 +19,13 @@ namespace AndroAdminDataAccess.EntityFramework
         public Nullable<int> ChainId { get; set; }
         public bool Enabled { get; set; }
         public string DisabledReason { get; set; }
-        public int SubscriptionType { get; set; }
+        public int SubscriptionTypeId { get; set; }
         public string URL { get; set; }
         public int ACSApplicationId { get; set; }
         public int DataVersion { get; set; }
     
         public virtual ACSApplication ACSApplication { get; set; }
+        public virtual AndroWebOrderingSubscriptionType AndroWebOrderingSubscriptionType { get; set; }
         public virtual Chain Chain { get; set; }
     }
 }

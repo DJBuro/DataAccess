@@ -53,6 +53,8 @@ namespace AndroAdminDataAccess.Domain
 
         public Chain Chain { get; set; }
 
+        public int ChainId { set; get; }
+
         public Store()
         {
             this.Name = "";

@@ -61,6 +61,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
         public DbSet<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<AndroWebOrderingSubscriptionType> AndroWebOrderingSubscriptionTypes { get; set; }
         public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
     }
 }

@@ -78,6 +78,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="AMSServerId" Type="int" Nullable="false" />
           <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="AndroWebOrderingSubscriptionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Subscription" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="AndroWebOrderingWebsite">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,7 +96,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ChainId" Type="int" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
-          <Property Name="SubscriptionType" Type="int" Nullable="false" />
+          <Property Name="SubscriptionTypeId" Type="int" Nullable="false" />
           <Property Name="URL" Type="nvarchar" MaxLength="1000" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
@@ -437,18 +446,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK__AndroWebO__ACSAp__756D6ECB">
-          <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="1" />
-          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Chain__MasterMen__671F4F74">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="Chain" Type="Self.Chain" Multiplicity="*" />
@@ -558,6 +555,30 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="AMSServerChain">
               <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
+          <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="1" />
+          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+          <End Role="AndroWebOrderingSubscriptionType" Type="Self.AndroWebOrderingSubscriptionType" Multiplicity="1" />
+          <End Role="AndroWebOrderingWebsite" Type="Self.AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingSubscriptionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="SubscriptionTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -980,6 +1001,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AMSServer" EntityType="Self.AMSServer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AMSServerChain" EntityType="Self.AMSServerChain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AndroWebOrderingSubscriptionType" EntityType="Self.AndroWebOrderingSubscriptionType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AndroWebOrderingWebsite" EntityType="Self.AndroWebOrderingWebsite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chain" EntityType="Self.Chain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChainChain" EntityType="Self.ChainChain" Schema="dbo" store:Type="Tables" />
@@ -1015,10 +1037,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreStatus" EntityType="Self.StoreStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__AndroWebO__ACSAp__756D6ECB" Association="Self.FK__AndroWebO__ACSAp__756D6ECB">
-            <End Role="ACSApplication" EntitySet="ACSApplication" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
-          </AssociationSet>
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="Self.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Store" />
             <End Role="Chain" EntitySet="Chain" />
@@ -1054,6 +1072,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_AMSServerChain_Chain" Association="Self.FK_AMSServerChain_Chain">
             <End Role="Chain" EntitySet="Chain" />
             <End Role="AMSServerChain" EntitySet="AMSServerChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="Self.FK_AndroWebOrderingWebsite_ACSApplicationId">
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" Association="Self.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+            <End Role="AndroWebOrderingSubscriptionType" EntitySet="AndroWebOrderingSubscriptionType" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsite" />
           </AssociationSet>
           <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="Self.FK_AndroWebOrderingWebsite_Chain">
             <End Role="Chain" EntitySet="Chain" />
@@ -1369,9 +1395,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Store" EntitySet="Stores" />
             <End Role="Chain" EntitySet="Chains" />
           </AssociationSet>
+          <EntitySet Name="AndroWebOrderingSubscriptionTypes" EntityType="AndroAdminModel.AndroWebOrderingSubscriptionType" />
           <EntitySet Name="AndroWebOrderingWebsites" EntityType="AndroAdminModel.AndroWebOrderingWebsite" />
-          <AssociationSet Name="FK__AndroWebO__ACSAp__756D6ECB" Association="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB">
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId">
             <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+            <End Role="AndroWebOrderingSubscriptionType" EntitySet="AndroWebOrderingSubscriptionTypes" />
             <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
           </AssociationSet>
           <AssociationSet Name="FK_AndroWebOrderingWebsite_Chain" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain">
@@ -1405,7 +1436,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
           <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
@@ -2251,6 +2282,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AndroWebOrderingSubscriptionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Subscription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingSubscriptionType" ToRole="AndroWebOrderingWebsite" />
+        </EntityType>
         <EntityType Name="AndroWebOrderingWebsite">
           <Key>
             <PropertyRef Name="Id" />
@@ -2260,14 +2301,15 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="ChainId" Type="Int32" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="DisabledReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SubscriptionType" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionTypeId" Type="Int32" Nullable="false" />
           <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK__AndroWebO__ACSAp__756D6ECB" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
+          <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
         </EntityType>
-        <Association Name="FK__AndroWebO__ACSAp__756D6ECB">
+        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
           <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2276,6 +2318,18 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="AndroWebOrderingWebsite">
               <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType">
+          <End Type="AndroAdminModel.AndroWebOrderingSubscriptionType" Role="AndroWebOrderingSubscriptionType" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebOrderingSubscriptionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="SubscriptionTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2747,13 +2801,23 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebOrderingSubscriptionTypes">
+            <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingSubscriptionType">
+              <MappingFragment StoreEntitySet="AndroWebOrderingSubscriptionType">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Subscription" ColumnName="Subscription" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AndroWebOrderingWebsites">
             <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
               <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+                <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
                 <ScalarProperty Name="DisabledReason" ColumnName="DisabledReason" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="ChainId" ColumnName="ChainId" />
