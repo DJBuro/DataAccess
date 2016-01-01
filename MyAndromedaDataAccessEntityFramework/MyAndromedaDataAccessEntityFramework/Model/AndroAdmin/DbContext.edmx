@@ -329,6 +329,8 @@
           <Property Name="StorePaymentProviderID" Type="int" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="ChainId" Type="int" Nullable="false" />
+          <Property Name="TimeZoneInfoId" Type="nvarchar" MaxLength="100" />
+          <Property Name="UiCulture" Type="nvarchar" MaxLength="8" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -2009,6 +2011,8 @@
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.StoreHostsV2" FromRole="Store" ToRole="HostV2" />
           <NavigationProperty Name="HubAddresses" Relationship="AndroAdminModel.StoreHubs" FromRole="Store" ToRole="HubAddress" />
           <NavigationProperty Name="Chains" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Store" ToRole="Chain" />
+          <Property Name="TimeZoneInfoId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UiCulture" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_ACSApplicationSite_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
@@ -2725,6 +2729,8 @@
           <EntitySetMapping Name="Stores">
             <EntityTypeMapping TypeName="AndroAdminModel.Store">
               <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="UiCulture" ColumnName="UiCulture" />
+                <ScalarProperty Name="TimeZoneInfoId" ColumnName="TimeZoneInfoId" />
                 <ScalarProperty Name="ChainId" ColumnName="ChainId" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="StorePaymentProviderID" ColumnName="StorePaymentProviderID" />

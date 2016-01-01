@@ -47,6 +47,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
         public int ChainId { get; set; }
+        public string TimeZoneInfoId { get; set; }
+        public string UiCulture { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
