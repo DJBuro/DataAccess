@@ -135,5 +135,24 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             return model;
         }
+
+
+        public void Delete(int ftpSiteId)
+        {
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.FTPSites
+                        where ftpSiteId == s.Id
+                        select s;
+
+            var entity = query.FirstOrDefault();
+
+            if (entity != null)
+            {
+                androAdminEntities.FTPSites.DeleteObject(entity);
+
+                androAdminEntities.SaveChanges();
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreAMSServerFtpSiteDAO : IStoreAMSServerFTPSiteDAO
     {
-        public IEnumerable<Domain.StoreAMSServerFtpSite> GetAll()
+        public IList<Domain.StoreAMSServerFtpSite> GetAll()
         {
             List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
 
@@ -70,9 +70,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
-        public IEnumerable<Domain.StoreAMSServerFtpSite> GetBySiteId(int siteId)
+        public IList<Domain.StoreAMSServerFtpSite> GetBySiteId(int siteId)
         {
-            throw new NotImplementedException();
+            IEnumerable<StoreAMSServerFtpSite> storeAMSServerFtpSites = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                storeAMSServerFtpSites = session.CreateQuery("from " + typeof(StoreAMSServerFtpSite) + " where StoreAMSServer.Store.Id=:siteId")
+                    .SetParameter("siteId", siteId)
+                    .List<StoreAMSServerFtpSite>();
+            }
+
+            return storeAMSServerFtpSites;
         }
 
         public void Add(Domain.StoreAMSServerFtpSite storeAMSServerFtpSite)
@@ -83,6 +92,43 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         public Domain.StoreAMSServerFtpSite GetBySiteIdAMSServerIdFTPSiteId(int storeAMSServerId, int ftpSiteId)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteByFTPSiteId(int ftpSiteId)
+        {
+            List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
+
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.StoreAMSServerFtpSites
+                        where s.FTPSiteId == ftpSiteId
+                        select s;
+
+            foreach (var entity in query)
+            {
+                androAdminEntities.StoreAMSServerFtpSites.DeleteObject(entity);
+
+                androAdminEntities.SaveChanges();
+            }
+        }
+
+
+        public void DeleteByAMSServerId(int amsServerId)
+        {
+            List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
+
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.StoreAMSServerFtpSites
+                        where s.StoreAMSServer.AMSServerId == amsServerId
+                        select s;
+
+            foreach (var entity in query)
+            {
+                androAdminEntities.StoreAMSServerFtpSites.DeleteObject(entity);
+
+                androAdminEntities.SaveChanges();
+            }
         }
     }
 }
