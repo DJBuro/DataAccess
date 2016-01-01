@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
+    <Compile Include="DataAccess\HostDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />

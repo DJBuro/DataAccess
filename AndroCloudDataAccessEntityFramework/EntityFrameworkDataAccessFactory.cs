@@ -9,6 +9,12 @@ namespace AndroCloudDataAccessEntityFramework
 {
     public class EntityFrameworkDataAccessFactory : IDataAccessFactory
     {
+        public AndroCloudDataAccess.DataAccess.IHostDataAccess HostDataAccess
+        {
+            get { return new HostDataAccess(); }
+            set { throw new NotImplementedException(); }
+        }
+
         public AndroCloudDataAccess.DataAccess.ISiteMenuDataAccess SiteMenuDataAccess
         {
             get { return new SiteMenuDataAccess(); }
