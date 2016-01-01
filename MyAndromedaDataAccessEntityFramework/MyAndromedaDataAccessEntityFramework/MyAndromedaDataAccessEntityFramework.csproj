@@ -111,7 +111,6 @@
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuHistoryDataService.cs" />
-    <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuHistoryDataService.cs" />
     <Compile Include="DataAccess\Menu\SiteMenuExtensions.cs" />

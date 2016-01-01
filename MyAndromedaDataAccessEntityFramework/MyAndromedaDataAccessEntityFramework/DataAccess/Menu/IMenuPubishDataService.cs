@@ -2,20 +2,26 @@ using System.Threading.Tasks;
 using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
-    public interface IMenuPubishDataService : IDependency 
+    public interface IPubishMenuTaskDataService : IDependency 
     {
         /// <summary>
         /// Sets the acs upload menu data task status.
         /// </summary>
         /// <param name="menu">The menu.</param>
         /// <param name="status">The status.</param>
-        void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status);
+        void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status, DateTime? date = null);
+
+        IEnumerable<SiteMenu> GetPublishTasks(DateTime time);
+
+        void AddHistoryLog(SiteMenu sitemenu, string userName, bool publishAll, bool publishMenu, bool publishThumbnails, DateTime? publishOnUtc);
     }
 
-    public class MenuPubishDataService : IMenuPubishDataService 
+    public class MenuPubishDataService : IPubishMenuTaskDataService 
     {
         private readonly IMyAndromedaSiteMenuDataService myAndromedaSiteMenuDataService;
 
@@ -24,41 +30,78 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             this.myAndromedaSiteMenuDataService = myAndromedaSiteMenuDataService;
         }
 
-        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status)
+        public IEnumerable<SiteMenu> GetPublishTasks(DateTime time) 
         {
+            IEnumerable<SiteMenu> results = Enumerable.Empty<SiteMenu>();
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var data = dbContext.QueryMenusWithTasks(e=> 
+                    !e.SiteMenuPublishTask.TaskStarted &&
+                    e.SiteMenuPublishTask.TryTask &&
+                    e.SiteMenuPublishTask.PublishOn <= time 
+                );
+
+                results = data;
+            }
+
+            return results;
+        }
+
+        public void AddHistoryLog(SiteMenu sitemenu, string userName, bool publishAll, bool publishMenu, bool publishThumbnails, DateTime? publishOnUtc)
+        {
+            using (var dbContex = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var table = dbContex.SiteMenuPublishTaskHistories;
+
+                var entity = table.Create();
+                entity.SiteMenuId = sitemenu.Id;
+                entity.PublishThumbnails = publishThumbnails;
+                entity.PublishOnUtc = publishOnUtc.GetValueOrDefault(DateTime.UtcNow);
+                entity.PublishedBy = userName;
+                entity.PublishAll = publishAll;
+                
+                dbContex.SaveChanges();
+            }
+        }
+
+        public void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status, DateTime? date = null)
+        {
+            var publishTask = menu.SiteMenuPublishTask;
+
             switch (status)
             {
                 case TaskStatus.Created:
                     {
-                        menu.SiteMenuFtpBackupUploadTask.LastTryCount = 0;
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        menu.SiteMenuFtpBackupUploadTask.TaskComplete = false;
+                        publishTask.LastTryCount = 0;
+                        publishTask.TryTask = true;
+                        publishTask.TaskComplete = false;
+                        publishTask.PublishOn = date.GetValueOrDefault(DateTime.UtcNow);
 
                         break;
                     }
                 case TaskStatus.Running:
                     {
-                        menu.SiteMenuFtpBackupUploadTask.LastTryCount++;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = true;
-                        menu.SiteMenuFtpBackupUploadTask.LastStartedUtc = DateTime.UtcNow;
-                        menu.SiteMenuFtpBackupUploadTask.LastTriedUtc = DateTime.UtcNow;
+                        publishTask.LastTryCount++;
+                        publishTask.TaskStarted = true;
+                        publishTask.LastStartedUtc = DateTime.UtcNow;
+                        publishTask.LastTriedUtc = DateTime.UtcNow;
 
                         break;
                     }
                 case TaskStatus.RanToCompletion:
                     {
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = false;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
-                        menu.SiteMenuFtpBackupUploadTask.TaskComplete = true;
-                        menu.SiteMenuFtpBackupUploadTask.LastCompletedUtc = DateTime.UtcNow;
+                        publishTask.TryTask = false;
+                        publishTask.TaskStarted = false;
+                        publishTask.TaskComplete = true;
+                        publishTask.LastCompletedUtc = DateTime.UtcNow;
 
                         break;
                     }
                 case TaskStatus.Faulted:
                     {
                         //reset to run again.
-                        menu.SiteMenuFtpBackupUploadTask.TryTask = true;
-                        menu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
+                        publishTask.TryTask = true;
+                        publishTask.TaskStarted = false;
 
                         break;
                     }

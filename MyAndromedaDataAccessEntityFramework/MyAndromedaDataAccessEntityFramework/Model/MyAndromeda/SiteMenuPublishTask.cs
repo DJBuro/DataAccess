@@ -28,6 +28,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public Nullable<System.DateTime> LastStartedUtc { get; set; }
         public Nullable<System.DateTime> LastCompletedUtc { get; set; }
         public Nullable<System.DateTime> LastKnownFtpSitePublish { get; set; }
+        public Nullable<System.DateTime> PublishOn { get; set; }
     
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
     }
