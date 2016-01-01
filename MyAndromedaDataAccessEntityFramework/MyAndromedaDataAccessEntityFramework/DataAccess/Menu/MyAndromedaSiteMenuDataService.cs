@@ -39,6 +39,20 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             return results;
         }
 
+        public void Delete(SiteMenu siteMenu)
+        {
+            using (var dbContext = new MyAndromedaDbContext()) 
+            {
+                var tableQuery = dbContext.SiteMenus.Where(e=> e.Id == siteMenu.Id).FirstOrDefault();
+
+                if (tableQuery != null) 
+                {
+                    dbContext.SiteMenus.Remove(tableQuery);
+                    dbContext.SaveChanges();
+                }
+            }
+        }
+
         public SiteMenu Create(int andromedaSiteId)
         {
             SiteMenu menu;
