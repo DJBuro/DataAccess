@@ -66,34 +66,35 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void AddCompleteRange(int storeId, IEnumerable<Guid> selectServerListIds)
         {
-            var idCollection = selectServerListIds.ToArray();
+            var newIdCollection = selectServerListIds.ToArray();
 
             using (var dbContext = new AndroAdminEntities()) 
             {
                 var storeTable = dbContext.Stores;
                 var hostListEntities = dbContext.HostV2.ToArray();
 
-                var store = storeTable.SingleOrDefault(e => e.Id == storeId);
+                var storeEntity = storeTable.SingleOrDefault(e => e.Id == storeId);
 
-                if (store.HostV2 == null) { store.HostV2 = new List<HostV2>(); }
+                if (storeEntity.HostV2 == null) { storeEntity.HostV2 = new List<HostV2>(); }
 
-                var previousConnectedIds = store.HostV2.ToArray();
+                var oldConnectedHosts = storeEntity.HostV2.ToArray();
 
-                var serversQuery = hostListEntities.Where(e => idCollection.Contains(e.Id)).ToArray();
-                var updateRemovedHosts = hostListEntities.Where(e => previousConnectedIds.Any(previousHost => previousHost.Id == e.Id)).ToArray();
-
+                var newConnectionHostEntities = hostListEntities.Where(e => newIdCollection.Contains(e.Id)).ToArray();
+                
                 var dataVersion = dbContext.GetNextDataVersionForEntity();
                 
-                store.HostV2.Clear();
+                storeEntity.HostV2.Clear();
                 dbContext.SaveChanges();
 
-                foreach (var server in serversQuery) 
+                foreach (var server in newConnectionHostEntities) 
                 {
                     server.DataVersion = dataVersion;
 
-                    store.HostV2.Add(server);
+                    storeEntity.HostV2.Add(server);
                 }
-                
+
+                var updateRemovedHosts = oldConnectedHosts.Where(e => !newConnectionHostEntities.Any(server => server.Id == e.Id));
+                //hostListEntities.Where(e => oldConnectedHosts.Any(previousHost => previousHost.Id == e.Id)).ToArray();
                 foreach (var server in updateRemovedHosts) 
                 {
                     server.DataVersion = dataVersion;
