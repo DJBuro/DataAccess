@@ -916,6 +916,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.Telephone = store.Phone;
                 siteEntity.TimeZone = store.TimeZone;
                 siteEntity.TimeZoneInfoId = store.TimeZoneInfoId;
+                siteEntity.UiCulture = store.UiCulture;
                 siteEntity.StorePaymentProviderID = storePaymentProviderId;
 
                 // Commit the first lot of changes
