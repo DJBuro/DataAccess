@@ -22,27 +22,28 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
-                                 join ss in acsEntities.SiteStatuses
-                                   on s.SiteStatusID equals ss.ID
+                var sitesQuery = from site in acsEntities.Sites
+                                 join siteStatus in acsEntities.SiteStatuses
+                                   on site.SiteStatusID equals siteStatus.ID
                                  join spp in acsEntities.StorePaymentProviders
-                                   on s.StorePaymentProviderID equals spp.ID
+                                   on site.StorePaymentProviderID equals spp.ID
                                  into spp2
                                  from spp3 in spp2.DefaultIfEmpty()
-                                 where s.ID == siteId
-                                   && ss.Status == "Live"
+                                 where 
+                                    site.ID == siteId
+                                    && siteStatus.Status == "Live"
                                  select new
                                  {
-                                     s.ID,
-                                     s.ExternalId,
-                                     s.ExternalSiteName,
-                                     s.StoreConnected,
-                                     s.EstimatedDeliveryTime,
-                                     s.TimeZone,
-                                     s.SiteMenus,
-                                     s.Address,
-                                     s.OpeningHours,
-                                     s.Telephone,
+                                     site.ID,
+                                     site.ExternalId,
+                                     site.ExternalSiteName,
+                                     site.StoreConnected,
+                                     site.EstimatedDeliveryTime,
+                                     site.TimeZone,
+                                     site.SiteMenus,
+                                     site.Address,
+                                     site.OpeningHours,
+                                     site.Telephone,
                                      ProviderName = (spp3 == null ? "" : spp3.ProviderName),
                                      ClientId = (spp3 == null ? "" : spp3.ClientId),
                                      ClientPassword = (spp3 == null ? "" : spp3.ClientPassword)

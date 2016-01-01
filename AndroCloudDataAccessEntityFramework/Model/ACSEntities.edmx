@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ACSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ACSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ACSModelStoreContainer">
           <EntitySet Name="ACSApplication" EntityType="ACSModel.Store.ACSApplication" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ACSApplicationSite" EntityType="ACSModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
@@ -29,7 +29,46 @@
           <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteStatuses" EntityType="ACSModel.Store.SiteStatuses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StorePaymentProvider" EntityType="ACSModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="sysdiagrams" EntityType="ACSModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="address_vw" EntityType="ACSModel.Store.address_vw" store:Type="Views" store:Schema="dbo" store:Name="address_vw">
+            <DefiningQuery>SELECT 
+      [address_vw].[ID] AS [ID], 
+      [address_vw].[Org1] AS [Org1], 
+      [address_vw].[Org2] AS [Org2], 
+      [address_vw].[Org3] AS [Org3], 
+      [address_vw].[Prem1] AS [Prem1], 
+      [address_vw].[Prem2] AS [Prem2], 
+      [address_vw].[Prem3] AS [Prem3], 
+      [address_vw].[Prem4] AS [Prem4], 
+      [address_vw].[Prem5] AS [Prem5], 
+      [address_vw].[Prem6] AS [Prem6], 
+      [address_vw].[RoadNum] AS [RoadNum], 
+      [address_vw].[RoadName] AS [RoadName], 
+      [address_vw].[Locality] AS [Locality], 
+      [address_vw].[Town] AS [Town], 
+      [address_vw].[County] AS [County], 
+      [address_vw].[State] AS [State], 
+      [address_vw].[PostCode] AS [PostCode], 
+      [address_vw].[DPS] AS [DPS], 
+      [address_vw].[Country] AS [Country], 
+      [address_vw].[Lat] AS [Lat], 
+      [address_vw].[Long] AS [Long]
+      FROM [dbo].[address_vw] AS [address_vw]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="orders_vw" EntityType="ACSModel.Store.orders_vw" store:Type="Views" store:Schema="dbo" store:Name="orders_vw">
+            <DefiningQuery>SELECT 
+      [orders_vw].[TimeStamp] AS [TimeStamp], 
+      [orders_vw].[AndroID] AS [AndroID], 
+      [orders_vw].[ExternalSiteName] AS [ExternalSiteName], 
+      [orders_vw].[RamesesOrderNum] AS [RamesesOrderNum], 
+      [orders_vw].[Description] AS [Description], 
+      [orders_vw].[LastUpdated] AS [LastUpdated], 
+      [orders_vw].[datatype] AS [datatype], 
+      [orders_vw].[Packet] AS [Packet], 
+      [orders_vw].[PartnerOrderID] AS [PartnerOrderID], 
+      [orders_vw].[SiteExternalID] AS [SiteExternalID], 
+      [orders_vw].[Result] AS [Result]
+      FROM [dbo].[orders_vw] AS [orders_vw]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ACSApplication_Partners" Association="ACSModel.Store.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplication" />
@@ -81,6 +120,10 @@
           <AssociationSet Name="FK_SiteHubs_Sites" Association="ACSModel.Store.FK_SiteHubs_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SiteHubs" EntitySet="SiteHubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMenus_Sites" Association="ACSModel.Store.FK_SiteMenus_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="SiteMenus" EntitySet="SiteMenus" />
           </AssociationSet>
           <AssociationSet Name="FK_Sites_Addresses" Association="ACSModel.Store.FK_Sites_Addresses">
             <End Role="Addresses" EntitySet="Addresses" />
@@ -348,15 +391,55 @@
           <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ACS.dbo.address_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="address_vw">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Org1" Type="nvarchar" MaxLength="64" />
+          <Property Name="Org2" Type="nvarchar" MaxLength="64" />
+          <Property Name="Org3" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem1" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem2" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem3" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem4" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem5" Type="nvarchar" MaxLength="64" />
+          <Property Name="Prem6" Type="nvarchar" MaxLength="64" />
+          <Property Name="RoadNum" Type="nvarchar" MaxLength="16" />
+          <Property Name="RoadName" Type="nvarchar" MaxLength="64" />
+          <Property Name="Locality" Type="nvarchar" MaxLength="64" />
+          <Property Name="Town" Type="nvarchar" MaxLength="64" />
+          <Property Name="County" Type="nvarchar" MaxLength="64" />
+          <Property Name="State" Type="nvarchar" MaxLength="64" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="16" />
+          <Property Name="DPS" Type="nvarchar" MaxLength="4" />
+          <Property Name="Country" Type="nvarchar" MaxLength="64" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Long" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ACS.dbo.orders_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="orders_vw">
+          <Key>
+            <PropertyRef Name="AndroID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Result" />
+          </Key>
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="AndroID" Type="int" Nullable="false" />
+          <Property Name="ExternalSiteName" Type="nvarchar" MaxLength="64" />
+          <Property Name="RamesesOrderNum" Type="int" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="datatype" Type="nvarchar" MaxLength="8" />
+          <Property Name="Packet" Type="text" />
+          <Property Name="PartnerOrderID" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteExternalID" Type="nvarchar" MaxLength="64" />
+          <Property Name="Result" Type="nvarchar" Nullable="false" MaxLength="64" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partners">
           <End Role="Partners" Type="ACSModel.Store.Partners" Multiplicity="1" />
@@ -516,6 +599,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SiteMenus_Sites">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
+          <End Role="SiteMenus" Type="ACSModel.Store.SiteMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteMenus">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sites_Addresses">
           <End Role="Addresses" Type="ACSModel.Store.Addresses" Multiplicity="0..1" />
           <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="*" />
@@ -552,12 +647,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Function Name="OrdersThisMonth" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AndroID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="OrdersThisWeek" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AndroID" Type="int" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ACSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ACSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACSApplications" EntityType="ACSModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="ACSModel.ACSApplicationSite" />
           <EntitySet Name="ACSLogs" EntityType="ACSModel.ACSLog" />
@@ -576,11 +676,11 @@
           <EntitySet Name="OrderStatus" EntityType="ACSModel.OrderStatu" />
           <EntitySet Name="Partners" EntityType="ACSModel.Partner" />
           <EntitySet Name="Settings" EntityType="ACSModel.Setting" />
-          <EntitySet Name="SiteMenus" EntityType="ACSModel.SiteMenu" />
           <EntitySet Name="Sites" EntityType="ACSModel.Site" />
           <EntitySet Name="SiteStatuses" EntityType="ACSModel.SiteStatus" />
           <EntitySet Name="StorePaymentProviders" EntityType="ACSModel.StorePaymentProvider" />
-          <EntitySet Name="sysdiagrams" EntityType="ACSModel.sysdiagram" />
+          <EntitySet Name="address_vw" EntityType="ACSModel.address_vw" />
+          <EntitySet Name="orders_vw" EntityType="ACSModel.orders_vw" />
           <AssociationSet Name="FK_ACSApplication_Partners" Association="ACSModel.FK_ACSApplication_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
@@ -640,6 +740,11 @@
           <AssociationSet Name="SiteHubs" Association="ACSModel.SiteHubs">
             <End Role="HubHost" EntitySet="HubHosts" />
             <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <EntitySet Name="SiteMenus" EntityType="ACSModel.SiteMenu" />
+          <AssociationSet Name="FK_SiteMenus_Sites" Association="ACSModel.FK_SiteMenus_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -855,17 +960,6 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
         </EntityType>
-        <EntityType Name="SiteMenu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="SiteID" Type="Guid" />
-          <Property Name="Version" Type="Int32" />
-          <Property Name="MenuType" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
-          <Property Name="menuData" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Site">
           <Key>
             <PropertyRef Name="ID" />
@@ -894,6 +988,7 @@
           <NavigationProperty Name="SiteStatus" Relationship="ACSModel.FK_Sites_SiteStatuses" FromRole="Sites" ToRole="SiteStatuses" />
           <NavigationProperty Name="StorePaymentProvider" Relationship="ACSModel.FK_Sites_StorePaymentProvider" FromRole="Sites" ToRole="StorePaymentProvider" />
           <NavigationProperty Name="HubHosts" Relationship="ACSModel.SiteHubs" FromRole="Sites" ToRole="HubHost" />
+          <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
         </EntityType>
         <EntityType Name="SiteStatus">
           <Key>
@@ -914,15 +1009,49 @@
           <Property Name="ClientPassword" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_StorePaymentProvider" FromRole="StorePaymentProvider" ToRole="Sites" />
         </EntityType>
-        <EntityType Name="sysdiagram">
+        <EntityType Name="address_vw">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Org1" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Org2" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Org3" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem1" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem2" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem3" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem4" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem5" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Prem6" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="RoadNum" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
+          <Property Name="RoadName" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Locality" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Town" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="County" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="PostCode" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
+          <Property Name="DPS" Type="String" MaxLength="4" Unicode="true" FixedLength="false" />
+          <Property Name="Country" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Long" Type="Double" />
+        </EntityType>
+        <EntityType Name="orders_vw">
+          <Key>
+            <PropertyRef Name="AndroID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="Result" />
+          </Key>
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="AndroID" Type="Int32" Nullable="false" />
+          <Property Name="ExternalSiteName" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="RamesesOrderNum" Type="Int32" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="datatype" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Packet" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="PartnerOrderID" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SiteExternalID" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Result" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partners">
           <End Role="Partners" Type="ACSModel.Partner" Multiplicity="1" />
@@ -1096,12 +1225,36 @@
           <End Role="HubHost" Type="ACSModel.HubHost" Multiplicity="*" />
           <End Role="Sites" Type="ACSModel.Site" Multiplicity="*" />
         </Association>
+        <EntityType Name="SiteMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="SiteID" />
+          <Property Type="Int32" Name="Version" />
+          <Property Type="String" Name="MenuType" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="menuData" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LastUpdated" Precision="3" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="SiteMenu" ToRole="Site" />
+        </EntityType>
+        <Association Name="FK_SiteMenus_Sites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="0..1" />
+          <End Type="ACSModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ACSModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ACSModelStoreContainer" CdmEntityContainer="ACSEntities">
           <EntitySetMapping Name="ACSApplications">
             <EntityTypeMapping TypeName="ACSModel.ACSApplication">
               <MappingFragment StoreEntitySet="ACSApplication">
@@ -1313,18 +1466,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SiteMenus">
-            <EntityTypeMapping TypeName="ACSModel.SiteMenu">
-              <MappingFragment StoreEntitySet="SiteMenus">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-                <ScalarProperty Name="menuData" ColumnName="menuData" />
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ACSModel.Site">
               <MappingFragment StoreEntitySet="Sites">
@@ -1366,14 +1507,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ACSModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+          <EntitySetMapping Name="address_vw">
+            <EntityTypeMapping TypeName="ACSModel.address_vw">
+              <MappingFragment StoreEntitySet="address_vw">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Org1" ColumnName="Org1" />
+                <ScalarProperty Name="Org2" ColumnName="Org2" />
+                <ScalarProperty Name="Org3" ColumnName="Org3" />
+                <ScalarProperty Name="Prem1" ColumnName="Prem1" />
+                <ScalarProperty Name="Prem2" ColumnName="Prem2" />
+                <ScalarProperty Name="Prem3" ColumnName="Prem3" />
+                <ScalarProperty Name="Prem4" ColumnName="Prem4" />
+                <ScalarProperty Name="Prem5" ColumnName="Prem5" />
+                <ScalarProperty Name="Prem6" ColumnName="Prem6" />
+                <ScalarProperty Name="RoadNum" ColumnName="RoadNum" />
+                <ScalarProperty Name="RoadName" ColumnName="RoadName" />
+                <ScalarProperty Name="Locality" ColumnName="Locality" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="DPS" ColumnName="DPS" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders_vw">
+            <EntityTypeMapping TypeName="ACSModel.orders_vw">
+              <MappingFragment StoreEntitySet="orders_vw">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="AndroID" ColumnName="AndroID" />
+                <ScalarProperty Name="ExternalSiteName" ColumnName="ExternalSiteName" />
+                <ScalarProperty Name="RamesesOrderNum" ColumnName="RamesesOrderNum" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="datatype" ColumnName="datatype" />
+                <ScalarProperty Name="Packet" ColumnName="Packet" />
+                <ScalarProperty Name="PartnerOrderID" ColumnName="PartnerOrderID" />
+                <ScalarProperty Name="SiteExternalID" ColumnName="SiteExternalID" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1385,6 +1559,18 @@
               <ScalarProperty Name="ID" ColumnName="SiteId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="SiteMenus">
+            <EntityTypeMapping TypeName="ACSModel.SiteMenu">
+              <MappingFragment StoreEntitySet="SiteMenus">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="menuData" ColumnName="menuData" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
