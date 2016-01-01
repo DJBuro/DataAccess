@@ -36,6 +36,10 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
             this.LastUpdatedUtc = DateTime.UtcNow;
             this.Analytics = new Analytics();
+            
+            this.CustomThemeSettings = new CustomThemeSettings();
+            this.CustomThemeSettings.DefaultCustomThemeSettings();
+
         }
 
         public int WebSiteId { get; set; }
@@ -85,6 +89,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public DateTime LastUpdatedUtc { get; set; }
 
         public Analytics Analytics { set; get; }
+
+        public CustomThemeSettings CustomThemeSettings { set; get; }
 
         public static string SerializeJson(Object obj)
         {
