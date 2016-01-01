@@ -65,17 +65,21 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return results;
         }
 
-        public void AddRange(int applicationId, IEnumerable<Guid> selectServerListIds)
+        public void AddCompleteRange(int applicationId, IEnumerable<Guid> selectServerListIds)
         {
             var idCollection = selectServerListIds.ToArray();
+            
             using (var dbContext = new AndroAdminEntities())
             {
                 var applications = dbContext.ACSApplications;
                 var hostListTable = dbContext.HostV2;
 
                 var application = applications.SingleOrDefault(e => e.Id == applicationId);
-                var serversQuery = hostListTable.Where(e => idCollection.Contains(e.Id)).ToArray();
 
+                var previousConnectedIds = application.HostV2.ToArray();
+                var serversQueryResults = hostListTable.Where(e => idCollection.Contains(e.Id)).ToArray();
+
+                var newDataVersion = dbContext.GetNextDataVersionForEntity();
                 if (application.HostV2 == null)
                 {
                     application.HostV2 = new List<HostV2>();
@@ -83,9 +87,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 application.HostV2.Clear();
 
-                foreach (var server in serversQuery)
+                foreach (var server in serversQueryResults)
                 {
+                    server.DataVersion = newDataVersion;
                     application.HostV2.Add(server);
+                }
+
+                var updateRemovedHosts = previousConnectedIds.Where(e => serversQueryResults.Any(server => server.Id == e.Id));
+                foreach (var server in updateRemovedHosts)
+                {
+                    server.DataVersion = newDataVersion;
                 }
 
                 dbContext.SaveChanges();

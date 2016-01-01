@@ -203,6 +203,7 @@
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\HostTypesDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\HostV2DataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HostV2ForApplicationDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HostV2ForStoreDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />

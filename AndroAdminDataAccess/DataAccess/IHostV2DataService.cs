@@ -41,6 +41,12 @@ namespace AndroAdminDataAccess.DataAccess
         /// <returns></returns>
         IEnumerable<T> List<T>(Expression<Func<HostV2, bool>> query, Func<HostV2, T> transformation);
 
+        /// <summary>
+        /// Lists the deleted.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        IEnumerable<HostV2> ListDeleted(Expression<Func<HostV2, bool>> query = null);
 
         /// <summary>
         /// Destroys the specified model.

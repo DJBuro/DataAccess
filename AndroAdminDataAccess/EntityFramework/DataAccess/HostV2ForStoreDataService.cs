@@ -3,6 +3,7 @@ using AndroAdminDataAccess.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -63,24 +64,40 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return results;
         }
 
-        public void AddRange(int storeId, IEnumerable<Guid> selectServerListIds)
+        public void AddCompleteRange(int storeId, IEnumerable<Guid> selectServerListIds)
         {
             var idCollection = selectServerListIds.ToArray();
+
             using (var dbContext = new AndroAdminEntities()) 
             {
                 var storeTable = dbContext.Stores;
-                var hostListTable = dbContext.HostV2;
+                var hostListEntities = dbContext.HostV2.ToArray();
 
                 var store = storeTable.SingleOrDefault(e => e.Id == storeId);
-                var serversQuery = hostListTable.Where(e=> idCollection.Contains(e.Id)).ToArray();
 
                 if (store.HostV2 == null) { store.HostV2 = new List<HostV2>(); }
 
+                var previousConnectedIds = store.HostV2.ToArray();
+
+                var serversQuery = hostListEntities.Where(e => idCollection.Contains(e.Id)).ToArray();
+                var updateRemovedHosts = hostListEntities.Where(e => previousConnectedIds.Any(previousHost => previousHost.Id == e.Id)).ToArray();
+                    //previousConnectedIds.Where(e => serversQuery.Any(server => server.Id == e.Id)).ToArray();
+
+                var dataVersion = dbContext.GetNextDataVersionForEntity();
+                
                 store.HostV2.Clear();
+                dbContext.SaveChanges();
 
                 foreach (var server in serversQuery) 
                 {
+                    server.DataVersion = dataVersion;
+
                     store.HostV2.Add(server);
+                }
+                
+                foreach (var server in updateRemovedHosts) 
+                {
+                    server.DataVersion = dataVersion;
                 }
 
                 dbContext.SaveChanges();
@@ -91,13 +108,20 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (var dbContext = new AndroAdminEntities())
             {
-                var storeTable = dbContext.Stores;
-                var hostListTable = dbContext.HostV2;
-
+                var storeTable = dbContext.Stores.Include(e=> e.HostV2);
+                //var hostListTable = dbContext.HostV2.ToArray();
+                
                 var store = storeTable.SingleOrDefault(e => e.Id == storeId);
+                var storeHubs = store.HostV2.ToArray();
 
                 if (store.HostV2 == null) { store.HostV2 = new List<HostV2>(); }
                 store.HostV2.Clear();
+
+                var nextDataVersion = dbContext.GetNextDataVersionForEntity();
+                foreach (var host in storeHubs) 
+                {
+                    host.DataVersion = nextDataVersion;
+                }
 
                 dbContext.SaveChanges();
             }
