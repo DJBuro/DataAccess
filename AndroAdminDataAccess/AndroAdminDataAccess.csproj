@@ -211,6 +211,7 @@
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\DeliveryAreaDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\ExternalApiDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\IExternalApiDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />

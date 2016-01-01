@@ -75,12 +75,37 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     this.SyncStoreDevices(acsEntities, syncModel.StoreDeviceModels);
 
+                    this.SyncDeliveryAreas(acsEntities, syncModel.DeliveryAreas);
+
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
         }
+
+        private void SyncDeliveryAreas(ACSEntities acsEntities, IList<CloudSyncModel.DeliveryArea> deliveryAreas)
+        {            
+            foreach (CloudSyncModel.DeliveryArea delArea in deliveryAreas)
+            {
+                var siteId = acsEntities.Sites.Where(s => s.ExternalId == delArea.Store.ExternalSiteId).FirstOrDefault();
+                var acsDeliveryArea = acsEntities.DeliveryAreas.Where(e => e.DeliveryArea1 == delArea.DeliveryArea1 && e.SiteId == siteId.ID).FirstOrDefault();
+                if (delArea.Removed && acsDeliveryArea != null)
+                {
+                    acsEntities.DeliveryAreas.Remove(acsDeliveryArea);
+                }
+                else if (acsDeliveryArea == null && delArea.Removed == false)
+                {
+                    var site = acsEntities.Sites.Where(s => s.ExternalId == delArea.Store.ExternalSiteId).FirstOrDefault();
+                    if (site != null)
+                    {
+                        acsEntities.DeliveryAreas.Add(new AndroCloudDataAccessEntityFramework.Model.DeliveryArea { DeliveryArea1 = delArea.DeliveryArea1, SiteId = site.ID, Id = Guid.NewGuid() });
+                    }
+                }               
+            }
+            acsEntities.SaveChanges();
+        }
+
 
         private void SyncStoreDevices(ACSEntities acsEntities, StoreDevicesModels storeDeviceModels)
         {
@@ -318,13 +343,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 ConnectionStringOverride = this.ConnectionStringOverride
             };
 
-            foreach (var updateMenuAction in menuUpdates.MenuChanges) 
+            foreach (var updateMenuAction in menuUpdates.MenuChanges)
             {
                 var site = acsEntities.Sites.Single(e => e.AndroID == updateMenuAction.AndromediaSiteId);
                 var menus = site.SiteMenus.ToArray();
 
-                if (updateMenuAction.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase) && 
-                    !string.IsNullOrWhiteSpace(updateMenuAction.Data)) 
+                if (updateMenuAction.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(updateMenuAction.Data))
                 {
                     var xmlMenuEntity = menus
                         .Where(e => e.MenuType.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
@@ -334,11 +359,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     xmlMenuEntity.menuData = updateMenuAction.Data;
                     xmlMenuEntity.LastUpdated = DateTime.UtcNow;
-                    xmlMenuEntity.Version +=1;
+                    xmlMenuEntity.Version += 1;
                 }
 
-                if (updateMenuAction.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase) && 
-                    !string.IsNullOrWhiteSpace(updateMenuAction.Data)) 
+                if (updateMenuAction.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(updateMenuAction.Data))
                 {
                     var jsonMenuEntity = menus
                         .Where(e => e.MenuType.Equals("json", StringComparison.InvariantCultureIgnoreCase))
