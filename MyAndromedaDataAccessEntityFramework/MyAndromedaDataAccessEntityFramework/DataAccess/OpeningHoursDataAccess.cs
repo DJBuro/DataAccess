@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
-using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
-using AndroCloudHelper;
-using MyAndromedaDataAccessEntityFramework.Model;
 using MyAndromedaDataAccess.Domain;
-using MyAndromedaDataAccessEntityFramework.DataAccess;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -21,7 +16,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// <returns></returns>
         public string DeleteById(int siteId, int openingHoursId)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // We have to be careful to join on site here.  We've already verified that the user is allowed to access the site but
                 // the openingHoursId could be forged to access the opeing hours of another store.  By joining on the store id we
@@ -33,7 +28,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                          && oh.Id == openingHoursId
                                        select oh;
 
-                MyAndromedaDataAccessEntityFramework.Model.OpeningHour entity = query.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.OpeningHour entity = query.FirstOrDefault();
 
                 if (entity != null)
                 {
@@ -53,7 +48,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// <returns></returns>
         public string DeleteBySiteIdDay(int siteId, string day)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // We have to be careful to join on site here.  We've already verified that the user is allowed to access the site but
                 // the openingHoursId could be forged to access the opening hours of another store.  By joining on the store id we
@@ -99,14 +94,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// <returns></returns>
         public string Add(int siteId, TimeSpanBlock timeSpanBlock)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Get the store
                 var storeQuery = from s in entitiesContext.Stores
                                            where s.Id == siteId
                                            select s;
 
-                MyAndromedaDataAccessEntityFramework.Model.Store storeEntity = storeQuery.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store storeEntity = storeQuery.FirstOrDefault();
 
                 if (storeEntity == null)
                 {
@@ -118,7 +113,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                       where d.Description == timeSpanBlock.Day
                                       select d;
 
-                MyAndromedaDataAccessEntityFramework.Model.Day dayEntity = daysQuery.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Day dayEntity = daysQuery.FirstOrDefault();
 
                 if (dayEntity == null)
                 {
@@ -138,7 +133,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
 
                 // Create an object we can add
-                MyAndromedaDataAccessEntityFramework.Model.OpeningHour openingHour = new MyAndromedaDataAccessEntityFramework.Model.OpeningHour();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.OpeningHour openingHour = new MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.OpeningHour();
                 openingHour.Day = dayEntity;
                 openingHour.OpenAllDay = timeSpanBlock.OpenAllDay;
                 openingHour.SiteId = storeEntity.Id;

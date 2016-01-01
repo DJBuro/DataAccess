@@ -1,6 +1,6 @@
-﻿using MyAndromedaDataAccess.Domain.Marketing;
-using System;
+﻿using System;
 using System.Linq;
+using MyAndromedaDataAccess.Domain.Marketing;
 using Domain = MyAndromedaDataAccess.Domain.Marketing;
 
 namespace MyAndromedaDataAccessEntityFramework
@@ -12,7 +12,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.Customer ToDomainModel(this Model.CustomerRecord entity)
+        public static Domain.Customer ToDomainModel(this Model.CustomerDataWarehouse.CustomerRecord entity)
         {
             var model = new Domain.Customer()
             {
@@ -20,7 +20,8 @@ namespace MyAndromedaDataAccessEntityFramework
                 FirstName = entity.FirstName,
                 Surname = entity.Surname,
                 Title = entity.Title,
-                Email = entity.Email
+                ContactDetails = entity.Contacts.Select(e=> new Domain.Contact(){  ContactType = e.ContactTypeId, Value= e.Value  }).ToList()
+                //Email = entity.Contacts.Where(e=> e.ContactTypeId == MyAndromedaDataAccess.Domain.DataWarehouse.ContactType.Email)
             };
 
             return model;
@@ -31,7 +32,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.EmailCampaign ToDomainModel(this Model.EmailCampaign entity)
+        public static Domain.EmailCampaign ToDomainModel(this Model.MyAndro.EmailCampaign entity)
         {
             var model = new MyAndromedaDataAccess.Domain.Marketing.EmailCampaign()
             {
@@ -60,7 +61,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="domainModel">The domain model.</param>
-        public static void Update(this Model.EmailCampaign entity, Domain.EmailCampaign domainModel)
+        public static void Update(this Model.MyAndro.EmailCampaign entity, Domain.EmailCampaign domainModel)
         {
             if (entity.Created == default(DateTime))
             {
@@ -89,7 +90,7 @@ namespace MyAndromedaDataAccessEntityFramework
             foreach (var id in addLinks)
             {
                 //add in new linked records.
-                entity.EmailCampaignSites.Add(new Model.EmailCampaignSite()
+                entity.EmailCampaignSites.Add(new Model.MyAndro.EmailCampaignSite()
                 {
                     SiteId = id.SiteId,
                     Editable = id.Editable
@@ -106,7 +107,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.EmailSettings ToDomainModel(this Model.EmailCampaignSetting entity)
+        public static Domain.EmailSettings ToDomainModel(this Model.MyAndro.EmailCampaignSetting entity)
         {
             return new EmailSettings()
             {
@@ -128,7 +129,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="domainModel">The domain model.</param>
-        public static void Update(this Model.EmailCampaignSetting entity, Domain.EmailSettings domainModel)
+        public static void Update(this Model.MyAndro.EmailCampaignSetting entity, Domain.EmailSettings domainModel)
         {
             entity.UserName = domainModel.UserName;
             entity.SSL = domainModel.SSL;
@@ -146,7 +147,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.EmailCampaignTask ToDomainModel(this Model.EmailCampaignTask entity)
+        public static Domain.EmailCampaignTask ToDomainModel(this Model.MyAndro.EmailCampaignTask entity)
         {
             return new EmailCampaignTask()
             {
@@ -167,7 +168,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static void Update(this Model.EmailCampaignTask entity, Domain.EmailCampaignTask domainModel)
+        public static void Update(this Model.MyAndro.EmailCampaignTask entity, Domain.EmailCampaignTask domainModel)
         {
             entity.Completed = domainModel.Completed;
             entity.Canceled = domainModel.Canceled;

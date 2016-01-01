@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MyAndromedaDataAccess.Domain.Marketing;
 using MyAndromedaDataAccess.Domain.Reporting.Query;
 using MyAndromedaDataAccess.Domain.Reporting;
@@ -18,8 +17,25 @@ namespace MyAndromedaDataAccess.DataAccess
         /// <returns></returns>
         CustomersOverview GetOverview(int siteId, FilterQuery filter);
 
-        IEnumerable<Customer> ListByChain(int p);
+        /// <summary>
+        /// Lists the by chain.
+        /// </summary>
+        /// <param name="chainId">The chain id.</param>
+        /// <returns></returns>
+        IEnumerable<Customer> ListByChain(int chainId);
 
-        IEnumerable<Customer> ListBySite(int p1, int p2);
+        /// <summary>
+        /// Lists the by site.
+        /// </summary>
+        /// <param name="siteId">The site id.</param>
+        /// <returns></returns>
+        IEnumerable<Customer> ListBySite(int siteId);
+
+        /// <summary>
+        /// Lists the by application id.
+        /// </summary>
+        /// <param name="acsApplicationId">The acs application id.</param>
+        /// <returns></returns>
+        IEnumerable<Customer> ListByAcsApplicationId(int acsApplicationId);
     }
 }

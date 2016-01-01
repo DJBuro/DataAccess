@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using System.Collections.Generic;
-using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
-using AndroCloudHelper;
-using MyAndromedaDataAccessEntityFramework.Comparer;
-using MyAndromedaDataAccessEntityFramework.Model;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -16,13 +11,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         public string GetById(int siteId, out MyAndromedaDataAccess.Domain.Site site)
         {
             site = null;
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Stores
                                  where s.Id == siteId
                                  select s;
 
-                MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
+                Store entity = query.FirstOrDefault();
 
                 if (entity != null)
                 {
@@ -45,7 +40,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetSiteCountByAndromedaUserId(int myAndromedaUserId, out int total) 
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities()) 
+            using (var entitiesContext = new AndroAdminDbContext()) 
             {
                 var count = entitiesContext.MyAndromedaUserGroups.Where(e => e.MyAndromedaUserId == myAndromedaUserId).Count();
 
@@ -61,7 +56,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             //sites = new List<MyAndromedaDataAccess.Domain.Site>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // A user can be associated with zero or more groups of stores.
                 // The user has permission to access any of the stores in these groups.

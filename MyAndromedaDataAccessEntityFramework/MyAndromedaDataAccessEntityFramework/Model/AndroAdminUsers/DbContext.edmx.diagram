@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="40fa9d5292d847439a08c676c60db30b" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="AndroUsersModel.Permission" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroup" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupPermission" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupUser" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.AndroUser" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.AndroUserPermission" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroUsersModel.Project" Width="1.5" PointX="3.125" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_Permission" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_AndroUser" ManuallyRouted="false" />
+        <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_Project" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

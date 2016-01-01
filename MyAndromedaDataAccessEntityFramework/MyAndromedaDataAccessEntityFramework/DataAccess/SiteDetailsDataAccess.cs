@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using System.Collections.Generic;
-using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
-using AndroCloudHelper;
-using MyAndromedaDataAccessEntityFramework.Model;
 using MyAndromedaDataAccess.Domain;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -17,13 +13,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             siteDetails = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Stores
                                where s.Id == siteId
                                select s;
 
-                MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.FirstOrDefault();
 
                 if (entity != null)
                 {
@@ -42,7 +38,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     // Address
                     if (entity.Address != null)
                     {
-                        MyAndromedaDataAccessEntityFramework.Model.Address addressEntity = entity.Address;
+                        MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Address addressEntity = entity.Address;
 
                         siteDetails.Address = new MyAndromedaDataAccess.Domain.Address();
                         siteDetails.Address.CountryId = addressEntity.Country.Id;
@@ -98,13 +94,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Update(int siteId, SiteDetails siteDetails)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Stores
                                where s.Id == siteId
                                select s;
 
-                MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.FirstOrDefault();
 
                 entity.ClientSiteName = siteDetails.ClientSiteName;
                 entity.ExternalSiteName = siteDetails.ExternalSiteName;

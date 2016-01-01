@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
-using AndroCloudWCFHelper;
 using MyAndromedaDataAccess.DataAccess;
-using AndroCloudHelper;
-using MyAndromedaDataAccessEntityFramework.Model;
 using System.Collections.Generic;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -16,18 +12,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             employees = new List<MyAndromedaDataAccess.Domain.Employee>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Check that the myAndromeda user is allowed to access this site
                 var query = from e in entitiesContext.Employees
                                        where e.SiteId == siteId
                                        select e;
 
-                List<MyAndromedaDataAccessEntityFramework.Model.Employee> entity = query.ToList();
+                List<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee> entity = query.ToList();
 
                 if (entity != null)
                 {
-                    foreach (MyAndromedaDataAccessEntityFramework.Model.Employee employeeEntity in entity)
+                    foreach (MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee employeeEntity in entity)
                     {
                         MyAndromedaDataAccess.Domain.Employee employee = new MyAndromedaDataAccess.Domain.Employee();
 
@@ -47,7 +43,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string DeleteById(int siteId, int employeeId)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Get the employee to be deleted
                 var query = from e in entitiesContext.Employees
@@ -57,7 +53,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                          && s.Id == siteId
                                        select e;
 
-                MyAndromedaDataAccessEntityFramework.Model.Employee entity = query.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee entity = query.FirstOrDefault();
 
                 if (entity != null)
                 {
@@ -71,10 +67,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Add(int siteId, MyAndromedaDataAccess.Domain.Employee employee)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Create an object we can add
-                MyAndromedaDataAccessEntityFramework.Model.Employee entity = new MyAndromedaDataAccessEntityFramework.Model.Employee();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee entity = new MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Employee();
 
                 entity.Firstname = employee.Firstname;
                 entity.Surname = employee.Surname;

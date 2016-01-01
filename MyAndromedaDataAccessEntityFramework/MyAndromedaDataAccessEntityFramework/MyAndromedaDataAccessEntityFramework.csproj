@@ -37,8 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\WebSites\MyAndromeda\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\WebSites\MyAndromeda\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -65,176 +66,289 @@
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
-    <Compile Include="Model\ACSApplication.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\AndroUser.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\ACSApplicationSite.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\AndroUserPermission.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Address.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AMSServer.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin.Context.cs">
+    <Compile Include="Model\AndroAdminUsers\DbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdmin.Context.tt</DependentUpon>
+      <DependentUpon>DbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin.cs">
+    <Compile Include="Model\AndroAdminUsers\DbContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin.Designer.cs">
+    <Compile Include="Model\AndroAdminUsers\DbContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+      <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\Country.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\Permission.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\CustomerRecord.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\Project.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Day.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\SecurityGroup.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaign.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\SecurityGroupPermission.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaignAudit.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdminUsers\SecurityGroupUser.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaignSentEmail.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdmin\ACSApplication.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaignSetting.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdmin\ACSApplicationSite.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaignSite.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdmin\Address.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmailCampaignTask.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\AndroAdmin\AMSServer.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Employee.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\AndroAdmin\AMSServerChain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Chain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\ChainChain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Country.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Day.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\DbContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\DbContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\DbContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Employee.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\FTPSite.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\FTPSiteChain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\FTPSiteType.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Group.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Host.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Log.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\MyAndromedaUser.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\MyAndromedaUserGroup.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\MyAndromedaUserStore.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\OpeningHour.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Partner.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Setting.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\Store.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreAMSServer.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreAMSServerFtpSite.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreGroup.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreMenu.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StorePaymentProvider.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreStatu.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\sysdiagram.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ExpressionRewriter.cs" />
-    <Compile Include="Model\FTPSite.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\CustomerDataWarehouse\AccountType.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\FTPSiteType.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\CustomerDataWarehouse\AddressRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Group.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\CustomerDataWarehouse\ContactRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Host.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\CustomerDataWarehouse\CountryRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Log.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\CustomerDataWarehouse\CustomerRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda.Context.cs">
+    <Compile Include="Model\CustomerDataWarehouse\DbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyAndromeda.Context.tt</DependentUpon>
+      <DependentUpon>DbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda.cs">
+    <Compile Include="Model\CustomerDataWarehouse\DbContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda.Designer.cs">
+    <Compile Include="Model\CustomerDataWarehouse\DbContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyAndromeda.edmx</DependentUpon>
+      <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromedaUser.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\CustomerRecord.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromedaUserGroup.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\DbContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromedaUserStore.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\DbContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\OpeningHour.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\DbContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\Partner.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaign.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Setting.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaignAudit.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Store.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaignSentEmail.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StoreAMSServer.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaignSetting.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StoreAMSServerFtpSite.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaignSite.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StoreGroup.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\StoreMenu.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\StorePaymentProvider.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\StoreStatu.cs">
-      <DependentUpon>AndroAdmin.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    <Compile Include="Model\MyAndro\EmailCampaignTask.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModelUpdateExtensions.cs" />
+    <Compile Include="QueryExtensions\AndroAdminExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Model\AndroAdmin.edmx">
+    <EntityDeploy Include="Model\AndroAdminUsers\DbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AndroAdmin.Designer.cs</LastGenOutput>
+      <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\AndroAdmin.Context.tt">
+    <None Include="Model\AndroAdminUsers\DbContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AndroAdmin.edmx</DependentUpon>
-      <LastGenOutput>AndroAdmin.Context.cs</LastGenOutput>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.Context.cs</LastGenOutput>
     </None>
-    <None Include="Model\AndroAdmin.edmx.diagram">
-      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+    <None Include="Model\AndroAdminUsers\DbContext.edmx.diagram">
+      <DependentUpon>DbContext.edmx</DependentUpon>
     </None>
-    <None Include="Model\AndroAdmin.tt">
+    <None Include="Model\AndroAdminUsers\DbContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AndroAdmin.edmx</DependentUpon>
-      <LastGenOutput>AndroAdmin.cs</LastGenOutput>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
-    <EntityDeploy Include="Model\MyAndromeda.edmx">
+    <EntityDeploy Include="Model\AndroAdmin\DbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MyAndromeda.Designer.cs</LastGenOutput>
+      <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\MyAndromeda.Context.tt">
+    <None Include="Model\AndroAdmin\DbContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MyAndromeda.edmx</DependentUpon>
-      <LastGenOutput>MyAndromeda.Context.cs</LastGenOutput>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.Context.cs</LastGenOutput>
     </None>
-    <None Include="Model\MyAndromeda.edmx.diagram">
-      <DependentUpon>MyAndromeda.edmx</DependentUpon>
+    <None Include="Model\AndroAdmin\DbContext.edmx.diagram">
+      <DependentUpon>DbContext.edmx</DependentUpon>
     </None>
-    <None Include="Model\MyAndromeda.tt">
+    <None Include="Model\AndroAdmin\DbContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MyAndromeda.edmx</DependentUpon>
-      <LastGenOutput>MyAndromeda.cs</LastGenOutput>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="Model\MyAndro\DbContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Model\CustomerDataWarehouse\DbContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\CustomerDataWarehouse\DbContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model\CustomerDataWarehouse\DbContext.edmx.diagram">
+      <DependentUpon>DbContext.edmx</DependentUpon>
+    </None>
+    <None Include="Model\CustomerDataWarehouse\DbContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.cs</LastGenOutput>
+    </None>
+    <None Include="Model\MyAndro\DbContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model\MyAndro\DbContext.edmx.diagram">
+      <DependentUpon>DbContext.edmx</DependentUpon>
+    </None>
+    <None Include="Model\MyAndro\DbContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbContext.edmx</DependentUpon>
+      <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
