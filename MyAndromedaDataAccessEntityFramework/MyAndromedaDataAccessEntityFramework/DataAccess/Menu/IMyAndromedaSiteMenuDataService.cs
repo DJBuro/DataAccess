@@ -69,6 +69,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <param name="value">The value.</param>
         void SetDownloadTask(SiteMenu siteMenu, TaskStatus status);
 
+        void CreateUploadMenuDataTask(SiteMenu menu);
+        void SetUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status);
     }
 
 

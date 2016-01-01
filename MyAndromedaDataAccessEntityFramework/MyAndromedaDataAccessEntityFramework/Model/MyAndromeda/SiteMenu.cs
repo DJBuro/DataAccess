@@ -31,10 +31,10 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public Nullable<int> SiteMenuFtpBackupUploadTaskId { get; set; }
     
         public virtual ICollection<MenuItem> MenuItems { get; set; }
-        public virtual SiteMenuFtpBackupDownloadTask SiteMenuFtpBackupDownloadTask { get; set; }
-        public virtual SiteMenuFtpBackupUploadTask SiteMenuFtpBackupUploadTask { get; set; }
         public virtual SiteMenuMediaProfile SiteMenuMediaProfile { get; set; }
         public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
         public virtual ICollection<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
+        public virtual SiteMenuFtpBackupDownloadTask SiteMenuFtpBackupDownloadTask { get; set; }
+        public virtual SiteMenuFtpBackupUploadTask SiteMenuFtpBackupUploadTask { get; set; }
     }
 }

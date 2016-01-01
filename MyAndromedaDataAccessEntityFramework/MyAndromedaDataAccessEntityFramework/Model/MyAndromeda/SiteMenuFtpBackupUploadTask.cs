@@ -25,7 +25,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public bool TaskComplete { get; set; }
         public Nullable<System.DateTime> LastTriedUtc { get; set; }
         public int LastTryCount { get; set; }
-        public Nullable<System.DateTime> LastCompleted { get; set; }
         public Nullable<System.DateTime> LastStartedUtc { get; set; }
         public Nullable<System.DateTime> LastCompletedUtc { get; set; }
     

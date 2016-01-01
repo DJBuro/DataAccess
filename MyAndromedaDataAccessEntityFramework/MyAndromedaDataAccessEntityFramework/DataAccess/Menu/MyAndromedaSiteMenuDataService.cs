@@ -94,6 +94,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                     {
                         siteMenu.SiteMenuFtpBackupUploadTask.TryTask = true;
                         siteMenu.SiteMenuFtpBackupUploadTask.TaskComplete = false;
+                        siteMenu.SiteMenuFtpBackupUploadTask.LastTryCount = 0;
 
                         break;
                     }
@@ -111,7 +112,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                         siteMenu.SiteMenuFtpBackupUploadTask.TryTask = false;
                         siteMenu.SiteMenuFtpBackupUploadTask.TaskStarted = false;
                         siteMenu.SiteMenuFtpBackupUploadTask.TaskComplete = true;
-                        siteMenu.SiteMenuFtpBackupUploadTask.LastCompleted = DateTime.UtcNow;
+                        siteMenu.SiteMenuFtpBackupUploadTask.LastCompletedUtc = DateTime.UtcNow;
 
                         break;
                     }
@@ -136,7 +137,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 case TaskStatus.Created: 
                 {
+                    siteMenu.SiteMenuFtpBackupDownloadTask.LastTryCount = 0;
                     siteMenu.SiteMenuFtpBackupDownloadTask.TryTask = true;
+                    siteMenu.SiteMenuFtpBackupDownloadTask.TaskCompleted = false;
 
                     break; 
                 }
@@ -153,8 +156,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 {
                     siteMenu.SiteMenuFtpBackupDownloadTask.TryTask = false;
                     siteMenu.SiteMenuFtpBackupDownloadTask.TaskStarted = false;
-
-                    siteMenu.SiteMenuFtpBackupDownloadTask.LastCompleted = DateTime.UtcNow;
+                    siteMenu.SiteMenuFtpBackupDownloadTask.LastCompletedUtc = DateTime.UtcNow;
 
                     break; 
                 }
@@ -239,6 +241,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 var dbItem = dbContext.SiteMenus.Where(e => e.AndromediaId == andromedaSiteId).SingleOrDefault();
 
                 dbItem.AccessMenuVersion = version;
+
+                dbContext.SaveChanges();
             }
         }
 
