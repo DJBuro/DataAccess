@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AndroAdminDataAccess.Domain
 {
-    public class AndroWebOrderingTheme
+    public class ThemeAndroWebOrdering
     {
         public int Id { get; set; }
         public string Source { get; set; }

@@ -17,9 +17,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         public string ConnectionStringOverride { get; set; }
 
 
-        public IList<Domain.AndroWebOrderingTheme> GetAll()
+        public IList<Domain.ThemeAndroWebOrdering> GetAll()
         {
-            List<Domain.AndroWebOrderingTheme> models = new List<Domain.AndroWebOrderingTheme>();
+            List<Domain.ThemeAndroWebOrdering> models = new List<Domain.ThemeAndroWebOrdering>();
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -29,7 +29,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 foreach (var entity in query)
                 {
-                    Domain.AndroWebOrderingTheme model = new Domain.AndroWebOrderingTheme()
+                    Domain.ThemeAndroWebOrdering model = new Domain.ThemeAndroWebOrdering()
                     {
                         Id = entity.Id,
                         Source = entity.Source,
@@ -45,9 +45,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
-        public Domain.AndroWebOrderingTheme GetAndroWebOrderingThemeById(int id)
+        public Domain.ThemeAndroWebOrdering GetAndroWebOrderingThemeById(int id)
         {
-            Domain.AndroWebOrderingTheme model = null;
+            Domain.ThemeAndroWebOrdering model = null;
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -57,7 +57,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    model = new Domain.AndroWebOrderingTheme()
+                    model = new Domain.ThemeAndroWebOrdering()
                     {
                         Id = entity.Id,
                         Source = entity.Source,
@@ -72,7 +72,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return model;
         }
 
-        public void Add(Domain.AndroWebOrderingTheme webOrderingTheme)
+        public void Add(Domain.ThemeAndroWebOrdering webOrderingTheme)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -92,7 +92,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void Update(Domain.AndroWebOrderingTheme webOrderingTheme)
+        public void Update(Domain.ThemeAndroWebOrdering webOrderingTheme)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -113,7 +113,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void Delete(Domain.AndroWebOrderingTheme webOrderingTheme)
+        public void Delete(Domain.ThemeAndroWebOrdering webOrderingTheme)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
