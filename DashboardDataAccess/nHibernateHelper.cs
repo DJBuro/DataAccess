@@ -22,6 +22,8 @@ namespace DashboardDataAccess
               (
                 MsSqlConfiguration.MsSql2008.ConnectionString("Server=.;initial catalog=dashboard;password=D45hb0ardPa55;user=DashboardUser;")
               )
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Log>())
+              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<tbl_Site>())
               .BuildSessionFactory();
         }
     }

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using FluentNHibernate.Mapping;
+using NHibernate;
 
 namespace DashboardDataAccess
 {
-    public class SiteMap : ClassMap<Site>
+    public class tbl_Site : ClassMap<Site>
     {
-        public SiteMap()
+        public tbl_Site()
         {
+            Table("tbl_Site");
             Id(x => x.Id);
             Map(x => x.SiteId);
             Map(x => x.Name);
@@ -42,6 +44,42 @@ namespace DashboardDataAccess
             Map(x => x.Column_20);
             Map(x => x.Comp);
             Map(x => x.Column_21);
+        }
+
+        internal static Site FindBySiteId(int? ramesesId)
+        {
+            Site site = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                const string hql = "select s from Site as s where s.SiteId = :RAMESESID";
+
+                var query = session.CreateQuery(hql);
+
+                query.SetInt32("RAMESESID", ramesesId.Value);
+
+                query.SetCacheable(true);
+
+                IList<Site> sites = query.List<Site>();
+
+                if (sites != null && sites.Count == 1)
+                {
+                    site = sites[0];
+                }
+            }
+
+            return site;
+        }
+
+        internal static void Save(Site site)
+        {
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                ITransaction transaction = session.BeginTransaction();
+                transaction.Begin();
+                session.Update(site);
+                transaction.Commit();
+            }
         }
     }
 }

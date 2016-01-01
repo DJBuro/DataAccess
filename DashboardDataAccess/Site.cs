@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using NHibernate;
 
 namespace DashboardDataAccess
 {
@@ -43,27 +42,12 @@ namespace DashboardDataAccess
 
         public static Site FindBySiteId(int? ramesesId)
         {
-            Site site = null;
+            return tbl_Site.FindBySiteId(ramesesId);
+        }
 
-            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
-            {
-                const string hql = "select s from Site as s where s.SiteId = :RAMESESID";
-
-                var query = session.CreateQuery(hql);
-
-                query.SetInt32("RAMESESID", ramesesId.Value);
-
-                query.SetCacheable(true);
-
-                IList<Site> sites = query.List<Site>();
-
-                if (sites != null && sites.Count == 1)
-                {
-                    site = sites[0];
-                }
-            }
-
-            return site;
+        public static void Save(Site site)
+        {
+            tbl_Site.Save(site);
         }
     }
 }
