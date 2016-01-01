@@ -58,19 +58,45 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.Permissions
-                            join sgp in entitiesContext.SecurityGroupPermissions
-                            on s.Id equals sgp.PermissionId
-                            join sgu in entitiesContext.SecurityGroupUsers
-                            on sgp.SecurityGroupId equals sgu.SecurityGroupId
-                            join u in entitiesContext.tbl_AndroUser
-                            on sgu.UserId equals u.id
-                            where u.EmailAddress == username
-                            select s;
+                // Is the user in the andro admin administrators group?
+                var adminQuery = from u in entitiesContext.tbl_AndroUser
+                                 join sgu in entitiesContext.SecurityGroupUsers
+                                 on u.id equals sgu.UserId
+                                 join sg in entitiesContext.SecurityGroups
+                                 on sgu.SecurityGroupId equals sg.Id
+                                 where u.EmailAddress == username
+                                 && sg.Name == Domain.SecurityGroup.AdministratorSecurityGroup
+                                 select u;
 
-                foreach (var entity in query)
+                // Is this the admin security group?  If so, we need to return ALL permissions
+                if (adminQuery.Count() == 1)
                 {
-                    permissions.Add(entity.Name);
+                    // Get all permissions
+                    var query = from s in entitiesContext.Permissions
+                                           select s;
+
+                    foreach (var entity in query)
+                    {
+                        permissions.Add(entity.Name);
+                    }
+                }
+                else
+                {
+                    // Get the permissions for the security group
+                    var query = from s in entitiesContext.Permissions
+                                join sgp in entitiesContext.SecurityGroupPermissions
+                                on s.Id equals sgp.PermissionId
+                                join sgu in entitiesContext.SecurityGroupUsers
+                                on sgp.SecurityGroupId equals sgu.SecurityGroupId
+                                join u in entitiesContext.tbl_AndroUser
+                                on sgu.UserId equals u.id
+                                where u.EmailAddress == username
+                                select s;
+
+                    foreach (var entity in query)
+                    {
+                        permissions.Add(entity.Name);
+                    }
                 }
             }
 
