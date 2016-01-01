@@ -16,6 +16,7 @@ namespace AndroCloudDataAccess.DataAccess
             float? maxDistance,
             double? longitude,
             double? latitude,
+            string deliveryZoneFilter,
             DataTypeEnum dataType,
             out List<Site> sites);
 
