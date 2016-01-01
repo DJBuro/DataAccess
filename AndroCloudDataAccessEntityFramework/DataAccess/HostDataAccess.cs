@@ -12,6 +12,32 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
+        public string GetPublic(string externalApplicationId, out List<AndroCloudDataAccess.Domain.Host> applicationHostList)
+        {
+            applicationHostList = new List<AndroCloudDataAccess.Domain.Host>();
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var acsQuery = acsEntities.Hosts
+                    .Where(e=> e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                    .OrderBy(e=> e.Order)
+                    .ToArray();
+
+                foreach (Host hostEntity in acsQuery)
+                {
+                    AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
+                    host.Url = hostEntity.HostName;
+                    host.Order = hostEntity.Order;
+
+                    applicationHostList.Add(host);
+                }
+            }
+
+            return "";
+        }
+
         public string GetAllPublic(out List<AndroCloudDataAccess.Domain.Host> hosts)
         {
             hosts = new List<AndroCloudDataAccess.Domain.Host>();
@@ -20,7 +46,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var acsQuery = from h in acsEntities.Hosts
+                var acsQuery = from h in acsEntities.Hosts orderby h.Order
                                select h;
 
                 foreach (Host hostEntity in acsQuery)
@@ -122,6 +148,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             }
 
             return "";
+        }
+
+        public void GetPublicV2(out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
+        {
+            applicationHostList = new List<AndroCloudDataAccess.Domain.HostV2>();
+            // TODO: Implement this method
+            //throw new NotImplementedException();
         }
     }
 }

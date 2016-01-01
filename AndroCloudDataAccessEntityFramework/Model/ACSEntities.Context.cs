@@ -34,11 +34,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
-        public DbSet<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
-        public DbSet<DeliveryAreaRoadRule> DeliveryAreaRoadRules { get; set; }
         public DbSet<DeliveryAreaTown> DeliveryAreaTowns { get; set; }
-        public DbSet<Host> Hosts { get; set; }
-        public DbSet<HostsV2> HostsV2 { get; set; }
         public DbSet<HostType> HostTypes { get; set; }
         public DbSet<HubHost> HubHosts { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
@@ -50,5 +46,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
+        public DbSet<DeliveryAreaRoadRule> DeliveryAreaRoadRules { get; set; }
+        public DbSet<Host> Hosts { get; set; }
+        public DbSet<HostsV2> HostsV2 { get; set; }
+        public DbSet<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
     }
 }
