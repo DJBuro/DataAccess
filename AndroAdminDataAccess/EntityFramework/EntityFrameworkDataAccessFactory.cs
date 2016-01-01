@@ -45,9 +45,21 @@ namespace AndroAdminDataAccess.EntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public IStoreDAO IStoreDAO
+        public IStoreDAO StoreDAO
         {
             get { return new StoreDAO(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public IPartnerDAO PartnerDAO
+        {
+            get { return new PartnerDAO(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public IACSApplicationDAO ACSApplicationDAO
+        {
+            get { return new ACSApplicationDAO(); }
             set { throw new NotImplementedException(); }
         }
     }

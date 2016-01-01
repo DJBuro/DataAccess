@@ -10,7 +10,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
     public class StoreDAO : IStoreDAO
     {
 
-        public IEnumerable<Domain.Store> GetAll()
+        public IList<Domain.Store> GetAll()
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
@@ -165,6 +165,38 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
 
             return store;
+        }
+
+        public IList<Domain.Store> GetByACSApplicationId(int acsApplicationId)
+        {
+            IList<Domain.Store> stores = new List<Domain.Store>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from s in entitiesContext.Stores
+                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            join a in entitiesContext.ACSApplicationSites
+                            on s.Id equals a.SiteId
+                            where a.ACSApplicationId == acsApplicationId
+                            select s;
+
+                foreach (Store entity in query)
+                {
+                    Domain.Store store = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                    };
+
+                    stores.Add(store);
+                }
+            }
+
+            return stores;
         }
     }
 }
