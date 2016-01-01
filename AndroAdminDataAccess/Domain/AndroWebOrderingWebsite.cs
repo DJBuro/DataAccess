@@ -41,5 +41,24 @@ namespace AndroAdminDataAccess.Domain
         public string PreviewSettings { get; set; }
         public string PreviewDomainName { get; set; }
         public int? ThemeId { get; set; }
+
+        public string SelectedTimeZoneId { get; set; }
+        public string SelectedCultureType { get; set; }
+        public IEnumerable<CultureChoiceViewModel> CultureChoices { get; set; }
+        public IOrderedEnumerable<TimeZoneViewModel> TimezoneChoices { get; set; }
+    }
+
+    public class CultureChoiceViewModel
+    {
+        public string Name { get; set; }
+        public string EnglishName { get; set; }
+    }
+
+    public class TimeZoneViewModel
+    {
+        public string DisplayName { get; set; }
+        public string StandardName { get; set; }
+        public string Id { get; set; }
+        public string BaseUtcOffset { get; set; }
     }
 }

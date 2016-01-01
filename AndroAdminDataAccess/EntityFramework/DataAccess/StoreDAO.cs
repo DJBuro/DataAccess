@@ -332,6 +332,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.ExternalSiteName = store.ExternalSiteName;
                     storeEntity.Telephone = store.Telephone;
                     storeEntity.TimeZone = store.TimeZone;
+                    if (!string.IsNullOrEmpty(store.TimeZoneInfoId))
+                        storeEntity.TimeZoneInfoId = store.TimeZoneInfoId;
+                    if (!string.IsNullOrEmpty(store.UiCulture))
+                        storeEntity.UiCulture = store.UiCulture;
                     storeEntity.StorePaymentProviderID = (store.PaymentProvider == null ? null : (int?)store.PaymentProvider.Id);
                     storeEntity.ChainId = store.Chain.Id;
 
