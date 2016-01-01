@@ -19,6 +19,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public bool Active { get; set; }
     
         public virtual EnrolmentLevel EnrolmentLevel { get; set; }
-        public virtual StoreView StoreView { get; set; }
     }
 }

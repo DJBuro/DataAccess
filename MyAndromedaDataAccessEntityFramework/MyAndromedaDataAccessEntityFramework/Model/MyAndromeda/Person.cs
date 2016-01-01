@@ -22,6 +22,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string DrivingLicenceNumber { get; set; }
+        public string FullName { get; set; }
+        public string NationallnsuranceNumber { get; set; }
     
         public virtual ICollection<StoreEmployee> StoreEmployees { get; set; }
     }
