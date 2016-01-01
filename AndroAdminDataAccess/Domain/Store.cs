@@ -47,6 +47,8 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "Payment provider")]
         public StorePaymentProvider PaymentProvider { get; set; }
 
+        public List<TimeSpanBlock> OpeningHours { get; set; }
+
         public Store()
         {
             this.Name = "";

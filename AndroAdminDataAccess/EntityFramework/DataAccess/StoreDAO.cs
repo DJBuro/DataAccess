@@ -393,7 +393,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store model = null;
 
-   //         using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -488,6 +487,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             DisplayText = paymentProviderEntity.DisplayText,
                             ProviderName = paymentProviderEntity.ProviderName
                         };
+                    }
+
+                    // Opening hours
+                    model.OpeningHours = new List<TimeSpanBlock>();
+                    if (entity.OpeningHours != null)
+                    {
+                        foreach (OpeningHour openingHour in entity.OpeningHours)
+                        {
+                            TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                            timeSpanBlock.Id = openingHour.Id;
+                            timeSpanBlock.Day = openingHour.Day.Description;
+                            timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                            timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
+                            timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+
+                            model.OpeningHours.Add(timeSpanBlock);
+                        }
                     }
                 }
             }
