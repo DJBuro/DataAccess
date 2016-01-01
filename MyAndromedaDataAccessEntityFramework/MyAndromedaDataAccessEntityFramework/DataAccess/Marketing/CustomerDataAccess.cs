@@ -4,12 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MyAndromedaDataAccess.Domain.Marketing;
+using MyAndromedaDataAccess.Domain.Reporting.Query;
+using MyAndromedaDataAccess.Domain.Reporting;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 {
     public class CustomerDataAccess : ICustomerDataAccess
     {
         public CustomerDataAccess() { }
+
+        public CustomersOverview GetOverview(int siteId, FilterQuery filter)
+        {
+            // TODO: Implement this method
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<Customer> ListByChain(int chainId)
         {

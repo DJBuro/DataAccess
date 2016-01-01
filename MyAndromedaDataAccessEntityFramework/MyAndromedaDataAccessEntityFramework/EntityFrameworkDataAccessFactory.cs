@@ -9,6 +9,8 @@ namespace MyAndromedaDataAccessEntityFramework
 {
     public class EntityFrameworkDataAccessFactory : IDataAccessFactory
     {
+        
+
         public MyAndromedaDataAccess.DataAccess.ISiteDataAccess SiteDataAccess
         {
             get { return new SitesDataAccess(); }
@@ -72,6 +74,15 @@ namespace MyAndromedaDataAccessEntityFramework
             get
             {
                 return new DataAccess.Marketing.EmailCampaignTasksDataAccess();
+            }
+        }
+
+        public IOrderReportingService OrderReportingService
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
             }
         }
     }

@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="MyAndromedaModelStoreContainer">
-          <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaignAudit" EntityType="MyAndromedaModel.Store.EmailCampaignAudit" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.Store.EmailCampaignSentEmails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.Store.EmailCampaignSettings" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.Store.EmailCampaignSites" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.Store.EmailCampaignTasks" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="sysdiagrams" EntityType="MyAndromedaModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaignAudit" EntityType="MyAndromedaModel.Store.EmailCampaignAudit" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.Store.EmailCampaignSentEmails" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.Store.EmailCampaignSettings" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.Store.EmailCampaignSites" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.Store.EmailCampaignTasks" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="sysdiagrams" EntityType="MyAndromedaModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
@@ -192,8 +192,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MyAndromedaModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="MyAndromedaEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="MyAndromedaModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyAndromedaEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="CustomerRecords" EntityType="MyAndromedaModel.CustomerRecord" />
           <EntitySet Name="EmailCampaigns" EntityType="MyAndromedaModel.EmailCampaign" />
           <EntitySet Name="EmailCampaignAudits" EntityType="MyAndromedaModel.EmailCampaignAudit" />
@@ -227,7 +227,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Surname" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -237,7 +237,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Reference" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="EmailTemplate" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -255,7 +255,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="EmailCampaignId" Nullable="false" />
           <Property Type="String" Name="EditedByUserName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ActionOn" Nullable="false" Precision="3" />
@@ -266,7 +266,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Subject" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="SendTo" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="SendFrom" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
@@ -278,7 +278,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Host" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="Port" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -304,7 +304,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="EmailCampaignId" Nullable="false" />
           <Property Type="Boolean" Name="Started" Nullable="false" />
           <Property Type="Boolean" Name="Completed" Nullable="false" />
@@ -323,7 +323,7 @@
           </Key>
           <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="principal_id" Nullable="false" />
-          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="version" />
           <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
         </EntityType>
@@ -391,7 +391,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MyAndromedaModelStoreContainer" CdmEntityContainer="MyAndromedaEntities">
           <EntitySetMapping Name="CustomerRecords">
             <EntityTypeMapping TypeName="MyAndromedaModel.CustomerRecord">
@@ -499,7 +499,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -514,6 +514,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams />
   </Designer>
 </edmx:Edmx>
