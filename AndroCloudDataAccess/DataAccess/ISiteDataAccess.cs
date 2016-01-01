@@ -14,8 +14,8 @@ namespace AndroCloudDataAccess.DataAccess
         string GetByFilter(
             int applicationId,
             float? maxDistance,
-            float? longitude,
-            float? latitude,
+            double? longitude,
+            double? latitude,
             DataTypeEnum dataType,
             out List<Site> sites);
 

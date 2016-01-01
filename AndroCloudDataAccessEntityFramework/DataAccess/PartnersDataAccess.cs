@@ -13,14 +13,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public string Get(string externalPartnerId, out AndroCloudDataAccess.Domain.Partner partner)
+        public string GetById(int id, out AndroCloudDataAccess.Domain.Partner partner)
         {
             partner = null;
 
             using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             {
                 var partnerQuery = from p in acsEntities.Partners
-                                   where p.ExternalId == externalPartnerId
+                                   where p.Id == id
                                    select p;
 
                 var partnerEntity = partnerQuery.FirstOrDefault();

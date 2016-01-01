@@ -10,6 +10,7 @@ namespace AndroCloudDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         string Get(string externalApplicationId, out ACSApplication acsApplication);
+        string GetById(int id, out ACSApplication acsApplication);
         bool StoreExists(Guid existingSiteId, int acsApplicationId);
     }
 }

@@ -79,6 +79,7 @@
     <Compile Include="DataAccess\OrderDataAccess.cs" />
     <Compile Include="DataAccess\SiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
+    <Compile Include="DataVersionHelper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\ACS.Designer.cs">
       <DependentUpon>ACS.edmx</DependentUpon>
