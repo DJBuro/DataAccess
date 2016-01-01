@@ -53,10 +53,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 var table = dbContex.SiteMenuPublishTaskHistories;
 
+                var now = DateTime.UtcNow;
                 var entity = table.Create();
+                entity.CreatedOnUtc = now;
                 entity.SiteMenuId = sitemenu.Id;
                 entity.PublishThumbnails = publishThumbnails;
-                entity.PublishOnUtc = publishOnUtc.GetValueOrDefault(DateTime.UtcNow);
+                entity.PublishOnUtc = publishOnUtc.GetValueOrDefault(now);
                 entity.PublishedBy = userName;
                 entity.PublishAll = publishAll;
                 
