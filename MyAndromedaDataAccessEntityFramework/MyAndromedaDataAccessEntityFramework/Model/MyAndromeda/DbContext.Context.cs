@@ -38,5 +38,10 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<SiteMenuMediaProfileSize> SiteMenuMediaProfileSizes { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserChain> UserChains { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<UserRecord> UserRecords { get; set; }
+        public DbSet<UserStore> UserStores { get; set; }
     }
 }

@@ -21,7 +21,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
             this.StoreMenus = new HashSet<StoreMenu>();
             this.StoreMenuThumbnails = new HashSet<StoreMenuThumbnail>();
-            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
         }
     
         public int Id { get; set; }
@@ -51,6 +50,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
         public virtual ICollection<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
-        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
     }
 }

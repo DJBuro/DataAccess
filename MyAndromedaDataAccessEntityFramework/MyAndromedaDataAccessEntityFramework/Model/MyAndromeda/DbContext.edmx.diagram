@@ -5,14 +5,23 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d1f06c70b118477c82ae5314cc0aa292" Name="EmailCampaign" ZoomLevel="108">
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="7.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="10" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="10" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="10" PointY="7.25" IsExpanded="true" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MyAndromedaModel.Role" Width="1.5" PointX="0.75" PointY="3.5" />
+        <EntityTypeShape EntityType="MyAndromedaModel.UserChain" Width="1.5" PointX="5.25" PointY="3.625" />
+        <EntityTypeShape EntityType="MyAndromedaModel.UserPermission" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="MyAndromedaModel.UserRecord" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="MyAndromedaModel.UserStore" Width="1.5" PointX="5.25" PointY="6" />
+        <AssociationConnector Association="MyAndromedaModel.FK_UserChain_UserRecords" />
+        <AssociationConnector Association="MyAndromedaModel.FK_UserStore_UserRecords" />
+        <AssociationConnector Association="MyAndromedaModel.RolePermissions" />
+        <AssociationConnector Association="MyAndromedaModel.UserRole" />
         </Diagram>
       <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="93" >
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="4.25" PointY="19.5" />

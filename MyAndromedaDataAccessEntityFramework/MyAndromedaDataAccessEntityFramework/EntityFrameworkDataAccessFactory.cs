@@ -21,17 +21,17 @@ namespace MyAndromedaDataAccessEntityFramework
             }
         }
 
-        public MyAndromedaDataAccess.DataAccess.IMyAndromedaUserDataAccess MyAndromedaUserDataAccess
-        {
-            get
-            {
-                return new MyAndromedaUserDataAccess();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public MyAndromedaDataAccess.DataAccess.IMyAndromedaUserDataAccess MyAndromedaUserDataAccess
+        //{
+        //    get
+        //    {
+        //        return new MyAndromedaUserDataAccess();
+        //    }
+        //    set
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public MyAndromedaDataAccess.DataAccess.IAddressDataAccess AddressDataAccess
         {

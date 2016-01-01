@@ -21,18 +21,6 @@
           <EntitySet Name="FTPSiteType" EntityType="AndroAdminModel.Store.FTPSiteType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Host" EntityType="AndroAdminModel.Store.Host" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Log" EntityType="AndroAdminModel.Store.Log" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaPermission" EntityType="AndroAdminModel.Store.MyAndromedaPermission" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaRole" EntityType="AndroAdminModel.Store.MyAndromedaRole" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaRolePermissions" EntityType="AndroAdminModel.Store.MyAndromedaRolePermissions" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUser" EntityType="AndroAdminModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUserChain" EntityType="AndroAdminModel.Store.MyAndromedaUserChain" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MyAndromedaUserRole" EntityType="AndroAdminModel.Store.MyAndromedaUserRole" store:Type="Tables" store:Schema="dbo" store:Name="MyAndromedaUserRole">
-            <DefiningQuery>SELECT 
-      [MyAndromedaUserRole].[UserId] AS [UserId], 
-      [MyAndromedaUserRole].[RoleId] AS [RoleId]
-      FROM [dbo].[MyAndromedaUserRole] AS [MyAndromedaUserRole]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="MyAndromedaUserStore" EntityType="AndroAdminModel.Store.MyAndromedaUserStore" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHour" EntityType="AndroAdminModel.Store.OpeningHour" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Partner" EntityType="AndroAdminModel.Store.Partner" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Settings" EntityType="AndroAdminModel.Store.Settings" store:Type="Tables" Schema="dbo" />
@@ -86,38 +74,6 @@
           <AssociationSet Name="FK_FTPSiteChain_FTPSite" Association="AndroAdminModel.Store.FK_FTPSiteChain_FTPSite">
             <End Role="FTPSite" EntitySet="FTPSite" />
             <End Role="FTPSiteChain" EntitySet="FTPSiteChain" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaRolePermissions_MyAndromedaPermission" Association="AndroAdminModel.Store.FK_MyAndromedaRolePermissions_MyAndromedaPermission">
-            <End Role="MyAndromedaPermission" EntitySet="MyAndromedaPermission" />
-            <End Role="MyAndromedaRolePermissions" EntitySet="MyAndromedaRolePermissions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaRolePermissions_MyAndromedaRole" Association="AndroAdminModel.Store.FK_MyAndromedaRolePermissions_MyAndromedaRole">
-            <End Role="MyAndromedaRole" EntitySet="MyAndromedaRole" />
-            <End Role="MyAndromedaRolePermissions" EntitySet="MyAndromedaRolePermissions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserChain_Chain" Association="AndroAdminModel.Store.FK_MyAndromedaUserChain_Chain">
-            <End Role="Chain" EntitySet="Chain" />
-            <End Role="MyAndromedaUserChain" EntitySet="MyAndromedaUserChain" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserChain_MyAndromedaUser" Association="AndroAdminModel.Store.FK_MyAndromedaUserChain_MyAndromedaUser">
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
-            <End Role="MyAndromedaUserChain" EntitySet="MyAndromedaUserChain" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserRole_MyAndromedaRole" Association="AndroAdminModel.Store.FK_MyAndromedaUserRole_MyAndromedaRole">
-            <End Role="MyAndromedaRole" EntitySet="MyAndromedaRole" />
-            <End Role="MyAndromedaUserRole" EntitySet="MyAndromedaUserRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserRole_MyAndromedaUser" Association="AndroAdminModel.Store.FK_MyAndromedaUserRole_MyAndromedaUser">
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
-            <End Role="MyAndromedaUserRole" EntitySet="MyAndromedaUserRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserStore_MyAndromedaUser" Association="AndroAdminModel.Store.FK_MyAndromedaUserStore_MyAndromedaUser">
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
-            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStore" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MyAndromedaUserStore_Store" Association="AndroAdminModel.Store.FK_MyAndromedaUserStore_Store">
-            <End Role="Store" EntitySet="Store" />
-            <End Role="MyAndromedaUserStore" EntitySet="MyAndromedaUserStore" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Day" Association="AndroAdminModel.Store.FK_OpeningHour_Day">
             <End Role="Day" EntitySet="Day" />
@@ -327,70 +283,9 @@
           <Property Name="Source" Type="nvarchar" MaxLength="50" />
           <Property Name="Created" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="MyAndromedaPermission">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MyAndromedaRole">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="MyAndromedaRolePermissions">
-          <Key>
-            <PropertyRef Name="RoleId" />
-            <PropertyRef Name="PermissionId" />
-          </Key>
-          <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="PermissionId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="IsEnabled" Type="bit" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="HashAlgorithm" Type="nvarchar" MaxLength="20" />
-          <Property Name="PasswordFormat" Type="nvarchar" MaxLength="20" />
-          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUserChain">
-          <Key>
-            <PropertyRef Name="ChainId" />
-            <PropertyRef Name="MyAndromedaUserId" />
-          </Key>
-          <Property Name="ChainId" Type="int" Nullable="false" />
-          <Property Name="MyAndromedaUserId" Type="int" Nullable="false" />
-        </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'AndroAdmin.dbo.MyAndromedaUserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
-        <EntityType Name="MyAndromedaUserRole">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUserStore">
-          <Key>
-            <PropertyRef Name="MyAndromedaUserId" />
-            <PropertyRef Name="StoreId" />
-          </Key>
-          <Property Name="MyAndromedaUserId" Type="int" Nullable="false" />
-          <Property Name="StoreId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
             <PropertyRef Name="Id" />
@@ -630,102 +525,6 @@
             </Principal>
             <Dependent Role="FTPSiteChain">
               <PropertyRef Name="FTPSiteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaRolePermissions_MyAndromedaPermission">
-          <End Role="MyAndromedaPermission" Type="AndroAdminModel.Store.MyAndromedaPermission" Multiplicity="1" />
-          <End Role="MyAndromedaRolePermissions" Type="AndroAdminModel.Store.MyAndromedaRolePermissions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaPermission">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaRolePermissions">
-              <PropertyRef Name="PermissionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaRolePermissions_MyAndromedaRole">
-          <End Role="MyAndromedaRole" Type="AndroAdminModel.Store.MyAndromedaRole" Multiplicity="1" />
-          <End Role="MyAndromedaRolePermissions" Type="AndroAdminModel.Store.MyAndromedaRolePermissions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaRole">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaRolePermissions">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserChain_Chain">
-          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
-          <End Role="MyAndromedaUserChain" Type="AndroAdminModel.Store.MyAndromedaUserChain" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Chain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserChain">
-              <PropertyRef Name="ChainId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserChain_MyAndromedaUser">
-          <End Role="MyAndromedaUser" Type="AndroAdminModel.Store.MyAndromedaUser" Multiplicity="1" />
-          <End Role="MyAndromedaUserChain" Type="AndroAdminModel.Store.MyAndromedaUserChain" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserChain">
-              <PropertyRef Name="MyAndromedaUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserRole_MyAndromedaRole">
-          <End Role="MyAndromedaRole" Type="AndroAdminModel.Store.MyAndromedaRole" Multiplicity="1" />
-          <End Role="MyAndromedaUserRole" Type="AndroAdminModel.Store.MyAndromedaUserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaRole">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserRole_MyAndromedaUser">
-          <End Role="MyAndromedaUser" Type="AndroAdminModel.Store.MyAndromedaUser" Multiplicity="1" />
-          <End Role="MyAndromedaUserRole" Type="AndroAdminModel.Store.MyAndromedaUserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserRole">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserStore_MyAndromedaUser">
-          <End Role="MyAndromedaUser" Type="AndroAdminModel.Store.MyAndromedaUser" Multiplicity="1" />
-          <End Role="MyAndromedaUserStore" Type="AndroAdminModel.Store.MyAndromedaUserStore" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MyAndromedaUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserStore">
-              <PropertyRef Name="MyAndromedaUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MyAndromedaUserStore_Store">
-          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1" />
-          <End Role="MyAndromedaUserStore" Type="AndroAdminModel.Store.MyAndromedaUserStore" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MyAndromedaUserStore">
-              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -997,26 +796,7 @@
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreMenuThumbnail" EntitySet="StoreMenuThumbnails" />
           </AssociationSet>
-          <EntitySet Name="MyAndromedaPermissions" EntityType="AndroAdminModel.MyAndromedaPermission" />
-          <EntitySet Name="MyAndromedaRoles" EntityType="AndroAdminModel.MyAndromedaRole" />
-          <EntitySet Name="MyAndromedaUsers" EntityType="AndroAdminModel.MyAndromedaUser" />
-          <AssociationSet Name="MyAndromedaRolePermissions" Association="AndroAdminModel.MyAndromedaRolePermissions">
-            <End Role="MyAndromedaPermission" EntitySet="MyAndromedaPermissions" />
-            <End Role="MyAndromedaRole" EntitySet="MyAndromedaRoles" />
-          </AssociationSet>
-          <AssociationSet Name="MyAndromedaUserChain" Association="AndroAdminModel.MyAndromedaUserChain">
-            <End Role="Chain" EntitySet="Chains" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-          </AssociationSet>
-          <AssociationSet Name="MyAndromedaUserRole" Association="AndroAdminModel.MyAndromedaUserRole">
-            <End Role="MyAndromedaRole" EntitySet="MyAndromedaRoles" />
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-          </AssociationSet>
-          <AssociationSet Name="MyAndromedaUserStore" Association="AndroAdminModel.MyAndromedaUserStore">
-            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
-            <End Role="Store" EntitySet="Stores" />
-          </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
             <PropertyRef Name="Id" />
@@ -1099,11 +879,10 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="Chain" ToRole="AMSServerChain" />
-          <NavigationProperty Name="Children" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
-          <NavigationProperty Name="Parents" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
+          <NavigationProperty Name="Parents" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
+          <NavigationProperty Name="Children" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
           <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="Chain" ToRole="FTPSiteChain" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
-          <NavigationProperty Name="MyAndromedaUsers" Relationship="AndroAdminModel.MyAndromedaUserChain" FromRole="Chain" ToRole="MyAndromedaUser" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -1500,7 +1279,6 @@
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
           <NavigationProperty Name="StoreMenuThumbnails" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="Store" ToRole="StoreMenuThumbnail" />
-          <NavigationProperty Name="MyAndromedaUsers" Relationship="AndroAdminModel.MyAndromedaUserStore" FromRole="Store" ToRole="MyAndromedaUser" />
         </EntityType>
         <Association Name="FK_ACSApplicationSite_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
@@ -1612,58 +1390,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MyAndromedaPermission">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MyAndromedaRoles" Relationship="AndroAdminModel.MyAndromedaRolePermissions" FromRole="MyAndromedaPermission" ToRole="MyAndromedaRole" />
-        </EntityType>
-        <EntityType Name="MyAndromedaRole">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MyAndromedaPermissions" Relationship="AndroAdminModel.MyAndromedaRolePermissions" FromRole="MyAndromedaRole" ToRole="MyAndromedaPermission" />
-          <NavigationProperty Name="MyAndromedaUsers" Relationship="AndroAdminModel.MyAndromedaUserRole" FromRole="MyAndromedaRole" ToRole="MyAndromedaUser" />
-        </EntityType>
-        <EntityType Name="MyAndromedaUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="IsEnabled" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Chains" Relationship="AndroAdminModel.MyAndromedaUserChain" FromRole="MyAndromedaUser" ToRole="Chain" />
-          <NavigationProperty Name="MyAndromedaRoles" Relationship="AndroAdminModel.MyAndromedaUserRole" FromRole="MyAndromedaUser" ToRole="MyAndromedaRole" />
-          <Property Type="String" Name="HashAlgorithm" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PasswordFormat" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PasswordSalt" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.MyAndromedaUserStore" FromRole="MyAndromedaUser" ToRole="Store" />
-        </EntityType>
-        <Association Name="MyAndromedaRolePermissions">
-          <End Type="AndroAdminModel.MyAndromedaPermission" Role="MyAndromedaPermission" Multiplicity="*" />
-          <End Type="AndroAdminModel.MyAndromedaRole" Role="MyAndromedaRole" Multiplicity="*" />
-        </Association>
-        <Association Name="MyAndromedaUserChain">
-          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="*" />
-          <End Type="AndroAdminModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
-        </Association>
-        <Association Name="MyAndromedaUserRole">
-          <End Type="AndroAdminModel.MyAndromedaRole" Role="MyAndromedaRole" Multiplicity="*" />
-          <End Type="AndroAdminModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
-        </Association>
-        <Association Name="MyAndromedaUserStore">
-          <End Type="AndroAdminModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1963,70 +1690,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MyAndromedaPermissions">
-            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaPermission">
-              <MappingFragment StoreEntitySet="MyAndromedaPermission">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MyAndromedaRoles">
-            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaRole">
-              <MappingFragment StoreEntitySet="MyAndromedaRole">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MyAndromedaUsers">
-            <EntityTypeMapping TypeName="AndroAdminModel.MyAndromedaUser">
-              <MappingFragment StoreEntitySet="MyAndromedaUser">
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
-                <ScalarProperty Name="HashAlgorithm" ColumnName="HashAlgorithm" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="MyAndromedaRolePermissions" TypeName="AndroAdminModel.MyAndromedaRolePermissions" StoreEntitySet="MyAndromedaRolePermissions">
-            <EndProperty Name="MyAndromedaRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="MyAndromedaPermission">
-              <ScalarProperty Name="Id" ColumnName="PermissionId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="MyAndromedaUserChain" TypeName="AndroAdminModel.MyAndromedaUserChain" StoreEntitySet="MyAndromedaUserChain">
-            <EndProperty Name="MyAndromedaUser">
-              <ScalarProperty Name="Id" ColumnName="MyAndromedaUserId" />
-            </EndProperty>
-            <EndProperty Name="Chain">
-              <ScalarProperty Name="Id" ColumnName="ChainId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="MyAndromedaUserRole" TypeName="AndroAdminModel.MyAndromedaUserRole" StoreEntitySet="MyAndromedaUserRole">
-            <EndProperty Name="MyAndromedaUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="MyAndromedaRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="MyAndromedaUserStore" TypeName="AndroAdminModel.MyAndromedaUserStore" StoreEntitySet="MyAndromedaUserStore">
-            <EndProperty Name="Store">
-              <ScalarProperty Name="Id" ColumnName="StoreId" />
-            </EndProperty>
-            <EndProperty Name="MyAndromedaUser">
-              <ScalarProperty Name="Id" ColumnName="MyAndromedaUserId" />
-            </EndProperty>
-          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
