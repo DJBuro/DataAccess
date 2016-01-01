@@ -16,8 +16,8 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     {
         public System.Guid Id { get; set; }
         public System.Guid OrderId { get; set; }
-        public Nullable<decimal> PointsGained { get; set; }
-        public Nullable<decimal> PointsUsed { get; set; }
+        public Nullable<int> PointsGained { get; set; }
+        public Nullable<int> PointsUsed { get; set; }
         public Nullable<decimal> PointsMoneyValueGained { get; set; }
         public Nullable<decimal> PointsMoneyValueSpent { get; set; }
         public string ProviderName { get; set; }

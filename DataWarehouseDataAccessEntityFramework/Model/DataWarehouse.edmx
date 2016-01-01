@@ -221,8 +221,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PointsGained" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="PointsUsed" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PointsGained" Type="int" />
+          <Property Name="PointsUsed" Type="int" />
           <Property Name="PointsMoneyValueGained" Type="money" />
           <Property Name="PointsMoneyValueSpent" Type="money" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -831,11 +831,11 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
           </AssociationSet>
           <EntitySet Name="CustomerLoyalties" EntityType="DataWarehouseModel.CustomerLoyalty" />
-          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
           <AssociationSet Name="FK_CustomerLoyalty_Customer" Association="DataWarehouseModel.FK_CustomerLoyalty_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustomerLoyalty" EntitySet="CustomerLoyalties" />
           </AssociationSet>
+          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
           <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
@@ -1028,9 +1028,9 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CookingInstructions" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
           <Property Name="DriverId" Type="Int32" />
           <Property Name="TicketNumber" Type="Int32" />
+          <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
           
         </EntityType>
         <EntityType Name="OrderLine">
@@ -1459,20 +1459,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Points" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerLoyalty_Customer" FromRole="CustomerLoyalty" ToRole="Customer" />
         </EntityType>
-        <EntityType Name="OrderLoyalty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Guid" Nullable="false" />
-          <Property Name="PointsGained" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PointsUsed" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PointsMoneyValueGained" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
-          <Property Name="Applied" Type="Boolean" Nullable="false" />
-        </EntityType>
         <Association Name="FK_CustomerLoyalty_Customer">
           <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="DataWarehouseModel.CustomerLoyalty" Role="CustomerLoyalty" Multiplicity="*" />
@@ -1485,6 +1471,20 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <Property Name="PointsGained" Type="Int32" />
+          <Property Name="PointsUsed" Type="Int32" />
+          <Property Name="PointsMoneyValueGained" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Applied" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
+        </EntityType>
         <Association Name="FK_OrderLoyalty_OrderHeader">
           <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
           <End Type="DataWarehouseModel.OrderLoyalty" Role="OrderLoyalty" Multiplicity="*" />
