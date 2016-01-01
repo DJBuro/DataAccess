@@ -21,6 +21,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public Nullable<decimal> PointsMoneyValueGained { get; set; }
         public Nullable<decimal> PointsMoneyValueSpent { get; set; }
         public string ProviderName { get; set; }
+        public bool Applied { get; set; }
     
         public virtual OrderHeader OrderHeader { get; set; }
     }

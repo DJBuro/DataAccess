@@ -50,6 +50,8 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string ACSServer { get; set; }
         public string CookingInstructions { get; set; }
         public string DriverName { get; set; }
+        public Nullable<int> DriverId { get; set; }
+        public Nullable<int> TicketNumber { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
