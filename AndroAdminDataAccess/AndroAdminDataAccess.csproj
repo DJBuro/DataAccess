@@ -98,36 +98,6 @@
     <Compile Include="Domain\StoreAMSServerFtpSite.cs" />
     <Compile Include="Domain\Log.cs" />
     <Content Include="EntityFramework\CreateAndroAdminDatabase.sql" />
-    <Compile Include="EntityFramework\ACSApplication.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ACSApplicationSite.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Address.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AMSServer.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AndroAdminEntityModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdminEntityModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AndroAdminEntityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AndroAdminEntityModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AndroAdminEntityModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Country.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
@@ -142,94 +112,14 @@
     <Compile Include="EntityFramework\DataAccess\StoreAMSServerFtpSiteDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreDAO.cs" />
     <Compile Include="EntityFramework\DataVersionHelper.cs" />
-    <Compile Include="EntityFramework\Day.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Employee.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Domain\AMSServer.cs" />
     <Compile Include="Domain\FTPSite.cs" />
     <Compile Include="Domain\Store.cs" />
-    <Compile Include="EntityFramework\FTPSite.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\FTPSiteType.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Group.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Host.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Log.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUser.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUserGroup.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\MyAndromedaUserStore.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\OpeningHour.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Partner.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Setting.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Store.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreAMSServer.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreAMSServerFtpSite.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreAMSServerFTPSitePair.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreGroup.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreMenu.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StorePaymentProvider.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\StoreStatu.cs">
-      <DependentUpon>AndroAdminEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="EntityFramework\AndroAdminEntityModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AndroAdminEntityModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="EntityFramework\AndroAdminEntityModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AndroAdminEntityModel.edmx</DependentUpon>
-      <LastGenOutput>AndroAdminEntityModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="EntityFramework\AndroAdminEntityModel.edmx.diagram">
-      <DependentUpon>AndroAdminEntityModel.edmx</DependentUpon>
-    </None>
-    <None Include="EntityFramework\AndroAdminEntityModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AndroAdminEntityModel.edmx</DependentUpon>
-      <LastGenOutput>AndroAdminEntityModel.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
