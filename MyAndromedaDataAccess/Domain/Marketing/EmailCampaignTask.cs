@@ -4,6 +4,8 @@ namespace MyAndromedaDataAccess.Domain.Marketing
 {
     public class EmailCampaignTask 
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the email campaign.
         /// </summary>
@@ -16,6 +18,10 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// <value>The email settings.</value>
         public EmailSettings EmailSettings { get; set; }
 
+        /// <summary>
+        /// Gets or sets the created date.
+        /// </summary>
+        /// <value>The created.</value>
         public DateTime Created { get; set; }
 
         /// <summary>
@@ -42,8 +48,6 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// <value>The completed.</value>
         public bool Completed { get; set; }
 
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets when the task should be retried .
         /// </summary>
@@ -54,5 +58,11 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// </summary>
         /// <value>The canceled.</value>
         public bool Canceled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the completed at.
+        /// </summary>
+        /// <value>The completed at.</value>
+        public DateTime? CompletedAt { get; set; }
     }
 }

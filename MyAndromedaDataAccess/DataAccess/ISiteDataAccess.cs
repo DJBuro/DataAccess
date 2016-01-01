@@ -11,6 +11,8 @@ namespace MyAndromedaDataAccess.DataAccess
     {
         string GetById(int siteId, out MyAndromedaDataAccess.Domain.Site site);
 
+        string GetAcsApplicationIds(int siteId, out IEnumerable<int> application);
+
         string GetByMyAndromedaUserId(int myAndromedaUserId, out List<MyAndromedaDataAccess.Domain.Site> sites);
     }
 }
