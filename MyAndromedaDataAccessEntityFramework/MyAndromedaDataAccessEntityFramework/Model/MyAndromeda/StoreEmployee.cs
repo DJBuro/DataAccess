@@ -21,6 +21,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public System.DateTime LastUpdated { get; set; }
         public string PayrollNumber { get; set; }
         public string PhoneNumber { get; set; }
+        public bool Deleted { get; set; }
     
         public virtual Person Person { get; set; }
     }

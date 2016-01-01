@@ -20,12 +20,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         }
     
         public int Id { get; set; }
-        public Nullable<System.DateTime> LastDownloadedDate { get; set; }
-        public Nullable<System.DateTime> LastUploadedDate { get; set; }
         public bool CheckToDownload { get; set; }
         public bool CheckToUpload { get; set; }
         public bool CheckInProgress { get; set; }
         public int MenuVersion { get; set; }
+        public Nullable<System.DateTime> LastFtpCheckDateUtc { get; set; }
+        public Nullable<System.DateTime> LastDownloadedDateUtc { get; set; }
+        public Nullable<System.DateTime> LastUploadedDateUtc { get; set; }
     
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
     }
