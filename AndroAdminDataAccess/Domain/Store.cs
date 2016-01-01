@@ -35,8 +35,14 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "Client site name")]
         public virtual string ClientSiteName { get; set; }
 
-        [Display(Name = "Country")]
-        public Country Country { get; set; }
+        [Display(Name = "Address")]
+        public Address Address { get; set; }
+
+        [Display(Name = "Telephone")]
+        public string Telephone { get; set; }
+
+        [Display(Name = "TimeZone")]
+        public string TimeZone { get; set; }
 
         public Store()
         {
@@ -47,7 +53,9 @@ namespace AndroAdminDataAccess.Domain
             this.StoreStatus = null;
             this.ExternalSiteId = Guid.NewGuid().ToString().Replace("{", "").Replace("}", "").ToUpper();
             this.ExternalSiteName = "";
-            this.Country = null;
+            this.Address = null;
+            this.Telephone = "";
+            this.TimeZone = "";
         }
    }
 }

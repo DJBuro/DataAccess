@@ -33,7 +33,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = acsApplication.Id,
                         Name = acsApplication.Name,
                         ExternalApplicationId = acsApplication.ExternalApplicationId,
-                        DataVersion = acsApplication.DataVersion
+                        DataVersion = acsApplication.DataVersion,
+                        PartnerId = acsApplication.PartnerId
                     };
 
                     models.Add(model);
@@ -90,7 +91,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = entity.Id,
                         Name = entity.Name,
                         ExternalApplicationId = entity.ExternalApplicationId,
-                        DataVersion = entity.DataVersion
+                        DataVersion = entity.DataVersion,
+                        PartnerId = entity.PartnerId
                     };
                 }
             }
@@ -117,7 +119,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = entity.Id,
                         Name = entity.Name,
                         ExternalApplicationId = entity.ExternalApplicationId,
-                        DataVersion = entity.DataVersion
+                        DataVersion = entity.DataVersion,
+                        PartnerId = entity.PartnerId
                     };
                 }
             }
@@ -147,10 +150,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     entitiesContext.SaveChanges();
 
                     // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                    IPartnerDAO partnerDAO = new PartnerDAO();
+                    var partnerQuery = from s in entitiesContext.Partners
+                                where acsApplication.PartnerId == s.Id
+                                select s;
 
-                    // Get the partner so we can update it
-                    partnerDAO.UpdateDataVersion(acsApplication.PartnerId, newVersion);
+                    var partnerEntity = partnerQuery.FirstOrDefault();
+
+                    if (partnerEntity != null)
+                    {
+                        partnerEntity.DataVersion = newVersion;
+
+                        entitiesContext.SaveChanges();
+                    }
 
                     // Fin...
                     transaction.Commit();
@@ -183,10 +194,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         entitiesContext.SaveChanges();
 
                         // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                        IPartnerDAO partnerDAO = new PartnerDAO();
+                        var partnerQuery = from s in entitiesContext.Partners
+                                    where acsApplication.PartnerId == s.Id
+                                    select s;
 
-                        // Get the partner so we can update it
-                        partnerDAO.UpdateDataVersion(acsApplication.PartnerId, newVersion);
+                        var partnerEntity = partnerQuery.FirstOrDefault();
+
+                        if (partnerEntity != null)
+                        {
+                            partnerEntity.DataVersion = newVersion;
+
+                            entitiesContext.SaveChanges();
+                        }
 
                         // Fin...
                         transaction.Commit();
@@ -229,18 +248,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         // Update the application version to signify that the application has changed (a child of the application has changed)
                         IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
+                        acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
 
                         // Update the application version
-                        acsApplicationDAO.UpdateDataVersion(acsApplicationId, newVersion);
+                        var acsApplicationsQuery = from s in entitiesContext.ACSApplications
+                                                   where acsApplicationId == s.Id
+                                                   select s;
 
-                        // Get the application (we need the partner id)
-                        Domain.ACSApplication acsApplication = acsApplicationDAO.GetById(acsApplicationId);
+                        var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
+
+                        if (acsApplicationsEntity != null)
+                        {
+                            acsApplicationsEntity.DataVersion = newVersion;
+                            entitiesContext.SaveChanges();
+                        }
 
                         // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                        IPartnerDAO partnerDAO = new PartnerDAO();
+                        var partnerQuery = from s in entitiesContext.Partners
+                                           where acsApplicationsEntity.PartnerId == s.Id
+                                           select s;
 
-                        // Get the partner so we can update it
-                        partnerDAO.UpdateDataVersion(acsApplication.PartnerId, newVersion);
+                        var partnerEntity = partnerQuery.FirstOrDefault();
+
+                        if (partnerEntity != null)
+                        {
+                            partnerEntity.DataVersion = newVersion;
+                            entitiesContext.SaveChanges();
+                        }
                     }
                     else
                     {
@@ -281,18 +315,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         // Update the application version to signify that the application has changed (a child of the application has changed)
                         IACSApplicationDAO acsApplicationDAO = new ACSApplicationDAO();
+                        acsApplicationDAO.ConnectionStringOverride = this.ConnectionStringOverride;
 
                         // Update the application version
-                        acsApplicationDAO.UpdateDataVersion(acsApplicationId, newVersion);
+                        var acsApplicationsQuery = from s in entitiesContext.ACSApplications
+                                    where acsApplicationId == s.Id
+                                    select s;
 
-                        // Get the application (we need the partner id)
-                        Domain.ACSApplication acsApplication = acsApplicationDAO.GetById(acsApplicationId);
+                        var acsApplicationsEntity = acsApplicationsQuery.FirstOrDefault();
+
+                        if (acsApplicationsEntity != null)
+                        {
+                            acsApplicationsEntity.DataVersion = newVersion;
+                            entitiesContext.SaveChanges();
+                        }
 
                         // Update the partner version to signify that the partner has changed (a child of the partner has changed)
-                        IPartnerDAO partnerDAO = new PartnerDAO();
+                        var partnerQuery = from s in entitiesContext.Partners
+                                           where acsApplicationsEntity.PartnerId == s.Id
+                                           select s;
 
-                        // Get the partner so we can update it
-                        partnerDAO.UpdateDataVersion(acsApplication.PartnerId, newVersion);
+                        var partnerEntity = partnerQuery.FirstOrDefault();
+
+                        if (partnerEntity != null)
+                        {
+                            partnerEntity.DataVersion = newVersion;
+                            entitiesContext.SaveChanges();
+                        }
 
                         // Fin...
                         transaction.Commit();
@@ -319,7 +368,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = acsApplication.Id,
                         Name = acsApplication.Name,
                         ExternalApplicationId = acsApplication.ExternalApplicationId,
-                        DataVersion = acsApplication.DataVersion
+                        DataVersion = acsApplication.DataVersion,
+                        PartnerId = acsApplication.PartnerId
                     };
 
                     models.Add(model);
@@ -327,25 +377,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
 
             return models;
-        }
-
-        public void UpdateDataVersion(int acsApplicationId, int newVersion)
-        {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
-            {
-                var query = from s in entitiesContext.ACSApplications
-                            where acsApplicationId == s.Id
-                            select s;
-
-                var entity = query.FirstOrDefault();
-
-                if (entity != null)
-                {
-                    // Update the new application
-                    entity.DataVersion = newVersion;
-                    entitiesContext.SaveChanges();
-                }
-            }
         }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
+    <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\Host.cs" />
     <Compile Include="Domain\Partner.cs" />
