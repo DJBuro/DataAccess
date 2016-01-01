@@ -21,7 +21,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public int CustomerId { get; set; }
     
         public virtual ContactType ContactType { get; set; }
-        public virtual Customer Customer { get; set; }
         public virtual MarketingLevel MarketingLevel { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

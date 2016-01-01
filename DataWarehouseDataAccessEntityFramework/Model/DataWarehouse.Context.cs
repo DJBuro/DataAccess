@@ -26,11 +26,11 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         }
     
         public DbSet<AccountType> AccountTypes { get; set; }
-        public DbSet<Address> Addresses { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactType> ContactTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<MarketingLevel> MarketingLevels { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

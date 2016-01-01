@@ -29,9 +29,10 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public int ACSAplicationId { get; set; }
         public byte[] PasswordSalt { get; set; }
         public int AccountTypeId { get; set; }
+        public System.DateTime RegisteredDateTime { get; set; }
     
         public virtual AccountType AccountType { get; set; }
-        public virtual Address Address { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual Address Address { get; set; }
     }
 }
