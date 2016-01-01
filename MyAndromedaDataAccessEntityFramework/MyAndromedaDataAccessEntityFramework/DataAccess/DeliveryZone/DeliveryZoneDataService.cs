@@ -185,6 +185,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
                     {
                         dataContext.PostCodeSectors.Remove(item);
                     }
+                    else {
+                        pcExisting.DataVersion = newDataVersion;
+                    }
                 }
             }
             //foreach (PostCodeSector item in entity.PostCodeSectors)
@@ -215,7 +218,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         {
             deliveryzoneName.Name = "default";
             deliveryzoneName.IsCustom = false;
-            int dataVersion = Convert.ToInt32(dataContext.Settings.Where(s => s.Name.Equals("dataversion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault().Value);
+            int dataVersion = dataContext.GetNextDataVersionForEntity();            
             deliveryzoneName.PostCodeSectors.ToList().ForEach(f => { f.DeliveryZoneId = deliveryzoneName.Id; f.DataVersion = dataVersion; });
             dataContext.DeliveryZoneNames.Add(deliveryzoneName);
             dataContext.SaveChanges();

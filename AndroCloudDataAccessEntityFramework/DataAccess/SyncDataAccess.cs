@@ -91,14 +91,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             foreach (CloudSyncModel.PostCodeSector postCodeSector in postCodeSectors)
             {
-                var acsDeliveryArea = acsEntities.DeliveryAreas.Where(d => d.DeliveryArea1 == postCodeSector.PostCodeSectorName && d.SiteId == postCodeSector.StoreId).FirstOrDefault();
+                var storeId = Convert.ToString(postCodeSector.StoreId); 
+                var site = acsEntities.Sites.Where(s => s.ExternalId.Equals(storeId, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                var acsDeliveryArea = acsEntities.DeliveryAreas.Where(d => d.DeliveryArea1 == postCodeSector.PostCodeSectorName && d.SiteId == site.ID).FirstOrDefault();
                 if ((!postCodeSector.IsSelected) && acsDeliveryArea != null)
                 {
                     acsEntities.DeliveryAreas.Remove(acsDeliveryArea);
                 }
                 else if (acsDeliveryArea == null && postCodeSector.IsSelected)
-                {
-                    var site = acsEntities.Sites.Where(s => s.ExternalId == postCodeSector.StoreId.ToString()).FirstOrDefault();
+                {                                       
                     if (site != null)
                     {
                         acsEntities.DeliveryAreas.Add(new AndroCloudDataAccessEntityFramework.Model.DeliveryArea { DeliveryArea1 = postCodeSector.PostCodeSectorName, SiteId = site.ID, Id = Guid.NewGuid() });
@@ -106,6 +107,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
 
             }
+            acsEntities.SaveChanges();
         }
 
         private void SyncDeliveryAreas(ACSEntities acsEntities, IList<CloudSyncModel.DeliveryArea> deliveryAreas)
