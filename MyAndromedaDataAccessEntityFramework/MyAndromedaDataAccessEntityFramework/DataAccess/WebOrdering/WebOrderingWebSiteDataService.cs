@@ -48,7 +48,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
         {
             var table = this.TableQuery;
             var tableQuery = table.Where(predicate);
-            return tableQuery.SingleOrDefault();
+            return tableQuery.FirstOrDefault();
         }
 
         public IQueryable<Model.AndroAdmin.AndroWebOrderingWebsite> List()
