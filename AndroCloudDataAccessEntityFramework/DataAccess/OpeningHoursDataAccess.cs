@@ -74,16 +74,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 if (dayACSEntity != null)
                 {
-                    string[] startTimeBits = timeSpanBlock.StartTime.Split(':');
-                    TimeSpan startTimeSpan = new TimeSpan(int.Parse(startTimeBits[0]), int.Parse(startTimeBits[1]), 0);
-                    string[] endTimeBits = timeSpanBlock.EndTime.Split(':');
-                    TimeSpan endTimeSpan = new TimeSpan(int.Parse(endTimeBits[0]), int.Parse(endTimeBits[1]), 0);
+                    TimeSpan startTimeSpan = new TimeSpan();
+                    TimeSpan endTimeSpan = new TimeSpan();
+
+                    if (!timeSpanBlock.OpenAllDay)
+                    {
+                        string[] startTimeBits = timeSpanBlock.StartTime.Split(':');
+                        startTimeSpan = new TimeSpan(int.Parse(startTimeBits[0]), int.Parse(startTimeBits[1]), 0);
+                        string[] endTimeBits = timeSpanBlock.EndTime.Split(':');
+                        endTimeSpan = new TimeSpan(int.Parse(endTimeBits[0]), int.Parse(endTimeBits[1]), 0);
+                    }
 
                     // Create an object we can add
                     OpeningHour openingHour = new OpeningHour();
                     openingHour.ID = Guid.NewGuid();
                     openingHour.Day = dayACSEntity;
-                    openingHour.OpenAllDay = false;
+                    openingHour.OpenAllDay = timeSpanBlock.OpenAllDay;
                     openingHour.Site = siteACSEntity;
                     openingHour.TimeStart = startTimeSpan;
                     openingHour.TimeEnd = endTimeSpan;
