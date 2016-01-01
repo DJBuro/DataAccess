@@ -33,6 +33,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     employee.Firstname = employeeEntity.Firstname;
                     employee.Role = employeeEntity.Role;
                     employee.Surname = employeeEntity.Surname;
+                    employee.Phone = employeeEntity.Phone;
 
                     employees.Add(employee);
                 }
@@ -102,6 +103,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 employeeEntity.Surname = employee.Surname;
                 employeeEntity.Role = employee.Role;
                 employeeEntity.Site = siteACSEntity;
+                employeeEntity.Phone = employee.Phone;
 
                 acsEntities.Employees.AddObject(employeeEntity);
                 acsEntities.SaveChanges();

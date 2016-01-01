@@ -61,10 +61,12 @@ namespace AndroCloudDataAccess.Domain
         [JsonProperty(PropertyName = "roadName")]
         public string RoadName { get; set;}
 
+        [Required(ErrorMessage = "Please enter the town")]
         [StringLength(64, ErrorMessage = "Town cannot be longer than 64 characters.")]
         [JsonProperty(PropertyName = "town")]
         public string Town { get; set;}
 
+        [Required(ErrorMessage = "Please enter the postcode")]
         [StringLength(16, ErrorMessage = "Postcode cannot be longer than 16 characters.")]
         [JsonProperty(PropertyName = "postcode")]
         public string Postcode { get; set;}

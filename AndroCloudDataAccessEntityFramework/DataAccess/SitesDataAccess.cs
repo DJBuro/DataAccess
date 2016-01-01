@@ -37,7 +37,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              where sg.GroupID == (groupId.HasValue ? groupId : sg.GroupID)
                              && sm.MenuType == dataTypeString
                              && p.ID == partnerId
-                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.SiteName, s.ExternalId, s.LicenceKey, s.Address.Lat, s.Address.Long };
+                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.Address.Lat, s.Address.Long };
 
             var siteEntities = sitesQuery.ToList();
 
@@ -66,7 +66,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
-                    site.Name = siteEntity.SiteName;
+                    site.Name = siteEntity.ExternalSiteName;
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
 
@@ -94,7 +94,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
                 site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                 site.MenuVersion = 0;
-                site.Name = siteEntity.SiteName;
+                site.Name = siteEntity.ExternalSiteName;
                 site.ExternalId = siteEntity.ExternalId;
                 site.LicenceKey = siteEntity.LicenceKey;
             }
@@ -118,7 +118,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                              on s.ID equals sm.SiteID
                              where p.ID == partnerId
                              && s.ID == siteId
-                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.SiteName, s.ExternalId, s.LicenceKey };
+                             select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey };
 
             var siteEntity = sitesQuery.FirstOrDefault();
 
@@ -129,7 +129,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
                 site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                 site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
-                site.Name = siteEntity.SiteName;
+                site.Name = siteEntity.ExternalSiteName;
                 site.ExternalId = siteEntity.ExternalId;
                 site.LicenceKey = siteEntity.LicenceKey;
             }
