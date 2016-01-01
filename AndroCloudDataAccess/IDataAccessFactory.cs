@@ -21,5 +21,7 @@ namespace AndroCloudDataAccess
         IDeliveryAreaDataAccess DeliveryZoneDataAccess { get; set; }
         IDeliveryAreaTownDataAccess DeliveryAreaTownDataAccess { get; set; }
         IDeliveryAreaRoadDataAccess DeliveryAreaRoadDataAccess { get; set; }
+
+        ISiteLoyaltyDataAccess SiteLoyaltyDataAccess { get; }
     }
 }
