@@ -69,7 +69,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
                 {
                     existingDeliveryArea = deliveryArea;
                 }
-               
+
             }
 
             dataContext.SaveChanges();
@@ -111,7 +111,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 
         public IQueryable<DeliveryArea> List(Expression<Func<DeliveryArea, bool>> predicate)
         {
-            
+
             return this.TableQuery.Where(predicate);
         }
 
@@ -127,7 +127,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
             {
                 int dataVersion = Model.DataVersionHelper.GetNextDataVersion(dataContext);
                 dataContext.DeliveryAreas.Where(d => d.StoreId == storeId).ToList().ForEach(d => { d.Removed = true; d.DataVersion = dataVersion; });
-                
+
                 dataContext.SaveChanges();
                 return true;
             }
@@ -136,8 +136,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         }
 
         public DeliveryZoneName GetDeliveryZonesByRadius(int storeId)
-        {            
-            DeliveryZoneName deliveryzoneName =  dataContext.DeliveryZoneNames.Include(e => e.PostCodeSectors).Where(e => e.StoreId == storeId).FirstOrDefault();
+        {
+            DeliveryZoneName deliveryzoneName = dataContext.DeliveryZoneNames.Include(e => e.PostCodeSectors).Where(e => e.StoreId == storeId).FirstOrDefault();
             return deliveryzoneName;
         }
 
@@ -146,7 +146,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         {
             try
             {
-                var existingDeliveryZone = dataContext.DeliveryZoneNames.Where(e => e.Name.Equals(deliveryZone.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                var existingDeliveryZone = dataContext.DeliveryZoneNames.Where(e => e.OriginPostCode.Equals(deliveryZone.OriginPostCode, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
                 if (existingDeliveryZone != null)
                 {
@@ -159,7 +159,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 
                 return true;
             }
-            catch (Exception e) { 
+            catch (Exception e)
+            {
 
             }
             return false;
@@ -169,27 +170,53 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         {
             var existingDeliveryzone = dataContext.DeliveryZoneNames.Where(f => f.Id == deliveryZone.Id).FirstOrDefault();
             existingDeliveryzone = deliveryZone;
-            dataContext.SaveChanges();
+            if (existingDeliveryzone != null)
+            {
 
-            foreach(PostCodeSector item in deliveryZone.PostCodeSectors){
-                var existingpostcode = existingDeliveryzone.PostCodeSectors.ToList().Where(f => f.DeliveryZoneId == item.DeliveryZoneId).FirstOrDefault();
-                existingpostcode = item;
+                var settings = dataContext.Settings.Where(s => s.Name.Equals("dataversion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                int newDataVersion = Convert.ToInt32(settings.Value) + 1;
+                settings.Value = newDataVersion.ToString();
+
+                //deliveryZone.PostCodeSectors.ToList().ForEach(f => f.DataVersion = newDataVersion);
+                //List<PostCodeSector> existingPostCodeSectors = dataContext.PostCodeSectors.Where(w => w.DeliveryZoneId == deliveryZone.Id).ToList();
+                //List<PostCodeSector> newPostCodeSectors = deliveryZone.PostCodeSectors.Except(existingPostCodeSectors).ToList();
+                //existingPostCodeSectors.ForEach(f => f = (deliveryZone.PostCodeSectors.Where(p => p.Id == f.Id && p.PostCodeSector1 == f.PostCodeSector1)).FirstOrDefault());
+                //newPostCodeSectors.ForEach(f => dataContext.PostCodeSectors.Add(f));
+
+                foreach (PostCodeSector item in deliveryZone.PostCodeSectors)
+                {
+                    item.DataVersion = newDataVersion;
+                    var existingpostcode = existingDeliveryzone.PostCodeSectors.ToList().Where(f => f.DeliveryZoneId == item.DeliveryZoneId).FirstOrDefault();
+                    if (existingpostcode == null)
+                    {
+                        dataContext.PostCodeSectors.Add(item);
+                    }
+                    else
+                    {
+                        existingpostcode = item;
+                    }
+                }
+
+                
             }
-
             dataContext.SaveChanges();
         }
 
         public void CreateDeliveryZones(DeliveryZoneName deliveryzoneName)
         {
+            deliveryzoneName.Name = "default";
+            deliveryzoneName.IsCustom = false;
+            int dataVersion = Convert.ToInt32(dataContext.Settings.Where(s => s.Name.Equals("dataversion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault().Value);
+            deliveryzoneName.PostCodeSectors.ToList().ForEach(f => { f.DeliveryZoneId = deliveryzoneName.Id; f.DataVersion = dataVersion; });
             dataContext.DeliveryZoneNames.Add(deliveryzoneName);
             dataContext.SaveChanges();
-
-            deliveryzoneName.PostCodeSectors.ToList().ForEach(f=>f.DeliveryZoneId = deliveryzoneName.Id);
-            foreach (var item in deliveryzoneName.PostCodeSectors) {
-                dataContext.PostCodeSectors.Add(item);
-            }
-            dataContext.SaveChanges();
+            
+            //foreach (var item in deliveryzoneName.PostCodeSectors)
+            //{
+            //    dataContext.PostCodeSectors.Add(item);
+            //}
+            //dataContext.SaveChanges();
         }
-        
+
     }
 }
