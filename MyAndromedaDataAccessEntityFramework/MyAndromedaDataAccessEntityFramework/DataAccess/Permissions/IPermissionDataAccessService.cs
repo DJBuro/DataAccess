@@ -1,5 +1,6 @@
 ﻿using MyAndromeda.Core;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -229,20 +230,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
             {
                 var appliedRoles = dbContext.Roles.Where(e=> e.UserRecords.Any(r=> r.Id == userId)).ToArray();
 
-                var rolePermissionsTable = dbContext.RolePermissions;
-                
-                //load the permissions once rather than several times over the lazy loading role.permissions
-                var query = rolePermissionsTable
-                    .Where(e => e.Role.UserRecords.Any(userRecord => userRecord.Id == userId))
-                    .Select(e => new {
-                        RoleId = e.RoleId,
-                        e.Permission.Id,
-                        e.Permission.Name,
-                        e.Permission.Description,
-                        e.Permission.Category
-                    }).ToArray();
-
-                var groups = query.GroupBy(e => e.RoleId).ToDictionary(e=> e.Key, e => e.ToList());
+                var rolePermissionsTable = dbContext.RolePermissions
+                    .Include(e=> e.Role)
+                    .Include(e=> e.Permission)
+                    .Where(e=> e.Role.UserRecords.Any(r => r.Id == userId))
+                    .ToArray();
+ 
+                var groups = rolePermissionsTable.GroupBy(e => e.RoleId).ToDictionary(e => e.Key, e => e.ToList());
 
                 foreach (var role in appliedRoles) 
                 {
@@ -254,10 +248,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
                 {
                     var group = userRoles.Where(e => e.Id == key).Single();
                     group.EffectivePermissions = groups[key].Select(e=> new Permission(){
-                        Id = e.Id,
-                        Name = e.Name,
-                        Description = e.Description,
-                        Category = e.Category
+                        Id = e.PermissionId,
+                        Name = e.Permission.Name,
+                        Description = e.Permission.Description,
+                        Category = e.Permission.Category
                     }).ToList();
                 }
             }
