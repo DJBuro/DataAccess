@@ -41,7 +41,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Status = (entity.Enabled ? "Enabled" : "Disabled"),
                         SubscriptionTypeId = entity.SubscriptionTypeId,
                         SubscriptionName = (entity.AndroWebOrderingSubscriptionType != null) ? entity.AndroWebOrderingSubscriptionType.Subscription : string.Empty,
-                        URL = entity.URL
+                        LiveDomainName = entity.URL,
+
+                        Settings = entity.Settings,
+                        PreviewDomainName = entity.PreviewDomainName,
+                        PreviewSettings = entity.PreviewSettings,
+                        ThemeId = entity.ThemeId
                     };
                     model.MappedSiteIds = new List<int>();
                     if (entity.ACSApplication != null)
@@ -77,7 +82,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.Id = result.Id;
                         webOrderingSite.Name = result.Name;
                         webOrderingSite.SubscriptionTypeId = result.SubscriptionTypeId;
-                        webOrderingSite.URL = result.URL;
+                        webOrderingSite.LiveDomainName = result.URL;
                         webOrderingSite.Enabled = result.Enabled;
                         webOrderingSite.DisabledReason = result.DisabledReason;
                         webOrderingSite.DataVersion = result.DataVersion;
@@ -85,6 +90,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.ACSApplicationId = result.ACSApplicationId;
                         webOrderingSite.Chains = entitiesContext.Chains.Select(s => new Domain.Chain { Id = s.Id, Name = s.Name }).ToList();
                         webOrderingSite.MappedSiteIds = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == result.ACSApplicationId).Select(s => s.SiteId).ToList();
+
+                        webOrderingSite.PreviewSettings = result.PreviewSettings;
+                        webOrderingSite.Settings = result.Settings;
+                        webOrderingSite.PreviewDomainName = result.PreviewDomainName;
+                        webOrderingSite.ThemeId = result.ThemeId;
                     }
 
                 }
@@ -151,7 +161,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                     Enabled = webOrderingSite.Enabled,
                                     Name = webOrderingSite.Name,
                                     SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
-                                    URL = webOrderingSite.URL
+                                    URL = webOrderingSite.LiveDomainName,
+
+                                    PreviewSettings = webOrderingSite.PreviewSettings,
+                                    Settings = webOrderingSite.Settings,
+                                    PreviewDomainName = webOrderingSite.PreviewDomainName,
+                                    ThemeId = webOrderingSite.ThemeId
                                 });
 
                                 if (webOrderingSite.MappedSiteIds != null)
@@ -199,7 +214,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             webSite.Enabled = webOrderingSite.Enabled;
                             webSite.Name = webOrderingSite.Name;
                             webSite.SubscriptionTypeId = webOrderingSite.SubscriptionTypeId;
-                            webSite.URL = webOrderingSite.URL;
+                            webSite.URL = webOrderingSite.LiveDomainName;
+
+                            if (!string.IsNullOrEmpty(webOrderingSite.PreviewSettings))
+                                webSite.PreviewSettings = webOrderingSite.PreviewSettings;
+                            if (!string.IsNullOrEmpty(webOrderingSite.Settings))
+                                webSite.Settings = webOrderingSite.Settings;
+                            webSite.PreviewDomainName = webOrderingSite.PreviewDomainName;
+                            webSite.ThemeId = webOrderingSite.ThemeId;
 
                             if (webSite.ACSApplication != null)
                             {

@@ -14,5 +14,6 @@ namespace AndroAdminDataAccess.Domain
         public string FileName { get; set; }
         public string InternalName { get; set; }
         public string Description { get; set; }
+        public string ZIPFile { get; set; }
     }
 }
