@@ -24,6 +24,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
                 table.Add(entity);
                 userRole.Id = entity.Id;
+
+                dbContext.SaveChanges();
             }
         }
 

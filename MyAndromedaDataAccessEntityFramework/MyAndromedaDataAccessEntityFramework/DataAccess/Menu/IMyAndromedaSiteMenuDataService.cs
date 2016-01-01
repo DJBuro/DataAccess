@@ -12,7 +12,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 {
     public interface IMyAndromedaSiteMenuDataService : IDependency 
     {
-        
         /// <summary>
         /// Sets the version from the database file.
         /// </summary>
@@ -25,7 +24,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// </summary>
         /// <param name="siteMenuFtpBackup">The site menu FTP backup.</param>
         //void SetVersion(SiteMenu siteMenuFtpBackup);
-
 
         /// <summary>
         /// Gets the menu.
@@ -53,7 +51,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <param name="query">The query.</param>
         /// <returns></returns>
         IEnumerable<SiteMenu> List(Expression<Func<SiteMenu, bool>> query);
-
         
         /// <summary>
         /// Sets the upload flag.
@@ -68,10 +65,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <param name="siteMenuFtp">The site menu FTP.</param>
         /// <param name="value">The value.</param>
         void SetDownloadTask(SiteMenu siteMenu, TaskStatus status);
+        void SetLastDownloadDate(SiteMenu siteMenu, DateTime dateUtc);
 
-        void CreateUploadMenuDataTask(SiteMenu menu);
-        void SetUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status);
+        void CreateAcsUploadMenuDataTask(SiteMenu menu);
+        void SetAcsUploadMenuDataTaskStatus(SiteMenu menu, TaskStatus status);
+
+        /// <summary>
+        /// Resets the upload tasks.
+        /// </summary>
+        /// <param name="notFinishedBy">The not finished by.</param>
+        IEnumerable<SiteMenu> ResetUploadTasks(DateTime notFinishedBy);
+
+        /// <summary>
+        /// Resets the download tasks.
+        /// </summary>
+        /// <param name="notUploadedBy">The not uploaded by.</param>
+        IEnumerable<SiteMenu> ResetDownloadTasks(DateTime notUploadedBy);
     }
-
-
 }

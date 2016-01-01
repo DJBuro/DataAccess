@@ -20,6 +20,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public bool Completed { get; set; }
         public bool Canceled { get; set; }
         public string PublishedBy { get; set; }
+        public System.DateTime CreatedOn { get; set; }
     
         public virtual SiteMenu SiteMenu { get; set; }
     }

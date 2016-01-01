@@ -423,6 +423,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="PublishOnUtc" Type="datetime" Nullable="false" />
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="Canceled" Type="bit" Nullable="false" />
@@ -1496,6 +1497,7 @@
           <Property Type="Boolean" Name="Canceled" Nullable="false" />
           <Property Type="String" Name="PublishedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SiteMenu" Relationship="MyAndromedaModel.FK_SiteMenuPublishTask_SiteMenu" FromRole="SiteMenuPublishTask" ToRole="SiteMenu" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
@@ -1938,6 +1940,7 @@
           <EntitySetMapping Name="SiteMenuPublishTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuPublishTask">
               <MappingFragment StoreEntitySet="SiteMenuPublishTask">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="PublishedBy" ColumnName="PublishedBy" />
                 <ScalarProperty Name="Canceled" ColumnName="Canceled" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
