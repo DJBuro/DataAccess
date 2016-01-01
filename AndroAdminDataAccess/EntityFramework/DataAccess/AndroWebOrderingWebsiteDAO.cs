@@ -178,6 +178,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     {
                         webOrderingSite.ACSApplication.PartnerId = partner.Id;
                         acsDAO.Add(webOrderingSite.ACSApplication);
+
                         acsApplication = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
                     }
 
@@ -214,8 +215,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                         if (webOrderingSite.MappedSiteIds != null)
                         {
+                            List<int> storesThatExist = entitiesContext
+                                    .ACSApplicationSites.Where(e=> e.ACSApplicationId == acsApplication.Id)
+                                    .Select(e=> e.SiteId)
+                                    .ToList();
+
                             foreach (var siteId in webOrderingSite.MappedSiteIds)
                             {
+                                if (storesThatExist.Any(e => e == siteId)) { continue; }
+
                                 entitiesContext
                                     .ACSApplicationSites
                                     .Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = acsApplication.Id, DataVersion = newVersion });
@@ -263,7 +271,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             var partner = entitiesContext.Partners.Where(p => p.Name.Equals("Andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
                             if (partner != null)
+                            {
                                 partner.DataVersion = newVersion;
+                            }
 
                             webSite.ChainId = webOrderingSite.ChainId;
                             webSite.DataVersion = newVersion;

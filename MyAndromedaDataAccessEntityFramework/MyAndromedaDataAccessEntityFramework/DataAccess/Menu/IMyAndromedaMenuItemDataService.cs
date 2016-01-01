@@ -279,7 +279,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
             foreach (var id in similarMenuItemIds)
             {
-                var itemResult = allMenuItemResult.SingleOrDefault(e => e.ItemId == id);
+                //there should never be more than one, curious that dev1 is doing that. 
+                var items = allMenuItemResult.Where(e => e.ItemId == id);
+                var itemResult = items.FirstOrDefault(e => e.ItemId == id);
 
                 if (itemResult == null)
                 {
