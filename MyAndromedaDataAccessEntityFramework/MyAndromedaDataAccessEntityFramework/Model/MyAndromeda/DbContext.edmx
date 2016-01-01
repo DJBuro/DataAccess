@@ -617,10 +617,6 @@
             <End Role="SiteMenuMediaProfileSize" EntitySet="SiteMenuMediaProfileSizes" />
           </AssociationSet>
           <EntitySet Name="MenuItems" EntityType="MyAndromedaModel.MenuItem" />
-          <AssociationSet Name="MenuItemThumbnailRelations" Association="MyAndromedaModel.MenuItemThumbnailRelations">
-            <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnails" />
-            <End Role="MenuItem" EntitySet="MenuItems" />
-          </AssociationSet>
           <EntitySet Name="SiteMenus" EntityType="MyAndromedaModel.SiteMenu" />
           <AssociationSet Name="FK_MenuItem_SiteMenu" Association="MyAndromedaModel.FK_MenuItem_SiteMenu">
             <End Role="SiteMenu" EntitySet="SiteMenus" />
@@ -654,6 +650,15 @@
           <AssociationSet Name="UserRole" Association="MyAndromedaModel.UserRole">
             <End Role="Role" EntitySet="Roles" />
             <End Role="UserRecord" EntitySet="UserRecords" />
+          </AssociationSet>
+          <EntitySet Name="MenuItemThumbnailsLinkTable" EntityType="MyAndromedaModel.MenuItemThumbnailsLinkTable" />
+          <AssociationSet Name="MenuItemThumbnailMenuItemThumbnailsLinkTable" Association="MyAndromedaModel.MenuItemThumbnailMenuItemThumbnailsLinkTable">
+            <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnails" />
+            <End Role="MenuItemThumbnailsLinkTable" EntitySet="MenuItemThumbnailsLinkTable" />
+          </AssociationSet>
+          <AssociationSet Name="MenuItemThumbnailLinkTable" Association="MyAndromedaModel.MenuItemThumbnailLinkTable">
+            <End Role="MenuItem" EntitySet="MenuItems" />
+            <End Role="MenuItemThumbnailsLinkTable" EntitySet="MenuItemThumbnailsLinkTable" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -811,7 +816,7 @@
           <Property Type="Int32" Name="Width" Nullable="false" />
           <Property Type="String" Name="Alt" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FileName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItemThumbnail" ToRole="MenuItem" />
+          <NavigationProperty Name="MenuItemThumbnailRelations" Relationship="MyAndromedaModel.MenuItemThumbnailMenuItemThumbnailsLinkTable" FromRole="MenuItemThumbnail" ToRole="MenuItemThumbnailsLinkTable" />
         </EntityType>
         <EntityType Name="SiteMenuMediaServerAuthentication">
           <Key>
@@ -894,13 +899,9 @@
           <Property Type="Int32" Name="ItemId" Nullable="false" />
           <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="SiteMenuId" Nullable="false" />
-          <NavigationProperty Name="MenuItemThumbnails" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItem" ToRole="MenuItemThumbnail" />
           <NavigationProperty Name="SiteMenu" Relationship="MyAndromedaModel.FK_MenuItem_SiteMenu" FromRole="MenuItem" ToRole="SiteMenu" />
+          <NavigationProperty Name="MenuItemThumbnailsLinkTables" Relationship="MyAndromedaModel.MenuItemThumbnailLinkTable" FromRole="MenuItem" ToRole="MenuItemThumbnailsLinkTable" />
         </EntityType>
-        <Association Name="MenuItemThumbnailRelations">
-          <End Type="MyAndromedaModel.MenuItemThumbnail" Role="MenuItemThumbnail" Multiplicity="*" />
-          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
-        </Association>
         <EntityType Name="SiteMenu">
           <Key>
             <PropertyRef Name="Id" />
@@ -1043,6 +1044,40 @@
         <Association Name="UserRole">
           <End Type="MyAndromedaModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MyAndromedaModel.UserRecord" Role="UserRecord" Multiplicity="*" />
+        </Association>
+        <EntityType Name="MenuItemThumbnailsLinkTable" >
+          <Key>
+            <PropertyRef Name="MenuItemThumbnailId" />
+            <PropertyRef Name="MenuItemId" />
+          </Key>
+          <NavigationProperty Name="MenuItemThumbnail" Relationship="MyAndromedaModel.MenuItemThumbnailMenuItemThumbnailsLinkTable" FromRole="MenuItemThumbnailsLinkTable" ToRole="MenuItemThumbnail" />
+          <Property Type="Guid" Name="MenuItemThumbnailId" Nullable="false" />
+          <NavigationProperty Name="MenuItem" Relationship="MyAndromedaModel.MenuItemThumbnailLinkTable" FromRole="MenuItemThumbnailsLinkTable" ToRole="MenuItem" />
+          <Property Type="Guid" Name="MenuItemId" Nullable="false" />
+        </EntityType>
+        <Association Name="MenuItemThumbnailMenuItemThumbnailsLinkTable">
+          <End Type="MyAndromedaModel.MenuItemThumbnail" Role="MenuItemThumbnail" Multiplicity="1" />
+          <End Type="MyAndromedaModel.MenuItemThumbnailsLinkTable" Role="MenuItemThumbnailsLinkTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItemThumbnail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemThumbnailsLinkTable">
+              <PropertyRef Name="MenuItemThumbnailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MenuItemThumbnailLinkTable">
+          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="1" />
+          <End Type="MyAndromedaModel.MenuItemThumbnailsLinkTable" Role="MenuItemThumbnailsLinkTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemThumbnailsLinkTable">
+              <PropertyRef Name="MenuItemId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1196,14 +1231,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="MenuItemThumbnailRelations" TypeName="MyAndromedaModel.MenuItemThumbnailRelations" StoreEntitySet="MenuItemThumbnailRelations">
-            <EndProperty Name="MenuItem">
-              <ScalarProperty Name="Id" ColumnName="MenItemId" />
-            </EndProperty>
-            <EndProperty Name="MenuItemThumbnail">
-              <ScalarProperty Name="Id" ColumnName="MenuItemThumbnailId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="SiteMenus">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenu">
               <MappingFragment StoreEntitySet="SiteMenu">
@@ -1280,6 +1307,14 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="MenuItemThumbnailsLinkTable">
+            <EntityTypeMapping TypeName="IsTypeOf(MyAndromedaModel.MenuItemThumbnailsLinkTable)">
+              <MappingFragment StoreEntitySet="MenuItemThumbnailRelations" >
+                <ScalarProperty Name="MenuItemThumbnailId" ColumnName="MenuItemThumbnailId" />
+                <ScalarProperty Name="MenuItemId" ColumnName="MenItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
