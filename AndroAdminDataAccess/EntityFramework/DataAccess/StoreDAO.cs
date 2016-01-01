@@ -37,6 +37,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName
                     };
 
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            model.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
+
                     models.Add(model);
                 }
             }
@@ -184,7 +211,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName
                     };
 
-                    // Update / create an address
+                    // Get the address
                     var addressQuery = from s in entitiesContext.Addresses
                                        where s.Id == entity.AddressId
                                        select s;
@@ -241,6 +268,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName
                     };
+
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            store.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
                 }
             }
 
@@ -272,6 +326,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName
                     };
+
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            store.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
                 }
             }
 
@@ -306,6 +387,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName
                     };
 
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            store.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
+
                     stores.Add(store);
                 }
             }
@@ -337,6 +445,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName
                     };
+
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            model.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
 
                     models.Add(model);
                 }
@@ -372,6 +507,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName
                     };
+
+                    // Get the address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            model.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
 
                     models.Add(model);
                 }
