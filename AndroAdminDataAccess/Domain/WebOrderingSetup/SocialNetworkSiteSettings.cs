@@ -17,6 +17,6 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         //public string FacebookLikeButtonScript { get; set; }
 
-        public string Script { set; get; }
+        
     }
 }

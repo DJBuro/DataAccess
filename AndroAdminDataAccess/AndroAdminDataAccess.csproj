@@ -225,12 +225,14 @@
     <Compile Include="Domain\WebOrderingSetup\HomePageSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\LegalNotices.cs" />
     <Compile Include="Domain\WebOrderingSetup\MenuPage.cs" />
+    <Compile Include="Domain\WebOrderingSetup\SEO.cs" />
     <Compile Include="Domain\WebOrderingSetup\SiteDetails.cs" />
     <Compile Include="Domain\WebOrderingSetup\SocialNetwork.cs" />
     <Compile Include="Domain\WebOrderingSetup\SocialNetworkSite.cs" />
     <Compile Include="Domain\WebOrderingSetup\SocialNetworkSiteSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\ThemeSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\Title.cs" />
+    <Compile Include="Domain\WebOrderingSetup\TripAdvisorSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSelling.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategory.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategoryItem.cs" />

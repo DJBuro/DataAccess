@@ -101,6 +101,10 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public FacebookCrawlerSettings FacebookCrawlerSettings { set; get; }
 
+        public TripAdvisorSettings TripAdvisorSettings { set; get; }
+
+        public SEO SEO { set; get; }
+
         public static string SerializeJson(Object obj)
         {
             if (obj == null)
