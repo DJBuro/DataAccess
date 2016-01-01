@@ -20,19 +20,60 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.StoreAMSServerFtpSites
-                            .Include("StoreAMSServer")
-                            .Include("StoreAMSServer.Store")
-                            .Include("StoreAMSServer.AMSServer")
-                            orderby s.StoreAMSServer.Store.Name
+                var query = from s in entitiesContext.Stores
+                            join sas in entitiesContext.StoreAMSServers
+                                .Include("StoreAMSServerFtpSites")
+                                .Include("StoreAMSServer")
+                                .Include("StoreAMSServer.Store")
+                                .Include("StoreAMSServer.AMSServer")
+                                on s.Id equals sas.StoreId into _sas
+                                
+                                from sas in _sas.DefaultIfEmpty()
+//                            orderby s.StoreAMSServer.Store.Name
                             select new
                             {
-                                Id = s.StoreAMSServer.Store.Id,
-                                StoreName = s.StoreAMSServer.Store.Name,
-                                AMSServerName = s.StoreAMSServer.AMSServer.Description,
+                                Id = s.Id,
+                                StoreName = s.Name,
+                                AMSServerName = sas.AMSServer.Description,
                                 //FTPSites = s.StoreAMSServer.Store.
-                                LastFTPUploadDateTime = s.StoreAMSServer.Store.LastFTPUploadDateTime
+                                LastFTPUploadDateTime = s.LastFTPUploadDateTime
                             };
+
+                //var query = from s in entitiesContext.StoreAMSServerFtpSites
+                //            .Include("StoreAMSServer")
+                //            .Include("StoreAMSServer.Store")
+                //            .Include("StoreAMSServer.AMSServer")
+                //            orderby s.StoreAMSServer.Store.Name
+                //            select new
+                //            {
+                //                Id = s.StoreAMSServer.Store.Id,
+                //                StoreName = s.StoreAMSServer.Store.Name,
+                //                AMSServerName = s.StoreAMSServer.AMSServer.Description,
+                //                //FTPSites = s.StoreAMSServer.Store.
+                //                LastFTPUploadDateTime = s.StoreAMSServer.Store.LastFTPUploadDateTime
+                //            };
+
+                //var query = from x in entitiesContext.StoreAMSServerFtpSites
+                //            from sd in x.StoreAMSServer.DefaultIfEmpty()
+                //         //   from sd in s.StudentDescriptions.DefaultIfEmpty()
+                //         //   from sd in s.StudentDescriptions.DefaultIfEmpty()
+                //            //join sas in entitiesContext.StoreAMSServers 
+                //            //    on x.StoreAMSServerId equals sas.Id into _sas
+                //            //    from sas in _sas.DefaultIfEmpty()
+                //            //join s in entitiesContext.Stores 
+                //            //    on sas.StoreId equals s.Id into _s
+                //            //    from s in _s.DefaultIfEmpty()
+                //            //join a in entitiesContext.AMSServers 
+                //            //    on sas.AMSServerId equals a.Id into _a
+                //            //    from a in _a.DefaultIfEmpty()
+                //            orderby x.StoreAMSServer.Store.Name
+                //            select new
+                //            {
+                //                Id = x.StoreAMSServer.Store.Id,
+                //                StoreName = s.Name,
+                //                AMSServerName = a.Description,
+                //                LastFTPUploadDateTime = s.LastFTPUploadDateTime
+                //            };
 
                 foreach (var entity in query)
                 {

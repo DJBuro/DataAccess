@@ -15,5 +15,14 @@ namespace AndroAdminDataAccess.Domain
 
         [Required(ErrorMessage = "Please enter a description for the AMS server")]
         public virtual string Description { get; set; }
+
+        // Just used for display purposes
+        public virtual string DisplayName 
+        { 
+            get
+            {
+                return this.Name + " - " + Description;
+            }
+        }
     }
 }
