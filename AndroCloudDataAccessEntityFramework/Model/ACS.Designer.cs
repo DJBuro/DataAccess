@@ -31,6 +31,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_OpeningHours_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.OpeningHour), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Orders_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Order), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SiteMenus_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SiteMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SiteMenu), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_Sites_PaymentProvider", "StorePaymentProvider", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.StorePaymentProvider), "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Site), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SitesGroups_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SitesGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SitesGroup), true)]
 
 #endregion
@@ -310,6 +311,22 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Host> Hosts
+        {
+            get
+            {
+                if ((_Hosts == null))
+                {
+                    _Hosts = base.CreateObjectSet<Host>("Hosts");
+                }
+                return _Hosts;
+            }
+        }
+        private ObjectSet<Host> _Hosts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<Site> Sites
         {
             get
@@ -326,18 +343,18 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Host> Hosts
+        public ObjectSet<StorePaymentProvider> StorePaymentProviders
         {
             get
             {
-                if ((_Hosts == null))
+                if ((_StorePaymentProviders == null))
                 {
-                    _Hosts = base.CreateObjectSet<Host>("Hosts");
+                    _StorePaymentProviders = base.CreateObjectSet<StorePaymentProvider>("StorePaymentProviders");
                 }
-                return _Hosts;
+                return _StorePaymentProviders;
             }
         }
-        private ObjectSet<Host> _Hosts;
+        private ObjectSet<StorePaymentProvider> _StorePaymentProviders;
 
         #endregion
 
@@ -456,6 +473,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToHosts(Host host)
+        {
+            base.AddObject("Hosts", host);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Sites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToSites(Site site)
@@ -464,11 +489,11 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the StorePaymentProviders EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToHosts(Host host)
+        public void AddToStorePaymentProviders(StorePaymentProvider storePaymentProvider)
         {
-            base.AddObject("Hosts", host);
+            base.AddObject("StorePaymentProviders", storePaymentProvider);
         }
 
         #endregion
@@ -4007,6 +4032,30 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private global::System.String _LicenceKey;
         partial void OnLicenceKeyChanging(global::System.String value);
         partial void OnLicenceKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> StorePaymentProviderID
+        {
+            get
+            {
+                return _StorePaymentProviderID;
+            }
+            set
+            {
+                OnStorePaymentProviderIDChanging(value);
+                ReportPropertyChanging("StorePaymentProviderID");
+                _StorePaymentProviderID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StorePaymentProviderID");
+                OnStorePaymentProviderIDChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _StorePaymentProviderID;
+        partial void OnStorePaymentProviderIDChanging(Nullable<global::System.Guid> value);
+        partial void OnStorePaymentProviderIDChanged();
 
         #endregion
 
@@ -4135,6 +4184,44 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SiteMenu>("ACSModel.FK_SiteMenus_Sites", "SiteMenu", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_Sites_PaymentProvider", "StorePaymentProvider")]
+        public StorePaymentProvider StorePaymentProvider
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("ACSModel.FK_Sites_PaymentProvider", "StorePaymentProvider").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("ACSModel.FK_Sites_PaymentProvider", "StorePaymentProvider").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<StorePaymentProvider> StorePaymentProviderReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("ACSModel.FK_Sites_PaymentProvider", "StorePaymentProvider");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StorePaymentProvider>("ACSModel.FK_Sites_PaymentProvider", "StorePaymentProvider", value);
                 }
             }
         }
@@ -4565,6 +4652,167 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Site>("ACSModel.FK_SitesGroups_Sites", "Site", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="StorePaymentProvider")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StorePaymentProvider : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StorePaymentProvider object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="providerName">Initial value of the ProviderName property.</param>
+        /// <param name="clientId">Initial value of the ClientId property.</param>
+        /// <param name="clientPassword">Initial value of the ClientPassword property.</param>
+        public static StorePaymentProvider CreateStorePaymentProvider(global::System.Guid id, global::System.String providerName, global::System.String clientId, global::System.String clientPassword)
+        {
+            StorePaymentProvider storePaymentProvider = new StorePaymentProvider();
+            storePaymentProvider.ID = id;
+            storePaymentProvider.ProviderName = providerName;
+            storePaymentProvider.ClientId = clientId;
+            storePaymentProvider.ClientPassword = clientPassword;
+            return storePaymentProvider;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ProviderName
+        {
+            get
+            {
+                return _ProviderName;
+            }
+            set
+            {
+                OnProviderNameChanging(value);
+                ReportPropertyChanging("ProviderName");
+                _ProviderName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ProviderName");
+                OnProviderNameChanged();
+            }
+        }
+        private global::System.String _ProviderName;
+        partial void OnProviderNameChanging(global::System.String value);
+        partial void OnProviderNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ClientId
+        {
+            get
+            {
+                return _ClientId;
+            }
+            set
+            {
+                OnClientIdChanging(value);
+                ReportPropertyChanging("ClientId");
+                _ClientId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ClientId");
+                OnClientIdChanged();
+            }
+        }
+        private global::System.String _ClientId;
+        partial void OnClientIdChanging(global::System.String value);
+        partial void OnClientIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ClientPassword
+        {
+            get
+            {
+                return _ClientPassword;
+            }
+            set
+            {
+                OnClientPasswordChanging(value);
+                ReportPropertyChanging("ClientPassword");
+                _ClientPassword = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ClientPassword");
+                OnClientPasswordChanged();
+            }
+        }
+        private global::System.String _ClientPassword;
+        partial void OnClientPasswordChanging(global::System.String value);
+        partial void OnClientPasswordChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_Sites_PaymentProvider", "Site")]
+        public EntityCollection<Site> Sites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Site>("ACSModel.FK_Sites_PaymentProvider", "Site");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Site>("ACSModel.FK_Sites_PaymentProvider", "Site", value);
                 }
             }
         }
