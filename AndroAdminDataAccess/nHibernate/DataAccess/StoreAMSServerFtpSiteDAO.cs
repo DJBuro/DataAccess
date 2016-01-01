@@ -96,5 +96,22 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
         {
             throw new NotImplementedException();
         }
+
+
+        public IList<StoreAMSServerFtpSite> GetByStoreAMSServerId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public StoreAMSServerFtpSite GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
