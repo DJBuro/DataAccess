@@ -21,6 +21,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public string MenuData { get; set; }
         public Nullable<System.DateTime> LastUpdated { get; set; }
         public string MenuDataThumbnails { get; set; }
+        public string MenuDataThumbnailsVersion { get; set; }
     
         public virtual Site Site { get; set; }
     }
