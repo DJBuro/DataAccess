@@ -601,6 +601,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 var customerEntity = customerTable.FirstOrDefault(e => customer.Id == e.ID);
                 var customerLoyalty = new CustomerLoyalty
                 {
+                    Id = Guid.NewGuid(),
                     ProviderName = loyalty.ProviderName,
                     Customer = customerEntity
                 };
