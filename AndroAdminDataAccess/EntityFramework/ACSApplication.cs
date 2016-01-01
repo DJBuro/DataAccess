@@ -19,6 +19,7 @@ namespace AndroAdminDataAccess.EntityFramework
             this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
             this.HostV2 = new HashSet<HostV2>();
             this.Hosts = new HashSet<Host>();
+            this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual ICollection<HostV2> HostV2 { get; set; }
         public virtual ICollection<Host> Hosts { get; set; }
+        public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
     }
 }

@@ -198,6 +198,9 @@
     <Compile Include="EntityFramework\AMSServerChain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\AndroWebOrderingWebsite.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\Chain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
