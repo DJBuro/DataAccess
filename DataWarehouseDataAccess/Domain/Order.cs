@@ -31,9 +31,9 @@ namespace DataWarehouseDataAccess.Domain
         [XmlElement(ElementName = "IsProvisional")]
         public bool IsProvisional { get; set; }
 
-        [JsonProperty(PropertyName = "DriverName")]
-        [XmlElement(ElementName = "DriverName")]
-        public string DriverName { get; set; }
+        [JsonProperty(PropertyName = "driver")]
+        [XmlElement(ElementName = "Driver")]
+        public string Driver { get; set; }
 
         public Order()
         {
