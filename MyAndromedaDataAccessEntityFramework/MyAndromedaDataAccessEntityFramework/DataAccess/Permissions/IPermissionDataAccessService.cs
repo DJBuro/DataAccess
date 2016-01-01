@@ -203,8 +203,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var permissionsTable = dbContext.Permissions;
-                var query = permissionsTable.Where(e => e.EnrolmentLevels.Any(level => level.StoreEnrolments.Any(enrolement => enrolement.StoreId == site.Id)));
-                var results = query.ToArray();
+                var query = permissionsTable.Where(e => 
+                    e.EnrolmentLevels.Any(level => level.StoreEnrolments.Any(enrolement => enrolement.StoreId == site.Id))
+                );
+                var defaultPermissions = permissionsTable.Where(e=> e.EnrolmentLevels.Any(enrolment => enrolment.Name == "Default Store"));
+
+                var results = query.Union(defaultPermissions).ToArray();
                 
                 permissions = results.Select(e => e as IPermission).ToArray();
             }

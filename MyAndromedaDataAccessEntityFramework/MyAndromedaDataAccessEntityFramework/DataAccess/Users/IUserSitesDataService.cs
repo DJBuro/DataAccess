@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Data.Entity;
+using System.Data.EntityModel;
 using System.Collections.Generic;
 using MyAndromeda.Core;
 using MyAndromedaDataAccess.Domain;
@@ -61,7 +63,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     accessibleStores = userStoresResult;
                 }
 
-                var storesTable = androAdminDbContext.Stores;
+                var storesTable = androAdminDbContext.Stores.Include(e=> e.Address);
                 var storeQuery = storesTable.Where(e => accessibleStores.Any(storeId => storeId == e.Id));
                 var storeResults = storeQuery.ToArray();
 
@@ -88,7 +90,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     return sites;
                 }
 
-                var storesTable = androAdminDbContext.Stores;
+                var storesTable = androAdminDbContext.Stores.Include(e => e.Address);
                 var storesQuery = storesTable.Where(e => e.ChainId == chainId);
                 var storesResult = storesQuery.ToArray();
 

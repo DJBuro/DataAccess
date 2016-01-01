@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.EntityModel;
+using System.Data.Entity;
+
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
@@ -61,9 +64,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
             site = null;
             using (var entitiesContext = new AndroAdminDbContext())
             {
-                var query = from s in entitiesContext.Stores
-                            where s.Id == siteId
-                            select s;
+                var table = entitiesContext.Stores.Include(e => e.Address);
+                var query = table.Where(e => e.Id == siteId);
 
                 Store entity = query.FirstOrDefault();
 

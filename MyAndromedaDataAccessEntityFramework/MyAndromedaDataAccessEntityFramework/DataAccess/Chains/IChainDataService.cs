@@ -1,51 +1,34 @@
 ﻿using MyAndromeda.Core;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using MyAndromedaDataAccess.Domain;
+using System.Linq.Expressions;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
 {
     public interface IChainDataService : IDependency
     {
+        /// <summary>
+        /// Gets the specified chain id.
+        /// </summary>
+        /// <param name="chainId">The chain id.</param>
+        /// <returns></returns>
         MyAndromedaDataAccess.Domain.Chain Get(int chainId);
 
+        /// <summary>
+        /// Lists the specified query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        IEnumerable<MyAndromedaDataAccess.Domain.Chain> List(Expression<Func<Model.AndroAdmin.Chain, bool>> query);
+
+        /// <summary>
+        /// Gets the site list of a chain.
+        /// </summary>
+        /// <param name="chainId">The chain id.</param>
+        /// <returns></returns>
         IEnumerable<MyAndromedaDataAccess.Domain.Site> GetChainsSiteList(int chainId); 
-    }
-
-    public class ChainDataService : IChainDataService 
-    {
-        public IEnumerable<Site> GetChainsSiteList(int chainId)
-        {
-            IEnumerable<MyAndromedaDataAccess.Domain.Site> sites;
-            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
-            {
-                var table = dbContext.Stores;
-                var query = table.Where(e => e.Chain.Id == chainId);
-                var results = query.ToArray();
-
-                sites = results.Select(e => e.ToDomain());
-            }
-
-            return sites;
-        }
-
-        public MyAndromedaDataAccess.Domain.Chain Get(int chainId)
-        {
-            MyAndromedaDataAccess.Domain.Chain entity = null;
-            using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
-            {
-                var table = dbContext.Chains;
-                var query = table.Where(e => e.Id == chainId).ToArray();
-                var result = query.SingleOrDefault();
-
-                entity = new MyAndromedaDataAccess.Domain.Chain() { 
-                    Id = result.Id,
-                    Name = result.Name
-                };
-            }
-
-            return entity;
-        }
     }
 }

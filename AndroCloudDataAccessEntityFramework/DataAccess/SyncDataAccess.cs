@@ -88,6 +88,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
   
         private void SyncHubResets(ACSEntities acsEntities, HubUpdates hubUpdates)
         {
+            if (hubUpdates == null) { return; }
+            if (hubUpdates.SiteHubHardwareKeyResets == null) { return; }
+
             foreach (var hubthing in hubUpdates.SiteHubHardwareKeyResets) 
             {
                 var store = acsEntities.Sites
@@ -107,19 +110,29 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             IHubDataAccess hubDataAccess = new HubDataAccess() { 
                 ConnectionStringOverride = this.ConnectionStringOverride,
                 AcsEntities = acsEntities
-            }; 
-            //remove all of these
-            foreach (var update in hubUpdates.InActiveHubList) 
-            {
-                hubDataAccess.TryToRemoveHub(update.Id);
+            };
+
+            if (hubUpdates == null) { return; }
+           
+            if (hubUpdates.InActiveHubList != null)
+            {  
+                //remove all of these
+                foreach (var update in hubUpdates.InActiveHubList) 
+                {
+                    hubDataAccess.TryToRemoveHub(update.Id);
+                }
             }
 
-            //make sure all these exist
-            foreach (var model in hubUpdates.ActiveHubList) 
+            
+            if (hubUpdates.ActiveHubList != null)
             {
-                hubDataAccess.AddOrUpdate(model);
+                //make sure all these exist
+                foreach (var model in hubUpdates.ActiveHubList) 
+                {
+                    hubDataAccess.AddOrUpdate(model);
 
-                withHub(model);
+                    withHub(model);
+                }
             }
 
         }

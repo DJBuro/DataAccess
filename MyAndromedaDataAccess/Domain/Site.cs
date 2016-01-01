@@ -17,6 +17,10 @@ namespace MyAndromedaDataAccess.Domain
         public int EstDelivTime { get; set; }
         public string ExternalSiteId { get; set; }
 
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+
         public int ChainId { get; set; }
     }
 }

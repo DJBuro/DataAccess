@@ -178,6 +178,11 @@ namespace MyAndromedaDataAccessEntityFramework
             entity.CompletedAt = domainModel.CompletedAt;
         }
 
+        /// <summary>
+        /// Creates a domain model from the store db entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         public static Domain.Site ToDomain(this Model.AndroAdmin.Store entity)
         {
             var site = new MyAndromedaDataAccess.Domain.Site()
@@ -190,7 +195,10 @@ namespace MyAndromedaDataAccessEntityFramework
                 LicenceKey = entity.LicenseKey,
                 ExternalSiteId = entity.ExternalId,
                 AndromediaSiteId = entity.AndromedaSiteId,
-                ChainId = entity.ChainId
+                ChainId = entity.ChainId,
+                ExternalName = entity.ExternalSiteName,
+                Longitude = entity.Address.Long,
+                Latitude = entity.Address.Lat
             };
 
             return site;
