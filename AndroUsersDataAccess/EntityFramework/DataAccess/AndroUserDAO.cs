@@ -11,6 +11,53 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
+        public AndroUser GetById(int id)
+        {
+            AndroUser androUser = null;
+
+            using (AndroUsersEntities entitiesContext = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                // Get the user details
+                var query = from s in entitiesContext.tbl_AndroUser
+                            where s.id == id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    androUser = new Domain.AndroUser()
+                    {
+                        Id = entity.id,
+                        Active = entity.Active,
+                        Created = entity.Created,
+                        EmailAddress = entity.EmailAddress,
+                        FirstName = entity.FirstName,
+                        Password = entity.Password,
+                        SurName = entity.SurName,
+                        SecurityGroups = new Dictionary<string,Domain.SecurityGroup>()
+                    };
+                }
+
+                // Get the security groups that the user is a member of
+                var securityGroupsQuery = from s in entitiesContext.SecurityGroupUsers.Include("SecurityGroup")
+                            where s.UserId == id
+                            select s;
+
+                foreach (SecurityGroupUser securityGroupUser in securityGroupsQuery)
+                {
+                    androUser.SecurityGroups.Add
+                    (
+                        securityGroupUser.SecurityGroup.Name, new Domain.SecurityGroup() { Id = securityGroupUser.SecurityGroup.Id, Name = securityGroupUser.SecurityGroup.Name }
+                    );
+                }
+            }
+
+            return androUser;
+        }
+
         public List<AndroUser> GetAll()
         {
             List<AndroUser> androUsers = new List<AndroUser>();
@@ -32,8 +79,22 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
                         EmailAddress = entity.EmailAddress,
                         FirstName = entity.FirstName,
                         Password = entity.Password,
-                        SurName = entity.SurName
+                        SurName = entity.SurName,
+                        SecurityGroups = new Dictionary<string, Domain.SecurityGroup>()
                     };
+
+                    // Get the security groups that the user is a member of
+                    var securityGroupsQuery = from a in entitiesContext.SecurityGroupUsers.Include("SecurityGroup")
+                                              where a.UserId == entity.id
+                                              select a;
+
+                    foreach (SecurityGroupUser securityGroupUser in securityGroupsQuery)
+                    {
+                        model.SecurityGroups.Add
+                        (
+                            securityGroupUser.SecurityGroup.Name, new Domain.SecurityGroup() { Id = securityGroupUser.SecurityGroup.Id, Name = securityGroupUser.SecurityGroup.Name }
+                        );
+                    }
 
                     androUsers.Add(model);
                 }

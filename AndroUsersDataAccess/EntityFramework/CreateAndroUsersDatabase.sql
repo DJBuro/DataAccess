@@ -1,5 +1,4 @@
-﻿
-/****** Object:  Table [dbo].[Permission]    Script Date: 15/02/2013 16:37:00 ******/
+﻿/****** Object:  Table [dbo].[Permission]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,14 +15,15 @@ CREATE TABLE [dbo].[Permission](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SecurityGroup]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[SecurityGroup]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[SecurityGroup](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](255) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Description] [nvarchar](1000) NOT NULL,
  CONSTRAINT [PK_SecurityGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[SecurityGroup](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SecurityGroupPermission]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[SecurityGroupPermission]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -43,11 +43,15 @@ GO
 CREATE TABLE [dbo].[SecurityGroupPermission](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[SecurityGroupId] [int] NOT NULL,
-	[PermissionId] [int] NOT NULL
+	[PermissionId] [int] NOT NULL,
+ CONSTRAINT [PK_SecurityGroupPermission] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SecurityGroupUser]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[SecurityGroupUser]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -63,7 +67,7 @@ CREATE TABLE [dbo].[SecurityGroupUser](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[tbl_AndroUser]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[tbl_AndroUser]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -87,7 +91,7 @@ CREATE TABLE [dbo].[tbl_AndroUser](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[tbl_AndroUserPermission]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[tbl_AndroUserPermission]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -103,7 +107,7 @@ CREATE TABLE [dbo].[tbl_AndroUserPermission](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[tbl_Project]    Script Date: 15/02/2013 16:37:00 ******/
+/****** Object:  Table [dbo].[tbl_Project]    Script Date: 17/02/2013 23:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

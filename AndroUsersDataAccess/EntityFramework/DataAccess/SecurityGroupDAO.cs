@@ -19,6 +19,7 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
+                // Get the security group
                 var query = from s in entitiesContext.SecurityGroups
                             where s.Id == id
                             select s;
@@ -31,8 +32,32 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
                     {
                         Id = entity.Id,
                         Name = entity.Name,
-                        Permissions = null
+                        Description = entity.Description,
+                        Permissions = new List<Domain.Permission>()
                     };
+                }
+            }
+
+            using (AndroUsersEntities entitiesContext = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                // Get the permissions
+                var permissionsQuery = from s in entitiesContext.SecurityGroupPermissions.Include("Permission")
+                        where s.SecurityGroupId == id
+                        select s;
+
+                foreach (var permissionEntity in permissionsQuery)
+                {
+                    securityGroup.Permissions.Add
+                    (
+                        new Domain.Permission()
+                        {
+                            Id = permissionEntity.Permission.Id,
+                            Name = permissionEntity.Permission.Name,
+                            Description = permissionEntity.Permission.Description
+                        }
+                    );
                 }
             }
 
@@ -59,6 +84,7 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
                     {
                         Id = entity.Id,
                         Name = entity.Name,
+                        Description = entity.Description,
                         Permissions = null
                     };
                 }
@@ -84,18 +110,9 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
                     {
                         Id = entity.Id,
                         Name = entity.Name,
+                        Description = entity.Description,
                         Permissions = null
                     };
-
-                    //var permissionQuery = from s in entitiesContext.SecurityGroupPermissions
-                    //                      .Include("Permission")
-                    //                      where s.SecurityGroupId == securityGroup.Id
-                    //                      select s;
-
-                    //foreach (SecurityGroupPermission securityGroupPermission in permissionQuery.Perm)
-                    //{
-                    //  //  securityGroupPermission.
-                    //}
 
                     securityGroups.Add(securityGroup);
                 }
@@ -112,7 +129,8 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
 
                 SecurityGroup securityGroupEntity = new SecurityGroup()
                 {
-                    Name = securityGroup.Name
+                    Name = securityGroup.Name,
+                    Description = securityGroup.Description
                 };
 
                 androUsersEntities.SecurityGroups.Add(securityGroupEntity);
@@ -129,12 +147,100 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(androUsersEntities, this.ConnectionStringOverride);
 
                 var query = from s in androUsersEntities.SecurityGroups
+                            where s.Id == securityGroup.Id
                             select s;
                 var entity = query.FirstOrDefault();
 
                 if (entity != null)
                 {
                     entity.Name = securityGroup.Name;
+                    entity.Description = securityGroup.Description;
+                };
+
+                androUsersEntities.SaveChanges();
+
+                return "";
+            }
+        }
+
+        public string AddPermission(int securityGroupId, int permissionId)
+        {
+            using (AndroUsersEntities androUsersEntities = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(androUsersEntities, this.ConnectionStringOverride);
+
+                SecurityGroupPermission securityGroupPermission = new SecurityGroupPermission()
+                {
+                    PermissionId = permissionId,
+                    SecurityGroupId = securityGroupId
+                };
+
+                androUsersEntities.SecurityGroupPermissions.Add(securityGroupPermission);
+
+                androUsersEntities.SaveChanges();
+
+                return "";
+            }
+        }
+
+        public string RemovePermission(int securityGroupId, int permissionId)
+        {
+            using (AndroUsersEntities androUsersEntities = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(androUsersEntities, this.ConnectionStringOverride);
+
+                var query = from s in androUsersEntities.SecurityGroupPermissions
+                            where s.SecurityGroupId == securityGroupId
+                            && s.PermissionId == permissionId
+                            select s;
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    androUsersEntities.SecurityGroupPermissions.Remove(entity);
+                };
+
+                androUsersEntities.SaveChanges();
+
+                return "";
+            }
+        }
+
+        public string AddUser(int securityGroupId, int userId)
+        {
+            using (AndroUsersEntities androUsersEntities = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(androUsersEntities, this.ConnectionStringOverride);
+
+                SecurityGroupUser securityGroupUser = new SecurityGroupUser()
+                {
+                    UserId = userId,
+                    SecurityGroupId = securityGroupId
+                };
+
+                androUsersEntities.SecurityGroupUsers.Add(securityGroupUser);
+
+                androUsersEntities.SaveChanges();
+
+                return "";
+            }
+        }
+
+        public string RemoveUser(int securityGroupId, int userId)
+        {
+            using (AndroUsersEntities androUsersEntities = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(androUsersEntities, this.ConnectionStringOverride);
+
+                var query = from s in androUsersEntities.SecurityGroupUsers
+                            where s.SecurityGroupId == securityGroupId
+                            && s.UserId == userId
+                            select s;
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    androUsersEntities.SecurityGroupUsers.Remove(entity);
                 };
 
                 androUsersEntities.SaveChanges();

@@ -15,5 +15,9 @@ namespace AndroUsersDataAccess.DataAccess
         List<SecurityGroup> GetAll();
         string Add(Domain.SecurityGroup securityGroup);
         string Update(Domain.SecurityGroup securityGroup);
+        string AddPermission(int securityGroupId, int permissionId);
+        string RemovePermission(int securityGroupId, int permissionId);
+        string AddUser(int securityGroupId, int userId);
+        string RemoveUser(int securityGroupId, int userId);
     }
 }

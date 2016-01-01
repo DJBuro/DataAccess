@@ -51,11 +51,11 @@ namespace AndroUsersDataAccess.Domain
         /// </summary>
         public virtual DateTime Created { get; set; }
 
-        public List<SecurityGroup> SecurityGroups { get; set; }
+        public Dictionary<string, SecurityGroup> SecurityGroups { get; set; }
 
         public AndroUser()
         {
-            this.SecurityGroups = new List<SecurityGroup>();
+            this.SecurityGroups = new Dictionary<string, SecurityGroup>();
         }
     }
 }

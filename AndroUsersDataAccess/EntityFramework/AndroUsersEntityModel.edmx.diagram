@@ -11,13 +11,13 @@
         <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_AndroUser" ManuallyRouted="false" />
         <AssociationConnector Association="AndroUsersModel.FK_tbl_AndroUserPermission_tbl_Project" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AndroUsersModel.Permission" Width="1.5" PointX="8.5" PointY="1.75" />
-        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroup" Width="1.5" PointX="3" PointY="1.75" />
-        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupPermission" Width="2" PointX="5.375" PointY="1.75" />
-        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_Permission" />
-        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" />
         <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupUser" Width="1.875" PointX="0.5" PointY="1.75" />
-        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" />
         <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_tbl_AndroUser" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroupPermission" Width="1.5" PointX="5.75" PointY="1.75" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_Permission" />
+        <EntityTypeShape EntityType="AndroUsersModel.SecurityGroup" Width="1.5" PointX="3.25" PointY="1.75" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupPermission_SecurityGroup" />
+        <AssociationConnector Association="AndroUsersModel.FK_SecurityGroupUser_SecurityGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
