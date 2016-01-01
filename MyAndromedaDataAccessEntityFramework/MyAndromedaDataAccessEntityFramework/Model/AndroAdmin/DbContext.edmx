@@ -87,10 +87,6 @@
             <End Role="Address" EntitySet="Address" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
-          <AssociationSet Name="FK_Store_Chain" Association="AndroAdminModel.Store.FK_Store_Chain">
-            <End Role="Chain" EntitySet="Chain" />
-            <End Role="Store" EntitySet="Store" />
-          </AssociationSet>
           <AssociationSet Name="FK_Store_StorePaymentProvider" Association="AndroAdminModel.Store.FK_Store_StorePaymentProvider">
             <End Role="StorePaymentProvider" EntitySet="StorePaymentProvider" />
             <End Role="Store" EntitySet="Store" />
@@ -118,10 +114,6 @@
           <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.Store.FK_StoreMenu_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreMenu" EntitySet="StoreMenu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="AndroAdminModel.Store.FK_StoreMenuThumbnails_Store">
-            <End Role="Store" EntitySet="Store" />
-            <End Role="StoreMenuThumbnails" EntitySet="StoreMenuThumbnails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -195,6 +187,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="Culture" Type="nvarchar" MaxLength="12" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -283,9 +276,6 @@
           <Property Name="Source" Type="nvarchar" MaxLength="50" />
           <Property Name="Created" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'AndroAdmin.dbo.MyAndromedaUserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="OpeningHour">
           <Key>
             <PropertyRef Name="Id" />
@@ -332,7 +322,7 @@
           <Property Name="TimeZone" Type="nvarchar" MaxLength="16" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="32" />
           <Property Name="LicenseKey" Type="nvarchar" MaxLength="64" />
-          <Property Name="AddressId" Type="int" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
           <Property Name="StorePaymentProviderID" Type="int" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="ChainId" Type="int" Nullable="false" />
@@ -373,8 +363,8 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="Version" Type="int" Nullable="false" />
-          <Property Name="XmlMenuThumbnailData" Type="ntext" Nullable="false" />
-          <Property Name="JsonMenuThumbnailsData" Type="ntext" Nullable="false" />
+          <Property Name="XmlMenuThumbnailData" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="JsonMenuThumbnailsData" Type="nvarchar(max)" Nullable="false" />
           <Property Name="LastUpdate" Type="datetime" />
         </EntityType>
         <EntityType Name="StorePaymentProvider">
@@ -553,7 +543,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Store_Address">
-          <End Role="Address" Type="AndroAdminModel.Store.Address" Multiplicity="0..1" />
+          <End Role="Address" Type="AndroAdminModel.Store.Address" Multiplicity="1" />
           <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
@@ -561,18 +551,6 @@
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="AddressId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Store_Chain">
-          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
-          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Chain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Store">
-              <PropertyRef Name="ChainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -656,20 +634,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StoreMenu">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StoreMenuThumbnails_Store">
-          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="StoreMenuThumbnails" Type="AndroAdminModel.Store.StoreMenuThumbnails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreMenuThumbnails">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -883,6 +847,7 @@
           <NavigationProperty Name="Children" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
           <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="Chain" ToRole="FTPSiteChain" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
+          <Property Type="String" Name="Culture" MaxLength="12" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -1266,7 +1231,7 @@
           <Property Type="String" Name="TimeZone" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="LicenseKey" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
           <Property Type="Int32" Name="StorePaymentProviderID" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <Property Type="Int32" Name="ChainId" Nullable="false" />
@@ -1293,7 +1258,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Store_Address">
-          <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="1" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
@@ -1468,6 +1433,7 @@
           <EntitySetMapping Name="Chains">
             <EntityTypeMapping TypeName="AndroAdminModel.Chain">
               <MappingFragment StoreEntitySet="Chain">
+                <ScalarProperty Name="Culture" ColumnName="Culture" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
