@@ -57,17 +57,17 @@ namespace MyAndromedaDataAccessEntityFramework
         //    }
         //}
 
-        public MyAndromedaDataAccess.DataAccess.IOpeningHoursDataAccess OpeningHoursDataAccess
-        {
-            get
-            {
-                return new OpeningHoursDataAccess();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public MyAndromedaDataAccess.DataAccess.IOpeningHoursDataAccess OpeningHoursDataAccess
+        //{
+        //    get
+        //    {
+        //        return new OpeningHoursDataAccess();
+        //    }
+        //    set
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public MyAndromedaDataAccess.DataAccess.ISiteDetailsDataAccess SiteDetailsDataAccess
         {

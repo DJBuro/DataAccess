@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace MyAndromedaDataAccess.Domain
 {
@@ -24,7 +20,7 @@ namespace MyAndromedaDataAccess.Domain
         public string TimeZone { get; set; }
         public string Phone { get; set; }
         public Address Address { get; set; }
-        public List<TimeSpanBlock> OpeningHours { get; set; }
+        //public List<TimeSpanBlock> OpeningHours { get; set; }
         public string PaymentProvider { get; set; }
         public string PaymentClientId { get; set; }
         public string PaymentClientPassword { get; set; }

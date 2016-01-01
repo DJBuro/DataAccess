@@ -3,11 +3,44 @@ using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
     public class OpeningHoursDataAccess : IOpeningHoursDataAccess
     {
+        public IEnumerable<TimeSpanBlock> ListBySiteId(int siteId) 
+        {
+            IEnumerable<TimeSpanBlock> results = Enumerable.Empty<TimeSpanBlock>();
+            using (var entitiesContext = new AndroAdminDbContext()) 
+            { 
+                // Opening hours
+                var openingHours = entitiesContext.OpeningHours.Where(e => e.SiteId == siteId).Select(e => new
+                {
+                    e.Id,
+                    e.Day.Description,
+                    e.TimeStart,
+                    e.TimeEnd,
+                    e.OpenAllDay
+                }).ToArray();
+
+                if (openingHours != null && openingHours.Length > 0)
+                {
+                    results = openingHours.Select(e => new TimeSpanBlock { 
+                        Id = e.Id,
+                        Day = e.Description,
+                        StartTime = e.TimeStart.Hours.ToString("00") + ":" + e.TimeStart.Minutes.ToString("00"),
+                        EndTime = e.TimeEnd.Hours.ToString("00") + ":" + e.TimeEnd.Minutes.ToString("00"),
+                        OpenAllDay = e.OpenAllDay
+                    })
+                    .ToList();
+                }
+            }
+
+            return results;
+        }
+
         /// <summary>
         /// Deletes a specific opening hour
         /// </summary>
