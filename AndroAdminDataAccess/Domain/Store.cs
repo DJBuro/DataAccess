@@ -75,7 +75,10 @@ namespace AndroAdminDataAccess.Domain
         }
 
         public string LicenceKey { get; set; }
+        public string TimeZoneInfoId { get; set; }
+        public string UiCulture { get; set; }
     }
+
     public static class StoreExtensions
     {
         public static Store ToDomainObject(this AndroAdminDataAccess.EntityFramework.Store model)

@@ -439,7 +439,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone,
-                        LicenceKey = entity.LicenseKey
+                        LicenceKey = entity.LicenseKey,
+                        TimeZoneInfoId = entity.TimeZoneInfoId,
+                        UiCulture = entity.UiCulture
                     };
 
                     // Get the address

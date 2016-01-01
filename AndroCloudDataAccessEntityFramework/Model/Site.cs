@@ -45,6 +45,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public System.Guid SiteStatusID { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
         public Nullable<System.Guid> SiteOfflineID { get; set; }
+        public string TimeZoneInfoId { get; set; }
+        public string UiCulture { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
