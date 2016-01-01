@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IHostDataAccess
     {
+        
         string ConnectionStringOverride { get; set; }
 
         /// <summary>
@@ -49,7 +50,15 @@ namespace AndroCloudDataAccess.DataAccess
         /// <param name="hosts">The hosts.</param>
         /// <returns></returns>
         string GetBestPublicHosts(string externalApplicationId, string externalSiteId, out List<Host> hosts);
-        
+
+        /// <summary>
+        /// Gets the best public hosts v2.
+        /// </summary>
+        /// <param name="externalApplicationId">The external application id.</param>
+        /// <param name="applicationHostList">The application host list.</param>
+        /// <returns></returns>
+        string GetBestPublicHostsV2(string externalApplicationId, out List<HostV2> applicationHostList);
+
         /// <summary>
         /// Gets the public v2 by external application id.
         /// </summary>
@@ -72,6 +81,14 @@ namespace AndroCloudDataAccess.DataAccess
         string GetAllGenericPrivateHosts(out List<AndroCloudDataAccess.Domain.PrivateHost> hosts);
 
         /// <summary>
+        /// Gets the best private.
+        /// </summary>
+        /// <param name="andromedaSiteId">The andromeda site id.</param>
+        /// <param name="hosts">The hosts.</param>
+        /// <returns></returns>
+        string GetBestPrivate(int andromedaSiteId, out List<PrivateHost> hosts);
+
+        /// <summary>
         /// Gets the best list of private v2 hosts.
         /// </summary>
         /// <param name="andromedaSiteId">The andromeda site id.</param>
@@ -79,6 +96,7 @@ namespace AndroCloudDataAccess.DataAccess
         /// <param name="hosts">The hosts.</param>
         /// <returns></returns>
         string GetBestPrivateV2(int andromedaSiteId, int acsApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts);
+        
 
         /// <summary>
         /// Gets the best list of private v2 for the site id.
@@ -127,5 +145,7 @@ namespace AndroCloudDataAccess.DataAccess
         /// <param name="hosts">The hosts.</param>
         /// <returns></returns>
         string GetAllGenericPrivateV2Hosts(out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts);
+
+        
     }
 }
