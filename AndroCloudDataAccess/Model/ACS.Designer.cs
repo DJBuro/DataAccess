@@ -1328,30 +1328,6 @@ namespace AndroCloudDataAccess.Model
         private Nullable<global::System.DateTime> _LastUpdated;
         partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
         partial void OnLastUpdatedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Guid> SecurityID
-        {
-            get
-            {
-                return _SecurityID;
-            }
-            set
-            {
-                OnSecurityIDChanging(value);
-                ReportPropertyChanging("SecurityID");
-                _SecurityID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SecurityID");
-                OnSecurityIDChanged();
-            }
-        }
-        private Nullable<global::System.Guid> _SecurityID;
-        partial void OnSecurityIDChanging(Nullable<global::System.Guid> value);
-        partial void OnSecurityIDChanged();
 
         #endregion
     
@@ -2220,30 +2196,6 @@ namespace AndroCloudDataAccess.Model
         private Nullable<global::System.Guid> _OpeningHoursID;
         partial void OnOpeningHoursIDChanging(Nullable<global::System.Guid> value);
         partial void OnOpeningHoursIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Guid> SessionID
-        {
-            get
-            {
-                return _SessionID;
-            }
-            set
-            {
-                OnSessionIDChanging(value);
-                ReportPropertyChanging("SessionID");
-                _SessionID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SessionID");
-                OnSessionIDChanged();
-            }
-        }
-        private Nullable<global::System.Guid> _SessionID;
-        partial void OnSessionIDChanging(Nullable<global::System.Guid> value);
-        partial void OnSessionIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
