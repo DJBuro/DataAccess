@@ -2,13 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using AndroAdminDataAccess.Domain;
 using System.Transactions;
-using System.Data.Entity.Validation;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -130,8 +125,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public List<string> Add(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
-            List<string> ErrorMsgs = new List<string>();
-            //int success = 0;
+            List<string> errorMsgs = new List<string>();
+
             using (TransactionScope transactionScope = new TransactionScope())
             {
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
@@ -139,72 +134,101 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     ACSApplicationDAO acsDAO = new ACSApplicationDAO();
                     Partner partner = entitiesContext.Partners.Where(c => c.Name.Equals("andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
-                    if (partner != null)
+                    if (partner == null)
                     {
-                        if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null
-                        && entitiesContext.AndroWebOrderingWebsites.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null)
+                        errorMsgs.Add("AddWebsite: Partner not found 'andromeda'");
+                        return errorMsgs;
+                    }
+
+                    var acsApplication = entitiesContext.ACSApplications
+                        .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+
+                    var website = entitiesContext.AndroWebOrderingWebsites
+                        .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+
+                    if (acsApplication != null) 
+                    {
+                        //yes eventually we want to check if this exists to exclude it from adding in a website and acs application for it. 
+                        //it will block the creation. 
+                        errorMsgs.Add("AddWebsite: ACS application already exists 'andromeda'");
+                    }
+
+                    if (acsApplication == null)
+                    {
+                        acsDAO.Add(webOrderingSite.ACSApplication);
+                        acsApplication = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+                    }
+
+                    if (acsApplication != null) 
+                    {
+                        bool acsApplicationHasWebsites = acsApplication.AndroWebOrderingWebsites.Any();
+                        if (acsApplicationHasWebsites) 
                         {
-                            webOrderingSite.ACSApplication.PartnerId = partner.Id;
+                            errorMsgs.Add("AddWebsite: This name cannot be used. An ACS application and website already exist with the given name: " + webOrderingSite.Name); 
+                        }    
+                    }
 
-                            acsDAO.Add(webOrderingSite.ACSApplication);
+                    if (website == null && acsApplication != null)
+                    {
+                        webOrderingSite.ACSApplication.PartnerId = partner.Id;
 
-                            int newVersion = entitiesContext.GetDataVersion();
-                            partner.DataVersion = newVersion;
+                        int newVersion = entitiesContext.GetDataVersion();
+                        partner.DataVersion = newVersion;
 
+                        //already attained that it is null, don't need to check again. 
+                        website = new AndroWebOrderingWebsite
+                        {
+                            ChainId = webOrderingSite.ChainId,
+                            ACSApplicationId = acsApplication.Id,
+                            DataVersion = newVersion,
+                            DisabledReason = webOrderingSite.DisabledReason,
+                            Enabled = webOrderingSite.Enabled,
+                            Name = webOrderingSite.Name,
+                            SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
+                            LiveDomainName = webOrderingSite.LiveDomainName,
 
-                            var acsApplication = entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                            if (acsApplication != null)
+                            PreviewSettings = webOrderingSite.PreviewSettings,
+                            LiveSettings = webOrderingSite.LiveSettings,
+                            PreviewDomainName = webOrderingSite.PreviewDomainName,
+                            ThemeId = webOrderingSite.ThemeId
+                        };
+
+                        entitiesContext.AndroWebOrderingWebsites.Add(website);
+
+                        if (webOrderingSite.MappedSiteIds != null)
+                        {
+                            foreach (var siteId in webOrderingSite.MappedSiteIds)
                             {
-                                entitiesContext.AndroWebOrderingWebsites.Add(new AndroWebOrderingWebsite
-                                {
-                                    ChainId = webOrderingSite.ChainId,
-                                    ACSApplicationId = acsApplication.Id,
-                                    DataVersion = newVersion,
-                                    DisabledReason = webOrderingSite.DisabledReason,
-                                    Enabled = webOrderingSite.Enabled,
-                                    Name = webOrderingSite.Name,
-                                    SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
-                                    LiveDomainName = webOrderingSite.LiveDomainName,
-
-                                    PreviewSettings = webOrderingSite.PreviewSettings,
-                                    LiveSettings = webOrderingSite.LiveSettings,
-                                    PreviewDomainName = webOrderingSite.PreviewDomainName,
-                                    ThemeId = webOrderingSite.ThemeId
-                                });
-
-                                if (webOrderingSite.MappedSiteIds != null)
-                                {
-                                    foreach (var siteId in webOrderingSite.MappedSiteIds)
-                                    {
-                                        entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = acsApplication.Id, DataVersion = newVersion });
-                                    }
-                                }
+                                entitiesContext
+                                    .ACSApplicationSites
+                                    .Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = acsApplication.Id, DataVersion = newVersion });
                             }
-                            entitiesContext.SaveChanges();
-                            transactionScope.Complete();
-                            //success = 1;
                         }
-                        else
-                        {
-                            if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() != null)
-                                ErrorMsgs.Add("AddWebsite: sorry, this domain already has a website");
-                            else
-                                ErrorMsgs.Add("AddWebsite: sorry, this website name already exists");
 
-                        }
+                        entitiesContext.SaveChanges();
+                        transactionScope.Complete();
+                        //success = 1;
                     }
                     else
                     {
-                        ErrorMsgs.Add("AddWebsite: Partner not found");
+                        bool websiteExists = entitiesContext.ACSApplications
+                            .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)) != null;
+
+                        if (websiteExists)
+                            errorMsgs.Add("AddWebsite: sorry, this domain already has a website");
+                        else
+                            errorMsgs.Add("AddWebsite: sorry, this website name already exists");
+
                     }
+
                 }
             }
-            return ErrorMsgs;
+            return errorMsgs;
         }
 
         public List<string> Update(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
-            List<string> ErrorMsgs = new List<string>();
+            List<string> errorMsgs = new List<string>();
             //int success = 0;
             using (TransactionScope transactionScope = new TransactionScope())
             {
@@ -220,7 +244,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         {
                             int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
                             var partner = entitiesContext.Partners.Where(p => p.Name.Equals("Andromeda", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                            
+
                             if (partner != null)
                                 partner.DataVersion = newVersion;
 
@@ -233,9 +257,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             webSite.LiveDomainName = webOrderingSite.LiveDomainName;
 
                             if (!string.IsNullOrEmpty(webOrderingSite.PreviewSettings))
+                            {
                                 webSite.PreviewSettings = webOrderingSite.PreviewSettings;
+                            }
                             if (!string.IsNullOrEmpty(webOrderingSite.LiveSettings))
+                            {
                                 webSite.LiveSettings = webOrderingSite.LiveSettings;
+                            }
                             webSite.PreviewDomainName = webOrderingSite.PreviewDomainName;
                             webSite.ThemeId = webOrderingSite.ThemeId;
 
@@ -285,16 +313,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         {
                             //success = 0;
                             if (dupACSApp != null)
-                                ErrorMsgs.Add("AddWebsite: sorry, this domain already has a website");
+                                errorMsgs.Add("AddWebsite: sorry, this domain already has a website");
                             else
-                                ErrorMsgs.Add("AddWebsite: sorry, this website name already exists");
+                                errorMsgs.Add("AddWebsite: sorry, this website name already exists");
                         }
                     }
                     transactionScope.Complete();
                 }
             }
             //return success;
-            return ErrorMsgs;
+            return errorMsgs;
         }
     }
 }
