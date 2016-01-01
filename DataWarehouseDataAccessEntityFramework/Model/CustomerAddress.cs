@@ -14,6 +14,11 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     
     public partial class CustomerAddress
     {
+        public CustomerAddress()
+        {
+            this.OrderHeaders = new HashSet<OrderHeader>();
+        }
+    
         public System.Guid ID { get; set; }
         public Nullable<System.Guid> CustomerKey { get; set; }
         public string RoadNum { get; set; }
@@ -24,5 +29,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string Country { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<OrderHeader> OrderHeaders { get; set; }
     }
 }

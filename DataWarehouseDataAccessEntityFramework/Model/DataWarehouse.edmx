@@ -13,6 +13,14 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="ACSErrorCode">
+          <Key>
+            <PropertyRef Name="ErrorCode" />
+          </Key>
+          <Property Name="ErrorCode" Type="int" Nullable="false" />
+          <Property Name="ShortDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LongDescription" Type="nvarchar" MaxLength="255" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'DataWarehouse.dbo.Address' in the table 'Location' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="Address">
@@ -169,6 +177,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="PartnerName" Type="nvarchar" MaxLength="64" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ACSErrorCode" Type="int" Nullable="false" />
+          <Property Name="DestinationDevice" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CustomerAddressID" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -393,6 +404,30 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderAddress">
+          <End Role="CustomerAddress" Type="Self.CustomerAddress" Multiplicity="0..1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddress">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="CustomerAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderHeader_ACSErrorCode">
+          <End Role="ACSErrorCode" Type="Self.ACSErrorCode" Multiplicity="1" />
+          <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSErrorCode">
+              <PropertyRef Name="ErrorCode" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="ACSErrorCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderHeader_Customer1">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="OrderHeader" Type="Self.OrderHeader" Multiplicity="*" />
@@ -525,6 +560,7 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
         </Association>
         <EntityContainer Name="DataWarehouseModelStoreContainer">
           <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ACSErrorCode" EntityType="Self.ACSErrorCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
@@ -590,6 +626,14 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <AssociationSet Name="FK_Modifiers_Orderlines_Cascade" Association="Self.FK_Modifiers_Orderlines_Cascade">
             <End Role="OrderLines" EntitySet="OrderLines" />
             <End Role="modifiers" EntitySet="modifiers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderAddress" Association="Self.FK_OrderAddress">
+            <End Role="CustomerAddress" EntitySet="CustomerAddress" />
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderHeader_ACSErrorCode" Association="Self.FK_OrderHeader_ACSErrorCode">
+            <End Role="ACSErrorCode" EntitySet="ACSErrorCode" />
+            <End Role="OrderHeader" EntitySet="OrderHeader" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderHeader_Customer1" Association="Self.FK_OrderHeader_Customer1">
             <End Role="Customer" EntitySet="Customer" />
@@ -739,6 +783,15 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
           </AssociationSet>
           <EntitySet Name="Audits" EntityType="DataWarehouseModel.Audit" />
+          <EntitySet Name="ACSErrorCodes" EntityType="DataWarehouseModel.ACSErrorCode" />
+          <AssociationSet Name="FK_OrderHeader_ACSErrorCode" Association="DataWarehouseModel.FK_OrderHeader_ACSErrorCode">
+            <End Role="ACSErrorCode" EntitySet="ACSErrorCodes" />
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderAddress" Association="DataWarehouseModel.FK_OrderAddress">
+            <End Role="CustomerAddress" EntitySet="CustomerAddresses" />
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
           <Key>
@@ -858,6 +911,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="ZipCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Country" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="CustomerAddress" ToRole="Customer" />
+          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="CustomerAddress" ToRole="OrderHeader" />
         </EntityType>
         <EntityType Name="MarketingLevel">
           <Key>
@@ -913,6 +967,11 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
           <NavigationProperty Name="OrderLines1" Relationship="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" FromRole="OrderHeader" ToRole="OrderLine" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="OrderHeader" ToRole="UsedVoucher" />
+          <Property Name="ACSErrorCode" Type="Int32" Nullable="false" />
+          <Property Name="DestinationDevice" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddressID" Type="Guid" />
+          <NavigationProperty Name="ACSErrorCode1" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="OrderHeader" ToRole="ACSErrorCode" />
+          <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1294,6 +1353,39 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="ExtraInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ACSErrorCode">
+          <Key>
+            <PropertyRef Name="ErrorCode" />
+          </Key>
+          <Property Name="ErrorCode" Type="Int32" Nullable="false" />
+          <Property Name="ShortDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LongDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="ACSErrorCode" ToRole="OrderHeader" />
+        </EntityType>
+        <Association Name="FK_OrderHeader_ACSErrorCode">
+          <End Type="DataWarehouseModel.ACSErrorCode" Role="ACSErrorCode" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSErrorCode">
+              <PropertyRef Name="ErrorCode" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="ACSErrorCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderAddress">
+          <End Type="DataWarehouseModel.CustomerAddress" Role="CustomerAddress" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddress">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="CustomerAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1434,6 +1526,9 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="CustomerAddressID" ColumnName="CustomerAddressID" />
+                <ScalarProperty Name="DestinationDevice" ColumnName="DestinationDevice" />
+                <ScalarProperty Name="ACSErrorCode" ColumnName="ACSErrorCode" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="PartnerName" ColumnName="PartnerName" />
@@ -1578,6 +1673,15 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
                 <ScalarProperty Name="SrcID" ColumnName="SrcID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACSErrorCodes">
+            <EntityTypeMapping TypeName="DataWarehouseModel.ACSErrorCode">
+              <MappingFragment StoreEntitySet="ACSErrorCode">
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

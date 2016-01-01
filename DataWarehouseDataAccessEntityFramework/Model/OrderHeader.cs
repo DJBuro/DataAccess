@@ -43,11 +43,16 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string PartnerName { get; set; }
         public bool Cancelled { get; set; }
         public int Status { get; set; }
+        public int ACSErrorCode { get; set; }
+        public string DestinationDevice { get; set; }
+        public Nullable<System.Guid> CustomerAddressID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
         public virtual ICollection<OrderLine> OrderLines1 { get; set; }
         public virtual ICollection<UsedVoucher> UsedVouchers { get; set; }
+        public virtual ACSErrorCode ACSErrorCode1 { get; set; }
+        public virtual CustomerAddress CustomerAddress { get; set; }
     }
 }

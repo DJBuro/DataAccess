@@ -8,7 +8,6 @@ namespace DataWarehouseDataAccess.Domain
 {
     public class OrderMetrics
     {
-        public List<SuccessfulOrder> SuccessfulOrders { get; set; }
-        public List<FailedOrder> FailedOrders { get; set; }
+        public List<OrderHeaderDAO> OrderList { get; set; }
     }
 }
