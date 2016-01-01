@@ -35,6 +35,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             this.UpSellingSettings = new UpSelling();
 
             this.LastUpdatedUtc = DateTime.UtcNow;
+            this.Analytics = new Analytics();
         }
 
         public int WebSiteId { get; set; }
@@ -82,6 +83,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public UpSelling UpSellingSettings { get; set; }
 
         public DateTime LastUpdatedUtc { get; set; }
+
+        public Analytics Analytics { set; get; }
 
         public static string SerializeJson(Object obj)
         {
