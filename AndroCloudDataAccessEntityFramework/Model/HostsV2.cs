@@ -17,6 +17,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public HostsV2()
         {
             this.ACSApplications = new HashSet<ACSApplication>();
+            this.Sites = new HashSet<Site>();
         }
     
         public System.Guid Id { get; set; }
@@ -25,8 +26,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public int Version { get; set; }
         public int Order { get; set; }
         public bool Public { get; set; }
+        public bool OptInOnly { get; set; }
     
         public virtual HostType HostType { get; set; }
         public virtual ICollection<ACSApplication> ACSApplications { get; set; }
+        public virtual ICollection<Site> Sites { get; set; }
     }
 }

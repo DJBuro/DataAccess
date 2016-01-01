@@ -23,6 +23,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
             this.DeliveryAreaRoads = new HashSet<DeliveryAreaRoad>();
             this.HubHosts = new HashSet<HubHost>();
             this.SiteMenus = new HashSet<SiteMenu>();
+            this.Hosts = new HashSet<Host>();
+            this.HostsV2 = new HashSet<HostsV2>();
         }
     
         public System.Guid ID { get; set; }
@@ -41,6 +43,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public string HardwareKey { get; set; }
         public System.Guid SiteStatusID { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
+        public Nullable<System.Guid> SiteOfflineID { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
@@ -52,5 +55,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public virtual ICollection<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
         public virtual ICollection<HubHost> HubHosts { get; set; }
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
+        public virtual ICollection<Host> Hosts { get; set; }
+        public virtual ICollection<HostsV2> HostsV2 { get; set; }
     }
 }

@@ -167,6 +167,7 @@
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="DataVersionHelper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Model\ACSApplication.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>

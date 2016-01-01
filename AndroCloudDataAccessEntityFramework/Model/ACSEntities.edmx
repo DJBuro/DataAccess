@@ -29,6 +29,8 @@
           <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Partners" EntityType="ACSModel.Store.Partners" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Settings" EntityType="ACSModel.Store.Settings" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteHostV1" EntityType="ACSModel.Store.SiteHostV1" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteHostV2" EntityType="ACSModel.Store.SiteHostV2" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteHubs" EntityType="ACSModel.Store.SiteHubs" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenus" EntityType="ACSModel.Store.SiteMenus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sites" EntityType="ACSModel.Store.Sites" store:Type="Tables" Schema="dbo" />
@@ -109,6 +111,22 @@
           <AssociationSet Name="FK_Orders_Sites" Association="ACSModel.Store.FK_Orders_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteHostV1_Hosts" Association="ACSModel.Store.FK_SiteHostV1_Hosts">
+            <End Role="Hosts" EntitySet="Hosts" />
+            <End Role="SiteHostV1" EntitySet="SiteHostV1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteHostV1_Sites" Association="ACSModel.Store.FK_SiteHostV1_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="SiteHostV1" EntitySet="SiteHostV1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteHostV2_HostsV2" Association="ACSModel.Store.FK_SiteHostV2_HostsV2">
+            <End Role="HostsV2" EntitySet="HostsV2" />
+            <End Role="SiteHostV2" EntitySet="SiteHostV2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteHostV2_Sites" Association="ACSModel.Store.FK_SiteHostV2_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="SiteHostV2" EntitySet="SiteHostV2" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteHubs_HubHost" Association="ACSModel.Store.FK_SiteHubs_HubHost">
             <End Role="HubHost" EntitySet="HubHost" />
@@ -304,6 +322,7 @@
           <Property Name="Port" Type="int" Nullable="false" />
           <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="SignalRHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="OptInOnly" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HostsV2">
           <Key>
@@ -315,6 +334,7 @@
           <Property Name="Version" Type="int" Nullable="false" />
           <Property Name="Order" Type="int" Nullable="false" />
           <Property Name="Public" Type="bit" Nullable="false" />
+          <Property Name="OptInOnly" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HostTypes">
           <Key>
@@ -377,6 +397,22 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
+        <EntityType Name="SiteHostV1">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="HostV1Id" />
+          </Key>
+          <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HostV1Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiteHostV2">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="HostV2Id" />
+          </Key>
+          <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HostV2Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="SiteHubs">
           <Key>
             <PropertyRef Name="SiteId" />
@@ -420,6 +456,7 @@
           <Property Name="HardwareKey" Type="nvarchar" MaxLength="64" />
           <Property Name="SiteStatusID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StorePaymentProviderID" Type="int" />
+          <Property Name="SiteOfflineID" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="SiteStatuses">
           <Key>
@@ -680,6 +717,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SiteHostV1_Hosts">
+          <End Role="Hosts" Type="ACSModel.Store.Hosts" Multiplicity="1" />
+          <End Role="SiteHostV1" Type="ACSModel.Store.SiteHostV1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hosts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteHostV1">
+              <PropertyRef Name="HostV1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteHostV1_Sites">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1" />
+          <End Role="SiteHostV1" Type="ACSModel.Store.SiteHostV1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteHostV1">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteHostV2_HostsV2">
+          <End Role="HostsV2" Type="ACSModel.Store.HostsV2" Multiplicity="1" />
+          <End Role="SiteHostV2" Type="ACSModel.Store.SiteHostV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HostsV2">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteHostV2">
+              <PropertyRef Name="HostV2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteHostV2_Sites">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1" />
+          <End Role="SiteHostV2" Type="ACSModel.Store.SiteHostV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SiteHostV2">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteHubs_HubHost">
           <End Role="HubHost" Type="ACSModel.Store.HubHost" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -695,9 +780,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SiteHubs_Sites">
-          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1" />
           <End Role="SiteHubs" Type="ACSModel.Store.SiteHubs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sites">
@@ -873,6 +956,14 @@
           <AssociationSet Name="FK_SiteMenus_Sites" Association="ACSModel.FK_SiteMenus_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
+          <AssociationSet Name="SiteHostV1" Association="ACSModel.SiteHostV1">
+            <End Role="Host" EntitySet="Hosts" />
+            <End Role="Site" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="SiteHostV2" Association="ACSModel.SiteHostV2">
+            <End Role="HostsV2" EntitySet="HostsV2" />
+            <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplicationSite">
@@ -1075,6 +1166,9 @@
           <NavigationProperty Name="DeliveryAreaRoads" Relationship="ACSModel.FK_DeliveryAreaRoad_Sites" FromRole="Site" ToRole="DeliveryAreaRoad" />
           <NavigationProperty Name="HubHosts" Relationship="ACSModel.SiteHubs" FromRole="Site" ToRole="HubHost" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
+          <Property Type="Guid" Name="SiteOfflineID" />
+          <NavigationProperty Name="Hosts" Relationship="ACSModel.SiteHostV1" FromRole="Site" ToRole="Host" />
+          <NavigationProperty Name="HostsV2" Relationship="ACSModel.SiteHostV2" FromRole="Site" ToRole="HostsV2" />
         </EntityType>
         <EntityType Name="SiteStatus">
           <Key>
@@ -1246,6 +1340,8 @@
           <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SignalRHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ACSApplications" Relationship="ACSModel.AcsApplicationHosts" FromRole="Host" ToRole="ACSApplication" />
+          <Property Type="Boolean" Name="OptInOnly" Nullable="false" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.SiteHostV1" FromRole="Host" ToRole="Site" />
         </EntityType>
         <EntityType Name="HostsV2">
           <Key>
@@ -1259,6 +1355,8 @@
           <Property Type="Boolean" Name="Public" Nullable="false" />
           <NavigationProperty Name="HostType" Relationship="ACSModel.FK_HostsV2_HostTypes" FromRole="HostsV2" ToRole="HostType" />
           <NavigationProperty Name="ACSApplications" Relationship="ACSModel.AcsApplicationHostsV2" FromRole="HostsV2" ToRole="ACSApplication" />
+          <Property Type="Boolean" Name="OptInOnly" Nullable="false" />
+          <NavigationProperty Name="Sites" Relationship="ACSModel.SiteHostV2" FromRole="HostsV2" ToRole="Site" />
         </EntityType>
         <Association Name="FK_HostsV2_HostTypes">
           <End Type="ACSModel.HostType" Role="HostType" Multiplicity="1" />
@@ -1439,6 +1537,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SiteHostV1">
+          <End Type="ACSModel.Host" Role="Host" Multiplicity="*" />
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="*" />
+        </Association>
+        <Association Name="SiteHostV2">
+          <End Type="ACSModel.HostsV2" Role="HostsV2" Multiplicity="*" />
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1616,6 +1722,7 @@
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ACSModel.Site">
               <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="SiteOfflineID" ColumnName="SiteOfflineID" />
                 <ScalarProperty Name="StorePaymentProviderID" ColumnName="StorePaymentProviderID" />
                 <ScalarProperty Name="SiteStatusID" ColumnName="SiteStatusID" />
                 <ScalarProperty Name="HardwareKey" ColumnName="HardwareKey" />
@@ -1665,6 +1772,7 @@
           <EntitySetMapping Name="Hosts">
             <EntityTypeMapping TypeName="ACSModel.Host">
               <MappingFragment StoreEntitySet="Hosts">
+                <ScalarProperty Name="OptInOnly" ColumnName="OptInOnly" />
                 <ScalarProperty Name="SignalRHostName" ColumnName="SignalRHostName" />
                 <ScalarProperty Name="PrivateHostName" ColumnName="PrivateHostName" />
                 <ScalarProperty Name="Port" ColumnName="Port" />
@@ -1677,6 +1785,7 @@
           <EntitySetMapping Name="HostsV2">
             <EntityTypeMapping TypeName="ACSModel.HostsV2">
               <MappingFragment StoreEntitySet="HostsV2">
+                <ScalarProperty Name="OptInOnly" ColumnName="OptInOnly" />
                 <ScalarProperty Name="Public" ColumnName="Public" />
                 <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
@@ -1770,6 +1879,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="SiteHostV1" TypeName="ACSModel.SiteHostV1" StoreEntitySet="SiteHostV1">
+            <EndProperty Name="Site">
+              <ScalarProperty Name="ID" ColumnName="SiteId" />
+            </EndProperty>
+            <EndProperty Name="Host">
+              <ScalarProperty Name="ID" ColumnName="HostV1Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SiteHostV2" TypeName="ACSModel.SiteHostV2" StoreEntitySet="SiteHostV2">
+            <EndProperty Name="Site">
+              <ScalarProperty Name="ID" ColumnName="SiteId" />
+            </EndProperty>
+            <EndProperty Name="HostsV2">
+              <ScalarProperty Name="Id" ColumnName="HostV2Id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

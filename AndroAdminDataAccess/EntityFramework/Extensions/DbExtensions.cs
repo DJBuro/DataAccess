@@ -37,5 +37,7 @@ namespace AndroAdminDataAccess.EntityFramework.Extensions
                 ExternalSiteId = store.ExternalId
             };
         }
+
+        
     }
 }

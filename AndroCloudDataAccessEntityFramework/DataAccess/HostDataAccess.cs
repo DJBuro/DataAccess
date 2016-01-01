@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
+using System.Data.Entity;
 using AndroCloudDataAccess.DataAccess;
 using System.Collections.Generic;
+using AndroCloudDataAccessEntityFramework.Extensions;
 using AndroCloudDataAccessEntityFramework.Model;
+using System.Linq.Expressions;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -12,180 +13,219 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public string GetPublic(string externalApplicationId, out List<AndroCloudDataAccess.Domain.Host> applicationHostList)
+        public string GetAllPublicHostsByExternalApplicationId(string externalApplicationId, out List<AndroCloudDataAccess.Domain.Host> applicationHostList)
         {
-            applicationHostList = new List<AndroCloudDataAccess.Domain.Host>();
+            var results = this
+                .QueryHost(e => e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                .OrderBy(e=> e.Order)
+                .Select(e => e.ToPublicDomainModel());
+
+            applicationHostList = results.ToList();
+
+            return string.Empty;
+        }
+
+        public string GetAllPublicHostsByExternalSiteId(string externalSiteId, out List<AndroCloudDataAccess.Domain.Host> applicationHostList)
+        {
+            var results = this
+                .QueryHost(e => e.Sites.Any(site => site.ExternalId == externalSiteId))
+                .OrderBy(e=> e.Order)
+                .Select(e=> e.ToPublicDomainModel());
+
+            applicationHostList = results.ToList();
+
+            return string.Empty;
+        }
+
+        public string GetAllGenericPublic(out List<AndroCloudDataAccess.Domain.Host> hosts)
+        {
+            var results = this
+                .QueryHost(e => !e.OptInOnly)
+                .OrderBy(e => e.Order)
+                .Select(e=> e.ToPublicDomainModel());
+
+            hosts = results.ToList();
+
+            return string.Empty;
+        }
+
+        public string GetBestPublicHosts(string externalApplicationId, out List<AndroCloudDataAccess.Domain.Host> hosts)
+        {
+            this.GetAllPublicHostsByExternalApplicationId(externalApplicationId, out hosts);
+
+            if (hosts.Count > 0) { return string.Empty; }
+
+            this.GetAllGenericPublic(out hosts);
+
+            return string.Empty;
+        }
+
+        public string GetBestPublicHosts(string externalApplicationId, string externalSiteId, out List<AndroCloudDataAccess.Domain.Host> hosts)
+        {
+            this.GetAllPublicHostsByExternalSiteId(externalSiteId, out hosts);
+
+            if (hosts.Count > 0) { return string.Empty; }
+
+            this.GetAllPublicHostsByExternalApplicationId(externalApplicationId, out hosts);
+
+            if (hosts.Count > 0) { return string.Empty; }
+
+            this.GetAllGenericPublic(out hosts);
+
+            return string.Empty;
+        }
+
+        public string GetAllPublicV2HostsByExternalApplicationId(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
+        {
+            var results = this
+                .QueryHostsV2(e => e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                .Select(e => e.ToPublicDomainModel())
+                .ToList();
+
+            applicationHostList = results;
+
+            return string.Empty;
+        }
+
+        public string GetAllGenericPrivateHosts(out List<AndroCloudDataAccess.Domain.PrivateHost> hosts)
+        {
+            var results = this
+                .QueryHost(e => !e.OptInOnly)
+                .Select(e=> e.ToPrivateDomainModel());
+            
+            hosts = results.ToList();
+            
+            return "";
+        }
+
+        private IEnumerable<Host> QueryHost(Expression<Func<Host, bool>> query) 
+        {
+            var results = Enumerable.Empty<Host>();
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                var acsQuery = acsEntities.Hosts.Where(query);
+                results = acsQuery.ToArray();
+            }
+
+            return results;
+        }
+        
+        private IEnumerable<HostsV2> QueryHostsV2(Expression<Func<HostsV2, bool>> query) 
+        {
+            var results = Enumerable.Empty<HostsV2>();
 
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var acsQuery = acsEntities.Hosts
-                    .Where(e=> e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
-                    .OrderBy(e=> e.Order)
+                var acsTable = acsEntities.HostsV2
+                    .Include(e => e.HostType);
+
+                var acsQuery = acsTable
+                    .Where(query)
                     .ToArray();
 
-                foreach (Host hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
-                    host.Url = hostEntity.HostName;
-                    host.Order = hostEntity.Order;
-
-                    applicationHostList.Add(host);
-                }
+                results = acsQuery;
             }
+
+            return results;
+        }
+
+        public string GetAllGenericPublicV2Hosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
+        {
+            var results = this.QueryHostsV2(e => e.Public && !e.OptInOnly).Select(e => e.ToPublicDomainModel());
+
+            hosts = results.ToList();
 
             return "";
         }
 
-        public string GetAllPublic(out List<AndroCloudDataAccess.Domain.Host> hosts)
+        public string GetBestPrivateV2(int andromedaSiteId, int acsApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
         {
-            hosts = new List<AndroCloudDataAccess.Domain.Host>();
+            var siteSpecificError = this.GetAllPrivateV2ByAndromedaSiteId(andromedaSiteId, out hosts);
 
-            using (ACSEntities acsEntities = new ACSEntities())
-            {
-                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+            if (hosts.Count > 0) { return siteSpecificError; }
 
-                var acsQuery = from h in acsEntities.Hosts orderby h.Order
-                               select h;
+            var applicationSpecificError = this.GetAllPrivateV2ByAcsApplicationId(acsApplicationId, out hosts);
 
-                foreach (Host hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
-                    host.Url = hostEntity.HostName;
-                    host.Order = hostEntity.Order;
+            if (hosts.Count > 0) { return applicationSpecificError; }
 
-                    hosts.Add(host);
-                }
-            }
-
-            return "";
+            return this.GetAllGenericPrivateV2Hosts(out hosts);
         }
 
-        public string GetAllPublicV2(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
+        public string GetBestPrivateV2(int andromedaSiteId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
         {
-            hosts = new List<AndroCloudDataAccess.Domain.HostV2>();
+            var siteSpecificError = this.GetAllPrivateV2ByAndromedaSiteId(andromedaSiteId, out hosts);
 
-            using (ACSEntities acsEntities = new ACSEntities())
-            {
-                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+            if (hosts.Count > 0) { return siteSpecificError; }
 
-                var acsQuery = from h in acsEntities.HostsV2
-                               join ht in acsEntities.HostTypes
-                                   on h.HostTypeId equals ht.Id
-                               where h.Public == true
-                               select h;
+            //find any linked by application id 
+            var results = this
+                .QueryHostsV2(e => 
+                    e.Sites.Any(site => site.AndroID == andromedaSiteId) && 
+                    e.ACSApplications.Any(app => app.ACSApplicationSites.Any(site => site.Site.AndroID == andromedaSiteId))
+                ).Select(e=> e.ToPrivateDomainModel()).ToList();
 
-                foreach (HostsV2 hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.HostV2 host = new AndroCloudDataAccess.Domain.HostV2()
-                    {
-                        Id = hostEntity.Id,
-                        Order = hostEntity.Order,
-                        Type = hostEntity.HostType.Name,
-                        Url = hostEntity.Url,
-                        Version = hostEntity.Version
-                    };
+            hosts = results;
 
-                    hosts.Add(host);
-                }
-            }
+            if (hosts.Count > 0) { return string.Empty; }
 
-            return "";
+            return this.GetAllGenericPrivateV2Hosts(out hosts);
         }
 
-        public void GetPublicV2(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
+        public string GetAllPrivateV2BySiteId(Guid guid, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
         {
-            applicationHostList = new List<AndroCloudDataAccess.Domain.HostV2>();
-            using (ACSEntities acsEntities = new ACSEntities())
-            {
-                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+            var results = this.QueryHostsV2(e => e.Sites.Any(site => site.ID == guid)).Select(hostEntity => hostEntity.ToPrivateDomainModel());
 
-                var acsQuery = acsEntities.HostsV2
-                    .Where(e => e.Public)
-                    .Where(e=> e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
-                    .Select(e=> new {
-                        e.Id,
-                        e.Order,
-                        TypeName = e.HostType.Name,
-                        e.Url,
-                        e.Version
-                    }).ToArray();
+            hosts = results.ToList();
 
-                foreach (var hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.HostV2 host = new AndroCloudDataAccess.Domain.HostV2()
-                    {
-                        Id = hostEntity.Id,
-                        Order = hostEntity.Order,
-                        Type = hostEntity.TypeName,
-                        Url = hostEntity.Url,
-                        Version = hostEntity.Version
-                    };
+            return string.Empty;
+        }
 
-                    applicationHostList.Add(host);
-                }
-            }
-
+        public string GetAllPrivateV2ByAndromedaSiteId(int andromedaSiteId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e => e.Sites.Any(site => site.AndroID == andromedaSiteId))
+                .Select(e=> e.ToPrivateDomainModel());
             
+            hosts = results.ToList();
+
+            return string.Empty;
         }
 
-        public string GetAllPrivate(out List<AndroCloudDataAccess.Domain.PrivateHost> hosts)
+        public string GetAllPrivateV2ByAcsApplicationId(int acsApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
         {
-            hosts = new List<AndroCloudDataAccess.Domain.PrivateHost>();
+            var results = this
+                .QueryHostsV2(e => e.ACSApplications.Any(application => application.Id == acsApplicationId))
+                .Select(e=> e.ToPrivateDomainModel());
 
-            using (ACSEntities acsEntities = new ACSEntities())
-            {
-                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+            hosts = results.ToList();
+            
+            return string.Empty;
+        }
+        
+        public string GetAllPrivateHostV2ByExternalApplicationId(string externalApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e => e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                .Select(e => e.ToPrivateDomainModel());
 
-                var acsQuery = from h in acsEntities.Hosts
-                               select h;
+            hosts = results.ToList();
 
-                foreach (Host hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.PrivateHost host = new AndroCloudDataAccess.Domain.PrivateHost();
-                    host.Url = hostEntity.PrivateHostName;
-                    host.Order = hostEntity.Order;
-                    host.SignalRUrl = hostEntity.SignalRHostName;
+            return string.Empty;
+        }
 
-                    hosts.Add(host);
-                }
-            }
+        public string GetAllGenericPrivateV2Hosts(out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e => !e.OptInOnly)
+                .Select(e => e.ToPrivateDomainModel());
+
+            hosts = results.ToList();
 
             return "";
         }
-
-        public string GetAllPrivateV2(out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
-        {
-            hosts = new List<AndroCloudDataAccess.Domain.PrivateHostV2>();
-
-            using (ACSEntities acsEntities = new ACSEntities())
-            {
-                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
-
-                var acsQuery = from h in acsEntities.HostsV2
-                               join ht in acsEntities.HostTypes
-                                   on h.HostTypeId equals ht.Id
-                               select h;
-
-                foreach (HostsV2 hostEntity in acsQuery)
-                {
-                    AndroCloudDataAccess.Domain.PrivateHostV2 host = new AndroCloudDataAccess.Domain.PrivateHostV2()
-                    {
-                        Id = hostEntity.Id,
-                        Order = hostEntity.Order,
-                        Type = hostEntity.HostType.Name,
-                        Url = hostEntity.Url,
-                        Version = hostEntity.Version
-                    };
-
-                    hosts.Add(host);
-                }
-            }
-
-            return "";
-        }
-
         
     }
 }
