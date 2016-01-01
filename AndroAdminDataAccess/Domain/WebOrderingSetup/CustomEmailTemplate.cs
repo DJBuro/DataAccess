@@ -9,10 +9,10 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
     {
         public void DefaultCustomThemeSettings()
         {
-            EmailColourRange1 = string.Empty;
-            EmailColourRange2 = string.Empty;
+            HeaderColour = string.Empty;
+            FooterColour = string.Empty;
         }
-        public string EmailColourRange1 { set; get; }
-        public string EmailColourRange2 { set; get; }
+        public string HeaderColour { set; get; }
+        public string FooterColour { set; get; }
     }
 }
