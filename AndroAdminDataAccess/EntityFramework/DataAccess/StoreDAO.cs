@@ -854,6 +854,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone,
+                        TimeZoneInfoId = entity.TimeZoneInfoId,
                         PaymentProvider = entity.StorePaymentProvider == null ? null :
                             new Domain.StorePaymentProvider()
                             {
