@@ -12,16 +12,19 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreMenu
+    public partial class ExternalApi
     {
-        public int Id { get; set; }
-        public Nullable<int> StoreId { get; set; }
-        public Nullable<int> Version { get; set; }
-        public string MenuType { get; set; }
-        public string MenuData { get; set; }
-        public Nullable<System.DateTime> LastUpdated { get; set; }
+        public ExternalApi()
+        {
+            this.Devices = new HashSet<Device>();
+        }
+    
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+        public string DefinitionParameters { get; set; }
+        public string Parameters { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual Store Store { get; set; }
+        public virtual ICollection<Device> Devices { get; set; }
     }
 }

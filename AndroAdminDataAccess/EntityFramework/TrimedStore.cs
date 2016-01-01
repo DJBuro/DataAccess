@@ -12,18 +12,24 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Partner
+    public partial class TrimedStore
     {
-        public Partner()
-        {
-            this.ACSApplications = new HashSet<ACSApplication>();
-        }
-    
         public int Id { get; set; }
         public string Name { get; set; }
+        public int AndromedaSiteId { get; set; }
+        public string CustomerSiteId { get; set; }
+        public Nullable<System.DateTime> LastFTPUploadDateTime { get; set; }
+        public int StoreStatusId { get; set; }
+        public string ClientSiteName { get; set; }
+        public string ExternalSiteName { get; set; }
         public string ExternalId { get; set; }
+        public Nullable<int> EstimatedDeliveryTime { get; set; }
+        public string TimeZone { get; set; }
+        public string Telephone { get; set; }
+        public string LicenseKey { get; set; }
+        public int AddressId { get; set; }
+        public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
-    
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
+        public int ChainId { get; set; }
     }
 }

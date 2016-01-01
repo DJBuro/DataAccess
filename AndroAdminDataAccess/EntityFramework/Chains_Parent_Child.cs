@@ -12,19 +12,11 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Host
+    public partial class Chains_Parent_Child
     {
-        public Host()
-        {
-            this.ACSApplications = new HashSet<ACSApplication>();
-        }
-    
-        public int Id { get; set; }
-        public string HostName { get; set; }
-        public int Order { get; set; }
-        public string PrivateHostName { get; set; }
-        public int DataVersion { get; set; }
-    
-        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
+        public int ChainId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> ParentChainId { get; set; }
     }
 }
