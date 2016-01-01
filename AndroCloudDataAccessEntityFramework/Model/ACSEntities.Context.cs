@@ -54,5 +54,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<ExternalApi> ExternalApis { get; set; }
         public DbSet<SiteDevice> SiteDevices { get; set; }
         public DbSet<SiteLoyalty> SiteLoyalties { get; set; }
+        public DbSet<SitesOffline> SitesOfflines { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
