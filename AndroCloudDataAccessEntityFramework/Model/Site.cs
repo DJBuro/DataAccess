@@ -51,11 +51,11 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public virtual ICollection<OpeningHour> OpeningHours { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual SiteStatus SiteStatus { get; set; }
-        public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual ICollection<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
         public virtual ICollection<HubHost> HubHosts { get; set; }
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
         public virtual ICollection<Host> Hosts { get; set; }
         public virtual ICollection<HostsV2> HostsV2 { get; set; }
+        public virtual StorePaymentProvider StorePaymentProvider { get; set; }
     }
 }
