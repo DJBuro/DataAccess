@@ -31,7 +31,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string ApplicationName { get; set; }
         public int RamesesOrderNum { get; set; }
         public string ExternalOrderRef { get; set; }
-        public string SiteID { get; set; }
+        public string ExternalSiteID { get; set; }
         public string SiteName { get; set; }
         public System.Guid ACSOrderId { get; set; }
         public string paytype { get; set; }

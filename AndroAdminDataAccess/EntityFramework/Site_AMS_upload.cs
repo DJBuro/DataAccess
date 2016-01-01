@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataWarehouseDataAccessEntityFramework.Model
+namespace AndroAdminDataAccess.EntityFramework
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderStatusHistory
+    public partial class Site_AMS_upload
     {
-        public System.Guid Id { get; set; }
-        public System.Guid OrderHeaderId { get; set; }
-        public int Status { get; set; }
-        public System.DateTime ChangedDateTime { get; set; }
-    
-        public virtual OrderStatu OrderStatu { get; set; }
+        public int id { get; set; }
+        public Nullable<System.DateTime> LastBusinessDate { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
     }
 }
