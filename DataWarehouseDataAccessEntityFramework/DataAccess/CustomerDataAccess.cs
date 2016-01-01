@@ -62,7 +62,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     customer = new DataWarehouseDataAccess.Domain.Customer()
                     {
-                        Id = entity.IDId,
+                        Id = entity.ID,
                         Title = entity.Title,
                         FirstName = entity.FirstName,
                         Surname = entity.LastName
@@ -157,7 +157,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         Username = username,
                         FirstName = customer.FirstName,
-                        Surname = customer.Surname,
+                        LastName = customer.Surname,
                         Title = customer.Title,
                         Password = passwordHash,
                         PasswordSalt = salt,

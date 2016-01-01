@@ -12,17 +12,17 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class AccountType
+    public partial class CustomerAddress
     {
-        public AccountType()
-        {
-            this.Customers = new HashSet<Customer>();
-        }
+        public System.Guid ID { get; set; }
+        public Nullable<System.Guid> CustomerKey { get; set; }
+        public string RoadNum { get; set; }
+        public string RoadName { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
+        public string Country { get; set; }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

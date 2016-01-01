@@ -12,16 +12,13 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Contact
+    public partial class OrderStatusHistory
     {
-        public int Id { get; set; }
-        public int ContactTypeId { get; set; }
-        public string Value { get; set; }
-        public int MarketingLevelId { get; set; }
-        public int CustomerId { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid OrderStatusId { get; set; }
+        public System.Guid OrderHeaderId { get; set; }
     
-        public virtual ContactType ContactType { get; set; }
-        public virtual MarketingLevel MarketingLevel { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual OrderHeader OrderHeader { get; set; }
+        public virtual OrderStatu OrderStatu { get; set; }
     }
 }

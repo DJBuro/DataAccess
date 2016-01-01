@@ -12,17 +12,17 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class MarketingLevel
+    public partial class OrderStatu
     {
-        public MarketingLevel()
+        public OrderStatu()
         {
-            this.Contacts = new HashSet<Contact>();
+            this.OrderStatusHistories = new HashSet<OrderStatusHistory>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public System.Guid Id { get; set; }
         public string Description { get; set; }
+        public int RamesesStatusId { get; set; }
     
-        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual ICollection<OrderStatusHistory> OrderStatusHistories { get; set; }
     }
 }
