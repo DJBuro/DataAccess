@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\CustomernDataAccess.cs" />
+    <Compile Include="DataAccess\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\DataAccessHelper.cs" />
+    <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AccountType.cs">
       <DependentUpon>DataWarehouse.tt</DependentUpon>
     </Compile>

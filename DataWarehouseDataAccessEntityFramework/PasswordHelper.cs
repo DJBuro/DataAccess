@@ -29,12 +29,20 @@ namespace DataWarehouseDataAccessEntityFramework
         /// </summary>
         /// <param name="password">The password to hash.</param>
         /// <returns>The hash of the password.</returns>
-        public static string CreateHash(string password, out byte[] salt)
+        public static string CreateHash(string password, byte[] useSalt, out byte[] salt)
         {
-            // Generate a random salt
-            RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
-            salt = new byte[SALT_BYTE_SIZE];
-            csprng.GetBytes(salt);
+            if (useSalt == null)
+            {
+                // Generate a random salt
+                RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
+                salt = new byte[SALT_BYTE_SIZE];
+                csprng.GetBytes(salt);
+            }
+            else
+            {
+                // Use the salt passed in
+                salt = useSalt;
+            }
 
             // Hash the password and encode the parameters
             byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
