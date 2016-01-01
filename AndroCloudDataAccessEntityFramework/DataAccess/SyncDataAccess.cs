@@ -46,7 +46,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         // Does the site already exist?
                         ISiteDataAccess sitesDataAccess = new SitesDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
                         AndroCloudDataAccess.Domain.Site existingSite = null;
-                        sitesDataAccess.GetByAndromedaSiteIdAndLive(store.AndromedaSiteId, out existingSite);
+                        sitesDataAccess.GetByAndromedaSiteId(store.AndromedaSiteId, out existingSite);
 
                         if (existingSite == null)
                         {
