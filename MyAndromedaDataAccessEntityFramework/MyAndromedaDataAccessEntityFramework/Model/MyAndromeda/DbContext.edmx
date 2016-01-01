@@ -160,6 +160,9 @@
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
           <Property Name="LastAttempt" Type="datetime" />
           <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="StoreId" Type="int" />
+          <Property Name="InvokedByUserId" Type="int" />
+          <Property Name="InvokedByUserName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="EmailCampaign">
           <Key>
@@ -1413,6 +1416,9 @@
           <Property Type="DateTime" Name="Timestamp" Nullable="false" Precision="3" />
           <Property Type="DateTime" Name="LastAttempt" Precision="3" />
           <Property Type="Boolean" Name="Completed" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" />
+          <Property Type="Int32" Name="InvokedByUserId" />
+          <Property Type="String" Name="InvokedByUserName" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SiteMenuFtpBackup">
           <Key>
@@ -1737,6 +1743,9 @@
           <EntitySetMapping Name="CloudSynchronizationTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.CloudSynchronizationTask">
               <MappingFragment StoreEntitySet="CloudSynchronizationTasks">
+                <ScalarProperty Name="InvokedByUserName" ColumnName="InvokedByUserName" />
+                <ScalarProperty Name="InvokedByUserId" ColumnName="InvokedByUserId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="LastAttempt" ColumnName="LastAttempt" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
