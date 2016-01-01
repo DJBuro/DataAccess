@@ -11,5 +11,6 @@ namespace AndroCloudDataAccess
         IMenuDataAccess MenuDataAccess { get; set; }
         ISiteDataAccess SiteDataAccess { get; set; }
         IOrderDataAccess OrderDataAccess { get; set; }
+        IAuditDataAccess AuditDataAccess { get; set; }
     }
 }

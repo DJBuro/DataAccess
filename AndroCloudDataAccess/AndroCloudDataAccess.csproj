@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IAuditDataAccess.cs" />
     <Compile Include="DataAccess\IOrderDataAccess.cs" />
     <Compile Include="DataAccess\IMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
