@@ -29,7 +29,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public string Description { get; set; }
         public string Culture { get; set; }
         public Nullable<int> MasterMenuId { get; set; }
-        public int DataVersion { get; set; }
     
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
         public virtual ICollection<ChainChain> ChainChains { get; set; }
