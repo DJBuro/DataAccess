@@ -206,6 +206,39 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetById(Guid siteId, out AndroCloudDataAccess.Domain.Site site)
+        {
+            site = null;
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var sitesQuery = from s in acsEntities.Sites
+                                 join ss in acsEntities.SiteStatuses
+                                   on s.SiteStatusID equals ss.ID
+                                 where s.ID == siteId
+                                   && ss.Status == "Live"
+                                 select s;
+                Model.Site siteEntity = sitesQuery.FirstOrDefault();
+
+                if (siteEntity != null)
+                {
+                    site = new AndroCloudDataAccess.Domain.Site();
+                    site.Id = siteEntity.ID;
+                    site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
+                    site.MenuVersion = 0;
+                    site.Name = siteEntity.ExternalSiteName;
+                    site.ExternalId = siteEntity.ExternalId;
+                    site.LicenceKey = siteEntity.LicenceKey;
+                    site.AndroId = siteEntity.AndroID;
+                }
+            }
+
+            return "";
+        }
+
         public string GetByExternalSiteId(string externalSiteId, out AndroCloudDataAccess.Domain.Site site)
         {
             site = null;
