@@ -259,10 +259,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
                         Description = e.Description,
                         Category = e.Category
                     }).ToList();
-                    //var role = roles.FirstOrDefault(e=> e.Id == key);
-                    //userRoles.Add(new Role() {
-                    //    Id = 
-                    //});
                 }
             }
 
@@ -278,7 +274,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
 
             foreach (var permission in permissions)
             {
-                var permissionEntity = permissionTable.SingleOrDefault(e => e.Name == permission.Name && e.Category == permission.Category);
+                var permissionEntity = permissionTable.SingleOrDefault(e => 
+                    e.Name == permission.Name && 
+                    e.Category == permission.Category);
+
                 if (permissionEntity == null)
                 {
                     permissionEntity = new Model.MyAndromeda.Permission()
@@ -316,7 +315,5 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Permissions
                 collection.Add(permissionEntity);
             }
         }
-
-        
     }
 }
