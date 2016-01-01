@@ -88,7 +88,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             RoadNum = entity.Address.RoadNum,
                             State = entity.Address.State,
                             Town = entity.Address.Town,
-                            Directions = entity.Address.Directions
+                            Directions = entity.Address.Directions,
+                            Country = entity.Address.Country.CountryName
                         };
                     }
 
@@ -266,7 +267,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return "";
         }
 
-        public string UpdateCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer)
+        public string UpdateCustomer(string username, string password, string newPassword, int applicationId, DataWarehouseDataAccess.Domain.Customer customer)
         {
             using (System.Transactions.TransactionScope transactionScope = new TransactionScope(TransactionScopeOption.Suppress))
             {
@@ -297,129 +298,139 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             return "Incorrect password";
                         }
 
-                        // Update the customer entity
-                        customerEntity.FirstName = customer.FirstName;
-                        customerEntity.Surname = customer.Surname;
-                        customerEntity.Title = customer.Title;
-
-                        // Does the address need to be updated?
-                        if (customer.Address != null)
+                        // Does the customer want to change their password?
+                        if (newPassword != null && newPassword.Length > 0)
                         {
-                            Model.Address addressEntity = null;
-
-                            // Is there already an address for this customer?
-                            if (customerEntity.AddressId.HasValue)
-                            {
-                                // Get the existing address
-                                var addressQuery = from a in dataWarehouseEntities.Addresses
-                                                   where a.Id == customerEntity.AddressId
-                                                   select a;
-
-                                addressEntity = addressQuery.FirstOrDefault();
-                            }
-                            else 
-                            {
-                                // Create a new address
-                                addressEntity = new Model.Address();
-                                dataWarehouseEntities.Addresses.Add(addressEntity);
-                                customerEntity.Address = addressEntity;
-                            }
-
-                            // Update the address entity
-                            addressEntity.County = customer.Address.County;
-                            addressEntity.Locality = customer.Address.Locality;
-                            addressEntity.Org1 = customer.Address.Org1;
-                            addressEntity.Org2 = customer.Address.Org2;
-                            addressEntity.Org3 = customer.Address.Org3;
-                            addressEntity.PostCode = customer.Address.Postcode;
-                            addressEntity.Prem1 = customer.Address.Prem1;
-                            addressEntity.Prem2 = customer.Address.Prem2;
-                            addressEntity.Prem3 = customer.Address.Prem3;
-                            addressEntity.Prem4 = customer.Address.Prem4;
-                            addressEntity.Prem5 = customer.Address.Prem5;
-                            addressEntity.Prem6 = customer.Address.Prem6;
-                            addressEntity.RoadName = customer.Address.RoadName;
-                            addressEntity.RoadNum = customer.Address.RoadNum;
-                            addressEntity.State = customer.Address.State;
-                            addressEntity.Town = customer.Address.Town;
-                            addressEntity.Directions = customer.Address.Directions;
-
-                            // Get the country
-                            var countryQuery = from c in dataWarehouseEntities.Countries
-                                               where c.CountryName == customer.Address.Country
-                                               select c;
-
-                            var countryEntity = countryQuery.FirstOrDefault();
-
-                            if (countryEntity == null)
-                            {
-                                return "Unknown country: " + customer.Address.Country;
-                            }
-
-                            // Got the country
-                            addressEntity.Country = countryEntity;
+                            string newPasswordHash = PasswordHash.CreateHash(newPassword, customerEntity.PasswordSalt, out salt);
+                            customerEntity.Password = newPasswordHash;
                         }
 
-                        // Do the contacts need to be updated?
-                        if (customer.Contacts != null && customer.Contacts.Count > 0)
+                        if (customer != null)
                         {
-                            // Remove the customers contacts (easier to delete and then create rather than updating them)
-                            var contactsQuery = from c in dataWarehouseEntities.Contacts
-                                                where c.CustomerId == customerEntity.Id
-                                                select c;
-                            
-                            // Can't remove items from a collection while iterating through the same collection
-                            List<Model.Contact> removeContacts = new List<Model.Contact>();
-                            foreach (Model.Contact contact in contactsQuery)
-                            {
-                                removeContacts.Add(contact);
-                            }
-                            foreach (Model.Contact contact in removeContacts)
-                            {
-                                dataWarehouseEntities.Contacts.Remove(contact);
-                            }
+                            // Update the customer entity
+                            customerEntity.FirstName = customer.FirstName;
+                            customerEntity.Surname = customer.Surname;
+                            customerEntity.Title = customer.Title;
 
-                            foreach (DataWarehouseDataAccess.Domain.Contact contact in customer.Contacts)
+                            // Does the address need to be updated?
+                            if (customer.Address != null)
                             {
-                                // Build the contact entity
-                                Model.Contact contactEntity = new Model.Contact()
+                                Model.Address addressEntity = null;
+
+                                // Is there already an address for this customer?
+                                if (customerEntity.AddressId.HasValue)
                                 {
-                                    CustomerId = customerEntity.Id,
-                                    Value = contact.Value
-                                };
+                                    // Get the existing address
+                                    var addressQuery = from a in dataWarehouseEntities.Addresses
+                                                       where a.Id == customerEntity.AddressId
+                                                       select a;
 
-                                // Get the marketing level
-                                var marketingLevelQuery = from m in dataWarehouseEntities.MarketingLevels
-                                                          where m.Name == contact.MarketingLevel
-                                                          select m;
-
-                                var marketingLevelEntity = marketingLevelQuery.FirstOrDefault();
-
-                                if (marketingLevelEntity == null)
+                                    addressEntity = addressQuery.FirstOrDefault();
+                                }
+                                else
                                 {
-                                    return "Unknown marketing level: " + contact.MarketingLevel;
+                                    // Create a new address
+                                    addressEntity = new Model.Address();
+                                    dataWarehouseEntities.Addresses.Add(addressEntity);
+                                    customerEntity.Address = addressEntity;
                                 }
 
-                                // Got the marketing level
-                                contactEntity.MarketingLevel = marketingLevelEntity;
+                                // Update the address entity
+                                addressEntity.County = customer.Address.County;
+                                addressEntity.Locality = customer.Address.Locality;
+                                addressEntity.Org1 = customer.Address.Org1;
+                                addressEntity.Org2 = customer.Address.Org2;
+                                addressEntity.Org3 = customer.Address.Org3;
+                                addressEntity.PostCode = customer.Address.Postcode;
+                                addressEntity.Prem1 = customer.Address.Prem1;
+                                addressEntity.Prem2 = customer.Address.Prem2;
+                                addressEntity.Prem3 = customer.Address.Prem3;
+                                addressEntity.Prem4 = customer.Address.Prem4;
+                                addressEntity.Prem5 = customer.Address.Prem5;
+                                addressEntity.Prem6 = customer.Address.Prem6;
+                                addressEntity.RoadName = customer.Address.RoadName;
+                                addressEntity.RoadNum = customer.Address.RoadNum;
+                                addressEntity.State = customer.Address.State;
+                                addressEntity.Town = customer.Address.Town;
+                                addressEntity.Directions = customer.Address.Directions;
 
-                                // Get the contact type
-                                var contactTypeQuery = from ct in dataWarehouseEntities.ContactTypes
-                                                       where ct.Name == contact.Type
-                                                       select ct;
+                                // Get the country
+                                var countryQuery = from c in dataWarehouseEntities.Countries
+                                                   where c.CountryName == customer.Address.Country
+                                                   select c;
 
-                                var contactTypeEntity = contactTypeQuery.FirstOrDefault();
+                                var countryEntity = countryQuery.FirstOrDefault();
 
-                                if (contactTypeEntity == null)
+                                if (countryEntity == null)
                                 {
-                                    return "Unknown contact type: " + contact.Type;
+                                    return "Unknown country: " + customer.Address.Country;
                                 }
 
-                                // Got the contact type
-                                contactEntity.ContactType = contactTypeEntity;
+                                // Got the country
+                                addressEntity.Country = countryEntity;
+                            }
 
-                                // Add the contact
-                                dataWarehouseEntities.Contacts.Add(contactEntity);
+                            // Do the contacts need to be updated?
+                            if (customer.Contacts != null && customer.Contacts.Count > 0)
+                            {
+                                // Remove the customers contacts (easier to delete and then create rather than updating them)
+                                var contactsQuery = from c in dataWarehouseEntities.Contacts
+                                                    where c.CustomerId == customerEntity.Id
+                                                    select c;
+
+                                // Can't remove items from a collection while iterating through the same collection
+                                List<Model.Contact> removeContacts = new List<Model.Contact>();
+                                foreach (Model.Contact contact in contactsQuery)
+                                {
+                                    removeContacts.Add(contact);
+                                }
+                                foreach (Model.Contact contact in removeContacts)
+                                {
+                                    dataWarehouseEntities.Contacts.Remove(contact);
+                                }
+
+                                foreach (DataWarehouseDataAccess.Domain.Contact contact in customer.Contacts)
+                                {
+                                    // Build the contact entity
+                                    Model.Contact contactEntity = new Model.Contact()
+                                    {
+                                        CustomerId = customerEntity.Id,
+                                        Value = contact.Value
+                                    };
+
+                                    // Get the marketing level
+                                    var marketingLevelQuery = from m in dataWarehouseEntities.MarketingLevels
+                                                              where m.Name == contact.MarketingLevel
+                                                              select m;
+
+                                    var marketingLevelEntity = marketingLevelQuery.FirstOrDefault();
+
+                                    if (marketingLevelEntity == null)
+                                    {
+                                        return "Unknown marketing level: " + contact.MarketingLevel;
+                                    }
+
+                                    // Got the marketing level
+                                    contactEntity.MarketingLevel = marketingLevelEntity;
+
+                                    // Get the contact type
+                                    var contactTypeQuery = from ct in dataWarehouseEntities.ContactTypes
+                                                           where ct.Name == contact.Type
+                                                           select ct;
+
+                                    var contactTypeEntity = contactTypeQuery.FirstOrDefault();
+
+                                    if (contactTypeEntity == null)
+                                    {
+                                        return "Unknown contact type: " + contact.Type;
+                                    }
+
+                                    // Got the contact type
+                                    contactEntity.ContactType = contactTypeEntity;
+
+                                    // Add the contact
+                                    dataWarehouseEntities.Contacts.Add(contactEntity);
+                                }
                             }
                         }
 
