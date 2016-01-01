@@ -13,5 +13,6 @@ namespace DataWarehouseDataAccess
         IOrderDataAccess OrderDataAccess { get; set; }
         IVoucherDataAccess VoucherDataAccess { get; set; }
         IOrderMetricsDataAccess OrderMetricsDataAccess { get; set; }
+        IFeedbackDataAccess FeedbackDataAccess { get; set; }
     }
 }

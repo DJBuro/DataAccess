@@ -137,6 +137,26 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Longitude" Type="nvarchar" MaxLength="15" />
           <Property Name="Latitude" Type="nvarchar" MaxLength="15" />
         </EntityType>
+        <EntityType Name="CustomerFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ACSApplicationId" Type="int" Nullable="false" />
+          <Property Name="ExternalSiteId" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="96" />
+          <Property Name="CustomerEmailAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="CustomerFeedbackCategoryId" Type="int" />
+          <Property Name="Feedback" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerFeedbackCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="CustomerLoyalty">
           <Key>
             <PropertyRef Name="Id" />
@@ -178,7 +198,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="OrderPlacedTime" Type="datetime" />
           <Property Name="OrderWantedTime" Type="datetime" />
           <Property Name="ApplicationID" Type="int" Nullable="false" />
-          <Property Name="ApplicationName" Type="nvarchar" MaxLength="64" />
+          <Property Name="ApplicationName" Type="nvarchar" MaxLength="100" />
           <Property Name="RamesesOrderNum" Type="int" Nullable="false" />
           <Property Name="ExternalOrderRef" Type="nvarchar" MaxLength="64" />
           <Property Name="ExternalSiteID" Type="nvarchar" MaxLength="64" />
@@ -193,7 +213,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ACSErrorCode" Type="int" Nullable="false" />
-          <Property Name="DestinationDevice" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DestinationDevice" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="CustomerAddressID" Type="uniqueidentifier" />
           <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
           <Property Name="CookingInstructions" Type="nvarchar" MaxLength="128" />
@@ -309,15 +329,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DiscountValue" Type="money" Nullable="false" />
           <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Applications_vw">
-          <Key>
-            <PropertyRef Name="ApplicationID" />
-          </Key>
-          <Property Name="ApplicationID" Type="int" Nullable="false" />
-          <Property Name="ApplicationName" Type="nvarchar" MaxLength="64" />
-        </EntityType>
         <Association Name="FK_Address_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="1" />
           <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -411,6 +422,18 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
             </Principal>
             <Dependent Role="CustomerAddress">
               <PropertyRef Name="CustomerKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerFeedback_CustomerFeedbackCategory">
+          <End Role="CustomerFeedbackCategory" Type="Self.CustomerFeedbackCategory" Multiplicity="0..1" />
+          <End Role="CustomerFeedback" Type="Self.CustomerFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerFeedbackCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerFeedback">
+              <PropertyRef Name="CustomerFeedbackCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -605,6 +628,8 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerAccount" EntityType="Self.CustomerAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerAddress" EntityType="Self.CustomerAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerFeedback" EntityType="Self.CustomerFeedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerFeedbackCategory" EntityType="Self.CustomerFeedbackCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerLoyalty" EntityType="Self.CustomerLoyalty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketingLevel" EntityType="Self.MarketingLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="modifiers" EntityType="Self.modifiers" Schema="dbo" store:Type="Tables" />
@@ -619,12 +644,6 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsedVoucher" EntityType="Self.UsedVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Voucher" EntityType="Self.Voucher" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Applications_vw" EntityType="Self.Applications_vw" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[Applications_vw].[ApplicationID] AS [ApplicationID], 
-[Applications_vw].[ApplicationName] AS [ApplicationName]
-FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
@@ -656,6 +675,10 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <AssociationSet Name="FK_CustomerAddress_Customer" Association="Self.FK_CustomerAddress_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerAddress" EntitySet="CustomerAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerFeedback_CustomerFeedbackCategory" Association="Self.FK_CustomerFeedback_CustomerFeedbackCategory">
+            <End Role="CustomerFeedbackCategory" EntitySet="CustomerFeedbackCategory" />
+            <End Role="CustomerFeedback" EntitySet="CustomerFeedback" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerLoyalty_Customer" Association="Self.FK_CustomerLoyalty_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -720,23 +743,38 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
       <Schema Namespace="DataWarehouseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="DataWarehouseEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="AccountTypes" EntityType="DataWarehouseModel.AccountType" />
+          <EntitySet Name="ACSErrorCodes" EntityType="DataWarehouseModel.ACSErrorCode" />
           <EntitySet Name="Addresses" EntityType="DataWarehouseModel.Address" />
+          <EntitySet Name="Audits" EntityType="DataWarehouseModel.Audit" />
           <EntitySet Name="Contacts" EntityType="DataWarehouseModel.Contact" />
           <EntitySet Name="ContactTypes" EntityType="DataWarehouseModel.ContactType" />
           <EntitySet Name="Countries" EntityType="DataWarehouseModel.Country" />
           <EntitySet Name="Customers" EntityType="DataWarehouseModel.Customer" />
           <EntitySet Name="CustomerAccounts" EntityType="DataWarehouseModel.CustomerAccount" />
           <EntitySet Name="CustomerAddresses" EntityType="DataWarehouseModel.CustomerAddress" />
+          <EntitySet Name="CustomerFeedbacks" EntityType="DataWarehouseModel.CustomerFeedback" />
+          <EntitySet Name="CustomerFeedbackCategories" EntityType="DataWarehouseModel.CustomerFeedbackCategory" />
+          <EntitySet Name="CustomerLoyalties" EntityType="DataWarehouseModel.CustomerLoyalty" />
           <EntitySet Name="MarketingLevels" EntityType="DataWarehouseModel.MarketingLevel" />
           <EntitySet Name="modifiers" EntityType="DataWarehouseModel.modifier" />
           <EntitySet Name="OrderHeaders" EntityType="DataWarehouseModel.OrderHeader" />
           <EntitySet Name="OrderLines" EntityType="DataWarehouseModel.OrderLine" />
+          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
           <EntitySet Name="OrderStatus" EntityType="DataWarehouseModel.OrderStatu" />
           <EntitySet Name="OrderStatusHistories" EntityType="DataWarehouseModel.OrderStatusHistory" />
           <EntitySet Name="PasswordResetRequests" EntityType="DataWarehouseModel.PasswordResetRequest" />
+          <EntitySet Name="Sites" EntityType="DataWarehouseModel.Site" />
+          <EntitySet Name="SiteVouchers" EntityType="DataWarehouseModel.SiteVoucher" />
+          <EntitySet Name="sysdiagrams" EntityType="DataWarehouseModel.sysdiagram" />
+          <EntitySet Name="UsedVouchers" EntityType="DataWarehouseModel.UsedVoucher" />
+          <EntitySet Name="Vouchers" EntityType="DataWarehouseModel.Voucher" />
           <AssociationSet Name="FK_CustomerAccount_AccountType" Association="DataWarehouseModel.FK_CustomerAccount_AccountType">
             <End Role="AccountType" EntitySet="AccountTypes" />
             <End Role="CustomerAccount" EntitySet="CustomerAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderHeader_ACSErrorCode" Association="DataWarehouseModel.FK_OrderHeader_ACSErrorCode">
+            <End Role="ACSErrorCode" EntitySet="ACSErrorCodes" />
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
           </AssociationSet>
           <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.FK_Address_Country">
             <End Role="Country" EntitySet="Countries" />
@@ -766,6 +804,10 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustomerAddress" EntitySet="CustomerAddresses" />
           </AssociationSet>
+          <AssociationSet Name="FK_CustomerLoyalty_Customer" Association="DataWarehouseModel.FK_CustomerLoyalty_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerLoyalty" EntitySet="CustomerLoyalties" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderHeader_Customer1" Association="DataWarehouseModel.FK_OrderHeader_Customer1">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
@@ -774,11 +816,19 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="Customer" EntitySet="Customers" />
             <End Role="PasswordResetRequest" EntitySet="PasswordResetRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_modifiers_OrderLines" Association="DataWarehouseModel.FK_modifiers_OrderLines">
-            <End Role="OrderLine" EntitySet="OrderLines" />
-            <End Role="modifier" EntitySet="modifiers" />
+          <AssociationSet Name="FK_UsedVoucher_Customer" Association="DataWarehouseModel.FK_UsedVoucher_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="UsedVoucher" EntitySet="UsedVouchers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Modifiers_Orderlines_Cascade" Association="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade">
+          <AssociationSet Name="FK_OrderAddress" Association="DataWarehouseModel.FK_OrderAddress">
+            <End Role="CustomerAddress" EntitySet="CustomerAddresses" />
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerFeedback_CustomerFeedbackCategory" Association="DataWarehouseModel.FK_CustomerFeedback_CustomerFeedbackCategory">
+            <End Role="CustomerFeedbackCategory" EntitySet="CustomerFeedbackCategories" />
+            <End Role="CustomerFeedback" EntitySet="CustomerFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modifiers_OrderLines" Association="DataWarehouseModel.FK_modifiers_OrderLines">
             <End Role="OrderLine" EntitySet="OrderLines" />
             <End Role="modifier" EntitySet="modifiers" />
           </AssociationSet>
@@ -790,27 +840,17 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderLine" EntitySet="OrderLines" />
           </AssociationSet>
-          <AssociationSet Name="FK_TABLE_NAME_PARENT_TABLE_NAME" Association="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME">
+          <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
-            <End Role="OrderLine" EntitySet="OrderLines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus">
-            <End Role="OrderStatu" EntitySet="OrderStatus" />
-            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistories" />
-          </AssociationSet>
-          <EntitySet Name="Sites" EntityType="DataWarehouseModel.Site" />
-          <EntitySet Name="SiteVouchers" EntityType="DataWarehouseModel.SiteVoucher" />
-          <EntitySet Name="sysdiagrams" EntityType="DataWarehouseModel.sysdiagram" />
-          <EntitySet Name="UsedVouchers" EntityType="DataWarehouseModel.UsedVoucher" />
-          <EntitySet Name="Vouchers" EntityType="DataWarehouseModel.Voucher" />
-          <EntitySet Name="Applications_vw" EntityType="DataWarehouseModel.Applications_vw" />
-          <AssociationSet Name="FK_UsedVoucher_Customer" Association="DataWarehouseModel.FK_UsedVoucher_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="UsedVoucher" EntitySet="UsedVouchers" />
+            <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
           </AssociationSet>
           <AssociationSet Name="FK_UsedVoucher_OrderHeader" Association="DataWarehouseModel.FK_UsedVoucher_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderStatusHistory_OrderStatus" Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+            <End Role="OrderStatusHistory" EntitySet="OrderStatusHistories" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteVoucher_Voucher" Association="DataWarehouseModel.FK_SiteVoucher_Voucher">
             <End Role="Voucher" EntitySet="Vouchers" />
@@ -819,26 +859,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <AssociationSet Name="FK_UsedVoucher_Voucher" Association="DataWarehouseModel.FK_UsedVoucher_Voucher">
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
-          </AssociationSet>
-          <EntitySet Name="Audits" EntityType="DataWarehouseModel.Audit" />
-          <EntitySet Name="ACSErrorCodes" EntityType="DataWarehouseModel.ACSErrorCode" />
-          <AssociationSet Name="FK_OrderHeader_ACSErrorCode" Association="DataWarehouseModel.FK_OrderHeader_ACSErrorCode">
-            <End Role="ACSErrorCode" EntitySet="ACSErrorCodes" />
-            <End Role="OrderHeader" EntitySet="OrderHeaders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderAddress" Association="DataWarehouseModel.FK_OrderAddress">
-            <End Role="CustomerAddress" EntitySet="CustomerAddresses" />
-            <End Role="OrderHeader" EntitySet="OrderHeaders" />
-          </AssociationSet>
-          <EntitySet Name="CustomerLoyalties" EntityType="DataWarehouseModel.CustomerLoyalty" />
-          <AssociationSet Name="FK_CustomerLoyalty_Customer" Association="DataWarehouseModel.FK_CustomerLoyalty_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="CustomerLoyalty" EntitySet="CustomerLoyalties" />
-          </AssociationSet>
-          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
-          <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
-            <End Role="OrderHeader" EntitySet="OrderHeaders" />
-            <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
@@ -849,6 +869,15 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CustomerAccounts" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="AccountType" ToRole="CustomerAccount" />
+        </EntityType>
+        <EntityType Name="ACSErrorCode">
+          <Key>
+            <PropertyRef Name="ErrorCode" />
+          </Key>
+          <Property Name="ErrorCode" Type="Int32" Nullable="false" />
+          <Property Name="ShortDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LongDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="ACSErrorCode" ToRole="OrderHeader" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
@@ -879,6 +908,21 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Directions" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Audit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="SrcID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="HardwareID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="IP_Port" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseTime" Type="Int32" />
+          <Property Name="ErrorCode" Type="Int32" />
+          <Property Name="ExtraInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -928,10 +972,10 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.fk_contact_customer" FromRole="Customer" ToRole="Contact" />
           <NavigationProperty Name="CustomerAccount" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="Customer" ToRole="CustomerAccount" />
           <NavigationProperty Name="CustomerAddresses" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="Customer" ToRole="CustomerAddress" />
+          <NavigationProperty Name="CustomerLoyalties" Relationship="DataWarehouseModel.FK_CustomerLoyalty_Customer" FromRole="Customer" ToRole="CustomerLoyalty" />
           <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="Customer" ToRole="OrderHeader" />
           <NavigationProperty Name="PasswordResetRequests" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="Customer" ToRole="PasswordResetRequest" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_Customer" FromRole="Customer" ToRole="UsedVoucher" />
-          <NavigationProperty Name="CustomerLoyalties" Relationship="DataWarehouseModel.FK_CustomerLoyalty_Customer" FromRole="Customer" ToRole="CustomerLoyalty" />
         </EntityType>
         <EntityType Name="CustomerAccount">
           <Key>
@@ -944,10 +988,10 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="PasswordSalt" Type="Binary" Nullable="false" MaxLength="100" FixedLength="false" />
           <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
           <Property Name="RegisteredDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="CustomerAccount" ToRole="AccountType" />
-          <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="CustomerAccount" ToRole="Customer" />
           <Property Name="FacebookId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FacebookUsername" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_CustomerAccount_AccountType" FromRole="CustomerAccount" ToRole="AccountType" />
+          <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_CustomerAccount" FromRole="CustomerAccount" ToRole="Customer" />
         </EntityType>
         <EntityType Name="CustomerAddress">
           <Key>
@@ -961,10 +1005,42 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="State" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="ZipCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="Country" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="CustomerAddress" ToRole="Customer" />
-          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="CustomerAddress" ToRole="OrderHeader" />
           <Property Name="Longitude" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Latitude" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="CustomerAddress" ToRole="Customer" />
+          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="CustomerAddress" ToRole="OrderHeader" />
+        </EntityType>
+        <EntityType Name="CustomerFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="ExternalSiteId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerName" Type="String" MaxLength="96" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerFeedbackCategoryId" Type="Int32" />
+          <Property Name="Feedback" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerFeedbackCategory" Relationship="DataWarehouseModel.FK_CustomerFeedback_CustomerFeedbackCategory" FromRole="CustomerFeedback" ToRole="CustomerFeedbackCategory" />
+        </EntityType>
+        <EntityType Name="CustomerFeedbackCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerFeedbacks" Relationship="DataWarehouseModel.FK_CustomerFeedback_CustomerFeedbackCategory" FromRole="CustomerFeedbackCategory" ToRole="CustomerFeedback" />
+        </EntityType>
+        <EntityType Name="CustomerLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Points" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerLoyalty_Customer" FromRole="CustomerLoyalty" ToRole="Customer" />
         </EntityType>
         <EntityType Name="MarketingLevel">
           <Key>
@@ -987,7 +1063,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Removed" Type="Boolean" />
           <Property Name="Price" Type="Int32" />
           <NavigationProperty Name="OrderLine" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="modifier" ToRole="OrderLine" />
-          <NavigationProperty Name="OrderLine1" Relationship="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" FromRole="modifier" ToRole="OrderLine" />
         </EntityType>
         <EntityType Name="OrderHeader">
           <Key>
@@ -1001,7 +1076,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="OrderPlacedTime" Type="DateTime" Precision="3" />
           <Property Name="OrderWantedTime" Type="DateTime" Precision="3" />
           <Property Name="ApplicationID" Type="Int32" Nullable="false" />
-          <Property Name="ApplicationName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RamesesOrderNum" Type="Int32" Nullable="false" />
           <Property Name="ExternalOrderRef" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="ExternalSiteID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
@@ -1015,23 +1090,21 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="PartnerName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Cancelled" Type="Boolean" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="OrderHeader" ToRole="Customer" />
-          <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderHeader" ToRole="OrderStatu" />
-          <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
-          <NavigationProperty Name="OrderLines1" Relationship="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" FromRole="OrderHeader" ToRole="OrderLine" />
-          <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="OrderHeader" ToRole="UsedVoucher" />
           <Property Name="ACSErrorCode" Type="Int32" Nullable="false" />
-          <Property Name="DestinationDevice" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DestinationDevice" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="CustomerAddressID" Type="Guid" />
-          <NavigationProperty Name="ACSErrorCode1" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="OrderHeader" ToRole="ACSErrorCode" />
-          <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
           <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CookingInstructions" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="DriverId" Type="Int32" />
           <Property Name="TicketNumber" Type="Int32" />
+          <NavigationProperty Name="ACSErrorCode1" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="OrderHeader" ToRole="ACSErrorCode" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="OrderHeader" ToRole="Customer" />
+          <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
+          <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderHeader" ToRole="OrderStatu" />
+          <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
           <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
-          
+          <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="OrderHeader" ToRole="UsedVoucher" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1043,13 +1116,25 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Description" Type="String" MaxLength="96" FixedLength="false" Unicode="true" />
           <Property Name="Qty" Type="Int32" />
           <Property Name="Price" Type="Int32" />
-          <NavigationProperty Name="modifiers" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="OrderLine" ToRole="modifier" />
-          <NavigationProperty Name="modifiers1" Relationship="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" FromRole="OrderLine" ToRole="modifier" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderLine" ToRole="OrderHeader" />
-          <NavigationProperty Name="OrderHeader1" Relationship="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" FromRole="OrderLine" ToRole="OrderHeader" />
           <Property Name="Cat1" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
           <Property Name="Cat2" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
           <Property Name="DisplayCategory" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="modifiers" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="OrderLine" ToRole="modifier" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderLine" ToRole="OrderHeader" />
+        </EntityType>
+        <EntityType Name="OrderLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <Property Name="PointsGained" Type="Int32" />
+          <Property Name="PointsUsed" Type="Int32" />
+          <Property Name="PointsMoneyValueGained" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Applied" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
         </EntityType>
         <EntityType Name="OrderStatu">
           <Key>
@@ -1080,6 +1165,68 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="CustomerId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="PasswordResetRequest" ToRole="Customer" />
         </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="AndroID" />
+          </Key>
+          <Property Name="AndroID" Type="Int32" Nullable="false" />
+          <Property Name="OrderNumber" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiteVoucher">
+          <Key>
+            <PropertyRef Name="VoucherId" />
+            <PropertyRef Name="AndromedaSiteId" />
+          </Key>
+          <Property Name="VoucherId" Type="Guid" Nullable="false" />
+          <Property Name="AndromedaSiteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Voucher" Relationship="DataWarehouseModel.FK_SiteVoucher_Voucher" FromRole="SiteVoucher" ToRole="Voucher" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UsedVoucher">
+          <Key>
+            <PropertyRef Name="VoucherId" />
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="VoucherId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_UsedVoucher_Customer" FromRole="UsedVoucher" ToRole="Customer" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="UsedVoucher" ToRole="OrderHeader" />
+          <NavigationProperty Name="Voucher" Relationship="DataWarehouseModel.FK_UsedVoucher_Voucher" FromRole="UsedVoucher" ToRole="Voucher" />
+        </EntityType>
+        <EntityType Name="Voucher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="VoucherCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Occasion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MinimumOrderAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="MaxRepetitions" Type="Int32" />
+          <Property Name="Combinable" Type="Boolean" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EndDataTime" Type="DateTime" Precision="3" />
+          <Property Name="AvailableOnDays" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartTimeOfDayAvailable" Type="Time" Precision="7" />
+          <Property Name="EndTimeOfDayAvailable" Type="Time" Precision="7" />
+          <Property Name="DiscountType" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountValue" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SiteVouchers" Relationship="DataWarehouseModel.FK_SiteVoucher_Voucher" FromRole="Voucher" ToRole="SiteVoucher" />
+          <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_Voucher" FromRole="Voucher" ToRole="UsedVoucher" />
+        </EntityType>
         <Association Name="FK_CustomerAccount_AccountType">
           <End Type="DataWarehouseModel.AccountType" Role="AccountType" Multiplicity="1" />
           <End Type="DataWarehouseModel.CustomerAccount" Role="CustomerAccount" Multiplicity="*" />
@@ -1089,6 +1236,18 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Principal>
             <Dependent Role="CustomerAccount">
               <PropertyRef Name="AccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderHeader_ACSErrorCode">
+          <End Type="DataWarehouseModel.ACSErrorCode" Role="ACSErrorCode" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSErrorCode">
+              <PropertyRef Name="ErrorCode" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="ACSErrorCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1176,6 +1335,18 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CustomerLoyalty_Customer">
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="DataWarehouseModel.CustomerLoyalty" Role="CustomerLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerLoyalty">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderHeader_Customer1">
           <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
@@ -1200,19 +1371,45 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_modifiers_OrderLines">
-          <End Type="DataWarehouseModel.OrderLine" Role="OrderLine" Multiplicity="0..1" />
-          <End Type="DataWarehouseModel.modifier" Role="modifier" Multiplicity="*" />
+        <Association Name="FK_UsedVoucher_Customer">
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DataWarehouseModel.UsedVoucher" Role="UsedVoucher" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderLine">
+            <Principal Role="Customer">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="modifier">
-              <PropertyRef Name="OrderLineID" />
+            <Dependent Role="UsedVoucher">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Modifiers_Orderlines_Cascade">
+        <Association Name="FK_OrderAddress">
+          <End Type="DataWarehouseModel.CustomerAddress" Role="CustomerAddress" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddress">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderHeader">
+              <PropertyRef Name="CustomerAddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerFeedback_CustomerFeedbackCategory">
+          <End Type="DataWarehouseModel.CustomerFeedbackCategory" Role="CustomerFeedbackCategory" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.CustomerFeedback" Role="CustomerFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerFeedbackCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerFeedback">
+              <PropertyRef Name="CustomerFeedbackCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modifiers_OrderLines">
           <End Type="DataWarehouseModel.OrderLine" Role="OrderLine" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -1239,18 +1436,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderLines_OrderHeader">
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="0..1" />
-          <End Type="DataWarehouseModel.OrderLine" Role="OrderLine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderLine">
-              <PropertyRef Name="OrderHeaderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TABLE_NAME_PARENT_TABLE_NAME">
           <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -1264,98 +1449,15 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderStatusHistory_OrderStatus">
-          <End Type="DataWarehouseModel.OrderStatu" Role="OrderStatu" Multiplicity="1" />
-          <End Type="DataWarehouseModel.OrderStatusHistory" Role="OrderStatusHistory" Multiplicity="*" />
+        <Association Name="FK_OrderLoyalty_OrderHeader">
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderLoyalty" Role="OrderLoyalty" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderStatusHistory">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Site">
-          <Key>
-            <PropertyRef Name="AndroID" />
-          </Key>
-          <Property Name="AndroID" Type="Int32" Nullable="false" />
-          <Property Name="OrderNumber" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SiteVoucher">
-          <Key>
-            <PropertyRef Name="VoucherId" />
-            <PropertyRef Name="AndromedaSiteId" />
-          </Key>
-          <Property Name="VoucherId" Type="Guid" Nullable="false" />
-          <Property Name="AndromedaSiteId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Voucher" Relationship="DataWarehouseModel.FK_SiteVoucher_Voucher" FromRole="SiteVoucher" ToRole="Voucher" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="UsedVoucher">
-          <Key>
-            <PropertyRef Name="VoucherId" />
-            <PropertyRef Name="CustomerId" />
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Name="VoucherId" Type="Guid" Nullable="false" />
-          <Property Name="CustomerId" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_UsedVoucher_Customer" FromRole="UsedVoucher" ToRole="Customer" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="UsedVoucher" ToRole="OrderHeader" />
-          <NavigationProperty Name="Voucher" Relationship="DataWarehouseModel.FK_UsedVoucher_Voucher" FromRole="UsedVoucher" ToRole="Voucher" />
-        </EntityType>
-        <EntityType Name="Voucher">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="VoucherCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="true" />
-          <Property Name="Occasion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="MinimumOrderAmount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="MaxRepetitions" Type="Int32" />
-          <Property Name="Combinable" Type="Boolean" Nullable="false" />
-          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
-          <Property Name="EndDataTime" Type="DateTime" Precision="3" />
-          <Property Name="AvailableOnDays" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="StartTimeOfDayAvailable" Type="Time" Precision="7" />
-          <Property Name="EndTimeOfDayAvailable" Type="Time" Precision="7" />
-          <Property Name="DiscountType" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Name="DiscountValue" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="Removed" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="SiteVouchers" Relationship="DataWarehouseModel.FK_SiteVoucher_Voucher" FromRole="Voucher" ToRole="SiteVoucher" />
-          <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_Voucher" FromRole="Voucher" ToRole="UsedVoucher" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Applications_vw">
-          <Key>
-            <PropertyRef Name="ApplicationID" />
-          </Key>
-          <Property Name="ApplicationID" Type="Int32" Nullable="false" />
-          <Property Name="ApplicationName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_UsedVoucher_Customer">
-          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DataWarehouseModel.UsedVoucher" Role="UsedVoucher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
+            <Principal Role="OrderHeader">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="UsedVoucher">
-              <PropertyRef Name="CustomerId" />
+            <Dependent Role="OrderLoyalty">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1370,6 +1472,18 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Principal>
             <Dependent Role="UsedVoucher">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderStatusHistory_OrderStatus">
+          <End Type="DataWarehouseModel.OrderStatu" Role="OrderStatu" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderStatusHistory" Role="OrderStatusHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderStatusHistory">
+              <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1401,102 +1515,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Audit">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <Property Name="SrcID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="HardwareID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="IP_Port" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="Action" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="ResponseTime" Type="Int32" />
-          <Property Name="ErrorCode" Type="Int32" />
-          <Property Name="ExtraInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ACSErrorCode">
-          <Key>
-            <PropertyRef Name="ErrorCode" />
-          </Key>
-          <Property Name="ErrorCode" Type="Int32" Nullable="false" />
-          <Property Name="ShortDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LongDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_ACSErrorCode" FromRole="ACSErrorCode" ToRole="OrderHeader" />
-        </EntityType>
-        <Association Name="FK_OrderHeader_ACSErrorCode">
-          <End Type="DataWarehouseModel.ACSErrorCode" Role="ACSErrorCode" Multiplicity="1" />
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSErrorCode">
-              <PropertyRef Name="ErrorCode" />
-            </Principal>
-            <Dependent Role="OrderHeader">
-              <PropertyRef Name="ACSErrorCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderAddress">
-          <End Type="DataWarehouseModel.CustomerAddress" Role="CustomerAddress" Multiplicity="0..1" />
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomerAddress">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderHeader">
-              <PropertyRef Name="CustomerAddressID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="CustomerLoyalty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="CustomerId" Type="Guid" Nullable="false" />
-          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Points" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerLoyalty_Customer" FromRole="CustomerLoyalty" ToRole="Customer" />
-        </EntityType>
-        <Association Name="FK_CustomerLoyalty_Customer">
-          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="DataWarehouseModel.CustomerLoyalty" Role="CustomerLoyalty" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CustomerLoyalty">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="OrderLoyalty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Guid" Nullable="false" />
-          <Property Name="PointsGained" Type="Int32" />
-          <Property Name="PointsUsed" Type="Int32" />
-          <Property Name="PointsMoneyValueGained" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Applied" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
-        </EntityType>
-        <Association Name="FK_OrderLoyalty_OrderHeader">
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
-          <End Type="DataWarehouseModel.OrderLoyalty" Role="OrderLoyalty" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderLoyalty">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1509,6 +1527,15 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACSErrorCodes">
+            <EntityTypeMapping TypeName="DataWarehouseModel.ACSErrorCode">
+              <MappingFragment StoreEntitySet="ACSErrorCode">
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1538,6 +1565,22 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
                 <ScalarProperty Name="Org2" ColumnName="Org2" />
                 <ScalarProperty Name="Org1" ColumnName="Org1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Audits">
+            <EntityTypeMapping TypeName="DataWarehouseModel.Audit">
+              <MappingFragment StoreEntitySet="Audit">
+                <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
+                <ScalarProperty Name="ExtraInfo" ColumnName="ExtraInfo" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />
+                <ScalarProperty Name="HardwareID" ColumnName="HardwareID" />
+                <ScalarProperty Name="SrcID" ColumnName="SrcID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1616,6 +1659,38 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CustomerFeedbacks">
+            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerFeedback">
+              <MappingFragment StoreEntitySet="CustomerFeedback">
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="CustomerFeedbackCategoryId" ColumnName="CustomerFeedbackCategoryId" />
+                <ScalarProperty Name="CustomerEmailAddress" ColumnName="CustomerEmailAddress" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="ExternalSiteId" ColumnName="ExternalSiteId" />
+                <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerFeedbackCategories">
+            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerFeedbackCategory">
+              <MappingFragment StoreEntitySet="CustomerFeedbackCategory">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerLoyalties">
+            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerLoyalty">
+              <MappingFragment StoreEntitySet="CustomerLoyalty">
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MarketingLevels">
             <EntityTypeMapping TypeName="DataWarehouseModel.MarketingLevel">
               <MappingFragment StoreEntitySet="MarketingLevel">
@@ -1689,6 +1764,20 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OrderLoyalties">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderLoyalty">
+              <MappingFragment StoreEntitySet="OrderLoyalty">
+                <ScalarProperty Name="Applied" ColumnName="Applied" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="PointsMoneyValueSpent" ColumnName="PointsMoneyValueSpent" />
+                <ScalarProperty Name="PointsMoneyValueGained" ColumnName="PointsMoneyValueGained" />
+                <ScalarProperty Name="PointsUsed" ColumnName="PointsUsed" />
+                <ScalarProperty Name="PointsGained" ColumnName="PointsGained" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OrderStatus">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderStatu">
               <MappingFragment StoreEntitySet="OrderStatus">
@@ -1756,7 +1845,6 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="Vouchers">
             <EntityTypeMapping TypeName="DataWarehouseModel.Voucher">
               <MappingFragment StoreEntitySet="Voucher">
-                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="DiscountValue" ColumnName="DiscountValue" />
                 <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
@@ -1771,63 +1859,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
                 <ScalarProperty Name="Occasion" ColumnName="Occasion" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Applications_vw">
-            <EntityTypeMapping TypeName="DataWarehouseModel.Applications_vw">
-              <MappingFragment StoreEntitySet="Applications_vw">
-                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Audits">
-            <EntityTypeMapping TypeName="DataWarehouseModel.Audit">
-              <MappingFragment StoreEntitySet="Audit">
-                <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
-                <ScalarProperty Name="ExtraInfo" ColumnName="ExtraInfo" />
-                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
-                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />
-                <ScalarProperty Name="HardwareID" ColumnName="HardwareID" />
-                <ScalarProperty Name="SrcID" ColumnName="SrcID" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ACSErrorCodes">
-            <EntityTypeMapping TypeName="DataWarehouseModel.ACSErrorCode">
-              <MappingFragment StoreEntitySet="ACSErrorCode">
-                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
-                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
-                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CustomerLoyalties">
-            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerLoyalty">
-              <MappingFragment StoreEntitySet="CustomerLoyalty">
-                <ScalarProperty Name="Points" ColumnName="Points" />
-                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderLoyalties">
-            <EntityTypeMapping TypeName="DataWarehouseModel.OrderLoyalty">
-              <MappingFragment StoreEntitySet="OrderLoyalty">
-                <ScalarProperty Name="Applied" ColumnName="Applied" />
-                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
-                <ScalarProperty Name="PointsMoneyValueSpent" ColumnName="PointsMoneyValueSpent" />
-                <ScalarProperty Name="PointsMoneyValueGained" ColumnName="PointsMoneyValueGained" />
-                <ScalarProperty Name="PointsUsed" ColumnName="PointsUsed" />
-                <ScalarProperty Name="PointsGained" ColumnName="PointsGained" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

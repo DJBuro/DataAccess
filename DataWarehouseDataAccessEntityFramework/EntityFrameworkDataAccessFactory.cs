@@ -41,5 +41,11 @@ namespace DataWarehouseDataAccessEntityFramework
             get { return new OrderMetricsDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
+
+        public IFeedbackDataAccess FeedbackDataAccess
+        {
+            get { return new FeedbackDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

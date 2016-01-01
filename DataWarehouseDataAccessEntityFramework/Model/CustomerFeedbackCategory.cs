@@ -12,16 +12,16 @@ namespace DataWarehouseDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class modifier
+    public partial class CustomerFeedbackCategory
     {
-        public System.Guid ID { get; set; }
-        public Nullable<System.Guid> OrderLineID { get; set; }
-        public Nullable<int> ProductID { get; set; }
-        public string Description { get; set; }
-        public Nullable<int> Qty { get; set; }
-        public Nullable<bool> Removed { get; set; }
-        public Nullable<int> Price { get; set; }
+        public CustomerFeedbackCategory()
+        {
+            this.CustomerFeedbacks = new HashSet<CustomerFeedback>();
+        }
     
-        public virtual OrderLine OrderLine { get; set; }
+        public int Id { get; set; }
+        public string DisplayName { get; set; }
+    
+        public virtual ICollection<CustomerFeedback> CustomerFeedbacks { get; set; }
     }
 }

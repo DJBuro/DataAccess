@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\ICustomerFeedbackDataAccess.cs" />
+    <Compile Include="DataAccess\IFeedbackDataAccess.cs" />
     <Compile Include="DataAccess\IOrderDataAccess.cs" />
     <Compile Include="DataAccess\IOrderMetricsDataAccess.cs" />
     <Compile Include="DataAccess\IPasswordResetRequestDataAccess.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Domain\CustomerAddress.cs" />
     <Compile Include="Domain\CustomerDAO.cs" />
     <Compile Include="Domain\CustomerLoyalty.cs" />
+    <Compile Include="Domain\Feedback.cs" />
     <Compile Include="Domain\OrderLineDAO.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\UsedVoucher.cs" />
