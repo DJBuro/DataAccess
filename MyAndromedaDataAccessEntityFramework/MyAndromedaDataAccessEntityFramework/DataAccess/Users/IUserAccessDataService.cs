@@ -93,6 +93,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             {
                 var table = dbContext.Stores;
                 
+                
                 chainId = table
                     .Where(e => e.Id == storeId)
                     .Select(e=> e.ChainId)

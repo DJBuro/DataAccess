@@ -27,12 +27,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     
         public DbSet<ACSApplication> ACSApplications { get; set; }
         public DbSet<ACSApplicationSite> ACSApplicationSites { get; set; }
-        public DbSet<Address> Addresses { get; set; }
         public DbSet<AMSServer> AMSServers { get; set; }
         public DbSet<AMSServerChain> AMSServerChains { get; set; }
-        public DbSet<Chain> Chains { get; set; }
-        public DbSet<ChainChain> ChainChains { get; set; }
-        public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<FTPSite> FTPSites { get; set; }
@@ -49,6 +45,18 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<ExternalApi> ExternalApis { get; set; }
+        public DbSet<HostType> HostTypes { get; set; }
+        public DbSet<HostV2> HostV2 { get; set; }
+        public DbSet<StoreDevice> StoreDevices { get; set; }
+        public DbSet<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
+        public DbSet<StoreHubReset> StoreHubResets { get; set; }
+        public DbSet<StoreHub> StoreHubs { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<ChainChain> ChainChains { get; set; }
+        public DbSet<Chain> Chains { get; set; }
         public DbSet<Store> Stores { get; set; }
     }
 }

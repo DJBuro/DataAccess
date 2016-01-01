@@ -97,6 +97,7 @@
     <Compile Include="DataAccess\Chains\IChainDataService.cs" />
     <Compile Include="DataAccess\CountryDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
+    <Compile Include="DataAccess\Devices\IStoreDevices.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
@@ -174,7 +175,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ExpressionRewriter.cs" />
+    <Compile Include="Model\AndroAdmin\Device.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\Employee.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\ExternalApi.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\FTPSite.cs">
@@ -187,6 +195,12 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\Host.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\HostType.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\HostV2.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\Log.cs">
@@ -210,6 +224,18 @@
     <Compile Include="Model\AndroAdmin\StoreAMSServerFtpSite.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AndroAdmin\StoreDevice.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreHostV2ApiCredentials.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreHub.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\StoreHubReset.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\StoreMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -222,7 +248,6 @@
     <Compile Include="Model\AndroAdmin\StoreStatu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="ExpressionRewriter.cs" />
     <Compile Include="Model\DataVersionHelper.cs" />
     <Compile Include="Model\CustomerDataWarehouse\AccountType.cs">
       <DependentUpon>DbContext.tt</DependentUpon>

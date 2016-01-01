@@ -12,13 +12,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class ChainChain
+    public partial class StoreHub
     {
-        public int Id { get; set; }
-        public int ParentChainId { get; set; }
-        public int ChildChainId { get; set; }
+        public System.Guid HubAddressId { get; set; }
+        public int StoreId { get; set; }
     
-        public virtual Chain ChildChain { get; set; }
-        public virtual Chain ParentChain { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

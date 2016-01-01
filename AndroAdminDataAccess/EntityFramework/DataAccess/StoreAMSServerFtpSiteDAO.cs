@@ -41,7 +41,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 foreach (var entity in result)
                 {
-                    Domain.StoreAMSServerFtpSiteListItem storeAMSServerFtpSiteListItem = new StoreAMSServerFtpSiteListItem()
+                    Domain.StoreAMSServerFtpSiteListItem storeAmsServerFtpSiteListItem = new StoreAMSServerFtpSiteListItem()
                     {
                         AMSServerName = entity.AMSServerName,
                         FTPSite = string.Empty,
@@ -53,7 +53,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Country = entity.Country
                     };
 
-                    models.Add(storeAMSServerFtpSiteListItem);
+                    models.Add(storeAmsServerFtpSiteListItem);
                 }
             }
 
