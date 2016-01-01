@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B7D4B89-6FA5-4A65-A611-94F26DE92361}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyAndromedaDataAccessEntityFramework</RootNamespace>
+    <AssemblyName>MyAndromedaDataAccessEntityFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\WebSites\MyAndromeda\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataAccess\AddressDataAccess.cs" />
+    <Compile Include="DataAccess\EmployeeDataAccess.cs" />
+    <Compile Include="DataAccess\GroupsDataAccess.cs" />
+    <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
+    <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
+    <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
+    <Compile Include="DataAccess\SitesDataAccess.cs" />
+    <Compile Include="EntityFrameworkDataAccessFactory.cs" />
+    <Compile Include="Model\Address.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AMSServer.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AndroAdmin.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Day.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Employee.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FTPSite.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FTPSiteType.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Group.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Log.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromedaUser.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromedaUserGroup.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromedaUserStore.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\OpeningHour.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Partner.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Store.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StoreAMSServer.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StoreAMSServerFtpSite.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StoreAMSServerFTPSitePair.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StoreGroup.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StoreStatu.cs">
+      <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Model\AndroAdmin.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AndroAdmin.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\AndroAdmin.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+      <LastGenOutput>AndroAdmin.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model\AndroAdmin.edmx.diagram">
+      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+    </None>
+    <None Include="Model\AndroAdmin.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AndroAdmin.edmx</DependentUpon>
+      <LastGenOutput>AndroAdmin.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
+      <Project>{d9959d2f-2016-4355-bc22-061ea8a5e267}</Project>
+      <Name>AndroCloudHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MyAndromedaDataAccess\MyAndromedaDataAccess.csproj">
+      <Project>{f1a21a41-2038-40ab-bcd9-d7374a0aee80}</Project>
+      <Name>MyAndromedaDataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
