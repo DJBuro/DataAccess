@@ -220,6 +220,7 @@
     <Compile Include="Domain\WebOrderingSetup\CustomEmailTemplate.cs" />
     <Compile Include="Domain\WebOrderingSetup\CustomerAccount.cs" />
     <Compile Include="Domain\WebOrderingSetup\CustomThemeSettings.cs" />
+    <Compile Include="Domain\WebOrderingSetup\FacebookCrawlerSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\GeneralSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\HomePageSettings.cs" />
     <Compile Include="Domain\WebOrderingSetup\LegalNotices.cs" />
@@ -233,7 +234,7 @@
     <Compile Include="Domain\WebOrderingSetup\UpSelling.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategory.cs" />
     <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategoryItem.cs" />
-    <Compile Include="Domain\WebOrderingSetup\WebSiteConfigurations.cs" />
+    <Compile Include="WebSiteConfigurations.cs" />
     <Compile Include="Domain\WebOrderingSetup\WebsiteHome.cs" />
     <Compile Include="EntityFramework\ACSApplication.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>

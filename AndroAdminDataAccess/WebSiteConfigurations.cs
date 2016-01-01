@@ -43,6 +43,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             this.CustomEmailTemplate = new CustomEmailTemplate();
             this.CustomEmailTemplate.DefaultCustomThemeSettings();
 
+            this.FacebookCrawlerSettings = new FacebookCrawlerSettings();
+            this.FacebookCrawlerSettings.DefaultFacebookCrawlerSettings();
         }
 
         public int WebSiteId { get; set; }
@@ -96,6 +98,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public CustomThemeSettings CustomThemeSettings { set; get; }
 
         public CustomEmailTemplate CustomEmailTemplate { set; get; }
+
+        public FacebookCrawlerSettings FacebookCrawlerSettings { set; get; }
 
         public static string SerializeJson(Object obj)
         {
