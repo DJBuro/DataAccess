@@ -11,10 +11,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class AndroWebOrderingWebsite
     {
-        public int Id { get; set; }
+        public int Id { get; set; }        
+        [StringLength(100)]
         public string Name { get; set; }
         public Nullable<int> ChainId { get; set; }
         public bool Enabled { get; set; }
