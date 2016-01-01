@@ -20,6 +20,7 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
             Map(x => x.ServerType);
             Map(x => x.Username);
             Map(x => x.Password);
+            Map(x => x.IsPrimary);
         }
     }
 }

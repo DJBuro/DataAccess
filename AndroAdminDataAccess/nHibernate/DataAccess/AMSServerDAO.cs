@@ -12,9 +12,9 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
 {
     public class AMSServerDAO : IAMSServerDAO
     {
-        public IEnumerable<AndroAdminDataAccess.Domain.AMSServer> GetAll()
+        public IList<AndroAdminDataAccess.Domain.AMSServer> GetAll()
         {
-            IEnumerable<AndroAdminDataAccess.Domain.AMSServer> amsServers = null;
+            IList<AndroAdminDataAccess.Domain.AMSServer> amsServers = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {

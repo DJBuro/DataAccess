@@ -9,11 +9,11 @@ using NHibernate;
 
 namespace AndroAdminDataAccess.nHibernate.DataAccess
 {
-    public class FtpSiteDAO : IFtpSiteDAO
+    public class FtpSiteDAO : IFTPSiteDAO
     {
-        public IEnumerable<AndroAdminDataAccess.Domain.FTPSite> GetAll()
+        public IList<AndroAdminDataAccess.Domain.FTPSite> GetAll()
         {
-            IEnumerable<AndroAdminDataAccess.Domain.FTPSite> ftpSites = null;
+            IList<AndroAdminDataAccess.Domain.FTPSite> ftpSites = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
@@ -55,6 +55,19 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
             }
 
             return ftpSite;
+        }
+
+        
+        public IList<FTPSite> GetByIsPrimary(bool isPrimary)
+        {
+            IList<AndroAdminDataAccess.Domain.FTPSite> ftpSites = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                ftpSites = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.FTPSite) + " where IsPrimary=" + isPrimary.ToString()).List<AndroAdminDataAccess.Domain.FTPSite>();
+            }
+
+            return ftpSites;
         }
     }
 }
