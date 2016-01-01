@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
@@ -101,6 +100,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                     {
                         //reset to run again.
                         downloadTask.TryTask = true;
+                        downloadTask.TaskStarted = false;
+
+                        break;
+                    }
+                case TaskStatus.Canceled: 
+                    {
+                        downloadTask.TryTask = false;
                         downloadTask.TaskStarted = false;
 
                         break;
