@@ -20,11 +20,8 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "Customer store id")]
         public virtual string CustomerSiteId { get; set; }
 
-        [Display(Name = "Last uploaded date/time")]
-        public virtual DateTime? LastFTPUploadDateTime { get; set; }
-
-        [Display(Name = "Store status")]
-        public virtual StoreStatus StoreStatus { get; set; }
+        [Display(Name = "Customer store name")]
+        public virtual string CustomerSiteName { get; set; }
 
         [Display(Name = "External site id")]
         public virtual string ExternalSiteId { get; set; }
@@ -32,8 +29,11 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "External site name")]
         public virtual string ExternalSiteName { get; set; }
 
-        [Display(Name = "Client site name")]
-        public virtual string ClientSiteName { get; set; }
+        [Display(Name = "Last uploaded date/time")]
+        public virtual DateTime? LastFTPUploadDateTime { get; set; }
+
+        [Display(Name = "Store status")]
+        public virtual StoreStatus StoreStatus { get; set; }
 
         [Display(Name = "Address")]
         public Address Address { get; set; }
@@ -48,11 +48,15 @@ namespace AndroAdminDataAccess.Domain
         {
             this.Name = "";
             this.AndromedaSiteId = 0;
+            
             this.CustomerSiteId = "";
-            this.LastFTPUploadDateTime = null;
-            this.StoreStatus = null;
+            this.CustomerSiteName = "";
+
             this.ExternalSiteId = Guid.NewGuid().ToString().Replace("{", "").Replace("}", "").ToUpper();
             this.ExternalSiteName = "";
+
+            this.LastFTPUploadDateTime = null;
+            this.StoreStatus = null;
             this.Address = null;
             this.Telephone = "";
             this.TimeZone = "";

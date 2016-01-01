@@ -19,5 +19,8 @@ namespace AndroCloudDataAccess.Domain
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
+
+        [JsonProperty(PropertyName = "signalRUrl")]
+        public string SignalRUrl { get; set; }
     }
 }

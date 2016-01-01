@@ -190,6 +190,7 @@
           <Property Name="Order" Type="int" Nullable="false" />
           <Property Name="Port" Type="int" Nullable="false" />
           <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="SignalRHostName" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -210,7 +211,7 @@
           <Property Name="SiteID" Type="uniqueidentifier" />
           <Property Name="ACSQueueID" Type="uniqueidentifier" />
           <Property Name="StatusId" Type="uniqueidentifier" />
-          <Property Name="InternetOrderNumber" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="InternetOrderNumber" Type="int" StoreGeneratedPattern="Identity" />
           <Property Name="ExternalID" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderStatus">
@@ -636,6 +637,7 @@
           <Property Type="Int32" Name="Order" Nullable="false" />
           <Property Type="Int32" Name="Port" Nullable="false" />
           <Property Type="String" Name="PrivateHostName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SignalRHostName" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -658,7 +660,7 @@
           <Property Type="Guid" Name="SiteID" />
           <Property Type="Guid" Name="ACSQueueID" />
           <Property Type="Guid" Name="StatusId" />
-          <Property Type="Int32" Name="InternetOrderNumber" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="InternetOrderNumber" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="ExternalID" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ACSQueue" Relationship="ACSModel.FK_Orders_ACSQueue" FromRole="Order" ToRole="ACSQueue" />
           <NavigationProperty Name="OrderStatu" Relationship="ACSModel.FK_Orders_OrderStatus" FromRole="Order" ToRole="OrderStatu" />
@@ -1022,6 +1024,7 @@
           <EntitySetMapping Name="Hosts">
             <EntityTypeMapping TypeName="ACSModel.Host">
               <MappingFragment StoreEntitySet="Hosts">
+                <ScalarProperty Name="SignalRHostName" ColumnName="SignalRHostName" />
                 <ScalarProperty Name="PrivateHostName" ColumnName="PrivateHostName" />
                 <ScalarProperty Name="Port" ColumnName="Port" />
                 <ScalarProperty Name="Order" ColumnName="Order" />

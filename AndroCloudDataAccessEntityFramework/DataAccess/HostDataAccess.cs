@@ -52,6 +52,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     AndroCloudDataAccess.Domain.Host host = new AndroCloudDataAccess.Domain.Host();
                     host.Url = hostEntity.PrivateHostName;
                     host.Order = hostEntity.Order;
+                    host.SignalRUrl = hostEntity.SignalRHostName;
 
                     hosts.Add(host);
                 }
