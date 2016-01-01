@@ -16,8 +16,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             acsApplication = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var query = from p in acsEntities.ACSApplications
                             where p.ExternalApplicationId == externalApplicationId
                             select p;
@@ -40,8 +43,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             acsApplication = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var query = from p in acsEntities.ACSApplications
                             where p.Id == id
                             select p;
@@ -62,8 +68,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public bool StoreExists(Guid existingSiteId, int acsApplicationId)
         {
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var query = from acsa in acsEntities.ACSApplications
                             join acss in acsEntities.ACSApplicationSites
                             on acsa.Id equals acss.ACSApplicationId

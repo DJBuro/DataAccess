@@ -29,20 +29,21 @@ namespace AndroCloudDataAccessEntityFramework
             // Note that the current database version is stored in the settings table.  The setting values are strings.
 
             // Get a SQL connection from EF
-            SqlConnection sqlConnection = (SqlConnection)((EntityConnection)entitiesContext.Connection).StoreConnection;
+            //SqlConnection sqlConnection = (SqlConnection)((EntityConnection)entitiesContext.Database.Connection).StoreConnection;
+            SqlConnection sqlConnection = (SqlConnection)entitiesContext.Database.Connection;
 
             // Get a SQL transaction from EF
-            SqlTransaction sqlTransaction = (SqlTransaction)transaction.GetType().InvokeMember(
-                "StoreTransaction",
-                BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic,
-                null,
-                transaction,
-                new object[0]);
+            //SqlTransaction sqlTransaction = (SqlTransaction)transaction.GetType().InvokeMember(
+            //    "StoreTransaction",
+            //    BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic,
+            //    null,
+            //    transaction,
+            //    new object[0]);
 
             // We're gonna do this in a SQL command
             SqlCommand command = new SqlCommand();
             command.Connection = sqlConnection;
-            command.Transaction = sqlTransaction;
+   //         command.Transaction = sqlTransaction;
             command.CommandText = "UPDATE [Settings] SET [Value] = '" + toVersion + "' where [name] = 'dataversion' and [Value] = '" + fromVersion + "'";
 
             // We need to check that the version was actually updated.  If someone else has sneaked in and done a sync then rowsAffected will be zero

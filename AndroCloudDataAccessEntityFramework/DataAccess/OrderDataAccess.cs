@@ -16,8 +16,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from o in acsEntities.Orders
                                where o.ID == externalOrderId
                                select o;
@@ -41,8 +44,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from o in acsEntities.Orders
                                where o.InternetOrderNumber == internetOrderNumber
                                select o;
@@ -66,8 +72,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from o in acsEntities.Orders
                                where o.ExternalID == externalOrderId
                                select o;
@@ -89,8 +98,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Update(Guid orderId, Guid orderStatusId)
         {
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from o in acsEntities.Orders
                                where o.ID == orderId
                                select o;
@@ -112,8 +124,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 var acsQuery = from o in acsEntities.Orders
                                join s in acsEntities.Sites
                                on o.SiteID equals s.ID

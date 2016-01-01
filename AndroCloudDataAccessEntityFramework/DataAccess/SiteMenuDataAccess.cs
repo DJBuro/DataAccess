@@ -17,8 +17,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             siteMenu = null;
 
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 string dataTypeString = dataType.ToString();
                 var siteMenuQuery = from sm in acsEntities.SiteMenus
                                     where sm.SiteID == siteId
@@ -42,8 +45,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Put(Guid siteId, string licenseKey, string hardwareKey, string data, int version, DataTypeEnum dataType)
         {
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 string dataTypeString = dataType.ToString();
                 var siteMenuQuery = from sm in acsEntities.SiteMenus
                                     where sm.SiteID == siteId
@@ -72,7 +78,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         ID = Guid.NewGuid()
                     };
 
-                    acsEntities.AddToSiteMenus(siteMenuEntity);
+                    acsEntities.SiteMenus.Add(siteMenuEntity);
 
                     acsEntities.SaveChanges();
                 }

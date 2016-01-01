@@ -14,8 +14,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         
         public string UpsertByExternalSiteIdMyAndromedaUserId(string externalSiteId, string myAndromedaUserId, AndroCloudDataAccess.Domain.Address address)
         {
-            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            using (ACSEntities acsEntities = new ACSEntities())
             {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
                 //var acsQuery = from u in acsEntities.MyAndromedaUsers
                 //               join e in acsEntities.Employees
                 //                 on u.EmployeeID equals e.ID
