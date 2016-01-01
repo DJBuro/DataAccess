@@ -196,39 +196,49 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             }
         }
 
-        public void SetUploadTaskStarted(SiteMenu siteMenu, bool value = true, bool inProgress = false)
-        {
-            using (var dbContext = NewContext())
-            {
-                var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
-                dbItem.CheckToUpload = value;
-                siteMenuFtp.CheckToUpload = value;
-                siteMenuFtp.CheckInProgress = inProgress;
+        //public void SetUploadTaskStarted(SiteMenu siteMenu, bool value = true, bool inProgress = false)
+        //{
+        //    using (var dbContext = NewContext())
+        //    {
+        //        var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
+        //        dbItem.CheckToUpload = value;
+        //        siteMenuFtp.CheckToUpload = value;
+        //        siteMenuFtp.CheckInProgress = inProgress;
 
-                dbContext.SaveChanges();
-            }
-        }
+        //        dbContext.SaveChanges();
+        //    }
+        //}
 
+
+        //public void SetVersion(int andromedaSiteId, int version)
+        //{
+        //    using (var dbContext = NewContext()) 
+        //    {
+        //        var dbItem = this.GetMenuWithContext(dbContext, andromedaSiteId);
+        //        dbItem.SiteMenuFtpBackup.MenuVersion = version;
+
+        //        dbContext.SaveChanges();
+        //    }
+        //}
+
+        //public void SetVersion( siteMenuFtp)
+        //{
+        //    using (var dbContext = NewContext())
+        //    {
+        //        var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
+        //        dbItem.MenuVersion = siteMenuFtp.MenuVersion;
+
+        //        dbContext.SaveChanges();
+        //    }
+        //}
 
         public void SetVersion(int andromedaSiteId, int version)
         {
             using (var dbContext = NewContext()) 
             {
-                var dbItem = this.GetMenuWithContext(dbContext, andromedaSiteId);
-                dbItem.SiteMenuFtpBackup.MenuVersion = version;
+                var dbItem = dbContext.SiteMenus.Where(e => e.AndromediaId == andromedaSiteId).SingleOrDefault();
 
-                dbContext.SaveChanges();
-            }
-        }
-
-        public void SetVersion(SiteMenuFtpBackup siteMenuFtp)
-        {
-            using (var dbContext = NewContext())
-            {
-                var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
-                dbItem.MenuVersion = siteMenuFtp.MenuVersion;
-
-                dbContext.SaveChanges();
+                dbItem.AccessMenuVersion = version;
             }
         }
 
@@ -259,6 +269,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             var query = table
                              //.Include(e => e.SiteMenuFtpBackup)
                              .Include(e=> e.SiteMenuFtpBackupDownloadTask)
+                             .Include(e=> e.SiteMenuFtpBackupDownloadTask)
+                             //.Include(e=> e.SiteMenuPublishTasks)
                              ///.Include(e=> e.
                              .Where(e => e.AndromediaId == andromedaSiteId);
 
@@ -267,11 +279,17 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 this.Create(andromedaSiteId);
             }
-            if (result.SiteMenuFtpBackupId == 0 || result.SiteMenuFtpBackupId== null) 
+            
+            //if (result.SiteMenuFtpBackupId == 0 || result.SiteMenuFtpBackupId== null) 
+            if(result.SiteMenuFtpBackupUploadTask == null)
             {
-                result.SiteMenuFtpBackup = new SiteMenuFtpBackup();
-                dbContext.SaveChanges();
+                result.SiteMenuFtpBackupUploadTask = new SiteMenuFtpBackupUploadTask();
             }
+            if (result.SiteMenuFtpBackupDownloadTask == null) 
+            {
+                result.SiteMenuFtpBackupDownloadTask = new SiteMenuFtpBackupDownloadTask();
+            }
+            dbContext.SaveChanges();
 
             return result;
         }
