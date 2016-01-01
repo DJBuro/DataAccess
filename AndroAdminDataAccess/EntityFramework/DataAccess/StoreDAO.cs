@@ -8,6 +8,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.Transactions;
 using System.Data.Objects;
+using System.Data.Entity;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -941,6 +942,29 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return models;
         }
 
+        public IList<Domain.Store> GetEdtAfterDataVersion(int dataVersion)
+        {
+            List<Domain.Store> result = new List<Domain.Store>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities()) 
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = entitiesContext.Stores
+                    .Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
+                    .Where(e => e.EstimatedDeliveryTime.HasValue)
+                    .Select(e=> new { e.AndromedaSiteId, e.EstimatedDeliveryTime });
+
+                var r = query.ToArray();
+
+                result = r
+                    .Select(e => new Domain.Store() { AndromedaSiteId = e.AndromedaSiteId, EstimatedDeliveryTime = e.EstimatedDeliveryTime })
+                    .ToList();
+            }
+
+            return result;
+        }
+
         public IList<Domain.Store> GetByACSApplicationIdAfterDataVersion(int acsApplicationId, int dataVersion)
         {
             List<Domain.Store> models = new List<Domain.Store>();
@@ -949,8 +973,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.Stores
-                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                var query = from s in entitiesContext.Stores.Include(e=> e.StoreStatu)
                             join a in entitiesContext.ACSApplicationSites
                             on s.Id equals a.SiteId
                             where a.ACSApplicationId == acsApplicationId
@@ -971,7 +994,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
                         Telephone = entity.Telephone,
-                        TimeZone = entity.TimeZone
+                        TimeZone = entity.TimeZone,
+                        EstimatedDeliveryTime = entity.EstimatedDeliveryTime
                     };
 
                     // Get the address

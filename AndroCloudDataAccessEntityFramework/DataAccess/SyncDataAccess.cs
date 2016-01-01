@@ -51,6 +51,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     this.SyncStorePaymentProviders(acsEntities, syncModel.StorePaymentProviders);
                     this.SyncStoreModels(acsEntities, syncModel.Stores);
+                    this.SyncStoreEdt(acsEntities, syncModel.StoreEdt);
 
                     //when syncing partners then sync applications
                     this.SyncPartners(acsEntities, syncModel.Partners, (withPartner) =>
@@ -88,6 +89,25 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             }
 
             return errorMessage;
+        }
+ 
+        private void SyncStoreEdt(ACSEntities acsEntities, List<StoreEdt> storeEdt)
+        {
+            if (storeEdt == null) { return; }
+
+            var ids = storeEdt.Select(e => e.AndromedaSiteId).ToArray();
+            var sites = acsEntities.Sites.Where(e => ids.Contains(e.AndroID)).ToArray();
+            
+            foreach (var item in storeEdt) 
+            {
+                var site = sites.FirstOrDefault(e => e.AndroID == item.AndromedaSiteId);
+
+                if (site == null) { continue; }
+
+                site.EstimatedDeliveryTime = item.EstimatedTimeForDelivery;
+            }
+
+            acsEntities.SaveChanges();
         }
  
         private void SyncStoreLoyalty(ACSEntities acsEntities, LoyaltyUpdates loyaltyUpdates)

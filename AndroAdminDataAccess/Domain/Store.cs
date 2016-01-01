@@ -77,6 +77,8 @@ namespace AndroAdminDataAccess.Domain
         public string LicenceKey { get; set; }
         public string TimeZoneInfoId { get; set; }
         public string UiCulture { get; set; }
+
+        public int? EstimatedDeliveryTime { get; set; }
     }
 
     public static class StoreExtensions
