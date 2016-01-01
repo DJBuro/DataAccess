@@ -10,11 +10,11 @@ namespace AndroCloudDataAccess
     {
         IHostDataAccess HostDataAccess { get; set; }
         ISiteDataAccess SiteDataAccess { get; set; }
-        IOrdersDataAccess OrderDataAccess { get; set; }
+//        IOrdersDataAccess OrderDataAccess { get; set; }
         IAuditDataAccess AuditDataAccess { get; set; }
         ISiteMenuDataAccess SiteMenuDataAccess { get; set; }
         ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
-        IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
+//        IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
         IACSApplicationDataAccess AcsApplicationDataAccess { get; set; }
         ISettingsDataAccess SettingsDataAccess { get; set; }

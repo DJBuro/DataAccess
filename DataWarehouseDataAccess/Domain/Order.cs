@@ -11,22 +11,20 @@ namespace DataWarehouseDataAccess.Domain
 {
     public class Order
     {
-        [JsonProperty(PropertyName = "accountNumber")]
-        public Guid Id { get; set; }
+        [JsonIgnore]
+        [XmlIgnore]
+        public Guid ID { get; set; }
 
-        [JsonProperty(PropertyName = "title")]
-        public string Title { get; set;}
+        [JsonProperty(PropertyName = "status")]
+        [XmlElement(ElementName = "Status")]
+        public int RamesesStatusId { get; set; }
 
-        [JsonProperty(PropertyName = "firstname")]
-        public string FirstName { get; set;}
+        [JsonIgnore]
+        [XmlIgnore]
+        public int InternetOrderNumber { get; set; }
 
-        [JsonProperty(PropertyName = "surname")]
-        public string Surname { get; set; }
-
-        [JsonProperty(PropertyName = "contacts")]
-        public List<Contact> Contacts { get; set; }
-
-        [JsonProperty(PropertyName = "address")]
-        public Address Address { get; set; }
+        [JsonProperty(PropertyName = "storeOrderId")]
+        [XmlElement(ElementName = "storeOrderId")]
+        public string StoreOrderId { get; set; }
     }
 }
