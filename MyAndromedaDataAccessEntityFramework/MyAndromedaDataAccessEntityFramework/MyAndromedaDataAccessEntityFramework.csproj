@@ -166,6 +166,12 @@
     <Compile Include="Model\AndroAdmin\AMSServerChain.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AndroAdmin\AndroWebOrderingSubscriptionType.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\AndroWebOrderingWebsite.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\Chain.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
