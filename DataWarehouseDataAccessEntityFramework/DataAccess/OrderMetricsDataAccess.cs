@@ -30,7 +30,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                 .Include(e => e.CustomerAddress)
                                 .Include(e => e.ACSErrorCode1)
                                 .Include(e => e.UsedVouchers)
-                                .Include(e => e.UsedVouchers.Select(x=>x.Voucher))
+                                .Include(e => e.UsedVouchers.Select(x => x.Voucher))
                                 .Where(x => (applicationId == null || x.ApplicationID == applicationId)
                                        && (externalSiteIdList.Count == 0 || externalSiteIdList.Any(s => s.ToLower().Trim().Equals(x.ExternalSiteID.ToLower())))
                                        && ((fromDate == null && toDate == null) || (x.OrderPlacedTime >= fromDate && x.OrderPlacedTime <= toDate)))
@@ -260,6 +260,23 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                 order.OrderStatus.Description = oh.OrderStatu.Description;
             }
             return order;
+        }
+
+        IList<DataWarehouseDataAccess.Domain.ACSErrorCode> IOrderMetricsDataAccess.GetACSErrorCodes()
+        {
+            IList<DataWarehouseDataAccess.Domain.ACSErrorCode> errorCodes = new List<DataWarehouseDataAccess.Domain.ACSErrorCode>();
+            using (DataWarehouseEntities entites = new DataWarehouseEntities())
+            {
+                errorCodes = entites.ACSErrorCodes.Distinct().Select(s => new DataWarehouseDataAccess.Domain.ACSErrorCode
+                {
+                    ErrorCode = s.ErrorCode,
+                    LongDescription = s.LongDescription,
+                    ShortDescription = s.ShortDescription
+                }).ToList();                
+
+            }
+
+            return errorCodes;
         }
     }
 }
