@@ -227,7 +227,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 foreach (var dbEntity in dbMenuItems) 
                 {
-                    var updateWith = dbItems.Single(e=> e.ItemId == dbEntity.ItemId);
+                    //var updateWith = dbItems.Single(e => e.ItemId == dbEntity.ItemId);
+                    var updateWith = dbItems.FirstOrDefault(e => e.ItemId == dbEntity.ItemId);
                     dbEntity.Name = updateWith.Name;
                     dbEntity.WebName = updateWith.WebName;
                     dbEntity.WebDescription = updateWith.WebDescription;
