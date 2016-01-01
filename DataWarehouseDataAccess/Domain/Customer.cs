@@ -11,8 +11,7 @@ namespace DataWarehouseDataAccess.Domain
 {
     public class Customer
     {
-        [JsonIgnore]
-        [XmlIgnore]
+        [JsonProperty(PropertyName = "accountNumber")]
         public int Id { get; set; }
 
         [JsonProperty(PropertyName = "title")]
