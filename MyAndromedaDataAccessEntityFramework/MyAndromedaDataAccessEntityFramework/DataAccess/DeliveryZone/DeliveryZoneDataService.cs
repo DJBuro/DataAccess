@@ -7,6 +7,8 @@ using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Data;
+using System.Data.Entity;
+using System.Configuration;
 using System.Data.Entity.Infrastructure;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
@@ -109,6 +111,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 
         public IQueryable<DeliveryArea> List(Expression<Func<DeliveryArea, bool>> predicate)
         {
+            
             return this.TableQuery.Where(predicate);
         }
 
@@ -131,5 +134,62 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 
             return false;
         }
+
+        public DeliveryZoneName GetDeliveryZonesByRadius(int storeId)
+        {            
+            DeliveryZoneName deliveryzoneName =  dataContext.DeliveryZoneNames.Include(e => e.PostCodeSectors).Where(e => e.StoreId == storeId).FirstOrDefault();
+            return deliveryzoneName;
+        }
+
+        //Deliveryzones by Radius methods
+        public bool SaveDeliveryZones(DeliveryZoneName deliveryZone)
+        {
+            try
+            {
+                var existingDeliveryZone = dataContext.DeliveryZoneNames.Where(e => e.Name.Equals(deliveryZone.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+                if (existingDeliveryZone != null)
+                {
+                    UpdateDeliveryZones(deliveryZone);
+                }
+                else
+                {
+                    CreateDeliveryZones(deliveryZone);
+                }
+
+                return true;
+            }
+            catch (Exception e) { 
+
+            }
+            return false;
+        }
+
+        private void UpdateDeliveryZones(DeliveryZoneName deliveryZone)
+        {
+            var existingDeliveryzone = dataContext.DeliveryZoneNames.Where(f => f.Id == deliveryZone.Id).FirstOrDefault();
+            existingDeliveryzone = deliveryZone;
+            dataContext.SaveChanges();
+
+            foreach(PostCodeSector item in deliveryZone.PostCodeSectors){
+                var existingpostcode = existingDeliveryzone.PostCodeSectors.ToList().Where(f => f.DeliveryZoneId == item.DeliveryZoneId).FirstOrDefault();
+                existingpostcode = item;
+            }
+
+            dataContext.SaveChanges();
+        }
+
+        public void CreateDeliveryZones(DeliveryZoneName deliveryzoneName)
+        {
+            dataContext.DeliveryZoneNames.Add(deliveryzoneName);
+            dataContext.SaveChanges();
+
+            deliveryzoneName.PostCodeSectors.ToList().ForEach(f=>f.DeliveryZoneId = deliveryzoneName.Id);
+            foreach (var item in deliveryzoneName.PostCodeSectors) {
+                dataContext.PostCodeSectors.Add(item);
+            }
+            dataContext.SaveChanges();
+        }
+        
     }
 }
