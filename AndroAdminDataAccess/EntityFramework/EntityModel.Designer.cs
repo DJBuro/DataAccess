@@ -19,16 +19,31 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_OpeningHour_Day", "Day", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Day), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.OpeningHour), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_FTPSite_FTPSiteType", "FTPSiteType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.FTPSiteType), "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite1", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_FTPSite", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_StoreStatus", "StoreStatu", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreStatus), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Group_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Group), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUser), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUser), "MyAndromedaUserStore", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserStore), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "MyAndromedaUserStore", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserStore), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_OpeningHour_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.OpeningHour), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_StorePaymentProvider", "StorePaymentProvider", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.StorePaymentProvider), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_StoreStatus", "StoreStatu", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreStatu), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreMenu_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreMenu), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
 
 #endregion
 
@@ -83,6 +98,54 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<ACSApplication> ACSApplications
+        {
+            get
+            {
+                if ((_ACSApplications == null))
+                {
+                    _ACSApplications = base.CreateObjectSet<ACSApplication>("ACSApplications");
+                }
+                return _ACSApplications;
+            }
+        }
+        private ObjectSet<ACSApplication> _ACSApplications;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                if ((_ACSApplicationSites == null))
+                {
+                    _ACSApplicationSites = base.CreateObjectSet<ACSApplicationSite>("ACSApplicationSites");
+                }
+                return _ACSApplicationSites;
+            }
+        }
+        private ObjectSet<ACSApplicationSite> _ACSApplicationSites;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Address> Addresses
+        {
+            get
+            {
+                if ((_Addresses == null))
+                {
+                    _Addresses = base.CreateObjectSet<Address>("Addresses");
+                }
+                return _Addresses;
+            }
+        }
+        private ObjectSet<Address> _Addresses;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<AMSServer> AMSServers
         {
             get
@@ -95,6 +158,102 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<AMSServer> _AMSServers;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Day> Days
+        {
+            get
+            {
+                if ((_Days == null))
+                {
+                    _Days = base.CreateObjectSet<Day>("Days");
+                }
+                return _Days;
+            }
+        }
+        private ObjectSet<Day> _Days;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Employee> Employees
+        {
+            get
+            {
+                if ((_Employees == null))
+                {
+                    _Employees = base.CreateObjectSet<Employee>("Employees");
+                }
+                return _Employees;
+            }
+        }
+        private ObjectSet<Employee> _Employees;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FTPSite> FTPSites
+        {
+            get
+            {
+                if ((_FTPSites == null))
+                {
+                    _FTPSites = base.CreateObjectSet<FTPSite>("FTPSites");
+                }
+                return _FTPSites;
+            }
+        }
+        private ObjectSet<FTPSite> _FTPSites;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FTPSiteType> FTPSiteTypes
+        {
+            get
+            {
+                if ((_FTPSiteTypes == null))
+                {
+                    _FTPSiteTypes = base.CreateObjectSet<FTPSiteType>("FTPSiteTypes");
+                }
+                return _FTPSiteTypes;
+            }
+        }
+        private ObjectSet<FTPSiteType> _FTPSiteTypes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Group> Groups
+        {
+            get
+            {
+                if ((_Groups == null))
+                {
+                    _Groups = base.CreateObjectSet<Group>("Groups");
+                }
+                return _Groups;
+            }
+        }
+        private ObjectSet<Group> _Groups;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Host> Hosts
+        {
+            get
+            {
+                if ((_Hosts == null))
+                {
+                    _Hosts = base.CreateObjectSet<Host>("Hosts");
+                }
+                return _Hosts;
+            }
+        }
+        private ObjectSet<Host> _Hosts;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -115,6 +274,102 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<MyAndromedaUser> MyAndromedaUsers
+        {
+            get
+            {
+                if ((_MyAndromedaUsers == null))
+                {
+                    _MyAndromedaUsers = base.CreateObjectSet<MyAndromedaUser>("MyAndromedaUsers");
+                }
+                return _MyAndromedaUsers;
+            }
+        }
+        private ObjectSet<MyAndromedaUser> _MyAndromedaUsers;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MyAndromedaUserGroup> MyAndromedaUserGroups
+        {
+            get
+            {
+                if ((_MyAndromedaUserGroups == null))
+                {
+                    _MyAndromedaUserGroups = base.CreateObjectSet<MyAndromedaUserGroup>("MyAndromedaUserGroups");
+                }
+                return _MyAndromedaUserGroups;
+            }
+        }
+        private ObjectSet<MyAndromedaUserGroup> _MyAndromedaUserGroups;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MyAndromedaUserStore> MyAndromedaUserStores
+        {
+            get
+            {
+                if ((_MyAndromedaUserStores == null))
+                {
+                    _MyAndromedaUserStores = base.CreateObjectSet<MyAndromedaUserStore>("MyAndromedaUserStores");
+                }
+                return _MyAndromedaUserStores;
+            }
+        }
+        private ObjectSet<MyAndromedaUserStore> _MyAndromedaUserStores;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<OpeningHour> OpeningHours
+        {
+            get
+            {
+                if ((_OpeningHours == null))
+                {
+                    _OpeningHours = base.CreateObjectSet<OpeningHour>("OpeningHours");
+                }
+                return _OpeningHours;
+            }
+        }
+        private ObjectSet<OpeningHour> _OpeningHours;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Partner> Partners
+        {
+            get
+            {
+                if ((_Partners == null))
+                {
+                    _Partners = base.CreateObjectSet<Partner>("Partners");
+                }
+                return _Partners;
+            }
+        }
+        private ObjectSet<Partner> _Partners;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Setting> Settings
+        {
+            get
+            {
+                if ((_Settings == null))
+                {
+                    _Settings = base.CreateObjectSet<Setting>("Settings");
+                }
+                return _Settings;
+            }
+        }
+        private ObjectSet<Setting> _Settings;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<Store> Stores
         {
             get
@@ -127,38 +382,6 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<Store> _Stores;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
-        {
-            get
-            {
-                if ((_StoreAMSServerFTPSitePairs == null))
-                {
-                    _StoreAMSServerFTPSitePairs = base.CreateObjectSet<StoreAMSServerFTPSitePair>("StoreAMSServerFTPSitePairs");
-                }
-                return _StoreAMSServerFTPSitePairs;
-            }
-        }
-        private ObjectSet<StoreAMSServerFTPSitePair> _StoreAMSServerFTPSitePairs;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<FTPSiteType> FTPSiteTypes
-        {
-            get
-            {
-                if ((_FTPSiteTypes == null))
-                {
-                    _FTPSiteTypes = base.CreateObjectSet<FTPSiteType>("FTPSiteTypes");
-                }
-                return _FTPSiteTypes;
-            }
-        }
-        private ObjectSet<FTPSiteType> _FTPSiteTypes;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -195,38 +418,110 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<FTPSite> FTPSites
+        public ObjectSet<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
         {
             get
             {
-                if ((_FTPSites == null))
+                if ((_StoreAMSServerFTPSitePairs == null))
                 {
-                    _FTPSites = base.CreateObjectSet<FTPSite>("FTPSites");
+                    _StoreAMSServerFTPSitePairs = base.CreateObjectSet<StoreAMSServerFTPSitePair>("StoreAMSServerFTPSitePairs");
                 }
-                return _FTPSites;
+                return _StoreAMSServerFTPSitePairs;
             }
         }
-        private ObjectSet<FTPSite> _FTPSites;
+        private ObjectSet<StoreAMSServerFTPSitePair> _StoreAMSServerFTPSitePairs;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<StoreStatus> StoreStatus1
+        public ObjectSet<StoreGroup> StoreGroups
         {
             get
             {
-                if ((_StoreStatus1 == null))
+                if ((_StoreGroups == null))
                 {
-                    _StoreStatus1 = base.CreateObjectSet<StoreStatus>("StoreStatus1");
+                    _StoreGroups = base.CreateObjectSet<StoreGroup>("StoreGroups");
                 }
-                return _StoreStatus1;
+                return _StoreGroups;
             }
         }
-        private ObjectSet<StoreStatus> _StoreStatus1;
+        private ObjectSet<StoreGroup> _StoreGroups;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<StoreMenu> StoreMenus
+        {
+            get
+            {
+                if ((_StoreMenus == null))
+                {
+                    _StoreMenus = base.CreateObjectSet<StoreMenu>("StoreMenus");
+                }
+                return _StoreMenus;
+            }
+        }
+        private ObjectSet<StoreMenu> _StoreMenus;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<StorePaymentProvider> StorePaymentProviders
+        {
+            get
+            {
+                if ((_StorePaymentProviders == null))
+                {
+                    _StorePaymentProviders = base.CreateObjectSet<StorePaymentProvider>("StorePaymentProviders");
+                }
+                return _StorePaymentProviders;
+            }
+        }
+        private ObjectSet<StorePaymentProvider> _StorePaymentProviders;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<StoreStatu> StoreStatus
+        {
+            get
+            {
+                if ((_StoreStatus == null))
+                {
+                    _StoreStatus = base.CreateObjectSet<StoreStatu>("StoreStatus");
+                }
+                return _StoreStatus;
+            }
+        }
+        private ObjectSet<StoreStatu> _StoreStatus;
 
         #endregion
 
         #region AddTo Methods
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ACSApplications EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToACSApplications(ACSApplication aCSApplication)
+        {
+            base.AddObject("ACSApplications", aCSApplication);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ACSApplicationSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToACSApplicationSites(ACSApplicationSite aCSApplicationSite)
+        {
+            base.AddObject("ACSApplicationSites", aCSApplicationSite);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Addresses EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToAddresses(Address address)
+        {
+            base.AddObject("Addresses", address);
+        }
     
         /// <summary>
         /// Deprecated Method for adding a new object to the AMSServers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
@@ -234,6 +529,54 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToAMSServers(AMSServer aMSServer)
         {
             base.AddObject("AMSServers", aMSServer);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Days EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToDays(Day day)
+        {
+            base.AddObject("Days", day);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Employees EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEmployees(Employee employee)
+        {
+            base.AddObject("Employees", employee);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FTPSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFTPSites(FTPSite fTPSite)
+        {
+            base.AddObject("FTPSites", fTPSite);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FTPSiteTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFTPSiteTypes(FTPSiteType fTPSiteType)
+        {
+            base.AddObject("FTPSiteTypes", fTPSiteType);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Groups EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToGroups(Group group)
+        {
+            base.AddObject("Groups", group);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToHosts(Host host)
+        {
+            base.AddObject("Hosts", host);
         }
     
         /// <summary>
@@ -245,27 +588,59 @@ namespace AndroAdminDataAccess.EntityFramework
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the MyAndromedaUsers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMyAndromedaUsers(MyAndromedaUser myAndromedaUser)
+        {
+            base.AddObject("MyAndromedaUsers", myAndromedaUser);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MyAndromedaUserGroups EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMyAndromedaUserGroups(MyAndromedaUserGroup myAndromedaUserGroup)
+        {
+            base.AddObject("MyAndromedaUserGroups", myAndromedaUserGroup);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MyAndromedaUserStores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMyAndromedaUserStores(MyAndromedaUserStore myAndromedaUserStore)
+        {
+            base.AddObject("MyAndromedaUserStores", myAndromedaUserStore);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the OpeningHours EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToOpeningHours(OpeningHour openingHour)
+        {
+            base.AddObject("OpeningHours", openingHour);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Partners EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPartners(Partner partner)
+        {
+            base.AddObject("Partners", partner);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Settings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSettings(Setting setting)
+        {
+            base.AddObject("Settings", setting);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Stores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToStores(Store store)
         {
             base.AddObject("Stores", store);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the StoreAMSServerFTPSitePairs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToStoreAMSServerFTPSitePairs(StoreAMSServerFTPSitePair storeAMSServerFTPSitePair)
-        {
-            base.AddObject("StoreAMSServerFTPSitePairs", storeAMSServerFTPSitePair);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the FTPSiteTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFTPSiteTypes(FTPSiteType fTPSiteType)
-        {
-            base.AddObject("FTPSiteTypes", fTPSiteType);
         }
     
         /// <summary>
@@ -285,19 +660,43 @@ namespace AndroAdminDataAccess.EntityFramework
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the FTPSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the StoreAMSServerFTPSitePairs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToFTPSites(FTPSite fTPSite)
+        public void AddToStoreAMSServerFTPSitePairs(StoreAMSServerFTPSitePair storeAMSServerFTPSitePair)
         {
-            base.AddObject("FTPSites", fTPSite);
+            base.AddObject("StoreAMSServerFTPSitePairs", storeAMSServerFTPSitePair);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the StoreStatus1 EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the StoreGroups EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToStoreStatus1(StoreStatus storeStatus)
+        public void AddToStoreGroups(StoreGroup storeGroup)
         {
-            base.AddObject("StoreStatus1", storeStatus);
+            base.AddObject("StoreGroups", storeGroup);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the StoreMenus EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToStoreMenus(StoreMenu storeMenu)
+        {
+            base.AddObject("StoreMenus", storeMenu);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the StorePaymentProviders EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToStorePaymentProviders(StorePaymentProvider storePaymentProvider)
+        {
+            base.AddObject("StorePaymentProviders", storePaymentProvider);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the StoreStatus EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToStoreStatus(StoreStatu storeStatu)
+        {
+            base.AddObject("StoreStatus", storeStatu);
         }
 
         #endregion
@@ -307,6 +706,1035 @@ namespace AndroAdminDataAccess.EntityFramework
     #endregion
 
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="ACSApplication")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ACSApplication : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ACSApplication object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="externalApplicationId">Initial value of the ExternalApplicationId property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="partnerId">Initial value of the PartnerId property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static ACSApplication CreateACSApplication(global::System.Int32 id, global::System.String externalApplicationId, global::System.String name, global::System.Int32 partnerId, global::System.Int32 dataVersion)
+        {
+            ACSApplication aCSApplication = new ACSApplication();
+            aCSApplication.Id = id;
+            aCSApplication.ExternalApplicationId = externalApplicationId;
+            aCSApplication.Name = name;
+            aCSApplication.PartnerId = partnerId;
+            aCSApplication.DataVersion = dataVersion;
+            return aCSApplication;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalApplicationId
+        {
+            get
+            {
+                return _ExternalApplicationId;
+            }
+            set
+            {
+                OnExternalApplicationIdChanging(value);
+                ReportPropertyChanging("ExternalApplicationId");
+                _ExternalApplicationId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalApplicationId");
+                OnExternalApplicationIdChanged();
+            }
+        }
+        private global::System.String _ExternalApplicationId;
+        partial void OnExternalApplicationIdChanging(global::System.String value);
+        partial void OnExternalApplicationIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PartnerId
+        {
+            get
+            {
+                return _PartnerId;
+            }
+            set
+            {
+                OnPartnerIdChanging(value);
+                ReportPropertyChanging("PartnerId");
+                _PartnerId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PartnerId");
+                OnPartnerIdChanged();
+            }
+        }
+        private global::System.Int32 _PartnerId;
+        partial void OnPartnerIdChanging(global::System.Int32 value);
+        partial void OnPartnerIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner")]
+        public Partner Partner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_ACSApplication_Partner", "Partner").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_ACSApplication_Partner", "Partner").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Partner> PartnerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_ACSApplication_Partner", "Partner");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Partner>("AndroAdminModel.FK_ACSApplication_Partner", "Partner", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="ACSApplicationSite")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ACSApplicationSite : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ACSApplicationSite object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="siteId">Initial value of the SiteId property.</param>
+        /// <param name="aCSApplicationId">Initial value of the ACSApplicationId property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static ACSApplicationSite CreateACSApplicationSite(global::System.Int32 id, global::System.Int32 siteId, global::System.Int32 aCSApplicationId, global::System.Int32 dataVersion)
+        {
+            ACSApplicationSite aCSApplicationSite = new ACSApplicationSite();
+            aCSApplicationSite.Id = id;
+            aCSApplicationSite.SiteId = siteId;
+            aCSApplicationSite.ACSApplicationId = aCSApplicationId;
+            aCSApplicationSite.DataVersion = dataVersion;
+            return aCSApplicationSite;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SiteId
+        {
+            get
+            {
+                return _SiteId;
+            }
+            set
+            {
+                OnSiteIdChanging(value);
+                ReportPropertyChanging("SiteId");
+                _SiteId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SiteId");
+                OnSiteIdChanged();
+            }
+        }
+        private global::System.Int32 _SiteId;
+        partial void OnSiteIdChanging(global::System.Int32 value);
+        partial void OnSiteIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ACSApplicationId
+        {
+            get
+            {
+                return _ACSApplicationId;
+            }
+            set
+            {
+                OnACSApplicationIdChanging(value);
+                ReportPropertyChanging("ACSApplicationId");
+                _ACSApplicationId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ACSApplicationId");
+                OnACSApplicationIdChanged();
+            }
+        }
+        private global::System.Int32 _ACSApplicationId;
+        partial void OnACSApplicationIdChanging(global::System.Int32 value);
+        partial void OnACSApplicationIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication")]
+        public ACSApplication ACSApplication
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ACSApplication> ACSApplicationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ACSApplication>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_ACSApplicationSite_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_ACSApplicationSite_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_ACSApplicationSite_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_ACSApplicationSite_Store", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Address")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Address : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Address object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static Address CreateAddress(global::System.Int32 id, global::System.Int32 dataVersion)
+        {
+            Address address = new Address();
+            address.Id = id;
+            address.DataVersion = dataVersion;
+            return address;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Org1
+        {
+            get
+            {
+                return _Org1;
+            }
+            set
+            {
+                OnOrg1Changing(value);
+                ReportPropertyChanging("Org1");
+                _Org1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Org1");
+                OnOrg1Changed();
+            }
+        }
+        private global::System.String _Org1;
+        partial void OnOrg1Changing(global::System.String value);
+        partial void OnOrg1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Org2
+        {
+            get
+            {
+                return _Org2;
+            }
+            set
+            {
+                OnOrg2Changing(value);
+                ReportPropertyChanging("Org2");
+                _Org2 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Org2");
+                OnOrg2Changed();
+            }
+        }
+        private global::System.String _Org2;
+        partial void OnOrg2Changing(global::System.String value);
+        partial void OnOrg2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Org3
+        {
+            get
+            {
+                return _Org3;
+            }
+            set
+            {
+                OnOrg3Changing(value);
+                ReportPropertyChanging("Org3");
+                _Org3 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Org3");
+                OnOrg3Changed();
+            }
+        }
+        private global::System.String _Org3;
+        partial void OnOrg3Changing(global::System.String value);
+        partial void OnOrg3Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem1
+        {
+            get
+            {
+                return _Prem1;
+            }
+            set
+            {
+                OnPrem1Changing(value);
+                ReportPropertyChanging("Prem1");
+                _Prem1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem1");
+                OnPrem1Changed();
+            }
+        }
+        private global::System.String _Prem1;
+        partial void OnPrem1Changing(global::System.String value);
+        partial void OnPrem1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem2
+        {
+            get
+            {
+                return _Prem2;
+            }
+            set
+            {
+                OnPrem2Changing(value);
+                ReportPropertyChanging("Prem2");
+                _Prem2 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem2");
+                OnPrem2Changed();
+            }
+        }
+        private global::System.String _Prem2;
+        partial void OnPrem2Changing(global::System.String value);
+        partial void OnPrem2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem3
+        {
+            get
+            {
+                return _Prem3;
+            }
+            set
+            {
+                OnPrem3Changing(value);
+                ReportPropertyChanging("Prem3");
+                _Prem3 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem3");
+                OnPrem3Changed();
+            }
+        }
+        private global::System.String _Prem3;
+        partial void OnPrem3Changing(global::System.String value);
+        partial void OnPrem3Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem4
+        {
+            get
+            {
+                return _Prem4;
+            }
+            set
+            {
+                OnPrem4Changing(value);
+                ReportPropertyChanging("Prem4");
+                _Prem4 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem4");
+                OnPrem4Changed();
+            }
+        }
+        private global::System.String _Prem4;
+        partial void OnPrem4Changing(global::System.String value);
+        partial void OnPrem4Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem5
+        {
+            get
+            {
+                return _Prem5;
+            }
+            set
+            {
+                OnPrem5Changing(value);
+                ReportPropertyChanging("Prem5");
+                _Prem5 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem5");
+                OnPrem5Changed();
+            }
+        }
+        private global::System.String _Prem5;
+        partial void OnPrem5Changing(global::System.String value);
+        partial void OnPrem5Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Prem6
+        {
+            get
+            {
+                return _Prem6;
+            }
+            set
+            {
+                OnPrem6Changing(value);
+                ReportPropertyChanging("Prem6");
+                _Prem6 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Prem6");
+                OnPrem6Changed();
+            }
+        }
+        private global::System.String _Prem6;
+        partial void OnPrem6Changing(global::System.String value);
+        partial void OnPrem6Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String RoadNum
+        {
+            get
+            {
+                return _RoadNum;
+            }
+            set
+            {
+                OnRoadNumChanging(value);
+                ReportPropertyChanging("RoadNum");
+                _RoadNum = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("RoadNum");
+                OnRoadNumChanged();
+            }
+        }
+        private global::System.String _RoadNum;
+        partial void OnRoadNumChanging(global::System.String value);
+        partial void OnRoadNumChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String RoadName
+        {
+            get
+            {
+                return _RoadName;
+            }
+            set
+            {
+                OnRoadNameChanging(value);
+                ReportPropertyChanging("RoadName");
+                _RoadName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("RoadName");
+                OnRoadNameChanged();
+            }
+        }
+        private global::System.String _RoadName;
+        partial void OnRoadNameChanging(global::System.String value);
+        partial void OnRoadNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Locality
+        {
+            get
+            {
+                return _Locality;
+            }
+            set
+            {
+                OnLocalityChanging(value);
+                ReportPropertyChanging("Locality");
+                _Locality = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Locality");
+                OnLocalityChanged();
+            }
+        }
+        private global::System.String _Locality;
+        partial void OnLocalityChanging(global::System.String value);
+        partial void OnLocalityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Town
+        {
+            get
+            {
+                return _Town;
+            }
+            set
+            {
+                OnTownChanging(value);
+                ReportPropertyChanging("Town");
+                _Town = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Town");
+                OnTownChanged();
+            }
+        }
+        private global::System.String _Town;
+        partial void OnTownChanging(global::System.String value);
+        partial void OnTownChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String County
+        {
+            get
+            {
+                return _County;
+            }
+            set
+            {
+                OnCountyChanging(value);
+                ReportPropertyChanging("County");
+                _County = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("County");
+                OnCountyChanged();
+            }
+        }
+        private global::System.String _County;
+        partial void OnCountyChanging(global::System.String value);
+        partial void OnCountyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String State
+        {
+            get
+            {
+                return _State;
+            }
+            set
+            {
+                OnStateChanging(value);
+                ReportPropertyChanging("State");
+                _State = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("State");
+                OnStateChanged();
+            }
+        }
+        private global::System.String _State;
+        partial void OnStateChanging(global::System.String value);
+        partial void OnStateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PostCode
+        {
+            get
+            {
+                return _PostCode;
+            }
+            set
+            {
+                OnPostCodeChanging(value);
+                ReportPropertyChanging("PostCode");
+                _PostCode = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PostCode");
+                OnPostCodeChanged();
+            }
+        }
+        private global::System.String _PostCode;
+        partial void OnPostCodeChanging(global::System.String value);
+        partial void OnPostCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DPS
+        {
+            get
+            {
+                return _DPS;
+            }
+            set
+            {
+                OnDPSChanging(value);
+                ReportPropertyChanging("DPS");
+                _DPS = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DPS");
+                OnDPSChanged();
+            }
+        }
+        private global::System.String _DPS;
+        partial void OnDPSChanging(global::System.String value);
+        partial void OnDPSChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Country
+        {
+            get
+            {
+                return _Country;
+            }
+            set
+            {
+                OnCountryChanging(value);
+                ReportPropertyChanging("Country");
+                _Country = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Country");
+                OnCountryChanged();
+            }
+        }
+        private global::System.String _Country;
+        partial void OnCountryChanging(global::System.String value);
+        partial void OnCountryChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> Lat
+        {
+            get
+            {
+                return _Lat;
+            }
+            set
+            {
+                OnLatChanging(value);
+                ReportPropertyChanging("Lat");
+                _Lat = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Lat");
+                OnLatChanged();
+            }
+        }
+        private Nullable<global::System.Double> _Lat;
+        partial void OnLatChanging(Nullable<global::System.Double> value);
+        partial void OnLatChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> Long
+        {
+            get
+            {
+                return _Long;
+            }
+            set
+            {
+                OnLongChanging(value);
+                ReportPropertyChanging("Long");
+                _Long = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Long");
+                OnLongChanged();
+            }
+        }
+        private Nullable<global::System.Double> _Long;
+        partial void OnLongChanging(Nullable<global::System.Double> value);
+        partial void OnLongChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Store")]
+        public EntityCollection<Store> Stores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("AndroAdminModel.FK_Store_Address", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -423,28 +1851,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair")]
-        public EntityCollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServer_AMSServer", "StoreAMSServer")]
         public EntityCollection<StoreAMSServer> StoreAMSServers
         {
@@ -460,9 +1866,341 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair")]
+        public EntityCollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer", "StoreAMSServerFTPSitePair", value);
+                }
+            }
+        }
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Day")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Day : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Day object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="description">Initial value of the Description property.</param>
+        public static Day CreateDay(global::System.Int32 id, global::System.String description)
+        {
+            Day day = new Day();
+            day.Id = id;
+            day.Description = description;
+            return day;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_OpeningHour_Day", "OpeningHour")]
+        public EntityCollection<OpeningHour> OpeningHours
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OpeningHour>("AndroAdminModel.FK_OpeningHour_Day", "OpeningHour");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OpeningHour>("AndroAdminModel.FK_OpeningHour_Day", "OpeningHour", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Employee")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Employee : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Employee object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Employee CreateEmployee(global::System.Int32 id)
+        {
+            Employee employee = new Employee();
+            employee.Id = id;
+            return employee;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SiteId
+        {
+            get
+            {
+                return _SiteId;
+            }
+            set
+            {
+                OnSiteIdChanging(value);
+                ReportPropertyChanging("SiteId");
+                _SiteId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SiteId");
+                OnSiteIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SiteId;
+        partial void OnSiteIdChanging(Nullable<global::System.Int32> value);
+        partial void OnSiteIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Firstname
+        {
+            get
+            {
+                return _Firstname;
+            }
+            set
+            {
+                OnFirstnameChanging(value);
+                ReportPropertyChanging("Firstname");
+                _Firstname = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Firstname");
+                OnFirstnameChanged();
+            }
+        }
+        private global::System.String _Firstname;
+        partial void OnFirstnameChanging(global::System.String value);
+        partial void OnFirstnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Surname
+        {
+            get
+            {
+                return _Surname;
+            }
+            set
+            {
+                OnSurnameChanging(value);
+                ReportPropertyChanging("Surname");
+                _Surname = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Surname");
+                OnSurnameChanged();
+            }
+        }
+        private global::System.String _Surname;
+        partial void OnSurnameChanging(global::System.String value);
+        partial void OnSurnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Role
+        {
+            get
+            {
+                return _Role;
+            }
+            set
+            {
+                OnRoleChanging(value);
+                ReportPropertyChanging("Role");
+                _Role = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Role");
+                OnRoleChanged();
+            }
+        }
+        private global::System.String _Role;
+        partial void OnRoleChanging(global::System.String value);
+        partial void OnRoleChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Phone
+        {
+            get
+            {
+                return _Phone;
+            }
+            set
+            {
+                OnPhoneChanging(value);
+                ReportPropertyChanging("Phone");
+                _Phone = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Phone");
+                OnPhoneChanged();
+            }
+        }
+        private global::System.String _Phone;
+        partial void OnPhoneChanging(global::System.String value);
+        partial void OnPhoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Notes
+        {
+            get
+            {
+                return _Notes;
+            }
+            set
+            {
+                OnNotesChanging(value);
+                ReportPropertyChanging("Notes");
+                _Notes = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Notes");
+                OnNotesChanged();
+            }
+        }
+        private global::System.String _Notes;
+        partial void OnNotesChanging(global::System.String value);
+        partial void OnNotesChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>
@@ -948,6 +2686,432 @@ namespace AndroAdminDataAccess.EntityFramework
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Group")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Group : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Group object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Group CreateGroup(global::System.Int32 id)
+        {
+            Group group = new Group();
+            group.Id = id;
+            return group;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PartnerId
+        {
+            get
+            {
+                return _PartnerId;
+            }
+            set
+            {
+                OnPartnerIdChanging(value);
+                ReportPropertyChanging("PartnerId");
+                _PartnerId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PartnerId");
+                OnPartnerIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PartnerId;
+        partial void OnPartnerIdChanging(Nullable<global::System.Int32> value);
+        partial void OnPartnerIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String GroupName
+        {
+            get
+            {
+                return _GroupName;
+            }
+            set
+            {
+                OnGroupNameChanging(value);
+                ReportPropertyChanging("GroupName");
+                _GroupName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("GroupName");
+                OnGroupNameChanged();
+            }
+        }
+        private global::System.String _GroupName;
+        partial void OnGroupNameChanging(global::System.String value);
+        partial void OnGroupNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> LastUpdated
+        {
+            get
+            {
+                return _LastUpdated;
+            }
+            set
+            {
+                OnLastUpdatedChanging(value);
+                ReportPropertyChanging("LastUpdated");
+                _LastUpdated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LastUpdated");
+                OnLastUpdatedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _LastUpdated;
+        partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
+        partial void OnLastUpdatedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalId
+        {
+            get
+            {
+                return _ExternalId;
+            }
+            set
+            {
+                OnExternalIdChanging(value);
+                ReportPropertyChanging("ExternalId");
+                _ExternalId = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ExternalId");
+                OnExternalIdChanged();
+            }
+        }
+        private global::System.String _ExternalId;
+        partial void OnExternalIdChanging(global::System.String value);
+        partial void OnExternalIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Group_Partner", "Partner")]
+        public Partner Partner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Partner> PartnerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "MyAndromedaUserGroup")]
+        public EntityCollection<MyAndromedaUserGroup> MyAndromedaUserGroups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUserGroup>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "MyAndromedaUserGroup");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUserGroup>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "MyAndromedaUserGroup", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Group", "StoreGroup")]
+        public EntityCollection<StoreGroup> StoreGroups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Group", "StoreGroup");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Group", "StoreGroup", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Host")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Host : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Host object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="hostName">Initial value of the HostName property.</param>
+        /// <param name="order">Initial value of the Order property.</param>
+        /// <param name="port">Initial value of the Port property.</param>
+        /// <param name="privateHostName">Initial value of the PrivateHostName property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static Host CreateHost(global::System.Guid id, global::System.String hostName, global::System.Int32 order, global::System.Int32 port, global::System.String privateHostName, global::System.Int32 dataVersion)
+        {
+            Host host = new Host();
+            host.ID = id;
+            host.HostName = hostName;
+            host.Order = order;
+            host.Port = port;
+            host.PrivateHostName = privateHostName;
+            host.DataVersion = dataVersion;
+            return host;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String HostName
+        {
+            get
+            {
+                return _HostName;
+            }
+            set
+            {
+                OnHostNameChanging(value);
+                ReportPropertyChanging("HostName");
+                _HostName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("HostName");
+                OnHostNameChanged();
+            }
+        }
+        private global::System.String _HostName;
+        partial void OnHostNameChanging(global::System.String value);
+        partial void OnHostNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Order
+        {
+            get
+            {
+                return _Order;
+            }
+            set
+            {
+                OnOrderChanging(value);
+                ReportPropertyChanging("Order");
+                _Order = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Order");
+                OnOrderChanged();
+            }
+        }
+        private global::System.Int32 _Order;
+        partial void OnOrderChanging(global::System.Int32 value);
+        partial void OnOrderChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Port
+        {
+            get
+            {
+                return _Port;
+            }
+            set
+            {
+                OnPortChanging(value);
+                ReportPropertyChanging("Port");
+                _Port = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Port");
+                OnPortChanged();
+            }
+        }
+        private global::System.Int32 _Port;
+        partial void OnPortChanging(global::System.Int32 value);
+        partial void OnPortChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String PrivateHostName
+        {
+            get
+            {
+                return _PrivateHostName;
+            }
+            set
+            {
+                OnPrivateHostNameChanging(value);
+                ReportPropertyChanging("PrivateHostName");
+                _PrivateHostName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("PrivateHostName");
+                OnPrivateHostNameChanged();
+            }
+        }
+        private global::System.String _PrivateHostName;
+        partial void OnPrivateHostNameChanging(global::System.String value);
+        partial void OnPrivateHostNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Log")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1151,6 +3315,1204 @@ namespace AndroAdminDataAccess.EntityFramework
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="MyAndromedaUser")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MyAndromedaUser : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MyAndromedaUser object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="username">Initial value of the Username property.</param>
+        /// <param name="password">Initial value of the Password property.</param>
+        /// <param name="isEnabled">Initial value of the IsEnabled property.</param>
+        /// <param name="firstName">Initial value of the FirstName property.</param>
+        /// <param name="lastName">Initial value of the LastName property.</param>
+        public static MyAndromedaUser CreateMyAndromedaUser(global::System.Int32 id, global::System.String username, global::System.String password, global::System.Boolean isEnabled, global::System.String firstName, global::System.String lastName)
+        {
+            MyAndromedaUser myAndromedaUser = new MyAndromedaUser();
+            myAndromedaUser.Id = id;
+            myAndromedaUser.Username = username;
+            myAndromedaUser.Password = password;
+            myAndromedaUser.IsEnabled = isEnabled;
+            myAndromedaUser.FirstName = firstName;
+            myAndromedaUser.LastName = lastName;
+            return myAndromedaUser;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Username
+        {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                OnUsernameChanging(value);
+                ReportPropertyChanging("Username");
+                _Username = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Username");
+                OnUsernameChanged();
+            }
+        }
+        private global::System.String _Username;
+        partial void OnUsernameChanging(global::System.String value);
+        partial void OnUsernameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsEnabled
+        {
+            get
+            {
+                return _IsEnabled;
+            }
+            set
+            {
+                OnIsEnabledChanging(value);
+                ReportPropertyChanging("IsEnabled");
+                _IsEnabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsEnabled");
+                OnIsEnabledChanged();
+            }
+        }
+        private global::System.Boolean _IsEnabled;
+        partial void OnIsEnabledChanging(global::System.Boolean value);
+        partial void OnIsEnabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FirstName
+        {
+            get
+            {
+                return _FirstName;
+            }
+            set
+            {
+                OnFirstNameChanging(value);
+                ReportPropertyChanging("FirstName");
+                _FirstName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FirstName");
+                OnFirstNameChanged();
+            }
+        }
+        private global::System.String _FirstName;
+        partial void OnFirstNameChanging(global::System.String value);
+        partial void OnFirstNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String LastName
+        {
+            get
+            {
+                return _LastName;
+            }
+            set
+            {
+                OnLastNameChanging(value);
+                ReportPropertyChanging("LastName");
+                _LastName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("LastName");
+                OnLastNameChanged();
+            }
+        }
+        private global::System.String _LastName;
+        partial void OnLastNameChanging(global::System.String value);
+        partial void OnLastNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUserGroup")]
+        public EntityCollection<MyAndromedaUserGroup> MyAndromedaUserGroups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUserGroup>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUserGroup");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUserGroup>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUserGroup", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUserStore")]
+        public EntityCollection<MyAndromedaUserStore> MyAndromedaUserStores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUserStore>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUserStore");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUserStore>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUserStore", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="MyAndromedaUserGroup")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MyAndromedaUserGroup : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MyAndromedaUserGroup object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="myAndromedaUserId">Initial value of the MyAndromedaUserId property.</param>
+        /// <param name="groupId">Initial value of the GroupId property.</param>
+        public static MyAndromedaUserGroup CreateMyAndromedaUserGroup(global::System.Int32 id, global::System.Int32 myAndromedaUserId, global::System.Int32 groupId)
+        {
+            MyAndromedaUserGroup myAndromedaUserGroup = new MyAndromedaUserGroup();
+            myAndromedaUserGroup.Id = id;
+            myAndromedaUserGroup.MyAndromedaUserId = myAndromedaUserId;
+            myAndromedaUserGroup.GroupId = groupId;
+            return myAndromedaUserGroup;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 MyAndromedaUserId
+        {
+            get
+            {
+                return _MyAndromedaUserId;
+            }
+            set
+            {
+                OnMyAndromedaUserIdChanging(value);
+                ReportPropertyChanging("MyAndromedaUserId");
+                _MyAndromedaUserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MyAndromedaUserId");
+                OnMyAndromedaUserIdChanged();
+            }
+        }
+        private global::System.Int32 _MyAndromedaUserId;
+        partial void OnMyAndromedaUserIdChanging(global::System.Int32 value);
+        partial void OnMyAndromedaUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 GroupId
+        {
+            get
+            {
+                return _GroupId;
+            }
+            set
+            {
+                OnGroupIdChanging(value);
+                ReportPropertyChanging("GroupId");
+                _GroupId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupId");
+                OnGroupIdChanged();
+            }
+        }
+        private global::System.Int32 _GroupId;
+        partial void OnGroupIdChanging(global::System.Int32 value);
+        partial void OnGroupIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "Group")]
+        public Group Group
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "Group").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "Group").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Group> GroupReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "Group");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Group>("AndroAdminModel.FK_MyAndromedaUserGroup_Group", "Group", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser")]
+        public MyAndromedaUser MyAndromedaUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<MyAndromedaUser> MyAndromedaUserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="MyAndromedaUserStore")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MyAndromedaUserStore : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MyAndromedaUserStore object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="myAndromedaUserId">Initial value of the MyAndromedaUserId property.</param>
+        /// <param name="storeId">Initial value of the StoreId property.</param>
+        public static MyAndromedaUserStore CreateMyAndromedaUserStore(global::System.Int32 id, global::System.Int32 myAndromedaUserId, global::System.Int32 storeId)
+        {
+            MyAndromedaUserStore myAndromedaUserStore = new MyAndromedaUserStore();
+            myAndromedaUserStore.Id = id;
+            myAndromedaUserStore.MyAndromedaUserId = myAndromedaUserId;
+            myAndromedaUserStore.StoreId = storeId;
+            return myAndromedaUserStore;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 MyAndromedaUserId
+        {
+            get
+            {
+                return _MyAndromedaUserId;
+            }
+            set
+            {
+                OnMyAndromedaUserIdChanging(value);
+                ReportPropertyChanging("MyAndromedaUserId");
+                _MyAndromedaUserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MyAndromedaUserId");
+                OnMyAndromedaUserIdChanged();
+            }
+        }
+        private global::System.Int32 _MyAndromedaUserId;
+        partial void OnMyAndromedaUserIdChanging(global::System.Int32 value);
+        partial void OnMyAndromedaUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 StoreId
+        {
+            get
+            {
+                return _StoreId;
+            }
+            set
+            {
+                OnStoreIdChanging(value);
+                ReportPropertyChanging("StoreId");
+                _StoreId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StoreId");
+                OnStoreIdChanged();
+            }
+        }
+        private global::System.Int32 _StoreId;
+        partial void OnStoreIdChanging(global::System.Int32 value);
+        partial void OnStoreIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser")]
+        public MyAndromedaUser MyAndromedaUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<MyAndromedaUser> MyAndromedaUserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<MyAndromedaUser>("AndroAdminModel.FK_MyAndromedaUserStore_MyAndromedaUser", "MyAndromedaUser", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="OpeningHour")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class OpeningHour : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new OpeningHour object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="siteId">Initial value of the SiteId property.</param>
+        /// <param name="timeStart">Initial value of the TimeStart property.</param>
+        /// <param name="timeEnd">Initial value of the TimeEnd property.</param>
+        /// <param name="openAllDay">Initial value of the OpenAllDay property.</param>
+        /// <param name="dayId">Initial value of the DayId property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static OpeningHour CreateOpeningHour(global::System.Int32 id, global::System.Int32 siteId, global::System.TimeSpan timeStart, global::System.TimeSpan timeEnd, global::System.Boolean openAllDay, global::System.Int32 dayId, global::System.Int32 dataVersion)
+        {
+            OpeningHour openingHour = new OpeningHour();
+            openingHour.Id = id;
+            openingHour.SiteId = siteId;
+            openingHour.TimeStart = timeStart;
+            openingHour.TimeEnd = timeEnd;
+            openingHour.OpenAllDay = openAllDay;
+            openingHour.DayId = dayId;
+            openingHour.DataVersion = dataVersion;
+            return openingHour;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SiteId
+        {
+            get
+            {
+                return _SiteId;
+            }
+            set
+            {
+                OnSiteIdChanging(value);
+                ReportPropertyChanging("SiteId");
+                _SiteId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SiteId");
+                OnSiteIdChanged();
+            }
+        }
+        private global::System.Int32 _SiteId;
+        partial void OnSiteIdChanging(global::System.Int32 value);
+        partial void OnSiteIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.TimeSpan TimeStart
+        {
+            get
+            {
+                return _TimeStart;
+            }
+            set
+            {
+                OnTimeStartChanging(value);
+                ReportPropertyChanging("TimeStart");
+                _TimeStart = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TimeStart");
+                OnTimeStartChanged();
+            }
+        }
+        private global::System.TimeSpan _TimeStart;
+        partial void OnTimeStartChanging(global::System.TimeSpan value);
+        partial void OnTimeStartChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.TimeSpan TimeEnd
+        {
+            get
+            {
+                return _TimeEnd;
+            }
+            set
+            {
+                OnTimeEndChanging(value);
+                ReportPropertyChanging("TimeEnd");
+                _TimeEnd = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TimeEnd");
+                OnTimeEndChanged();
+            }
+        }
+        private global::System.TimeSpan _TimeEnd;
+        partial void OnTimeEndChanging(global::System.TimeSpan value);
+        partial void OnTimeEndChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean OpenAllDay
+        {
+            get
+            {
+                return _OpenAllDay;
+            }
+            set
+            {
+                OnOpenAllDayChanging(value);
+                ReportPropertyChanging("OpenAllDay");
+                _OpenAllDay = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OpenAllDay");
+                OnOpenAllDayChanged();
+            }
+        }
+        private global::System.Boolean _OpenAllDay;
+        partial void OnOpenAllDayChanging(global::System.Boolean value);
+        partial void OnOpenAllDayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DayId
+        {
+            get
+            {
+                return _DayId;
+            }
+            set
+            {
+                OnDayIdChanging(value);
+                ReportPropertyChanging("DayId");
+                _DayId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DayId");
+                OnDayIdChanged();
+            }
+        }
+        private global::System.Int32 _DayId;
+        partial void OnDayIdChanging(global::System.Int32 value);
+        partial void OnDayIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_OpeningHour_Day", "Day")]
+        public Day Day
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Day>("AndroAdminModel.FK_OpeningHour_Day", "Day").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Day>("AndroAdminModel.FK_OpeningHour_Day", "Day").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Day> DayReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Day>("AndroAdminModel.FK_OpeningHour_Day", "Day");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Day>("AndroAdminModel.FK_OpeningHour_Day", "Day", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_OpeningHour_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_OpeningHour_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_OpeningHour_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_OpeningHour_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_OpeningHour_Store", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Partner")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Partner : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Partner object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="externalId">Initial value of the ExternalId property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static Partner CreatePartner(global::System.Int32 id, global::System.String name, global::System.String externalId, global::System.Int32 dataVersion)
+        {
+            Partner partner = new Partner();
+            partner.Id = id;
+            partner.Name = name;
+            partner.ExternalId = externalId;
+            partner.DataVersion = dataVersion;
+            return partner;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalId
+        {
+            get
+            {
+                return _ExternalId;
+            }
+            set
+            {
+                OnExternalIdChanging(value);
+                ReportPropertyChanging("ExternalId");
+                _ExternalId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalId");
+                OnExternalIdChanged();
+            }
+        }
+        private global::System.String _ExternalId;
+        partial void OnExternalIdChanging(global::System.String value);
+        partial void OnExternalIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "ACSApplication")]
+        public EntityCollection<ACSApplication> ACSApplications
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplication>("AndroAdminModel.FK_ACSApplication_Partner", "ACSApplication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplication>("AndroAdminModel.FK_ACSApplication_Partner", "ACSApplication", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Group_Partner", "Group")]
+        public EntityCollection<Group> Groups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Group>("AndroAdminModel.FK_Group_Partner", "Group");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Group>("AndroAdminModel.FK_Group_Partner", "Group", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Setting")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Setting : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Setting object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="value">Initial value of the Value property.</param>
+        public static Setting CreateSetting(global::System.Int32 id, global::System.String name, global::System.String value)
+        {
+            Setting setting = new Setting();
+            setting.Id = id;
+            setting.Name = name;
+            setting.Value = value;
+            return setting;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Value
+        {
+            get
+            {
+                return _Value;
+            }
+            set
+            {
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
+            }
+        }
+        private global::System.String _Value;
+        partial void OnValueChanging(global::System.String value);
+        partial void OnValueChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="Store")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1165,13 +4527,21 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="andromedaSiteId">Initial value of the AndromedaSiteId property.</param>
         /// <param name="storeStatusId">Initial value of the StoreStatusId property.</param>
-        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Int32 andromedaSiteId, global::System.Int32 storeStatusId)
+        /// <param name="clientSiteName">Initial value of the ClientSiteName property.</param>
+        /// <param name="externalSiteName">Initial value of the ExternalSiteName property.</param>
+        /// <param name="externalId">Initial value of the ExternalId property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Int32 andromedaSiteId, global::System.Int32 storeStatusId, global::System.String clientSiteName, global::System.String externalSiteName, global::System.String externalId, global::System.Int32 dataVersion)
         {
             Store store = new Store();
             store.Id = id;
             store.Name = name;
             store.AndromedaSiteId = andromedaSiteId;
             store.StoreStatusId = storeStatusId;
+            store.ClientSiteName = clientSiteName;
+            store.ExternalSiteName = externalSiteName;
+            store.ExternalId = externalId;
+            store.DataVersion = dataVersion;
             return store;
         }
 
@@ -1325,6 +4695,246 @@ namespace AndroAdminDataAccess.EntityFramework
         private global::System.Int32 _StoreStatusId;
         partial void OnStoreStatusIdChanging(global::System.Int32 value);
         partial void OnStoreStatusIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ClientSiteName
+        {
+            get
+            {
+                return _ClientSiteName;
+            }
+            set
+            {
+                OnClientSiteNameChanging(value);
+                ReportPropertyChanging("ClientSiteName");
+                _ClientSiteName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ClientSiteName");
+                OnClientSiteNameChanged();
+            }
+        }
+        private global::System.String _ClientSiteName;
+        partial void OnClientSiteNameChanging(global::System.String value);
+        partial void OnClientSiteNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalSiteName
+        {
+            get
+            {
+                return _ExternalSiteName;
+            }
+            set
+            {
+                OnExternalSiteNameChanging(value);
+                ReportPropertyChanging("ExternalSiteName");
+                _ExternalSiteName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalSiteName");
+                OnExternalSiteNameChanged();
+            }
+        }
+        private global::System.String _ExternalSiteName;
+        partial void OnExternalSiteNameChanging(global::System.String value);
+        partial void OnExternalSiteNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalId
+        {
+            get
+            {
+                return _ExternalId;
+            }
+            set
+            {
+                OnExternalIdChanging(value);
+                ReportPropertyChanging("ExternalId");
+                _ExternalId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalId");
+                OnExternalIdChanged();
+            }
+        }
+        private global::System.String _ExternalId;
+        partial void OnExternalIdChanging(global::System.String value);
+        partial void OnExternalIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> EstimatedDeliveryTime
+        {
+            get
+            {
+                return _EstimatedDeliveryTime;
+            }
+            set
+            {
+                OnEstimatedDeliveryTimeChanging(value);
+                ReportPropertyChanging("EstimatedDeliveryTime");
+                _EstimatedDeliveryTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EstimatedDeliveryTime");
+                OnEstimatedDeliveryTimeChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _EstimatedDeliveryTime;
+        partial void OnEstimatedDeliveryTimeChanging(Nullable<global::System.Int32> value);
+        partial void OnEstimatedDeliveryTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TimeZone
+        {
+            get
+            {
+                return _TimeZone;
+            }
+            set
+            {
+                OnTimeZoneChanging(value);
+                ReportPropertyChanging("TimeZone");
+                _TimeZone = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("TimeZone");
+                OnTimeZoneChanged();
+            }
+        }
+        private global::System.String _TimeZone;
+        partial void OnTimeZoneChanging(global::System.String value);
+        partial void OnTimeZoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Telephone
+        {
+            get
+            {
+                return _Telephone;
+            }
+            set
+            {
+                OnTelephoneChanging(value);
+                ReportPropertyChanging("Telephone");
+                _Telephone = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Telephone");
+                OnTelephoneChanged();
+            }
+        }
+        private global::System.String _Telephone;
+        partial void OnTelephoneChanging(global::System.String value);
+        partial void OnTelephoneChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String LicenseKey
+        {
+            get
+            {
+                return _LicenseKey;
+            }
+            set
+            {
+                OnLicenseKeyChanging(value);
+                ReportPropertyChanging("LicenseKey");
+                _LicenseKey = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("LicenseKey");
+                OnLicenseKeyChanged();
+            }
+        }
+        private global::System.String _LicenseKey;
+        partial void OnLicenseKeyChanging(global::System.String value);
+        partial void OnLicenseKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> AddressId
+        {
+            get
+            {
+                return _AddressId;
+            }
+            set
+            {
+                OnAddressIdChanging(value);
+                ReportPropertyChanging("AddressId");
+                _AddressId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AddressId");
+                OnAddressIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _AddressId;
+        partial void OnAddressIdChanging(Nullable<global::System.Int32> value);
+        partial void OnAddressIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> StorePaymentProviderID
+        {
+            get
+            {
+                return _StorePaymentProviderID;
+            }
+            set
+            {
+                OnStorePaymentProviderIDChanging(value);
+                ReportPropertyChanging("StorePaymentProviderID");
+                _StorePaymentProviderID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StorePaymentProviderID");
+                OnStorePaymentProviderIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _StorePaymentProviderID;
+        partial void OnStorePaymentProviderIDChanging(Nullable<global::System.Int32> value);
+        partial void OnStorePaymentProviderIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
 
         #endregion
 
@@ -1337,18 +4947,176 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair")]
-        public EntityCollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Address")]
+        public Address Address
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Address> AddressReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Address>("AndroAdminModel.FK_Store_Address", "Address", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserStore_Store", "MyAndromedaUserStore")]
+        public EntityCollection<MyAndromedaUserStore> MyAndromedaUserStores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUserStore>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "MyAndromedaUserStore");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUserStore>("AndroAdminModel.FK_MyAndromedaUserStore_Store", "MyAndromedaUserStore", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_OpeningHour_Store", "OpeningHour")]
+        public EntityCollection<OpeningHour> OpeningHours
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OpeningHour>("AndroAdminModel.FK_OpeningHour_Store", "OpeningHour");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OpeningHour>("AndroAdminModel.FK_OpeningHour_Store", "OpeningHour", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_StorePaymentProvider", "StorePaymentProvider")]
+        public StorePaymentProvider StorePaymentProvider
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("AndroAdminModel.FK_Store_StorePaymentProvider", "StorePaymentProvider").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("AndroAdminModel.FK_Store_StorePaymentProvider", "StorePaymentProvider").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<StorePaymentProvider> StorePaymentProviderReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StorePaymentProvider>("AndroAdminModel.FK_Store_StorePaymentProvider", "StorePaymentProvider");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StorePaymentProvider>("AndroAdminModel.FK_Store_StorePaymentProvider", "StorePaymentProvider", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_StoreStatus", "StoreStatu")]
+        public StoreStatu StoreStatu
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatu>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatu>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<StoreStatu> StoreStatuReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatu>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StoreStatu>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu", value);
                 }
             }
         }
@@ -1381,34 +5149,62 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_StoreStatus", "StoreStatu")]
-        public StoreStatus StoreStatu
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair")]
+        public EntityCollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatus>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatus>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<StoreStatus> StoreStatuReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreStatus>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StoreStatus>("AndroAdminModel.FK_Store_StoreStatus", "StoreStatu", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreAMSServerFTPSitePair>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "StoreAMSServerFTPSitePair", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Store", "StoreGroup")]
+        public EntityCollection<StoreGroup> StoreGroups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Store", "StoreGroup");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreGroup>("AndroAdminModel.FK_StoreGroup_Store", "StoreGroup", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreMenu_Store", "StoreMenu")]
+        public EntityCollection<StoreMenu> StoreMenus
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<StoreMenu>("AndroAdminModel.FK_StoreMenu_Store", "StoreMenu");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreMenu>("AndroAdminModel.FK_StoreMenu_Store", "StoreMenu", value);
                 }
             }
         }
@@ -1769,44 +5565,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer")]
-        public StoreAMSServer StoreAMSServer
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<StoreAMSServer> StoreAMSServerReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_FTPSite", "FTPSite")]
         public FTPSite FTPSite
         {
@@ -1835,6 +5593,44 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FTPSite>("AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite", "FTPSite", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer")]
+        public StoreAMSServer StoreAMSServer
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<StoreAMSServer> StoreAMSServerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<StoreAMSServer>("AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", value);
                 }
             }
         }
@@ -2070,44 +5866,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "Store")]
-        public Store Store
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Store> StoreReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite", "FTPSite")]
         public FTPSite FTPSite
         {
@@ -2177,6 +5935,44 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store", "Store", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -2185,26 +5981,621 @@ namespace AndroAdminDataAccess.EntityFramework
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StoreStatus")]
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StoreGroup")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class StoreStatus : EntityObject
+    public partial class StoreGroup : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new StoreStatus object.
+        /// Create a new StoreGroup object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="storeId">Initial value of the StoreId property.</param>
+        /// <param name="groupId">Initial value of the GroupId property.</param>
+        public static StoreGroup CreateStoreGroup(global::System.Int32 id, global::System.Int32 storeId, global::System.Int32 groupId)
+        {
+            StoreGroup storeGroup = new StoreGroup();
+            storeGroup.Id = id;
+            storeGroup.StoreId = storeId;
+            storeGroup.GroupId = groupId;
+            return storeGroup;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 StoreId
+        {
+            get
+            {
+                return _StoreId;
+            }
+            set
+            {
+                OnStoreIdChanging(value);
+                ReportPropertyChanging("StoreId");
+                _StoreId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StoreId");
+                OnStoreIdChanged();
+            }
+        }
+        private global::System.Int32 _StoreId;
+        partial void OnStoreIdChanging(global::System.Int32 value);
+        partial void OnStoreIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 GroupId
+        {
+            get
+            {
+                return _GroupId;
+            }
+            set
+            {
+                OnGroupIdChanging(value);
+                ReportPropertyChanging("GroupId");
+                _GroupId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupId");
+                OnGroupIdChanged();
+            }
+        }
+        private global::System.Int32 _GroupId;
+        partial void OnGroupIdChanging(global::System.Int32 value);
+        partial void OnGroupIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Group", "Group")]
+        public Group Group
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Group> GroupReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Group>("AndroAdminModel.FK_StoreGroup_Group", "Group", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreGroup_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreGroup_Store", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StoreMenu")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StoreMenu : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StoreMenu object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="dataVersion">Initial value of the DataVersion property.</param>
+        public static StoreMenu CreateStoreMenu(global::System.Int32 id, global::System.Int32 dataVersion)
+        {
+            StoreMenu storeMenu = new StoreMenu();
+            storeMenu.Id = id;
+            storeMenu.DataVersion = dataVersion;
+            return storeMenu;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> StoreId
+        {
+            get
+            {
+                return _StoreId;
+            }
+            set
+            {
+                OnStoreIdChanging(value);
+                ReportPropertyChanging("StoreId");
+                _StoreId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StoreId");
+                OnStoreIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _StoreId;
+        partial void OnStoreIdChanging(Nullable<global::System.Int32> value);
+        partial void OnStoreIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Version
+        {
+            get
+            {
+                return _Version;
+            }
+            set
+            {
+                OnVersionChanging(value);
+                ReportPropertyChanging("Version");
+                _Version = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Version");
+                OnVersionChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Version;
+        partial void OnVersionChanging(Nullable<global::System.Int32> value);
+        partial void OnVersionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MenuType
+        {
+            get
+            {
+                return _MenuType;
+            }
+            set
+            {
+                OnMenuTypeChanging(value);
+                ReportPropertyChanging("MenuType");
+                _MenuType = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MenuType");
+                OnMenuTypeChanged();
+            }
+        }
+        private global::System.String _MenuType;
+        partial void OnMenuTypeChanging(global::System.String value);
+        partial void OnMenuTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MenuData
+        {
+            get
+            {
+                return _MenuData;
+            }
+            set
+            {
+                OnMenuDataChanging(value);
+                ReportPropertyChanging("MenuData");
+                _MenuData = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MenuData");
+                OnMenuDataChanged();
+            }
+        }
+        private global::System.String _MenuData;
+        partial void OnMenuDataChanging(global::System.String value);
+        partial void OnMenuDataChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> LastUpdated
+        {
+            get
+            {
+                return _LastUpdated;
+            }
+            set
+            {
+                OnLastUpdatedChanging(value);
+                ReportPropertyChanging("LastUpdated");
+                _LastUpdated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LastUpdated");
+                OnLastUpdatedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _LastUpdated;
+        partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
+        partial void OnLastUpdatedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DataVersion
+        {
+            get
+            {
+                return _DataVersion;
+            }
+            set
+            {
+                OnDataVersionChanging(value);
+                ReportPropertyChanging("DataVersion");
+                _DataVersion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DataVersion");
+                OnDataVersionChanged();
+            }
+        }
+        private global::System.Int32 _DataVersion;
+        partial void OnDataVersionChanging(global::System.Int32 value);
+        partial void OnDataVersionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_StoreMenu_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreMenu_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreMenu_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("AndroAdminModel.FK_StoreMenu_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("AndroAdminModel.FK_StoreMenu_Store", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StorePaymentProvider")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StorePaymentProvider : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StorePaymentProvider object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="providerName">Initial value of the ProviderName property.</param>
+        /// <param name="clientId">Initial value of the ClientId property.</param>
+        /// <param name="clientPassword">Initial value of the ClientPassword property.</param>
+        public static StorePaymentProvider CreateStorePaymentProvider(global::System.Int32 id, global::System.String providerName, global::System.String clientId, global::System.String clientPassword)
+        {
+            StorePaymentProvider storePaymentProvider = new StorePaymentProvider();
+            storePaymentProvider.Id = id;
+            storePaymentProvider.ProviderName = providerName;
+            storePaymentProvider.ClientId = clientId;
+            storePaymentProvider.ClientPassword = clientPassword;
+            return storePaymentProvider;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ProviderName
+        {
+            get
+            {
+                return _ProviderName;
+            }
+            set
+            {
+                OnProviderNameChanging(value);
+                ReportPropertyChanging("ProviderName");
+                _ProviderName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ProviderName");
+                OnProviderNameChanged();
+            }
+        }
+        private global::System.String _ProviderName;
+        partial void OnProviderNameChanging(global::System.String value);
+        partial void OnProviderNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ClientId
+        {
+            get
+            {
+                return _ClientId;
+            }
+            set
+            {
+                OnClientIdChanging(value);
+                ReportPropertyChanging("ClientId");
+                _ClientId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ClientId");
+                OnClientIdChanged();
+            }
+        }
+        private global::System.String _ClientId;
+        partial void OnClientIdChanging(global::System.String value);
+        partial void OnClientIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ClientPassword
+        {
+            get
+            {
+                return _ClientPassword;
+            }
+            set
+            {
+                OnClientPasswordChanging(value);
+                ReportPropertyChanging("ClientPassword");
+                _ClientPassword = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ClientPassword");
+                OnClientPasswordChanged();
+            }
+        }
+        private global::System.String _ClientPassword;
+        partial void OnClientPasswordChanging(global::System.String value);
+        partial void OnClientPasswordChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_StorePaymentProvider", "Store")]
+        public EntityCollection<Store> Stores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("AndroAdminModel.FK_Store_StorePaymentProvider", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("AndroAdminModel.FK_Store_StorePaymentProvider", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="AndroAdminModel", Name="StoreStatu")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class StoreStatu : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new StoreStatu object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="status">Initial value of the Status property.</param>
         /// <param name="description">Initial value of the Description property.</param>
-        public static StoreStatus CreateStoreStatus(global::System.Int32 id, global::System.String status, global::System.String description)
+        public static StoreStatu CreateStoreStatu(global::System.Int32 id, global::System.String status, global::System.String description)
         {
-            StoreStatus storeStatus = new StoreStatus();
-            storeStatus.Id = id;
-            storeStatus.Status = status;
-            storeStatus.Description = description;
-            return storeStatus;
+            StoreStatu storeStatu = new StoreStatu();
+            storeStatu.Id = id;
+            storeStatu.Status = status;
+            storeStatu.Description = description;
+            return storeStatu;
         }
 
         #endregion
