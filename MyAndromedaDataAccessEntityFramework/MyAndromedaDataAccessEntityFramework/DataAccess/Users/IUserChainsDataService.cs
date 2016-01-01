@@ -38,6 +38,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="chainId">The chain id.</param>
         /// <returns></returns>
         IEnumerable<MyAndromedaUser> FindUsersDirectlyBelongingToChain(int chainId);
+
+        void RemoveChainLinkToUser(int userId, int chainId);
     }
 
     public class UserChainsDataService : IUserChainsDataService
@@ -163,6 +165,20 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             }
 
             return myAndromedaUserusers;
+        }
+
+        public void RemoveChainLinkToUser(int userId, int chainId)
+        {
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var table = myAndromedaDbContext.UserChains;
+                var query = table.Where(e=> e.ChainId == chainId && e.UserRecordId == userId);
+                var results = query.ToArray();
+
+                foreach (var result in results) { myAndromedaDbContext.UserChains.Remove(result); }
+
+                myAndromedaDbContext.SaveChanges();
+            }
         }
 
         private IEnumerable<Chain> CreateHierarchyStructure(Model.AndroAdmin.AndroAdminDbContext dbContext, Model.AndroAdmin.Chain[] results)
