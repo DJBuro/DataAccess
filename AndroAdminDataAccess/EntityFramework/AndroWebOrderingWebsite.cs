@@ -20,13 +20,13 @@ namespace AndroAdminDataAccess.EntityFramework
         public bool Enabled { get; set; }
         public string DisabledReason { get; set; }
         public int SubscriptionTypeId { get; set; }
-        public string URL { get; set; }
         public int ACSApplicationId { get; set; }
         public int DataVersion { get; set; }
-        public string Settings { get; set; }
         public string PreviewDomainName { get; set; }
         public string PreviewSettings { get; set; }
         public Nullable<int> ThemeId { get; set; }
+        public string LiveDomainName { get; set; }
+        public string LiveSettings { get; set; }
     
         public virtual ACSApplication ACSApplication { get; set; }
         public virtual AndroWebOrderingSubscriptionType AndroWebOrderingSubscriptionType { get; set; }

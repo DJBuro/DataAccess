@@ -92,11 +92,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Source" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="ThemePath" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="Height" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
-          <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="InternalName" Type="nvarchar" MaxLength="255" />
+          <Property Name="ThemeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="AndroWebOrderingWebsite">
@@ -109,11 +108,11 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
           <Property Name="SubscriptionTypeId" Type="int" Nullable="false" />
-          <Property Name="URL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="LiveDomainName" Type="nvarchar" MaxLength="1000" />
           <Property Name="PreviewDomainName" Type="nvarchar" MaxLength="1000" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
-          <Property Name="Settings" Type="nvarchar(max)" />
+          <Property Name="LiveSettings" Type="nvarchar(max)" />
           <Property Name="PreviewSettings" Type="nvarchar(max)" />
           <Property Name="ThemeId" Type="int" />
         </EntityType>
@@ -2344,17 +2343,17 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="DisabledReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="SubscriptionTypeId" Type="Int32" Nullable="false" />
-          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
           <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
-          <Property Name="Settings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PreviewDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ThemeId" Type="Int32" />
           <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
+          <Property Name="LiveDomainName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="LiveSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
@@ -2397,13 +2396,12 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Source" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="Height" Type="Int32" Nullable="false" />
           <Property Name="Width" Type="Int32" Nullable="false" />
-          <Property Name="FileName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="InternalName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingTheme" ToRole="AndroWebOrderingWebsite" />
+          <Property Name="ThemePath" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="ThemeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_AndroWebOrderingWebsite_AndroWebOrderingTheme">
           <End Type="AndroAdminModel.AndroWebOrderingTheme" Role="AndroWebOrderingTheme" Multiplicity="0..1" />
@@ -2888,13 +2886,13 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="AndroWebOrderingWebsites">
             <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingWebsite">
               <MappingFragment StoreEntitySet="AndroWebOrderingWebsite">
+                <ScalarProperty Name="LiveSettings" ColumnName="LiveSettings" />
+                <ScalarProperty Name="LiveDomainName" ColumnName="LiveDomainName" />
                 <ScalarProperty Name="ThemeId" ColumnName="ThemeId" />
                 <ScalarProperty Name="PreviewSettings" ColumnName="PreviewSettings" />
                 <ScalarProperty Name="PreviewDomainName" ColumnName="PreviewDomainName" />
-                <ScalarProperty Name="Settings" ColumnName="Settings" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="ACSApplicationId" ColumnName="ACSApplicationId" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
                 <ScalarProperty Name="DisabledReason" ColumnName="DisabledReason" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
@@ -2907,12 +2905,11 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="AndroWebOrderingThemes">
             <EntityTypeMapping TypeName="AndroAdminModel.AndroWebOrderingTheme">
               <MappingFragment StoreEntitySet="AndroWebOrderingTheme">
+                <ScalarProperty Name="ThemeName" ColumnName="ThemeName" />
+                <ScalarProperty Name="ThemePath" ColumnName="ThemePath" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="InternalName" ColumnName="InternalName" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
