@@ -402,6 +402,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                     dataWarehouseEntities.Contacts.Remove(contact);
                                 }
 
+                                // Commit the customer
+                                dataWarehouseEntities.SaveChanges();
+
                                 foreach (DataWarehouseDataAccess.Domain.Contact contact in customer.Contacts)
                                 {
                                     // Build the contact entity
@@ -445,22 +448,22 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                     dataWarehouseEntities.Contacts.Add(contactEntity);
 
                                     // Is the customer changing their username (we use the email as the username)?
-                                    if (contactEntity.ContactType.Name == "Email")
-                                    {
-                                        // Check to see if the username has already been used
-                                        bool exists = false;
-                                        this.Exists(contactEntity.Value, applicationId, out exists);
+                                    //if (contactEntity.ContactType.Name == "Email")
+                                    //{
+                                    //    // Check to see if the username has already been used
+                                    //    bool exists = false;
+                                    //    this.Exists(contactEntity.Value, applicationId, out exists);
 
-                                        if (exists)
-                                        {
-                                            return "Username already used: " + contactEntity.Value;
-                                        }
-                                        else
-                                        {
-                                            // Update
-                                            newUsername = contactEntity.Value;
-                                        }
-                                    }
+                                    //    if (exists)
+                                    //    {
+                                    //        return "Username already used: " + contactEntity.Value;
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        // Update
+                                    //        newUsername = contactEntity.Value;
+                                    //    }
+                                    //}
                                 }
                             }
 
