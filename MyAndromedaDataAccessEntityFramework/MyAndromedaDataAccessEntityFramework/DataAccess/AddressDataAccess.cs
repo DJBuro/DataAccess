@@ -50,6 +50,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 addressEntity.Town = address.Town;
                 addressEntity.DPS = address.Dps;
 
+
+                addressEntity.DataVersion = Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
                 // Add a new address
                 if (addressEntity == null)
                 {

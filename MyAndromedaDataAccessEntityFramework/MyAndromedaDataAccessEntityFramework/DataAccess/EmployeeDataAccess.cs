@@ -76,6 +76,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 entity.Role = employee.Role;
                 entity.SiteId = siteId;
                 entity.Phone = employee.Phone;
+                
 
                 entitiesContext.Employees.Add(entity);
                 entitiesContext.SaveChanges();
