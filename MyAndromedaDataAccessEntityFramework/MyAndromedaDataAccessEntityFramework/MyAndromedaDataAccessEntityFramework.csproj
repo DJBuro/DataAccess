@@ -213,6 +213,9 @@
     <Compile Include="Model\AndroAdmin\DeliveryArea.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AndroAdmin\DeliveryZoneName.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\Device.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -250,6 +253,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\Partner.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\PostCodeSector.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\Setting.cs">
