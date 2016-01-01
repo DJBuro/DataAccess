@@ -111,19 +111,23 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetBestPrivate(int andromedaSiteId, out List<AndroCloudDataAccess.Domain.PrivateHost> hosts)
         {
-            var results = this
+            var query = this
                 .QueryHost
                 (
                     e => 
                         e.Sites.Any(site => site.AndroID == andromedaSiteId)
                     ||  //direct site link or indirectly by a matched application id
                         e.ACSApplications.Any(application => application.ACSApplicationSites.Any(site => site.Site.AndroID == andromedaSiteId))
-                )
-                .Select(e => e.ToPrivateDomainModel());
+                ).ToArray();
 
-            hosts = results.ToList();
+            if(query.Length > 0)
+            {
+                hosts = query.Select(e => e.ToPrivateDomainModel()).ToList();
 
-            return string.Empty;
+                return string.Empty;
+            }
+
+            return this.GetAllGenericPrivateHosts(out hosts);
         }
 
         private IEnumerable<Host> QueryHost(Expression<Func<Host, bool>> query) 
@@ -166,7 +170,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             hosts = results.ToList();
 
-            return "";
+            return string.Empty;
         }
 
         public string GetBestPrivateV2(int andromedaSiteId, int acsApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts)
