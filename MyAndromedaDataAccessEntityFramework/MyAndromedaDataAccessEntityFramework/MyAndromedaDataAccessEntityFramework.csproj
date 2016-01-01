@@ -272,13 +272,19 @@
     <Compile Include="Model\MyAndromeda\MenuItem.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda\MenuItemGroup.cs">
+    <Compile Include="Model\MyAndromeda\MenuItemInGroup.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\MenuItemThumbnail.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuMediaProfile.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuMediaProfileSize.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuMediaServer.cs">

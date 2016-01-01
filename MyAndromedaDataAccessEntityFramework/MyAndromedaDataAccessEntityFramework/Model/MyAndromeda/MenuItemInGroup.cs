@@ -12,14 +12,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailCampaignAudit
+    public partial class MenuItemInGroup
     {
-        public int Id { get; set; }
-        public int EmailCampaignId { get; set; }
-        public string EditedByUserName { get; set; }
-        public System.DateTime ActionOn { get; set; }
-        public string Message { get; set; }
-    
-        public virtual EmailCampaign EmailCampaign { get; set; }
+        public System.Guid MenuItemGroupId { get; set; }
+        public System.Guid MenuItemId { get; set; }
     }
 }
