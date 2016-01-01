@@ -9,6 +9,7 @@ namespace AndroAdminDataAccess.DataAccess
     public interface IStoreAMSServerFTPSiteDAO
     {
         string ConnectionStringOverride { get; set; }
+        IList<StoreAMSServerFtpSiteListItem> GetAllListItems();
         IList<StoreAMSServerFtpSite> GetAll();
         StoreAMSServerFtpSite GetById(int id);
         IList<StoreAMSServerFtpSite> GetByStoreAMSServerId(int id);
