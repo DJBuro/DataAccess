@@ -42,7 +42,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<modifier> modifiers { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
-        public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
         public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
@@ -53,5 +52,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<Voucher> Vouchers { get; set; }
         public DbSet<AndroWebTelemetry> AndroWebTelemetries { get; set; }
         public DbSet<AndroWebTelemetrySession> AndroWebTelemetrySessions { get; set; }
+        public DbSet<OrderLoyalty> OrderLoyalties { get; set; }
     }
 }

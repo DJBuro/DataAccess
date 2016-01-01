@@ -17,8 +17,8 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public OrderHeader()
         {
             this.OrderLines = new HashSet<OrderLine>();
-            this.OrderLoyalties = new HashSet<OrderLoyalty>();
             this.UsedVouchers = new HashSet<UsedVoucher>();
+            this.OrderLoyalties = new HashSet<OrderLoyalty>();
         }
     
         public System.Guid ID { get; set; }
@@ -57,7 +57,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public virtual CustomerAddress CustomerAddress { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
-        public virtual ICollection<OrderLoyalty> OrderLoyalties { get; set; }
         public virtual ICollection<UsedVoucher> UsedVouchers { get; set; }
+        public virtual ICollection<OrderLoyalty> OrderLoyalties { get; set; }
     }
 }

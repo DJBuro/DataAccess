@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="DataWarehouseModel.modifier" Width="1.5" PointX="14.25" PointY="7" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderHeader" Width="1.5" PointX="9.75" PointY="7" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderLine" Width="1.5" PointX="12" PointY="6.75" />
-        <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="12" PointY="14.5" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderStatu" Width="1.5" PointX="7.5" PointY="4.875" />
         <EntityTypeShape EntityType="DataWarehouseModel.OrderStatusHistory" Width="1.5" PointX="9.75" PointY="0.75" />
         <EntityTypeShape EntityType="DataWarehouseModel.PasswordResetRequest" Width="1.5" PointX="7.5" PointY="17.875" />
@@ -49,7 +48,6 @@
         <AssociationConnector Association="DataWarehouseModel.FK_modifiers_OrderLines" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderHeader_OrderStatus" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderLines_OrderHeader" />
-        <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
         <AssociationConnector Association="DataWarehouseModel.FK_UsedVoucher_OrderHeader" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderStatusHistory_OrderStatus" />
         <AssociationConnector Association="DataWarehouseModel.FK_SiteVoucher_Voucher" />
@@ -58,6 +56,8 @@
         <EntityTypeShape EntityType="DataWarehouseModel.AndroWebTelemetrySession" Width="1.5" PointX="7.5" PointY="21.125" />
         <AssociationConnector Association="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession" />
         <AssociationConnector Association="DataWarehouseModel.FK_AndroWebSession_Customer" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderLoyalty" Width="1.5" PointX="12" PointY="14.75" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

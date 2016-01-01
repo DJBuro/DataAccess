@@ -164,7 +164,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ACSApplicationId" Type="int" Nullable="false" />
-          <Property Name="ExternalSiteId" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ExternalSiteId" Type="nvarchar" MaxLength="64" />
           <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="96" />
           <Property Name="CustomerEmailAddress" Type="nvarchar" MaxLength="255" />
@@ -255,6 +255,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Cat1" Type="nvarchar" MaxLength="48" />
           <Property Name="Cat2" Type="nvarchar" MaxLength="48" />
           <Property Name="DisplayCategory" Type="nvarchar" MaxLength="48" />
+          <Property Name="IsDeal" Type="bit" />
+          <Property Name="DealID" Type="uniqueidentifier" />
+          <Property Name="DealSequence" Type="int" />
         </EntityType>
         <EntityType Name="OrderLoyalty">
           <Key>
@@ -262,10 +265,10 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PointsGained" Type="int" />
-          <Property Name="PointsUsed" Type="int" />
-          <Property Name="PointsMoneyValueGained" Type="money" />
-          <Property Name="PointsMoneyValueSpent" Type="money" />
+          <Property Name="awardedPoints" Type="int" />
+          <Property Name="redeemedPoints" Type="int" />
+          <Property Name="awardedPointsValue" Type="money" />
+          <Property Name="redeemedPointsValue" Type="money" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Applied" Type="bit" Nullable="false" />
         </EntityType>
@@ -814,7 +817,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="modifiers" EntityType="DataWarehouseModel.modifier" />
           <EntitySet Name="OrderHeaders" EntityType="DataWarehouseModel.OrderHeader" />
           <EntitySet Name="OrderLines" EntityType="DataWarehouseModel.OrderLine" />
-          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
           <EntitySet Name="OrderStatus" EntityType="DataWarehouseModel.OrderStatu" />
           <EntitySet Name="OrderStatusHistories" EntityType="DataWarehouseModel.OrderStatusHistory" />
           <EntitySet Name="PasswordResetRequests" EntityType="DataWarehouseModel.PasswordResetRequest" />
@@ -895,10 +897,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="OrderLine" EntitySet="OrderLines" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
-            <End Role="OrderHeader" EntitySet="OrderHeaders" />
-            <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
-          </AssociationSet>
           <AssociationSet Name="FK_UsedVoucher_OrderHeader" Association="DataWarehouseModel.FK_UsedVoucher_OrderHeader">
             <End Role="OrderHeader" EntitySet="OrderHeaders" />
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
@@ -924,6 +922,11 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_AndroWebSession_Customer" Association="DataWarehouseModel.FK_AndroWebSession_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="AndroWebTelemetrySession" EntitySet="AndroWebTelemetrySessions" />
+          </AssociationSet>
+          <EntitySet Name="OrderLoyalties" EntityType="DataWarehouseModel.OrderLoyalty" />
+          <AssociationSet Name="FK_OrderLoyalty_OrderHeader" Association="DataWarehouseModel.FK_OrderLoyalty_OrderHeader">
+            <End Role="OrderHeader" EntitySet="OrderHeaders" />
+            <End Role="OrderLoyalty" EntitySet="OrderLoyalties" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
@@ -1082,7 +1085,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
-          <Property Name="ExternalSiteId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ExternalSiteId" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CustomerName" Type="String" MaxLength="96" FixedLength="false" Unicode="true" />
           <Property Name="CustomerEmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1169,8 +1172,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="CustomerAddress" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="OrderHeader" ToRole="CustomerAddress" />
           <NavigationProperty Name="OrderStatu" Relationship="DataWarehouseModel.FK_OrderHeader_OrderStatus" FromRole="OrderHeader" ToRole="OrderStatu" />
           <NavigationProperty Name="OrderLines" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderHeader" ToRole="OrderLine" />
-          <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_OrderHeader" FromRole="OrderHeader" ToRole="UsedVoucher" />
+          <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1187,20 +1190,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DisplayCategory" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="modifiers" Relationship="DataWarehouseModel.FK_modifiers_OrderLines" FromRole="OrderLine" ToRole="modifier" />
           <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLines_OrderHeader" FromRole="OrderLine" ToRole="OrderHeader" />
-        </EntityType>
-        <EntityType Name="OrderLoyalty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Guid" Nullable="false" />
-          <Property Name="PointsGained" Type="Int32" />
-          <Property Name="PointsUsed" Type="Int32" />
-          <Property Name="PointsMoneyValueGained" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PointsMoneyValueSpent" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Applied" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
+          <Property Name="IsDeal" Type="Boolean" />
+          <Property Name="DealID" Type="Guid" />
+          <Property Name="DealSequence" Type="Int32" />
         </EntityType>
         <EntityType Name="OrderStatu">
           <Key>
@@ -1515,18 +1507,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderLoyalty_OrderHeader">
-          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
-          <End Type="DataWarehouseModel.OrderLoyalty" Role="OrderLoyalty" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderHeader">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OrderLoyalty">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UsedVoucher_OrderHeader">
           <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1626,6 +1606,32 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Principal>
             <Dependent Role="AndroWebTelemetrySession">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderLoyalty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Guid" Nullable="false" />
+          <Property Name="awardedPoints" Type="Int32" />
+          <Property Name="redeemedPoints" Type="Int32" />
+          <Property Name="awardedPointsValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="redeemedPointsValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ProviderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Applied" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderHeader" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderLoyalty" ToRole="OrderHeader" />
+        </EntityType>
+        <Association Name="FK_OrderLoyalty_OrderHeader">
+          <End Type="DataWarehouseModel.OrderHeader" Role="OrderHeader" Multiplicity="1" />
+          <End Type="DataWarehouseModel.OrderLoyalty" Role="OrderLoyalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderHeader">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderLoyalty">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1866,6 +1872,9 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="OrderLines">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderLine">
               <MappingFragment StoreEntitySet="OrderLines">
+                <ScalarProperty Name="DealSequence" ColumnName="DealSequence" />
+                <ScalarProperty Name="DealID" ColumnName="DealID" />
+                <ScalarProperty Name="IsDeal" ColumnName="IsDeal" />
                 <ScalarProperty Name="DisplayCategory" ColumnName="DisplayCategory" />
                 <ScalarProperty Name="Cat2" ColumnName="Cat2" />
                 <ScalarProperty Name="Cat1" ColumnName="Cat1" />
@@ -1875,20 +1884,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="OrderHeaderID" ColumnName="OrderHeaderID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderLoyalties">
-            <EntityTypeMapping TypeName="DataWarehouseModel.OrderLoyalty">
-              <MappingFragment StoreEntitySet="OrderLoyalty">
-                <ScalarProperty Name="Applied" ColumnName="Applied" />
-                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
-                <ScalarProperty Name="PointsMoneyValueSpent" ColumnName="PointsMoneyValueSpent" />
-                <ScalarProperty Name="PointsMoneyValueGained" ColumnName="PointsMoneyValueGained" />
-                <ScalarProperty Name="PointsUsed" ColumnName="PointsUsed" />
-                <ScalarProperty Name="PointsGained" ColumnName="PointsGained" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1997,6 +1992,20 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Referrer" ColumnName="Referrer" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderLoyalties">
+            <EntityTypeMapping TypeName="DataWarehouseModel.OrderLoyalty">
+              <MappingFragment StoreEntitySet="OrderLoyalty">
+                <ScalarProperty Name="Applied" ColumnName="Applied" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+                <ScalarProperty Name="redeemedPointsValue" ColumnName="redeemedPointsValue" />
+                <ScalarProperty Name="awardedPointsValue" ColumnName="awardedPointsValue" />
+                <ScalarProperty Name="redeemedPoints" ColumnName="redeemedPoints" />
+                <ScalarProperty Name="awardedPoints" ColumnName="awardedPoints" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
