@@ -46,6 +46,9 @@
         <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="8.25" PointY="19.875" />
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" />
       </Diagram>
+      <Diagram DiagramId="a0dcccb03707476f90349de2c058e74d" Name="Menu" >
+        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="0.5" PointY="0.75" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
