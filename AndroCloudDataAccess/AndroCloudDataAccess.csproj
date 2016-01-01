@@ -57,9 +57,7 @@
     <Compile Include="DataAccess\ISiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="Domain\ACSQueue.cs" />
-    <Compile Include="Domain\Chain.cs" />
-    <Compile Include="Domain\DataTypeEnum.cs" />
-    <Compile Include="Domain\ResultEnum.cs" />
+    <Compile Include="Domain\Group.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Partner.cs" />
     <Compile Include="Domain\Site.cs" />
@@ -69,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudWCFHelper.csproj">
+      <Project>{D9959D2F-2016-4355-BC22-061EA8A5E267}</Project>
+      <Name>AndroCloudWCFHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

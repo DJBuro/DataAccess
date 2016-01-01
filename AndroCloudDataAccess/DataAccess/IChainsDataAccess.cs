@@ -8,6 +8,6 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IChainsDataAccess
     {
-        string Get(Guid partnerId, string externalChainId, out Chain chain);
+        string Get(Guid partnerId, string externalChainId, out Group chain);
     }
 }
