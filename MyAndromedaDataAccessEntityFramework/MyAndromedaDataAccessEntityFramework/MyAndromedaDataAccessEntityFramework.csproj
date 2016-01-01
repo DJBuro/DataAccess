@@ -35,9 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WebSites\MyAndromeda\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\WebSites\MyAndromedia.sln\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -53,7 +52,10 @@
   <ItemGroup>
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\CountryDataAccess.cs" />
+    <Compile Include="DataAccess\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
+    <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
+    <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
@@ -89,8 +91,14 @@
     <Compile Include="Model\Country.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CustomerRecord.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Day.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EmailCampaign.cs">
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Employee.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
@@ -109,6 +117,21 @@
     </Compile>
     <Compile Include="Model\Log.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyAndromeda.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyAndromeda.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyAndromeda.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromedaUser.cs">
       <DependentUpon>AndroAdmin.tt</DependentUpon>
@@ -150,6 +173,7 @@
       <DependentUpon>AndroAdmin.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DomainModelUpdateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
@@ -172,7 +196,23 @@
       <DependentUpon>AndroAdmin.edmx</DependentUpon>
       <LastGenOutput>AndroAdmin.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <EntityDeploy Include="Model\MyAndromeda.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyAndromeda.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\MyAndromeda.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyAndromeda.edmx</DependentUpon>
+      <LastGenOutput>MyAndromeda.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Model\MyAndromeda.edmx.diagram">
+      <DependentUpon>MyAndromeda.edmx</DependentUpon>
+    </None>
+    <None Include="Model\MyAndromeda.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyAndromeda.edmx</DependentUpon>
+      <LastGenOutput>MyAndromeda.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
