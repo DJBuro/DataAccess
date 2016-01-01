@@ -5,6 +5,7 @@ using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using System.Transactions;
+using System.Data.Entity;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
