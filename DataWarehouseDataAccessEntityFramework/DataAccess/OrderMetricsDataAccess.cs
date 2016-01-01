@@ -119,7 +119,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     }
                     orderMetrics.OrderList.Add(order);
                 }
-                prepareChartData(orderMetrics);
                 #region old-query
                 //using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
                 //{
@@ -168,6 +167,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             return string.Empty;
         }
 
+        /// <summary>
+        /// Required if data-binding is from server-side
+        /// </summary>
+        /// <param name="orderMetrics"></param>
         private void prepareChartData(OrderMetrics orderMetrics)
         {
             IEnumerable<IGrouping<DateTime, OrderHeaderDAO>> GroupListByDate = orderMetrics.OrderList.OrderBy(o => o.OrderPlacedTime.Value.Date).GroupBy(o => o.OrderPlacedTime.Value.Date);
