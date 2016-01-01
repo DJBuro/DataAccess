@@ -17,9 +17,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// </summary>
         /// <param name="userId">The user id.</param>
         /// <returns></returns>
-        IEnumerable<Site> GetSitesForUser(int userId);
+        IEnumerable<Site> GetSitesDirectlyLinkedToTheUser(int userId);
 
-        IEnumerable<Site> GetSitesForUser(int userId, Expression<Func<Store, bool>> query);
+        IEnumerable<Site> GetSitesDirectlyLinkedToTheUser(int userId, Expression<Func<Store, bool>> query);
 
         /// <summary>
         /// Gets the sites for user.
@@ -56,7 +56,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             this.chainsDataAccessService = chainsDataAccessService;
         }
 
-        public IEnumerable<Site> GetSitesForUser(int userId, Expression<Func<Store, bool>> query) 
+        public IEnumerable<Site> GetSitesDirectlyLinkedToTheUser(int userId, Expression<Func<Store, bool>> query) 
         {
             IEnumerable<Site> sites;
             using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext())
@@ -81,9 +81,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             return sites;
         }
 
-        public IEnumerable<Site> GetSitesForUser(int userId)
+        public IEnumerable<Site> GetSitesDirectlyLinkedToTheUser(int userId)
         {
-            return this.GetSitesForUser(userId, e => true);
+            return this.GetSitesDirectlyLinkedToTheUser(userId, e => true);
         }
 
         public IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId)

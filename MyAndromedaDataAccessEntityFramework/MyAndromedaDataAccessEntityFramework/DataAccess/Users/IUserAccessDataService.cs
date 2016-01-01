@@ -74,7 +74,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
         public IList<Site> ListStoresUserCanAccess(int userId)
         {
-            return this.userSiteDataService.GetSitesForUser(userId).ToList();
+            return this.userSiteDataService.GetSitesDirectlyLinkedToTheUser(userId).ToList();
             //using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
             //{
             //    var table = dbContext.Stores;
@@ -151,7 +151,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             {
                 System.Diagnostics.Trace.WriteLine("checking redundency - store - user table");
                 //is the user connected to the user-store in the redundancy table?
-                var sites = this.userSiteDataService.GetSitesForUser(userId, e => e.ChainId == chainId && e.Id == storeId);
+                var sites = this.userSiteDataService.GetSitesDirectlyLinkedToTheUser(userId, e => e.ChainId == chainId && e.Id == storeId);
                 associated = sites.Any();
             }
 
