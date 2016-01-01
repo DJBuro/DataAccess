@@ -12,20 +12,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class Permission
+    public partial class MenuItemThumbnailsLinkTable
     {
-        public Permission()
-        {
-            this.EnrolmentLevels = new HashSet<EnrolmentLevel>();
-            this.Roles = new HashSet<Role>();
-        }
+        public System.Guid MenuItemThumbnailId { get; set; }
+        public System.Guid MenuItemId { get; set; }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
-    
-        public virtual ICollection<EnrolmentLevel> EnrolmentLevels { get; set; }
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual MenuItemThumbnail MenuItemThumbnail { get; set; }
+        public virtual MenuItem MenuItem { get; set; }
     }
 }

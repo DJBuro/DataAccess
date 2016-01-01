@@ -12,13 +12,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class SiteMenuMediaServerAuthentication
+    public partial class RolePermissions
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int SiteMenuMediaServerId { get; set; }
+        public int PermissionId { get; set; }
+        public int RoleId { get; set; }
     
-        public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
+        public virtual Permission Permission { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
