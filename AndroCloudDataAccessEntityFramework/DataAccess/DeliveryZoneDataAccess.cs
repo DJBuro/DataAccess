@@ -10,7 +10,7 @@ using AndroCloudHelper;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
-    public class DeliveryZoneDataAccess : IDeliveryZoneDataAccess
+    public class DeliveryZoneDataAccess : IDeliveryAreaDataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
@@ -23,8 +23,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
                 var deliveryZonesQuery = from dz in acsEntities.DeliveryAreas
-                                        where dz.SiteId == siteId
-                                        select dz;
+                                         where dz.SiteId == siteId
+                                         select dz;
 
                 foreach (var deliveryZone in deliveryZonesQuery)
                 {

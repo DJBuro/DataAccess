@@ -34,6 +34,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
+        public DbSet<DeliveryAreaRoad> DeliveryAreaRoads { get; set; }
+        public DbSet<DeliveryAreaRoadRule> DeliveryAreaRoadRules { get; set; }
+        public DbSet<DeliveryAreaTown> DeliveryAreaTowns { get; set; }
         public DbSet<Host> Hosts { get; set; }
         public DbSet<HostsV2> HostsV2 { get; set; }
         public DbSet<HostType> HostTypes { get; set; }
@@ -43,11 +46,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<OrderStatu> OrderStatus { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteStatus> SiteStatuses { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
-        public DbSet<address_vw> address_vw { get; set; }
-        public DbSet<orders_vw> orders_vw { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
     }
 }

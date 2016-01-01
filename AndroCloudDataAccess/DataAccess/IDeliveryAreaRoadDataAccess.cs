@@ -7,10 +7,10 @@ using AndroCloudHelper;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface IDeliveryZoneDataAccess
+    public interface IDeliveryAreaRoadDataAccess
     {
         string ConnectionStringOverride { get; set; }
 
-        string GetBySiteId(Guid siteId, out List<string> deliveryZones);
+        string GetByApplicationIdPostcode(int applicationId, string postcode, out List<DeliveryZoneRoad> deliveryZoneRoads);
     }
 }

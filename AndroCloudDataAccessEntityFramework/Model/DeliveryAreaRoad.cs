@@ -12,13 +12,20 @@ namespace AndroCloudDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ACSApplicationSite
+    public partial class DeliveryAreaRoad
     {
         public int Id { get; set; }
+        public int ApplicationId { get; set; }
+        public string Postcode { get; set; }
+        public string RoadName { get; set; }
+        public bool DeliversToWholeRoad { get; set; }
+        public Nullable<int> HouseNumberStart { get; set; }
+        public Nullable<int> HouseNumberEnd { get; set; }
+        public int RuleId { get; set; }
         public System.Guid SiteId { get; set; }
-        public int ACSApplicationId { get; set; }
     
         public virtual ACSApplication ACSApplication { get; set; }
+        public virtual DeliveryAreaRoadRule DeliveryAreaRoadRule { get; set; }
         public virtual Site Site { get; set; }
     }
 }
