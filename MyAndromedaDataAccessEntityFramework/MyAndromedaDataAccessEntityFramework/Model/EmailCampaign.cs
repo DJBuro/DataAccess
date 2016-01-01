@@ -16,8 +16,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     {
         public EmailCampaign()
         {
-            this.EmailCampaignSites = new HashSet<EmailCampaignSite>();
             this.EmailCampaignSentEmails = new HashSet<EmailCampaignSentEmail>();
+            this.EmailCampaignSites = new HashSet<EmailCampaignSite>();
+            this.EmailCampaignTasks = new HashSet<EmailCampaignTask>();
         }
     
         public int Id { get; set; }
@@ -31,7 +32,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public bool ChainOnly { get; set; }
     
         public virtual EmailCampaignAudit EmailCampaignAudit { get; set; }
-        public virtual ICollection<EmailCampaignSite> EmailCampaignSites { get; set; }
         public virtual ICollection<EmailCampaignSentEmail> EmailCampaignSentEmails { get; set; }
+        public virtual ICollection<EmailCampaignSite> EmailCampaignSites { get; set; }
+        public virtual ICollection<EmailCampaignTask> EmailCampaignTasks { get; set; }
     }
 }

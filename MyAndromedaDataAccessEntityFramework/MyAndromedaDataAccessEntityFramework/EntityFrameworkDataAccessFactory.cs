@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using AndroCloudDataAccessEntityFramework.DataAccess;
 using MyAndromedaDataAccess;
+using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccessEntityFramework.DataAccess;
 
 namespace MyAndromedaDataAccessEntityFramework
 {
     public class EntityFrameworkDataAccessFactory : IDataAccessFactory
     {
+        
+
         public MyAndromedaDataAccess.DataAccess.ISiteDataAccess SiteDataAccess
         {
             get { return new SitesDataAccess(); }
@@ -65,6 +68,14 @@ namespace MyAndromedaDataAccessEntityFramework
             get 
             {
                 return new DataAccess.Marketing.EmailCampaignDataAccess();
+            }
+        }
+
+        public IEmailCampaignTasksDataAccess EmailCampaignTasksDataAccess
+        {
+            get
+            {
+                return new DataAccess.Marketing.EmailCampaignTasksDataAccess();
             }
         }
     }

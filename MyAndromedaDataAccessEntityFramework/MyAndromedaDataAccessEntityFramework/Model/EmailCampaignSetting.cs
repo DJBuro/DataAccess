@@ -14,13 +14,22 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     
     public partial class EmailCampaignSetting
     {
+        public EmailCampaignSetting()
+        {
+            this.EmailCampaignTasks = new HashSet<EmailCampaignTask>();
+        }
+    
         public int Id { get; set; }
         public string Host { get; set; }
         public Nullable<int> Port { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public int ChainId { get; set; }
         public string FromEmail { get; set; }
         public bool SSL { get; set; }
+        public Nullable<int> ChainId { get; set; }
+        public Nullable<int> SiteId { get; set; }
+        public string DropFolder { get; set; }
+    
+        public virtual ICollection<EmailCampaignTask> EmailCampaignTasks { get; set; }
     }
 }

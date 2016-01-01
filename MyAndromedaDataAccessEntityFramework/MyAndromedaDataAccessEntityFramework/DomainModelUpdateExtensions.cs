@@ -7,6 +7,11 @@ namespace MyAndromedaDataAccessEntityFramework
 {
     public static class DomainModelUpdateExtensions
     {
+        /// <summary>
+        /// Toes the domain model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         public static Domain.Customer ToDomainModel(this Model.CustomerRecord entity) 
         {
             var model = new Domain.Customer() 
@@ -21,6 +26,11 @@ namespace MyAndromedaDataAccessEntityFramework
             return model;
         }
 
+        /// <summary>
+        /// Toes the domain model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         public static Domain.EmailCampaign ToDomainModel(this Model.EmailCampaign entity)
         {
             var model = new MyAndromedaDataAccess.Domain.Marketing.EmailCampaign()
@@ -99,11 +109,12 @@ namespace MyAndromedaDataAccessEntityFramework
             return new EmailSettings()
             {
                 ChainId = entity.ChainId,
+                SiteId = entity.SiteId,
                 From = entity.FromEmail,
                 Host = entity.Host,
                 Id = entity.Id,
                 Password = entity.Password,
-                PickupFolder = null,
+                PickupFolder = entity.DropFolder,
                 Port = entity.Port,
                 SSL = entity.SSL,
                 UserName = entity.UserName
@@ -125,6 +136,7 @@ namespace MyAndromedaDataAccessEntityFramework
             entity.Host = domainModel.Host ?? string.Empty;;
             entity.FromEmail = domainModel.From;
             entity.ChainId = domainModel.ChainId;
+            entity.DropFolder = domainModel.PickupFolder ?? string.Empty;
         }
     }
 }

@@ -12,12 +12,18 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomerRecord
+    public partial class EmailCampaignTask
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
-        public string Title { get; set; }
+        public int EmailCampaignId { get; set; }
+        public bool Started { get; set; }
+        public bool Completed { get; set; }
+        public int EmailCampaignSettingsId { get; set; }
+        public System.DateTime CreatedOnUtc { get; set; }
+        public Nullable<System.DateTime> RunOnUtc { get; set; }
+        public Nullable<System.DateTime> RunAtUtc { get; set; }
+    
+        public virtual EmailCampaign EmailCampaign { get; set; }
+        public virtual EmailCampaignSetting EmailCampaignSetting { get; set; }
     }
 }

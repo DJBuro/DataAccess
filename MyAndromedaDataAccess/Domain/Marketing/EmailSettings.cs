@@ -45,10 +45,16 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         public string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the chain id these settings belong to.
+        /// Gets or sets the chain id - if it belongs to chain.
         /// </summary>
         /// <value>The chain id.</value>
-        public int ChainId { get; set; }
+        public int? ChainId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the site id - if it belongs to site.
+        /// </summary>
+        /// <value>The site id.</value>
+        public int? SiteId { get; set; }
 
         /// <summary>
         /// Gets or sets from.

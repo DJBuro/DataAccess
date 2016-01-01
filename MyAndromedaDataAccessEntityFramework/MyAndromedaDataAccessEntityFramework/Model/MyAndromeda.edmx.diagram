@@ -5,17 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="17">
-        <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.sysdiagram" Width="1.5" PointX="4.90383597319193" PointY="7.32772784276294" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="8.875" PointY="3.25" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="11.875" PointY="4.75" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="11.125" PointY="0.875" />
+        <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="10.951643105108126" PointY="0.8784570847071973" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="1.0501198326470889" PointY="11.864753803175294" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="3.3843352400624824" PointY="14.523164904919996" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="10.566776878464397" PointY="16.683245249410739" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="7.937861293525371" PointY="30.462201073049663" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="11.349655436049055" PointY="24.479125511124323" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignTask" Width="1.5" PointX="9.8211046838299865" PointY="24.966467779579791" />
+        <EntityTypeShape EntityType="MyAndromedaModel.sysdiagram" Width="1.5" PointX="6.5888468113675938" PointY="29.032803116847205" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" />
-        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="5.125" PointY="2" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="4.4084681777322983" PointY="30.4329168789242" />
-        </Diagram>
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" />
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" />
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
