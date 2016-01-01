@@ -148,6 +148,7 @@
     <Compile Include="DataAccess\Users\IUserLockingDataService.cs" />
     <Compile Include="DataAccess\Users\IUserRoleDataService.cs" />
     <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
+    <Compile Include="DataAccess\Users\UserChainsDataService.cs" />
     <Compile Include="DataAccess\Users\UserRoleDataService.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AndroAdmin\ACSApplication.cs">
@@ -481,6 +482,10 @@
     <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Core\MyAndromeda.Core.csproj">
       <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
       <Name>MyAndromeda.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Logging\MyAndromeda.Logging.csproj">
+      <Project>{865B78BD-51B5-4B1D-9BC7-CFB814EBE1EE}</Project>
+      <Name>MyAndromeda.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
       <Project>{2F4679FC-4B16-4B28-BA25-2223C597DF32}</Project>
