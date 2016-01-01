@@ -57,17 +57,25 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
             return ftpSite;
         }
 
-        
-        public IList<FTPSite> GetByIsPrimary(bool isPrimary)
+        public FTPSite GetByName(string name)
         {
-            IList<AndroAdminDataAccess.Domain.FTPSite> ftpSites = null;
+            IList<FTPSite> ftpSites = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
-                ftpSites = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.FTPSite) + " where IsPrimary=" + isPrimary.ToString()).List<AndroAdminDataAccess.Domain.FTPSite>();
+                ftpSites = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.FTPSite) + " where name=:name")
+                    .SetParameter("name", name)
+                    .List<FTPSite>();
             }
 
-            return ftpSites;
+            FTPSite ftpSite = null;
+
+            if (ftpSites.Count == 1)
+            {
+                ftpSite = ftpSites[0];
+            }
+
+            return ftpSite;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace AndroAdminDataAccess.nHibernate.Mappings
         {
             Table("StoreAMSServer");
             Id(x => x.Id);
+            Map(x => x.Priority);
             References<AMSServer>(x => x.AMSServer).Not.LazyLoad();
             References<Store>(x => x.Store).Not.LazyLoad();
         }
