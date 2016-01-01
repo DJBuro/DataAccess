@@ -108,6 +108,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public SEOSettings SEOSettings { set; get; }
 
+        public JivoChatSettings JivoChatSettings { get; set; }
+
         public static string SerializeJson(Object obj)
         {
             if (obj == null)
