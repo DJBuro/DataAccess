@@ -7,18 +7,109 @@ namespace MyAndromedaDataAccess.Domain.Reporting
 {
     public class OrdersSummary
     {
+        private readonly SummaryByDay<decimal> today;
+
+        public OrdersSummary(IEnumerable<SummaryByDay<decimal>> orderData)
+        {
+            this.OrderData = orderData;
+            this.today = orderData.FirstOrDefault();
+        }
+
+        public IEnumerable<SummaryByDay<decimal>> OrderData { get; set; }
+
+        public decimal TotalRangeTurnover
+        {
+            get { return OrderData.Sum(e => e.Total); }
+        }
+        
+        public decimal TodaysTurnover 
+        {
+            get { return today == null ? 0 : today.Total; }
+        }
+
+
+
         /// <summary>
         /// Gets or sets the today's total orders.
         /// </summary>
         /// <value>The today's total orders.</value>
-        public int TodaysTotalOrders { get; set; }
+        public decimal TodaysOrderCount
+        {
+            get { return today == null ? 0 : today.Count; }
+        }
+
+        public decimal TodayAverage 
+        {
+            get { return today == null ? 0 : today.Average; } 
+        }
+
+        public decimal TodayMax
+        {
+            get { return today == null ? 0 : today.Max; }
+        }
+
+        public decimal TodayMin
+        {
+            get { return today == null ? 0 : today.Min; }
+        }
+
+        /// <summary>
+        /// Gets the average over the range of the data.
+        /// </summary>
+        /// <value>The range average.</value>
+        public decimal RangeAverage
+        {
+            get { return this.OrderData.Average(e => e.Total); }
+        }
+
+        public decimal RangeCount
+        {
+            get { return this.OrderData.Sum(e => e.Count); }
+        }
 
         /// <summary>
         /// Gets or sets the today's online orders.
         /// </summary>
         /// <value>The today's online orders.</value>
-        public int TodaysOnlineOrders { get; set; }
+        //public int TodaysOnlineOrders { get; set; }
 
+
+    }
+
+    public class SalesSummmary 
+    {
+        private readonly SummaryByDay<decimal> today;
+
+        public SalesSummmary(IEnumerable<SummaryByDay<decimal>> data)
+        {
+            this.Data = data;
+            this.today = data.FirstOrDefault();
+        }
+
+        public IEnumerable<SummaryByDay<decimal>> Data { get; private set; }
+
+        public decimal Total
+        {
+            get
+            {
+                return today == null ? 0 : today.Total;
+            }
+        }
+
+        public decimal Largest 
+        {
+            get { return today == null ? 0 : today.Max; } 
+        }
+
+        public decimal TotalAverage
+        {
+            get
+            {
+                return Data.Average(e => e.Total);
+            }
+        }
+
+        
     }
 
     public class SummaryByDay : SummaryByDay<float> { }
@@ -27,6 +118,7 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         public DateTime Day { get; set; }
 
         public T Total { get; set; }
+        public T Count { get; set; }
         public T Average { get; set; }
         public T Min { get; set; }
         public T Max { get; set; }
