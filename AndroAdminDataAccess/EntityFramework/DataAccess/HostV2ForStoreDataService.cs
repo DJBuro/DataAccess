@@ -81,7 +81,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 var serversQuery = hostListEntities.Where(e => idCollection.Contains(e.Id)).ToArray();
                 var updateRemovedHosts = hostListEntities.Where(e => previousConnectedIds.Any(previousHost => previousHost.Id == e.Id)).ToArray();
-                    //previousConnectedIds.Where(e => serversQuery.Any(server => server.Id == e.Id)).ToArray();
 
                 var dataVersion = dbContext.GetNextDataVersionForEntity();
                 
@@ -112,13 +111,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 //var hostListTable = dbContext.HostV2.ToArray();
                 
                 var store = storeTable.SingleOrDefault(e => e.Id == storeId);
-                var storeHubs = store.HostV2.ToArray();
+                var oldStoreHubs = store.HostV2.ToArray();
 
                 if (store.HostV2 == null) { store.HostV2 = new List<HostV2>(); }
                 store.HostV2.Clear();
 
                 var nextDataVersion = dbContext.GetNextDataVersionForEntity();
-                foreach (var host in storeHubs) 
+                foreach (var host in oldStoreHubs) 
                 {
                     host.DataVersion = nextDataVersion;
                 }

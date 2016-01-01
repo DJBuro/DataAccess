@@ -140,6 +140,30 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return acsApplication;
         }
 
+        public IList<Domain.ACSApplication> GetByStoreId(int storeId)
+        {
+            IList<Domain.ACSApplication> results = new List<Domain.ACSApplication>();
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = entitiesContext.ACSApplications.Where(e => e.ACSApplicationSites.Any(siteLink => siteLink.SiteId == storeId));
+                var result = query.ToArray();
+
+                results = result.Select(entity => new Domain.ACSApplication()
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    ExternalApplicationId = entity.ExternalApplicationId,
+                    ExternalApplicationName = entity.ExternalDisplayName,
+                    DataVersion = entity.DataVersion,
+                    PartnerId = entity.PartnerId
+                }).ToList();
+            }
+
+            return results;
+        }
+
         public void Add(Domain.ACSApplication acsApplication)
         {
             // We will use transactionscope to implicitly enrole both EF and direct SQL in the same transaction

@@ -79,6 +79,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             this.GetAllPublicV2HostsByExternalApplicationId(externalApplicationId, out applicationHostList);
 
+            //have and exit 
             if (applicationHostList.Count > 0) { return string.Empty; }
 
             this.GetAllGenericPublicV2Hosts(out applicationHostList);
@@ -89,7 +90,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         public string GetAllPublicV2HostsByExternalApplicationId(string externalApplicationId, out List<AndroCloudDataAccess.Domain.HostV2> applicationHostList)
         {
             var results = this
-                .QueryHostsV2(e => e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId))
+                .QueryPublicHostsV2
+                (
+                    e => e.ACSApplications.Any(application => application.ExternalApplicationId == externalApplicationId)
+                )
                 .Select(e => e.ToPublicDomainModel())
                 .ToList();
 
@@ -142,7 +146,29 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return results;
         }
-        
+
+        private IEnumerable<HostsV2> QueryPublicHostsV2(Expression<Func<HostsV2, bool>> query) 
+        {
+            var results = Enumerable.Empty<HostsV2>();
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var acsTable = acsEntities.HostsV2
+                    .Include(e => e.HostType);
+
+                var acsQuery = acsTable
+                    .Where(e=> e.Public)
+                    .Where(query)
+                    .ToArray();
+
+                results = acsQuery;
+            }
+
+            return results;
+        }
+
         private IEnumerable<HostsV2> QueryHostsV2(Expression<Func<HostsV2, bool>> query) 
         {
             var results = Enumerable.Empty<HostsV2>();
@@ -166,7 +192,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string GetAllGenericPublicV2Hosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
         {
-            var results = this.QueryHostsV2(e => e.Public && !e.OptInOnly).Select(e => e.ToPublicDomainModel());
+            var results = this.QueryPublicHostsV2(e => !e.OptInOnly).Select(e => e.ToPublicDomainModel());
 
             hosts = results.ToList();
 
