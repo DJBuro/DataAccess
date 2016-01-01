@@ -20,7 +20,7 @@ namespace AndroCloudDataAccess.Domain
         public string LicenceKey { get; set; }
 
         [JsonProperty(PropertyName = "siteId")]
-        [XmlElement("SiteId", DataType = "string")]
+        [XmlElement("SiteId")]
         public string ExternalId { get; set; }
 
         [JsonProperty(PropertyName = "name")]
