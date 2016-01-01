@@ -7,13 +7,13 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public double DeliveryCharge { get; set; }
 
         public bool ApplyDeliveryCharges { get; set; }
-
         
         public bool IsList { get; set; }
 
         public bool IsEnterPostCode { get; set; }
 
         public bool EnableStoreLocatorPage { get; set; }
+
         public bool EnableHomePage { get; set; }
 
         //these are in CustomerAccountSettings object 
