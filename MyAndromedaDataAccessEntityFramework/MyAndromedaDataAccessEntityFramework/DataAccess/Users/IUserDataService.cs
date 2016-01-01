@@ -35,7 +35,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="userName">Name of the user.</param>
         /// <returns></returns>
         MyAndromedaUser GetByUserName(string userName);
-
+        /// <summary>
+        /// Get user by Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        UserRecord GetByUserId(int userId);
         /// <summary>
         /// Queries for users.
         /// </summary>
@@ -92,6 +97,25 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     return null;
 
                 model = result.ToDomain();
+            }
+
+            return model;
+        }
+
+        public UserRecord GetByUserId(int userId)
+        {
+            UserRecord model = null;
+            using (var dbContext = NewContext())
+            {
+                var result = dbContext.UserRecords
+                    //.Include(e=> e.UserIpLocking)
+                    .Where(e => e.Id.Equals(userId))
+                    .SingleOrDefault();
+
+                if (result == null)
+                    return null;
+
+                model = result;
             }
 
             return model;
