@@ -269,6 +269,7 @@
     <Compile Include="EntityFramework\Country.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\DataAccess\LoyaltyDataService.cs" />
     <Compile Include="EntityFramework\Day.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
