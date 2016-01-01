@@ -96,8 +96,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             string externalSiteID, 
             int ramesesOrderStatusId, 
             string driverName,
-            int driverId,
-            int ticketNumber)
+            int? driverId,
+            int? ticketNumber)
         {
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {

@@ -18,8 +18,8 @@ namespace DataWarehouseDataAccess.DataAccess
             string externalSiteID, 
             int ramesesOrderStatusId, 
             string driverName,
-            int driverId,
-            int ticketNumber);
+            int? driverId,
+            int? ticketNumber);
         string GetByExternalIdApplicationId(string externalOrderId, int applicationId, out DataWarehouseDataAccess.Domain.Order order);
     }
 }
