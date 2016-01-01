@@ -18,6 +18,7 @@ namespace AndroAdminDataAccess.EntityFramework
         {
             this.ACSApplications = new HashSet<ACSApplication>();
             this.Stores = new HashSet<Store>();
+            this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
         }
     
         public System.Guid Id { get; set; }
@@ -35,5 +36,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual HostType HostType { get; set; }
         public virtual ICollection<ACSApplication> ACSApplications { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
     }
 }

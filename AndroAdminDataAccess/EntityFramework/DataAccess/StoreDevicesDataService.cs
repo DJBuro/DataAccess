@@ -110,8 +110,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 if (model.Device == null)
                 {
                     model.Device = devicesTable.SingleOrDefault(e => model.DeviceId == e.Id);
-                    
                 }
+
                 if(model.Store == null){
                     model.Store = dbContext.Stores.FirstOrDefault(e => e.Id == model.StoreId);
                 }

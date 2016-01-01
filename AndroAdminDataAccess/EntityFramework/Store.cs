@@ -25,6 +25,8 @@ namespace AndroAdminDataAccess.EntityFramework
             this.HubAddresses = new HashSet<HubAddress>();
             this.StoreMenuThumbnails = new HashSet<StoreMenuThumbnail>();
             this.StoreDevices = new HashSet<StoreDevice>();
+            this.DeliveryAreas = new HashSet<DeliveryArea>();
+            this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
         }
     
         public int Id { get; set; }
@@ -43,7 +45,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public Nullable<int> AddressId { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
-        public Nullable<int> ChainId { get; set; }
+        public int ChainId { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
@@ -58,5 +60,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<HubAddress> HubAddresses { get; set; }
         public virtual ICollection<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public virtual ICollection<StoreDevice> StoreDevices { get; set; }
+        public virtual ICollection<DeliveryArea> DeliveryAreas { get; set; }
+        public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
     }
 }
