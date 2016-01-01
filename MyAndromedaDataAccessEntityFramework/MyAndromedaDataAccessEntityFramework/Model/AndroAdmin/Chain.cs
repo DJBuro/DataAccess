@@ -21,17 +21,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.ParentChains = new HashSet<ChainChain>();
             this.FTPSiteChains = new HashSet<FTPSiteChain>();
             this.Stores = new HashSet<Store>();
+            this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Culture { get; set; }
+        public Nullable<int> MasterMenuId { get; set; }
     
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
         public virtual ICollection<ChainChain> ChildChains { get; set; }
         public virtual ICollection<ChainChain> ParentChains { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

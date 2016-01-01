@@ -27,6 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.DeliveryAreas = new HashSet<DeliveryArea>();
             this.HostV2 = new HashSet<HostV2>();
             this.HubAddresses = new HashSet<HubAddress>();
+            this.Chains = new HashSet<Chain>();
         }
     
         public int Id { get; set; }
@@ -62,5 +63,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual ICollection<DeliveryArea> DeliveryAreas { get; set; }
         public virtual ICollection<HostV2> HostV2 { get; set; }
         public virtual ICollection<HubAddress> HubAddresses { get; set; }
+        public virtual ICollection<Chain> Chains { get; set; }
     }
 }

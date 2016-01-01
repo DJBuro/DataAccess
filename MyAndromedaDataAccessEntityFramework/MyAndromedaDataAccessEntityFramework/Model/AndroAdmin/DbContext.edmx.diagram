@@ -55,6 +55,10 @@
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="8.0850503072538658" PointY="3.5438540147356008" />
         <EntityTypeShape EntityType="AndroAdminModel.Site_AMS_upload" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="AndroAdminModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingSubscriptionType" Width="1.5" PointX="12" PointY="8.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingWebsite" Width="1.5" PointX="14.25" PointY="10.375" />
+        <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
+        <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" />
         </Diagram>
       <Diagram DiagramId="c938ca2b9f614ef687c67228383e368e" Name="Menu" >
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="7.125" PointY="2.375" />
@@ -69,6 +73,7 @@
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Chain" />
+        <AssociationConnector Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74" />
         </Diagram>
       <Diagram DiagramId="44e6c1aed5904ede8b55355247a521d5" Name="Devices" ZoomLevel="72" >
         <EntityTypeShape EntityType="AndroAdminModel.Device" Width="1.5" PointX="0.75" PointY="1" />
