@@ -357,6 +357,8 @@
           <Property Name="Public" Type="bit" Nullable="false" />
           <Property Name="OptInOnly" Type="bit" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="LastUpdateUtc" Type="datetime" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HubAddresses">
           <Key>
@@ -1522,6 +1524,8 @@
           <NavigationProperty Name="HostType" Relationship="AndroAdminModel.FK_HostV2_HostTypes" FromRole="HostV2" ToRole="HostType" />
           <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="HostV2" ToRole="ACSApplication" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHostsV2" FromRole="HostV2" ToRole="Store" />
+          <Property Type="DateTime" Name="LastUpdateUtc" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
         </EntityType>
         <Association Name="FK_HostV2_HostTypes">
           <End Type="AndroAdminModel.HostType" Role="HostType" Multiplicity="1">
@@ -2034,6 +2038,8 @@
           <EntitySetMapping Name="HostV2">
             <EntityTypeMapping TypeName="AndroAdminModel.HostV2">
               <MappingFragment StoreEntitySet="HostV2">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="LastUpdateUtc" ColumnName="LastUpdateUtc" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="OptInOnly" ColumnName="OptInOnly" />
                 <ScalarProperty Name="Public" ColumnName="Public" />

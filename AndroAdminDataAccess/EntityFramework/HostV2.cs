@@ -28,6 +28,8 @@ namespace AndroAdminDataAccess.EntityFramework
         public bool Public { get; set; }
         public bool OptInOnly { get; set; }
         public bool Enabled { get; set; }
+        public System.DateTime LastUpdateUtc { get; set; }
+        public int DataVersion { get; set; }
     
         public virtual HostType HostType { get; set; }
         public virtual ICollection<ACSApplication> ACSApplications { get; set; }
