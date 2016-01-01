@@ -511,16 +511,16 @@
       <Project>{d9959d2f-2016-4355-bc22-061ea8a5e267}</Project>
       <Name>AndroCloudHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Core\MyAndromeda.Core.csproj">
-      <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-1.x\MyAndromeda.Core\MyAndromeda.Core.csproj">
+      <Project>{f1c66ee6-d9cc-4437-9d47-cbd32b6132ce}</Project>
       <Name>MyAndromeda.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Logging\MyAndromeda.Logging.csproj">
-      <Project>{865B78BD-51B5-4B1D-9BC7-CFB814EBE1EE}</Project>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-1.x\MyAndromeda.Logging\MyAndromeda.Logging.csproj">
+      <Project>{865b78bd-51b5-4b1d-9bc7-cfb814ebe1ee}</Project>
       <Name>MyAndromeda.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-dev-1.x\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
-      <Project>{2F4679FC-4B16-4B28-BA25-2223C597DF32}</Project>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda-1.x\MyAndromeda.Storage\MyAndromeda.Storage.csproj">
+      <Project>{2f4679fc-4b16-4b28-ba25-2223c597df32}</Project>
       <Name>MyAndromeda.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MyAndromedaDataAccess\MyAndromedaDataAccess.csproj">
