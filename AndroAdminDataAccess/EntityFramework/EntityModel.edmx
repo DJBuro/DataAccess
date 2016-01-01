@@ -11,8 +11,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExternalApplicationId" Type="nvarchar" MaxLength="40" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PartnerId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
@@ -459,12 +459,12 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ClientId" Type="nvarchar" MaxLength="150" />
           <Property Name="ClientPassword" Type="nvarchar" MaxLength="150" />
           <Property Name="DisplayText" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreStatus">
           <Key>
