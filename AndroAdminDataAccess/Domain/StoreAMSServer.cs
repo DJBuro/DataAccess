@@ -11,5 +11,6 @@ namespace AndroAdminDataAccess.Domain
         public virtual Store Store { get; set; }
         public virtual AMSServer AMSServer { get; set; }
         public virtual int Priority { get; set; }
+        public virtual IList<FTPSite> FTPSites { get; set; }
     }
 }

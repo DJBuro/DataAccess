@@ -9,36 +9,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreAMSServerDAO : IStoreAMSServerDAO
     {
-        public IEnumerable<Domain.StoreAMSServer> GetAll()
-        {
-            //List<Domain.StoreAMSServer> StoreAMSServers = new List<Domain.StoreAMSServer>();
-
-            //AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            //var query = from s in androAdminEntities.FTPSites.Include("FTPSiteType")
-            //            select s;
-
-            //foreach (var entity in query)
-            //{
-            //    Domain.FTPSite model = new Domain.FTPSite()
-            //    {
-            //        Id = entity.Id,
-            //        Name = entity.Name,
-            //        Url = entity.Url,
-            //        Port = entity.Port,
-            //        Username = entity.Username,
-            //        Password = entity.Password,
-            //        FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
-            //    };
-
-            //    StoreAMSServers.Add(model);
-            //}
-
-            //return StoreAMSServers;
-
-            throw new NotImplementedException();
-        }
-
         public void Add(Domain.StoreAMSServer storeAMSServer)
         {
             AndroAdminEntities androAdminEntities = new AndroAdminEntities();
@@ -83,8 +53,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void DeleteByAMSServerId(int amsServerId)
         {
-            List<Domain.StoreAMSServerFtpSite> models = new List<Domain.StoreAMSServerFtpSite>();
-
             AndroAdminEntities androAdminEntities = new AndroAdminEntities();
 
             var query = from s in androAdminEntities.StoreAMSServers
@@ -116,6 +84,62 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 androAdminEntities.StoreAMSServers.DeleteObject(entity);
                 androAdminEntities.SaveChanges();
             }
+        }
+
+
+        public IList<Domain.StoreAMSServer> GetByAMServerName(string amsServerName)
+        {
+            List<Domain.StoreAMSServer> model = new List<Domain.StoreAMSServer>();
+
+            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+
+            var query = from s in androAdminEntities.StoreAMSServers
+                        .Include("Store")
+                        .Include("StoreAMSServerFtpSites")
+                        .Include("StoreAMSServerFtpSites.FTPSite.FTPSiteType")
+                        .Include("AMSServer")
+                        where s.AMSServer.Name == amsServerName
+                        select s;
+
+            foreach (var entity in query)
+            {            
+                List<Domain.FTPSite> ftpSites = new List<Domain.FTPSite>(); 
+                foreach (var subEntity in entity.StoreAMSServerFtpSites)
+                {
+                    Domain.FTPSite ftpSite = new Domain.FTPSite()
+                    {
+                        FTPSiteType = new Domain.FTPSiteType() { Id = subEntity.FTPSite.FTPSiteType.Id, Name = subEntity.FTPSite.FTPSiteType.Name },
+                        Name = subEntity.FTPSite.Name,
+                        Password = subEntity.FTPSite.Password,
+                        Port = subEntity.FTPSite.Port,
+                        Url = subEntity.FTPSite.Url,
+                        Username = subEntity.FTPSite.Username
+                    };
+                    
+                    ftpSites.Add(ftpSite);
+                }
+
+                Domain.Store store = new Domain.Store()
+                {
+                    AndromedaSiteId = entity.Store.AndromedaSiteId,
+                    CustomerSiteId = entity.Store.CustomerSiteId,
+                    LastFTPUploadDateTime = entity.Store.LastFTPUploadDateTime,
+                    Name = entity.Store.Name
+                };
+
+                Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()
+                {
+                    Id = entity.Id,
+                    Priority = entity.Priority,
+                    FTPSites = ftpSites,
+                    AMSServer = new Domain.AMSServer() { Name = entity.AMSServer. Name },
+                    Store = store
+                };
+                
+                model.Add(storeAMSServer);
+            }
+
+            return model;
         }
     }
 }

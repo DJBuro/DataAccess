@@ -67,5 +67,17 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
         {
             throw new NotImplementedException();
         }
+
+
+        public IList<StoreAMSServer> GetByAMServerName(int amsServerId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IList<StoreAMSServer> GetByAMServerName(string amsServerName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

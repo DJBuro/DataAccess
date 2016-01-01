@@ -4,31 +4,32 @@ using System.Linq;
 using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
+using System.Transactions;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class AMSServerDAO : IAMSServerDAO
     {
-
         public IList<Domain.AMSServer> GetAll()
         {
             List<Domain.AMSServer> amsServers = new List<Domain.AMSServer>();
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.AMSServers
-                        select s;
-
-            foreach (var entity in query)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Domain.AMSServer model = new Domain.AMSServer()
-                {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description
-                };
+                var query = from s in entitiesContext.AMSServers
+                            select s;
 
-                amsServers.Add(model);
+                foreach (var entity in query)
+                {
+                    Domain.AMSServer model = new Domain.AMSServer()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Description = entity.Description
+                    };
+
+                    amsServers.Add(model);
+                }
             }
 
             return amsServers;
@@ -36,34 +37,36 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.AMSServer amsServer)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            AMSServer entity = new AMSServer()
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Name = amsServer.Name,
-                Description = amsServer.Description
-            };
+                AMSServer entity = new AMSServer()
+                {
+                    Name = amsServer.Name,
+                    Description = amsServer.Description
+                };
 
-            androAdminEntities.AddToAMSServers(entity);
-            androAdminEntities.SaveChanges();
+                entitiesContext.AddToAMSServers(entity);
+                entitiesContext.SaveChanges();
+            }
         }
 
         public void Update(Domain.AMSServer amsServer)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.AMSServers
-                        where amsServer.Id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entity.Name = amsServer.Name;
-                entity.Description = amsServer.Description;
+                var query = from s in entitiesContext.AMSServers
+                            where amsServer.Id == s.Id
+                            select s;
 
-                androAdminEntities.SaveChanges();
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Name = amsServer.Name;
+                    entity.Description = amsServer.Description;
+
+                    entitiesContext.SaveChanges();
+                }
             }
         }
 
@@ -71,22 +74,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.AMSServer model = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.AMSServers
-                        where id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                model = new Domain.AMSServer()
+                var query = from s in entitiesContext.AMSServers
+                            where id == s.Id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description
-                };
+                    model = new Domain.AMSServer()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Description = entity.Description
+                    };
+                }
             }
 
             return model;
@@ -96,22 +100,23 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.AMSServer model = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.AMSServers
-                        where name == s.Name
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                model = new Domain.AMSServer()
+                var query = from s in entitiesContext.AMSServers
+                            where name == s.Name
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description
-                };
+                    model = new Domain.AMSServer()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Description = entity.Description
+                    };
+                }
             }
 
             return model;
@@ -120,19 +125,41 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Delete(int amsServerId)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.AMSServers
-                        where amsServerId == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                androAdminEntities.AMSServers.DeleteObject(entity);
+                // Delete the StoreAMSServerFTPSite objects that reference the AMS server
+                var storeAMSServerFTPSiteQuery = from s in entitiesContext.StoreAMSServerFtpSites
+                                                 where s.StoreAMSServer.AMSServerId == amsServerId
+                                                 select s;
 
-                androAdminEntities.SaveChanges();
+                foreach (var entity in storeAMSServerFTPSiteQuery)
+                {
+                    entitiesContext.StoreAMSServerFtpSites.DeleteObject(entity);
+                }
+
+                // Delete the StoreAMSServer objects that reference the AMS server
+                var storeAMSServerQuery = from s in entitiesContext.StoreAMSServers
+                                          where s.AMSServerId == amsServerId
+                                          select s;
+
+                foreach (var entity in storeAMSServerQuery)
+                {
+                    entitiesContext.StoreAMSServers.DeleteObject(entity);
+                }
+
+                // Delete the AMS Server
+                var amsServerQuery = from s in entitiesContext.AMSServers
+                                     where amsServerId == s.Id
+                                     select s;
+
+                AMSServer amsServerEntity = amsServerQuery.FirstOrDefault();
+
+                if (amsServerEntity != null)
+                {
+                    entitiesContext.AMSServers.DeleteObject(amsServerEntity);
+
+                    entitiesContext.SaveChanges();
+                }
             }
         }
     }

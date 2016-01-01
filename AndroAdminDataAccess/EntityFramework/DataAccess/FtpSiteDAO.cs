@@ -13,25 +13,26 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.FTPSite> ftpSites = new List<Domain.FTPSite>();
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSites.Include("FTPSiteType")
-                        select s;
-
-            foreach (var entity in query)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Domain.FTPSite model = new Domain.FTPSite()
-                {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Url = entity.Url,
-                    Port = entity.Port,
-                    Username = entity.Username,
-                    Password = entity.Password,
-                    FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
-                };
+                var query = from s in entitiesContext.FTPSites.Include("FTPSiteType")
+                            select s;
 
-                ftpSites.Add(model);
+                foreach (var entity in query)
+                {
+                    Domain.FTPSite model = new Domain.FTPSite()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Url = entity.Url,
+                        Port = entity.Port,
+                        Username = entity.Username,
+                        Password = entity.Password,
+                        FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
+                    };
+
+                    ftpSites.Add(model);
+                }
             }
 
             return ftpSites;
@@ -39,42 +40,44 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.FTPSite ftpSite)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            FTPSite entity = new FTPSite()
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Name = ftpSite.Name,
-                Url = ftpSite.Url,
-                Port = ftpSite.Port,
-                Username = ftpSite.Username,
-                Password = ftpSite.Password,
-                FTPSiteType_Id = ftpSite.FTPSiteType.Id
-            };
+                FTPSite entity = new FTPSite()
+                {
+                    Name = ftpSite.Name,
+                    Url = ftpSite.Url,
+                    Port = ftpSite.Port,
+                    Username = ftpSite.Username,
+                    Password = ftpSite.Password,
+                    FTPSiteType_Id = ftpSite.FTPSiteType.Id
+                };
 
-            androAdminEntities.AddToFTPSites(entity);
-            androAdminEntities.SaveChanges();
+                entitiesContext.AddToFTPSites(entity);
+                entitiesContext.SaveChanges();
+            }
         }
 
         public void Update(Domain.FTPSite ftpSite)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSites
-                        where ftpSite.Id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entity.Name = ftpSite.Name;
-                entity.Url = ftpSite.Url;
-                entity.Port = ftpSite.Port;
-                entity.Username = ftpSite.Username;
-                entity.Password = ftpSite.Password;
-                entity.FTPSiteType_Id = ftpSite.FTPSiteType.Id;
+                var query = from s in entitiesContext.FTPSites
+                            where ftpSite.Id == s.Id
+                            select s;
 
-                androAdminEntities.SaveChanges();
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Name = ftpSite.Name;
+                    entity.Url = ftpSite.Url;
+                    entity.Port = ftpSite.Port;
+                    entity.Username = ftpSite.Username;
+                    entity.Password = ftpSite.Password;
+                    entity.FTPSiteType_Id = ftpSite.FTPSiteType.Id;
+
+                    entitiesContext.SaveChanges();
+                }
             }
         }
 
@@ -82,26 +85,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.FTPSite model = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSites
-                        where id == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                model = new Domain.FTPSite()
+                var query = from s in entitiesContext.FTPSites
+                            where id == s.Id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Url = entity.Url,
-                    Port = entity.Port,
-                    Username = entity.Username,
-                    Password = entity.Password,
-                    FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
-                };
+                    model = new Domain.FTPSite()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Url = entity.Url,
+                        Port = entity.Port,
+                        Username = entity.Username,
+                        Password = entity.Password,
+                        FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
+                    };
+                }
             }
 
             return model;
@@ -111,26 +115,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.FTPSite model = null;
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSites
-                        where name == s.Name
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                model = new Domain.FTPSite()
+                var query = from s in entitiesContext.FTPSites
+                            where name == s.Name
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Url = entity.Url,
-                    Port = entity.Port,
-                    Username = entity.Username,
-                    Password = entity.Password,
-                    FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
-                };
+                    model = new Domain.FTPSite()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Url = entity.Url,
+                        Port = entity.Port,
+                        Username = entity.Username,
+                        Password = entity.Password,
+                        FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSiteType.Id, Name = entity.FTPSiteType.Name }
+                    };
+                }
             }
 
             return model;
@@ -139,19 +144,20 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Delete(int ftpSiteId)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSites
-                        where ftpSiteId == s.Id
-                        select s;
-
-            var entity = query.FirstOrDefault();
-
-            if (entity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                androAdminEntities.FTPSites.DeleteObject(entity);
+                var query = from s in entitiesContext.FTPSites
+                            where ftpSiteId == s.Id
+                            select s;
 
-                androAdminEntities.SaveChanges();
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entitiesContext.FTPSites.DeleteObject(entity);
+
+                    entitiesContext.SaveChanges();
+                }
             }
         }
     }
