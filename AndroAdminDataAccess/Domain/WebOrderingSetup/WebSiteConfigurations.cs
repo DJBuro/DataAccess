@@ -40,6 +40,9 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             this.CustomThemeSettings = new CustomThemeSettings();
             this.CustomThemeSettings.DefaultCustomThemeSettings();
 
+            this.CustomEmailTemplate = new CustomEmailTemplate();
+            this.CustomEmailTemplate.DefaultCustomThemeSettings();
+
         }
 
         public int WebSiteId { get; set; }
@@ -91,6 +94,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public Analytics AnalyticsSettings { set; get; }
 
         public CustomThemeSettings CustomThemeSettings { set; get; }
+
+        public CustomEmailTemplate CustomEmailTemplate { set; get; }
 
         public static string SerializeJson(Object obj)
         {
