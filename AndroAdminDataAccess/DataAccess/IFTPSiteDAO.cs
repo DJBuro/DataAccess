@@ -9,8 +9,8 @@ namespace AndroAdminDataAccess.DataAccess
     public interface IFTPSiteDAO
     {
         IList<FTPSite> GetAll();
-        void Add(FTPSite amsServer);
-        void Update(FTPSite amsServer);
+        void Add(FTPSite ftpSite);
+        void Update(FTPSite ftpSite);
         FTPSite GetById(int id);
         FTPSite GetByName(string name);
     }

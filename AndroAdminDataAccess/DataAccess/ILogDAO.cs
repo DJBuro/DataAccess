@@ -9,6 +9,6 @@ namespace AndroAdminDataAccess.DataAccess
     public interface ILogDAO
     {
         IEnumerable<Log> GetAll();
-        void Add(Log amsServer);
+        void Add(Log log);
     }
 }
