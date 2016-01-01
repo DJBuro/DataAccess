@@ -15,9 +15,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             value = null;
 
-            using (AndroAdminEntities androAdminEntities = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities androAdminEntities = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                var query = from p in androAdminEntities.Settings
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from p in entitiesContext.Settings
                             where p.Name == name
                             select p;
 

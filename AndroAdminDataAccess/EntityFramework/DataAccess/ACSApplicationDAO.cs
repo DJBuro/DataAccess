@@ -20,8 +20,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+ //           using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.ACSApplications
                             where partnerId == s.PartnerId
                             select s;
@@ -48,8 +51,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.ACSApplications
                             where acsApplicationId == s.Id
                             select s;
@@ -76,8 +82,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication acsApplication = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.ACSApplications
                             where name == s.Name
                             select s;
@@ -104,8 +113,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication acsApplication = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.ACSApplications
                             where externalId == s.ExternalApplicationId
                             select s;
@@ -130,10 +142,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.ACSApplication acsApplication)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -146,7 +162,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         DataVersion = newVersion,
                         PartnerId = acsApplication.PartnerId
                     };
-                    entitiesContext.AddToACSApplications(entity);
+                    entitiesContext.ACSApplications.Add(entity);
                     entitiesContext.SaveChanges();
 
                     // Update the partner version to signify that the partner has changed (a child of the partner has changed)
@@ -171,10 +187,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(Domain.ACSApplication acsApplication)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -216,10 +236,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void AddStore(int storeId, int acsApplicationId)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -243,7 +267,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         acsApplicationSite.ACSApplicationId = acsApplicationId;
                         acsApplicationSite.DataVersion = newVersion;
 
-                        entitiesContext.AddToACSApplicationSites(acsApplicationSite);
+                        entitiesContext.ACSApplicationSites.Add(acsApplicationSite);
                         entitiesContext.SaveChanges();
 
                         // Update the application version to signify that the application has changed (a child of the application has changed)
@@ -291,10 +315,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void RemoveStore(int storeId, int acsApplicationId)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -310,7 +338,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     if (entity != null)
                     {
                         // Delete the application store (not really, just mark it as deleted)
-                        entitiesContext.DeleteObject(entity);
+                        entitiesContext.ACSApplicationSites.Remove(entity);
                         entitiesContext.SaveChanges();
 
                         // Update the application version to signify that the application has changed (a child of the application has changed)
@@ -354,8 +382,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.ACSApplications
                             where partnerId == s.PartnerId
                             && s.DataVersion > dataVersion

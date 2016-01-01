@@ -17,8 +17,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
                             orderby s.Name
@@ -100,15 +103,20 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Store store)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 if (store.Address.Country == null)
                 {
                     throw new ArgumentNullException("Address country cannot be null");
                 }
 
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -146,7 +154,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         DataVersion = newVersion
                     };
 
-                    entitiesContext.AddToAddresses(addressEntity);
+                    entitiesContext.Addresses.Add(addressEntity);
                     entitiesContext.SaveChanges();
 
                     // Add the store
@@ -166,7 +174,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         TimeZone = store.TimeZone
                     };
 
-                    entitiesContext.AddToStores(storeEntity);
+                    entitiesContext.Stores.Add(storeEntity);
                     entitiesContext.SaveChanges();
 
                     // Fin...
@@ -177,10 +185,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(Domain.Store store)
         {
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                entitiesContext.Connection.Open();
-                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                //entitiesContext.Connection.Open();
+                entitiesContext.Database.Connection.Open();
+
+                using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
                 {
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
@@ -253,7 +266,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             DataVersion = newVersion
                         };
 
-                        entitiesContext.Addresses.AddObject(addressEntity);
+                        entitiesContext.Addresses.Remove(addressEntity);
                     }
                     else
                     {
@@ -293,8 +306,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+   //         using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             where id == s.Id
                             select s;
@@ -377,8 +393,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             where id == s.AndromedaSiteId
                             select s;
@@ -461,8 +480,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Store model = null;
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             where name == s.Name
                             select s;
@@ -545,8 +567,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             IList<Domain.Store> stores = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
                             join a in entitiesContext.ACSApplicationSites
@@ -633,8 +658,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
                             where s.DataVersion > dataVersion
@@ -718,8 +746,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
                             join a in entitiesContext.ACSApplicationSites
