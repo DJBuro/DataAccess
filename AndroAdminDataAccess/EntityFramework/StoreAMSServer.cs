@@ -25,7 +25,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public int AMSServerId { get; set; }
     
         public virtual AMSServer AMSServer { get; set; }
-        public virtual ICollection<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
         public virtual Store Store { get; set; }
+        public virtual ICollection<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
     }
 }
