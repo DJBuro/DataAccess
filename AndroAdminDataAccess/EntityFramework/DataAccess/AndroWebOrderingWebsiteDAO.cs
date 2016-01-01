@@ -159,6 +159,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     if (acsApplication == null)
                     {
+                        webOrderingSite.ACSApplication.PartnerId = partner.Id;
                         acsDAO.Add(webOrderingSite.ACSApplication);
                         acsApplication = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
                     }
