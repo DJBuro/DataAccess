@@ -37,6 +37,7 @@ namespace DataWarehouseDataAccess.Domain
         public int IsSuccess { get { return ACSErrorCodeNumber == 0 ? 1 : 0; } }
         public string DestinationDevice { get; set; }
         public Nullable<System.Guid> CustomerAddressID { get; set; }
+        public string ACSServer { get; set; }
 
         public string Payload { get; set; }
 

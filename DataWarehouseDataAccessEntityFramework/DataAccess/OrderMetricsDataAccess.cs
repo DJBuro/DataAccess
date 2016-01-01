@@ -171,8 +171,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                 DestinationDevice = oh.DestinationDevice,
                 CustomerAddressID = oh.CustomerAddressID,
-                //Payload = aud.ExtraInfo,
-                //ACSServer = aud.ACSServer
+                ACSServer = oh.ACSServer
             };
             if (oh.ACSErrorCode1 != null)
             {
