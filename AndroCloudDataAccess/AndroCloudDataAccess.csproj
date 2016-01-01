@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\IDeliveryZoneDataAccess.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDataAccess.cs" />
     <Compile Include="DataAccess\IPartnersDataAccess.cs" />
     <Compile Include="DataAccess\ISettingsDataAccess.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\HostV2.cs" />
+    <Compile Include="Domain\PrivateHostV2.cs" />
     <Compile Include="Domain\PrivateHost.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\Host.cs" />

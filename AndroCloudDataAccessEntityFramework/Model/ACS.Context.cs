@@ -43,5 +43,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<Site> Sites { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Audit> Audits { get; set; }
+        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
+        public DbSet<HostsV2> HostsV2 { get; set; }
+        public DbSet<HostType> HostTypes { get; set; }
     }
 }

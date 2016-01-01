@@ -14,7 +14,10 @@
           <EntitySet Name="Audit" EntityType="ACSModel.Store.Audit" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Country" EntityType="ACSModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DeliveryArea" EntityType="ACSModel.Store.DeliveryArea" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Hosts" EntityType="ACSModel.Store.Hosts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HostsV2" EntityType="ACSModel.Store.HostsV2" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HostTypes" EntityType="ACSModel.Store.HostTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
@@ -39,6 +42,14 @@
           <AssociationSet Name="FK_Addresses_Country" Association="ACSModel.Store.FK_Addresses_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Addresses" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="ACSModel.Store.FK_DeliveryArea_DeliveryArea">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="DeliveryArea" EntitySet="DeliveryArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HostsV2_HostTypes" Association="ACSModel.Store.FK_HostsV2_HostTypes">
+            <End Role="HostTypes" EntitySet="HostTypes" />
+            <End Role="HostsV2" EntitySet="HostsV2" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHours_Day" Association="ACSModel.Store.FK_OpeningHours_Day">
             <End Role="Day" EntitySet="Day" />
@@ -182,6 +193,14 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="DeliveryArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SiteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DeliveryArea" Type="nvarchar" Nullable="false" MaxLength="16" />
+        </EntityType>
         <EntityType Name="Hosts">
           <Key>
             <PropertyRef Name="ID" />
@@ -192,6 +211,24 @@
           <Property Name="Port" Type="int" Nullable="false" />
           <Property Name="PrivateHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="SignalRHostName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="HostsV2">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HostTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Public" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HostTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -334,6 +371,30 @@
             </Principal>
             <Dependent Role="Addresses">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryArea_DeliveryArea">
+          <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="1" />
+          <End Role="DeliveryArea" Type="ACSModel.Store.DeliveryArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DeliveryArea">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HostsV2_HostTypes">
+          <End Role="HostTypes" Type="ACSModel.Store.HostTypes" Multiplicity="1" />
+          <End Role="HostsV2" Type="ACSModel.Store.HostsV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HostTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HostsV2">
+              <PropertyRef Name="HostTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -520,6 +581,17 @@
             <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
           <EntitySet Name="Audits" EntityType="ACSModel.Audit" />
+          <EntitySet Name="DeliveryAreas" EntityType="ACSModel.DeliveryArea" />
+          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="ACSModel.FK_DeliveryArea_DeliveryArea">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="DeliveryArea" EntitySet="DeliveryAreas" />
+          </AssociationSet>
+          <EntitySet Name="HostsV2" EntityType="ACSModel.HostsV2" />
+          <EntitySet Name="HostTypes" EntityType="ACSModel.HostType" />
+          <AssociationSet Name="FK_HostsV2_HostTypes" Association="ACSModel.FK_HostsV2_HostTypes">
+            <End Role="HostType" EntitySet="HostTypes" />
+            <End Role="HostsV2" EntitySet="HostsV2" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -801,6 +873,7 @@
           <NavigationProperty Name="SiteStatus" Relationship="ACSModel.FK_Sites_SiteStatuses" FromRole="Site" ToRole="SiteStatus" />
           <Property Type="String" Name="HardwareKey" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
+          <NavigationProperty Name="DeliveryAreas" Relationship="ACSModel.FK_DeliveryArea_DeliveryArea" FromRole="Site" ToRole="DeliveryArea" />
         </EntityType>
         <Association Name="FK_ACSApplicationSite_Sites">
           <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
@@ -912,6 +985,59 @@
           <Property Type="Int32" Name="ErrorCode" />
           <Property Type="String" Name="ExtraInfo" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DeliveryArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="DeliveryArea1" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Site" Relationship="ACSModel.FK_DeliveryArea_DeliveryArea" FromRole="DeliveryArea" ToRole="Site" />
+        </EntityType>
+        <Association Name="FK_DeliveryArea_DeliveryArea">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
+          <End Type="ACSModel.DeliveryArea" Role="DeliveryArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DeliveryArea">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HostsV2">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="HostTypeId" Nullable="false" />
+          <Property Type="String" Name="Url" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Version" Nullable="false" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Boolean" Name="Public" Nullable="false" />
+          <NavigationProperty Name="HostType" Relationship="ACSModel.FK_HostsV2_HostTypes" FromRole="HostsV2" ToRole="HostType" />
+        </EntityType>
+        <EntityType Name="HostType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="HostsV2" Relationship="ACSModel.FK_HostsV2_HostTypes" FromRole="HostType" ToRole="HostsV2" />
+        </EntityType>
+        <Association Name="FK_HostsV2_HostTypes">
+          <End Type="ACSModel.HostType" Role="HostType" Multiplicity="1" />
+          <End Type="ACSModel.HostsV2" Role="HostsV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HostType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HostsV2">
+              <PropertyRef Name="HostTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1142,6 +1268,35 @@
                 <ScalarProperty Name="SrcID" ColumnName="SrcID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryAreas">
+            <EntityTypeMapping TypeName="ACSModel.DeliveryArea">
+              <MappingFragment StoreEntitySet="DeliveryArea">
+                <ScalarProperty Name="DeliveryArea1" ColumnName="DeliveryArea" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HostsV2">
+            <EntityTypeMapping TypeName="ACSModel.HostsV2">
+              <MappingFragment StoreEntitySet="HostsV2">
+                <ScalarProperty Name="Public" ColumnName="Public" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="HostTypeId" ColumnName="HostTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HostTypes">
+            <EntityTypeMapping TypeName="ACSModel.HostType">
+              <MappingFragment StoreEntitySet="HostTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
