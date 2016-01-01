@@ -62,5 +62,11 @@ namespace AndroAdminDataAccess.EntityFramework
             get { return new ACSApplicationDAO(); }
             set { throw new NotImplementedException(); }
         }
+
+        public IHostDAO HostDAO
+        {
+            get { return new HostDAO(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

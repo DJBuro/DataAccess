@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
+using System.Data.Common;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -18,6 +19,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 var query = from s in entitiesContext.Stores
                             .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            orderby s.Name
                             select s;
 
                 foreach (var entity in query)
@@ -43,17 +45,28 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Store entity = new Store()
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    Name = store.Name,
-                    AndromedaSiteId = store.AndromedaSiteId,
-                    CustomerSiteId = store.CustomerSiteId,
-                    LastFTPUploadDateTime = store.LastFTPUploadDateTime,
-                    StoreStatusId = store.StoreStatus.Id
-                };
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                entitiesContext.AddToStores(entity);
-                entitiesContext.SaveChanges();
+                    Store entity = new Store()
+                    {
+                        Name = store.Name,
+                        AndromedaSiteId = store.AndromedaSiteId,
+                        CustomerSiteId = store.CustomerSiteId,
+                        LastFTPUploadDateTime = store.LastFTPUploadDateTime,
+                        StoreStatusId = store.StoreStatus.Id,
+                        DataVersion = newVersion
+                    };
+
+                    entitiesContext.AddToStores(entity);
+                    entitiesContext.SaveChanges();
+
+                    // Fin...
+                    transaction.Commit();
+                }
             }
         }
 
@@ -61,21 +74,32 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                var query = from s in entitiesContext.Stores
-                            where store.Id == s.Id
-                            select s;
-
-                var entity = query.FirstOrDefault();
-
-                if (entity != null)
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    entity.Name = store.Name;
-                    entity.AndromedaSiteId = store.AndromedaSiteId;
-                    entity.CustomerSiteId = store.CustomerSiteId;
-                    entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
-                    entity.StoreStatusId = store.StoreStatus.Id;
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    entitiesContext.SaveChanges();
+                    var query = from s in entitiesContext.Stores
+                                where store.Id == s.Id
+                                select s;
+
+                    var entity = query.FirstOrDefault();
+
+                    if (entity != null)
+                    {
+                        entity.Name = store.Name;
+                        entity.AndromedaSiteId = store.AndromedaSiteId;
+                        entity.CustomerSiteId = store.CustomerSiteId;
+                        entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
+                        entity.StoreStatusId = store.StoreStatus.Id;
+                        entity.DataVersion = newVersion;
+
+                        entitiesContext.SaveChanges();
+
+                        // Fin...
+                        transaction.Commit();
+                    }
                 }
             }
         }
@@ -178,6 +202,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             join a in entitiesContext.ACSApplicationSites
                             on s.Id equals a.SiteId
                             where a.ACSApplicationId == acsApplicationId
+                            && a.IsDeleted == false
+                            orderby s.Name
                             select s;
 
                 foreach (Store entity in query)
@@ -197,6 +223,36 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
 
             return stores;
+        }
+
+        public IList<Domain.Store> GetAfterDataVersion(int dataVersion)
+        {
+            List<Domain.Store> models = new List<Domain.Store>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from s in entitiesContext.Stores
+                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            where s.DataVersion > dataVersion
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    Domain.Store model = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
         }
     }
 }

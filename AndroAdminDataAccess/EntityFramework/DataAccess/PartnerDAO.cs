@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
+using System.Data.Common;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -120,15 +121,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                Partner entity = new Partner()
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    Name = partner.Name,
-                    ExternalId = partner.ExternalId,
-                    DataVersion = 0
-                };
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                entitiesContext.AddToPartners(entity);
-                entitiesContext.SaveChanges();
+                    Partner entity = new Partner()
+                    {
+                        Name = partner.Name,
+                        ExternalId = partner.ExternalId,
+                        DataVersion = newVersion
+                    };
+
+                    entitiesContext.AddToPartners(entity);
+                    entitiesContext.SaveChanges();
+
+                    // Fin...
+                    transaction.Commit();
+                }
             }
         }
 
@@ -136,20 +147,37 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                var query = from s in entitiesContext.Partners
-                            where partner.Id == s.Id
-                            select s;
-
-                var entity = query.FirstOrDefault();
-
-                if (entity != null)
+                entitiesContext.Connection.Open();
+                using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
                 {
-                    entity.Name = partner.Name;
-                    entity.ExternalId = partner.ExternalId;
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    entitiesContext.SaveChanges();
+                    var query = from s in entitiesContext.Partners
+                                where partner.Id == s.Id
+                                select s;
+
+                    var entity = query.FirstOrDefault();
+
+                    if (entity != null)
+                    {
+                        entity.Name = partner.Name;
+                        entity.ExternalId = partner.ExternalId;
+                        entity.DataVersion = newVersion;
+
+                        entitiesContext.SaveChanges();
+
+                        // Fin...
+                        transaction.Commit();
+                    }
                 }
             }
+        }
+
+
+        public IList<Domain.Partner> GetAfterDataVersion(int dataVersion)
+        {
+            throw new NotImplementedException();
         }
     }
 }

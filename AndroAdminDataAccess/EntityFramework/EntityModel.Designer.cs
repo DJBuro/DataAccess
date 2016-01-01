@@ -19,7 +19,6 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
@@ -30,7 +29,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_FTPSite1", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_FTPSite", "FTPSite", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.FTPSite), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Group_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Group), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Group", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Group), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_MyAndromedaUser", "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUser), "MyAndromedaUserGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.MyAndromedaUserGroup), true)]
@@ -44,6 +42,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreGroup_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreGroup), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreMenu_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Store), "StoreMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreMenu), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Group_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Group), true)]
 
 #endregion
 
@@ -242,22 +242,6 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Host> Hosts
-        {
-            get
-            {
-                if ((_Hosts == null))
-                {
-                    _Hosts = base.CreateObjectSet<Host>("Hosts");
-                }
-                return _Hosts;
-            }
-        }
-        private ObjectSet<Host> _Hosts;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Log> Logs
         {
             get
@@ -334,22 +318,6 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<OpeningHour> _OpeningHours;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Partner> Partners
-        {
-            get
-            {
-                if ((_Partners == null))
-                {
-                    _Partners = base.CreateObjectSet<Partner>("Partners");
-                }
-                return _Partners;
-            }
-        }
-        private ObjectSet<Partner> _Partners;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -494,6 +462,38 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<StoreStatu> _StoreStatus;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Partner> Partners
+        {
+            get
+            {
+                if ((_Partners == null))
+                {
+                    _Partners = base.CreateObjectSet<Partner>("Partners");
+                }
+                return _Partners;
+            }
+        }
+        private ObjectSet<Partner> _Partners;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Host> Hosts
+        {
+            get
+            {
+                if ((_Hosts == null))
+                {
+                    _Hosts = base.CreateObjectSet<Host>("Hosts");
+                }
+                return _Hosts;
+            }
+        }
+        private ObjectSet<Host> _Hosts;
 
         #endregion
 
@@ -572,14 +572,6 @@ namespace AndroAdminDataAccess.EntityFramework
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToHosts(Host host)
-        {
-            base.AddObject("Hosts", host);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Logs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToLogs(Log log)
@@ -617,14 +609,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToOpeningHours(OpeningHour openingHour)
         {
             base.AddObject("OpeningHours", openingHour);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Partners EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPartners(Partner partner)
-        {
-            base.AddObject("Partners", partner);
         }
     
         /// <summary>
@@ -697,6 +681,22 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToStoreStatus(StoreStatu storeStatu)
         {
             base.AddObject("StoreStatus", storeStatu);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Partners EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPartners(Partner partner)
+        {
+            base.AddObject("Partners", partner);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Hosts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToHosts(Host host)
+        {
+            base.AddObject("Hosts", host);
         }
 
         #endregion
@@ -874,6 +874,28 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner")]
         public Partner Partner
         {
@@ -905,28 +927,6 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
-        public EntityCollection<ACSApplicationSite> ACSApplicationSites
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
-                }
-            }
-        }
 
         #endregion
 
@@ -949,13 +949,15 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <param name="siteId">Initial value of the SiteId property.</param>
         /// <param name="aCSApplicationId">Initial value of the ACSApplicationId property.</param>
         /// <param name="dataVersion">Initial value of the DataVersion property.</param>
-        public static ACSApplicationSite CreateACSApplicationSite(global::System.Int32 id, global::System.Int32 siteId, global::System.Int32 aCSApplicationId, global::System.Int32 dataVersion)
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ACSApplicationSite CreateACSApplicationSite(global::System.Int32 id, global::System.Int32 siteId, global::System.Int32 aCSApplicationId, global::System.Int32 dataVersion, global::System.Boolean isDeleted)
         {
             ACSApplicationSite aCSApplicationSite = new ACSApplicationSite();
             aCSApplicationSite.Id = id;
             aCSApplicationSite.SiteId = siteId;
             aCSApplicationSite.ACSApplicationId = aCSApplicationId;
             aCSApplicationSite.DataVersion = dataVersion;
+            aCSApplicationSite.IsDeleted = isDeleted;
             return aCSApplicationSite;
         }
 
@@ -1061,6 +1063,30 @@ namespace AndroAdminDataAccess.EntityFramework
         private global::System.Int32 _DataVersion;
         partial void OnDataVersionChanging(global::System.Int32 value);
         partial void OnDataVersionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
 
         #endregion
 
@@ -2842,44 +2868,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Group_Partner", "Partner")]
-        public Partner Partner
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Partner> PartnerReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_MyAndromedaUserGroup_Group", "MyAndromedaUserGroup")]
         public EntityCollection<MyAndromedaUserGroup> MyAndromedaUserGroups
         {
@@ -2917,6 +2905,44 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Group_Partner", "Partner")]
+        public Partner Partner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Partner> PartnerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Partner>("AndroAdminModel.FK_Group_Partner", "Partner", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -2935,19 +2961,19 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <summary>
         /// Create a new Host object.
         /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
         /// <param name="hostName">Initial value of the HostName property.</param>
         /// <param name="order">Initial value of the Order property.</param>
-        /// <param name="port">Initial value of the Port property.</param>
         /// <param name="privateHostName">Initial value of the PrivateHostName property.</param>
         /// <param name="dataVersion">Initial value of the DataVersion property.</param>
-        public static Host CreateHost(global::System.Guid id, global::System.String hostName, global::System.Int32 order, global::System.Int32 port, global::System.String privateHostName, global::System.Int32 dataVersion)
+        public static Host CreateHost(global::System.Int32 id, global::System.String name, global::System.String hostName, global::System.Int32 order, global::System.String privateHostName, global::System.Int32 dataVersion)
         {
             Host host = new Host();
-            host.ID = id;
+            host.Id = id;
+            host.Name = name;
             host.HostName = hostName;
             host.Order = order;
-            host.Port = port;
             host.PrivateHostName = privateHostName;
             host.DataVersion = dataVersion;
             return host;
@@ -2962,27 +2988,51 @@ namespace AndroAdminDataAccess.EntityFramework
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Guid ID
+        public global::System.Int32 Id
         {
             get
             {
-                return _ID;
+                return _Id;
             }
             set
             {
-                if (_ID != value)
+                if (_Id != value)
                 {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
                 }
             }
         }
-        private global::System.Guid _ID;
-        partial void OnIDChanging(global::System.Guid value);
-        partial void OnIDChanged();
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -3031,30 +3081,6 @@ namespace AndroAdminDataAccess.EntityFramework
         private global::System.Int32 _Order;
         partial void OnOrderChanging(global::System.Int32 value);
         partial void OnOrderChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Port
-        {
-            get
-            {
-                return _Port;
-            }
-            set
-            {
-                OnPortChanging(value);
-                ReportPropertyChanging("Port");
-                _Port = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Port");
-                OnPortChanged();
-            }
-        }
-        private global::System.Int32 _Port;
-        partial void OnPortChanging(global::System.Int32 value);
-        partial void OnPortChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
