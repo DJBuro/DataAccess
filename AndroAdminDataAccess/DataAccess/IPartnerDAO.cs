@@ -8,7 +8,8 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IPartnerDAO
     {
-        IEnumerable<Partner> GetAll();
+        string ConnectionStringOverride { get; set; }
+        IList<Partner> GetAll();
         Partner GetById(int partnerId);
         Partner GetByName(string name);
         Partner GetByExternalId(string externalId);

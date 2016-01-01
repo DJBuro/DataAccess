@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface ICountryDAO
     {
+        string ConnectionStringOverride { get; set; }
         List<Country> GetAll();
     }
 }

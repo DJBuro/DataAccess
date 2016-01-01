@@ -10,11 +10,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HostDAO : IHostDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IList<Domain.Host> GetAll()
         {
             List<Domain.Host> models = new List<Domain.Host>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from p in entitiesContext.Hosts
                             select p;

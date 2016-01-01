@@ -95,6 +95,7 @@
     <Compile Include="Domain\FTPSiteType.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSite.cs" />
     <Compile Include="Domain\Log.cs" />
+    <Content Include="EntityFramework\CreateAndroAdminDatabase.sql" />
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\CountryDAO.cs" />
@@ -120,21 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Binaries\FluentNHibernate.dll" />
-    <Content Include="Binaries\FluentNHibernate.pdb" />
-    <Content Include="Binaries\FluentNHibernate.XML" />
-    <Content Include="Binaries\Iesi.Collections.dll" />
-    <Content Include="Binaries\Iesi.Collections.pdb" />
-    <Content Include="Binaries\Iesi.Collections.xml" />
-    <Content Include="Binaries\NHibernate.dll" />
-    <Content Include="Binaries\NHibernate.pdb" />
-    <Content Include="Binaries\NHibernate.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Binaries\nhibernate-mapping.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <EntityDeploy Include="EntityFramework\EntityModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityModel.Designer.cs</LastGenOutput>

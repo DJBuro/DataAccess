@@ -9,24 +9,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class FtpSiteTypeDAO : IFTPSiteTypeDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IList<Domain.FTPSiteType> GetAll()
         {
             List<Domain.FTPSiteType> ftpSiteTypes = new List<Domain.FTPSiteType>();
 
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var query = from s in androAdminEntities.FTPSiteTypes
-                        select s;
-
-            foreach (var entity in query)
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
-                Domain.FTPSiteType model = new Domain.FTPSiteType()
-                {
-                    Id = entity.Id,
-                    Name = entity.Name
-                };
+                var query = from s in entitiesContext.FTPSiteTypes
+                            select s;
 
-                ftpSiteTypes.Add(model);
+                foreach (var entity in query)
+                {
+                    Domain.FTPSiteType model = new Domain.FTPSiteType()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name
+                    };
+
+                    ftpSiteTypes.Add(model);
+                }
             }
 
             return ftpSiteTypes;

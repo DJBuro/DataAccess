@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IACSApplicationDAO
     {
+        string ConnectionStringOverride { get; set; }
         ACSApplication GetById(int acsApplicationId);
         IList<ACSApplication> GetByPartnerId(int partnerId);
         ACSApplication GetByName(string name);

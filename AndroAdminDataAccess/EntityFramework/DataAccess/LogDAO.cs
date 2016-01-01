@@ -9,6 +9,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class LogDAO : ILogDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IEnumerable<Domain.Log> GetAll()
         {
             throw new NotImplementedException();
@@ -16,7 +18,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Log log)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 Log entity = new Log()
                 {

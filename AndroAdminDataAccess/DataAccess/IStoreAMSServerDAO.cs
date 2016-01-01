@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IStoreAMSServerDAO
     {
+        string ConnectionStringOverride { get; set; }
         void Add(StoreAMSServer storeAMSServer);
         void DeleteByAMSServerId(int amsServerId);
         void DeleteById(int id);

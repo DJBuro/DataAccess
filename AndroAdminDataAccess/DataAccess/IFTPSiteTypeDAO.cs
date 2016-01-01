@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IFTPSiteTypeDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<FTPSiteType> GetAll();
     }
 }

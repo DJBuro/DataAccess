@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface ILogDAO
     {
+        string ConnectionStringOverride { get; set; }
         IEnumerable<Log> GetAll();
         void Add(Log log);
     }

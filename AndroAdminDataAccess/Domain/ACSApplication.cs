@@ -10,10 +10,12 @@ namespace AndroAdminDataAccess.Domain
     {
         public virtual int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter an external Application id")]
+        [Required(ErrorMessage = "Please enter an Application id")]
+        [Display(Name = "Application id")]
         public virtual string ExternalApplicationId { get; set; }
 
         [Required(ErrorMessage = "Please enter a name for this application")]
+        [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
         public virtual int PartnerId { get; set; }

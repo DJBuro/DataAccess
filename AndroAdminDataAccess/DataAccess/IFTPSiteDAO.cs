@@ -8,6 +8,7 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IFTPSiteDAO
     {
+        string ConnectionStringOverride { get; set; }
         IList<FTPSite> GetAll();
         void Add(FTPSite ftpSite);
         void Update(FTPSite ftpSite);

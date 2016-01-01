@@ -14,11 +14,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class ACSApplicationDAO : IACSApplicationDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IList<Domain.ACSApplication> GetByPartnerId(int partnerId)
         {
             List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where partnerId == s.PartnerId
@@ -45,7 +47,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication model = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where acsApplicationId == s.Id
@@ -73,7 +75,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication acsApplication = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where name == s.Name
@@ -100,7 +102,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.ACSApplication acsApplication = null;
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where externalId == s.ExternalApplicationId
@@ -125,7 +127,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.ACSApplication acsApplication)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -158,7 +160,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Update(Domain.ACSApplication acsApplication)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -195,7 +197,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void AddStore(int storeId, int acsApplicationId)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -255,7 +257,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void RemoveStore(int storeId, int acsApplicationId)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 entitiesContext.Connection.Open();
                 using (DbTransaction transaction = entitiesContext.Connection.BeginTransaction())
@@ -303,7 +305,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where partnerId == s.PartnerId
@@ -329,7 +331,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void UpdateDataVersion(int acsApplicationId, int newVersion)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.ACSApplications
                             where acsApplicationId == s.Id

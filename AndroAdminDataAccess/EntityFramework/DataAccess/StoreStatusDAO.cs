@@ -9,11 +9,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreStatusDAO : IStoreStatusDAO
     {
+        public string ConnectionStringOverride { get; set; }
+
         public IList<Domain.StoreStatus> GetAll()
         {
             List<Domain.StoreStatus> models = new List<Domain.StoreStatus>();
 
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
             {
                 var query = from s in entitiesContext.StoreStatus
                             select s;
