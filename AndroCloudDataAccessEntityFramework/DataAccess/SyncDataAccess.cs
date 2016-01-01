@@ -19,14 +19,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// </summary>
         /// <value>The connection string override.</value>
         public string ConnectionStringOverride { get; set; }
-        
+
         Action<string> successActions;
         Action<string> failureActions;
 
         public string Sync(CloudSyncModel.SyncModel syncModel, Action<string> successActions = null, Action<string> failureActions = null)
         {
-            this.successActions = successActions == null ? (msg) => {} : successActions;
-            this.failureActions = failureActions == null ? (msg) => {} : failureActions;
+            this.successActions = successActions == null ? (msg) => { } : successActions;
+            this.failureActions = failureActions == null ? (msg) => { } : failureActions;
 
             string errorMessage = string.Empty;
 
@@ -52,7 +52,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     this.SyncStoreModels(acsEntities, syncModel.Stores);
 
                     //when syncing partners then sync applications
-                    this.SyncPartners(acsEntities, syncModel.Partners, (withPartner) => {
+                    this.SyncPartners(acsEntities, syncModel.Partners, (withPartner) =>
+                    {
                         //... then sync applications 
                         this.SyncPartnerApplications(acsEntities, withPartner);
                     });
@@ -80,20 +81,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return errorMessage;
         }
- 
+
         private void SyncStoreDevices(ACSEntities acsEntities, StoreDevicesModels storeDeviceModels)
         {
             //add in apis 
-            foreach (var model in storeDeviceModels.ExternalApis) 
+            foreach (var model in storeDeviceModels.ExternalApis)
             {
                 var table = acsEntities.ExternalApis;
-                table.AddOrUpdate(e => e.Id == model.Id,  
-                    () => new ExternalApi() { 
+                table.AddOrUpdate(e => e.Id == model.Id,
+                    () => new ExternalApi()
+                    {
                         Id = model.Id,
                         Name = model.Name,
                         Parameters = model.Parameters
                     },
-                    (entity) => {
+                    (entity) =>
+                    {
                         entity.Name = model.Name;
                         entity.Parameters = model.Parameters;
                     });
@@ -101,61 +104,67 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.SaveChanges();
 
             //add in devices 
-            foreach (var model in storeDeviceModels.Devices) 
+            foreach (var model in storeDeviceModels.Devices)
             {
                 var table = acsEntities.Devices;
 
-                table.AddOrUpdate(e => e.Id == model.Id,  
-                    () => new Device() { 
+                table.AddOrUpdate(e => e.Id == model.Id,
+                    () => new Device()
+                    {
                         Id = model.Id,
                         Name = model.Name,
-                        ExternalApiId = model.ExternalApiId 
+                        ExternalApiId = model.ExternalApiId
                     },
-                    (entity) => { 
+                    (entity) =>
+                    {
                         entity.Name = model.Name;
                         entity.ExternalApiId = model.ExternalApiId;
-                    }); 
+                    });
             }
             acsEntities.SaveChanges();
 
 
             //add in store device link.
-            foreach (var model in storeDeviceModels.SiteDevices) 
+            foreach (var model in storeDeviceModels.SiteDevices)
             {
                 var table = acsEntities.SiteDevices;
+                Site site = acsEntities.Sites.SingleOrDefault(s => s.AndroID == model.AndromedaSiteId);
 
                 table.AddOrUpdate(e =>
-                    e.Site.AndroID == model.AndromedaSiteId && 
+                    e.Site.AndroID == model.AndromedaSiteId &&
                     e.DeviceId == model.DeviceId,
-                    () => new SiteDevice() { 
+                    () => new SiteDevice()
+                    {
                         DeviceId = model.DeviceId,
-                        //find the store as i don't know the site id. 
-                        Site = acsEntities.Sites.SingleOrDefault(site => site.AndroID == model.AndromedaSiteId),
-                        Parameters = model.Parameters
-                    }, 
-                    (entity) => {
-                        entity.Parameters = model.Parameters;
+                        SiteId = site.ID,
+                        Site = site,
+                        Parameters = model.Parameters == null ? string.Empty : model.Parameters
+                    },
+                    (entity) =>
+                    {
+                        entity.Parameters = model.Parameters == null ? string.Empty : model.Parameters;
                         entity.DeviceId = model.DeviceId;
+
                     });
             }
             acsEntities.SaveChanges();
             //remove things
-            
-            foreach (var model in storeDeviceModels.RemovedDevices) 
+
+            foreach (var model in storeDeviceModels.RemovedDevices)
             {
                 var table = acsEntities.Devices;
                 table.RemoveIfExists(e => e.Id == model.Id);
             }
             acsEntities.SaveChanges();
 
-            foreach (var model in storeDeviceModels.RemovedExternalApis) 
+            foreach (var model in storeDeviceModels.RemovedExternalApis)
             {
                 var table = acsEntities.ExternalApis;
                 table.RemoveIfExists(e => e.Id == model.Id);
             }
             acsEntities.SaveChanges();
 
-            foreach (var model in storeDeviceModels.RemovedSiteDevices) 
+            foreach (var model in storeDeviceModels.RemovedSiteDevices)
             {
                 var table = acsEntities.SiteDevices;
                 table.RemoveIfExists(e => e.DeviceId == model.DeviceId && e.Site.AndroID == model.AndromedaSiteId);
@@ -166,48 +175,49 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         private void SyncHostV2Relations(ACSEntities acsEntities, HostV2Models hostV2Models)
         {
-            var andromedaSiteIds = hostV2Models.StoreLinks.Select(e=> e.AndromedaStoreId).Distinct().ToArray();
+            var andromedaSiteIds = hostV2Models.StoreLinks.Select(e => e.AndromedaStoreId).Distinct().ToArray();
             var applicationIds = hostV2Models.ApplicationLinks.Select(e => e.ApplicationId).Distinct().ToArray();
 
             var hostV2Entities = acsEntities.HostsV2
                 .ToArray();
             //get all stores mentioned in the update
-            var siteEntities = acsEntities.Sites.Where(e=> andromedaSiteIds.Contains(e.AndroID)).ToArray();
+            var siteEntities = acsEntities.Sites.Where(e => andromedaSiteIds.Contains(e.AndroID)).ToArray();
             //get all applications mentioned in the update
-            var appplicationEntities = acsEntities.ACSApplications.Where(e=> applicationIds.Contains(e.Id)).ToArray();
+            var appplicationEntities = acsEntities.ACSApplications.Where(e => applicationIds.Contains(e.Id)).ToArray();
 
             //each update for a host will contain all of its relevant links for stores and applications
             //any exception will mean that a entity does not exist by an id that should be there. :-/
 
             //update site - host links
-            var siteList = hostV2Models.StoreLinks.GroupBy(e=> e.HostId).ToDictionary(e=> e.Key, e=> e.ToArray());
+            var siteList = hostV2Models.StoreLinks.GroupBy(e => e.HostId).ToDictionary(e => e.Key, e => e.ToArray());
             foreach (var host in hostV2Models.Hosts)
             {
                 var hostEntity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
 
                 if (hostEntity.Sites == null) { hostEntity.Sites = new List<Site>(); }
 
-                if (hostEntity.Sites.Any()) { 
+                if (hostEntity.Sites.Any())
+                {
                     hostEntity.Sites.Clear();
                 }
 
-                if (!siteList.ContainsKey(hostEntity.Id)) 
+                if (!siteList.ContainsKey(hostEntity.Id))
                 {
                     continue;
                 }
 
                 var relations = siteList[hostEntity.Id];
 
-                foreach (var relation in relations) 
+                foreach (var relation in relations)
                 {
                     var site = siteEntities.Single(e => e.AndroID == relation.AndromedaStoreId);
                     hostEntity.Sites.Add(site);
                 }
             }
 
-            var applicationLists = hostV2Models.ApplicationLinks.GroupBy(e => e.HostId).ToDictionary(e=> e.Key, e=> e.ToArray());
+            var applicationLists = hostV2Models.ApplicationLinks.GroupBy(e => e.HostId).ToDictionary(e => e.Key, e => e.ToArray());
             //update application - host links 
-            foreach (var host in hostV2Models.Hosts) 
+            foreach (var host in hostV2Models.Hosts)
             {
                 var hostEntity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
                 if (hostEntity.ACSApplications == null) { hostEntity.ACSApplications = new List<ACSApplication>(); }
@@ -223,8 +233,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
 
                 var relations = applicationLists[hostEntity.Id];
-                
-                foreach (var relation in relations) 
+
+                foreach (var relation in relations)
                 {
                     var application = appplicationEntities.Single(e => e.Id == relation.ApplicationId);
                     hostEntity.ACSApplications.Add(application);
@@ -233,16 +243,16 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             acsEntities.SaveChanges();
         }
-  
+
         private void SyncHostV2TablesAddUpdateAndRemove(ACSEntities acsEntities, HostV2Models hostV2Models)
         {
             var hostV2Table = acsEntities.HostsV2;
             var hostTypesTableEntities = acsEntities.HostTypes.ToArray();
-            
+
             var removeHostsFromTable = hostV2Models.DeletedHosts.Select(e => e.Id).ToArray();
-            
+
             //don't need these at the moment or possibly ever again. 
-            foreach (var host in hostV2Table.Where(e=> removeHostsFromTable.Contains(e.Id))) 
+            foreach (var host in hostV2Table.Where(e => removeHostsFromTable.Contains(e.Id)))
             {
                 hostV2Table.Remove(host);
             }
@@ -252,14 +262,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             var hostV2Entities = acsEntities.HostsV2.ToArray();
 
             //do want to add or update these. 
-            foreach (var host in hostV2Models.Hosts) 
+            foreach (var host in hostV2Models.Hosts)
             {
                 var entity = hostV2Entities.FirstOrDefault(e => e.Id == host.Id);
                 if (entity == null)
-                { 
-                    hostV2Table.Add(new HostsV2() { 
+                {
+                    hostV2Table.Add(new HostsV2()
+                    {
                         Id = host.Id,
-                        HostType = hostTypesTableEntities.FirstOrDefault(e=> e.Name == host.HostTypeName),
+                        HostType = hostTypesTableEntities.FirstOrDefault(e => e.Name == host.HostTypeName),
                         OptInOnly = host.OptInOnly,
                         Order = host.Order,
                         Public = host.Public,
@@ -270,7 +281,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     continue;
                 }
 
-                entity.HostType = hostTypesTableEntities.FirstOrDefault(e=> e.Name == host.HostTypeName);
+                entity.HostType = hostTypesTableEntities.FirstOrDefault(e => e.Name == host.HostTypeName);
                 entity.OptInOnly = host.OptInOnly;
                 entity.Order = host.Order;
                 entity.Public = host.Public;
@@ -281,16 +292,17 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.SaveChanges();
         }
 
-        private void SyncHostTypes(ACSEntities acsEntities, IEnumerable<string> hostTypes) 
+        private void SyncHostTypes(ACSEntities acsEntities, IEnumerable<string> hostTypes)
         {
             var table = acsEntities.HostTypes;
             var tableEntities = table.ToArray();
 
             var addList = hostTypes.Where(e => !tableEntities.Any(entity => entity.Name.Equals(e)));
 
-            foreach (var item in addList) 
+            foreach (var item in addList)
             {
-                table.Add(new HostType() { 
+                table.Add(new HostType()
+                {
                     Id = Guid.NewGuid(),
                     Name = item
                 });
@@ -298,19 +310,20 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             acsEntities.SaveChanges();
         }
-  
+
         private void SyncStoreMenuChanges(ACSEntities acsEntities, StoreMenuUpdates menuUpdates)
         {
-            ISiteMenuDataAccess dataAccess = new SiteMenuDataAccess() { 
+            ISiteMenuDataAccess dataAccess = new SiteMenuDataAccess()
+            {
                 ConnectionStringOverride = this.ConnectionStringOverride
             };
-            
-            foreach (var menuUpdate in menuUpdates.MenuThumbnailChanges) 
-            {
-                var site = acsEntities.Sites.Single(e=> e.AndroID == menuUpdate.AndromediaSiteId);
 
-                if (menuUpdate.MenuType.ToLower() == "xml") 
-                { 
+            foreach (var menuUpdate in menuUpdates.MenuThumbnailChanges)
+            {
+                var site = acsEntities.Sites.Single(e => e.AndroID == menuUpdate.AndromediaSiteId);
+
+                if (menuUpdate.MenuType.ToLower() == "xml")
+                {
                     dataAccess.UpdateThumbnailData(site.ID, menuUpdate.Data, AndroCloudHelper.DataTypeEnum.XML);
                     continue;
                 }
@@ -318,30 +331,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 dataAccess.UpdateThumbnailData(site.ID, menuUpdate.Data, AndroCloudHelper.DataTypeEnum.JSON);
             }
         }
-  
+
         private void SyncHubResets(ACSEntities acsEntities, HubUpdates hubUpdates)
         {
             if (hubUpdates == null) { return; }
             if (hubUpdates.SiteHubHardwareKeyResets == null) { return; }
 
-            var andromedaIds = hubUpdates.SiteHubHardwareKeyResets.Select(e=> e.AndromedaSiteId).Distinct().ToArray();
+            var andromedaIds = hubUpdates.SiteHubHardwareKeyResets.Select(e => e.AndromedaSiteId).Distinct().ToArray();
             var stores = acsEntities.Sites.Where(e => andromedaIds.Contains(e.AndroID)).ToArray();
 
-            foreach (var store in stores) 
+            foreach (var store in stores)
             {
                 store.HardwareKey = null;
             }
 
             successActions(string.Format("SyncHubResets: {0} store hardware keys reset", stores.Length));
 
-            if (andromedaIds.Length > stores.Length) 
+            if (andromedaIds.Length > stores.Length)
             {
                 failureActions(string.Format("SyncHubResets: {0} sites were expected. But only found {1} sites", andromedaIds.Length, stores.Length));
             }
 
             acsEntities.SaveChanges();
         }
-  
+
         //private void SyncHubAddresses(ACSEntities acsEntities, HubUpdates hubUpdates, Action<HubHostModel> withHub)
         //{
         //    IHubDataAccess hubDataAccess = new HubDataAccess() { 
@@ -350,7 +363,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         //    };
 
         //    if (hubUpdates == null) { return; }
-           
+
         //    if (hubUpdates.InActiveHubList != null)
         //    {  
         //        //remove all of these
@@ -360,7 +373,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         //        }
         //    }
 
-            
+
         //    if (hubUpdates.ActiveHubList != null)
         //    {
         //        //make sure all these exist
@@ -387,8 +400,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         //    }
 
         //}
-  
-  
+
+
         /// <summary>
         /// Syncs the applications.
         /// </summary>
@@ -456,12 +469,12 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     // Get a list of existing sites
                     var sitesQuery = from site in acsEntities.Sites
-                                        join acss in acsEntities.ACSApplicationSites
-                                            on site.ID equals acss.SiteId
-                                        join a in acsEntities.ACSApplications
-                                            on acss.ACSApplicationId equals a.Id
-                                        join ss in acsEntities.SiteStatuses
-                                            on site.SiteStatusID equals ss.ID
+                                     join acss in acsEntities.ACSApplicationSites
+                                         on site.ID equals acss.SiteId
+                                     join a in acsEntities.ACSApplications
+                                         on acss.ACSApplicationId equals a.Id
+                                     join ss in acsEntities.SiteStatuses
+                                         on site.SiteStatusID equals ss.ID
                                      where a.Id == acsApplication.Id
                                      select site;
 
@@ -549,7 +562,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
             }
         }
-  
+
         /// <summary>
         /// Syncs the store payment providers.
         /// </summary>
@@ -562,8 +575,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 // Does the store payment provider already exist?
                 IStorePaymentProviderDataAccess storePaymentProviderDataAccess = new StorePaymentProviderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
-                AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider = null;
-                storePaymentProviderDataAccess.GetById(storePaymentProvider.Id, out existingStorePaymentProvider);
+
+                var existingStorePaymentProvider = acsEntities.StorePaymentProviders.Where(e => e.ID == storePaymentProvider.Id).FirstOrDefault();
 
                 if (existingStorePaymentProvider == null)
                 {
@@ -603,7 +616,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         /// <param name="acsEntities">The acs entities.</param>
         /// <param name="existingStorePaymentProvider">The existing store payment provider.</param>
         /// <param name="storePaymentProvider">The store payment provider.</param>
-        private void UpdateStorePaymentProvider(ACSEntities acsEntities, AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider, CloudSyncModel.StorePaymentProvider storePaymentProvider)
+        private void UpdateStorePaymentProvider(ACSEntities acsEntities, Model.StorePaymentProvider existingStorePaymentProvider, CloudSyncModel.StorePaymentProvider storePaymentProvider)
         {
             existingStorePaymentProvider.ClientId = storePaymentProvider.ClientId;
             existingStorePaymentProvider.ClientPassword = storePaymentProvider.ClientPassword;
@@ -621,8 +634,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             // Get the site status
             var siteStatusQuery = from s in acsEntities.SiteStatuses
-                             where s.Status == store.StoreStatus
-                             select s;
+                                  where s.Status == store.StoreStatus
+                                  select s;
 
             Model.SiteStatus siteStatusEntity = siteStatusQuery.FirstOrDefault();
 
@@ -633,8 +646,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             // Get the country
             var countryQuery = from s in acsEntities.Countries
-                                  where s.Id == store.Address.CountryId
-                                  select s;
+                               where s.Id == store.Address.CountryId
+                               select s;
 
             Model.Country countryEntity = countryQuery.FirstOrDefault();
 
@@ -709,8 +722,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             // Get the site status
             var siteStatusQuery = from s in acsEntities.SiteStatuses
-                             where s.Status == store.StoreStatus
-                             select s;
+                                  where s.Status == store.StoreStatus
+                                  select s;
             Model.SiteStatus siteStatusEntity = siteStatusQuery.FirstOrDefault();
 
             if (siteStatusEntity == null)
@@ -729,8 +742,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 // Update the address
                 var addressStatusQuery = from s in acsEntities.Addresses
-                                      where s.ID == siteEntity.AddressID
-                                      select s;
+                                         where s.ID == siteEntity.AddressID
+                                         select s;
                 Model.Address addressEntity = addressStatusQuery.FirstOrDefault();
 
                 if (addressStatusQuery == null)
@@ -898,15 +911,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             acsEntities.Partners.Add(entity);
             acsEntities.SaveChanges();
-            
+
             id = entity.Id;
         }
 
         private void UpdatePartner(ACSEntities acsEntities, CloudSyncModel.Partner partner)
         {
             var query = from s in acsEntities.Partners
-                             where s.Id == partner.Id
-                             select s;
+                        where s.Id == partner.Id
+                        select s;
 
             Model.Partner entity = query.FirstOrDefault();
 
@@ -937,8 +950,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         private void UpdateApplication(ACSEntities acsEntities, CloudSyncModel.Application application)
         {
             var query = from s in acsEntities.ACSApplications
-                             where s.Id == application.Id
-                             select s;
+                        where s.Id == application.Id
+                        select s;
             Model.ACSApplication entity = query.FirstOrDefault();
 
             if (entity != null)
