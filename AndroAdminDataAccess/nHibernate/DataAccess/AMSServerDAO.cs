@@ -24,7 +24,7 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
             return amsServers;
         }
 
-        public void Add(AndroAdminDataAccess.Domain.AMSServer amsServer)
+        public void Add(AMSServer amsServer)
         {
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
@@ -35,7 +35,7 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
             }
         }
 
-        public void Update(AndroAdminDataAccess.Domain.AMSServer amsServer)
+        public void Update(AMSServer amsServer)
         {
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
@@ -46,13 +46,34 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
             }
         }
 
-        public AndroAdminDataAccess.Domain.AMSServer GetById(int id)
+        public AMSServer GetById(int id)
         {
             AndroAdminDataAccess.Domain.AMSServer amsServer = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
                 amsServer = session.Get<AndroAdminDataAccess.Domain.AMSServer>(id);
+            }
+
+            return amsServer;
+        }
+
+        public AMSServer GetByName(string name)
+        {
+            IList<AMSServer> amsServers = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                amsServers = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.AMSServer) + " where name=:name")
+                    .SetParameter("name", name)
+                    .List<AMSServer>();
+            }
+
+            AMSServer amsServer = null;
+
+            if (amsServers.Count == 1)
+            {
+                amsServer = amsServers[0];
             }
 
             return amsServer;

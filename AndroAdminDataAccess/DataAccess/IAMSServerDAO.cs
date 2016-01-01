@@ -12,5 +12,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Add(AMSServer amsServer);
         void Update(AMSServer amsServer);
         AMSServer GetById(int id);
+        AMSServer GetByName(string name);
     }
 }
