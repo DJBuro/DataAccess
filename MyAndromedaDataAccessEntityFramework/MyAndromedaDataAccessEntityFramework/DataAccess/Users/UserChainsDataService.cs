@@ -14,7 +14,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
     {
         private readonly IMyAndromedaLogger logger;
 
-        public UserChainsDataService(IMyAndromedaLogger logger) 
+        public UserChainsDataService(IMyAndromedaLogger logger)
         {
             this.logger = logger;
         }
@@ -24,7 +24,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// </summary>
         /// <param name="userId">The user id.</param>
         /// <returns></returns>
-        public IEnumerable<Chain> GetChainsForUser(int userId) 
+        public IEnumerable<Chain> GetChainsForUser(int userId)
         {
             bool failedAtMyAndromeda = false;
             bool failedAtAndroAdmin = false;
@@ -50,6 +50,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
                             accessibleChains = userChainsResult;
                         }
+
+
                     }
                     catch (Exception e)
                     {
@@ -57,9 +59,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
                         this.logger.Error("Chains Loaded from MyAndromeda failed", e);
                         this.logger.Error("Connection string:" + context.Database.Connection.ConnectionString);
-                       
+
                         failedAtMyAndromeda = true;
-                        
+
                         throw e;
                     }
 
@@ -89,9 +91,30 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 throw;
             }
 
-            
+
 
             return chains;
+        }
+
+        public IEnumerable<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.AndroWebOrderingWebsite> GetAndroWebOrderingSitesForUser(int userId)
+        {
+            var chainsResult = GetChainsForUser(userId);
+            IEnumerable<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.AndroWebOrderingWebsite> androWebOrderingSites = Enumerable.Empty<MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.AndroWebOrderingWebsite>();
+            if (chainsResult.ToList() != null)
+            {
+                using (var androAdminDBContext = new MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.AndroAdminDbContext())
+                {
+                    if (chainsResult.ToList().Count > 0)
+                    {
+                        var websites = androAdminDBContext.AndroWebOrderingWebsites.ToList();
+                        androWebOrderingSites = (from aws in websites
+                                                 join cr in chainsResult on (aws.ChainId == null ? 0 : aws.ChainId) equals cr.Id
+                                                 select aws).ToList();
+
+                    }
+                }
+            }
+            return androWebOrderingSites;
         }
 
         /// <summary>
@@ -100,7 +123,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="userId">The user id.</param>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        public IEnumerable<Chain> GetChainsForUser(int userId, Expression<Func<Model.AndroAdmin.Chain, bool>> query) 
+        public IEnumerable<Chain> GetChainsForUser(int userId, Expression<Func<Model.AndroAdmin.Chain, bool>> query)
         {
             if (query == null)
             {
@@ -152,7 +175,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 var userChainsTable = myAndromedaDbContext.UserChains;
                 if (userChainsTable.Any(e => e.ChainId == chain.Id && e.UserRecordId == userId))
                     return;
-                
+
                 var link = userChainsTable.Create();
                 link.ChainId = chain.Id;
                 link.UserRecordId = userId;
@@ -170,8 +193,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         public IEnumerable<MyAndromedaUser> FindUsersDirectlyBelongingToChain(int chainId)
         {
             IEnumerable<MyAndromedaUser> myAndromedaUserusers;
-            
-            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 IEnumerable<UserRecord> userRecords = myAndromedaDbContext.UserChains.Where(e => e.ChainId == chainId).Select(e => e.UserRecord);
                 var result = userRecords.ToArray();
@@ -186,12 +209,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         {
             IEnumerable<Chain> chains = Enumerable.Empty<Chain>();
 
-            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var userChainsTable = myAndromedaDbContext.UserChains;
                 var userChainsquery = userChainsTable.Where(e => e.UserRecordId == userId).Select(e => e.ChainId).ToArray();
 
-                using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
+                using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext())
                 {
                     var chainsquery = androAdminDbContext.Chains.Where(chain => userChainsquery.Contains(chain.Id));
                     var chainsResult = chainsquery.ToArray().Select(e => new Chain()
@@ -210,7 +233,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
         public void RemoveChainLinkToUser(int userId, int chainId)
         {
-            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var table = myAndromedaDbContext.UserChains;
                 var query = table.Where(e => e.ChainId == chainId && e.UserRecordId == userId);
@@ -240,7 +263,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                                          e.ChildChain.Culture
                                      })
                                      .ToLookup(e => e.ParentChainId);
-            
+
             //create a dictionary 
             var linkResult = linkQuery.ToDictionary(e => e.Key, e => e.ToArray());
 
@@ -250,9 +273,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 if (!linkResult.ContainsKey(node.Id))
                     return;
 
-                var lookupByParentId = linkResult[node.Id]; 
+                var lookupByParentId = linkResult[node.Id];
                 var children = new List<Chain>(lookupByParentId.Length);
-                
+
                 node.Items = children;
                 foreach (var lookup in lookupByParentId)
                 {
@@ -270,7 +293,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 }
             };
 
-            foreach (var result in results) 
+            foreach (var result in results)
             {
                 var chain = new Chain()
                 {
