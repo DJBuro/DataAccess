@@ -26,6 +26,8 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public byte[] PasswordSalt { get; set; }
         public int AccountTypeId { get; set; }
         public System.DateTime RegisteredDateTime { get; set; }
+        public string FacebookId { get; set; }
+        public string FacebookUsername { get; set; }
     
         public virtual AccountType AccountType { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
