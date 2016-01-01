@@ -61,6 +61,7 @@
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
+    <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
@@ -235,40 +236,49 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\CustomerRecord.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\MyAndro\DbContext.Context.cs">
+    <Compile Include="Model\MyAndromeda\DbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\DbContext.cs">
+    <Compile Include="Model\MyAndromeda\DbContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\DbContext.Designer.cs">
+    <Compile Include="Model\MyAndromeda\DbContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DbContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaign.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaign.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaignAudit.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaignAudit.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaignSentEmail.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaignSentEmail.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaignSetting.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaignSetting.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaignSite.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaignSite.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndro\EmailCampaignTask.cs">
+    <Compile Include="Model\MyAndromeda\EmailCampaignTask.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\MenuItem.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\MenuItemGroup.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\MenuItemThumbnail.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -313,7 +323,7 @@
       <DependentUpon>DbContext.edmx</DependentUpon>
       <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
-    <EntityDeploy Include="Model\MyAndro\DbContext.edmx">
+    <EntityDeploy Include="Model\MyAndromeda\DbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
@@ -334,15 +344,15 @@
       <DependentUpon>DbContext.edmx</DependentUpon>
       <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
-    <None Include="Model\MyAndro\DbContext.Context.tt">
+    <None Include="Model\MyAndromeda\DbContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbContext.edmx</DependentUpon>
       <LastGenOutput>DbContext.Context.cs</LastGenOutput>
     </None>
-    <None Include="Model\MyAndro\DbContext.edmx.diagram">
+    <None Include="Model\MyAndromeda\DbContext.edmx.diagram">
       <DependentUpon>DbContext.edmx</DependentUpon>
     </None>
-    <None Include="Model\MyAndro\DbContext.tt">
+    <None Include="Model\MyAndromeda\DbContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbContext.edmx</DependentUpon>
       <LastGenOutput>DbContext.cs</LastGenOutput>
@@ -355,6 +365,10 @@
     <ProjectReference Include="..\..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
       <Project>{d9959d2f-2016-4355-bc22-061ea8a5e267}</Project>
       <Name>AndroCloudHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebSites\MyAndromeda\MyAndromeda.Core\MyAndromeda.Core.csproj">
+      <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
+      <Name>MyAndromeda.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MyAndromedaDataAccess\MyAndromedaDataAccess.csproj">
       <Project>{f1a21a41-2038-40ab-bcd9-d7374a0aee80}</Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyAndromedaDataAccess.DataAccess;
+using MyAndromedaDataAccess.DataAccess.MyAndromeda.Email;
 using MyAndromedaDataAccess.Domain.Marketing;
 using Domain = MyAndromedaDataAccess.Domain.Marketing;
 
@@ -11,7 +11,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
     {
         public IEnumerable<EmailCampaignTask> GetTasksBySiteId(int siteId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var query = dbContext.EmailCampaignTasks
                     .Where(e=> e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId))
@@ -31,7 +31,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="campaign">The campaign.</param>
         public void Update(Domain.EmailCampaignTask campaign)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var dbModel = dbContext.EmailCampaignTasks.SingleOrDefault(e => e.Id == campaign.Id);
 
@@ -46,7 +46,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="campaignTask">The campaign task.</param>
         public void Create(Domain.EmailCampaignTask campaignTask)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var dbModel = dbContext.EmailCampaignTasks.Create();
                 var campaign = dbContext.EmailCampaigns.Find(campaignTask.EmailCampaign.Id);
@@ -73,7 +73,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <returns></returns>
         public IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime, bool? started, bool? completed)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 bool startedQuery = started.GetValueOrDefault(false);
                 bool completedQuery = completed.GetValueOrDefault(false);
@@ -93,7 +93,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public void SetAsRunning(IEnumerable<Domain.EmailCampaignTask> campaignsToSend)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var ids = campaignsToSend.Select(e => e.Id).ToArray();
                 var query = dbContext.EmailCampaignTasks.Where(e=> ids.Any(id => id == e.Id));
@@ -110,7 +110,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public void UpdateBatch(IEnumerable<Domain.EmailCampaignTask> campaignsToSend)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var ids = campaignsToSend.Select(e => e.Id).ToArray();
                 var query = dbContext.EmailCampaignTasks.Where(e => ids.Any(id => id == e.Id));

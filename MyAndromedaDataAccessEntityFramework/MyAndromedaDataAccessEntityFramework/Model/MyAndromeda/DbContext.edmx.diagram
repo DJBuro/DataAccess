@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1f06c70b118477c82ae5314cc0aa292" Name="Diagram1">
-        <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="5.75" PointY="2.75" IsExpanded="true" />
+      <Diagram DiagramId="d1f06c70b118477c82ae5314cc0aa292" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="8.5" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignTask" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" ManuallyRouted="false" />
@@ -17,6 +16,15 @@
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" ManuallyRouted="false" />
+      </Diagram>
+      <Diagram DiagramId="e921f1ed420b483b82705664d8144969" Name="MenuDiagram" ZoomLevel="82" >
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="5.125" PointY="10.875" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemGroup" Width="1.5" PointX="2.875" PointY="11" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="2.875" PointY="13.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="7.375" PointY="10.875" />
+        <AssociationConnector Association="MyAndromedaModel.MenuItemGroupThumbnails" />
+        <AssociationConnector Association="MyAndromedaModel.MenuItemInGroup" />
+        <AssociationConnector Association="MyAndromedaModel.SiteMenuItem" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

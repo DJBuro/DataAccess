@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MyAndromedaDataAccess.DataAccess;
-using Domain =  MyAndromedaDataAccess.Domain.Marketing;
+using MyAndromedaDataAccess.DataAccess.MyAndromeda.Email;
+using Domain = MyAndromedaDataAccess.Domain.Marketing;
 using MyAndromedaDataAccess.Domain.Marketing;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
@@ -26,7 +26,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="settings">The settings.</param>
         public void CreateEmailSettings(EmailSettings settings)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var dataModel = dbContext.EmailCampaignSettings.Create();
                 dataModel.Update(settings);
@@ -55,7 +55,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <returns></returns>
         public EmailSettings GetEmailSettingsByChainId(int chainId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var dataModel = dbContext.EmailCampaignSettings.FirstOrDefault(e => e.ChainId == chainId);
 
@@ -72,7 +72,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="id">The id.</param>
         public void DestroyEmailSettings(int id)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var dataModel = dbContext.EmailCampaignSettings.Find(id);
 
@@ -86,7 +86,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public void SaveSettings(EmailSettings settings)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e => e.Id == settings.Id);
                 entity.Host = settings.Host;
@@ -101,7 +101,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public Domain.EmailSettings GetEmailSettings(int chainId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e=> e.ChainId == chainId);
 
@@ -124,7 +124,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="id">The id.</param>
         public void Destroy(int id)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var entity = dbContext.EmailCampaigns.Find(id);
 
@@ -142,7 +142,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <returns></returns>
         public IEnumerable<Domain.EmailCampaign> List()
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext.EmailCampaigns;
 
@@ -159,9 +159,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <returns></returns>
         public IEnumerable<Domain.EmailCampaign> List(Expression<Func<Domain.EmailCampaign, bool>> query)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
-                var dbQuery = ExpressionRewriter.CastParam<Domain.EmailCampaign, Model.MyAndro.EmailCampaign>(query);
+                var dbQuery = ExpressionRewriter.CastParam<Domain.EmailCampaign, Model.MyAndromeda.EmailCampaign>(query);
 
                 var entities = dbContext.EmailCampaigns.Where(dbQuery);
 
@@ -171,7 +171,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public IEnumerable<Domain.EmailCampaign> ListByChain(int chainId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext.EmailCampaigns
                     .Where(e => e.ChainId == chainId)
@@ -186,7 +186,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public IEnumerable<Domain.EmailCampaign> ListBySite(int siteId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext
                     .EmailCampaigns
@@ -202,7 +202,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         public IEnumerable<Domain.EmailCampaign> ListByChainAndSite(int chainId, int siteId)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entities = dbContext.EmailCampaigns
                     .Where(e => !e.Removed)
@@ -223,7 +223,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <returns></returns>
         public Domain.EmailCampaign Get(int id)
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext()) 
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var entity = dbContext.EmailCampaigns.Find(id);
 
@@ -257,7 +257,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         {
             this.Ensure(campaign);
 
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entity = dbContext.EmailCampaigns.Create();//new Model.EmailCampaign();
                 entity.Update(campaign);
@@ -296,7 +296,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
         /// <param name="campaign">The campaign.</param>
         private void Update(Domain.EmailCampaign campaign) 
         {
-            using (var dbContext = new Model.MyAndro.MyAndromedaDbContext())
+            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var entity = dbContext.EmailCampaigns.Find(campaign.Id);//new Model.EmailCampaign();
                 entity.Update(campaign);

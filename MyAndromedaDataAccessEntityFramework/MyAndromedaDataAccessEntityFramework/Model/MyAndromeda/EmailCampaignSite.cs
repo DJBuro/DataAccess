@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
+namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailCampaignSentEmail
+    public partial class EmailCampaignSite
     {
-        public int Id { get; set; }
-        public string Subject { get; set; }
-        public string SendTo { get; set; }
-        public string SendFrom { get; set; }
-        public string Message { get; set; }
         public int EmailCampaignId { get; set; }
+        public int SiteId { get; set; }
+        public bool Editable { get; set; }
     
         public virtual EmailCampaign EmailCampaign { get; set; }
     }

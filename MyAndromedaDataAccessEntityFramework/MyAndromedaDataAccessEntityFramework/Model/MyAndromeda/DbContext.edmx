@@ -6,13 +6,29 @@
     <edmx:StorageModels>
     <Schema Namespace="MyAndromedaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="MyAndromedaModelStoreContainer">
-          <EntitySet Name="CustomerRecord" EntityType="MyAndromedaModel.Store.CustomerRecord" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaign" EntityType="MyAndromedaModel.Store.EmailCampaign" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignAudit" EntityType="MyAndromedaModel.Store.EmailCampaignAudit" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.Store.EmailCampaignSentEmails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignSettings" EntityType="MyAndromedaModel.Store.EmailCampaignSettings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.Store.EmailCampaignSites" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.Store.EmailCampaignTasks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MenuItem" EntityType="MyAndromedaModel.Store.MenuItem" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MenuItemGroup" EntityType="MyAndromedaModel.Store.MenuItemGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MenuItemGroupThumbnails" EntityType="MyAndromedaModel.Store.MenuItemGroupThumbnails" store:Type="Tables" store:Schema="dbo" store:Name="MenuItemGroupThumbnails">
+            <DefiningQuery>SELECT 
+      [MenuItemGroupThumbnails].[MenItemGroupId] AS [MenItemGroupId], 
+      [MenuItemGroupThumbnails].[ThumbnailMetaDataId] AS [ThumbnailMetaDataId]
+      FROM [dbo].[MenuItemGroupThumbnails] AS [MenuItemGroupThumbnails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MenuItemInGroup" EntityType="MyAndromedaModel.Store.MenuItemInGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MenuItemThumbnails" EntityType="MyAndromedaModel.Store.MenuItemThumbnails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteMenu" EntityType="MyAndromedaModel.Store.SiteMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteMenuItem" EntityType="MyAndromedaModel.Store.SiteMenuItem" store:Type="Tables" store:Schema="dbo" store:Name="SiteMenuItem">
+            <DefiningQuery>SELECT 
+      [SiteMenuItem].[SiteMenuId] AS [SiteMenuId], 
+      [SiteMenuItem].[MenuItemId] AS [MenuItemId]
+      FROM [dbo].[SiteMenuItem] AS [SiteMenuItem]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
@@ -33,17 +49,31 @@
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_MenuItemGroupThumbnails_MenuItemGroup" Association="MyAndromedaModel.Store.FK_MenuItemGroupThumbnails_MenuItemGroup">
+            <End Role="MenuItemGroup" EntitySet="MenuItemGroup" />
+            <End Role="MenuItemGroupThumbnails" EntitySet="MenuItemGroupThumbnails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuItemGroupThumbnails_MenuItemThumbnails" Association="MyAndromedaModel.Store.FK_MenuItemGroupThumbnails_MenuItemThumbnails">
+            <End Role="MenuItemThumbnails" EntitySet="MenuItemThumbnails" />
+            <End Role="MenuItemGroupThumbnails" EntitySet="MenuItemGroupThumbnails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuItemInGroup_MenuItem" Association="MyAndromedaModel.Store.FK_MenuItemInGroup_MenuItem">
+            <End Role="MenuItem" EntitySet="MenuItem" />
+            <End Role="MenuItemInGroup" EntitySet="MenuItemInGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuItemInGroup_MenuItemGroup" Association="MyAndromedaModel.Store.FK_MenuItemInGroup_MenuItemGroup">
+            <End Role="MenuItemGroup" EntitySet="MenuItemGroup" />
+            <End Role="MenuItemInGroup" EntitySet="MenuItemInGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMenuItem_MenuItem" Association="MyAndromedaModel.Store.FK_SiteMenuItem_MenuItem">
+            <End Role="MenuItem" EntitySet="MenuItem" />
+            <End Role="SiteMenuItem" EntitySet="SiteMenuItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMenuItem_SiteMenu" Association="MyAndromedaModel.Store.FK_SiteMenuItem_SiteMenu">
+            <End Role="SiteMenu" EntitySet="SiteMenu" />
+            <End Role="SiteMenuItem" EntitySet="SiteMenuItem" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CustomerRecord">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="250" />
-          <Property Name="Surname" Type="varchar" Nullable="false" MaxLength="250" />
-          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="250" />
-          <Property Name="Title" Type="varchar" MaxLength="10" />
-        </EntityType>
         <EntityType Name="EmailCampaign">
           <Key>
             <PropertyRef Name="Id" />
@@ -119,6 +149,70 @@
           <Property Name="Canceled" Type="bit" Nullable="false" />
           <Property Name="CompletedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="MenuItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MenuItemGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MyAndromeda.dbo.MenuItemGroupThumbnails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="MenuItemGroupThumbnails">
+          <Key>
+            <PropertyRef Name="MenItemGroupId" />
+            <PropertyRef Name="ThumbnailMetaDataId" />
+          </Key>
+          <Property Name="MenItemGroupId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ThumbnailMetaDataId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuItemInGroup">
+          <Key>
+            <PropertyRef Name="MenuItemGroupId" />
+            <PropertyRef Name="MenuItemId" />
+          </Key>
+          <Property Name="MenuItemGroupId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MenuItemId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuItemThumbnails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Src" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Alt" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="SiteMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AndromediaId" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MyAndromeda.dbo.SiteMenuItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="SiteMenuItem">
+          <Key>
+            <PropertyRef Name="SiteMenuId" />
+            <PropertyRef Name="MenuItemId" />
+          </Key>
+          <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MenuItemId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
           <End Role="EmailCampaignAudit" Type="MyAndromedaModel.Store.EmailCampaignAudit" Multiplicity="0..1" />
@@ -179,12 +273,83 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MenuItemGroupThumbnails_MenuItemGroup">
+          <End Role="MenuItemGroup" Type="MyAndromedaModel.Store.MenuItemGroup" Multiplicity="1" />
+          <End Role="MenuItemGroupThumbnails" Type="MyAndromedaModel.Store.MenuItemGroupThumbnails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItemGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemGroupThumbnails">
+              <PropertyRef Name="MenItemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuItemGroupThumbnails_MenuItemThumbnails">
+          <End Role="MenuItemThumbnails" Type="MyAndromedaModel.Store.MenuItemThumbnails" Multiplicity="1" />
+          <End Role="MenuItemGroupThumbnails" Type="MyAndromedaModel.Store.MenuItemGroupThumbnails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItemThumbnails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemGroupThumbnails">
+              <PropertyRef Name="ThumbnailMetaDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuItemInGroup_MenuItem">
+          <End Role="MenuItem" Type="MyAndromedaModel.Store.MenuItem" Multiplicity="1" />
+          <End Role="MenuItemInGroup" Type="MyAndromedaModel.Store.MenuItemInGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemInGroup">
+              <PropertyRef Name="MenuItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuItemInGroup_MenuItemGroup">
+          <End Role="MenuItemGroup" Type="MyAndromedaModel.Store.MenuItemGroup" Multiplicity="1" />
+          <End Role="MenuItemInGroup" Type="MyAndromedaModel.Store.MenuItemInGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItemGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItemInGroup">
+              <PropertyRef Name="MenuItemGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteMenuItem_MenuItem">
+          <End Role="MenuItem" Type="MyAndromedaModel.Store.MenuItem" Multiplicity="1" />
+          <End Role="SiteMenuItem" Type="MyAndromedaModel.Store.SiteMenuItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenuItem">
+              <PropertyRef Name="MenuItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteMenuItem_SiteMenu">
+          <End Role="SiteMenu" Type="MyAndromedaModel.Store.SiteMenu" Multiplicity="1" />
+          <End Role="SiteMenuItem" Type="MyAndromedaModel.Store.SiteMenuItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenuItem">
+              <PropertyRef Name="SiteMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyAndromedaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MyAndromedaDbContext" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="CustomerRecords" EntityType="MyAndromedaModel.CustomerRecord" />
           <EntitySet Name="EmailCampaigns" EntityType="MyAndromedaModel.EmailCampaign" />
           <EntitySet Name="EmailCampaignAudits" EntityType="MyAndromedaModel.EmailCampaignAudit" />
           <EntitySet Name="EmailCampaignSentEmails" EntityType="MyAndromedaModel.EmailCampaignSentEmail" />
@@ -211,17 +376,23 @@
             <End Role="EmailCampaignSettings" EntitySet="EmailCampaignSettings" />
             <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
           </AssociationSet>
+          <EntitySet Name="MenuItems" EntityType="MyAndromedaModel.MenuItem" />
+          <EntitySet Name="MenuItemGroups" EntityType="MyAndromedaModel.MenuItemGroup" />
+          <EntitySet Name="MenuItemThumbnails" EntityType="MyAndromedaModel.MenuItemThumbnail" />
+          <EntitySet Name="SiteMenus" EntityType="MyAndromedaModel.SiteMenu" />
+          <AssociationSet Name="MenuItemGroupThumbnails" Association="MyAndromedaModel.MenuItemGroupThumbnails">
+            <End Role="MenuItemGroup" EntitySet="MenuItemGroups" />
+            <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnails" />
+          </AssociationSet>
+          <AssociationSet Name="MenuItemInGroup" Association="MyAndromedaModel.MenuItemInGroup">
+            <End Role="MenuItem" EntitySet="MenuItems" />
+            <End Role="MenuItemGroup" EntitySet="MenuItemGroups" />
+          </AssociationSet>
+          <AssociationSet Name="SiteMenuItem" Association="MyAndromedaModel.SiteMenuItem">
+            <End Role="MenuItem" EntitySet="MenuItems" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CustomerRecord">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
-          <Property Name="Surname" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
-          <Property Name="Title" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-        </EntityType>
         <EntityType Name="EmailCampaign">
           <Key>
             <PropertyRef Name="Id" />
@@ -367,23 +538,64 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MenuItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="ItemId" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MenuItemGroups" Relationship="MyAndromedaModel.MenuItemInGroup" FromRole="MenuItem" ToRole="MenuItemGroup" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.SiteMenuItem" FromRole="MenuItem" ToRole="SiteMenu" />
+        </EntityType>
+        <EntityType Name="MenuItemGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MenuItemThumbnails" Relationship="MyAndromedaModel.MenuItemGroupThumbnails" FromRole="MenuItemGroup" ToRole="MenuItemThumbnail" />
+          <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.MenuItemInGroup" FromRole="MenuItemGroup" ToRole="MenuItem" />
+        </EntityType>
+        <EntityType Name="MenuItemThumbnail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Src" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Height" Nullable="false" />
+          <Property Type="Int32" Name="Width" Nullable="false" />
+          <Property Type="String" Name="Alt" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MenuItemGroups" Relationship="MyAndromedaModel.MenuItemGroupThumbnails" FromRole="MenuItemThumbnail" ToRole="MenuItemGroup" />
+        </EntityType>
+        <EntityType Name="SiteMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="AndromediaId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="3" />
+          <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.SiteMenuItem" FromRole="SiteMenu" ToRole="MenuItem" />
+        </EntityType>
+        <Association Name="MenuItemGroupThumbnails">
+          <End Type="MyAndromedaModel.MenuItemGroup" Role="MenuItemGroup" Multiplicity="*" />
+          <End Type="MyAndromedaModel.MenuItemThumbnail" Role="MenuItemThumbnail" Multiplicity="*" />
+        </Association>
+        <Association Name="MenuItemInGroup">
+          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
+          <End Type="MyAndromedaModel.MenuItemGroup" Role="MenuItemGroup" Multiplicity="*" />
+        </Association>
+        <Association Name="SiteMenuItem">
+          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MyAndromedaModelStoreContainer" CdmEntityContainer="MyAndromedaDbContext">
-          <EntitySetMapping Name="CustomerRecords">
-            <EntityTypeMapping TypeName="MyAndromedaModel.CustomerRecord">
-              <MappingFragment StoreEntitySet="CustomerRecord">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EmailCampaigns">
             <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaign">
               <MappingFragment StoreEntitySet="EmailCampaign">
@@ -464,6 +676,68 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MenuItems">
+            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItem">
+              <MappingFragment StoreEntitySet="MenuItem">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuItemGroups">
+            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItemGroup">
+              <MappingFragment StoreEntitySet="MenuItemGroup">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuItemThumbnails">
+            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItemThumbnail">
+              <MappingFragment StoreEntitySet="MenuItemThumbnails">
+                <ScalarProperty Name="Alt" ColumnName="Alt" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Src" ColumnName="Src" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteMenus">
+            <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenu">
+              <MappingFragment StoreEntitySet="SiteMenu">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="AndromediaId" ColumnName="AndromediaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MenuItemGroupThumbnails" TypeName="MyAndromedaModel.MenuItemGroupThumbnails" StoreEntitySet="MenuItemGroupThumbnails">
+            <EndProperty Name="MenuItemThumbnail">
+              <ScalarProperty Name="Id" ColumnName="ThumbnailMetaDataId" />
+            </EndProperty>
+            <EndProperty Name="MenuItemGroup">
+              <ScalarProperty Name="Id" ColumnName="MenItemGroupId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="MenuItemInGroup" TypeName="MyAndromedaModel.MenuItemInGroup" StoreEntitySet="MenuItemInGroup">
+            <EndProperty Name="MenuItemGroup">
+              <ScalarProperty Name="Id" ColumnName="MenuItemGroupId" />
+            </EndProperty>
+            <EndProperty Name="MenuItem">
+              <ScalarProperty Name="Id" ColumnName="MenuItemId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SiteMenuItem" TypeName="MyAndromedaModel.SiteMenuItem" StoreEntitySet="SiteMenuItem">
+            <EndProperty Name="SiteMenu">
+              <ScalarProperty Name="Id" ColumnName="SiteMenuId" />
+            </EndProperty>
+            <EndProperty Name="MenuItem">
+              <ScalarProperty Name="Id" ColumnName="MenuItemId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

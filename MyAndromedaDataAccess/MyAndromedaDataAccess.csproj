@@ -56,15 +56,17 @@
     <Compile Include="DataAccess\ICustomerDataAccess.cs" />
     <Compile Include="DataAccess\ICountryDataAccess.cs" />
     <Compile Include="DataAccess\IAddressDataAccess.cs" />
-    <Compile Include="DataAccess\IEmailCampaignDataAccess.cs" />
-    <Compile Include="DataAccess\IEmailCampaignTasksDataAccess.cs" />
+    <Compile Include="DataAccess\MyAndromeda\Email\IEmailCampaignDataAccess.cs" />
+    <Compile Include="DataAccess\MyAndromeda\Email\IEmailCampaignTasksDataAccess.cs" />
     <Compile Include="DataAccess\IEmployeeDataAccess.cs" />
     <Compile Include="DataAccess\IGroupsDataAccess.cs" />
+    <Compile Include="DataAccess\IMenuDataAccess.cs" />
     <Compile Include="DataAccess\IMyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\IOpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\IOrderReportingService.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
+    <Compile Include="DataAccess\MyAndromeda\Menu\IMenuDataAccess.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\DataWarehouse\ContactType.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Domain\Marketing\EmailCampaign.cs" />
     <Compile Include="Domain\Marketing\EmailCampaignTask.cs" />
     <Compile Include="Domain\Marketing\EmailSettings.cs" />
+    <Compile Include="Domain\Menus\SiteMenu.cs" />
     <Compile Include="Domain\MyAndromedaUser.cs" />
     <Compile Include="Domain\Marketing\Customer.cs" />
     <Compile Include="Domain\Reporting\CustomersOverview.cs" />

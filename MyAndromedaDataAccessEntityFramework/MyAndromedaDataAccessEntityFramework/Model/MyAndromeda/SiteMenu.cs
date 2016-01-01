@@ -7,17 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyAndromedaDataAccessEntityFramework.Model.MyAndro
+namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailCampaignSite
+    public partial class SiteMenu
     {
-        public int EmailCampaignId { get; set; }
-        public int SiteId { get; set; }
-        public bool Editable { get; set; }
+        public SiteMenu()
+        {
+            this.MenuItems = new HashSet<MenuItem>();
+        }
     
-        public virtual EmailCampaign EmailCampaign { get; set; }
+        public System.Guid Id { get; set; }
+        public string AndromediaId { get; set; }
+        public int DataVersion { get; set; }
+        public System.DateTime LastUpdated { get; set; }
+    
+        public virtual ICollection<MenuItem> MenuItems { get; set; }
     }
 }
