@@ -537,6 +537,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     }
                     else
                     {
+                        if (!customerEntity.ID.Equals(customerLoyalty.CustomerId))
+                        {
+                            return "CustomerId mismatch: " + username;
+                        }
                         bool isAddLoyalty = customerEntity.CustomerLoyalties == null || (customerEntity.CustomerLoyalties != null && customerEntity.CustomerLoyalties.Count == 0);
                         if (isAddLoyalty)
                         {
@@ -550,7 +554,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             Model.CustomerLoyalty existingConfig = customerEntity.CustomerLoyalties.FirstOrDefault(c => c.ProviderName.ToLower().Equals(customerLoyalty.ProviderName.ToLower()));
                             if (existingConfig != null)
                             {
-                                existingConfig.Points = customerLoyalty.Points ?? 0;
+                                //existingConfig.Points = customerLoyalty.Points ?? 0;
+                                decimal calculatedPoints = ((existingConfig.Points ?? 0) + (customerLoyalty.PointsGained ?? 0)) - (customerLoyalty.PointsUsed ?? 0);
+                                existingConfig.Points = (calculatedPoints < 0) ? 0 : calculatedPoints;
                             }
                             else
                             {
@@ -573,7 +579,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
             cl.Id = Guid.NewGuid();
             cl.CustomerId = customerLoyalty.Id;
             cl.ProviderName = customerLoyalty.ProviderName;
-            cl.Points = customerLoyalty.Points ?? 0;
+            decimal calculatedPoints = ((customerLoyalty.PointsGained ?? 0) - (customerLoyalty.PointsUsed ?? 0));
+            cl.Points = (calculatedPoints < 0) ? 0 : calculatedPoints;
 
             return cl;
         }
