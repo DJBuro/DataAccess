@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MyAndromeda.Core;
 using System.Linq.Expressions;
-using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
+using MyAndromeda.Core.User;
+using System.Data.Entity;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
@@ -33,14 +34,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns></returns>
-        MyAndromedaDataAccess.Domain.MyAndromedaUser GetByUserName(string userName);
+        MyAndromedaUser GetByUserName(string userName);
 
         /// <summary>
         /// Queries for users.
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        IEnumerable<MyAndromedaDataAccess.Domain.MyAndromedaUser> QueryForUsers(Expression<Func<UserRecord, bool>> query);
+        IEnumerable<MyAndromedaUser> QueryForUsers(Expression<Func<UserRecord, bool>> query);
 
         /// <summary>
         /// Queries the specified query.
@@ -77,12 +78,15 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             return new UserRecord();
         }
 
-        public MyAndromedaDataAccess.Domain.MyAndromedaUser GetByUserName(string userName)
+        public MyAndromedaUser GetByUserName(string userName)
         {
-            MyAndromedaDataAccess.Domain.MyAndromedaUser model = null;
+            MyAndromedaUser model = null;
             using (var dbContext = NewContext()) 
             {
-                var result = dbContext.UserRecords.Where(e => e.Username.Equals(userName)).SingleOrDefault();
+                var result = dbContext.UserRecords
+                    //.Include(e=> e.UserIpLocking)
+                    .Where(e => e.Username.Equals(userName))
+                    .SingleOrDefault();
 
                 if (result == null)
                     return null;
@@ -141,9 +145,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 
     public static class UserDataServiceExtensions 
     {
-        public static MyAndromedaDataAccess.Domain.MyAndromedaUser ToDomain(this UserRecord user) 
+        public static MyAndromedaUser ToDomain(this UserRecord user) 
         {
-            var domainModel = new MyAndromedaDataAccess.Domain.MyAndromedaUser() { 
+            var domainModel = new MyAndromedaUser() { 
                 Id = user.Id,
                 Firstname = user.FirstName,
                 Surname = user.LastName,

@@ -37,7 +37,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<SiteMenuMediaProfile> SiteMenuMediaProfiles { get; set; }
         public DbSet<SiteMenuMediaProfileSize> SiteMenuMediaProfileSizes { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserChain> UserChains { get; set; }
         public DbSet<UserRecord> UserRecords { get; set; }
@@ -49,8 +48,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<StoreEnrolment> StoreEnrolments { get; set; }
         public DbSet<RolePermissions> RolePermissions { get; set; }
         public DbSet<CloudSynchronizationTask> CloudSynchronizationTasks { get; set; }
-        public DbSet<SiteMenuFtpBackup> SiteMenuFtpBackups { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<StoreEmployee> StoreEmployees { get; set; }
+        public DbSet<UserIpLock> UserIpLocks { get; set; }
+        public DbSet<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<SiteMenuFtpBackupDownloadTask> SiteMenuFtpBackupDownloadTasks { get; set; }
+        public DbSet<SiteMenuFtpBackupUploadTask> SiteMenuFtpBackupUploadTasks { get; set; }
     }
 }

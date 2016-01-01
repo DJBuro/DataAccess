@@ -121,6 +121,7 @@
     <Compile Include="DataAccess\Users\IUserAccessDataService.cs" />
     <Compile Include="DataAccess\Users\IUserDataService.cs" />
     <Compile Include="DataAccess\Users\IUserChainsDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserLockingDataService.cs" />
     <Compile Include="DataAccess\Users\IUserRoleDataService.cs" />
     <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
     <Compile Include="DataAccess\Users\UserRoleDataService.cs" />
@@ -315,7 +316,10 @@
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda\SiteMenuFtpBackup.cs">
+    <Compile Include="Model\MyAndromeda\SiteMenuFtpBackupDownloadTask.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuFtpBackupUploadTask.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuMediaProfile.cs">
@@ -330,6 +334,9 @@
     <Compile Include="Model\MyAndromeda\SiteMenuMediaServerAuthentication.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuPublishTask.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\StoreEmployee.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -337,6 +344,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\UserChain.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserIpLock.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\UserRecord.cs">
@@ -404,6 +414,7 @@
       <DependentUpon>DbContext.edmx</DependentUpon>
       <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

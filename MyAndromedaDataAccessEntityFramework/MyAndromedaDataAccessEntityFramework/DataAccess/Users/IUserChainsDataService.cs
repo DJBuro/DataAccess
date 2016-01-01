@@ -1,4 +1,5 @@
 ﻿using MyAndromeda.Core;
+using MyAndromeda.Core.User;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;

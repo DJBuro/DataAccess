@@ -12,21 +12,15 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class MenuItem
+    public partial class SiteMenuPublishTask
     {
-        public MenuItem()
-        {
-            this.MenuItemThumbnailsLinkTables = new HashSet<MenuItemThumbnailsLinkTable>();
-        }
-    
-        public System.Guid Id { get; set; }
-        public int ItemId { get; set; }
-        public string Name { get; set; }
+        public int Id { get; set; }
         public System.Guid SiteMenuId { get; set; }
-        public string WebName { get; set; }
-        public string WebDescription { get; set; }
+        public System.DateTime PublishOnUtc { get; set; }
+        public bool Completed { get; set; }
+        public bool Canceled { get; set; }
+        public string PublishedBy { get; set; }
     
-        public virtual ICollection<MenuItemThumbnailsLinkTable> MenuItemThumbnailsLinkTables { get; set; }
         public virtual SiteMenu SiteMenu { get; set; }
     }
 }
