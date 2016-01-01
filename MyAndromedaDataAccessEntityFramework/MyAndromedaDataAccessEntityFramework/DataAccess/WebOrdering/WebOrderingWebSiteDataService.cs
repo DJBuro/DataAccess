@@ -61,5 +61,20 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
         {
             return this.TableQuery.Where(predicate);
         }
+
+        public AndroWebOrderingWebsite GetWebOrderingSiteForOrder(int applicationId, string externalSiteId) {
+            
+            var site = dataContext.Stores.Where(e => e.ExternalId.Equals(externalSiteId,StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            AndroWebOrderingWebsite website = null;
+
+            if (site != null) {
+                var application = dataContext.ACSApplications.Include(e => e.ACSApplicationSites).Include(e => e.AndroWebOrderingWebsites).Where(e => e.Id == applicationId && e.ACSApplicationSites.Where(a => a.SiteId == site.Id).Count() > 0).FirstOrDefault();
+                website = application != null ? application.AndroWebOrderingWebsites.FirstOrDefault() : website;
+            }
+
+            return website;
+
+        }
+        
     }
 }
