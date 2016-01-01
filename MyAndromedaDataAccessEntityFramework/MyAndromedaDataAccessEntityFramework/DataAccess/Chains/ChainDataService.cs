@@ -18,7 +18,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Chains
                 var query = table.Where(e => e.Chain.Id == chainId);
                 var results = query.ToArray();
 
-                sites = results.Select(e => e.ToDomain());
+                sites = results.Select(e => e.ToDomainModel());
             }
 
             return sites;

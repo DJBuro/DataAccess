@@ -13,6 +13,16 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Devices
         public DevicesDataService() 
         {
             this.dbContext = new Model.AndroAdmin.AndroAdminDbContext();
+            this.Table = this.dbContext.Set<Device>();
+            this.TableQuery = this.Table.Include(e => e.ExternalApi);
+        }
+
+        public DbSet<Device> Table { get; set; }
+        public IQueryable<Device> TableQuery { get; set; }
+
+        public void ChangeIncludeScope<TPropertyModel>(Expression<Func<Device, TPropertyModel>> predicate)
+        {
+            this.TableQuery = TableQuery.Include(predicate);
         }
 
         public Device New()
@@ -25,8 +35,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Devices
 
         public Device Get(Expression<Func<Device, bool>> query)
         {
-            var table = this.dbContext.Devices;
-            var tableQuery = table.Where(query);
+            var tableQuery = this.TableQuery.Where(query);
 
             var device = tableQuery.SingleOrDefault();
 
@@ -35,16 +44,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Devices
 
         public IQueryable<Device> List()
         {
-            var table = this.dbContext.Devices.Include(e => e.ExternalApi);
-
-            return table;
+            return this.TableQuery;
         }
 
         public IQueryable<Device> List(Expression<Func<Device, bool>> query)
         {
-            var table = this.dbContext.Devices.Include(e => e.ExternalApi);
-
-            return table;
+            return this.TableQuery.Where(query);
         }
     }
 }

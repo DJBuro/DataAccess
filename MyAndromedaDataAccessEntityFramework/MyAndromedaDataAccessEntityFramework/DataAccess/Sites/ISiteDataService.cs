@@ -6,6 +6,8 @@ using System.Linq;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System.Linq.Expressions;
+using MyAndromeda.Core.Data;
+
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 {
@@ -17,6 +19,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 
     public class SiteDataService : ISiteDataService 
     {
+        
         public IEnumerable<Site> List(Expression<Func<Store, bool>> query)
         {
             IEnumerable<Site> sites;
@@ -27,7 +30,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
                 var storeQuery = table.Where(query);
                 var storeResult = storeQuery.ToArray();
 
-                sites = storeResult.Select(e => e.ToDomain()).ToArray();
+                sites = storeResult.Select(e => e.ToDomainModel()).ToArray();
             }
 
             return sites;

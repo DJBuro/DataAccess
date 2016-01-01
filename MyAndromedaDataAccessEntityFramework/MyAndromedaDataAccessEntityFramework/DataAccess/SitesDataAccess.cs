@@ -71,7 +71,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    site = entity.ToDomain();
+                    site = entity.ToDomainModel();
                 }
             }
 
