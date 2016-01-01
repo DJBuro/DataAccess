@@ -12,26 +12,25 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class FTPSite
+    public partial class Chain
     {
-        public FTPSite()
+        public Chain()
         {
-            this.StoreAMSServerFtpSites = new HashSet<StoreAMSServerFtpSite>();
+            this.AMSServerChains = new HashSet<AMSServerChain>();
+            this.ChainChains = new HashSet<ChainChain>();
+            this.ChainChains1 = new HashSet<ChainChain>();
             this.FTPSiteChains = new HashSet<FTPSiteChain>();
+            this.Stores = new HashSet<Store>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Url { get; set; }
-        public int Port { get; set; }
-        public string ServerType { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool IsPrimary { get; set; }
-        public int FTPSiteType_Id { get; set; }
+        public string Description { get; set; }
     
-        public virtual FTPSiteType FTPSiteType { get; set; }
-        public virtual ICollection<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
+        public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
+        public virtual ICollection<ChainChain> ChainChains { get; set; }
+        public virtual ICollection<ChainChain> ChainChains1 { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 }

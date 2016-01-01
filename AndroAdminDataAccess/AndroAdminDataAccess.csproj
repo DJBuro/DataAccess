@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IChainDAO.cs" />
     <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="DataAccess\IStoreDAO.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\Permission.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
@@ -118,12 +120,22 @@
     <Compile Include="EntityFramework\AMSServer.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\AMSServerChain.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Chain.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ChainChain.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\Country.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\AddressDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\ChainDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
@@ -165,6 +177,9 @@
       <DependentUpon>EntityModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\FTPSite.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\FTPSiteChain.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\FTPSiteType.cs">

@@ -14,9 +14,11 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name="Andromeda store Name")]
         public virtual string Name { get; set; }
 
+        [Required]
         [Display(Name = "Andromeda store ID")]
         public virtual int AndromedaSiteId { get; set; }
 
+        [Required]
         [Display(Name = "Customer store ID")]
         public virtual string CustomerSiteId { get; set; }
 
@@ -49,6 +51,8 @@ namespace AndroAdminDataAccess.Domain
 
         public List<TimeSpanBlock> OpeningHours { get; set; }
 
+        public Chain Chain { get; set; }
+
         public Store()
         {
             this.Name = "";
@@ -65,6 +69,7 @@ namespace AndroAdminDataAccess.Domain
             this.Address = null;
             this.Telephone = "";
             this.TimeZone = "";
+            this.Chain = null;
         }
    }
 }

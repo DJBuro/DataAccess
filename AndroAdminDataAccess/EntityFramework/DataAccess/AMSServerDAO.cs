@@ -139,7 +139,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return model;
         }
 
-
         public void Delete(int amsServerId)
         {
              
@@ -180,6 +179,64 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     entitiesContext.SaveChanges();
                 }
+            }
+        }
+
+        public IList<Domain.AMSServer> GetByChainId(int chainId)
+        {
+            List<Domain.AMSServer> amsServers = new List<Domain.AMSServer>();
+
+            this.GetByChainIdRecursive(chainId, amsServers);
+
+            return amsServers;
+        }
+
+        private void GetByChainIdRecursive(int chainId, IList<Domain.AMSServer> amsServers)
+        {
+            // Get the AMS servers that the specified chain is allowed to access
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.AMSServers
+                            join x in entitiesContext.AMSServerChains
+                            on s.Id equals x.AMSServerId
+                            where x.ChainId == chainId
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    Domain.AMSServer model = new Domain.AMSServer()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Description = entity.Description
+                    };
+
+                    amsServers.Add(model);
+                }
+            }
+
+            // Find any parent chains
+            List<int> parentChainIds = new List<int>();
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.ChainChains
+                            where s.ChildChainId == chainId
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    parentChainIds.Add(entity.ParentChainId);
+                }
+            }
+
+            // Get the AMS servers that the parent chain is allowed to access
+            foreach (int parentChainId in parentChainIds)
+            {
+                this.GetByChainIdRecursive(parentChainId, amsServers);
             }
         }
     }

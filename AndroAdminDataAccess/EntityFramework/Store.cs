@@ -40,6 +40,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public Nullable<int> AddressId { get; set; }
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
+        public Nullable<int> ChainId { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
@@ -50,5 +51,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
         public virtual ICollection<StoreGroup> StoreGroups { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
+        public virtual Chain Chain { get; set; }
     }
 }

@@ -10,10 +10,14 @@
           <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Address" EntityType="AndroAdminModel.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AMSServer" EntityType="AndroAdminModel.Store.AMSServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AMSServerChain" EntityType="AndroAdminModel.Store.AMSServerChain" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Chain" EntityType="AndroAdminModel.Store.Chain" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ChainChain" EntityType="AndroAdminModel.Store.ChainChain" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Country" EntityType="AndroAdminModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FTPSite" EntityType="AndroAdminModel.Store.FTPSite" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FTPSiteChain" EntityType="AndroAdminModel.Store.FTPSiteChain" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FTPSiteType" EntityType="AndroAdminModel.Store.FTPSiteType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Group" EntityType="AndroAdminModel.Store.Group" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Host" EntityType="AndroAdminModel.Store.Host" store:Type="Tables" Schema="dbo" />
@@ -47,9 +51,33 @@
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
+          <AssociationSet Name="FK_AMSServerChain_AMSServer" Association="AndroAdminModel.Store.FK_AMSServerChain_AMSServer">
+            <End Role="AMSServer" EntitySet="AMSServer" />
+            <End Role="AMSServerChain" EntitySet="AMSServerChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AMSServerChain_Chain" Association="AndroAdminModel.Store.FK_AMSServerChain_Chain">
+            <End Role="Chain" EntitySet="Chain" />
+            <End Role="AMSServerChain" EntitySet="AMSServerChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChainChain_Chain" Association="AndroAdminModel.Store.FK_ChainChain_Chain">
+            <End Role="Chain" EntitySet="Chain" />
+            <End Role="ChainChain" EntitySet="ChainChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChainChain_Chain1" Association="AndroAdminModel.Store.FK_ChainChain_Chain1">
+            <End Role="Chain" EntitySet="Chain" />
+            <End Role="ChainChain" EntitySet="ChainChain" />
+          </AssociationSet>
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.Store.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteType" />
             <End Role="FTPSite" EntitySet="FTPSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FTPSiteChain_Chain" Association="AndroAdminModel.Store.FK_FTPSiteChain_Chain">
+            <End Role="Chain" EntitySet="Chain" />
+            <End Role="FTPSiteChain" EntitySet="FTPSiteChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FTPSiteChain_FTPSite" Association="AndroAdminModel.Store.FK_FTPSiteChain_FTPSite">
+            <End Role="FTPSite" EntitySet="FTPSite" />
+            <End Role="FTPSiteChain" EntitySet="FTPSiteChain" />
           </AssociationSet>
           <AssociationSet Name="FK_Group_Partner" Association="AndroAdminModel.Store.FK_Group_Partner">
             <End Role="Partner" EntitySet="Partner" />
@@ -81,6 +109,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Store_Address" Association="AndroAdminModel.Store.FK_Store_Address">
             <End Role="Address" EntitySet="Address" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Chain" Association="AndroAdminModel.Store.FK_Store_Chain">
+            <End Role="Chain" EntitySet="Chain" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_Store_StorePaymentProvider" Association="AndroAdminModel.Store.FK_Store_StorePaymentProvider">
@@ -178,6 +210,30 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="3500" />
         </EntityType>
+        <EntityType Name="AMSServerChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AMSServerId" Type="int" Nullable="false" />
+          <Property Name="ChainId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Chain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ChainChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentChainId" Type="int" Nullable="false" />
+          <Property Name="ChildChainId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -219,6 +275,14 @@
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="IsPrimary" Type="bit" Nullable="false" />
           <Property Name="FTPSiteType_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FTPSiteChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FTPSiteId" Type="int" Nullable="false" />
+          <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FTPSiteType">
           <Key>
@@ -335,6 +399,7 @@
           <Property Name="AddressId" Type="int" />
           <Property Name="StorePaymentProviderID" Type="int" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="ChainId" Type="int" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -440,6 +505,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AMSServerChain_AMSServer">
+          <End Role="AMSServer" Type="AndroAdminModel.Store.AMSServer" Multiplicity="1" />
+          <End Role="AMSServerChain" Type="AndroAdminModel.Store.AMSServerChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AMSServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AMSServerChain">
+              <PropertyRef Name="AMSServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AMSServerChain_Chain">
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
+          <End Role="AMSServerChain" Type="AndroAdminModel.Store.AMSServerChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AMSServerChain">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChainChain_Chain">
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
+          <End Role="ChainChain" Type="AndroAdminModel.Store.ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ChildChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChainChain_Chain1">
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
+          <End Role="ChainChain" Type="AndroAdminModel.Store.ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ParentChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FTPSite_FTPSiteType">
           <End Role="FTPSiteType" Type="AndroAdminModel.Store.FTPSiteType" Multiplicity="1" />
           <End Role="FTPSite" Type="AndroAdminModel.Store.FTPSite" Multiplicity="*" />
@@ -449,6 +562,30 @@
             </Principal>
             <Dependent Role="FTPSite">
               <PropertyRef Name="FTPSiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FTPSiteChain_Chain">
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1" />
+          <End Role="FTPSiteChain" Type="AndroAdminModel.Store.FTPSiteChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FTPSiteChain">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FTPSiteChain_FTPSite">
+          <End Role="FTPSite" Type="AndroAdminModel.Store.FTPSite" Multiplicity="1" />
+          <End Role="FTPSiteChain" Type="AndroAdminModel.Store.FTPSiteChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FTPSite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FTPSiteChain">
+              <PropertyRef Name="FTPSiteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -545,6 +682,18 @@
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Chain">
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="0..1" />
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ChainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -774,6 +923,38 @@
             <End Role="Partner" EntitySet="Partners" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
+          <EntitySet Name="AMSServerChains" EntityType="AndroAdminModel.AMSServerChain" />
+          <EntitySet Name="Chains" EntityType="AndroAdminModel.Chain" />
+          <EntitySet Name="ChainChains" EntityType="AndroAdminModel.ChainChain" />
+          <EntitySet Name="FTPSiteChains" EntityType="AndroAdminModel.FTPSiteChain" />
+          <AssociationSet Name="FK_AMSServerChain_AMSServer" Association="AndroAdminModel.FK_AMSServerChain_AMSServer">
+            <End Role="AMSServer" EntitySet="AMSServers" />
+            <End Role="AMSServerChain" EntitySet="AMSServerChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AMSServerChain_Chain" Association="AndroAdminModel.FK_AMSServerChain_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="AMSServerChain" EntitySet="AMSServerChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChainChain_Chain" Association="AndroAdminModel.FK_ChainChain_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="ChainChain" EntitySet="ChainChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChainChain_Chain1" Association="AndroAdminModel.FK_ChainChain_Chain1">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="ChainChain" EntitySet="ChainChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FTPSiteChain_Chain" Association="AndroAdminModel.FK_FTPSiteChain_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="FTPSiteChain" EntitySet="FTPSiteChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FTPSiteChain_FTPSite" Association="AndroAdminModel.FK_FTPSiteChain_FTPSite">
+            <End Role="FTPSite" EntitySet="FTPSites" />
+            <End Role="FTPSiteChain" EntitySet="FTPSiteChains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Chain" Association="AndroAdminModel.FK_Store_Chain">
+            <End Role="Chain" EntitySet="Chains" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -836,6 +1017,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="3500" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_AMSServer" FromRole="AMSServer" ToRole="StoreAMSServer" />
+          <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_AMSServer" FromRole="AMSServer" ToRole="AMSServerChain" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -882,6 +1064,7 @@
           <Property Name="FTPSiteType_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FTPSiteType" Relationship="AndroAdminModel.FK_FTPSite_FTPSiteType" FromRole="FTPSite" ToRole="FTPSiteType" />
           <NavigationProperty Name="StoreAMSServerFtpSites" Relationship="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" FromRole="FTPSite" ToRole="StoreAMSServerFtpSite" />
+          <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_FTPSite" FromRole="FTPSite" ToRole="FTPSiteChain" />
         </EntityType>
         <EntityType Name="FTPSiteType">
           <Key>
@@ -1010,6 +1193,8 @@
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
           <NavigationProperty Name="StoreGroups" Relationship="AndroAdminModel.FK_StoreGroup_Store" FromRole="Store" ToRole="StoreGroup" />
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
+          <Property Type="Int32" Name="ChainId" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Store" ToRole="Chain" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -1352,6 +1537,133 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AMSServerChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="AMSServerId" Nullable="false" />
+          <Property Type="Int32" Name="ChainId" Nullable="false" />
+          <NavigationProperty Name="AMSServer" Relationship="AndroAdminModel.FK_AMSServerChain_AMSServer" FromRole="AMSServerChain" ToRole="AMSServer" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="AMSServerChain" ToRole="Chain" />
+        </EntityType>
+        <EntityType Name="Chain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AMSServerChains" Relationship="AndroAdminModel.FK_AMSServerChain_Chain" FromRole="Chain" ToRole="AMSServerChain" />
+          <NavigationProperty Name="ChainChains" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="Chain" ToRole="ChainChain" />
+          <NavigationProperty Name="ChainChains1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="Chain" ToRole="ChainChain" />
+          <NavigationProperty Name="FTPSiteChains" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="Chain" ToRole="FTPSiteChain" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Chain" FromRole="Chain" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="ChainChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ParentChainId" Nullable="false" />
+          <Property Type="Int32" Name="ChildChainId" Nullable="false" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_ChainChain_Chain" FromRole="ChainChain" ToRole="Chain" />
+          <NavigationProperty Name="Chain1" Relationship="AndroAdminModel.FK_ChainChain_Chain1" FromRole="ChainChain" ToRole="Chain" />
+        </EntityType>
+        <EntityType Name="FTPSiteChain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="FTPSiteId" Nullable="false" />
+          <Property Type="Int32" Name="ChainId" Nullable="false" />
+          <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_FTPSiteChain_Chain" FromRole="FTPSiteChain" ToRole="Chain" />
+          <NavigationProperty Name="FTPSite" Relationship="AndroAdminModel.FK_FTPSiteChain_FTPSite" FromRole="FTPSiteChain" ToRole="FTPSite" />
+        </EntityType>
+        <Association Name="FK_AMSServerChain_AMSServer">
+          <End Type="AndroAdminModel.AMSServer" Role="AMSServer" Multiplicity="1" />
+          <End Type="AndroAdminModel.AMSServerChain" Role="AMSServerChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AMSServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AMSServerChain">
+              <PropertyRef Name="AMSServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AMSServerChain_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.AMSServerChain" Role="AMSServerChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AMSServerChain">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChainChain_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ChildChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChainChain_Chain1">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.ChainChain" Role="ChainChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChainChain">
+              <PropertyRef Name="ParentChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FTPSiteChain_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="1" />
+          <End Type="AndroAdminModel.FTPSiteChain" Role="FTPSiteChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FTPSiteChain">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FTPSiteChain_FTPSite">
+          <End Type="AndroAdminModel.FTPSite" Role="FTPSite" Multiplicity="1" />
+          <End Type="AndroAdminModel.FTPSiteChain" Role="FTPSiteChain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FTPSite">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FTPSiteChain">
+              <PropertyRef Name="FTPSiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Chain">
+          <End Type="AndroAdminModel.Chain" Role="Chain" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ChainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1561,6 +1873,7 @@
           <EntitySetMapping Name="Stores">
             <EntityTypeMapping TypeName="AndroAdminModel.Store">
               <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
@@ -1648,6 +1961,42 @@
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="ExternalId" ColumnName="ExternalId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AMSServerChains">
+            <EntityTypeMapping TypeName="AndroAdminModel.AMSServerChain">
+              <MappingFragment StoreEntitySet="AMSServerChain">
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="AMSServerId" ColumnName="AMSServerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chains">
+            <EntityTypeMapping TypeName="AndroAdminModel.Chain">
+              <MappingFragment StoreEntitySet="Chain">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChainChains">
+            <EntityTypeMapping TypeName="AndroAdminModel.ChainChain">
+              <MappingFragment StoreEntitySet="ChainChain">
+                <ScalarProperty Name="ChildChainId" ColumnName="ChildChainId" />
+                <ScalarProperty Name="ParentChainId" ColumnName="ParentChainId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FTPSiteChains">
+            <EntityTypeMapping TypeName="AndroAdminModel.FTPSiteChain">
+              <MappingFragment StoreEntitySet="FTPSiteChain">
+                <ScalarProperty Name="ChainId" ColumnName="ChainId" />
+                <ScalarProperty Name="FTPSiteId" ColumnName="FTPSiteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -50,5 +50,9 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<AMSServerChain> AMSServerChains { get; set; }
+        public DbSet<Chain> Chains { get; set; }
+        public DbSet<ChainChain> ChainChains { get; set; }
+        public DbSet<FTPSiteChain> FTPSiteChains { get; set; }
     }
 }
