@@ -9,9 +9,10 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface ISiteDataAccess
     {
+        string ConnectionStringOverride { get; set; }
+
         string GetByFilter(
-            Guid partnerId,
-            Guid? chainId,
+            int applicationId,
             float? maxDistance,
             float? longitude,
             float? latitude,
@@ -22,6 +23,6 @@ namespace AndroCloudDataAccess.DataAccess
 
         string GetByAndromedaSiteId(int andromedaSiteId, out AndroCloudDataAccess.Domain.Site site);
 
-        string GetByIdAndPartner(Guid partnerId, Guid siteId, out Site site);
+        string GetByIdAndApplication(int applicationId, Guid siteId, out Site site);
     }
 }

@@ -8,7 +8,8 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IACSApplicationDataAccess
     {
+        string ConnectionStringOverride { get; set; }
         string Get(string externalApplicationId, out ACSApplication acsApplication);
-        bool StoreExists(Guid siteId, Guid applicationId);
+        bool StoreExists(Guid existingSiteId, int acsApplicationId);
     }
 }

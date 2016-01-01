@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IPartnersDataAccess
     {
+        string ConnectionStringOverride { get; set; }
         string Get(string externalPartnerId, out Partner partner);
     }
 }

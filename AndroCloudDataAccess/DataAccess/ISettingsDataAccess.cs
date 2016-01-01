@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AndroCloudDataAccess.Domain;
+using AndroCloudHelper;
+using CloudSyncModel;
 
 namespace AndroCloudDataAccess.DataAccess
 {
-    public interface IHostDataAccess
+    public interface ISettingsDataAccess
     {
         string ConnectionStringOverride { get; set; }
-        string GetAllPublic(out List<Host> hosts);
-        string GetAllPrivate(out List<AndroCloudDataAccess.Domain.Host> hosts);
+        string GetByName(string name, out string value);
     }
 }

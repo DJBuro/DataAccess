@@ -1,0 +1,36 @@
+﻿using System;
+using System.Data;
+using System.Data.Objects;
+using System.Linq;
+using AndroCloudDataAccess.DataAccess;
+using AndroCloudDataAccessEntityFramework.Model;
+using AndroCloudDataAccess.Domain;
+
+namespace AndroCloudDataAccessEntityFramework.DataAccess
+{
+    public class SettingsDataAccess : ISettingsDataAccess
+    {
+        public string ConnectionStringOverride { get; set; }
+
+        public string GetByName(string name, out string value)
+        {
+            value = null;
+
+            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
+            {
+                var query = from p in acsEntities.Settings
+                            where p.Name == name
+                            select p;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    value = entity.Value;
+                }
+            }
+
+            return "";
+        }
+    }
+}

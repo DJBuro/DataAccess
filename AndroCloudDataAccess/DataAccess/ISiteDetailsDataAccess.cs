@@ -9,8 +9,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface ISiteDetailsDataAccess
     {
+        string ConnectionStringOverride { get; set; }
         string GetBySiteId(Guid siteId, DataTypeEnum dataType, out SiteDetails siteDetails);
-        string GetByExternalSiteIdMyAndromedaUserId(string externalSiteId, string myAndromedaUserId, out SiteDetails siteDetails);
-        string Update(string myAndromedaUserId, SiteDetails siteDetails);
     }
 }

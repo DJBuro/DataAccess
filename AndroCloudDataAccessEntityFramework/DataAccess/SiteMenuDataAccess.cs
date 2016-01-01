@@ -11,26 +11,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class SiteMenuDataAccess : ISiteMenuDataAccess
     {
+        public string ConnectionStringOverride { get; set; }
+
         public string GetBySiteId(Guid siteId, DataTypeEnum dataType, out AndroCloudDataAccess.Domain.SiteMenu siteMenu)
         {
             siteMenu = null;
-            var acsEntities = new ACSEntities();
 
-            string dataTypeString = dataType.ToString();
-            var siteMenuQuery = from sm in acsEntities.SiteMenus
-                                where sm.SiteID == siteId
-                                && sm.MenuType == dataTypeString
-                                select sm;
-
-            var siteMenuEntity = siteMenuQuery.FirstOrDefault();
-
-            if (siteMenuEntity != null)
+            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             {
-                siteMenu = new AndroCloudDataAccess.Domain.SiteMenu();
-                siteMenu.menuData = siteMenuEntity.menuData;
-                siteMenu.MenuType = siteMenuEntity.MenuType;
-                siteMenu.SiteID = siteMenuEntity.SiteID.GetValueOrDefault();
-                siteMenu.Version = siteMenuEntity.Version.GetValueOrDefault(0);
+                string dataTypeString = dataType.ToString();
+                var siteMenuQuery = from sm in acsEntities.SiteMenus
+                                    where sm.SiteID == siteId
+                                    && sm.MenuType == dataTypeString
+                                    select sm;
+
+                var siteMenuEntity = siteMenuQuery.FirstOrDefault();
+
+                if (siteMenuEntity != null)
+                {
+                    siteMenu = new AndroCloudDataAccess.Domain.SiteMenu();
+                    siteMenu.menuData = siteMenuEntity.menuData;
+                    siteMenu.MenuType = siteMenuEntity.MenuType;
+                    siteMenu.SiteID = siteMenuEntity.SiteID.GetValueOrDefault();
+                    siteMenu.Version = siteMenuEntity.Version.GetValueOrDefault(0);
+                }
             }
 
             return "";
@@ -38,39 +42,40 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Put(Guid siteId, string licenseKey, string hardwareKey, string data, int version, DataTypeEnum dataType)
         {
-            var acsEntities = new ACSEntities();
-
-            string dataTypeString = dataType.ToString();
-            var siteMenuQuery = from sm in acsEntities.SiteMenus
-                                where sm.SiteID == siteId
-                                && sm.MenuType == dataTypeString
-                                select sm;
-
-            var siteMenuEntity = siteMenuQuery.FirstOrDefault();
-
-            // Update the menu record
-            if (siteMenuEntity != null)
+            using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             {
-                siteMenuEntity.menuData = data;
-                siteMenuEntity.Version = version;
-                siteMenuEntity.LastUpdated = DateTime.UtcNow;
+                string dataTypeString = dataType.ToString();
+                var siteMenuQuery = from sm in acsEntities.SiteMenus
+                                    where sm.SiteID == siteId
+                                    && sm.MenuType == dataTypeString
+                                    select sm;
 
-                acsEntities.SaveChanges();
-            }
-            else
-            {
-                siteMenuEntity = new Model.SiteMenu 
+                var siteMenuEntity = siteMenuQuery.FirstOrDefault();
+
+                // Update the menu record
+                if (siteMenuEntity != null)
                 {
-                    MenuType = dataType.ToString(), 
-                    Version = version, 
-                    menuData = data,
-                    SiteID = siteId, 
-                    ID = Guid.NewGuid() 
-                };
+                    siteMenuEntity.menuData = data;
+                    siteMenuEntity.Version = version;
+                    siteMenuEntity.LastUpdated = DateTime.UtcNow;
 
-                acsEntities.AddToSiteMenus(siteMenuEntity);
+                    acsEntities.SaveChanges();
+                }
+                else
+                {
+                    siteMenuEntity = new Model.SiteMenu
+                    {
+                        MenuType = dataType.ToString(),
+                        Version = version,
+                        menuData = data,
+                        SiteID = siteId,
+                        ID = Guid.NewGuid()
+                    };
 
-                acsEntities.SaveChanges();
+                    acsEntities.AddToSiteMenus(siteMenuEntity);
+
+                    acsEntities.SaveChanges();
+                }
             }
 
             return "";

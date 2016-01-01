@@ -12,14 +12,10 @@ namespace AndroCloudDataAccess
         ISiteDataAccess SiteDataAccess { get; set; }
         IOrdersDataAccess OrderDataAccess { get; set; }
         IAuditDataAccess AuditDataAccess { get; set; }
-        IPartnersDataAccess PartnerDataAccess { get; set; }
-        IGroupsDataAccess GroupDataAccess { get; set; }
         ISiteMenuDataAccess SiteMenuDataAccess { get; set; }
         ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
         IOrderStatusDataAccess OrderStatusDataAccess { get; set; }
-        IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
-        IEmployeeDataAccess EmployeeDataAccess { get; set; }
-        IOpeningHoursDataAccess OpeningHoursDataAccess { get; set; }
+        IACSApplicationDataAccess AcsApplicationDataAccess { get; set; }
     }
 }

@@ -70,15 +70,12 @@
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\ACSApplicationDataAccess.cs" />
+    <Compile Include="DataAccess\PartnersDataAccess.cs" />
+    <Compile Include="DataAccess\SettingsDataAccess.cs" />
     <Compile Include="DataAccess\SyncDataAccess.cs" />
     <Compile Include="DataAccess\HostDataAccess.cs" />
-    <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
-    <Compile Include="DataAccess\EmployeeDataAccess.cs" />
-    <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OrderStatusDataAccess.cs" />
-    <Compile Include="DataAccess\GroupsDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
-    <Compile Include="DataAccess\PartnersDataAccess.cs" />
     <Compile Include="DataAccess\OrderDataAccess.cs" />
     <Compile Include="DataAccess\SiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
@@ -111,12 +108,10 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AndroCloudDataAccess.dll.Config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="App.Config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CreateACSDatabase.sql" />
     <Content Include="SQLScripts\TestData.sql" />
     <Content Include="SQLScripts\Upgrade_0_1.sql" />
   </ItemGroup>

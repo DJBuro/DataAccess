@@ -8,6 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IOrderStatusDataAccess
     {
+        string ConnectionStringOverride { get; set; }
         string GetByRamesesStatusId(int ramesesStatusId, out OrderStatus orderStatus);
     }
 }
