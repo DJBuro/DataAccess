@@ -19,6 +19,8 @@ namespace AndroAdminDataAccess.EntityFramework
         public int Version { get; set; }
         public string XmlMenuThumbnailData { get; set; }
         public string JsonMenuThumbnailsData { get; set; }
-        public System.DateTime LastUpdate { get; set; }
+        public Nullable<System.DateTime> LastUpdate { get; set; }
+    
+        public virtual Store Store { get; set; }
     }
 }
