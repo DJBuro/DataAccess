@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
+using System.Transactions;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -42,20 +43,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.StorePaymentProvider storePaymentProvider)
         {
-            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            // We will use transactionscope to implicitly enrole both EF and direct SQL in the same transaction
+            using (System.Transactions.TransactionScope transactionScope = new TransactionScope())
             {
-                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                StorePaymentProvider entity = new StorePaymentProvider()
+                using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
-                    DisplayText = storePaymentProvider.DisplayText,
-                    ProviderName = storePaymentProvider.ProviderName,
-                    ClientId = storePaymentProvider.ClientId,
-                    ClientPassword = storePaymentProvider.ClientPassword
-                };
+                    DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                entitiesContext.StorePaymentProviders.Add(entity);
-                entitiesContext.SaveChanges();
+                    entitiesContext.Database.Connection.Open();
+
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
+                    StorePaymentProvider entity = new StorePaymentProvider()
+                    {
+                        DisplayText = storePaymentProvider.DisplayText,
+                        ProviderName = storePaymentProvider.ProviderName,
+                        ClientId = storePaymentProvider.ClientId,
+                        ClientPassword = storePaymentProvider.ClientPassword,
+                        DataVersion = newVersion
+                    };
+
+                    entitiesContext.StorePaymentProviders.Add(entity);
+                    entitiesContext.SaveChanges();
+
+                    // Commit the transacton
+                    transactionScope.Complete();
+                }
             }
         }
 
@@ -71,7 +85,32 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public IList<Domain.StorePaymentProvider> GetAfterDataVersion(int dataVersion)
         {
-            throw new NotImplementedException();
+            List<Domain.StorePaymentProvider> models = new List<Domain.StorePaymentProvider>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.StorePaymentProviders
+                            where s.DataVersion > dataVersion
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    Domain.StorePaymentProvider model = new Domain.StorePaymentProvider()
+                    {
+                        Id = entity.Id,
+                        DisplayText = entity.DisplayText,
+                        ProviderName = entity.ProviderName,
+                        ClientId = entity.ClientId,
+                        ClientPassword = entity.ClientPassword
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
         }
     }
 }

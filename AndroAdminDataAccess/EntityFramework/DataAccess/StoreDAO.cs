@@ -113,11 +113,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 CountryId = c.Id,
                                 CountryISO3166_1_alpha_2 = c.ISO3166_1_alpha_2,
                                 CountryISO3166_1_numeric = c.ISO3166_1_numeric,
-                                PPId = pp.Id,
-                                PPDisplayText = pp.DisplayText,
-                                PPProviderName = pp.ProviderName,
-                                PPClientId = pp.ClientId,
-                                PPClientPassword = pp.ClientPassword
+                                PaymentProvider = pp
                             };
 
                 foreach (var entity in query)
@@ -168,9 +164,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         }
                     };
 
-                    if (entity.PPId)
+                    if (entity.PaymentProvider != null)
                     {
-
+                        model.PaymentProvider = new Domain.StorePaymentProvider();
+                        model.PaymentProvider.Id = entity.PaymentProvider.Id;
+                        model.PaymentProvider.ClientId = entity.PaymentProvider.ClientId;
+                        model.PaymentProvider.ClientPassword = entity.PaymentProvider.ClientPassword;
+                        model.PaymentProvider.DisplayText = entity.PaymentProvider.DisplayText;
+                        model.PaymentProvider.ProviderName = entity.PaymentProvider.ProviderName;
                     }
 
                     models.Add(model);
@@ -311,6 +312,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.ExternalSiteName = store.ExternalSiteName;
                     storeEntity.Telephone = store.Telephone;
                     storeEntity.TimeZone = store.TimeZone;
+                    storeEntity.StorePaymentProviderID = (store.PaymentProvider == null ? null : (int?)store.PaymentProvider.Id);
 
                     // Update / create an address
                     var addressQuery = from s in entitiesContext.Addresses
@@ -467,6 +469,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 }
                             };
                         }
+                    }
+
+                    // Get the payment provider
+                    var paymentProviderQuery = from s in entitiesContext.StorePaymentProviders
+                                       where s.Id == entity.StorePaymentProviderID
+                                       select s;
+
+                    var paymentProviderEntity = paymentProviderQuery.FirstOrDefault();
+
+                    if (paymentProviderEntity != null)
+                    {
+                        model.PaymentProvider = new Domain.StorePaymentProvider()
+                        {
+                            Id = paymentProviderEntity.Id,
+                            ClientId = paymentProviderEntity.ClientId,
+                            ClientPassword = paymentProviderEntity.ClientPassword,
+                            DisplayText = paymentProviderEntity.DisplayText,
+                            ProviderName = paymentProviderEntity.ProviderName
+                        };
                     }
                 }
             }
@@ -831,7 +852,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Store> models = new List<Domain.Store>();
 
-             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

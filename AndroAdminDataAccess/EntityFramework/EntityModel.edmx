@@ -382,6 +382,7 @@
           <Property Name="ClientId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ClientPassword" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="DisplayText" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreStatus">
           <Key>
@@ -1065,6 +1066,7 @@
           <Property Name="ClientPassword" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StorePaymentProvider" FromRole="StorePaymentProvider" ToRole="Store" />
           <Property Type="String" Name="DisplayText" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreStatu">
           <Key>
@@ -1622,6 +1624,7 @@
           <EntitySetMapping Name="StorePaymentProviders">
             <EntityTypeMapping TypeName="AndroAdminModel.StorePaymentProvider">
               <MappingFragment StoreEntitySet="StorePaymentProvider">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="DisplayText" ColumnName="DisplayText" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
