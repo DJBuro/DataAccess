@@ -205,6 +205,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AndroCloudDataAccess\AndroCloudDataAccess.csproj">
+      <Project>{408FBA0E-E649-493E-B4D4-8A5328265450}</Project>
+      <Name>AndroCloudDataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataWarehouseDataAccess\DataWarehouseDataAccess.csproj">
       <Project>{10ba737f-f9e7-4eed-b096-bbc47ce14338}</Project>
       <Name>DataWarehouseDataAccess</Name>
