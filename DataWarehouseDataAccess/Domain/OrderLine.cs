@@ -17,5 +17,6 @@ namespace DataWarehouseDataAccess.Domain
         public decimal UnitPrice { get; set; }
         public string ChefNotes { get; set; }
         public string Person { get; set; }
+        public List<string> Modifiers { get; set; }
     }
 }

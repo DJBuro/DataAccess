@@ -52,7 +52,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      ClientId = (spp3 == null ? "" : spp3.ClientId),
                                      ClientPassword = (spp3 == null ? "" : spp3.ClientPassword)
                                  };
-                var siteEntity = sitesQuery.FirstOrDefault();
+                 var siteEntity = sitesQuery.FirstOrDefault();
 
                 // Create a serializable SiteDetails object
                 siteDetails = new AndroCloudDataAccess.Domain.SiteDetails();

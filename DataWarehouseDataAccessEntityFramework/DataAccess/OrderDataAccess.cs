@@ -28,7 +28,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     && oh.CustomerID == customerId
                     select new DataWarehouseDataAccess.Domain.OrderHeader()
                     {
-                        Id = oh.RamesesOrderNum.ToString(),
+                        Id = oh.ExternalOrderRef, // oh.RamesesOrderNum,
                         ForDateTime = oh.OrderWantedTime.Value,
                         Status = oh.Status,
                         Driver = oh.DriverName
@@ -71,18 +71,44 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     where oh.ID == orderDetailsEntity.Id
                         && oh.ApplicationID == applicationId
                         && oh.CustomerID == customerId
-                    select new DataWarehouseDataAccess.Domain.OrderLine()
-                    {
-                        MenuId = ol.ProductID.Value,
-                        ProductName = ol.Description,
-                        Quantity = ol.Qty.Value,
-                        UnitPrice = ol.Price.Value,
-                        ChefNotes = "",
-                        Person = ""
-                    };
+                    select ol;
+
+                    //select new DataWarehouseDataAccess.Domain.OrderLine()
+                    //{
+                    //    MenuId = ol.ProductID.Value,
+                    //    ProductName = ol.Description,
+                    //    Quantity = ol.Qty.Value,
+                    //    UnitPrice = ol.Price.Value,
+                    //    ChefNotes = "",
+                    //    Person = "",
+                    //    Modifiers = ol.modifiers.Select() => 
+                    //};
 
                 orderDetailsEntity.OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>();
-                orderDetailsEntity.OrderLines.AddRange(orderLinesQuery);
+
+                var orderLines = orderLinesQuery.ToList();
+
+                foreach (var orderLine in orderLinesQuery)
+                {
+                    orderDetailsEntity.OrderLines.Add
+                    (
+                        new DataWarehouseDataAccess.Domain.OrderLine() 
+                        {
+                            MenuId = orderLine.ProductID.Value,
+                            ProductName = orderLine.Description,
+                            Quantity = orderLine.Qty.Value,
+                            UnitPrice = orderLine.Price.Value,
+                            ChefNotes = "",
+                            Person = ""
+                        }
+
+                        // ADD TOPPINGS HERE
+                        //                            Modifiers = orderLine.modifiers.Select() => 
+                    );
+                }
+
+                
+ //               orderDetailsEntity.OrderLines.AddRange(orderLinesQuery);
 
                 orderDetails = orderDetailsEntity;
             }
