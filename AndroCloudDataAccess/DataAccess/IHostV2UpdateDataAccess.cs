@@ -1,5 +1,3 @@
-using CloudSyncModel.HostV2;
-using System.Collections.Generic;
 namespace AndroCloudDataAccess.DataAccess
 {
     //public interface IHostTypesDataAccess 

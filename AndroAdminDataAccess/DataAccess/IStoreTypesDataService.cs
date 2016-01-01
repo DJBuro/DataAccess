@@ -10,6 +10,7 @@ namespace AndroAdminDataAccess.DataAccess
         StoreDevice New();
         IEnumerable<StoreDevice> List();
         IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query);
+        IEnumerable<StoreDevice> ListRemoved(Expression<Func<StoreDevice, bool>> query);
 
         StoreDevice Get(Guid id);
         void Update(StoreDevice model);
@@ -37,6 +38,13 @@ namespace AndroAdminDataAccess.DataAccess
         /// <param name="query">The query.</param>
         /// <returns></returns>
         IEnumerable<Device> List(Expression<Func<Device, bool>> query);
+
+        /// <summary>
+        /// Lists the removed.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        IEnumerable<Device> ListRemoved(Expression<Func<Device, bool>> query);
 
         /// <summary>
         /// Lists the stores.

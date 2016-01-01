@@ -1,33 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
-    public interface IExternalApiDataService
-    {
-        IEnumerable<ExternalApi> List();
-        IEnumerable<ExternalApi> List(Expression<Func<ExternalApi, bool>> query);
-
-        void Update(ExternalApi api);
-        void Delete(ExternalApi api);
-        void Create(ExternalApi api);
-
-        ExternalApi New();
-        ExternalApi Get(Guid id);
-    }
-
     public class ExternalApiDataService : IExternalApiDataService
     {
         public IEnumerable<ExternalApi> List()
         {
             var results = Enumerable.Empty<ExternalApi>();
+
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                var table = dbContext.ExternalApis.Where(e => !e.Removed);
+                results = table.ToArray();
+            }
+
+            return results;
+        }
+
+        public IEnumerable<ExternalApi> ListRemoved(Expression<Func<ExternalApi, bool>> query)
+        {
+            var results = Enumerable.Empty<ExternalApi>();
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.ExternalApis;
-                results = table.ToArray();
+                var tableQuery = table
+                    .Where(e => e.Removed)
+                    .Where(query);
+
+                results = tableQuery.ToArray();
             }
 
             return results;
@@ -39,7 +42,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.ExternalApis;
-                var tableQuery = table.Where(query);
+                var tableQuery = table
+                                      .Where(e => !e.Removed)
+                                      .Where(query);
                 results = tableQuery.ToArray();
             }
 
@@ -57,6 +62,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 entity.DefinitionParameters = model.DefinitionParameters;
                 entity.Parameters = model.Parameters;
 
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
+
                 dbContext.SaveChanges();
             }
         }
@@ -68,10 +75,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var table = dbContext.ExternalApis;
                 var entity = table.SingleOrDefault(e => e.Id == model.Id);
 
-                if (entity != null)
+                if (entity == null)
                 {
-                    table.Remove(entity);
+                    return;
                 }
+
+                entity.Removed = true;
+                entity.DataVersion = dbContext.GetNextDataVersionForEntity();
 
                 dbContext.SaveChanges();
             }
@@ -90,25 +100,28 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Create(ExternalApi model)
         {
-            if (model.Id == default(Guid))
-            {
-                model.Id = Guid.NewGuid();
-            }
-
-            if (model.Parameters == null)
-            {
-                model.Parameters = string.Empty;
-            }
-            if (model.DefinitionParameters == null) 
-            {
-                model.DefinitionParameters = string.Empty;
-            }
-
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
                 var table = dbContext.ExternalApis;
                 table.Add(model);
+                
+                if (model.Id == default(Guid))
+                {
+                    model.Id = Guid.NewGuid();
+                }
 
+                if (model.Parameters == null)
+                {
+                    model.Parameters = string.Empty;
+                }
+
+                if (model.DefinitionParameters == null)
+                {
+                    model.DefinitionParameters = string.Empty;
+                }
+
+                model.DataVersion = dbContext.GetNextDataVersionForEntity();
+                
                 dbContext.SaveChanges();
             }
         }
@@ -126,5 +139,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             return result;
         }
+
+
+        
     }
 }

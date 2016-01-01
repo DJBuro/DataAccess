@@ -5,34 +5,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="790df1f696b84cdeb48c584e36672a58" Name="Diagram1" ZoomLevel="24">
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="1.5" PointY="4.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="8.25" PointY="15.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="3.75" PointY="36.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="0.75" PointY="14.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.AMSServerChain" Width="1.5" PointX="3" PointY="15.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="0.75" PointY="18.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="3" PointY="33.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="1.5" PointY="38.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="6" PointY="24.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="5.75" PointY="1.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="0.75" PointY="21.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteChain" Width="1.5" PointX="3" PointY="18.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="1.5" PointY="26.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="3.75" PointY="2.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.HostType" Width="1.5" PointX="1.5" PointY="8" />
-        <EntityTypeShape EntityType="AndroAdminModel.HostV2" Width="1.5" PointX="3.75" PointY="6.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="5.75" PointY="5.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="8.25" PointY="22.25" />
-        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="1.5" PointY="0.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="7.75" PointY="1.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.Site_AMS_upload" Width="1.5" PointX="7.75" PointY="4.875" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="6" PointY="16.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="8.25" PointY="18.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="10.5" PointY="21.625" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreHubReset" Width="1.5" PointX="8.25" PointY="28" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="8.25" PointY="30.75" />
-        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="3.75" PointY="24.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="3.75" PointY="21.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="1.5" PointY="1.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="11.25" PointY="15.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="3.75" PointY="34" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="0.75" PointY="20" />
+        <EntityTypeShape EntityType="AndroAdminModel.AMSServerChain" Width="1.5" PointX="3" PointY="16" />
+        <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="0.75" PointY="15.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="3" PointY="30.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="1.5" PointY="35.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="6" PointY="11.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="0.75" PointY="11.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteChain" Width="1.5" PointX="3" PointY="13" />
+        <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="1.5" PointY="8.25" />
+        <EntityTypeShape EntityType="AndroAdminModel.Host" Width="1.5" PointX="3.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.HostType" Width="1.5" PointX="1.5" PointY="5" />
+        <EntityTypeShape EntityType="AndroAdminModel.HostV2" Width="1.5" PointX="3.75" PointY="2.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.OpeningHour" Width="1.5" PointX="8.25" PointY="11.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.Partner" Width="1.5" PointX="1.5" PointY="22.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.Setting" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.Site_AMS_upload" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="6" PointY="13.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="11.25" PointY="12.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="13.5" PointY="13" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreHubReset" Width="1.5" PointX="8.25" PointY="25.625" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreMenu" Width="1.5" PointX="8.25" PointY="28.375" />
+        <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="3.75" PointY="18.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="3.75" PointY="10.375" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
@@ -60,14 +60,12 @@
         <AssociationConnector Association="AndroAdminModel.ACSApplicationHostsV2" />
         <AssociationConnector Association="AndroAdminModel.HostAcsApplication" />
         <AssociationConnector Association="AndroAdminModel.StoreHostsV2" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreMenuThumbnail" Width="1.5" PointX="8.25" PointY="34.125" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreMenuThumbnail" Width="1.5" PointX="8.25" PointY="31.75" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreMenuThumbnails_Store" />
-        <EntityTypeShape EntityType="AndroAdminModel.Device" Width="1.5" PointX="9" PointY="12.5" />
-        <EntityTypeShape EntityType="AndroAdminModel.ExternalApi" Width="1.5" PointX="9.9854931114173926" PointY="22.476402233576589" />
+        <EntityTypeShape EntityType="AndroAdminModel.Device" Width="1.5" PointX="6" PointY="22.875" />
+        <EntityTypeShape EntityType="AndroAdminModel.ExternalApi" Width="1.5" PointX="3.75" PointY="22.875" />
         <AssociationConnector Association="AndroAdminModel.FK_Devices_ExternalApi" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreDevice" Width="1.5" PointX="7.9119298811591836" PointY="15.187372736254416" />
-        <EntityTypeShape EntityType="AndroAdminModel.Chains_Parent_Child" Width="1.5" PointX="5.1894352478857311" PointY="14.555654785854582" />
-        <EntityTypeShape EntityType="AndroAdminModel.TrimedStore" Width="1.5" PointX="8.3108667192565591" PointY="4.307465331772093" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreDevice" Width="1.5" PointX="8.25" PointY="15.75" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreTypes_StoreType" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreTypes_Store" />
         </Diagram>

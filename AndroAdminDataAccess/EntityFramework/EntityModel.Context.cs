@@ -58,7 +58,5 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<Device> Devices { get; set; }
         public DbSet<ExternalApi> ExternalApis { get; set; }
         public DbSet<StoreDevice> StoreDevices { get; set; }
-        public DbSet<Chains_Parent_Child> Chains_Parent_Child { get; set; }
-        public DbSet<TrimedStore> TrimedStores { get; set; }
     }
 }

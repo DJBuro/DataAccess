@@ -19,6 +19,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public System.Guid DeviceId { get; set; }
         public string Parameters { get; set; }
         public int DataVersion { get; set; }
+        public bool Removed { get; set; }
     
         public virtual Device Device { get; set; }
         public virtual Store Store { get; set; }

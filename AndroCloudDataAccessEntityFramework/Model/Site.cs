@@ -25,6 +25,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
             this.SiteMenus = new HashSet<SiteMenu>();
             this.Hosts = new HashSet<Host>();
             this.HostsV2 = new HashSet<HostsV2>();
+            this.SiteDevices = new HashSet<SiteDevice>();
         }
     
         public System.Guid ID { get; set; }
@@ -57,5 +58,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public virtual ICollection<Host> Hosts { get; set; }
         public virtual ICollection<HostsV2> HostsV2 { get; set; }
         public virtual StorePaymentProvider StorePaymentProvider { get; set; }
+        public virtual ICollection<SiteDevice> SiteDevices { get; set; }
     }
 }

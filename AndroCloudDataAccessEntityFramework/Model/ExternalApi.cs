@@ -7,25 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AndroAdminDataAccess.EntityFramework
+namespace AndroCloudDataAccessEntityFramework.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Device
+    public partial class ExternalApi
     {
-        public Device()
+        public ExternalApi()
         {
-            this.StoreDevices = new HashSet<StoreDevice>();
+            this.Devices = new HashSet<Device>();
         }
     
         public System.Guid Id { get; set; }
         public string Name { get; set; }
-        public int DataVersion { get; set; }
-        public Nullable<System.Guid> ExternalApiId { get; set; }
-        public bool Removed { get; set; }
+        public string Parameters { get; set; }
     
-        public virtual ExternalApi ExternalApi { get; set; }
-        public virtual ICollection<StoreDevice> StoreDevices { get; set; }
+        public virtual ICollection<Device> Devices { get; set; }
     }
 }

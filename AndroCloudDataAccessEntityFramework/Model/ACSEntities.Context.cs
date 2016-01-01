@@ -50,5 +50,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public DbSet<ACSApplication> ACSApplications { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<ExternalApi> ExternalApis { get; set; }
+        public DbSet<SiteDevice> SiteDevices { get; set; }
     }
 }

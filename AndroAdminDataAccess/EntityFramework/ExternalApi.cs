@@ -24,6 +24,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public string DefinitionParameters { get; set; }
         public string Parameters { get; set; }
         public int DataVersion { get; set; }
+        public bool Removed { get; set; }
     
         public virtual ICollection<Device> Devices { get; set; }
     }
