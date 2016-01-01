@@ -75,9 +75,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudWCFHelper.csproj">
+    <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
       <Project>{D9959D2F-2016-4355-BC22-061EA8A5E267}</Project>
-      <Name>AndroCloudWCFHelper</Name>
+      <Name>AndroCloudHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

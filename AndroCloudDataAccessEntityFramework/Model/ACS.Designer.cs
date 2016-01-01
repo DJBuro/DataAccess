@@ -22,13 +22,15 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Addresses_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Address), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_OpeningHours_Day", "Day", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Day), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.OpeningHour), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Employees_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Employee), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_MyAndromedaUser_Employees", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Employee), "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.MyAndromedaUser), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Chains_Partners", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Group), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_MyAndromedaUser_Groups", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Group), "MyAndromedaUser", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.MyAndromedaUser), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SitesGroups_Groups", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Group), "SitesGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SitesGroup), true)]
-[assembly: EdmRelationshipAttribute("ACSModel", "FK_OpeningHours_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.OpeningHour), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Orders_OrderStatus", "OrderStatu", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.OrderStatus), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Order), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Orders_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Order), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SiteMenus_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SiteMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SiteMenu), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SitesGroups_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SitesGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SitesGroup), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_OpeningHours_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.OpeningHour), true)]
 
 #endregion
 
@@ -191,6 +193,22 @@ namespace AndroCloudDataAccessEntityFramework.Model
             }
         }
         private ObjectSet<Group> _Groups;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MyAndromedaUser> MyAndromedaUsers
+        {
+            get
+            {
+                if ((_MyAndromedaUsers == null))
+                {
+                    _MyAndromedaUsers = base.CreateObjectSet<MyAndromedaUser>("MyAndromedaUsers");
+                }
+                return _MyAndromedaUsers;
+            }
+        }
+        private ObjectSet<MyAndromedaUser> _MyAndromedaUsers;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -361,6 +379,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public void AddToGroups(Group group)
         {
             base.AddObject("Groups", group);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MyAndromedaUsers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMyAndromedaUsers(MyAndromedaUser myAndromedaUser)
+        {
+            base.AddObject("MyAndromedaUsers", myAndromedaUser);
         }
     
         /// <summary>
@@ -1865,7 +1891,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// Create a new Employee object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        public static Employee CreateEmployee(global::System.String id)
+        public static Employee CreateEmployee(global::System.Guid id)
         {
             Employee employee = new Employee();
             employee.ID = id;
@@ -1880,7 +1906,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String ID
+        public global::System.Guid ID
         {
             get
             {
@@ -1892,14 +1918,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 {
                     OnIDChanging(value);
                     ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value, false);
+                    _ID = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("ID");
                     OnIDChanged();
                 }
             }
         }
-        private global::System.String _ID;
-        partial void OnIDChanging(global::System.String value);
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
         partial void OnIDChanged();
     
         /// <summary>
@@ -2084,6 +2110,28 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Site>("ACSModel.FK_Employees_Sites", "Site", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_MyAndromedaUser_Employees", "MyAndromedaUser")]
+        public EntityCollection<MyAndromedaUser> MyAndromedaUsers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUser>("ACSModel.FK_MyAndromedaUser_Employees", "MyAndromedaUser");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUser>("ACSModel.FK_MyAndromedaUser_Employees", "MyAndromedaUser", value);
                 }
             }
         }
@@ -2286,6 +2334,28 @@ namespace AndroCloudDataAccessEntityFramework.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_MyAndromedaUser_Groups", "MyAndromedaUser")]
+        public EntityCollection<MyAndromedaUser> MyAndromedaUsers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MyAndromedaUser>("ACSModel.FK_MyAndromedaUser_Groups", "MyAndromedaUser");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MyAndromedaUser>("ACSModel.FK_MyAndromedaUser_Groups", "MyAndromedaUser", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_SitesGroups_Groups", "SitesGroup")]
         public EntityCollection<SitesGroup> SitesGroups
         {
@@ -2298,6 +2368,244 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Groups", "SitesGroup", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="MyAndromedaUser")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MyAndromedaUser : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MyAndromedaUser object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="username">Initial value of the Username property.</param>
+        /// <param name="password">Initial value of the Password property.</param>
+        /// <param name="groupID">Initial value of the GroupID property.</param>
+        /// <param name="employeeID">Initial value of the EmployeeID property.</param>
+        public static MyAndromedaUser CreateMyAndromedaUser(global::System.Guid id, global::System.String username, global::System.String password, global::System.Guid groupID, global::System.Guid employeeID)
+        {
+            MyAndromedaUser myAndromedaUser = new MyAndromedaUser();
+            myAndromedaUser.ID = id;
+            myAndromedaUser.Username = username;
+            myAndromedaUser.Password = password;
+            myAndromedaUser.GroupID = groupID;
+            myAndromedaUser.EmployeeID = employeeID;
+            return myAndromedaUser;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Username
+        {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                OnUsernameChanging(value);
+                ReportPropertyChanging("Username");
+                _Username = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Username");
+                OnUsernameChanged();
+            }
+        }
+        private global::System.String _Username;
+        partial void OnUsernameChanging(global::System.String value);
+        partial void OnUsernameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid GroupID
+        {
+            get
+            {
+                return _GroupID;
+            }
+            set
+            {
+                OnGroupIDChanging(value);
+                ReportPropertyChanging("GroupID");
+                _GroupID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GroupID");
+                OnGroupIDChanged();
+            }
+        }
+        private global::System.Guid _GroupID;
+        partial void OnGroupIDChanging(global::System.Guid value);
+        partial void OnGroupIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid EmployeeID
+        {
+            get
+            {
+                return _EmployeeID;
+            }
+            set
+            {
+                OnEmployeeIDChanging(value);
+                ReportPropertyChanging("EmployeeID");
+                _EmployeeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EmployeeID");
+                OnEmployeeIDChanged();
+            }
+        }
+        private global::System.Guid _EmployeeID;
+        partial void OnEmployeeIDChanging(global::System.Guid value);
+        partial void OnEmployeeIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_MyAndromedaUser_Employees", "Employee")]
+        public Employee Employee
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("ACSModel.FK_MyAndromedaUser_Employees", "Employee").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("ACSModel.FK_MyAndromedaUser_Employees", "Employee").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Employee> EmployeeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("ACSModel.FK_MyAndromedaUser_Employees", "Employee");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("ACSModel.FK_MyAndromedaUser_Employees", "Employee", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_MyAndromedaUser_Groups", "Group")]
+        public Group Group
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("ACSModel.FK_MyAndromedaUser_Groups", "Group").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("ACSModel.FK_MyAndromedaUser_Groups", "Group").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Group> GroupReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Group>("ACSModel.FK_MyAndromedaUser_Groups", "Group");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Group>("ACSModel.FK_MyAndromedaUser_Groups", "Group", value);
                 }
             }
         }
@@ -3347,30 +3655,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> OpeningHoursID
-        {
-            get
-            {
-                return _OpeningHoursID;
-            }
-            set
-            {
-                OnOpeningHoursIDChanging(value);
-                ReportPropertyChanging("OpeningHoursID");
-                _OpeningHoursID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("OpeningHoursID");
-                OnOpeningHoursIDChanged();
-            }
-        }
-        private Nullable<global::System.Guid> _OpeningHoursID;
-        partial void OnOpeningHoursIDChanging(Nullable<global::System.Guid> value);
-        partial void OnOpeningHoursIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public Nullable<global::System.Boolean> StoreConnected
         {
             get
@@ -3588,28 +3872,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_OpeningHours_Sites", "OpeningHour")]
-        public EntityCollection<OpeningHour> OpeningHours
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OpeningHour>("ACSModel.FK_OpeningHours_Sites", "OpeningHour");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OpeningHour>("ACSModel.FK_OpeningHours_Sites", "OpeningHour", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_Orders_Sites", "Order")]
         public EntityCollection<Order> Orders
         {
@@ -3666,6 +3928,28 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Sites", "SitesGroup", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_OpeningHours_Sites", "OpeningHour")]
+        public EntityCollection<OpeningHour> OpeningHours
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OpeningHour>("ACSModel.FK_OpeningHours_Sites", "OpeningHour");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OpeningHour>("ACSModel.FK_OpeningHours_Sites", "OpeningHour", value);
                 }
             }
         }

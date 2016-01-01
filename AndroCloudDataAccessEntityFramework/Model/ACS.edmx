@@ -13,6 +13,7 @@
           <EntitySet Name="Day" EntityType="ACSModel.Store.Day" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employees" EntityType="ACSModel.Store.Employees" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="ACSModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MyAndromedaUser" EntityType="ACSModel.Store.MyAndromedaUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHours" EntityType="ACSModel.Store.OpeningHours" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Orders" EntityType="ACSModel.Store.Orders" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderStatus" EntityType="ACSModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
@@ -31,6 +32,14 @@
           <AssociationSet Name="FK_Employees_Sites" Association="ACSModel.Store.FK_Employees_Sites">
             <End Role="Sites" EntitySet="Sites" />
             <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUser_Employees" Association="ACSModel.Store.FK_MyAndromedaUser_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUser_Groups" Association="ACSModel.Store.FK_MyAndromedaUser_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUser" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHours_Day" Association="ACSModel.Store.FK_OpeningHours_Day">
             <End Role="Day" EntitySet="Day" />
@@ -64,7 +73,7 @@
             <End Role="Sites" EntitySet="Sites" />
             <End Role="SitesGroups" EntitySet="SitesGroups" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="ACSLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -146,7 +155,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SiteID" Type="uniqueidentifier" />
           <Property Name="Firstname" Type="nvarchar" MaxLength="64" />
           <Property Name="Surname" Type="nvarchar" MaxLength="64" />
@@ -163,6 +172,16 @@
           <Property Name="GroupName" Type="nvarchar" MaxLength="64" />
           <Property Name="LastUpdated" Type="datetime" />
           <Property Name="ExternalId" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="GroupID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -225,7 +244,6 @@
           <Property Name="SiteName" Type="nvarchar" MaxLength="64" />
           <Property Name="AndroID" Type="int" />
           <Property Name="AddressID" Type="uniqueidentifier" />
-          <Property Name="OpeningHoursID" Type="uniqueidentifier" />
           <Property Name="StoreConnected" Type="bit" />
           <Property Name="LastUpdated" Type="datetime" />
           <Property Name="LicenceKey" Type="nvarchar" MaxLength="64" />
@@ -275,6 +293,30 @@
             </Principal>
             <Dependent Role="Employees">
               <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUser_Employees">
+          <End Role="Employees" Type="ACSModel.Store.Employees" Multiplicity="1" />
+          <End Role="MyAndromedaUser" Type="ACSModel.Store.MyAndromedaUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyAndromedaUser">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyAndromedaUser_Groups">
+          <End Role="Groups" Type="ACSModel.Store.Groups" Multiplicity="1" />
+          <End Role="MyAndromedaUser" Type="ACSModel.Store.MyAndromedaUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyAndromedaUser">
+              <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -374,7 +416,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+        </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ACSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -386,6 +428,7 @@
           <EntitySet Name="Days" EntityType="ACSModel.Day" />
           <EntitySet Name="Employees" EntityType="ACSModel.Employee" />
           <EntitySet Name="Groups" EntityType="ACSModel.Group" />
+          <EntitySet Name="MyAndromedaUsers" EntityType="ACSModel.MyAndromedaUser" />
           <EntitySet Name="OpeningHours" EntityType="ACSModel.OpeningHour" />
           <EntitySet Name="Orders" EntityType="ACSModel.Order" />
           <EntitySet Name="OrderStatus1" EntityType="ACSModel.OrderStatus" />
@@ -409,17 +452,21 @@
             <End Role="Site" EntitySet="Sites" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUser_Employees" Association="ACSModel.FK_MyAndromedaUser_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Chains_Partners" Association="ACSModel.FK_Chains_Partners">
             <End Role="Partner" EntitySet="Partners" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
+          <AssociationSet Name="FK_MyAndromedaUser_Groups" Association="ACSModel.FK_MyAndromedaUser_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_SitesGroups_Groups" Association="ACSModel.FK_SitesGroups_Groups">
             <End Role="Group" EntitySet="Groups" />
             <End Role="SitesGroup" EntitySet="SitesGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OpeningHours_Sites" Association="ACSModel.FK_OpeningHours_Sites">
-            <End Role="Site" EntitySet="Sites" />
-            <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="ACSModel.FK_Orders_OrderStatus">
             <End Role="OrderStatu" EntitySet="OrderStatus1" />
@@ -436,6 +483,10 @@
           <AssociationSet Name="FK_SitesGroups_Sites" Association="ACSModel.FK_SitesGroups_Sites">
             <End Role="Site" EntitySet="Sites" />
             <End Role="SitesGroup" EntitySet="SitesGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHours_Sites" Association="ACSModel.FK_OpeningHours_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSLog">
@@ -519,7 +570,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Type="String" Name="ID" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="SiteID" />
           <Property Type="String" Name="Firstname" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Surname" MaxLength="64" FixedLength="false" Unicode="true" />
@@ -527,6 +578,7 @@
           <Property Type="String" Name="Phone" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Notes" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Site" Relationship="ACSModel.FK_Employees_Sites" FromRole="Employee" ToRole="Site" />
+          <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="Employee" ToRole="MyAndromedaUser" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -538,7 +590,20 @@
           <Property Type="DateTime" Name="LastUpdated" />
           <Property Type="String" Name="ExternalId" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Group" ToRole="Partner" />
+          <NavigationProperty Name="MyAndromedaUsers" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="Group" ToRole="MyAndromedaUser" />
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Groups" FromRole="Group" ToRole="SitesGroup" />
+        </EntityType>
+        <EntityType Name="MyAndromedaUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="GroupID" Nullable="false" />
+          <Property Type="Guid" Name="EmployeeID" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="ACSModel.FK_MyAndromedaUser_Employees" FromRole="MyAndromedaUser" ToRole="Employee" />
+          <NavigationProperty Name="Group" Relationship="ACSModel.FK_MyAndromedaUser_Groups" FromRole="MyAndromedaUser" ToRole="Group" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -609,7 +674,6 @@
           <Property Type="String" Name="SiteName" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="AndroID" />
           <Property Type="Guid" Name="AddressID" />
-          <Property Type="Guid" Name="OpeningHoursID" />
           <Property Type="Boolean" Name="StoreConnected" />
           <Property Type="DateTime" Name="LastUpdated" />
           <Property Type="String" Name="LicenceKey" MaxLength="64" FixedLength="false" Unicode="true" />
@@ -619,10 +683,10 @@
           <Property Type="String" Name="Telephone" MaxLength="32" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Addresses" Relationship="ACSModel.FK_Addresses_Sites" FromRole="Site" ToRole="Address" />
           <NavigationProperty Name="Employees" Relationship="ACSModel.FK_Employees_Sites" FromRole="Site" ToRole="Employee" />
-          <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Site" ToRole="Order" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Site" ToRole="SiteMenu" />
           <NavigationProperty Name="SitesGroups" Relationship="ACSModel.FK_SitesGroups_Sites" FromRole="Site" ToRole="SitesGroup" />
+          <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Site" ToRole="OpeningHour" />
         </EntityType>
         <EntityType Name="SitesGroup">
           <Key>
@@ -682,6 +746,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MyAndromedaUser_Employees">
+          <End Type="ACSModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="ACSModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyAndromedaUser">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Chains_Partners">
           <End Type="ACSModel.Partner" Role="Partner" Multiplicity="0..1" />
           <End Type="ACSModel.Group" Role="Group" Multiplicity="*" />
@@ -694,6 +770,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MyAndromedaUser_Groups">
+          <End Type="ACSModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="ACSModel.MyAndromedaUser" Role="MyAndromedaUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyAndromedaUser">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SitesGroups_Groups">
           <End Type="ACSModel.Group" Role="Group" Multiplicity="1" />
           <End Type="ACSModel.SitesGroup" Role="SitesGroup" Multiplicity="*" />
@@ -703,18 +791,6 @@
             </Principal>
             <Dependent Role="SitesGroup">
               <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OpeningHours_Sites">
-          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
-          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Site">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OpeningHour">
-              <PropertyRef Name="SiteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -762,6 +838,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="SitesGroup">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHours_Sites">
+          <End Type="ACSModel.Site" Role="Site" Multiplicity="1" />
+          <End Type="ACSModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OpeningHour">
               <PropertyRef Name="SiteID" />
             </Dependent>
           </ReferentialConstraint>
@@ -875,6 +963,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MyAndromedaUsers">
+            <EntityTypeMapping TypeName="ACSModel.MyAndromedaUser">
+              <MappingFragment StoreEntitySet="MyAndromedaUser">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OpeningHours">
             <EntityTypeMapping TypeName="ACSModel.OpeningHour">
               <MappingFragment StoreEntitySet="OpeningHours">
@@ -941,7 +1040,6 @@
                 <ScalarProperty Name="LicenceKey" ColumnName="LicenceKey" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
                 <ScalarProperty Name="StoreConnected" ColumnName="StoreConnected" />
-                <ScalarProperty Name="OpeningHoursID" ColumnName="OpeningHoursID" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
                 <ScalarProperty Name="AndroID" ColumnName="AndroID" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
@@ -981,63 +1079,72 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="ACS" ZoomLevel="85">
-        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="1.375" PointY="4.75" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="11.875" PointY="6.25" Height="3.3263964843750031" />
-        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="3.375" PointY="8.75" Height="5.4417122395833388" />
-        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="3.375" PointY="4.625" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="13.75" PointY="12.125" Height="1.5956835937500031" />
-        <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="11.25" PointY="14.375" Height="2.5571907552083388" />
-        <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="6.125" PointY="14.375" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="11" PointY="11.375" Height="2.5571907552083388" />
-        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="8.75" PointY="6.75" Height="2.7494921875000102" />
-        <EntityTypeShape EntityType="ACSModel.OrderStatus" Width="1.5" PointX="5.875" PointY="7.75" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="6.125" PointY="17.5" Height="2.172587890624996" />
-        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="8.5" PointY="16.5" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="8.75" PointY="10.25" Height="4.8648079427083246" />
-        <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="6.125" PointY="11.375" Height="1.9802864583333371" />
+        <EntityTypeShape EntityType="ACSModel.ACSLog" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.ACSQueue" Width="1.5" PointX="10.5" PointY="7" Height="3.3263964843750031" />
+        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.25" PointY="6.375" Height="5.4417122395833388" />
+        <EntityTypeShape EntityType="ACSModel.Audit" Width="1.5" PointX="5.75" PointY="0.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="5.75" PointY="16" Height="1.5956835937500067" />
+        <EntityTypeShape EntityType="ACSModel.Employee" Width="1.5" PointX="5.75" PointY="6.75" Height="2.749492187499996" />
+        <EntityTypeShape EntityType="ACSModel.Group" Width="1.5" PointX="0.75" PointY="10.25" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="ACSModel.MyAndromedaUser" Width="1.5" PointX="0.75" PointY="6.875" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="8.375" PointY="13.75" Height="2.5571907552083353" />
+        <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="10.5" PointY="11.25" Height="2.7494921875000102" />
+        <EntityTypeShape EntityType="ACSModel.OrderStatus" Width="1.5" PointX="10.5" PointY="14.625" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="ACSModel.Partner" Width="1.5" PointX="0.75" PointY="13.625" Height="2.172587890624996" />
+        <EntityTypeShape EntityType="ACSModel.SiteMenu" Width="1.5" PointX="3.25" PointY="13" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ACSModel.Site" Width="1.5" PointX="5.75" PointY="10.25" Height="4.6725065104166674" />
+        <EntityTypeShape EntityType="ACSModel.SitesGroup" Width="1.5" PointX="3.25" PointY="10.25" Height="1.9802864583333388" />
         <AssociationConnector Association="ACSModel.FK_Orders_ACSQueue" >
-          <ConnectorPoint PointX="11.875" PointY="8.1247460937500051" />
-          <ConnectorPoint PointX="10.25" PointY="8.1247460937500051" />
+          <ConnectorPoint PointX="11.25" PointY="10.326396484375003" />
+          <ConnectorPoint PointX="11.25" PointY="11.25" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Addresses_Sites" >
-          <ConnectorPoint PointX="8.75" PointY="10.78125" />
-          <ConnectorPoint PointX="4.875" PointY="10.78125" />
+          <ConnectorPoint PointX="7.25" PointY="11.033356119791669" />
+          <ConnectorPoint PointX="8.25" PointY="11.033356119791669" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_OpeningHours_Day" >
-          <ConnectorPoint PointX="13.75" PointY="12.922841796875002" />
-          <ConnectorPoint PointX="12.5" PointY="12.922841796875002" />
+          <ConnectorPoint PointX="7.25" PointY="16.153595377604169" />
+          <ConnectorPoint PointX="8.375" PointY="16.153595377604169" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Employees_Sites" >
-          <ConnectorPoint PointX="10.25" PointY="14.744903971354162" />
-          <ConnectorPoint PointX="11.25" PointY="14.744903971354162" />
+          <ConnectorPoint PointX="6.5" PointY="10.25" />
+          <ConnectorPoint PointX="6.5" PointY="9.499492187499996" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Employees" >
+          <ConnectorPoint PointX="5.75" PointY="8.0574446614583337" />
+          <ConnectorPoint PointX="2.25" PointY="8.0574446614583337" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Chains_Partners" >
-          <ConnectorPoint PointX="6.875" PointY="17.5" />
-          <ConnectorPoint PointX="6.875" PointY="16.739889322916667" />
+          <ConnectorPoint PointX="1.5" PointY="13.625" />
+          <ConnectorPoint PointX="1.5" PointY="12.807190755208332" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_MyAndromedaUser_Groups" >
+          <ConnectorPoint PointX="1.5567500050472229" PointY="10.25" />
+          <ConnectorPoint PointX="1.5567500050472229" PointY="9.2398893229166674" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SitesGroups_Groups" >
-          <ConnectorPoint PointX="6.875" PointY="14.375" />
-          <ConnectorPoint PointX="6.875" PointY="13.355286458333337" />
-        </AssociationConnector>
-        <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" >
-          <ConnectorPoint PointX="10.25" PointY="12.653595377604169" />
-          <ConnectorPoint PointX="11" PointY="12.653595377604169" />
+          <ConnectorPoint PointX="2.25" PointY="11.240143229166669" />
+          <ConnectorPoint PointX="3.25" PointY="11.240143229166669" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_OrderStatus" >
-          <ConnectorPoint PointX="7.375" PointY="8.6247460937500051" />
-          <ConnectorPoint PointX="8.75" PointY="8.6247460937500051" />
+          <ConnectorPoint PointX="11.25" PointY="14.625" />
+          <ConnectorPoint PointX="11.25" PointY="13.99949218750001" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" >
-          <ConnectorPoint PointX="9.5" PointY="10.25" />
-          <ConnectorPoint PointX="9.5" PointY="9.49949218750001" />
+          <ConnectorPoint PointX="7.25" PointY="12.408356119791669" />
+          <ConnectorPoint PointX="10.5" PointY="12.408356119791669" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" >
-          <ConnectorPoint PointX="9.375" PointY="15.114807942708325" />
-          <ConnectorPoint PointX="9.375" PointY="16.5" />
+          <ConnectorPoint PointX="5.75" PointY="14.057403971354166" />
+          <ConnectorPoint PointX="4.75" PointY="14.057403971354166" />
         </AssociationConnector>
         <AssociationConnector Association="ACSModel.FK_SitesGroups_Sites" >
-          <ConnectorPoint PointX="8.75" PointY="12.365143229166669" />
-          <ConnectorPoint PointX="7.625" PointY="12.365143229166669" />
+          <ConnectorPoint PointX="5.75" PointY="11.240143229166669" />
+          <ConnectorPoint PointX="4.75" PointY="11.240143229166669" />
+        </AssociationConnector>
+        <AssociationConnector Association="ACSModel.FK_OpeningHours_Sites" >
+          <ConnectorPoint PointX="7.25" PointY="14.336253255208334" />
+          <ConnectorPoint PointX="8.375" PointY="14.336253255208334" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
