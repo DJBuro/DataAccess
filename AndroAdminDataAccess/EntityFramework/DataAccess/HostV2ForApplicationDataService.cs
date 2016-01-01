@@ -8,11 +8,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class HostV2ForApplicationDataService : IHostV2ForApplicationDataService 
     {
-        //public List<T> List<T>(Expression<Func<ACSApplication, bool>> query, Func<ACSApplication, T> transform = null)
-        //{
-            
-        //}
-
         public IEnumerable<ACSApplication> ListByHostId(Guid id)
         {
             IEnumerable<ACSApplication> results = Enumerable.Empty<ACSApplication>();
