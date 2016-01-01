@@ -9,7 +9,7 @@ namespace AndroCloudDataAccess.Domain
 {
     public class MenuDataAccess : IMenuDataAccess
     {
-        public bool Put(Guid sessionToken, string data, int version)
+        public bool Put(Guid sessionToken, string data, int version, string menuType)
         {
             using (var e = new ACSEntities())
             {
@@ -21,7 +21,7 @@ namespace AndroCloudDataAccess.Domain
 
                 if (site != null)
                 {
-                    var sitemenu = site.SiteMenus.FirstOrDefault();
+                    var sitemenu = site.SiteMenus.FirstOrDefault(c => c.MenuType == menuType);
 
                     // Update the menu record
                     if (sitemenu != null)
@@ -44,7 +44,7 @@ namespace AndroCloudDataAccess.Domain
                         // But we need to know the menu type ????
 
                         var sm = new Model.SiteMenu
-                                     {MenuType = "XML", Version = version, menuData = data, SiteID = site.ID,ID = Guid.NewGuid()};
+                                     {MenuType = menuType, Version = version, menuData = data, SiteID = site.ID,ID = Guid.NewGuid()};
 
                         site.SiteMenus.Add(sm);
 
