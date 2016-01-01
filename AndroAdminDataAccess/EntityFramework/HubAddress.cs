@@ -12,21 +12,20 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class ACSApplication
+    public partial class HubAddress
     {
-        public ACSApplication()
+        public HubAddress()
         {
-            this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
+            this.Stores = new HashSet<Store>();
         }
     
-        public int Id { get; set; }
-        public string ExternalApplicationId { get; set; }
+        public System.Guid Id { get; set; }
         public string Name { get; set; }
-        public string ExternalDisplayName { get; set; }
-        public int PartnerId { get; set; }
+        public string Address { get; set; }
+        public bool Active { get; set; }
+        public bool Removed { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
-        public virtual Partner Partner { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 }

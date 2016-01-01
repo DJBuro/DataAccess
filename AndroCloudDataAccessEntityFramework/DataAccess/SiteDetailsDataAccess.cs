@@ -26,7 +26,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID
                                  join spp in acsEntities.StorePaymentProviders
-                                   on s.StorePaymentProviderId equals spp.Id
+                                   on s.StorePaymentProviderID equals spp.ID
                                  into spp2
                                  from spp3 in spp2.DefaultIfEmpty()
                                  where s.ID == siteId

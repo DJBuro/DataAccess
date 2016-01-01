@@ -8,6 +8,8 @@ namespace AndroAdminDataAccess.DataAccess
 {
     public interface IHubDataService
     {
+        IEnumerable<Domain.HubItem> GetAfterDataVersion(int fromVersion);
+
         /// <summary>
         /// Adds the specified db model.
         /// </summary>
@@ -76,5 +78,10 @@ namespace AndroAdminDataAccess.DataAccess
         /// <returns></returns>
         IEnumerable<Domain.StoreHub> GetSelectedHubs(Store store);
 
+    }
+
+    public interface IHubResetDataService 
+    {
+        
     }
 }
