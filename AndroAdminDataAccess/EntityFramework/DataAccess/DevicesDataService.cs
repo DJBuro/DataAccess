@@ -57,6 +57,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
                 var table = dbContext.Devices.Include(e=> e.ExternalApi);
+                
                 var tableQuery = table
                     .Where(e=> !e.Removed)
                     .Where(query);
@@ -212,7 +213,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
-                var table = dbContext.Devices;
+                var table = dbContext.Devices.Include(sd=>sd.StoreDevices);
                 var entity = table.SingleOrDefault(e => e.Id == model.Id);
 
                 if (entity == null) 
@@ -223,6 +224,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 entity.DataVersion = dbContext.GetNextDataVersionForEntity();
                 entity.Removed = true;
 
+                if (entity.StoreDevices != null) {
+                    entity.StoreDevices.ToList().ForEach(d => d.Removed = true);
+                }
                 dbContext.SaveChanges();
             }
         }

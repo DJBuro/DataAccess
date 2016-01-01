@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Data.Entity;
+
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -72,7 +74,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
-                var table = dbContext.ExternalApis;
+                var table = dbContext.ExternalApis.Include(e=>e.Devices);
                 var entity = table.SingleOrDefault(e => e.Id == model.Id);
 
                 if (entity == null)
@@ -82,6 +84,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 entity.Removed = true;
                 entity.DataVersion = dbContext.GetNextDataVersionForEntity();
+
+                if (entity.Devices != null) {
+                    entity.Devices.ToList().ForEach(e => e.ExternalApiId = null);
+                }
 
                 dbContext.SaveChanges();
             }
