@@ -25,55 +25,22 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 .Include("StoreAMSServerFtpSites")
                                 .Include("StoreAMSServer")
                                 .Include("StoreAMSServer.Store")
+                                .Include("StoreAMSServer.Store.Address")
+                                .Include("StoreAMSServer.Store.Address.Country")
                                 .Include("StoreAMSServer.AMSServer")
                                 on s.Id equals sas.StoreId into _sas
                                 
                                 from sas in _sas.DefaultIfEmpty()
-//                            orderby s.StoreAMSServer.Store.Name
                             select new
                             {
                                 Id = s.Id,
                                 StoreName = s.Name,
+                                AndroStoreId = s.AndromedaSiteId,
+                                StoreStatus = s.StoreStatu.Status,
                                 AMSServerName = sas.AMSServer.Description,
-                                //FTPSites = s.StoreAMSServer.Store.
-                                LastFTPUploadDateTime = s.LastFTPUploadDateTime
+                                LastFTPUploadDateTime = s.LastFTPUploadDateTime,
+                                Country = s.Address.Country.CountryName
                             };
-
-                //var query = from s in entitiesContext.StoreAMSServerFtpSites
-                //            .Include("StoreAMSServer")
-                //            .Include("StoreAMSServer.Store")
-                //            .Include("StoreAMSServer.AMSServer")
-                //            orderby s.StoreAMSServer.Store.Name
-                //            select new
-                //            {
-                //                Id = s.StoreAMSServer.Store.Id,
-                //                StoreName = s.StoreAMSServer.Store.Name,
-                //                AMSServerName = s.StoreAMSServer.AMSServer.Description,
-                //                //FTPSites = s.StoreAMSServer.Store.
-                //                LastFTPUploadDateTime = s.StoreAMSServer.Store.LastFTPUploadDateTime
-                //            };
-
-                //var query = from x in entitiesContext.StoreAMSServerFtpSites
-                //            from sd in x.StoreAMSServer.DefaultIfEmpty()
-                //         //   from sd in s.StudentDescriptions.DefaultIfEmpty()
-                //         //   from sd in s.StudentDescriptions.DefaultIfEmpty()
-                //            //join sas in entitiesContext.StoreAMSServers 
-                //            //    on x.StoreAMSServerId equals sas.Id into _sas
-                //            //    from sas in _sas.DefaultIfEmpty()
-                //            //join s in entitiesContext.Stores 
-                //            //    on sas.StoreId equals s.Id into _s
-                //            //    from s in _s.DefaultIfEmpty()
-                //            //join a in entitiesContext.AMSServers 
-                //            //    on sas.AMSServerId equals a.Id into _a
-                //            //    from a in _a.DefaultIfEmpty()
-                //            orderby x.StoreAMSServer.Store.Name
-                //            select new
-                //            {
-                //                Id = x.StoreAMSServer.Store.Id,
-                //                StoreName = s.Name,
-                //                AMSServerName = a.Description,
-                //                LastFTPUploadDateTime = s.LastFTPUploadDateTime
-                //            };
 
                 foreach (var entity in query)
                 {
@@ -82,51 +49,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AMSServerName = entity.AMSServerName,
                         FTPSite = "",
                         StoreId = entity.Id,
+                        AndroStoreId = entity.AndroStoreId,
+                        StoreStatus = entity.StoreStatus,
                         LastUploaded = entity.LastFTPUploadDateTime,
-                        StoreName = entity.StoreName
+                        StoreName = entity.StoreName,
+                        Country = entity.Country
                     };
-
-                    //Domain.FTPSite ftpSite = new Domain.FTPSite()
-                    //{
-                    //    Id = entity.FTPSite.Id,
-                    //    Name = entity.FTPSite.Name,
-                    //    Url = entity.FTPSite.Url,
-                    //    Port = entity.FTPSite.Port,
-                    //    Username = entity.FTPSite.Username,
-                    //    Password = entity.FTPSite.Password,
-                    //    FTPSiteType = new Domain.FTPSiteType() { Id = entity.FTPSite.FTPSiteType.Id, Name = entity.FTPSite.FTPSiteType.Name }
-                    //};
-
-                    //Domain.Store store = new Domain.Store()
-                    //{
-                    //    Id = entity.StoreAMSServer.Store.Id,
-                    //    Name = entity.StoreAMSServer.Store.Name,
-                    //    AndromedaSiteId = entity.StoreAMSServer.Store.AndromedaSiteId,
-                    //    CustomerSiteId = entity.StoreAMSServer.Store.CustomerSiteId,
-                    //    LastFTPUploadDateTime = entity.StoreAMSServer.Store.LastFTPUploadDateTime
-                    //};
-
-                    //Domain.AMSServer amsServer = new Domain.AMSServer()
-                    //{
-                    //    Id = entity.StoreAMSServer.AMSServer.Id,
-                    //    Name = entity.StoreAMSServer.AMSServer.Name,
-                    //    Description = entity.StoreAMSServer.AMSServer.Description
-                    //};
-
-                    //Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()
-                    //{
-                    //    Id = entity.StoreAMSServer.Id,
-                    //    Priority = entity.StoreAMSServer.Priority,
-                    //    Store = store,
-                    //    AMSServer = amsServer
-                    //};
-
-                    //Domain.StoreAMSServerFtpSite model = new Domain.StoreAMSServerFtpSite()
-                    //{
-                    //    Id = entity.Id,
-                    //    FTPSite = ftpSite,
-                    //    StoreAMSServer = storeAMSServer
-                    //};
 
                     models.Add(storeAMSServerFtpSiteListItem);
                 }
