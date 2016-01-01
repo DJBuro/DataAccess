@@ -13,71 +13,38 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
     {
         void CreateORUpdate(IUserRole viewModel);
 
-        IUserRole Get(int id);
+        /// <summary>
+        /// Gets the specified role by id.
+        /// </summary>
+        /// <param name="roleId">The role id.</param>
+        /// <returns></returns>
+        IUserRole Get(int roleId);
+
+        /// <summary>
+        /// Gets the specified role by name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         IUserRole Get(string name);
 
+        /// <summary>
+        /// Lists all available user roles.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IUserRole> List();
-    }
 
-    public class UserRoleDataService : IUserRoleDataService 
-    {
-        public UserRoleDataService() 
-        {
-        }
-        
-        public void CreateORUpdate(IUserRole userRole)
-        {
-            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
-            {
-                var table = dbContext.Roles;
-                Role entity;
-                entity = table.FirstOrDefault(e => e.Name == userRole.Name) ?? table.Create();
-                
-                entity.Name = userRole.Name;
+        /// <summary>
+        /// Lists the roles for user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        IEnumerable<IUserRole> ListRolesForUser(int userId);
 
-                table.Add(entity);
-                userRole.Id = entity.Id;
-            }
-        }
-
-        public IUserRole Get(int id)
-        {
-            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
-            {
-                var table = dbContext.Roles;
-                Role entity = table.Single(e => e.Id == id);
-
-                return entity;
-            }
-        }
-
-        public IUserRole Get(string name)
-        {
-            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
-            {
-                var table = dbContext.Roles;
-                Role entity = table.Single(e => e.Name == name);
-
-                return entity;
-            }
-        }
-
-        public IEnumerable<IUserRole> List()
-        {
-            IEnumerable<IUserRole> items;
-            using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
-            {
-                var table = dbContext.Roles;
-
-                items = table.ToList();
-            }
-
-            return items;
-        }
-
-        public void Create(IUserRole userRole)
-        {
-            
-        }
+        /// <summary>
+        /// Adds the roles to user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <param name="userRoles">The user roles.</param>
+        void AddRolesToUser(int userId, IEnumerable<IUserRole> userRoles);
     }
 }

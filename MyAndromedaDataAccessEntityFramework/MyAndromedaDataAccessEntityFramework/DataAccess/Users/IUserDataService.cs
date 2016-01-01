@@ -3,19 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using MyAndromeda.Core;
 using System.Linq.Expressions;
+using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
     public interface IUserDataService : IDependency
     {
+        /// <summary>
+        /// returns a new instance of a database model
+        /// </summary>
+        /// <returns></returns>
         Model.MyAndromeda.UserRecord New();
 
+        /// <summary>
+        /// Adds the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         void Add(UserRecord user);
+
+        /// <summary>
+        /// Updates the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         void Update(UserRecord user);
 
+        /// <summary>
+        /// Gets the name of the by user.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns></returns>
         MyAndromedaDataAccess.Domain.MyAndromedaUser GetByUserName(string userName);
 
+        /// <summary>
+        /// Queries for users.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        IEnumerable<MyAndromedaDataAccess.Domain.MyAndromedaUser> QueryForUsers(Expression<Func<UserRecord, bool>> query);
+
+        /// <summary>
+        /// Queries the specified query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
         IEnumerable<UserRecord> Query(Expression<Func<UserRecord, bool>> query);
     }
 
@@ -60,6 +91,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             }
 
             return model;
+        }
+
+        public IEnumerable<MyAndromedaUser> QueryForUsers(Expression<Func<UserRecord, bool>> query)
+        {
+            IEnumerable<MyAndromedaUser> results;
+            using (var dbContext = NewContext()) 
+            {
+                var table = dbContext.UserRecords;
+                var userQuery = table.Where(query);
+                var result = userQuery.ToArray();
+
+                results = result.Select(e => e.ToDomain());
+            }
+
+            return results;
         }
 
         public void Add(UserRecord user)

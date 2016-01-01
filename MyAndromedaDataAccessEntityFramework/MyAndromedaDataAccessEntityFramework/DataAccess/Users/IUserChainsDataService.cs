@@ -117,10 +117,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var userChainsTable = myAndromedaDbContext.UserChains;
+                if (userChainsTable.Any(e => e.ChainId == chain.Id && e.UserRecordId == userId))
+                    return;
+                
                 var link = userChainsTable.Create();
                 link.ChainId = chain.Id;
                 link.UserRecordId = userId;
-
 
                 userChainsTable.Add(link);
                 myAndromedaDbContext.SaveChanges();

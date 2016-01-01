@@ -100,6 +100,7 @@
     <Compile Include="DataAccess\Users\IUserChainsDataService.cs" />
     <Compile Include="DataAccess\Users\IUserRoleDataService.cs" />
     <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
+    <Compile Include="DataAccess\Users\UserRoleDataService.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AndroAdmin\ACSApplication.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
