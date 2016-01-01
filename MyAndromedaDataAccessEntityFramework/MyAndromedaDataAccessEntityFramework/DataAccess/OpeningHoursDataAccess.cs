@@ -56,22 +56,36 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 // We have to be careful to join on site here.  We've already verified that the user is allowed to access the site but
-                // the openingHoursId could be forged to access the opeing hours of another store.  By joining on the store id we
+                // the openingHoursId could be forged to access the opening hours of another store.  By joining on the store id we
                 // ensure that the day row belongs to the store that the user has permission to access.
-                var query = from oh in entitiesContext.OpeningHours
-                                       join s in entitiesContext.Stores
-                                         on oh.SiteId equals s.Id
-                                       where s.Id == siteId
-                                         && oh.Day.Description == day
-                                       select oh;
+                //var query = from oh in entitiesContext.OpeningHours
+                //                       join s in entitiesContext.Stores
+                //                         on oh.SiteId equals s.Id
+                //                       where s.Id == siteId
+                //                         && oh.Day.Description == day
+                //                       select oh;
 
-                MyAndromedaDataAccessEntityFramework.Model.OpeningHour entity = query.FirstOrDefault();
+                var query = entitiesContext.OpeningHours
+                    .Where(openHour => openHour.SiteId == siteId)
+                    .Where(openHour => openHour.Day.Description == day);
 
-                if (entity != null)
+                //there can still be more than one opening time per day
+                var result = query.ToArray();
+
+                foreach (var item in result) 
                 {
-                    entitiesContext.OpeningHours.Remove(entity);
-                    entitiesContext.SaveChanges();
+                    entitiesContext.OpeningHours.Remove(item);
                 }
+
+                entitiesContext.SaveChanges();
+
+                //MyAndromedaDataAccessEntityFramework.Model.OpeningHour entity = query.FirstOrDefault();
+
+                //if (entity != null)
+                //{
+                //    entitiesContext.OpeningHours.Remove(entity);
+                //    entitiesContext.SaveChanges();
+                //}
             }
 
             return "";
