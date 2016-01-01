@@ -6,7 +6,9 @@ using AndroAdminDataAccess.Domain;
 
 namespace AndroAdminDataAccess.DataAccess
 {
-    public interface IStoreDAO
+    public interface ILogDAO
     {
+        IEnumerable<AndroAdminDataAccess.Domain.Log> GetAll();
+        void Add(AndroAdminDataAccess.Domain.Log amsServer);
     }
 }

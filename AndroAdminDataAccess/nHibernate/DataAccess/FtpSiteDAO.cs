@@ -1,61 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using AndroAdminDataAccess.nHibernate.Mappings;
-using FluentNHibernate.Mapping;
 using NHibernate;
 
 namespace AndroAdminDataAccess.nHibernate.DataAccess
 {
-    public class AMSServerDAO : IAMSServerDAO
+    public class FtpSiteDAO : IFtpSiteDAO
     {
-        public IEnumerable<AndroAdminDataAccess.Domain.AMSServer> GetAll()
+        public IEnumerable<AndroAdminDataAccess.Domain.FTPSite> GetAll()
         {
-            IEnumerable<AndroAdminDataAccess.Domain.AMSServer> amsServers = null;
+            IEnumerable<AndroAdminDataAccess.Domain.FTPSite> ftpSites = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
-                amsServers = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.AMSServer)).List<AndroAdminDataAccess.Domain.AMSServer>();
+                ftpSites = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.FTPSite)).List<AndroAdminDataAccess.Domain.FTPSite>();
             }
 
-            return amsServers;
+            return ftpSites;
         }
 
-        public void Add(AndroAdminDataAccess.Domain.AMSServer amsServer)
+        public void Add(AndroAdminDataAccess.Domain.FTPSite ftpSite)
         {
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
                 ITransaction transaction = session.BeginTransaction();
                 transaction.Begin();
-                session.Save(amsServer);
+                session.Save(ftpSite);
                 transaction.Commit();
             }
         }
 
-        public void Update(AndroAdminDataAccess.Domain.AMSServer amsServer)
+        public void Update(AndroAdminDataAccess.Domain.FTPSite ftpSite)
         {
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
                 ITransaction transaction = session.BeginTransaction();
                 transaction.Begin();
-                session.Update(amsServer);
+                session.Update(ftpSite);
                 transaction.Commit();
             }
         }
 
-        public AndroAdminDataAccess.Domain.AMSServer GetById(int id)
+        public AndroAdminDataAccess.Domain.FTPSite GetById(int id)
         {
-            AndroAdminDataAccess.Domain.AMSServer amsServer = null;
+            AndroAdminDataAccess.Domain.FTPSite ftpSite = null;
 
             using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
             {
-                amsServer = session.Get<AndroAdminDataAccess.Domain.AMSServer>(id);
+                ftpSite = session.Get<AndroAdminDataAccess.Domain.FTPSite>(id);
             }
 
-            return amsServer;
+            return ftpSite;
         }
     }
 }
