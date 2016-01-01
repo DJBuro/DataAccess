@@ -8,12 +8,12 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
     public interface IUserChainsDataService : IDependency
     {
-        IEnumerable<Chain> GetChainForUser(int userId);
+        IEnumerable<Chain> GetChainsForUser(int userId);
     }
 
     public class UserChainsDataService : IUserChainsDataService
     {
-        public IEnumerable<Chain> GetChainForUser(int userId) 
+        public IEnumerable<Chain> GetChainsForUser(int userId) 
         {
             IEnumerable<Chain> chains = null;
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
@@ -52,6 +52,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             Action<Chain> buildTree = null;
             buildTree = (node) =>
             {
+                if (!linkResult.ContainsKey(node.Id))
+                    return;
+
                 var lookupByParentId = linkResult[node.Id]; 
                 var children = new List<Chain>(lookupByParentId.Length);
                 
@@ -61,9 +64,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     var chain = new Chain() 
                     { 
                         Id = lookup.Id,
-                        Name = lookup.Name
+                        Name = lookup.Name,
+                        Children = new List<Chain>()
                     };
 
+                    children.Add(chain);
                     buildTree(chain);
                 }
             };

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System.Linq.Expressions;
@@ -32,5 +30,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Sites
 
             return sites;
         }
+
+        //public bool SiteBelongsToChain(int siteId) 
+        //{
+        //    Store store;
+        //    using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
+        //    {
+        //        var table = db
+        //    }
+        //}
     }
 }

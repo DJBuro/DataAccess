@@ -33,8 +33,19 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <returns></returns>
         bool IsTheUserAssociatedByChainAndStore(int userId, int chainId, int storeId);
 
-        IList<Chain> ChainsUserCanAccess(int userId);
-        IList<Store> StoresUserCanAccess(int userId);
+        /// <summary>
+        /// Lists the chains user can access.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        IList<Chain> ListChainsUserCanAccess(int userId);
+
+        /// <summary>
+        /// Lists the stores user can access.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        IList<Store> ListStoresUserCanAccess(int userId);
     }
 
     public class UserAccessDataService : IUserAccessDataService 
@@ -43,7 +54,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         {
         }
 
-        public IList<Chain> ChainsUserCanAccess(int userId)
+        public IList<Chain> ListChainsUserCanAccess(int userId)
         {
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
             {
@@ -55,7 +66,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             }
         }
 
-        public IList<Store> StoresUserCanAccess(int userId)
+        public IList<Store> ListStoresUserCanAccess(int userId)
         {
             using (var dbContext = new Model.AndroAdmin.AndroAdminDbContext())
             {
@@ -149,7 +160,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     return associated;
             }
 
-            return IsTheUserAssociatedWithChain(userId, chainId);
+            bool isTheUserAssociatedWithinTheChain = this.IsTheUserAssociatedWithChain(userId, chainId);
+
+            return isTheUserAssociatedWithinTheChain;
         }
     }
 }
