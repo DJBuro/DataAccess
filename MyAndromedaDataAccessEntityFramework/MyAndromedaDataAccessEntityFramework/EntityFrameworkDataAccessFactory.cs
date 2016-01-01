@@ -16,12 +16,6 @@ namespace MyAndromedaDataAccessEntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public MyAndromedaDataAccess.DataAccess.IGroupsDataAccess GroupDataAccess
-        {
-            get { return new GroupsDataAccess(); }
-            set { throw new NotImplementedException(); }
-        }
-
         public MyAndromedaDataAccess.DataAccess.IMyAndromedaUserDataAccess MyAndromedaUserDataAccess
         {
             get { return new MyAndromedaUserDataAccess(); }

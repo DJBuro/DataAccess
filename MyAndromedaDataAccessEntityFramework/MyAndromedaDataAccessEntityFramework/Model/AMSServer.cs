@@ -17,7 +17,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public AMSServer()
         {
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
-            this.StoreAMSServerFTPSitePairs = new HashSet<StoreAMSServerFTPSitePair>();
         }
     
         public int Id { get; set; }
@@ -25,6 +24,5 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public string Description { get; set; }
     
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
-        public virtual ICollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
     }
 }

@@ -16,8 +16,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     {
         public FTPSite()
         {
-            this.StoreAMSServerFTPSitePairs = new HashSet<StoreAMSServerFTPSitePair>();
-            this.StoreAMSServerFTPSitePairs1 = new HashSet<StoreAMSServerFTPSitePair>();
             this.StoreAMSServerFtpSites = new HashSet<StoreAMSServerFtpSite>();
         }
     
@@ -32,8 +30,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public int FTPSiteType_Id { get; set; }
     
         public virtual FTPSiteType FTPSiteType { get; set; }
-        public virtual ICollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
-        public virtual ICollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs1 { get; set; }
         public virtual ICollection<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
     }
 }

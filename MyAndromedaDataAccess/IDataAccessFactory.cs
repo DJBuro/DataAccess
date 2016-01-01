@@ -9,7 +9,6 @@ namespace MyAndromedaDataAccess
     public interface IDataAccessFactory
     {
         ISiteDataAccess SiteDataAccess { get; set; }
-        IGroupsDataAccess GroupDataAccess { get; set; }
         IMyAndromedaUserDataAccess MyAndromedaUserDataAccess { get; set; }
         IAddressDataAccess AddressDataAccess { get; set; }
         IEmployeeDataAccess EmployeeDataAccess { get; set; }

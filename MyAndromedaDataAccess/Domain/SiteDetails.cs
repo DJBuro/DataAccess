@@ -18,42 +18,52 @@ namespace MyAndromedaDataAccess.Domain
         [XmlIgnore]
         public string LicenceKey { get; set; }
 
-        [JsonProperty(PropertyName = "siteId")]
-        [XmlElement("SiteId", DataType = "string")]
-        public string ExternalId { get; set; }
+        //[JsonProperty(PropertyName = "siteId")]
+        //[XmlElement("SiteId", DataType = "string")]
+        public int AndroSiteId { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        //[JsonProperty(PropertyName = "siteId")]
+        //[XmlElement("SiteId", DataType = "string")]
+        public string CustomerSiteId { get; set; }
 
-        [JsonProperty(PropertyName = "menuVersion")]
+        public string ExternalSiteId { get; set; }
+
+        public string AndroSiteName { get; set; }
+
+        //[JsonProperty(PropertyName = "name")]
+        public string ClientSiteName { get; set; }
+
+        //[JsonProperty(PropertyName = "name")]
+        public string ExternalSiteName { get; set; }
+
+        //[JsonProperty(PropertyName = "menuVersion")]
         public int MenuVersion { get; set; }
 
-        [JsonProperty(PropertyName = "isOpen")]
+        //[JsonProperty(PropertyName = "isOpen")]
         public bool IsOpen { get; set; }
 
-        [JsonProperty(PropertyName = "estDelivTime")]
+        //[JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
 
-        [JsonProperty(PropertyName = "timeZone")]
+        //[JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
 
-        [JsonProperty(PropertyName = "phone")]
+        //[JsonProperty(PropertyName = "phone")]
         public string Phone { get; set; }
 
-        [JsonProperty(PropertyName = "address", NullValueHandling=NullValueHandling.Ignore)]
-
+        //[JsonProperty(PropertyName = "address", NullValueHandling=NullValueHandling.Ignore)]
         public Address Address { get; set; }
 
-        [JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
+        //[JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
         public List<TimeSpanBlock> OpeningHours { get; set; }
 
-        [JsonProperty(PropertyName = "paymentProvider")]
+        //[JsonProperty(PropertyName = "paymentProvider")]
         public string PaymentProvider { get; set; }
 
-        [JsonProperty(PropertyName = "paymentClientId")]
+        //[JsonProperty(PropertyName = "paymentClientId")]
         public string PaymentClientId { get; set; }
 
-        [JsonProperty(PropertyName = "paymentClientPassword")]
+        //[JsonProperty(PropertyName = "paymentClientPassword")]
         public string PaymentClientPassword { get; set; }
     }
 }

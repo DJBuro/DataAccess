@@ -12,49 +12,62 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
     {
         public string UpsertBySiteId(int siteId, MyAndromedaDataAccess.Domain.Address address)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-            var androAdminQuery = from s in androAdminEntities.Stores
-                                  join a in androAdminEntities.Addresses
-                                    on s.AddressId equals a.Id
-                                  where s.Id == siteId
-                                  select a;
-
-            Model.Address androAdminEntity = androAdminQuery.FirstOrDefault();
-
-            // Insert or update?
-            if (androAdminEntity == null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                androAdminEntity = new Model.Address();
+                var query = from c in entitiesContext.Countries
+                                   where c.Id == address.CountryId
+                                   select c;
+
+                var countryEntity = query.FirstOrDefault();
+
+                var query2 = from s in entitiesContext.Stores
+                                      join a in entitiesContext.Addresses
+                                        on s.AddressId equals a.Id
+                                      where s.Id == siteId
+                                      select a;
+
+                Model.Address addressEntity = query2.FirstOrDefault();
+
+                // Insert or update?
+                if (addressEntity == null)
+                {
+                    addressEntity = new Model.Address();
+                }
+
+                // Make the changes
+                addressEntity.Country = new MyAndromedaDataAccessEntityFramework.Model.Country()
+                {
+                    CountryName = countryEntity.CountryName,
+                    Id = countryEntity.Id,
+                    ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                    ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                };
+                addressEntity.County = address.County;
+                addressEntity.Locality = address.Locality;
+                addressEntity.Org1 = address.Org1;
+                addressEntity.Org2 = address.Org2;
+                addressEntity.Org3 = address.Org3;
+                addressEntity.PostCode = address.Postcode;
+                addressEntity.Prem1 = address.Prem1;
+                addressEntity.Prem2 = address.Prem2;
+                addressEntity.Prem3 = address.Prem3;
+                addressEntity.Prem4 = address.Prem4;
+                addressEntity.Prem5 = address.Prem5;
+                addressEntity.Prem6 = address.Prem6;
+                addressEntity.RoadName = address.RoadName;
+                addressEntity.RoadNum = address.RoadNum;
+                addressEntity.State = address.State;
+                addressEntity.Town = address.Town;
+                addressEntity.DPS = address.Dps;
+
+                // Add a new address
+                if (addressEntity == null)
+                {
+                    entitiesContext.Addresses.Add(addressEntity);
+                }
+
+                entitiesContext.SaveChanges();
             }
-
-            // Make the changes
-            androAdminEntity.Country = address.Country;
-            androAdminEntity.County = address.County;
-            androAdminEntity.Locality = address.Locality;
-            androAdminEntity.Org1 = address.Org1;
-            androAdminEntity.Org2 = address.Org2;
-            androAdminEntity.Org3 = address.Org3;
-            androAdminEntity.PostCode = address.Postcode;
-            androAdminEntity.Prem1 = address.Prem1;
-            androAdminEntity.Prem2 = address.Prem2;
-            androAdminEntity.Prem3 = address.Prem3;
-            androAdminEntity.Prem4 = address.Prem4;
-            androAdminEntity.Prem5 = address.Prem5;
-            androAdminEntity.Prem6 = address.Prem6;
-            androAdminEntity.RoadName = address.RoadName;
-            androAdminEntity.RoadNum = address.RoadNum;
-            androAdminEntity.State = address.State;
-            androAdminEntity.Town = address.Town;
-            androAdminEntity.DPS = address.Dps;
-
-            // Add a new address
-            if (androAdminEntity == null)
-            {
-                androAdminEntities.Addresses.Add(androAdminEntity);
-            }
-
-            androAdminEntities.SaveChanges();
 
             return "";
         }

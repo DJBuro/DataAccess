@@ -16,13 +16,16 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     {
         public Partner()
         {
+            this.ACSApplications = new HashSet<ACSApplication>();
             this.Groups = new HashSet<Group>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string ExternalId { get; set; }
+        public int DataVersion { get; set; }
     
+        public virtual ICollection<ACSApplication> ACSApplications { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
     }
 }

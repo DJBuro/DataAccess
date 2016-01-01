@@ -87,7 +87,9 @@ namespace MyAndromedaDataAccess.Domain
         [JsonProperty(PropertyName = "locality")]
         public string Locality { get; set;}
 
-        [JsonProperty(PropertyName = "country")]
-        public string Country { get; set; }
+        [JsonProperty(PropertyName = "countryId")]
+        public int CountryId { get; set; }
+
+        public Country Country { get; set; }
     }
 }

@@ -13,167 +13,81 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
     public class SiteDetailsDataAccess : ISiteDetailsDataAccess
     {
-        //public string GetBySiteId(int siteId, DataTypeEnum dataType, out MyAndromedaDataAccess.Domain.SiteDetails siteDetails)
-        //{
-        //    siteDetails = null;
-//            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
-
-//            var sitesQuery = from s in androAdminEntities.Stores
-// //                            join spp in androAdminEntities.StorePaymentProviders
-//  //                           on s.StorePaymentProviderID equals spp.ID
-//  //                           into spp2
-// //                            from spp3 in spp2.DefaultIfEmpty()
-//                             where s.Id == siteId
-//                             select new
-//                             {
-//                                 s.Id,
-//                                 s.ExternalId,
-//                                 s.ExternalSiteName,
-// //                                s.StoreConnected,
-//                                 s.EstimatedDeliveryTime,
-//                                 s.TimeZone,
-// //                                s.SiteMenus,
-//                                 s.Address,
-//                                 s.OpeningHours//,
-//                                 //ProviderName = (spp3 == null ? "" : spp3.ProviderName),
-//                                 //ClientId = (spp3 == null ? "" : spp3.ClientId),
-//                                 //ClientPassword = (spp3 == null ? "" : spp3.ClientPassword)
-//                             };
-//            var siteEntity = sitesQuery.FirstOrDefault();
-
-//            // Create a serializable SiteDetails object
-//            siteDetails = new SiteDetails();
-//            siteDetails.Id = siteEntity.Id;
-//            siteDetails.ExternalId = siteEntity.ExternalId;
-//            siteDetails.Name = siteEntity.ExternalSiteName;
-////            siteDetails.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
-//            siteDetails.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
-//            siteDetails.TimeZone = siteEntity.TimeZone;
-////            siteDetails.PaymentProvider = siteEntity.ProviderName;
-////            siteDetails.PaymentClientId = siteEntity.ClientId;
-////            siteDetails.PaymentClientPassword = siteEntity.ClientPassword;
-
-//            // Get the menu version for the requested data type (JSON or XML)
-//            //foreach (Model.SiteMenu siteMenu in siteEntity.SiteMenus)
-//            //{
-//            //    if (siteMenu.MenuType == dataType.ToString() && siteMenu.Version.HasValue)
-//            //    {
-//            //        siteDetails.MenuVersion = siteMenu.Version.Value;
-//            //        break;
-//            //    }
-//            //}
-
-//            // Address
-//            if (siteEntity.Address != null)
-//            {
-//                MyAndromedaDataAccessEntityFramework.Model.Address dbAddress = siteEntity.Address;
-
-//                siteDetails.Address = new MyAndromedaDataAccess.Domain.Address();
-//                siteDetails.Address.Country = dbAddress.Country;
-//                siteDetails.Address.County = dbAddress.County;
-//                siteDetails.Address.Dps = dbAddress.DPS;
-//                siteDetails.Address.Lat = dbAddress.Lat.HasValue ? dbAddress.Lat.ToString() : "";
-//                siteDetails.Address.Locality = dbAddress.Locality;
-//                siteDetails.Address.Long = dbAddress.Long.HasValue ? dbAddress.Lat.ToString() : "";
-//                siteDetails.Address.Org1 = dbAddress.Org1;
-//                siteDetails.Address.Org2 = dbAddress.Org2;
-//                siteDetails.Address.Org3 = dbAddress.Org3;
-//                siteDetails.Address.Postcode = dbAddress.PostCode;
-//                siteDetails.Address.Prem1 = dbAddress.Prem1;
-//                siteDetails.Address.Prem2 = dbAddress.Prem2;
-//                siteDetails.Address.Prem3 = dbAddress.Prem3;
-//                siteDetails.Address.Prem4 = dbAddress.Prem4;
-//                siteDetails.Address.Prem5 = dbAddress.Prem5;
-//                siteDetails.Address.Prem6 = dbAddress.Prem6;
-//                siteDetails.Address.RoadName = dbAddress.RoadName;
-//                siteDetails.Address.RoadNum = dbAddress.RoadNum;
-//                siteDetails.Address.Town = dbAddress.Town;
-//            }
-
-//            // Opening hours
-//            siteDetails.OpeningHours = new List<TimeSpanBlock>();
-//            if (siteEntity.OpeningHours != null)
-//            {
-//                foreach (OpeningHour openingHour in siteEntity.OpeningHours)
-//                {
-//                    TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
-//                    timeSpanBlock.Id = openingHour.Id;
-//                    timeSpanBlock.Day = openingHour.Day.Description;
-//                    timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
-//                    timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
-//                    timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
-
-//                    siteDetails.OpeningHours.Add(timeSpanBlock);
-//                }
-//            }
-
-        //    return "";
-        //}
-
         public string GetBySiteId(int siteId, out SiteDetails siteDetails)
         {
             siteDetails = null;
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
 
-            var acsQuery = from s in androAdminEntities.Stores
-                           where s.Id == siteId
-                           select s;
-
-            MyAndromedaDataAccessEntityFramework.Model.Store acsEntity = acsQuery.FirstOrDefault();
-
-            if (acsEntity != null)
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
-                // Create a serializable SiteDetails object
-                siteDetails = new MyAndromedaDataAccess.Domain.SiteDetails();
-                siteDetails.Id = acsEntity.Id;
-                siteDetails.ExternalId = acsEntity.ExternalId;
-                siteDetails.Name = acsEntity.ExternalSiteName;
-                //                siteDetails.IsOpen = acsEntity.StoreConnected.GetValueOrDefault(false);
-                siteDetails.EstDelivTime = acsEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
-                siteDetails.TimeZone = acsEntity.TimeZone;
-                siteDetails.Phone = acsEntity.Telephone;
+                var query = from s in entitiesContext.Stores
+                               where s.Id == siteId
+                               select s;
 
-                // Address
-                if (acsEntity.Address != null)
+                MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
+
+                if (entity != null)
                 {
-                    MyAndromedaDataAccessEntityFramework.Model.Address dbAddress = acsEntity.Address;
+                    // Create a serializable SiteDetails object
+                    siteDetails = new MyAndromedaDataAccess.Domain.SiteDetails();
+                    siteDetails.Id = entity.Id;
+                    siteDetails.CustomerSiteId = entity.CustomerSiteId;
+                    siteDetails.ExternalSiteId = entity.ExternalId;
+                    siteDetails.AndroSiteName = entity.Name;
+                    siteDetails.ClientSiteName = entity.ClientSiteName;
+                    siteDetails.ExternalSiteName = entity.ExternalSiteName;
+                    siteDetails.EstDelivTime = entity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    siteDetails.TimeZone = entity.TimeZone;
+                    siteDetails.Phone = entity.Telephone;
 
-                    siteDetails.Address = new MyAndromedaDataAccess.Domain.Address();
-                    siteDetails.Address.Country = dbAddress.Country;
-                    siteDetails.Address.County = dbAddress.County;
-                    siteDetails.Address.Dps = dbAddress.DPS;
-                    siteDetails.Address.Lat = dbAddress.Lat.HasValue ? dbAddress.Lat.ToString() : "";
-                    siteDetails.Address.Locality = dbAddress.Locality;
-                    siteDetails.Address.Long = dbAddress.Long.HasValue ? dbAddress.Lat.ToString() : "";
-                    siteDetails.Address.Org1 = dbAddress.Org1;
-                    siteDetails.Address.Org2 = dbAddress.Org2;
-                    siteDetails.Address.Org3 = dbAddress.Org3;
-                    siteDetails.Address.Postcode = dbAddress.PostCode;
-                    siteDetails.Address.Prem1 = dbAddress.Prem1;
-                    siteDetails.Address.Prem2 = dbAddress.Prem2;
-                    siteDetails.Address.Prem3 = dbAddress.Prem3;
-                    siteDetails.Address.Prem4 = dbAddress.Prem4;
-                    siteDetails.Address.Prem5 = dbAddress.Prem5;
-                    siteDetails.Address.Prem6 = dbAddress.Prem6;
-                    siteDetails.Address.RoadName = dbAddress.RoadName;
-                    siteDetails.Address.RoadNum = dbAddress.RoadNum;
-                    siteDetails.Address.Town = dbAddress.Town;
-                }
-
-                // Opening hours
-                siteDetails.OpeningHours = new List<TimeSpanBlock>();
-                if (acsEntity.OpeningHours != null)
-                {
-                    foreach (OpeningHour openingHour in acsEntity.OpeningHours)
+                    // Address
+                    if (entity.Address != null)
                     {
-                        TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
-                        timeSpanBlock.Id = openingHour.Id;
-                        timeSpanBlock.Day = openingHour.Day.Description;
-                        timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
-                        timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
-                        timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+                        MyAndromedaDataAccessEntityFramework.Model.Address addressEntity = entity.Address;
 
-                        siteDetails.OpeningHours.Add(timeSpanBlock);
+                        siteDetails.Address = new MyAndromedaDataAccess.Domain.Address();
+                        siteDetails.Address.CountryId = addressEntity.Country.Id;
+                        siteDetails.Address.County = addressEntity.County;
+                        siteDetails.Address.Dps = addressEntity.DPS;
+                        siteDetails.Address.Lat = addressEntity.Lat;
+                        siteDetails.Address.Locality = addressEntity.Locality;
+                        siteDetails.Address.Long = addressEntity.Long;
+                        siteDetails.Address.Org1 = addressEntity.Org1;
+                        siteDetails.Address.Org2 = addressEntity.Org2;
+                        siteDetails.Address.Org3 = addressEntity.Org3;
+                        siteDetails.Address.Postcode = addressEntity.PostCode;
+                        siteDetails.Address.Prem1 = addressEntity.Prem1;
+                        siteDetails.Address.Prem2 = addressEntity.Prem2;
+                        siteDetails.Address.Prem3 = addressEntity.Prem3;
+                        siteDetails.Address.Prem4 = addressEntity.Prem4;
+                        siteDetails.Address.Prem5 = addressEntity.Prem5;
+                        siteDetails.Address.Prem6 = addressEntity.Prem6;
+                        siteDetails.Address.RoadName = addressEntity.RoadName;
+                        siteDetails.Address.RoadNum = addressEntity.RoadNum;
+                        siteDetails.Address.Town = addressEntity.Town;
+                        siteDetails.Address.Country = new MyAndromedaDataAccess.Domain.Country()
+                        {
+                            CountryName = addressEntity.Country.CountryName,
+                            Id = addressEntity.Country.Id,
+                            ISO3166_1_alpha_2 = addressEntity.Country.ISO3166_1_alpha_2,
+                            ISO3166_1_numeric = addressEntity.Country.ISO3166_1_numeric
+                        };
+                    }
+
+                    // Opening hours
+                    siteDetails.OpeningHours = new List<TimeSpanBlock>();
+                    if (entity.OpeningHours != null)
+                    {
+                        foreach (OpeningHour openingHour in entity.OpeningHours)
+                        {
+                            TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
+                            timeSpanBlock.Id = openingHour.Id;
+                            timeSpanBlock.Day = openingHour.Day.Description;
+                            timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
+                            timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
+                            timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
+
+                            siteDetails.OpeningHours.Add(timeSpanBlock);
+                        }
                     }
                 }
             }
@@ -184,17 +98,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Update(int siteId, SiteDetails siteDetails)
         {
-            AndroAdminEntities androAdminEntities = new AndroAdminEntities();
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from s in entitiesContext.Stores
+                               where s.Id == siteId
+                               select s;
 
-            var acsQuery = from s in androAdminEntities.Stores
-                           where s.Id == siteId
-                           select s;
+                MyAndromedaDataAccessEntityFramework.Model.Store entity = query.FirstOrDefault();
 
-            MyAndromedaDataAccessEntityFramework.Model.Store acsEntity = acsQuery.FirstOrDefault();
+                entity.ClientSiteName = siteDetails.ClientSiteName;
+                entity.ExternalSiteName = siteDetails.ExternalSiteName;
+                entity.CustomerSiteId = siteDetails.CustomerSiteId;
+                entity.ExternalId = siteDetails.ExternalSiteId;
+                entity.Telephone = siteDetails.Phone;
 
-            acsEntity.Telephone = siteDetails.Phone;
-
-            androAdminEntities.SaveChanges();
+                entitiesContext.SaveChanges();
+            }
 
             return "";
         }

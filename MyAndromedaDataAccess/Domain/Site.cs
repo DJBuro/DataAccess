@@ -10,28 +10,31 @@ namespace MyAndromedaDataAccess.Domain
 {
     public class Site
     {
-        [JsonIgnore]
-        [XmlIgnore]
+        //[JsonIgnore]
+        //[XmlIgnore]
         public int Id { get; set; }
 
-        [JsonIgnore]
-        [XmlIgnore]
+        //[JsonIgnore]
+        //[XmlIgnore]
         public string LicenceKey { get; set; }
 
-        [JsonProperty(PropertyName = "siteId")]
-        [XmlElement("SiteId")]
-        public string ExternalId { get; set; }
+        //[JsonProperty(PropertyName = "siteId")]
+        //[XmlElement("SiteId")]
+        public string CustomerSiteId { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        //[JsonProperty(PropertyName = "name")]
+        public string ClientSiteName { get; set; }
 
-        [JsonProperty(PropertyName = "menuVersion")]
+        //[JsonProperty(PropertyName = "name")]
+        public string ExternalName { get; set; }
+
+        //[JsonProperty(PropertyName = "menuVersion")]
         public int MenuVersion { get; set; }
 
-        [JsonProperty(PropertyName = "isOpen")]
+        //[JsonProperty(PropertyName = "isOpen")]
         public bool IsOpen { get; set; }
 
-        [JsonProperty(PropertyName = "estDelivTime")]
+        //[JsonProperty(PropertyName = "estDelivTime")]
         public int EstDelivTime { get; set; }
     }
 }

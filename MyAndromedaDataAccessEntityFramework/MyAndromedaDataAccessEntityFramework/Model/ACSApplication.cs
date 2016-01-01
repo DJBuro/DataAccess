@@ -12,17 +12,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class OpeningHour
+    public partial class ACSApplication
     {
+        public ACSApplication()
+        {
+            this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
+        }
+    
         public int Id { get; set; }
-        public int SiteId { get; set; }
-        public System.TimeSpan TimeStart { get; set; }
-        public System.TimeSpan TimeEnd { get; set; }
-        public bool OpenAllDay { get; set; }
-        public int DayId { get; set; }
+        public string ExternalApplicationId { get; set; }
+        public string Name { get; set; }
+        public string ExternalDisplayName { get; set; }
+        public int PartnerId { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual Day Day { get; set; }
-        public virtual Store Store { get; set; }
+        public virtual Partner Partner { get; set; }
+        public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
     }
 }

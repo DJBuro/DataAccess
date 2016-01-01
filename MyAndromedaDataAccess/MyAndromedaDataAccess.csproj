@@ -58,6 +58,7 @@
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\Employee.cs" />
     <Compile Include="Domain\Group.cs" />
     <Compile Include="Domain\MyAndromedaUser.cs" />

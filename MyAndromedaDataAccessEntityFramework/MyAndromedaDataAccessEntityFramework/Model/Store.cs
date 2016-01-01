@@ -16,11 +16,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     {
         public Store()
         {
+            this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
             this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
             this.OpeningHours = new HashSet<OpeningHour>();
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
-            this.StoreAMSServerFTPSitePairs = new HashSet<StoreAMSServerFTPSitePair>();
             this.StoreGroups = new HashSet<StoreGroup>();
+            this.StoreMenus = new HashSet<StoreMenu>();
         }
     
         public int Id { get; set; }
@@ -35,15 +36,19 @@ namespace MyAndromedaDataAccessEntityFramework.Model
         public Nullable<int> EstimatedDeliveryTime { get; set; }
         public string TimeZone { get; set; }
         public string Telephone { get; set; }
-        public string LicenceKey { get; set; }
-        public Nullable<int> AddressId { get; set; }
+        public string LicenseKey { get; set; }
+        public int AddressId { get; set; }
+        public Nullable<int> StorePaymentProviderID { get; set; }
+        public int DataVersion { get; set; }
     
+        public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public virtual ICollection<OpeningHour> OpeningHours { get; set; }
+        public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual StoreStatu StoreStatu { get; set; }
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
-        public virtual ICollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
         public virtual ICollection<StoreGroup> StoreGroups { get; set; }
+        public virtual ICollection<StoreMenu> StoreMenus { get; set; }
     }
 }
