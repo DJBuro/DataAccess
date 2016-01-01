@@ -11,7 +11,7 @@ namespace AndroAdminDataAccess.DataAccess
         string ConnectionStringOverride { get; set; }
         IList<Domain.ThemeAndroWebOrdering> GetAll();
         Domain.ThemeAndroWebOrdering GetAndroWebOrderingThemeById(int id);
-        void Add(Domain.ThemeAndroWebOrdering webOrderingTheme);
+        Domain.ThemeAndroWebOrdering Add(Domain.ThemeAndroWebOrdering webOrderingTheme);
         void Update(Domain.ThemeAndroWebOrdering webOrderingTheme);
         void Delete(Domain.ThemeAndroWebOrdering webOrderingTheme);
     }
