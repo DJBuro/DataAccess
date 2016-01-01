@@ -94,6 +94,8 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PartnerID" Type="uniqueidentifier" />
           <Property Name="ChainName" Type="varchar" MaxLength="32" />
+          <Property Name="SecurityID" Type="uniqueidentifier" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <EntityType Name="OpeningHours">
           <Key>
@@ -144,12 +146,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SignalRConnectionID" Type="uniqueidentifier" />
           <Property Name="ChainID" Type="uniqueidentifier" />
-          <Property Name="SiteName" Type="nvarchar" MaxLength="32" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="64" />
           <Property Name="AndroID" Type="int" />
           <Property Name="AddressID" Type="uniqueidentifier" />
           <Property Name="OpeningHoursID" Type="uniqueidentifier" />
           <Property Name="SessionID" Type="uniqueidentifier" />
+          <Property Name="StoreConnected" Type="bit" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <Association Name="FK_Addresses_Sites">
           <End Role="Sites" Type="ACSModel.Store.Sites" Multiplicity="0..1" />
@@ -345,6 +350,8 @@
           <Property Name="ChainName" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Partner" Relationship="ACSModel.FK_Chains_Partners" FromRole="Chains" ToRole="Partners" />
           <NavigationProperty Name="Sites" Relationship="ACSModel.FK_Sites_Chains" FromRole="Chains" ToRole="Sites" />
+          <Property Type="DateTime" Name="LastUpdated" />
+          <Property Type="Guid" Name="SecurityID" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -412,6 +419,9 @@
           <NavigationProperty Name="OpeningHours" Relationship="ACSModel.FK_OpeningHours_Sites" FromRole="Sites" ToRole="OpeningHours" />
           <NavigationProperty Name="Orders" Relationship="ACSModel.FK_Orders_Sites" FromRole="Sites" ToRole="Orders" />
           <NavigationProperty Name="SiteMenus" Relationship="ACSModel.FK_SiteMenus_Sites" FromRole="Sites" ToRole="SiteMenus" />
+          <Property Type="Boolean" Name="StoreConnected" />
+          <Property Type="Guid" Name="SignalRConnectionID" />
+          <Property Type="DateTime" Name="LastUpdated" />
         </EntityType>
         <Association Name="FK_MsgStatus_Queue">
           <End Role="ACSQueue" Type="ACSModel.ACSQueue" Multiplicity="0..1" />
@@ -545,7 +555,9 @@
             <ScalarProperty Name="Long" ColumnName="Long" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Chains"><EntityTypeMapping TypeName="ACSModel.Chain"><MappingFragment StoreEntitySet="Chains">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="SecurityID" ColumnName="SecurityID" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="PartnerID" ColumnName="PartnerID" />
             <ScalarProperty Name="ChainName" ColumnName="ChainName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
@@ -579,7 +591,10 @@
             <ScalarProperty Name="menuData" ColumnName="menuData" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Sites"><EntityTypeMapping TypeName="ACSModel.Site"><MappingFragment StoreEntitySet="Sites">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="SignalRConnectionID" ColumnName="SignalRConnectionID" />
+                <ScalarProperty Name="StoreConnected" ColumnName="StoreConnected" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="ChainID" ColumnName="ChainID" />
             <ScalarProperty Name="SiteName" ColumnName="SiteName" />
             <ScalarProperty Name="AndroID" ColumnName="AndroID" />

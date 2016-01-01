@@ -9,15 +9,12 @@ namespace AndroCloudDataAccess.Domain
 {
     public class MenuDataAccess : IMenuDataAccess
     {
-        public bool Put(string sessionToken, string data, int version)
+        public bool Put(Guid sessionToken, string data, int version)
         {
             using (var e = new ACSEntities())
             {
-
-                var sessiontoken = Guid.Parse(sessionToken);
-
                 var siteqry = from s in e.Sites
-                              where s.SessionID == sessiontoken
+                              where s.SessionID == sessionToken
                               select s;
 
                 Model.Site site = siteqry.FirstOrDefault();

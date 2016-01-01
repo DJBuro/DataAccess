@@ -1178,6 +1178,54 @@ namespace AndroCloudDataAccess.Model
         private global::System.String _ChainName;
         partial void OnChainNameChanging(global::System.String value);
         partial void OnChainNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> LastUpdated
+        {
+            get
+            {
+                return _LastUpdated;
+            }
+            set
+            {
+                OnLastUpdatedChanging(value);
+                ReportPropertyChanging("LastUpdated");
+                _LastUpdated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LastUpdated");
+                OnLastUpdatedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _LastUpdated;
+        partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
+        partial void OnLastUpdatedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> SecurityID
+        {
+            get
+            {
+                return _SecurityID;
+            }
+            set
+            {
+                OnSecurityIDChanging(value);
+                ReportPropertyChanging("SecurityID");
+                _SecurityID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SecurityID");
+                OnSecurityIDChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _SecurityID;
+        partial void OnSecurityIDChanging(Nullable<global::System.Guid> value);
+        partial void OnSecurityIDChanged();
 
         #endregion
     
@@ -2046,6 +2094,78 @@ namespace AndroCloudDataAccess.Model
         private Nullable<global::System.Guid> _SessionID;
         partial void OnSessionIDChanging(Nullable<global::System.Guid> value);
         partial void OnSessionIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> StoreConnected
+        {
+            get
+            {
+                return _StoreConnected;
+            }
+            set
+            {
+                OnStoreConnectedChanging(value);
+                ReportPropertyChanging("StoreConnected");
+                _StoreConnected = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StoreConnected");
+                OnStoreConnectedChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _StoreConnected;
+        partial void OnStoreConnectedChanging(Nullable<global::System.Boolean> value);
+        partial void OnStoreConnectedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> SignalRConnectionID
+        {
+            get
+            {
+                return _SignalRConnectionID;
+            }
+            set
+            {
+                OnSignalRConnectionIDChanging(value);
+                ReportPropertyChanging("SignalRConnectionID");
+                _SignalRConnectionID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SignalRConnectionID");
+                OnSignalRConnectionIDChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _SignalRConnectionID;
+        partial void OnSignalRConnectionIDChanging(Nullable<global::System.Guid> value);
+        partial void OnSignalRConnectionIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> LastUpdated
+        {
+            get
+            {
+                return _LastUpdated;
+            }
+            set
+            {
+                OnLastUpdatedChanging(value);
+                ReportPropertyChanging("LastUpdated");
+                _LastUpdated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LastUpdated");
+                OnLastUpdatedChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _LastUpdated;
+        partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
+        partial void OnLastUpdatedChanged();
 
         #endregion
     
