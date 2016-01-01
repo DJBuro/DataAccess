@@ -7,7 +7,7 @@ using AndroUsersDataAccess.Domain;
 
 namespace AndroUsersDataAccess.EntityFramework.DataAccess
 {
-    public class AndroSecurityGroupDAO : IAndroSecurityGroupDAO
+    public class SecurityGroupDAO : ISecurityGroupDAO
     {
         public string ConnectionStringOverride { get; set; }
 
@@ -21,6 +21,34 @@ namespace AndroUsersDataAccess.EntityFramework.DataAccess
 
                 var query = from s in entitiesContext.SecurityGroups
                             where s.Id == id
+                            select s;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    securityGroup = new Domain.SecurityGroup()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Permissions = null
+                    };
+                }
+            }
+
+            return securityGroup;
+        }
+
+        public Domain.SecurityGroup GetByName(string name)
+        {
+            Domain.SecurityGroup securityGroup = null;
+
+            using (AndroUsersEntities entitiesContext = new AndroUsersEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.SecurityGroups
+                            where s.Name == name
                             select s;
 
                 var entity = query.FirstOrDefault();

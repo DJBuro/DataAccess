@@ -51,6 +51,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="DisplayOrder" Type="int" />
         </EntityType>
         <EntityType Name="SecurityGroup">
           <Key>
@@ -282,6 +283,7 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SecurityGroupPermissions" Relationship="AndroUsersModel.FK_SecurityGroupPermission_Permission" FromRole="Permission" ToRole="SecurityGroupPermission" />
+          <Property Type="Int32" Name="DisplayOrder" />
         </EntityType>
         <EntityType Name="SecurityGroup">
           <Key>
@@ -402,6 +404,7 @@
           <EntitySetMapping Name="Permissions">
             <EntityTypeMapping TypeName="AndroUsersModel.Permission">
               <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

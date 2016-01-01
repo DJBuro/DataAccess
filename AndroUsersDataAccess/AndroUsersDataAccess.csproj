@@ -73,7 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\IAndroSecurityGroupDAO.cs" />
+    <Compile Include="DataAccess\IPermissionDAO.cs" />
+    <Compile Include="DataAccess\ISecurityGroupDAO.cs" />
     <Compile Include="DataAccess\IAndroUserDAO.cs" />
     <Compile Include="Domain\AndroUser.cs" />
     <Compile Include="Domain\Permission.cs" />
@@ -95,7 +96,8 @@
       <DependentUpon>AndroUsersEntityModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\DataAccess\AndroUserDAO.cs" />
-    <Compile Include="EntityFramework\DataAccess\AndroSecurityGroupDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\PermissionDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\SecurityGroupDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
     <Compile Include="EntityFramework\Permission.cs">
       <DependentUpon>AndroUsersEntityModel.tt</DependentUpon>
