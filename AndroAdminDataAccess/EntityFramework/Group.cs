@@ -12,13 +12,21 @@ namespace AndroAdminDataAccess.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreHubReset
+    public partial class Group
     {
-        public int Id { get; set; }
-        public int StoreId { get; set; }
-        public int DataVersion { get; set; }
-        public System.DateTime AddedOn { get; set; }
+        public Group()
+        {
+            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
+            this.Stores = new HashSet<Store>();
+        }
     
-        public virtual Store Store { get; set; }
+        public int Id { get; set; }
+        public string GroupName { get; set; }
+        public Nullable<int> ChainId { get; set; }
+        public Nullable<int> CountryId { get; set; }
+    
+        public virtual Chain Chain { get; set; }
+        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 }
