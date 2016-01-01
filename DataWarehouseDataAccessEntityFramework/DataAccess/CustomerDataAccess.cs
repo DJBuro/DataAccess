@@ -370,6 +370,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                 addressEntity.Country = countryEntity;
                             }
 
+                            string newUsername = "";
+
                             // Do the contacts need to be updated?
                             if (customer.Contacts != null && customer.Contacts.Count > 0)
                             {
@@ -430,7 +432,19 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                                     // Add the contact
                                     dataWarehouseEntities.Contacts.Add(contactEntity);
+
+                                    // Is the customer changing their username (we use the email as the username)?
+                                    if (contactEntity.ContactType.Name == "Email")
+                                    {
+                                        newUsername = contactEntity.Value;
+                                    }
                                 }
+                            }
+
+                            // Is the customer changing their username?
+                            if (newUsername.Length > 0)
+                            {
+                                customerEntity.Username = newUsername;
                             }
                         }
 
