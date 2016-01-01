@@ -4,9 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1">
+      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="78">
         <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="9.9887010836921171" PointY="11.636650806123694" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="3.25" PointY="0.75" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="6.6855895643521048" PointY="8.54088321725879" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -41,6 +41,18 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetSiteCountByAndromedaUserId(int myAndromedaUserId, out int total) 
+        {
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities()) 
+            {
+                var count = entitiesContext.MyAndromedaUserGroups.Where(e => e.MyAndromedaUserId == myAndromedaUserId).Count();
+
+                total = count; ;
+            }
+
+            return string.Empty;
+        }
+
         public string GetByMyAndromedaUserId(int myAndromedaUserId, out List<MyAndromedaDataAccess.Domain.Site> sites)
         {
             sites = new List<MyAndromedaDataAccess.Domain.Site>();

@@ -36,5 +36,11 @@ namespace MyAndromedaDataAccess.Domain.Marketing
         /// </summary>
         /// <value>The modified.</value>
         public DateTime Modified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the site id.
+        /// </summary>
+        /// <value>The site id.</value>
+        public int SiteId { get; set; }
     }
 }
