@@ -2393,7 +2393,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <param name="password">Initial value of the Password property.</param>
         /// <param name="groupID">Initial value of the GroupID property.</param>
         /// <param name="employeeID">Initial value of the EmployeeID property.</param>
-        public static MyAndromedaUser CreateMyAndromedaUser(global::System.Guid id, global::System.String username, global::System.String password, global::System.Guid groupID, global::System.Guid employeeID)
+        /// <param name="isEnabled">Initial value of the IsEnabled property.</param>
+        public static MyAndromedaUser CreateMyAndromedaUser(global::System.Guid id, global::System.String username, global::System.String password, global::System.Guid groupID, global::System.Guid employeeID, global::System.Boolean isEnabled)
         {
             MyAndromedaUser myAndromedaUser = new MyAndromedaUser();
             myAndromedaUser.ID = id;
@@ -2401,6 +2402,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
             myAndromedaUser.Password = password;
             myAndromedaUser.GroupID = groupID;
             myAndromedaUser.EmployeeID = employeeID;
+            myAndromedaUser.IsEnabled = isEnabled;
             return myAndromedaUser;
         }
 
@@ -2529,6 +2531,30 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private global::System.Guid _EmployeeID;
         partial void OnEmployeeIDChanging(global::System.Guid value);
         partial void OnEmployeeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsEnabled
+        {
+            get
+            {
+                return _IsEnabled;
+            }
+            set
+            {
+                OnIsEnabledChanging(value);
+                ReportPropertyChanging("IsEnabled");
+                _IsEnabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsEnabled");
+                OnIsEnabledChanged();
+            }
+        }
+        private global::System.Boolean _IsEnabled;
+        partial void OnIsEnabledChanging(global::System.Boolean value);
+        partial void OnIsEnabledChanged();
 
         #endregion
     
