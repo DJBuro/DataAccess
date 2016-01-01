@@ -52,8 +52,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 addressEntity.DPS = address.Dps;
 
 
-                addressEntity.DataVersion = entitiesContext.GetNextDataVersionForEntity();
-                    //Model.DataVersionHelper.GetNextDataVersion(entitiesContext);
+                var v = entitiesContext.GetNextDataVersionForEntity();
+                addressEntity.DataVersion = v;
+
+                foreach (var store in addressEntity.Stores) 
+                {
+                    store.DataVersion = v;
+                }
+
                 // Add a new address
                 if (addressEntity == null)
                 {
