@@ -265,9 +265,6 @@
     <Compile Include="Model\AndroAdmin\Setting.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\Site_AMS_upload.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\Store.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -296,9 +293,6 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\StoreStatu.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\sysdiagram.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DataVersionHelper.cs" />
