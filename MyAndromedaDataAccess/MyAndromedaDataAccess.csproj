@@ -78,6 +78,7 @@
     <Compile Include="Domain\Marketing\EmailSettings.cs" />
     <Compile Include="Domain\Menus\Items\ThumbnailImage.cs" />
     <Compile Include="Domain\Menus\SiteMenu.cs" />
+    <Compile Include="Domain\Menus\SiteMenuMeta.cs" />
     <Compile Include="Domain\MyAndromedaUser.cs" />
     <Compile Include="Domain\Marketing\Customer.cs" />
     <Compile Include="Domain\Reporting\CustomersOverview.cs" />
@@ -101,6 +102,10 @@
     <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
       <Project>{d9959d2f-2016-4355-bc22-061ea8a5e267}</Project>
       <Name>AndroCloudHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebSites\MyAndromeda\MyAndromeda.Core\MyAndromeda.Core.csproj">
+      <Project>{F1C66EE6-D9CC-4437-9D47-CBD32B6132CE}</Project>
+      <Name>MyAndromeda.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

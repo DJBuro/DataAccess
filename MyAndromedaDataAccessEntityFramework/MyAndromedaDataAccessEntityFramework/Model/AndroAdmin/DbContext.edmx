@@ -32,6 +32,7 @@
           <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreMenu" EntityType="AndroAdminModel.Store.StoreMenu" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.Store.StoreMenuThumbnails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StorePaymentProvider" EntityType="AndroAdminModel.Store.StorePaymentProvider" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="sysdiagrams" EntityType="AndroAdminModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
@@ -150,6 +151,10 @@
           <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.Store.FK_StoreMenu_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreMenu" EntitySet="StoreMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="AndroAdminModel.Store.FK_StoreMenuThumbnails_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreMenuThumbnails" EntitySet="StoreMenuThumbnails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -427,6 +432,17 @@
           <Property Name="MenuData" Type="text" />
           <Property Name="LastUpdated" Type="datetime" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreMenuThumbnails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="XmlMenuThumbnailData" Type="ntext" Nullable="false" />
+          <Property Name="JsonMenuThumbnailsData" Type="ntext" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" />
         </EntityType>
         <EntityType Name="StorePaymentProvider">
           <Key>
@@ -807,6 +823,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreMenuThumbnails_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreMenuThumbnails" Type="AndroAdminModel.Store.StoreMenuThumbnails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreMenuThumbnails">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -956,6 +986,11 @@
           <AssociationSet Name="FK_MyAndromedaUserGroup_MyAndromedaUser" Association="AndroAdminModel.FK_MyAndromedaUserGroup_MyAndromedaUser">
             <End Role="MyAndromedaUser" EntitySet="MyAndromedaUsers" />
             <End Role="MyAndromedaUserGroup" EntitySet="MyAndromedaUserGroups" />
+          </AssociationSet>
+          <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
+          <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="AndroAdminModel.FK_StoreMenuThumbnails_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreMenuThumbnail" EntitySet="StoreMenuThumbnails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -1231,6 +1266,7 @@
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
           <Property Type="Int32" Name="GroupId" />
           <NavigationProperty Name="Group" Relationship="AndroAdminModel.FK_Store_Group" FromRole="Store" ToRole="Group" />
+          <NavigationProperty Name="StoreMenuThumbnails" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="Store" ToRole="StoreMenuThumbnail" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -1671,6 +1707,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StoreMenuThumbnail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="Int32" Name="Version" Nullable="false" />
+          <Property Type="String" Name="XmlMenuThumbnailData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="JsonMenuThumbnailsData" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastUpdate" Precision="3" Nullable="true" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="StoreMenuThumbnail" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_StoreMenuThumbnails_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.StoreMenuThumbnail" Role="StoreMenuThumbnail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreMenuThumbnail">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2007,6 +2069,18 @@
               <MappingFragment StoreEntitySet="MyAndromedaUserGroup">
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="MyAndromedaUserId" ColumnName="MyAndromedaUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreMenuThumbnails">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreMenuThumbnail">
+              <MappingFragment StoreEntitySet="StoreMenuThumbnails">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="JsonMenuThumbnailsData" ColumnName="JsonMenuThumbnailsData" />
+                <ScalarProperty Name="XmlMenuThumbnailData" ColumnName="XmlMenuThumbnailData" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

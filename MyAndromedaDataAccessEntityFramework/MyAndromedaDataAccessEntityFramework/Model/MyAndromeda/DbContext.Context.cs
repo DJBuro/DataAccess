@@ -31,13 +31,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<EmailCampaignSetting> EmailCampaignSettings { get; set; }
         public DbSet<EmailCampaignSite> EmailCampaignSites { get; set; }
         public DbSet<EmailCampaignTask> EmailCampaignTasks { get; set; }
-        public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<MenuItemInGroup> MenuItemInGroups { get; set; }
         public DbSet<MenuItemThumbnail> MenuItemThumbnails { get; set; }
-        public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<SiteMenuMediaServerAuthentication> SiteMenuMediaServerAuthentications { get; set; }
         public DbSet<SiteMenuMediaServer> SiteMenuMediaServers { get; set; }
         public DbSet<SiteMenuMediaProfile> SiteMenuMediaProfiles { get; set; }
         public DbSet<SiteMenuMediaProfileSize> SiteMenuMediaProfileSizes { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<SiteMenu> SiteMenus { get; set; }
     }
 }

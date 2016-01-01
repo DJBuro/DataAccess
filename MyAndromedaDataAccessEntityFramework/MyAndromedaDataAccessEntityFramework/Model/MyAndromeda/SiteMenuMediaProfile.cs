@@ -16,8 +16,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     {
         public SiteMenuMediaProfile()
         {
-            this.SiteMenus = new HashSet<SiteMenu>();
             this.SiteMenuMediaProfileSizes = new HashSet<SiteMenuMediaProfileSize>();
+            this.SiteMenus = new HashSet<SiteMenu>();
         }
     
         public int Id { get; set; }
@@ -25,7 +25,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public string Alignment { get; set; }
         public string PaddingColour { get; set; }
     
-        public virtual ICollection<SiteMenu> SiteMenus { get; set; }
         public virtual ICollection<SiteMenuMediaProfileSize> SiteMenuMediaProfileSizes { get; set; }
+        public virtual ICollection<SiteMenu> SiteMenus { get; set; }
     }
 }

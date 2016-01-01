@@ -13,11 +13,9 @@
           <EntitySet Name="EmailCampaignSites" EntityType="MyAndromedaModel.Store.EmailCampaignSites" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailCampaignTasks" EntityType="MyAndromedaModel.Store.EmailCampaignTasks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItem" EntityType="MyAndromedaModel.Store.MenuItem" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MenuItemInGroup" EntityType="MyAndromedaModel.Store.MenuItemInGroup" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItemThumbnail" EntityType="MyAndromedaModel.Store.MenuItemThumbnail" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MenuItemThumbnailRelations" EntityType="MyAndromedaModel.Store.MenuItemThumbnailRelations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenu" EntityType="MyAndromedaModel.Store.SiteMenu" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SiteMenuItem" EntityType="MyAndromedaModel.Store.SiteMenuItem" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenuMediaProfile" EntityType="MyAndromedaModel.Store.SiteMenuMediaProfile" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenuMediaProfileSize" EntityType="MyAndromedaModel.Store.SiteMenuMediaProfileSize" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SiteMenuMediaServer" EntityType="MyAndromedaModel.Store.SiteMenuMediaServer" store:Type="Tables" Schema="dbo" />
@@ -49,6 +47,10 @@
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignTasks" EntitySet="EmailCampaignTasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_MenuItem_SiteMenu" Association="MyAndromedaModel.Store.FK_MenuItem_SiteMenu">
+            <End Role="SiteMenu" EntitySet="SiteMenu" />
+            <End Role="MenuItem" EntitySet="MenuItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_MenuItemGroupThumbnails_MenuItemThumbnails" Association="MyAndromedaModel.Store.FK_MenuItemGroupThumbnails_MenuItemThumbnails">
             <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnail" />
             <End Role="MenuItemThumbnailRelations" EntitySet="MenuItemThumbnailRelations" />
@@ -64,14 +66,6 @@
           <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.Store.FK_SiteMenu_SiteMenuMediaServer">
             <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServer" />
             <End Role="SiteMenu" EntitySet="SiteMenu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SiteMenuItem_MenuItem" Association="MyAndromedaModel.Store.FK_SiteMenuItem_MenuItem">
-            <End Role="MenuItem" EntitySet="MenuItem" />
-            <End Role="SiteMenuItem" EntitySet="SiteMenuItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SiteMenuItem_SiteMenu" Association="MyAndromedaModel.Store.FK_SiteMenuItem_SiteMenu">
-            <End Role="SiteMenu" EntitySet="SiteMenu" />
-            <End Role="SiteMenuItem" EntitySet="SiteMenuItem" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" Association="MyAndromedaModel.Store.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile">
             <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfile" />
@@ -164,14 +158,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ItemId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="MenuItemInGroup">
-          <Key>
-            <PropertyRef Name="MenuItemGroupId" />
-            <PropertyRef Name="MenuItemId" />
-          </Key>
-          <Property Name="MenuItemGroupId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MenuItemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="MenuItemThumbnail">
           <Key>
@@ -202,14 +189,6 @@
           <Property Name="LastUpdated" Type="datetime" Nullable="false" />
           <Property Name="SiteMenuMediaServerId" Type="int" />
           <Property Name="SiteMenuMediaProfileId" Type="int" />
-        </EntityType>
-        <EntityType Name="SiteMenuItem">
-          <Key>
-            <PropertyRef Name="SiteMenuId" />
-            <PropertyRef Name="MenuItemId" />
-          </Key>
-          <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MenuItemId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="SiteMenuMediaProfile">
           <Key>
@@ -317,6 +296,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MenuItem_SiteMenu">
+          <End Role="SiteMenu" Type="MyAndromedaModel.Store.SiteMenu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MenuItem" Type="MyAndromedaModel.Store.MenuItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItem">
+              <PropertyRef Name="SiteMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MenuItemGroupThumbnails_MenuItemThumbnails">
           <End Role="MenuItemThumbnail" Type="MyAndromedaModel.Store.MenuItemThumbnail" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -368,32 +361,6 @@
             </Principal>
             <Dependent Role="SiteMenu">
               <PropertyRef Name="SiteMenuMediaServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SiteMenuItem_MenuItem">
-          <End Role="MenuItem" Type="MyAndromedaModel.Store.MenuItem" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="SiteMenuItem" Type="MyAndromedaModel.Store.SiteMenuItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MenuItem">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SiteMenuItem">
-              <PropertyRef Name="MenuItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SiteMenuItem_SiteMenu">
-          <End Role="SiteMenu" Type="MyAndromedaModel.Store.SiteMenu" Multiplicity="1" />
-          <End Role="SiteMenuItem" Type="MyAndromedaModel.Store.SiteMenuItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SiteMenu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SiteMenuItem">
-              <PropertyRef Name="SiteMenuId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -452,37 +419,36 @@
             <End Role="EmailCampaignSetting" EntitySet="EmailCampaignSettings" />
             <End Role="EmailCampaignTask" EntitySet="EmailCampaignTasks" />
           </AssociationSet>
-          <EntitySet Name="MenuItems" EntityType="MyAndromedaModel.MenuItem" />
-          <EntitySet Name="MenuItemInGroups" EntityType="MyAndromedaModel.MenuItemInGroup" />
           <EntitySet Name="MenuItemThumbnails" EntityType="MyAndromedaModel.MenuItemThumbnail" />
-          <EntitySet Name="SiteMenus" EntityType="MyAndromedaModel.SiteMenu" />
           <EntitySet Name="SiteMenuMediaServerAuthentications" EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" />
-          <AssociationSet Name="MenuItemThumbnailRelations" Association="MyAndromedaModel.MenuItemThumbnailRelations">
-            <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnails" />
-            <End Role="MenuItem" EntitySet="MenuItems" />
-          </AssociationSet>
-          <AssociationSet Name="SiteMenuItem" Association="MyAndromedaModel.SiteMenuItem">
-            <End Role="MenuItem" EntitySet="MenuItems" />
-            <End Role="SiteMenu" EntitySet="SiteMenus" />
-          </AssociationSet>
           <EntitySet Name="SiteMenuMediaServers" EntityType="MyAndromedaModel.SiteMenuMediaServer" />
-          <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer">
-            <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServers" />
-            <End Role="SiteMenu" EntitySet="SiteMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" Association="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer">
             <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServers" />
             <End Role="SiteMenuMediaServerAuthentication" EntitySet="SiteMenuMediaServerAuthentications" />
           </AssociationSet>
           <EntitySet Name="SiteMenuMediaProfiles" EntityType="MyAndromedaModel.SiteMenuMediaProfile" />
           <EntitySet Name="SiteMenuMediaProfileSizes" EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" />
+          <AssociationSet Name="FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile">
+            <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfiles" />
+            <End Role="SiteMenuMediaProfileSize" EntitySet="SiteMenuMediaProfileSizes" />
+          </AssociationSet>
+          <EntitySet Name="MenuItems" EntityType="MyAndromedaModel.MenuItem" />
+          <AssociationSet Name="MenuItemThumbnailRelations" Association="MyAndromedaModel.MenuItemThumbnailRelations">
+            <End Role="MenuItemThumbnail" EntitySet="MenuItemThumbnails" />
+            <End Role="MenuItem" EntitySet="MenuItems" />
+          </AssociationSet>
+          <EntitySet Name="SiteMenus" EntityType="MyAndromedaModel.SiteMenu" />
+          <AssociationSet Name="FK_MenuItem_SiteMenu" Association="MyAndromedaModel.FK_MenuItem_SiteMenu">
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
+            <End Role="MenuItem" EntitySet="MenuItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_SiteMenu_SiteMenuMediaProfile" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile">
             <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfiles" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
-          <AssociationSet Name="FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile">
-            <End Role="SiteMenuMediaProfile" EntitySet="SiteMenuMediaProfiles" />
-            <End Role="SiteMenuMediaProfileSize" EntitySet="SiteMenuMediaProfileSizes" />
+          <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer">
+            <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServers" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EmailCampaign">
@@ -630,24 +596,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MenuItem">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="ItemId" Nullable="false" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MenuItemThumbnails" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItem" ToRole="MenuItemThumbnail" />
-          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.SiteMenuItem" FromRole="MenuItem" ToRole="SiteMenu" />
-        </EntityType>
-        <EntityType Name="MenuItemInGroup">
-          <Key>
-            <PropertyRef Name="MenuItemGroupId" />
-            <PropertyRef Name="MenuItemId" />
-          </Key>
-          <Property Type="Guid" Name="MenuItemGroupId" Nullable="false" />
-          <Property Type="Guid" Name="MenuItemId" Nullable="false" />
-        </EntityType>
         <EntityType Name="MenuItemThumbnail">
           <Key>
             <PropertyRef Name="Id" />
@@ -659,20 +607,6 @@
           <Property Type="String" Name="Alt" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FileName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItemThumbnail" ToRole="MenuItem" />
-        </EntityType>
-        <EntityType Name="SiteMenu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="AndromediaId" Nullable="false" />
-          <Property Type="Int32" Name="DataVersion" Nullable="false" />
-          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="3" />
-          <Property Type="Int32" Name="SiteMenuMediaServerId" />
-          <Property Type="Int32" Name="SiteMenuMediaProfileId" />
-          <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.SiteMenuItem" FromRole="SiteMenu" ToRole="MenuItem" />
-          <NavigationProperty Name="SiteMenuMediaServer" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenu" ToRole="SiteMenuMediaServer" />
-          <NavigationProperty Name="SiteMenuMediaProfile" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" FromRole="SiteMenu" ToRole="SiteMenuMediaProfile" />
         </EntityType>
         <EntityType Name="SiteMenuMediaServerAuthentication">
           <Key>
@@ -687,14 +621,6 @@
           <Property Type="Int32" Name="SiteMenuMediaServerId" Nullable="false" />
           <NavigationProperty Name="SiteMenuMediaServer" Relationship="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" FromRole="SiteMenuMediaServerAuthentication" ToRole="SiteMenuMediaServer" />
         </EntityType>
-        <Association Name="MenuItemThumbnailRelations">
-          <End Type="MyAndromedaModel.MenuItemThumbnail" Role="MenuItemThumbnail" Multiplicity="*" />
-          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
-        </Association>
-        <Association Name="SiteMenuItem">
-          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
-          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
-        </Association>
         <EntityType Name="SiteMenuMediaServer">
           <Key>
             <PropertyRef Name="Id" />
@@ -703,23 +629,11 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Address" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Port" Nullable="false" />
-          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenuMediaServer" ToRole="SiteMenu" />
           <NavigationProperty Name="SiteMenuMediaServerAuthentications" Relationship="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" FromRole="SiteMenuMediaServer" ToRole="SiteMenuMediaServerAuthentication" />
           <Property Type="String" Name="StoragePath" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ContentPath" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenuMediaServer" ToRole="SiteMenu" />
         </EntityType>
-        <Association Name="FK_SiteMenu_SiteMenuMediaServer">
-          <End Type="MyAndromedaModel.SiteMenuMediaServer" Role="SiteMenuMediaServer" Multiplicity="0..1" />
-          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SiteMenuMediaServer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SiteMenu">
-              <PropertyRef Name="SiteMenuMediaServerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer">
           <End Type="MyAndromedaModel.SiteMenuMediaServer" Role="SiteMenuMediaServer" Multiplicity="1" />
           <End Type="MyAndromedaModel.SiteMenuMediaServerAuthentication" Role="SiteMenuMediaServerAuthentication" Multiplicity="*" />
@@ -740,8 +654,8 @@
           <Property Type="String" Name="Mode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Alignment" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PaddingColour" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" FromRole="SiteMenuMediaProfile" ToRole="SiteMenu" />
           <NavigationProperty Name="SiteMenuMediaProfileSizes" Relationship="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" FromRole="SiteMenuMediaProfile" ToRole="SiteMenuMediaProfileSize" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" FromRole="SiteMenuMediaProfile" ToRole="SiteMenu" />
         </EntityType>
         <EntityType Name="SiteMenuMediaProfileSize">
           <Key>
@@ -755,6 +669,61 @@
           <Property Type="Boolean" Name="IsDefault" />
           <NavigationProperty Name="SiteMenuMediaProfile" Relationship="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" FromRole="SiteMenuMediaProfileSize" ToRole="SiteMenuMediaProfile" />
         </EntityType>
+        <Association Name="FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile">
+          <End Type="MyAndromedaModel.SiteMenuMediaProfile" Role="SiteMenuMediaProfile" Multiplicity="0..1" />
+          <End Type="MyAndromedaModel.SiteMenuMediaProfileSize" Role="SiteMenuMediaProfileSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenuMediaProfile">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenuMediaProfileSize">
+              <PropertyRef Name="SiteMenuMediaProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MenuItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ItemId" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="SiteMenuId" Nullable="false" />
+          <NavigationProperty Name="MenuItemThumbnails" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItem" ToRole="MenuItemThumbnail" />
+          <NavigationProperty Name="SiteMenu" Relationship="MyAndromedaModel.FK_MenuItem_SiteMenu" FromRole="MenuItem" ToRole="SiteMenu" />
+        </EntityType>
+        <Association Name="MenuItemThumbnailRelations">
+          <End Type="MyAndromedaModel.MenuItemThumbnail" Role="MenuItemThumbnail" Multiplicity="*" />
+          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SiteMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="AndromediaId" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="SiteMenuMediaServerId" />
+          <Property Type="Int32" Name="SiteMenuMediaProfileId" />
+          <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.FK_MenuItem_SiteMenu" FromRole="SiteMenu" ToRole="MenuItem" />
+          <NavigationProperty Name="SiteMenuMediaProfile" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" FromRole="SiteMenu" ToRole="SiteMenuMediaProfile" />
+          <NavigationProperty Name="SiteMenuMediaServer" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenu" ToRole="SiteMenuMediaServer" />
+        </EntityType>
+        <Association Name="FK_MenuItem_SiteMenu">
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItem">
+              <PropertyRef Name="SiteMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteMenu_SiteMenuMediaProfile">
           <End Type="MyAndromedaModel.SiteMenuMediaProfile" Role="SiteMenuMediaProfile" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -769,15 +738,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile">
-          <End Type="MyAndromedaModel.SiteMenuMediaProfile" Role="SiteMenuMediaProfile" Multiplicity="0..1" />
-          <End Type="MyAndromedaModel.SiteMenuMediaProfileSize" Role="SiteMenuMediaProfileSize" Multiplicity="*" />
+        <Association Name="FK_SiteMenu_SiteMenuMediaServer">
+          <End Type="MyAndromedaModel.SiteMenuMediaServer" Role="SiteMenuMediaServer" Multiplicity="0..1" />
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SiteMenuMediaProfile">
+            <Principal Role="SiteMenuMediaServer">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SiteMenuMediaProfileSize">
-              <PropertyRef Name="SiteMenuMediaProfileId" />
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteMenuMediaServerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -867,23 +836,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MenuItems">
-            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItem">
-              <MappingFragment StoreEntitySet="MenuItem">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MenuItemInGroups">
-            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItemInGroup">
-              <MappingFragment StoreEntitySet="MenuItemInGroup">
-                <ScalarProperty Name="MenuItemId" ColumnName="MenuItemId" />
-                <ScalarProperty Name="MenuItemGroupId" ColumnName="MenuItemGroupId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MenuItemThumbnails">
             <EntityTypeMapping TypeName="MyAndromedaModel.MenuItemThumbnail">
               <MappingFragment StoreEntitySet="MenuItemThumbnail">
@@ -892,18 +844,6 @@
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Src" ColumnName="Src" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SiteMenus">
-            <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenu">
-              <MappingFragment StoreEntitySet="SiteMenu">
-                <ScalarProperty Name="SiteMenuMediaProfileId" ColumnName="SiteMenuMediaProfileId" />
-                <ScalarProperty Name="SiteMenuMediaServerId" ColumnName="SiteMenuMediaServerId" />
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="AndromediaId" ColumnName="AndromediaId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -918,22 +858,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="MenuItemThumbnailRelations" TypeName="MyAndromedaModel.MenuItemThumbnailRelations" StoreEntitySet="MenuItemThumbnailRelations">
-            <EndProperty Name="MenuItem">
-              <ScalarProperty Name="Id" ColumnName="MenItemId" />
-            </EndProperty>
-            <EndProperty Name="MenuItemThumbnail">
-              <ScalarProperty Name="Id" ColumnName="MenuItemThumbnailId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="SiteMenuItem" TypeName="MyAndromedaModel.SiteMenuItem" StoreEntitySet="SiteMenuItem">
-            <EndProperty Name="SiteMenu">
-              <ScalarProperty Name="Id" ColumnName="SiteMenuId" />
-            </EndProperty>
-            <EndProperty Name="MenuItem">
-              <ScalarProperty Name="Id" ColumnName="MenuItemId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="SiteMenuMediaServers">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuMediaServer">
               <MappingFragment StoreEntitySet="SiteMenuMediaServer">
@@ -964,6 +888,36 @@
                 <ScalarProperty Name="SiteMenuMediaProfileId" ColumnName="SiteMenuMediaProfileId" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuItems">
+            <EntityTypeMapping TypeName="MyAndromedaModel.MenuItem">
+              <MappingFragment StoreEntitySet="MenuItem">
+                <ScalarProperty Name="SiteMenuId" ColumnName="SiteMenuId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MenuItemThumbnailRelations" TypeName="MyAndromedaModel.MenuItemThumbnailRelations" StoreEntitySet="MenuItemThumbnailRelations">
+            <EndProperty Name="MenuItem">
+              <ScalarProperty Name="Id" ColumnName="MenItemId" />
+            </EndProperty>
+            <EndProperty Name="MenuItemThumbnail">
+              <ScalarProperty Name="Id" ColumnName="MenuItemThumbnailId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="SiteMenus">
+            <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenu">
+              <MappingFragment StoreEntitySet="SiteMenu">
+                <ScalarProperty Name="SiteMenuMediaProfileId" ColumnName="SiteMenuMediaProfileId" />
+                <ScalarProperty Name="SiteMenuMediaServerId" ColumnName="SiteMenuMediaServerId" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="AndromediaId" ColumnName="AndromediaId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

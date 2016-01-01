@@ -10,5 +10,6 @@ namespace AndroCloudDataAccess.Domain
         public string MenuType { get; set; }
         public int Version { get; set; }
         public string MenuData { get; set; }
+        public string MenuDataThumbnails { get; set; }
     }
 }

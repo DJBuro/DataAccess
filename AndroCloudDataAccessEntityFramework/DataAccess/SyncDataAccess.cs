@@ -6,6 +6,7 @@ using AndroCloudDataAccessEntityFramework.Model;
 using CloudSyncModel;
 using System.Transactions;
 using CloudSyncModel.Hubs;
+using CloudSyncModel.Menus;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -54,13 +55,36 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     });
 
                     this.SyncHubResets(acsEntities, syncModel.HubUpdates);
-                    
+
+                    this.SyncStoreMenuChanges(acsEntities, syncModel.MenuUpdates);
+
                     // Commit the transaction
                     transactionScope.Complete();
                 }
             }
 
             return errorMessage;
+        }
+  
+        private void SyncStoreMenuChanges(ACSEntities acsEntities, StoreMenuUpdates menuUpdates)
+        {
+            ISiteMenuDataAccess dataAccess = new SiteMenuDataAccess() { 
+                ConnectionStringOverride = this.ConnectionStringOverride
+            };
+            
+            
+            foreach (var menuUpdate in menuUpdates.MenuThumbnailChanges) 
+            {
+                var site = acsEntities.Sites.Single(e=> e.AndroID == menuUpdate.AndromediaSiteId);
+
+                if (menuUpdate.MenuType.ToLower() == "xml") 
+                { 
+                    dataAccess.UpdateThumbnailData(site.ID, menuUpdate.Data, AndroCloudHelper.DataTypeEnum.XML);
+                    continue;
+                }
+
+                dataAccess.UpdateThumbnailData(site.ID, menuUpdate.Data, AndroCloudHelper.DataTypeEnum.JSON);
+            }
         }
   
         private void SyncHubResets(ACSEntities acsEntities, HubUpdates hubUpdates)
@@ -448,6 +472,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             var sitesQuery = from s in acsEntities.Sites
                              where s.AndroID == store.AndromedaSiteId
                              select s;
+
             Model.Site siteEntity = sitesQuery.FirstOrDefault();
 
             if (siteEntity != null)
@@ -560,7 +585,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.ExternalId = store.ExternalSiteId;
                 siteEntity.ExternalSiteName = store.ExternalSiteName;
                 siteEntity.LastUpdated = DateTime.Now;
-                siteEntity.LicenceKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D";  // harcode on server and pass in via xml
+                siteEntity.LicenceKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D";  // hardcode on server and pass in via xml
                 siteEntity.SiteStatus = siteStatusEntity;
                 siteEntity.Telephone = store.Phone;
                 siteEntity.TimeZone = store.TimeZone;
@@ -593,6 +618,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     // Create an object we can add
                     Model.OpeningHour openingHour = new Model.OpeningHour();
+
                     openingHour.Day = dayEntity;
                     openingHour.OpenAllDay = timeSpanBlock.OpenAllDay;
                     openingHour.SiteID = siteEntity.ID;

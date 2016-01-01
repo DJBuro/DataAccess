@@ -54,5 +54,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
+        public DbSet<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
     }
 }
