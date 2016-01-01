@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Devices
 {
-    public interface IDevicesDataService : IDataProvider<Model.AndroAdmin.Device>
+    public interface IDevicesDataService : IDataProvider<Model.AndroAdmin.Device>, IDependency
     {
         
     }
