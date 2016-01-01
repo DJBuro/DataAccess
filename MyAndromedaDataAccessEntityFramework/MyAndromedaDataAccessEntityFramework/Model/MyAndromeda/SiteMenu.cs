@@ -20,10 +20,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         }
     
         public System.Guid Id { get; set; }
-        public string AndromediaId { get; set; }
+        public int AndromediaId { get; set; }
         public int DataVersion { get; set; }
         public System.DateTime LastUpdated { get; set; }
+        public int SiteMenuMediaServerId { get; set; }
     
         public virtual ICollection<MenuItem> MenuItems { get; set; }
+        public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
     }
 }

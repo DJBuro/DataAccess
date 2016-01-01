@@ -29,6 +29,14 @@
       [SiteMenuItem].[MenuItemId] AS [MenuItemId]
       FROM [dbo].[SiteMenuItem] AS [SiteMenuItem]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="SiteMenuMediaServer" EntityType="MyAndromedaModel.Store.SiteMenuMediaServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteMenuMediaServerAuthentication" EntityType="MyAndromedaModel.Store.SiteMenuMediaServerAuthentication" store:Type="Tables" store:Schema="dbo" store:Name="SiteMenuMediaServerAuthentication">
+            <DefiningQuery>SELECT 
+      [SiteMenuMediaServerAuthentication].[Id] AS [Id], 
+      [SiteMenuMediaServerAuthentication].[UserName] AS [UserName], 
+      [SiteMenuMediaServerAuthentication].[Password] AS [Password]
+      FROM [dbo].[SiteMenuMediaServerAuthentication] AS [SiteMenuMediaServerAuthentication]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_EmailCampaignAudit_EmailCampaign" Association="MyAndromedaModel.Store.FK_EmailCampaignAudit_EmailCampaign">
             <End Role="EmailCampaign" EntitySet="EmailCampaign" />
             <End Role="EmailCampaignAudit" EntitySet="EmailCampaignAudit" />
@@ -64,6 +72,10 @@
           <AssociationSet Name="FK_MenuItemInGroup_MenuItemGroup" Association="MyAndromedaModel.Store.FK_MenuItemInGroup_MenuItemGroup">
             <End Role="MenuItemGroup" EntitySet="MenuItemGroup" />
             <End Role="MenuItemInGroup" EntitySet="MenuItemInGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.Store.FK_SiteMenu_SiteMenuMediaServer">
+            <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServer" />
+            <End Role="SiteMenu" EntitySet="SiteMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_SiteMenuItem_MenuItem" Association="MyAndromedaModel.Store.FK_SiteMenuItem_MenuItem">
             <End Role="MenuItem" EntitySet="MenuItem" />
@@ -192,15 +204,17 @@
           <Property Name="Height" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Alt" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AndromediaId" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="AndromediaId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="SiteMenuMediaServerId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'MyAndromeda.dbo.SiteMenuItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -212,6 +226,28 @@
           </Key>
           <Property Name="SiteMenuId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MenuItemId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiteMenuMediaServer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Port" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MyAndromeda.dbo.SiteMenuMediaServerAuthentication' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="SiteMenuMediaServerAuthentication">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <Association Name="FK_EmailCampaignAudit_EmailCampaign">
           <End Role="EmailCampaign" Type="MyAndromedaModel.Store.EmailCampaign" Multiplicity="1" />
@@ -321,6 +357,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SiteMenu_SiteMenuMediaServer">
+          <End Role="SiteMenuMediaServer" Type="MyAndromedaModel.Store.SiteMenuMediaServer" Multiplicity="1" />
+          <End Role="SiteMenu" Type="MyAndromedaModel.Store.SiteMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenuMediaServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteMenuMediaServerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SiteMenuItem_MenuItem">
           <End Role="MenuItem" Type="MyAndromedaModel.Store.MenuItem" Multiplicity="1" />
           <End Role="SiteMenuItem" Type="MyAndromedaModel.Store.SiteMenuItem" Multiplicity="*" />
@@ -390,6 +438,12 @@
           </AssociationSet>
           <AssociationSet Name="SiteMenuItem" Association="MyAndromedaModel.SiteMenuItem">
             <End Role="MenuItem" EntitySet="MenuItems" />
+            <End Role="SiteMenu" EntitySet="SiteMenus" />
+          </AssociationSet>
+          <EntitySet Name="SiteMenuMediaServers" EntityType="MyAndromedaModel.SiteMenuMediaServer" />
+          <EntitySet Name="SiteMenuMediaServerAuthentications" EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" />
+          <AssociationSet Name="FK_SiteMenu_SiteMenuMediaServer" Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer">
+            <End Role="SiteMenuMediaServer" EntitySet="SiteMenuMediaServers" />
             <End Role="SiteMenu" EntitySet="SiteMenus" />
           </AssociationSet>
         </EntityContainer>
@@ -567,16 +621,19 @@
           <Property Type="Int32" Name="Width" Nullable="false" />
           <Property Type="String" Name="Alt" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MenuItemGroups" Relationship="MyAndromedaModel.MenuItemGroupThumbnails" FromRole="MenuItemThumbnail" ToRole="MenuItemGroup" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SiteMenu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <Property Type="String" Name="AndromediaId" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AndromediaId" Nullable="false" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <Property Type="DateTime" Name="LastUpdated" Nullable="false" Precision="3" />
           <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.SiteMenuItem" FromRole="SiteMenu" ToRole="MenuItem" />
+          <Property Type="Int32" Name="SiteMenuMediaServerId" Nullable="false" />
+          <NavigationProperty Name="SiteMenuMediaServer" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenu" ToRole="SiteMenuMediaServer" />
         </EntityType>
         <Association Name="MenuItemGroupThumbnails">
           <End Type="MyAndromedaModel.MenuItemGroup" Role="MenuItemGroup" Multiplicity="*" />
@@ -589,6 +646,38 @@
         <Association Name="SiteMenuItem">
           <End Type="MyAndromedaModel.MenuItem" Role="MenuItem" Multiplicity="*" />
           <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SiteMenuMediaServer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Port" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SiteMenus" Relationship="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" FromRole="SiteMenuMediaServer" ToRole="SiteMenu" />
+        </EntityType>
+        <EntityType Name="SiteMenuMediaServerAuthentication">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_SiteMenu_SiteMenuMediaServer">
+          <End Type="MyAndromedaModel.SiteMenuMediaServer" Role="SiteMenuMediaServer" Multiplicity="1" />
+          <End Type="MyAndromedaModel.SiteMenu" Role="SiteMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteMenuMediaServer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SiteMenu">
+              <PropertyRef Name="SiteMenuMediaServerId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -696,6 +785,7 @@
           <EntitySetMapping Name="MenuItemThumbnails">
             <EntityTypeMapping TypeName="MyAndromedaModel.MenuItemThumbnail">
               <MappingFragment StoreEntitySet="MenuItemThumbnails">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Alt" ColumnName="Alt" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
@@ -707,6 +797,7 @@
           <EntitySetMapping Name="SiteMenus">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenu">
               <MappingFragment StoreEntitySet="SiteMenu">
+                <ScalarProperty Name="SiteMenuMediaServerId" ColumnName="SiteMenuMediaServerId" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="AndromediaId" ColumnName="AndromediaId" />
@@ -738,6 +829,25 @@
               <ScalarProperty Name="Id" ColumnName="MenuItemId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="SiteMenuMediaServers">
+            <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuMediaServer">
+              <MappingFragment StoreEntitySet="SiteMenuMediaServer">
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteMenuMediaServerAuthentications">
+            <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuMediaServerAuthentication">
+              <MappingFragment StoreEntitySet="SiteMenuMediaServerAuthentication">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
