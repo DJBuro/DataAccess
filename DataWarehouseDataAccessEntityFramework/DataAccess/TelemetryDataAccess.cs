@@ -67,7 +67,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         Id = Guid.NewGuid(),
                         Action = telemetry.Action,
                         AndroWebSessionID = Guid.Parse(telemetry.SessionId),
-                        LoggedDateTime = DateTime.Parse(telemetry.DateTime)
+                        LoggedDateTime = DateTime.Parse(telemetry.DateTime),
+                        ExtraInfo = telemetry.ExtraInfo
                     };
 
                     // Add the telemetry to the database
