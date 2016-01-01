@@ -12,7 +12,7 @@ namespace AndroAdminDataAccess.EntityFramework
 {
     public static class DataVersionHelper
     {
-        public static int GetNextDataVersionForEntity(this AndroAdminEntities entitiesContext) 
+        public static int GetNextDataVersionForEntity(this AndroAdminEntities entitiesContext)
         {
             return GetNextDataVersion(entitiesContext);
         }
@@ -41,10 +41,10 @@ namespace AndroAdminDataAccess.EntityFramework
                 sqlConnection.Open();
 
             // We're gonna do this in a SQL command
-            SqlCommand command = new SqlCommand();            
+            SqlCommand command = new SqlCommand();
             command.Connection = sqlConnection;
             command.CommandText = "UPDATE [Settings] SET [Value] = cast([Value] as int) + 1 output inserted.[Value] where [name] = 'dataversion'";
-            
+
             // We're using an output clause in the SQL so we can do the update and get the result back all in one go
             int newVersion = -1;
             using (SqlDataReader sqlDataReader = command.ExecuteReader())
@@ -59,6 +59,17 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
 
+            return newVersion;
+        }
+
+        public static int GetDataVersion(this AndroAdminEntities entitiesContext)
+        {
+            int newVersion = -1;
+            var result = entitiesContext.Settings.Where(c => c.Name.Equals("DataVersion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            if (result != null)
+            {
+                newVersion = Convert.ToInt32(result.Value);
+            }
             return newVersion;
         }
     }
