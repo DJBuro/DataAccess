@@ -18,7 +18,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Log log)
         {
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

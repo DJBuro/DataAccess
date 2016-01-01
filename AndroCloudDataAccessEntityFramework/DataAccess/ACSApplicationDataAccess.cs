@@ -16,7 +16,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             acsApplication = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -43,7 +42,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             acsApplication = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -68,7 +66,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public bool StoreExists(Guid existingSiteId, int acsApplicationId)
         {
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);

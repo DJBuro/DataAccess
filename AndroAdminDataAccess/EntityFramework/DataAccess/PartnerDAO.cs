@@ -17,7 +17,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Partner> models = new List<Domain.Partner>();
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -46,7 +46,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Partner partner = null;
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -76,7 +76,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Partner partner = null;
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -106,7 +106,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             Domain.Partner partner = null;
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
@@ -134,68 +134,62 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
         public void Add(Domain.Partner partner)
         {
-            using (System.Transactions.TransactionScope ts = new TransactionScope())
+            using (System.Transactions.TransactionScope transactionScope = new TransactionScope())
             {
-                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
                     DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                     entitiesContext.Database.Connection.Open();
-                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
+                    Partner entity = new Partner()
                     {
-                        // Get the next data version (see comments inside the function)
-                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                        Name = partner.Name,
+                        ExternalId = partner.ExternalId,
+                        DataVersion = newVersion
+                    };
 
-                        Partner entity = new Partner()
-                        {
-                            Name = partner.Name,
-                            ExternalId = partner.ExternalId,
-                            DataVersion = newVersion
-                        };
+                    entitiesContext.Partners.Add(entity);
+                    entitiesContext.SaveChanges();
 
-                        entitiesContext.Partners.Add(entity);
-                        entitiesContext.SaveChanges();
-
-                        // Fin...
-                        transaction.Commit();
-                    }
+                    // Commit the transacton
+                    transactionScope.Complete();
                 }
             }
         }
 
         public void Update(Domain.Partner partner)
         {
-            using (System.Transactions.TransactionScope ts = new TransactionScope())
+            using (System.Transactions.TransactionScope transactionScope = new TransactionScope())
             {
-                //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
                 {
                     DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                     entitiesContext.Database.Connection.Open();
-                    using (DbTransaction transaction = entitiesContext.Database.Connection.BeginTransaction())
+
+                    // Get the next data version (see comments inside the function)
+                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
+
+                    var query = from s in entitiesContext.Partners
+                                where partner.Id == s.Id
+                                select s;
+
+                    var entity = query.FirstOrDefault();
+
+                    if (entity != null)
                     {
-                        // Get the next data version (see comments inside the function)
-                        int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
+                        entity.Name = partner.Name;
+                        entity.ExternalId = partner.ExternalId;
+                        entity.DataVersion = newVersion;
 
-                        var query = from s in entitiesContext.Partners
-                                    where partner.Id == s.Id
-                                    select s;
+                        entitiesContext.SaveChanges();
 
-                        var entity = query.FirstOrDefault();
-
-                        if (entity != null)
-                        {
-                            entity.Name = partner.Name;
-                            entity.ExternalId = partner.ExternalId;
-                            entity.DataVersion = newVersion;
-
-                            entitiesContext.SaveChanges();
-
-                            // Fin...
-                            transaction.Commit();
-                        }
+                        // Commit the transacton
+                        transactionScope.Complete();
                     }
                 }
             }
@@ -205,7 +199,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.Partner> models = new List<Domain.Partner>();
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);

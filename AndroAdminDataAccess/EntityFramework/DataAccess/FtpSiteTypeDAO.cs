@@ -15,7 +15,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
         {
             List<Domain.FTPSiteType> ftpSiteTypes = new List<Domain.FTPSiteType>();
 
-            //using (AndroAdminEntities entitiesContext = ConnectionStringOverride == null ? new AndroAdminEntities() : new AndroAdminEntities(this.ConnectionStringOverride))
+             
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
