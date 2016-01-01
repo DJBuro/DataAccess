@@ -1,16 +1,16 @@
-﻿using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
 namespace MyAndromedaDataAccessEntityFramework.Comparer
 {
-    public class StoreComparer: IEqualityComparer<Store>
+    public class StoreComparer : IEqualityComparer<Store>
     {
         public bool Equals(
-            Store x, 
+            Store x,
             Store y)
         {
             return x.Id.Equals(y.Id);
@@ -20,6 +20,5 @@ namespace MyAndromedaDataAccessEntityFramework.Comparer
         {
             return obj.Id.GetHashCode();
         }
-
     }
 }

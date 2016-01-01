@@ -12,22 +12,18 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class MyAndromedaUser
+    public partial class MyAndromedaRole
     {
-        public MyAndromedaUser()
+        public MyAndromedaRole()
         {
-            this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
-            this.Groups = new HashSet<Group>();
+            this.MyAndromedaPermissions = new HashSet<MyAndromedaPermission>();
+            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
         }
     
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool IsEnabled { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
     
-        public virtual ICollection<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<MyAndromedaPermission> MyAndromedaPermissions { get; set; }
+        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
     }
 }

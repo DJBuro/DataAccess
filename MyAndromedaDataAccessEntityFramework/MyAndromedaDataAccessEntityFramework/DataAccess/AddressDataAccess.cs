@@ -12,16 +12,15 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
             using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from c in entitiesContext.Countries
-                                   where c.Id == address.CountryId
-                                   select c;
+                            where c.Id == address.CountryId
+                            select c;
 
                 var countryEntity = query.FirstOrDefault();
 
                 var query2 = from s in entitiesContext.Stores
-                                      join a in entitiesContext.Addresses
-                                        on s.AddressId equals a.Id
-                                      where s.Id == siteId
-                                      select a;
+                             join a in entitiesContext.Addresses on s.AddressId equals a.Id
+                             where s.Id == siteId
+                             select a;
 
                 Model.AndroAdmin.Address addressEntity = query2.FirstOrDefault();
 

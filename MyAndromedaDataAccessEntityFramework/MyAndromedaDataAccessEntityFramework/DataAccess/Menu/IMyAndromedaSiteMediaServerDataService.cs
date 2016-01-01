@@ -1,6 +1,6 @@
-﻿using MyAndromeda.Core;
-using System;
+﻿using System;
 using System.Linq;
+using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
@@ -46,7 +46,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             var result = query.FirstOrDefault();
 
             if (result != null)
+            {
                 return result;
+            }
 
             result = this.GetDefault();
 

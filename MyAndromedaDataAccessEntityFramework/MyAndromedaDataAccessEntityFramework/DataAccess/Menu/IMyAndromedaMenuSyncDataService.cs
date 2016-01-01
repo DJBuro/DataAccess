@@ -32,7 +32,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 var menuThumbnailTable = androAdminDbContext.StoreMenuThumbnails;
                 var query = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
                 var menuThumbnailResult = //already exist? 
-                    query.SingleOrDefault() ?? this.Create(androAdminDbContext, andromedaSiteId);
+                query.SingleOrDefault() ?? this.Create(androAdminDbContext, andromedaSiteId);
 
                 menuThumbnailResult.LastUpdate = DateTime.UtcNow;
                 menuThumbnailResult.XmlMenuThumbnailData = xml;
@@ -43,6 +43,39 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 androAdminDbContext.SaveChanges();
             }
+        }
+
+        public bool AnyPointSyncing(int andromedaSiteId)
+        {
+            bool result = false;
+            using (var myAndromediaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var menuTable = myAndromediaDbContext.SiteMenus;
+                var menuTableQuery = menuTable.Where(e => e.AndromediaId == andromedaSiteId);
+                var menuResult = menuTableQuery.SingleOrDefault();
+
+                if (menuResult == null)
+                {
+                    return false;
+                }
+
+                using (var androAdminDbContex = new Model.AndroAdmin.AndroAdminDbContext()) 
+                {
+                    var menuThumbnailTable = androAdminDbContex.StoreMenuThumbnails;
+                    var query = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
+                    var menuThumbnailResult = query.SingleOrDefault();
+
+                    //no sync record yet 
+                    if (menuThumbnailResult == null)
+                    {
+                        return true;
+                    }
+
+                    result = menuThumbnailResult.LastUpdate < menuResult.LastUpdated; 
+                }
+            }
+
+            return result;
         }
 
         private Model.AndroAdmin.StoreMenuThumbnail Create(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromediaSiteId) 
@@ -57,33 +90,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
             dbContext.SaveChanges();
             return entity;
-        }
-
-        public bool AnyPointSyncing(int andromedaSiteId)
-        {
-            bool result = false;
-            using (var myAndromediaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
-            {
-                var menuTable = myAndromediaDbContext.SiteMenus;
-                var menuTableQuery = menuTable.Where(e => e.AndromediaId == andromedaSiteId);
-                var menuResult = menuTableQuery.SingleOrDefault();
-
-                if (menuResult == null) { return false; ; }
-
-                using (var androAdminDbContex = new Model.AndroAdmin.AndroAdminDbContext()) 
-                {
-                    var menuThumbnailTable = androAdminDbContex.StoreMenuThumbnails;
-                    var query = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
-                    var menuThumbnailResult = query.SingleOrDefault();
-
-                    //no sync record yet 
-                    if (menuThumbnailResult == null) { return true; }
-
-                    result = menuThumbnailResult.LastUpdate < menuResult.LastUpdated; 
-                }
-            }
-
-            return result;
         }
     }
 }

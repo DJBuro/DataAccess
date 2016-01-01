@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Comparer\StoreComparer.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
+    <Compile Include="DataAccess\Chains\IChainDataService.cs" />
     <Compile Include="DataAccess\CountryDataAccess.cs" />
     <Compile Include="DataAccess\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
@@ -87,43 +88,12 @@
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
+    <Compile Include="DataAccess\Sites\ISiteDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserAccessDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserChainsDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
-    <Compile Include="Model\AndroAdminUsers\AndroUser.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\AndroUserPermission.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\DbContext.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContext.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\DbContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\DbContext.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContext.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\Permission.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\Project.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\SecurityGroup.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\SecurityGroupPermission.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdminUsers\SecurityGroupUser.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\ACSApplication.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -178,22 +148,19 @@
     <Compile Include="Model\AndroAdmin\FTPSiteType.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\Group.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\Host.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\HubAddress.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\Log.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\MyAndromedaUser.cs">
+    <Compile Include="Model\AndroAdmin\MyAndromedaPermission.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\MyAndromedaUserStore.cs">
+    <Compile Include="Model\AndroAdmin\MyAndromedaRole.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\MyAndromedaUser.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\OpeningHour.cs">
@@ -214,9 +181,6 @@
     <Compile Include="Model\AndroAdmin\StoreAMSServerFtpSite.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\AndroAdmin\StoreHubReset.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\AndroAdmin\StoreMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -227,9 +191,6 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\StoreStatu.cs">
-      <DependentUpon>DbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AndroAdmin\sysdiagram.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ExpressionRewriter.cs" />
@@ -326,23 +287,6 @@
   <ItemGroup>
     <None Include="App.Config">
       <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="Model\AndroAdminUsers\DbContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\AndroAdminUsers\DbContext.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbContext.edmx</DependentUpon>
-      <LastGenOutput>DbContext.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Model\AndroAdminUsers\DbContext.edmx.diagram">
-      <DependentUpon>DbContext.edmx</DependentUpon>
-    </None>
-    <None Include="Model\AndroAdminUsers\DbContext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbContext.edmx</DependentUpon>
-      <LastGenOutput>DbContext.cs</LastGenOutput>
     </None>
     <EntityDeploy Include="Model\AndroAdmin\DbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

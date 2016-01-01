@@ -14,8 +14,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var query = dbContext.EmailCampaignTasks
-                    .Where(e=> e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId))
-                    .OrderByDescending(e=> e.CreatedOnUtc);
+                                     .Where(e => e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId))
+                                     .OrderByDescending(e => e.CreatedOnUtc);
 
                 var results = query.ToArray();
 
@@ -52,10 +52,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var campaign = dbContext.EmailCampaigns.Find(campaignTask.EmailCampaign.Id);
 
                 dbModel.EmailCampaign = campaign;
-                dbModel.EmailCampaignSetting = campaignTask.EmailSettings.Id > 0 
-                    ? dbContext.EmailCampaignSettings.Find(campaignTask.EmailSettings.Id) 
-                    : null;
-
+                dbModel.EmailCampaignSetting = campaignTask.EmailSettings.Id > 0
+                                               ? dbContext.EmailCampaignSettings.Find(campaignTask.EmailSettings.Id)
+                                               : null;
                 
                 dbModel.Update(campaignTask);
 
@@ -79,9 +78,9 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 bool completedQuery = completed.GetValueOrDefault(false);
 
                 var query = dbContext.EmailCampaignTasks
-                    .Where(e => e.Completed == completedQuery)
-                    .Where(e => e.Started == startedQuery)
-                    .Where(e => !e.RunLaterOnUtc.HasValue || e.RunLaterOnUtc <= DateTime.UtcNow);
+                                     .Where(e => e.Completed == completedQuery)
+                                     .Where(e => e.Started == startedQuery)
+                                     .Where(e => !e.RunLaterOnUtc.HasValue || e.RunLaterOnUtc <= DateTime.UtcNow);
 
                 var results = query.ToArray();
                 
@@ -96,7 +95,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
             {
                 var ids = campaignsToSend.Select(e => e.Id).ToArray();
-                var query = dbContext.EmailCampaignTasks.Where(e=> ids.Any(id => id == e.Id));
+                var query = dbContext.EmailCampaignTasks.Where(e => ids.Any(id => id == e.Id));
 
                 foreach (var record in query) 
                 {
@@ -113,7 +112,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             using (var dbContext = new Model.MyAndromeda.MyAndromedaDbContext())
             {
                 var ids = campaignsToSend.Select(e => e.Id).ToArray();
-                var query = dbContext.EmailCampaignTasks.Where(e => ids.Any(id => id == e.Id));
+                var query = dbContext.EmailCampaignTasks
+                                     .Where(e => ids.Any(id => id == e.Id));
 
                 foreach (var record in query)
                 {
@@ -124,7 +124,5 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 dbContext.SaveChanges();
             }
         }
-
-        
     }
 }

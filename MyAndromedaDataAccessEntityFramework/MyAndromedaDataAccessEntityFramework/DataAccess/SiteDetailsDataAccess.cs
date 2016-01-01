@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 
-namespace AndroCloudDataAccessEntityFramework.DataAccess
+namespace MyAndromedaDataAccessEntityFramework.DataAccess
 {
     public class SiteDetailsDataAccess : ISiteDetailsDataAccess
     {
@@ -16,8 +16,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Stores
-                               where s.Id == siteId
-                               select s;
+                            where s.Id == siteId
+                            select s;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.FirstOrDefault();
 
@@ -91,14 +91,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
-
         public string Update(int siteId, SiteDetails siteDetails)
         {
             using (var entitiesContext = new AndroAdminDbContext())
             {
                 var query = from s in entitiesContext.Stores
-                               where s.Id == siteId
-                               select s;
+                            where s.Id == siteId
+                            select s;
 
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.FirstOrDefault();
 

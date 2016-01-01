@@ -12,13 +12,17 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class ChainChain
+    public partial class MyAndromedaPermission
     {
-        public int Id { get; set; }
-        public int ParentChainId { get; set; }
-        public int ChildChainId { get; set; }
+        public MyAndromedaPermission()
+        {
+            this.MyAndromedaRoles = new HashSet<MyAndromedaRole>();
+        }
     
-        public virtual Chain ChildChain { get; set; }
-        public virtual Chain ParentChain { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    
+        public virtual ICollection<MyAndromedaRole> MyAndromedaRoles { get; set; }
     }
 }

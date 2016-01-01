@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyAndromedaDataAccessEntityFramework.Model
 {
@@ -23,14 +20,14 @@ namespace MyAndromedaDataAccessEntityFramework.Model
             // it can fail.  User 1 gets current version 5. User 2 gets current version 5.  User 1 increments version to 6, user 2 increments 
             // the version to 6 but it should be incremented to 7.  Both user 1 and 2 tag all their changes with version 6.
             // There doesn't seem to be a way to increment a number atomically in Entity Framework so I've had to fall back to SQL...
-
             // Note that the current database version is stored in the settings table.  The setting values are strings.
-
             // Get a SQL connection from EF
             SqlConnection sqlConnection = (SqlConnection)entitiesContext.Database.Connection;
 
             if (sqlConnection.State == System.Data.ConnectionState.Closed)
+            {
                 sqlConnection.Open();
+            }
 
             // We're gonna do this in a SQL command
             SqlCommand command = new SqlCommand();

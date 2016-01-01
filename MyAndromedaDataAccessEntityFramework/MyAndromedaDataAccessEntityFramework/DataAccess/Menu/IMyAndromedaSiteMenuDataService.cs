@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-
 using MyAndromeda.Core;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
@@ -22,7 +21,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
         public SiteMenu GetMenu(int andromedaSiteId)
         {
-            var table = dbWork.DbContext.SiteMenus;
+            var table = this.dbWork.DbContext.SiteMenus;
             var query = table.Where(e => e.AndromediaId == andromedaSiteId);
             var result = query.SingleOrDefault();
 

@@ -17,14 +17,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Store()
         {
             this.ACSApplicationSites = new HashSet<ACSApplicationSite>();
-            this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
             this.OpeningHours = new HashSet<OpeningHour>();
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
-            this.StoreHubResets = new HashSet<StoreHubReset>();
             this.StoreMenus = new HashSet<StoreMenu>();
             this.StoreMenuThumbnails = new HashSet<StoreMenuThumbnail>();
-            this.Groups = new HashSet<Group>();
-            this.HubAddresses = new HashSet<HubAddress>();
+            this.MyAndromedaUsers = new HashSet<MyAndromedaUser>();
         }
     
         public int Id { get; set; }
@@ -48,15 +45,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
         public virtual Chain Chain { get; set; }
-        public virtual ICollection<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public virtual ICollection<OpeningHour> OpeningHours { get; set; }
         public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual StoreStatu StoreStatu { get; set; }
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
-        public virtual ICollection<StoreHubReset> StoreHubResets { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
         public virtual ICollection<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
-        public virtual ICollection<HubAddress> HubAddresses { get; set; }
+        public virtual ICollection<MyAndromedaUser> MyAndromedaUsers { get; set; }
     }
 }

@@ -27,10 +27,9 @@ namespace MyAndromedaDataAccessEntityFramework.QueryExtensions
         public static IQueryable<Model.CustomerDataWarehouse.CustomerRecord> FilterForMarketingByEmailType(this IQueryable<CustomerRecord> customerQuery) 
         {
             return customerQuery.Where(e => e.Contacts.Any(
-                contact => 
-                    contact.ContactTypeId == MyAndromedaDataAccess.Domain.DataWarehouse.ContactType.Email && 
-                    contact.MarketingLevelId == MyAndromedaDataAccess.Domain.DataWarehouse.MarketingLevelType.ThirdParty
-            ));
+                contact =>
+                          contact.ContactTypeId == MyAndromedaDataAccess.Domain.DataWarehouse.ContactType.Email &&
+                          contact.MarketingLevelId == MyAndromedaDataAccess.Domain.DataWarehouse.MarketingLevelType.ThirdParty));
         }
     }
 }

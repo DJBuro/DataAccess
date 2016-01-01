@@ -21,17 +21,15 @@ namespace MyAndromedaDataAccessEntityFramework
             if (inExpr.NodeType == ExpressionType.Lambda &&
                 inExpr.Parameters.Count > 0)
             {
-
                 var inP = inExpr.Parameters[0];
                 var outP = Expression.Parameter(typeof(TOut), inP.Name);
 
                 var outBody = Rewrite<TIn, TOut>(
                     inExpr.Body,
-                    expr => (expr is ParameterExpression) ? outP : expr
-                );
+                    expr => (expr is ParameterExpression) ? outP : expr);
                 return Expression.Lambda<Func<TOut, bool>>(
-                        outBody,
-                        new ParameterExpression[] { outP });
+                    outBody,
+                    new ParameterExpression[] { outP });
             }
             else
             {
