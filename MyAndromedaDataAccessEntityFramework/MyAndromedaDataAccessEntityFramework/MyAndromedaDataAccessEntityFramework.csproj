@@ -98,6 +98,7 @@
     <Compile Include="DataAccess\Users\IUserAccessDataService.cs" />
     <Compile Include="DataAccess\Users\IUserDataService.cs" />
     <Compile Include="DataAccess\Users\IUserChainsDataService.cs" />
+    <Compile Include="DataAccess\Users\IUserRoleDataService.cs" />
     <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AndroAdmin\ACSApplication.cs">

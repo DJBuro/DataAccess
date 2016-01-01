@@ -1,5 +1,6 @@
 ﻿using MyAndromeda.Core;
 using MyAndromedaDataAccess.Domain;
+using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,34 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
 {
     public interface IUserChainsDataService : IDependency
     {
+        /// <summary>
+        /// Gets the chains for user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
         IEnumerable<Chain> GetChainsForUser(int userId);
+
+        /// <summary>
+        /// Gets the chains for user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
         IEnumerable<Chain> GetChainsForUser(int userId, Expression<Func<Model.AndroAdmin.Chain, bool>> query);
+
+        /// <summary>
+        /// Adds the chain to user.
+        /// </summary>
+        /// <param name="chain">The chain.</param>
+        /// <param name="userId">The user id.</param>
+        void AddChainToUser(Chain chain, int userId);
+
+        /// <summary>
+        /// Finds the users belonging to chain.
+        /// </summary>
+        /// <param name="chainId">The chain id.</param>
+        /// <returns></returns>
+        IEnumerable<MyAndromedaUser> FindUsersDirectlyBelongingToChain(int chainId);
     }
 
     public class UserChainsDataService : IUserChainsDataService
@@ -83,6 +110,39 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             }
 
             return chains;
+        }
+
+        public void AddChainToUser(Chain chain, int userId)
+        {
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
+            {
+                var userChainsTable = myAndromedaDbContext.UserChains;
+                var link = userChainsTable.Create();
+                link.ChainId = chain.Id;
+                link.UserRecordId = userId;
+
+
+                userChainsTable.Add(link);
+                myAndromedaDbContext.SaveChanges();
+            }
+        }
+
+        public IEnumerable<MyAndromedaUser> FindUsersDirectlyBelongingToChain(int chainId)
+        {
+            IEnumerable<MyAndromedaUser> myAndromedaUserusers;
+            using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
+            {
+                IEnumerable<UserRecord> users;
+                using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+                {
+                    users = myAndromedaDbContext.UserChains.Where(e=> e.ChainId == chainId).Select(e=> e.UserRecord);
+                    myAndromedaUserusers = users.ToArray().Select(e => e.ToDomain()).ToArray();
+                }
+
+                
+            }
+
+            return myAndromedaUserusers;
         }
 
         private IEnumerable<Chain> CreateHierarchyStructure(Model.AndroAdmin.AndroAdminDbContext dbContext, Model.AndroAdmin.Chain[] results)
