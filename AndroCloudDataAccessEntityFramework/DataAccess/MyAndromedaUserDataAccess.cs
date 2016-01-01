@@ -65,6 +65,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
                         site.Name = sitesGroup.Site.SiteName;
                         site.Id = sitesGroup.Site.ID;
+                        site.ExternalId = sitesGroup.Site.ExternalId;
 
                         myAndromedaUser.Sites.Add(site);
                     }

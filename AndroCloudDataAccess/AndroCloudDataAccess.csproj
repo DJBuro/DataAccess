@@ -39,6 +39,7 @@
       <HintPath>..\..\Services\AndroCloudServices\AndroCloudWCFServices\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\IAddressDataAccess.cs" />
     <Compile Include="DataAccess\IMyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\IOrderStatusDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
