@@ -62,7 +62,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<AndroWebOrderingSubscriptionType> AndroWebOrderingSubscriptionTypes { get; set; }
         public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
         public DbSet<AndroWebOrderingTheme> AndroWebOrderingThemes { get; set; }
-
+        public DbSet<Site_AMS_upload> Site_AMS_upload { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<DeliveryZoneName> DeliveryZoneNames { get; set; }
         public DbSet<PostCodeSector> PostCodeSectors { get; set; }
     }
