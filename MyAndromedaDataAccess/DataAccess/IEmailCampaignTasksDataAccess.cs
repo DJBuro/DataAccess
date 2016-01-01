@@ -36,5 +36,12 @@ namespace MyAndromedaDataAccess.DataAccess
         /// </summary>
         /// <param name="campaign">The campaign.</param>
         void Update(EmailCampaignTask campaign);
+
+        /// <summary>
+        /// Gets the tasks by site id.
+        /// </summary>
+        /// <param name="siteId">The site id.</param>
+        /// <returns></returns>
+        IEnumerable<EmailCampaignTask> GetTasksBySiteId(int siteId);
     }
 }

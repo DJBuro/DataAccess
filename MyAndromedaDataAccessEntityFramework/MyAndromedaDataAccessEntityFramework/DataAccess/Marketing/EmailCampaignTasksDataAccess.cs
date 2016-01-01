@@ -10,6 +10,25 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 {
     public class EmailCampaignTasksDataAccess : IEmailCampaignTasksDataAccess
     {
+        public IEnumerable<EmailCampaignTask> GetTasksBySiteId(int siteId)
+        {
+            using (var dbContext = new Model.MyAndromedaEntities())
+            {
+                var query = dbContext.EmailCampaignTasks
+                    .Where(e=> e.EmailCampaign.EmailCampaignSites.Any(site => site.SiteId == siteId));
+
+                var results = query.ToArray();
+
+                var output = results.Select(e => e.ToDomainModel()).ToArray();
+
+                return output;
+            }
+        }
+
+        /// <summary>
+        /// Updates the specified campaign.
+        /// </summary>
+        /// <param name="campaign">The campaign.</param>
         public void Update(Domain.EmailCampaignTask campaign)
         {
             using (var dbContext = new Model.MyAndromedaEntities()) 
@@ -21,6 +40,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             }
         }
 
+        /// <summary>
+        /// Creates the specified campaign task.
+        /// </summary>
+        /// <param name="campaignTask">The campaign task.</param>
         public void Create(Domain.EmailCampaignTask campaignTask)
         {
             using (var dbContext = new Model.MyAndromedaEntities()) 
@@ -53,16 +76,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var results = query.ToArray();
 
                 var output = results.Select(e => e.ToDomainModel()).ToArray();
-                //var output = results.Select(e => new Domain.EmailCampaignTask() { 
-                //    Id = e.Id,
-                //    Completed = e.Completed,
-                //    Created = e.CreatedOnUtc,
-                //    RanAt = e.RanAtUtc,
-                //    RunLaterOnUtc = e.RunLaterOnUtc,
-                //    Started = e.Started,
-                //    EmailSettings = e.EmailCampaignSetting == null ? null : e.EmailCampaignSetting.ToDomainModel(),
-                //    EmailCampaign = e.EmailCampaign == null ? null : e.EmailCampaign.ToDomainModel()
-                //}).ToArray();
 
                 return output;
             }

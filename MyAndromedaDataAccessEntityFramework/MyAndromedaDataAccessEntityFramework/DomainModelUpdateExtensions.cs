@@ -49,7 +49,7 @@ namespace MyAndromedaDataAccessEntityFramework
             {
                 SiteId = e.SiteId,
                 Editable = e.Editable,
-                EmailCampaign = model
+                //EmailCampaign = model
             }).ToList();
 
             return model;
