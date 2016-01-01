@@ -32,11 +32,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     Domain.ThemeAndroWebOrdering model = new Domain.ThemeAndroWebOrdering()
                     {
                         Id = entity.Id,
-                        Source = entity.Source,
-                        FileName = entity.FileName,
+                        Source = entity.ThemePath,
+                        FileName = entity.ThemeName,
                         Height = entity.Height,
                         Width = entity.Width,
-                        InternalName = entity.InternalName,
+                        //InternalName = entity.InternalName,
                         Description = entity.Description
                     };
                     models.Add(model);
@@ -60,11 +60,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     model = new Domain.ThemeAndroWebOrdering()
                     {
                         Id = entity.Id,
-                        Source = entity.Source,
-                        FileName = entity.FileName,
+                        Source = entity.ThemePath,
+                        FileName = entity.ThemeName,
                         Height = entity.Height,
                         Width = entity.Width,
-                        InternalName = entity.InternalName,
+                        //InternalName = entity.InternalName,
                         Description = entity.Description
                     };
                 }
@@ -80,11 +80,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 AndroWebOrderingTheme entity = new AndroWebOrderingTheme()
                 {
                     Id = webOrderingTheme.Id,
-                    Source = webOrderingTheme.Source,
-                    FileName = webOrderingTheme.FileName,
+                    ThemePath = webOrderingTheme.Source,
+                    ThemeName = webOrderingTheme.FileName,
                     Height = webOrderingTheme.Height,
                     Width = webOrderingTheme.Width,
-                    InternalName = webOrderingTheme.InternalName,
+                    //InternalName = webOrderingTheme.InternalName,
                     Description = webOrderingTheme.Description
                 };
                 entitiesContext.AndroWebOrderingThemes.Add(entity);
@@ -104,11 +104,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var entity = query.FirstOrDefault();
                 if (entity != null)
                 {
-                    entity.Source = webOrderingTheme.Source;
-                    entity.FileName = webOrderingTheme.FileName;
+                    entity.ThemePath = webOrderingTheme.Source;
+                    entity.ThemeName = webOrderingTheme.FileName;
                     entity.Height = webOrderingTheme.Height;
                     entity.Width = webOrderingTheme.Width;
-                    entity.InternalName = webOrderingTheme.InternalName;
+                    //entity.InternalName = webOrderingTheme.InternalName;
                     entity.Description = webOrderingTheme.Description;
                 };
                 entitiesContext.SaveChanges();               
