@@ -51,7 +51,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         {
                             foreach (var store in entity.ACSApplication.ACSApplicationSites)
                             {
-                                model.MappedSiteIds.Add(store.SiteId);
+                                // Duplicates for different versions
+                                if (!model.MappedSiteIds.Contains(store.SiteId))
+                                    model.MappedSiteIds.Add(store.SiteId);
                             }
                         }
                     }
