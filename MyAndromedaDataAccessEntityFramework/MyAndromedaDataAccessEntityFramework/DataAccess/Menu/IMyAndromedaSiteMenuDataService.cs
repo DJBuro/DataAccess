@@ -12,6 +12,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
     public interface IMyAndromedaSiteMenuDataService : IDependency 
     {
         
+        /// <summary>
+        /// Gets the menu.
+        /// </summary>
+        /// <param name="andromedaSiteId">The Andromeda site id.</param>
+        /// <returns></returns>
         SiteMenu GetMenu(int andromedaSiteId);
 
         /// <summary>
@@ -21,6 +26,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <returns></returns>
         SiteMenu Create(int andromedaSiteId);
 
+        /// <summary>
+        /// Updates the specified site menu.
+        /// </summary>
+        /// <param name="siteMenu">The site menu.</param>
         void Update(SiteMenu siteMenu);
 
         /// <summary>
