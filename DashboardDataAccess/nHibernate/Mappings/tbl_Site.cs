@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using FluentNHibernate.Mapping;
 using NHibernate;
+using DashboardDataAccess.Domain;
 
-namespace DashboardDataAccess
+namespace DashboardDataAccess.nHibernate.Mappings
 {
     public class tbl_Site : ClassMap<Site>
     {
@@ -20,7 +21,7 @@ namespace DashboardDataAccess
             Map(x => x.SiteTypeId);
             Map(x => x.Enabled);
             Map(x => x.SiteKey);
-            Map(x => x.RegionId);
+ //           Map(x => x.RegionId);
             Map(x => x.LastUpdated);
             Map(x => x.Column_1);
             Map(x => x.Column_2);
@@ -44,6 +45,7 @@ namespace DashboardDataAccess
             Map(x => x.Column_20);
             Map(x => x.Comp);
             Map(x => x.Column_21);
+            References(x => x.Region).ForeignKey("FK_tbl_Site_tbl_Region").Column("RegionId").Not.LazyLoad();
         }
 
         internal static Site FindBySiteId(int? ramesesId)
@@ -58,8 +60,6 @@ namespace DashboardDataAccess
 
                 query.SetInt32("RAMESESID", ramesesId.Value);
 
-                query.SetCacheable(true);
-
                 IList<Site> sites = query.List<Site>();
 
                 if (sites != null && sites.Count == 1)
@@ -69,17 +69,6 @@ namespace DashboardDataAccess
             }
 
             return site;
-        }
-
-        internal static void Save(Site site)
-        {
-            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
-            {
-                ITransaction transaction = session.BeginTransaction();
-                transaction.Begin();
-                session.Update(site);
-                transaction.Commit();
-            }
         }
     }
 }
