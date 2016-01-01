@@ -11,19 +11,19 @@ namespace AndroAdminDataAccess.Domain
         public virtual int Id { get; set; }
         
         [Required]
-        [Display(Name="Name")]
+        [Display(Name="Andromeda store Name")]
         public virtual string Name { get; set; }
 
-        [Display(Name = "Andromeda store id")]
+        [Display(Name = "Andromeda store ID")]
         public virtual int AndromedaSiteId { get; set; }
 
-        [Display(Name = "Customer store id")]
+        [Display(Name = "Customer store ID")]
         public virtual string CustomerSiteId { get; set; }
 
         [Display(Name = "Customer store name")]
         public virtual string CustomerSiteName { get; set; }
 
-        [Display(Name = "External site id")]
+        [Display(Name = "External site ID")]
         public virtual string ExternalSiteId { get; set; }
 
         [Display(Name = "External site name")]

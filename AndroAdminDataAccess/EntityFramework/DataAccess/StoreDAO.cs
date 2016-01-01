@@ -247,6 +247,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     // Commit the transacton
                     transactionScope.Complete();
+
+                    // Return the id to the caller
+                    store.Id = storeEntity.Id;
                 }
             }
         }
@@ -274,8 +277,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     // Get the store that needs to be updated
                     var storeQuery = from s in entitiesContext.Stores
-                                        where store.Id == s.Id
-                                        select s;
+                                     where store.Id == s.Id
+                                     select s;
 
                     Store storeEntity = storeQuery.FirstOrDefault();
 
@@ -289,13 +292,14 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.Name = store.Name;
                     storeEntity.AndromedaSiteId = store.AndromedaSiteId;
                     storeEntity.CustomerSiteId = store.CustomerSiteId;
+                    storeEntity.ClientSiteName = store.CustomerSiteName;
                     storeEntity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
                     storeEntity.StoreStatusId = store.StoreStatus.Id;
                     storeEntity.DataVersion = newVersion;
-                    storeEntity.ExternalId = storeEntity.ExternalId; // *** Needs to be changed to store when this can be changed
-                    storeEntity.ExternalSiteName = storeEntity.ExternalSiteName; // *** Needs to be changed to store when this can be changed
-                    storeEntity.Telephone = storeEntity.Telephone;
-                    storeEntity.TimeZone = storeEntity.TimeZone;
+                    storeEntity.ExternalId = store.ExternalSiteId;
+                    storeEntity.ExternalSiteName = store.ExternalSiteName;
+                    storeEntity.Telephone = store.Telephone;
+                    storeEntity.TimeZone = store.TimeZone;
 
                     // Update / create an address
                     var addressQuery = from s in entitiesContext.Addresses
@@ -337,28 +341,31 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     }
                     else
                     {
-                        // Update the existing address
-                        addressEntity.County = storeEntity.Address.County;
-                        addressEntity.DPS = storeEntity.Address.DPS;
-                        addressEntity.Lat = storeEntity.Address.Lat;
-                        addressEntity.Locality = storeEntity.Address.Locality;
-                        addressEntity.Long = storeEntity.Address.Long;
-                        addressEntity.Org1 = storeEntity.Address.Org1;
-                        addressEntity.Org2 = storeEntity.Address.Org2;
-                        addressEntity.Org3 = storeEntity.Address.Org3;
-                        addressEntity.PostCode = storeEntity.Address.PostCode;
-                        addressEntity.Prem1 = storeEntity.Address.Prem1;
-                        addressEntity.Prem2 = storeEntity.Address.Prem2;
-                        addressEntity.Prem3 = storeEntity.Address.Prem3;
-                        addressEntity.Prem4 = storeEntity.Address.Prem4;
-                        addressEntity.Prem5 = storeEntity.Address.Prem5;
-                        addressEntity.Prem6 = storeEntity.Address.Prem6;
-                        addressEntity.RoadName = storeEntity.Address.RoadName;
-                        addressEntity.RoadNum = storeEntity.Address.RoadNum;
-                        addressEntity.State = storeEntity.Address.State;
-                        addressEntity.Town = storeEntity.Address.Town;
-                        addressEntity.CountryId = country.Id;
-                        addressEntity.DataVersion = newVersion;
+                        if (store.Address != null)
+                        {
+                            // Update the existing address
+                            addressEntity.County = store.Address.County;
+                            addressEntity.DPS = store.Address.DPS;
+                            addressEntity.Lat = store.Address.Lat;
+                            addressEntity.Locality = store.Address.Locality;
+                            addressEntity.Long = store.Address.Long;
+                            addressEntity.Org1 = store.Address.Org1;
+                            addressEntity.Org2 = store.Address.Org2;
+                            addressEntity.Org3 = store.Address.Org3;
+                            addressEntity.PostCode = store.Address.PostCode;
+                            addressEntity.Prem1 = store.Address.Prem1;
+                            addressEntity.Prem2 = store.Address.Prem2;
+                            addressEntity.Prem3 = store.Address.Prem3;
+                            addressEntity.Prem4 = store.Address.Prem4;
+                            addressEntity.Prem5 = store.Address.Prem5;
+                            addressEntity.Prem6 = store.Address.Prem6;
+                            addressEntity.RoadName = store.Address.RoadName;
+                            addressEntity.RoadNum = store.Address.RoadNum;
+                            addressEntity.State = store.Address.State;
+                            addressEntity.Town = store.Address.Town;
+                            addressEntity.CountryId = country.Id;
+                            addressEntity.DataVersion = newVersion;
+                        }
                     }
 
                     entitiesContext.SaveChanges();
