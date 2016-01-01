@@ -116,8 +116,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return webOrderingSite;
         }
 
-        public void Add(Domain.AndroWebOrderingWebsite webOrderingSite)
+        public int Add(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
+            int success = 0;
             using (TransactionScope transactionScope = new TransactionScope())
             {
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
@@ -127,113 +128,129 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     if (partner != null)
                     {
-                        webOrderingSite.ACSApplication.PartnerId = partner.Id;
-
-                        acsDAO.Add(webOrderingSite.ACSApplication);
-
-                        DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
-
-                        entitiesContext.Database.Connection.Open();
-
-                        var dataVersionResult = entitiesContext.Settings.Where(s => s.Name.Equals("DataVersion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                        int newVersion = dataVersionResult != null ? Convert.ToInt32(dataVersionResult.Value) : 0;
-
-                        var acsApplication = entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                        if (acsApplication != null)
+                        if (entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null
+                        && entitiesContext.AndroWebOrderingWebsites.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault() == null)
                         {
-                            entitiesContext.AndroWebOrderingWebsites.Add(new AndroWebOrderingWebsite
-                            {
-                                ChainId = webOrderingSite.ChainId,
-                                ACSApplicationId = acsApplication.Id,
-                                DataVersion = newVersion,
-                                DisabledReason = webOrderingSite.DisabledReason,
-                                Enabled = webOrderingSite.Enabled,
-                                Name = webOrderingSite.Name,
-                                SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
-                                URL = webOrderingSite.URL
-                            });
+                            webOrderingSite.ACSApplication.PartnerId = partner.Id;
 
-                            if (webOrderingSite.MappedSiteIds != null)
+                            acsDAO.Add(webOrderingSite.ACSApplication);
+
+                            DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                            entitiesContext.Database.Connection.Open();
+
+                            var dataVersionResult = entitiesContext.Settings.Where(s => s.Name.Equals("DataVersion", StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                            int newVersion = dataVersionResult != null ? Convert.ToInt32(dataVersionResult.Value) : 0;
+
+                            var acsApplication = entitiesContext.ACSApplications.Where(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                            if (acsApplication != null)
                             {
-                                foreach (var siteId in webOrderingSite.MappedSiteIds)
+                                entitiesContext.AndroWebOrderingWebsites.Add(new AndroWebOrderingWebsite
                                 {
-                                    entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = acsApplication.Id, DataVersion = newVersion });
+                                    ChainId = webOrderingSite.ChainId,
+                                    ACSApplicationId = acsApplication.Id,
+                                    DataVersion = newVersion,
+                                    DisabledReason = webOrderingSite.DisabledReason,
+                                    Enabled = webOrderingSite.Enabled,
+                                    Name = webOrderingSite.Name,
+                                    SubscriptionTypeId = webOrderingSite.SubscriptionTypeId,
+                                    URL = webOrderingSite.URL
+                                });
+
+                                if (webOrderingSite.MappedSiteIds != null)
+                                {
+                                    foreach (var siteId in webOrderingSite.MappedSiteIds)
+                                    {
+                                        entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = acsApplication.Id, DataVersion = newVersion });
+                                    }
                                 }
                             }
+                            entitiesContext.SaveChanges();
+                            transactionScope.Complete();
+                            success = 1;
                         }
-                        entitiesContext.SaveChanges();
-                        transactionScope.Complete();
                     }
                 }
             }
+            return success;
         }
 
-        public void Update(Domain.AndroWebOrderingWebsite webOrderingSite)
+        public int Update(Domain.AndroWebOrderingWebsite webOrderingSite)
         {
+            int success = 0;
             using (TransactionScope transactionScope = new TransactionScope())
             {
                 using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
-                {                    
-                    int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
-
+                {
                     var webSite = entitiesContext.AndroWebOrderingWebsites.Include(w => w.ACSApplication).Include(e => e.ACSApplication.ACSApplicationSites).Where(w => w.Id == webOrderingSite.Id).FirstOrDefault();
+
                     if (webSite != null)
                     {
-                        webSite.ChainId = webOrderingSite.ChainId;                        
-                        webSite.DataVersion = newVersion;
-                        webSite.DisabledReason = webOrderingSite.DisabledReason;
-                        webSite.Enabled = webOrderingSite.Enabled;
-                        webSite.Name = webOrderingSite.Name;
-                        webSite.SubscriptionTypeId = webOrderingSite.SubscriptionTypeId;
-                        webSite.URL = webOrderingSite.URL;                        
+                        ACSApplication dupACSApp = entitiesContext.ACSApplications.Where(a => a.Id != webSite.ACSApplicationId && a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                        AndroWebOrderingWebsite dupWebsite = entitiesContext.AndroWebOrderingWebsites.Where(a => a.Id != webSite.Id && a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                        if (dupACSApp == null && dupWebsite == null)
+                        {
+                            int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext);
 
-                        if (webSite.ACSApplication != null)
-                        {
-                            webSite.ACSApplication.Name = webOrderingSite.Name;
-                            webSite.ACSApplication.ExternalDisplayName = webOrderingSite.Name;
-                            webSite.ACSApplication.DataVersion = newVersion;
-                        }
-                        var acsApplicationSites = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == webSite.ACSApplicationId).ToList();
+                            webSite.ChainId = webOrderingSite.ChainId;
+                            webSite.DataVersion = newVersion;
+                            webSite.DisabledReason = webOrderingSite.DisabledReason;
+                            webSite.Enabled = webOrderingSite.Enabled;
+                            webSite.Name = webOrderingSite.Name;
+                            webSite.SubscriptionTypeId = webOrderingSite.SubscriptionTypeId;
+                            webSite.URL = webOrderingSite.URL;
 
-                        if (acsApplicationSites == null && webOrderingSite.MappedSiteIds != null)
-                        {
-                            foreach (var siteId in webOrderingSite.MappedSiteIds)
+                            if (webSite.ACSApplication != null)
                             {
-                                entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = webOrderingSite.ACSApplicationId, DataVersion = newVersion });
+                                webSite.ACSApplication.Name = webOrderingSite.Name;
+                                webSite.ACSApplication.ExternalDisplayName = webOrderingSite.Name;
+                                webSite.ACSApplication.DataVersion = newVersion;
                             }
-                        }
-                        else if (acsApplicationSites != null && (webOrderingSite.MappedSiteIds == null || webOrderingSite.MappedSiteIds.Count() == 0))
-                        {
-                            foreach (var site in acsApplicationSites)
+                            var acsApplicationSites = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == webSite.ACSApplicationId).ToList();
+
+                            if (acsApplicationSites == null && webOrderingSite.MappedSiteIds != null)
                             {
-                                entitiesContext.ACSApplicationSites.Remove(site);                                
+                                foreach (var siteId in webOrderingSite.MappedSiteIds)
+                                {
+                                    entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = webOrderingSite.ACSApplicationId, DataVersion = newVersion });
+                                }
                             }
-                        }
-                        else if (webOrderingSite.MappedSiteIds != null && acsApplicationSites != null)
-                        {
-                            foreach (var site in acsApplicationSites)
+                            else if (acsApplicationSites != null && (webOrderingSite.MappedSiteIds == null || webOrderingSite.MappedSiteIds.Count() == 0))
                             {
-                                if (!webOrderingSite.MappedSiteIds.Contains(site.SiteId))
+                                foreach (var site in acsApplicationSites)
                                 {
                                     entitiesContext.ACSApplicationSites.Remove(site);
                                 }
-                            }                            
-                            foreach (int siteId in webOrderingSite.MappedSiteIds)
+                            }
+                            else if (webOrderingSite.MappedSiteIds != null && acsApplicationSites != null)
                             {
-                                if (acsApplicationSites.Where(a => a.SiteId == siteId).FirstOrDefault() == null)
+                                foreach (var site in acsApplicationSites)
                                 {
-                                    entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = webSite.ACSApplicationId, DataVersion = newVersion });                                 
+                                    if (!webOrderingSite.MappedSiteIds.Contains(site.SiteId))
+                                    {
+                                        entitiesContext.ACSApplicationSites.Remove(site);
+                                    }
+                                }
+                                foreach (int siteId in webOrderingSite.MappedSiteIds)
+                                {
+                                    if (acsApplicationSites.Where(a => a.SiteId == siteId).FirstOrDefault() == null)
+                                    {
+                                        entitiesContext.ACSApplicationSites.Add(new ACSApplicationSite { SiteId = siteId, ACSApplicationId = webSite.ACSApplicationId, DataVersion = newVersion });
+                                    }
                                 }
                             }
+                            entitiesContext.SaveChanges();
+                            success = 1;
                         }
-                        entitiesContext.SaveChanges();                      
+                        else
+                        {
+                            success = 0;
+                        }
                     }
-                   
                     transactionScope.Complete();
-
                 }
             }
-
+            return 0;
         }
     }
 }
