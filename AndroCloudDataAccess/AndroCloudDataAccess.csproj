@@ -47,30 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IOrderDataAccess.cs" />
     <Compile Include="DataAccess\IMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
-    <Compile Include="Domain\SiteDataAccess.cs" />
-    <Compile Include="Domain\MenuDataAccess.cs" />
+    <Compile Include="Domain\Order.cs" />
+    <Compile Include="Domain\DataTypeEnum.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteMenu.cs" />
-    <Compile Include="Model\ACS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ACS.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Model\ACS.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ACS.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AndroCloudDataAccess.dll.Config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="App.Config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
