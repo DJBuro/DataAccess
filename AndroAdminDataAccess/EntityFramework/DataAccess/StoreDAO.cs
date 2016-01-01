@@ -5,6 +5,7 @@ using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using System.Data.Common;
+using System.Globalization;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
@@ -84,28 +85,75 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     // Get the next data version (see comments inside the function)
                     int newVersion = DataVersionHelper.GetNextDataVersion(entitiesContext, transaction);
 
-                    var query = from s in entitiesContext.Stores
+                    var storeQuery = from s in entitiesContext.Stores
                                 where store.Id == s.Id
                                 select s;
 
-                    var entity = query.FirstOrDefault();
+                    Store storeEntity = storeQuery.FirstOrDefault();
 
-                    if (entity != null)
+                    if (storeEntity == null)
                     {
-                        entity.Name = store.Name;
-                        entity.AndromedaSiteId = store.AndromedaSiteId;
-                        entity.CustomerSiteId = store.CustomerSiteId;
-                        entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
-                        entity.StoreStatusId = store.StoreStatus.Id;
-                        entity.DataVersion = newVersion;
-                        entity.ExternalId = store.ExternalSiteId;
-                        entity.ExternalSiteName = entity.ExternalSiteName;
-
-                        entitiesContext.SaveChanges();
-
-                        // Fin...
-                        transaction.Commit();
+                        transaction.Rollback();
+                        return;
                     }
+
+                    // Update the store
+                    storeEntity.Name = store.Name;
+                    storeEntity.AndromedaSiteId = store.AndromedaSiteId;
+                    storeEntity.CustomerSiteId = store.CustomerSiteId;
+                    storeEntity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
+                    storeEntity.StoreStatusId = store.StoreStatus.Id;
+                    storeEntity.DataVersion = newVersion;
+                    storeEntity.ExternalId = store.ExternalSiteId;
+                    storeEntity.ExternalSiteName = storeEntity.ExternalSiteName;
+
+                    // Update / create an address
+                    var addressQuery = from s in entitiesContext.Addresses
+                        where s.Id == storeEntity.AddressId
+                        select s;
+
+                    Address addressEntity = addressQuery.FirstOrDefault();
+
+                    // Is there already an address for this store?
+                    if (addressEntity == null)
+                    {
+                        // No address - we need to create one
+                        addressEntity = new Address()
+                        {
+                            County = "",
+                            DPS = "",
+                            Lat = 0,
+                            Locality = "",
+                            Long = 0,
+                            Org1 = "",
+                            Org2 = "",
+                            Org3 = "",
+                            PostCode = "",
+                            Prem1 = "",
+                            Prem2 = "",
+                            Prem3 = "",
+                            Prem4 = "",
+                            Prem5 = "",
+                            Prem6 = "",
+                            RoadName = "",
+                            RoadNum = "",
+                            State = "",
+                            Town = "",
+                            CountryId = store.Country.Id
+                        };
+
+                        entitiesContext.Addresses.AddObject(addressEntity);
+                    }
+                    else
+                    {
+                        // Update the existing address
+                        addressEntity.CountryId = store.Country.Id;
+                    }
+
+                    entitiesContext.SaveChanges();
+
+                    // Fin...
+                    transaction.Commit();
                 }
             }
         }
@@ -135,6 +183,33 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName
                     };
+
+                    // Update / create an address
+                    var addressQuery = from s in entitiesContext.Addresses
+                                       where s.Id == entity.AddressId
+                                       select s;
+
+                    var addressEntity = addressQuery.FirstOrDefault();
+
+                    if (addressEntity != null)
+                    {
+                        var countryQuery = from c in entitiesContext.Countries
+                                           where c.Id == addressEntity.CountryId
+                                           select c;
+
+                        var countryEntity = countryQuery.FirstOrDefault();
+
+                        if (addressEntity != null)
+                        {
+                            store.Country = new Domain.Country()
+                            {
+                                CountryName = countryEntity.CountryName,
+                                Id = countryEntity.Id,
+                                ISO3166_1_alpha_2 = countryEntity.ISO3166_1_alpha_2,
+                                ISO3166_1_numeric = countryEntity.ISO3166_1_numeric
+                            };
+                        }
+                    }
                 }
             }
 

@@ -10,6 +10,7 @@
           <EntitySet Name="ACSApplicationSite" EntityType="AndroAdminModel.Store.ACSApplicationSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Address" EntityType="AndroAdminModel.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AMSServer" EntityType="AndroAdminModel.Store.AMSServer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Country" EntityType="AndroAdminModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FTPSite" EntityType="AndroAdminModel.Store.FTPSite" store:Type="Tables" Schema="dbo" />
@@ -42,6 +43,14 @@
           <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.Store.FK_ACSApplicationSite_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_Address" Association="AndroAdminModel.Store.FK_Address_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Address1" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_Country" Association="AndroAdminModel.Store.FK_Address_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
           </AssociationSet>
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.Store.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteType" />
@@ -176,10 +185,10 @@
           <Property Name="State" Type="nvarchar" MaxLength="64" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="16" />
           <Property Name="DPS" Type="nvarchar" MaxLength="4" />
-          <Property Name="Country" Type="nvarchar" MaxLength="64" />
           <Property Name="Lat" Type="float" />
           <Property Name="Long" Type="float" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
         </EntityType>
         <EntityType Name="AMSServer">
           <Key>
@@ -188,6 +197,15 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="3500" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="ISO3166_1_alpha_2" Type="varchar" Nullable="false" MaxLength="2" />
+          <Property Name="ISO3166_1_numeric" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Day">
           <Key>
@@ -437,6 +455,30 @@
             </Principal>
             <Dependent Role="ACSApplicationSite">
               <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_Address">
+          <End Role="Address" Type="AndroAdminModel.Store.Address" Multiplicity="1" />
+          <End Role="Address1" Type="AndroAdminModel.Store.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_Country">
+          <End Role="Country" Type="AndroAdminModel.Store.Country" Multiplicity="0..1" />
+          <End Role="Address" Type="AndroAdminModel.Store.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -834,6 +876,15 @@
             <End Role="Store" EntitySet="Stores" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
           </AssociationSet>
+          <AssociationSet Name="FK_Address_Address" Association="AndroAdminModel.FK_Address_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Address1" EntitySet="Addresses" />
+          </AssociationSet>
+          <EntitySet Name="Countries" EntityType="AndroAdminModel.Country" />
+          <AssociationSet Name="FK_Address_Country" Association="AndroAdminModel.FK_Address_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACSApplication">
           <Key>
@@ -869,11 +920,14 @@
           <Property Type="String" Name="State" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="PostCode" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DPS" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Country" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Double" Name="Lat" />
           <Property Type="Double" Name="Long" />
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_Address" FromRole="Address" ToRole="Store" />
+          <NavigationProperty Name="Address1" Relationship="AndroAdminModel.FK_Address_Address" FromRole="Address" ToRole="Address1" />
+          <NavigationProperty Name="Address2" Relationship="AndroAdminModel.FK_Address_Address" FromRole="Address1" ToRole="Address" />
+          <Property Type="Int32" Name="CountryId" />
+          <NavigationProperty Name="Country" Relationship="AndroAdminModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
         </EntityType>
         <EntityType Name="AMSServer">
           <Key>
@@ -1454,6 +1508,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Address_Address">
+          <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="AndroAdminModel.Address" Role="Address1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ISO3166_1_alpha_2" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ISO3166_1_numeric" Nullable="false" />
+          <NavigationProperty Name="Addresses" Relationship="AndroAdminModel.FK_Address_Country" FromRole="Country" ToRole="Address" />
+        </EntityType>
+        <Association Name="FK_Address_Country">
+          <End Type="AndroAdminModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1474,10 +1562,10 @@
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="AndroAdminModel.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="Long" ColumnName="Long" />
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="DPS" ColumnName="DPS" />
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="State" ColumnName="State" />
@@ -1754,6 +1842,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="AndroAdminModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ISO3166_1_numeric" ColumnName="ISO3166_1_numeric" />
+                <ScalarProperty Name="ISO3166_1_alpha_2" ColumnName="ISO3166_1_alpha_2" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1776,7 +1874,7 @@
     <Diagrams>
       <Diagram Name="EntityModel" ZoomLevel="85">
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplication" Width="1.5" PointX="6" PointY="17.375" />
-        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="AndroAdminModel.Address" Width="1.5" PointX="0.5" PointY="9.5" />
         <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="3" PointY="6.5" />
         <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="6" PointY="5.75" />
         <EntityTypeShape EntityType="AndroAdminModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" />
@@ -1825,6 +1923,9 @@
         <EntityTypeShape EntityType="AndroAdminModel.ACSApplicationSite" Width="1.5" PointX="8.25" PointY="15.375" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_Store" />
+        <AssociationConnector Association="AndroAdminModel.FK_Address_Address" />
+        <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="2.75" PointY="16.5" />
+        <AssociationConnector Association="AndroAdminModel.FK_Address_Country" />
       </Diagram>
     </Diagrams>
   </Designer>

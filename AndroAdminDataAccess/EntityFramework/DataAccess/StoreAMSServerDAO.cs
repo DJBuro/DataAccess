@@ -98,6 +98,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         .Include("StoreAMSServerFtpSites")
                         .Include("StoreAMSServerFtpSites.FTPSite.FTPSiteType")
                         .Include("AMSServer")
+                        .Include("Store.Address")
                         where s.AMSServer.Name == amsServerName
                         select s;
 
@@ -119,13 +120,27 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     ftpSites.Add(ftpSite);
                 }
 
+                Domain.Country country = null;
+
+                if (entity.Store.Address != null)
+                {
+                    country = new Domain.Country()
+                    {
+                        Id = entity.Store.Address.Country.Id,
+                        CountryName = entity.Store.Address.Country.CountryName,
+                        ISO3166_1_alpha_2 = entity.Store.Address.Country.ISO3166_1_alpha_2,
+                        ISO3166_1_numeric = entity.Store.Address.Country.ISO3166_1_numeric
+                    };
+                }
+
                 Domain.Store store = new Domain.Store()
                 {
                     AndromedaSiteId = entity.Store.AndromedaSiteId,
                     CustomerSiteId = entity.Store.CustomerSiteId,
                     LastFTPUploadDateTime = entity.Store.LastFTPUploadDateTime,
                     Name = entity.Store.Name,
-                    StoreStatus = new Domain.StoreStatus() { Id = entity.Store.StoreStatu.Id, Status = entity.Store.StoreStatu.Status, Description = entity.Store.StoreStatu.Description }
+                    StoreStatus = new Domain.StoreStatus() { Id = entity.Store.StoreStatu.Id, Status = entity.Store.StoreStatu.Status, Description = entity.Store.StoreStatu.Description },
+                    Country = country
                 };
 
                 Domain.StoreAMSServer storeAMSServer = new Domain.StoreAMSServer()

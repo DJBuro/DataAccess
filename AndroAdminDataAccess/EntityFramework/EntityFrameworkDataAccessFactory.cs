@@ -68,5 +68,11 @@ namespace AndroAdminDataAccess.EntityFramework
             get { return new HostDAO(); }
             set { throw new NotImplementedException(); }
         }
+
+        public ICountryDAO CountryDAO
+        {
+            get { return new CountryDAO(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

@@ -32,6 +32,9 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "External site name")]
         public virtual string ExternalSiteName { get; set; }
 
+        [Display(Name = "Country")]
+        public Country Country { get; set; }
+
         public Store()
         {
             this.Name = "";
@@ -41,6 +44,7 @@ namespace AndroAdminDataAccess.Domain
             this.StoreStatus = null;
             this.ExternalSiteId = Guid.NewGuid().ToString().Replace("{", "").Replace("}", "").ToUpper();
             this.ExternalSiteName = "";
+            this.Country = null;
         }
    }
 }
