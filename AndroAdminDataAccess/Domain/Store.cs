@@ -74,4 +74,25 @@ namespace AndroAdminDataAccess.Domain
 
         public string LicenceKey { get; set; }
     }
+    public static class StoreExtensions
+    {
+        public static Store ToDomainObject(this AndroAdminDataAccess.EntityFramework.Store model)
+        {
+            Store vm = new Store();
+            vm.Id = model.Id;
+            vm.Name = model.Name;
+            vm.AndromedaSiteId = model.AndromedaSiteId;
+            vm.CustomerSiteId = model.CustomerSiteId;
+            vm.CustomerSiteName = model.ClientSiteName;
+            vm.ExternalSiteId = model.ExternalId;
+            vm.ExternalSiteName = model.ExternalSiteName;
+            vm.LastFTPUploadDateTime = model.LastFTPUploadDateTime;
+            vm.Chain = new Chain();
+            vm.Chain.Id = model.Chain.Id;
+            vm.Chain.Name = model.Chain.Name;
+            vm.Chain.Name = model.Chain.Name;
+            vm.Chain.Description = model.Chain.Description;
+            return vm;
+        }
+    }
 }

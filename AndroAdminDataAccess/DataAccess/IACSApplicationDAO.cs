@@ -10,6 +10,7 @@ namespace AndroAdminDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
 
+        IList<ACSApplication> GetAll();
         ACSApplication GetById(int acsApplicationId);
         ACSApplication GetByName(string name);
         ACSApplication GetByExternalId(string externalId);

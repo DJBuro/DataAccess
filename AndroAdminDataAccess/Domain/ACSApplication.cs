@@ -26,4 +26,18 @@ namespace AndroAdminDataAccess.Domain
 
         public virtual int DataVersion { get; set; }
     }
+
+    public static class ACSApplicationExtensions
+    {
+        public static ACSApplication ToDomainObject(this AndroAdminDataAccess.EntityFramework.ACSApplication model)
+        {
+            ACSApplication vm = new ACSApplication();
+            vm.Id = model.Id;
+            vm.Name = model.Name;
+            vm.ExternalApplicationId = model.ExternalApplicationId;
+            vm.PartnerId = model.PartnerId;
+            vm.DataVersion = model.DataVersion;
+            return vm;
+        }
+    }
 }

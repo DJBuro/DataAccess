@@ -43,6 +43,21 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="Directions" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Audit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="SrcID" Type="nvarchar" MaxLength="64" />
+          <Property Name="HardwareID" Type="nvarchar" MaxLength="64" />
+          <Property Name="IP_Port" Type="nvarchar" MaxLength="32" />
+          <Property Name="Action" Type="nvarchar" MaxLength="64" />
+          <Property Name="ResponseTime" Type="int" />
+          <Property Name="ErrorCode" Type="int" />
+          <Property Name="ExtraInfo" Type="ntext" />
+          <Property Name="ACSServer" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
@@ -231,6 +246,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="VoucherCode" Type="nvarchar" MaxLength="32" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="254" Nullable="false" />
           <Property Name="Occasion" Type="nvarchar" MaxLength="30" Nullable="false" />
@@ -510,6 +526,7 @@ warning 6002: The table/view 'DataWarehouse.dbo.Applications_vw' does not have a
         <EntityContainer Name="DataWarehouseModelStoreContainer">
           <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
@@ -721,6 +738,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
           </AssociationSet>
+          <EntitySet Name="Audits" EntityType="DataWarehouseModel.Audit" />
         </EntityContainer>
         <EntityType Name="AccountType">
           <Key>
@@ -1196,6 +1214,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <Property Name="Removed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SiteVouchers" Relationship="DataWarehouseModel.FK_SiteVoucher_Voucher" FromRole="Voucher" ToRole="SiteVoucher" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_Voucher" FromRole="Voucher" ToRole="UsedVoucher" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Applications_vw">
           <Key>
@@ -1260,6 +1279,21 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Audit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="SrcID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="HardwareID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="IP_Port" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseTime" Type="Int32" />
+          <Property Name="ErrorCode" Type="Int32" />
+          <Property Name="ExtraInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ACSServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1504,6 +1538,7 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
           <EntitySetMapping Name="Vouchers">
             <EntityTypeMapping TypeName="DataWarehouseModel.Voucher">
               <MappingFragment StoreEntitySet="Voucher">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="DiscountValue" ColumnName="DiscountValue" />
                 <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
@@ -1527,6 +1562,22 @@ FROM [dbo].[Applications_vw] AS [Applications_vw]</DefiningQuery>
               <MappingFragment StoreEntitySet="Applications_vw">
                 <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
                 <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Audits">
+            <EntityTypeMapping TypeName="DataWarehouseModel.Audit">
+              <MappingFragment StoreEntitySet="Audit">
+                <ScalarProperty Name="ACSServer" ColumnName="ACSServer" />
+                <ScalarProperty Name="ExtraInfo" ColumnName="ExtraInfo" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="IP_Port" ColumnName="IP_Port" />
+                <ScalarProperty Name="HardwareID" ColumnName="HardwareID" />
+                <ScalarProperty Name="SrcID" ColumnName="SrcID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
