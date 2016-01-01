@@ -27,6 +27,7 @@ namespace AndroAdminDataAccess.Domain
         public string SubscriptionName { set; get; }
         public string LiveDomainName { set; get; } // to be changed to LiveDomainName
         public int ACSApplicationId { set; get; }
+        public string ExternalApplicationId { get; set; }
         public int DataVersion { set; get; }
         public ACSApplication ACSApplication { set; get; }
         public IList<int> MappedSiteIds { set; get; }

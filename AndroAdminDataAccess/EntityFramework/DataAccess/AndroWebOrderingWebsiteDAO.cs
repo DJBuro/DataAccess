@@ -34,6 +34,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         Id = entity.Id,
                         Name = entity.Name,
                         ACSApplicationId = entity.ACSApplicationId,
+                        ExternalApplicationId = entity.ACSApplication.ExternalApplicationId,
                         ChainId = entity.ChainId,
                         DataVersion = entity.DataVersion,
                         DisabledReason = entity.DisabledReason,
@@ -87,6 +88,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.DisabledReason = result.DisabledReason;
                         webOrderingSite.DataVersion = result.DataVersion;
                         webOrderingSite.ChainId = result.ChainId;
+                        webOrderingSite.ExternalApplicationId = result.ACSApplication.ExternalApplicationId;
                         webOrderingSite.ACSApplicationId = result.ACSApplicationId;
                         webOrderingSite.Chains = entitiesContext.Chains.Select(s => new Domain.Chain { Id = s.Id, Name = s.Name }).ToList();
                         webOrderingSite.MappedSiteIds = entitiesContext.ACSApplicationSites.Where(a => a.ACSApplicationId == result.ACSApplicationId).Select(s => s.SiteId).ToList();
