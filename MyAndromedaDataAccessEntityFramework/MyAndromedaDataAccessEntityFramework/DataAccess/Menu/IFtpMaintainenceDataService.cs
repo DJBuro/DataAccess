@@ -30,7 +30,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             using (var dbContext = new MyAndromedaDbContext())
             {
                 var query = dbContext.QueryMenusWithTasks(e => 
-                    !e.SiteMenuFtpBackupUploadTask.TaskComplete && 
                     e.SiteMenuFtpBackupUploadTask.TaskStarted && 
                     e.SiteMenuFtpBackupUploadTask.LastTriedUtc < notFinishedBy
                 );
@@ -57,7 +56,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 var query = dbContext.QueryMenusWithTasks(
                     e => 
-                        !e.SiteMenuFtpBackupDownloadTask.TaskCompleted &&
                         e.SiteMenuFtpBackupDownloadTask.TaskStarted &&
                         e.SiteMenuFtpBackupDownloadTask.LastTriedUtc < notFinishedBy
                 );
