@@ -335,6 +335,8 @@
           <Property Name="LastUploadedDate" Type="datetime" />
           <Property Name="CheckToDownload" Type="bit" Nullable="false" />
           <Property Name="CheckToUpload" Type="bit" Nullable="false" />
+          <Property Name="CheckInProgress" Type="bit" Nullable="false" />
+          <Property Name="MenuVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SiteMenuMediaProfile">
           <Key>
@@ -1422,6 +1424,8 @@
           <Property Type="DateTime" Name="LastUploadedDate" Precision="3" />
           <Property Type="Boolean" Name="CheckToDownload" Nullable="false" />
           <Property Type="Boolean" Name="CheckToUpload" Nullable="false" />
+          <Property Type="Boolean" Name="CheckInProgress" Nullable="false" />
+          <Property Type="Int32" Name="MenuVersion" Nullable="false" />
         </EntityType>
         <Association Name="FK_SiteMenu_SiteMenuFtpBackup">
           <End Type="MyAndromedaModel.SiteMenuFtpBackup" Role="SiteMenuFtpBackup" Multiplicity="0..1" />
@@ -1745,6 +1749,8 @@
           <EntitySetMapping Name="SiteMenuFtpBackups">
             <EntityTypeMapping TypeName="MyAndromedaModel.SiteMenuFtpBackup">
               <MappingFragment StoreEntitySet="SiteMenuFtpBackup">
+                <ScalarProperty Name="MenuVersion" ColumnName="MenuVersion" />
+                <ScalarProperty Name="CheckInProgress" ColumnName="CheckInProgress" />
                 <ScalarProperty Name="CheckToUpload" ColumnName="CheckToUpload" />
                 <ScalarProperty Name="CheckToDownload" ColumnName="CheckToDownload" />
                 <ScalarProperty Name="LastUploadedDate" ColumnName="LastUploadedDate" />

@@ -13,6 +13,19 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
     {
         
         /// <summary>
+        /// Sets the version.
+        /// </summary>
+        /// <param name="andromedaSiteId">The andromeda site id.</param>
+        /// <param name="version">The version.</param>
+        void SetVersion(int andromedaSiteId, int version);
+
+        /// <summary>
+        /// Sets the version.
+        /// </summary>
+        /// <param name="siteMenuFtpBackup">The site menu FTP backup.</param>
+        void SetVersion(SiteMenuFtpBackup siteMenuFtpBackup);
+
+        /// <summary>
         /// Gets the menu.
         /// </summary>
         /// <param name="andromedaSiteId">The Andromeda site id.</param>
@@ -44,14 +57,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// </summary>
         /// <param name="siteMenuFtp">The site menu FTP.</param>
         /// <param name="value">The value.</param>
-        void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true);
+        void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false);
 
         /// <summary>
         /// Sets the download flag.
         /// </summary>
         /// <param name="siteMenuFtp">The site menu FTP.</param>
         /// <param name="value">The value.</param>
-        void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true);
+        void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false);
 
     }
 }

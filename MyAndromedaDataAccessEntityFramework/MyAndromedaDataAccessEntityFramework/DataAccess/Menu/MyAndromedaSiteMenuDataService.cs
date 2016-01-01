@@ -50,6 +50,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 result.SiteMenuFtpBackup.LastDownloadedDate = siteMenu.SiteMenuFtpBackup.LastDownloadedDate;
                 result.SiteMenuFtpBackup.LastUploadedDate = siteMenu.SiteMenuFtpBackup.LastUploadedDate;
+                result.SiteMenuFtpBackup.MenuVersion = siteMenu.SiteMenuFtpBackup.MenuVersion;
 
                 dbContext.SaveChanges();
             }
@@ -68,25 +69,50 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             return results;
         }
 
-        public void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true)
+        public void SetDownloadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false)
         {
             using (var dbContext = NewContext()) 
             {
                 var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
                 dbItem.CheckToDownload = value;
                 siteMenuFtp.CheckToDownload = value;
-
+                siteMenuFtp.CheckInProgress = inProgress;
                 dbContext.SaveChanges();
             }
         }
 
-        public void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true)
+
+        public void SetUploadFlag(SiteMenuFtpBackup siteMenuFtp, bool value = true, bool inProgress = false)
         {
             using (var dbContext = NewContext())
             {
                 var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
                 dbItem.CheckToUpload = value;
                 siteMenuFtp.CheckToUpload = value;
+                siteMenuFtp.CheckInProgress = inProgress;
+
+                dbContext.SaveChanges();
+            }
+        }
+
+
+        public void SetVersion(int andromedaSiteId, int version)
+        {
+            using (var dbContext = NewContext()) 
+            {
+                var dbItem = this.GetMenuWithContext(dbContext, andromedaSiteId);
+                dbItem.SiteMenuFtpBackup.MenuVersion = version;
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void SetVersion(SiteMenuFtpBackup siteMenuFtp)
+        {
+            using (var dbContext = NewContext())
+            {
+                var dbItem = dbContext.SiteMenuFtpBackups.Where(e => e.Id == siteMenuFtp.Id).Single();
+                dbItem.MenuVersion = siteMenuFtp.MenuVersion;
 
                 dbContext.SaveChanges();
             }

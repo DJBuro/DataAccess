@@ -24,6 +24,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public Nullable<System.DateTime> LastUploadedDate { get; set; }
         public bool CheckToDownload { get; set; }
         public bool CheckToUpload { get; set; }
+        public bool CheckInProgress { get; set; }
+        public int MenuVersion { get; set; }
     
         public virtual ICollection<SiteMenu> SiteMenus { get; set; }
     }
