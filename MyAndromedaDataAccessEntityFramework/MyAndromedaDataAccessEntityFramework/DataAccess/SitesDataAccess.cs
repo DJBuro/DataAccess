@@ -75,22 +75,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // A user can be associated with zero or more groups of stores.
                 // The user has permission to access any of the stores in these groups.
                 // For example, there might be a group called "PJ UK" containing all PJ UK stores
-                //var query = (from u in entitiesContext.MyAndromedaUsers
-                //            join mug in entitiesContext.MyAndromedaUserGroups
-                //                on u.Id equals mug.MyAndromedaUserId
-                //            join g in entitiesContext.Groups
-                //                on mug.GroupId equals g.Id
-                //            join sg in entitiesContext.StoreGroups
-                //                on g.Id equals sg.GroupId
-                //            join s in entitiesContext.Stores
-                //                on sg.StoreId equals s.Id
-                //            where u.Id == myAndromedaUserId
-                //            select s).ToArray();
-
-                //var query = entitiesContext.MyAndromedaUsers.Where(e=> e.Id == myAndromedaUserId).
-
                 var storeQuery = entitiesContext.Stores
-                    .Where(e => e.Group.MyAndromedaUserGroups.Any(userGroup => userGroup.MyAndromedaUserId == myAndromedaUserId)).ToArray();
+                    .Where(e => e.Group.MyAndromedaUserGroups.Any(userGroup => userGroup.MyAndromedaUserId == myAndromedaUserId))
+                    .ToArray();
 
                 if (storeQuery != null && storeQuery.Length > 0)
                 {
