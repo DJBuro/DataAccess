@@ -49,6 +49,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public Nullable<System.Guid> CustomerAddressID { get; set; }
         public string ACSServer { get; set; }
         public string CookingInstructions { get; set; }
+        public string DriverName { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }

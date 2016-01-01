@@ -152,6 +152,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     order.StoreOrderId = acsQueryEntity.ExternalOrderRef;
                     order.InternetOrderNumber = acsQueryEntity.RamesesOrderNum;
                     order.RamesesStatusId = acsQueryEntity.OrderStatu.Id;
+                    order.DriverName = acsQueryEntity.DriverName;
                 }
             }
 
