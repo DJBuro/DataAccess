@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\ICustomerDataAccess.cs" />
     <Compile Include="DataAccess\ICountryDataAccess.cs" />
     <Compile Include="DataAccess\IAddressDataAccess.cs" />
+    <Compile Include="DataAccess\IEmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\IEmployeeDataAccess.cs" />
     <Compile Include="DataAccess\IGroupsDataAccess.cs" />
     <Compile Include="DataAccess\IMyAndromedaUserDataAccess.cs" />
@@ -62,7 +64,9 @@
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\Employee.cs" />
     <Compile Include="Domain\Group.cs" />
+    <Compile Include="Domain\Marketing\EmailCampaign.cs" />
     <Compile Include="Domain\MyAndromedaUser.cs" />
+    <Compile Include="Domain\Marketing\Customer.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteDetails.cs" />
     <Compile Include="Domain\TimeSpanBlock.cs" />
