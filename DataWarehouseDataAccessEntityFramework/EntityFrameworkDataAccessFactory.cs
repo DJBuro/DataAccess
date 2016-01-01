@@ -29,5 +29,11 @@ namespace DataWarehouseDataAccessEntityFramework
             get { return new OrderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
             set { throw new NotImplementedException(); }
         }
+
+        public IVoucherDataAccess VoucherDataAccess
+        {
+            get { return new VoucherDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride }; }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
