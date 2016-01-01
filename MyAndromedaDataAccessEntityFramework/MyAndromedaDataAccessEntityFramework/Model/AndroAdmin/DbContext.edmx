@@ -11,8 +11,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExternalApplicationId" Type="nvarchar" MaxLength="40" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExternalDisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PartnerId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
@@ -102,7 +102,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ChainId" Type="int" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="DisabledReason" Type="nvarchar" MaxLength="255" />
@@ -163,8 +163,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="StoreId" Type="int" StoreGeneratedPattern="None" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="RadiusCovered" Type="decimal" Precision="8" Scale="2" />
           <Property Name="OriginPostCode" Type="nvarchar" MaxLength="20" />
@@ -458,12 +458,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ProviderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ClientId" Type="nvarchar" MaxLength="150" />
           <Property Name="ClientPassword" Type="nvarchar" MaxLength="150" />
           <Property Name="DisplayText" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreStatus">
           <Key>
@@ -682,7 +682,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeliveryZoneNames_Store">
-          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Store">
@@ -808,7 +810,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
-          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="1" />
+          <End Role="DeliveryZoneNames" Type="Self.DeliveryZoneNames" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PostCodeSectors" Type="Self.PostCodeSectors" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DeliveryZoneNames">
@@ -2486,7 +2490,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StoreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RadiusCovered" Type="Decimal" Precision="8" Scale="2" />
           <Property Name="OriginPostCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -2506,7 +2510,9 @@
           <NavigationProperty Name="DeliveryZoneName" Relationship="AndroAdminModel.FK_PostCodeSectors_DeliveryZoneNames" FromRole="PostCodeSector" ToRole="DeliveryZoneName" />
         </EntityType>
         <Association Name="FK_DeliveryZoneNames_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Store">
@@ -2518,7 +2524,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PostCodeSectors_DeliveryZoneNames">
-          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="1" />
+          <End Type="AndroAdminModel.DeliveryZoneName" Role="DeliveryZoneName" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="AndroAdminModel.PostCodeSector" Role="PostCodeSector" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DeliveryZoneName">

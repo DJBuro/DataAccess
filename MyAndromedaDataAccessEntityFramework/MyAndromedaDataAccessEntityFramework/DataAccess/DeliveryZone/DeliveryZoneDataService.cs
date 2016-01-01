@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyAndromedaDataAccessEntityFramework.Model;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
-using System.Data.Entity;
 using System.Linq.Expressions;
-using System.Data;
 using System.Data.Entity;
-using System.Configuration;
-using System.Data.Entity.Infrastructure;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 {
@@ -39,20 +33,25 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
 
         public void Create(DeliveryArea deliveryArea)
         {
-            if (deliveryArea != null)
+            if (deliveryArea == null) 
             {
-                DeliveryArea existingDeliveryArea = this.dataContext.DeliveryAreas.Where(e => e.StoreId == deliveryArea.StoreId && e.DeliveryArea1 == deliveryArea.DeliveryArea1).FirstOrDefault();
-                if (existingDeliveryArea != null)
-                {
-                    this.Update(deliveryArea);
-                }
-                else
-                {
-                    //deliveryArea.DataVersion = Model.DataVersionHelper.GetNextDataVersion(dataContext);
-                    this.dataContext.DeliveryAreas.Add(deliveryArea);
-                    dataContext.SaveChanges();
-                }
+                throw new NullReferenceException("Create: DeliveryArea. Model is null");   
+            }
 
+            DeliveryArea existingDeliveryArea = this.dataContext
+                .DeliveryAreas
+                .Where(e => e.StoreId == deliveryArea.StoreId && e.DeliveryArea1 == deliveryArea.DeliveryArea1)
+                .FirstOrDefault();
+            
+            if (existingDeliveryArea != null)
+            {
+                this.Update(deliveryArea);
+            }
+            else
+            {
+                //deliveryArea.DataVersion = Model.DataVersionHelper.GetNextDataVersion(dataContext);
+                this.dataContext.DeliveryAreas.Add(deliveryArea);
+                dataContext.SaveChanges();
             }
         }
 
@@ -139,87 +138,68 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         public DeliveryZoneName GetDeliveryZonesByRadius(int storeId)
         {
             DeliveryZoneName deliveryzoneName = dataContext.DeliveryZoneNames.Include(e => e.PostCodeSectors).Where(e => e.StoreId == storeId).FirstOrDefault();
+            
             return deliveryzoneName;
         }
 
-        //Deliveryzones by Radius methods
+        //Delivery zones by Radius methods
         public bool SaveDeliveryZones(DeliveryZoneName deliveryZoneEntity)
         {
-            try
+            if (deliveryZoneEntity.Id == 0)
             {
-                //var deliveryZoneEntity = dataContext.DeliveryZoneNames
-                //    .Where(e => e.OriginPostCode.Equals(deliveryZoneEnity.OriginPostCode, StringComparison.CurrentCultureIgnoreCase))
-                //    .FirstOrDefault();
-
-                if (deliveryZoneEntity.Id != 0)
-                {
-                    this.UpdateDeliveryZones(deliveryZoneEntity);
-                }
-                else
-                {
-                    this.CreateDeliveryZones(deliveryZoneEntity);
-                }
-
-                return true;
+                this.CreateDeliveryZones(deliveryZoneEntity);
+                
             }
-            catch (Exception e)
+            else
             {
-
+                this.UpdateDeliveryZones(deliveryZoneEntity);
             }
 
-            return false;
+            return true;
         }
 
         private void UpdateDeliveryZones(DeliveryZoneName entity)
         {
             var newDataVersion = dataContext.GetNextDataVersionForEntity();
 
-            List<PostCodeSector> existingPostCodeSectors = dataContext.PostCodeSectors.Where(pc => pc.DeliveryZoneId == entity.Id).ToList();
-            entity.PostCodeSectors.ToList().ForEach(f => f.DataVersion = newDataVersion);
-            if (existingPostCodeSectors != null && existingPostCodeSectors.Count() > 0)
+            var active = entity.PostCodeSectors.ToList();
+            var allExistingPostCodeSectors = dataContext.PostCodeSectors.Where(pc => pc.DeliveryZoneId == entity.Id).ToList();
+            var toBeRemoved = allExistingPostCodeSectors.Where(e => !entity.PostCodeSectors.Any(current => current.Id == e.Id)).ToList();
+            
+            foreach (var model in toBeRemoved)
             {
-                foreach (var item in existingPostCodeSectors)
-                {
-                    var pcExisting = entity.PostCodeSectors.Where(pc => pc.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                    if (pcExisting == null)
-                    {
-                        dataContext.PostCodeSectors.Remove(item);
-                    }
-                    else {
-                        pcExisting.DataVersion = newDataVersion;
-                    }
-                }
+                dataContext.PostCodeSectors.Remove(model);
             }
-            //foreach (PostCodeSector item in entity.PostCodeSectors)
-            //{
-            //    item.DataVersion = newDataVersion;
-            //    var existingItem = existingPostCodeSectors.Where(w => w.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            //    if (existingItem == null)
-            //    {
-            //        dataContext.PostCodeSectors.Add(item);
-            //    }
-            //    else
-            //    {
-            //        existingItem = item;
-            //    }
-            //}
-            //var deliveryZone = dataContext.DeliveryZoneNames.Where(d => d.Id == entity.Id).FirstOrDefault();
-            //if (deliveryZone != null)
-            //{
-            //    deliveryZone.PostCodeSectors = entity.PostCodeSectors.Where(p => p.Id != 0).ToList();
-            //    foreach (var item in entity.PostCodeSectors.Where(p => p.Id == 0)) {
-            //        deliveryZone.PostCodeSectors.Add(item);
-            //    }
-            //}
+
+            foreach (var model in active) 
+            {
+                if (entity.PostCodeSectors.Contains(model)) { continue; }
+
+                entity.PostCodeSectors.Add(model);
+            }
+
+            foreach (var model in entity.PostCodeSectors) 
+            {
+                model.DeliveryZoneId = entity.Id;
+                model.DeliveryZoneName = entity;
+                model.DataVersion = newDataVersion;
+            }
+
             dataContext.SaveChanges();
         }
 
         public void CreateDeliveryZones(DeliveryZoneName deliveryzoneName)
         {
-            deliveryzoneName.Name = "default";
+            int newDataVersion = dataContext.GetNextDataVersionForEntity();
+
+            deliveryzoneName.Name = string.IsNullOrWhiteSpace(deliveryzoneName.Name) ? "default" : deliveryzoneName.Name;
             deliveryzoneName.IsCustom = false;
-            int dataVersion = dataContext.GetNextDataVersionForEntity();            
-            deliveryzoneName.PostCodeSectors.ToList().ForEach(f => { f.DeliveryZoneId = deliveryzoneName.Id; f.DataVersion = dataVersion; });
+            deliveryzoneName.PostCodeSectors.ToList().ForEach(model => { 
+                //will always be 0
+                //f.DeliveryZoneId = deliveryzoneName.Id;
+                model.DataVersion = newDataVersion; 
+            });
+
             dataContext.DeliveryZoneNames.Add(deliveryzoneName);
             dataContext.SaveChanges();
 
