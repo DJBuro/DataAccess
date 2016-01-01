@@ -19,7 +19,8 @@ namespace AndroCloudDataAccess.Domain
         [XmlIgnore]
         public string LicenceKey { get; set; }
 
-        [DataMember(Name = "siteGuid")]
+        [DataMember(Name = "siteId")]
+        [XmlElement("SiteId", DataType = "string")]
         public string ExternalId { get; set; }
 
         [DataMember(Name = "name")]
