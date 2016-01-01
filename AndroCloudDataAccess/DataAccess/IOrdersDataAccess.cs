@@ -8,7 +8,7 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IOrdersDataAccess
     {
-        string GetById(int internetOrderNumber, out Order order);
+        string GetById(Guid orderId, out Order order);
         string Update(Guid orderId, Guid orderStatusId);
         string GetByInternetOrderNumber(int internetOrderNumber, out Order order);
     }
