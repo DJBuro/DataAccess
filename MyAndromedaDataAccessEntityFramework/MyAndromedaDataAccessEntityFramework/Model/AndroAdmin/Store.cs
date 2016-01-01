@@ -20,7 +20,6 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
             this.OpeningHours = new HashSet<OpeningHour>();
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
-            this.StoreGroups = new HashSet<StoreGroup>();
             this.StoreMenus = new HashSet<StoreMenu>();
         }
     
@@ -41,6 +40,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public Nullable<int> StorePaymentProviderID { get; set; }
         public int DataVersion { get; set; }
         public int ChainId { get; set; }
+        public Nullable<int> GroupId { get; set; }
     
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual Address Address { get; set; }
@@ -50,7 +50,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual StoreStatu StoreStatu { get; set; }
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
-        public virtual ICollection<StoreGroup> StoreGroups { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
+        public virtual Group Group { get; set; }
     }
 }

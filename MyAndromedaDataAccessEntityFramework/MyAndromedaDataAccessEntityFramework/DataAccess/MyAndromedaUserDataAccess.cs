@@ -37,18 +37,28 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             using (var entitiesContext = new AndroAdminDbContext())
             {
                 // Is the store in any of the groups that the user is associated with?
-                var query = from u in entitiesContext.MyAndromedaUsers
-                            join mug in entitiesContext.MyAndromedaUserGroups
-                                on u.Id equals mug.MyAndromedaUserId
-                            join g in entitiesContext.Groups
-                                on mug.GroupId equals g.Id
-                            join sg in entitiesContext.StoreGroups
-                                on g.Id equals sg.GroupId
-                            join s in entitiesContext.Stores
-                                on sg.StoreId equals s.Id
-                            where s.ExternalId == externalSiteId
-                            && u.Username == userName
-                            select u;
+                //var query = from u in entitiesContext.MyAndromedaUsers
+                //            join mug in entitiesContext.MyAndromedaUserGroups
+                //                on u.Id equals mug.MyAndromedaUserId
+                //            join g in entitiesContext.Groups
+                //                on mug.GroupId equals g.Id
+                //            join sg in entitiesContext.StoreGroups
+                //                on g.Id equals sg.GroupId
+                //            join s in entitiesContext.Stores
+                //                on sg.StoreId equals s.Id
+                //            where s.ExternalId == externalSiteId
+                //            && u.Username == userName
+                //            select u;
+
+                var query = entitiesContext.MyAndromedaUsers
+                    .Where(user=> 
+                        //check if a record exists through user group 
+                        user.MyAndromedaUserGroups.Any(
+                            group => 
+                                //group -> store
+                                group.Group.Stores.Any(store => store.ExternalId == externalSiteId)
+                    )
+                );
 
                 MyAndromedaUser enitity = query.FirstOrDefault();
 

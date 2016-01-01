@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Collections.Generic;
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
@@ -74,22 +75,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // A user can be associated with zero or more groups of stores.
                 // The user has permission to access any of the stores in these groups.
                 // For example, there might be a group called "PJ UK" containing all PJ UK stores
-                var query = (from u in entitiesContext.MyAndromedaUsers
-                            join mug in entitiesContext.MyAndromedaUserGroups
-                                on u.Id equals mug.MyAndromedaUserId
-                            join g in entitiesContext.Groups
-                                on mug.GroupId equals g.Id
-                            join sg in entitiesContext.StoreGroups
-                                on g.Id equals sg.GroupId
-                            join s in entitiesContext.Stores
-                                on sg.StoreId equals s.Id
-                            where u.Id == myAndromedaUserId
-                            select s).ToArray();
+                //var query = (from u in entitiesContext.MyAndromedaUsers
+                //            join mug in entitiesContext.MyAndromedaUserGroups
+                //                on u.Id equals mug.MyAndromedaUserId
+                //            join g in entitiesContext.Groups
+                //                on mug.GroupId equals g.Id
+                //            join sg in entitiesContext.StoreGroups
+                //                on g.Id equals sg.GroupId
+                //            join s in entitiesContext.Stores
+                //                on sg.StoreId equals s.Id
+                //            where u.Id == myAndromedaUserId
+                //            select s).ToArray();
 
-                if (query != null && query.Length > 0)
+                //var query = entitiesContext.MyAndromedaUsers.Where(e=> e.Id == myAndromedaUserId).
+
+                var storeQuery = entitiesContext.Stores
+                    .Where(e => e.Group.MyAndromedaUserGroups.Any(userGroup => userGroup.MyAndromedaUserId == myAndromedaUserId)).ToArray();
+
+                if (storeQuery != null && storeQuery.Length > 0)
                 {
 
-                    foreach (Store entity in query)
+                    foreach (Store entity in storeQuery)
                     {
                         MyAndromedaDataAccess.Domain.Site site = new MyAndromedaDataAccess.Domain.Site()
                         {
@@ -110,13 +116,14 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 // A user can be given permission to access specific stores.
                 // For example, if the user is a store manager then he/she would have permission to access that store only
-                var query2 = from u in entitiesContext.MyAndromedaUsers
-                            join mus in entitiesContext.MyAndromedaUserStores
-                                on u.Id equals mus.MyAndromedaUserId
-                            join s in entitiesContext.Stores
-                                on mus.StoreId equals s.Id
-                            where u.Id == myAndromedaUserId
-                            select s;
+                //var query2 = from u in entitiesContext.MyAndromedaUsers
+                //            join mus in entitiesContext.MyAndromedaUserStores
+                //                on u.Id equals mus.MyAndromedaUserId
+                //            join s in entitiesContext.Stores
+                //                on mus.StoreId equals s.Id
+                //            where u.Id == myAndromedaUserId
+                //            select s;
+                var query2 = entitiesContext.Stores.Where(e => e.MyAndromedaUserStores.Any(mapping => mapping.MyAndromedaUserId == myAndromedaUserId));
 
                 if (query2 != null && query2.Count() > 0)
                 {
