@@ -19,5 +19,7 @@ namespace MyAndromedaDataAccess.Domain
         public bool IsOpen { get; set; }
         public int EstDelivTime { get; set; }
         public string ExternalSiteId { get; set; }
+
+        public int ChainId { get; set; }
     }
 }

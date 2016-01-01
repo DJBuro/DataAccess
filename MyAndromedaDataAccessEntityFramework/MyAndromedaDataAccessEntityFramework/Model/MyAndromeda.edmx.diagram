@@ -4,11 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="78">
+      <Diagram DiagramId="87217f06efc94d71a0ab5782d1ef0c2c" Name="Diagram1" ZoomLevel="70">
         <EntityTypeShape EntityType="MyAndromedaModel.CustomerRecord" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="3.25" PointY="0.75" />
-        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="6.6855895643521048" PointY="8.54088321725879" />
-      </Diagram>
+        <EntityTypeShape EntityType="MyAndromedaModel.sysdiagram" Width="1.5" PointX="4.90383597319193" PointY="7.32772784276294" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignAudit" Width="1.5" PointX="8.875" PointY="3.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSite" Width="1.5" PointX="11.875" PointY="4.75" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaign" Width="1.5" PointX="11.125" PointY="0.875" />
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" />
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSentEmail" Width="1.5" PointX="5.125" PointY="2" />
+        <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" />
+        <EntityTypeShape EntityType="MyAndromedaModel.EmailCampaignSetting" Width="1.5" PointX="11.401005372126123" PointY="20.542100796728441" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

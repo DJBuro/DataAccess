@@ -12,13 +12,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class EmailCampaignSetting
+    public partial class sysdiagram
     {
-        public int Id { get; set; }
-        public string Host { get; set; }
-        public Nullable<int> Port { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public Nullable<int> ChainId { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
