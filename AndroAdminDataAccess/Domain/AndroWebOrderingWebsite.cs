@@ -36,7 +36,7 @@ namespace AndroAdminDataAccess.Domain
         public IList<AndroWebOrderingSubscriptionType> SubscriptionsList { set; get; }
         public string UpdatedMappedStoreIds { set; get; }
 
-        public string Settings { get; set; }
+        public string LiveSettings { get; set; }
         public string PreviewSettings { get; set; }
         public string PreviewDomainName { get; set; }
         public int? ThemeId { get; set; }
