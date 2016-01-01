@@ -310,8 +310,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     storeEntity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
                     storeEntity.StoreStatusId = store.StoreStatus.Id;
                     storeEntity.DataVersion = newVersion;
-                    storeEntity.ExternalId = store.ExternalSiteId;
-                    storeEntity.ExternalSiteName = storeEntity.ExternalSiteName;
+                    storeEntity.ExternalId = storeEntity.ExternalId; // *** Needs to be changed to store when this can be changed
+                    storeEntity.ExternalSiteName = storeEntity.ExternalSiteName; // *** Needs to be changed to store when this can be changed
                     storeEntity.Telephone = storeEntity.Telephone;
                     storeEntity.TimeZone = storeEntity.TimeZone;
 
