@@ -16,29 +16,29 @@ namespace AndroUsersDataAccess.Domain
         /// <summary>
         /// First name
         /// </summary>
-        [Required(ErrorMessage = "Please enter a name")]
-        [StringLength(255, ErrorMessage = "Max 255 characters")]
+        [Required(ErrorMessage = "Please enter a first name")]
+        [StringLength(10, ErrorMessage = "Max 10 characters")]
         public virtual string FirstName { get; set; }
 
         /// <summary>
         /// Surname
         /// </summary>
-        [Required(ErrorMessage = "Please enter a name")]
-        [StringLength(255, ErrorMessage = "Max 255 characters")]
+        [Required(ErrorMessage = "Please enter a surname")]
+        [StringLength(20, ErrorMessage = "Max 20 characters")]
         public virtual string SurName { get; set; }
 
         /// <summary>
         /// Password
         /// </summary>
-        [Required(ErrorMessage = "Please enter a name")]
-        [StringLength(255, ErrorMessage = "Max 255 characters")]
+        [Required(ErrorMessage = "Please enter a password")]
+        [StringLength(20, ErrorMessage = "Max 20 characters")]
         public virtual string Password { get; set; }
 
         /// <summary>
         /// Email address
         /// </summary>
-        [Required(ErrorMessage = "Please enter a name")]
-        [StringLength(255, ErrorMessage = "Max 255 characters")]
+        [Required(ErrorMessage = "Please enter an email address")]
+        [StringLength(50, ErrorMessage = "Max 50 characters")]
         public virtual string EmailAddress { get; set; }
 
         /// <summary>
@@ -49,8 +49,13 @@ namespace AndroUsersDataAccess.Domain
         /// <summary>
         /// Created
         /// </summary>
-        [Required(ErrorMessage = "Please enter a name")]
-        [StringLength(255, ErrorMessage = "Max 255 characters")]
         public virtual DateTime Created { get; set; }
+
+        public List<SecurityGroup> SecurityGroups { get; set; }
+
+        public AndroUser()
+        {
+            this.SecurityGroups = new List<SecurityGroup>();
+        }
     }
 }
