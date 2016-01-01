@@ -142,7 +142,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
             return deliveryzoneName;
         }
 
-        //Delivery zones by Radius methods
+        //Deliveryzones by Radius methods
         public bool SaveDeliveryZones(DeliveryZoneName deliveryZoneEntity)
         {
             try
@@ -174,44 +174,22 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
         {
             var newDataVersion = dataContext.GetNextDataVersionForEntity();
 
-            foreach (var model in entity.PostCodeSectors) 
+            List<PostCodeSector> existingPostCodeSectors = dataContext.PostCodeSectors.Where(pc => pc.DeliveryZoneId == entity.Id).ToList();
+            entity.PostCodeSectors.ToList().ForEach(f => f.DataVersion = newDataVersion);
+            if (existingPostCodeSectors != null && existingPostCodeSectors.Count() > 0)
             {
-                model.DataVersion = newDataVersion;
+                foreach (var item in existingPostCodeSectors)
+                {
+                    var pcExisting = entity.PostCodeSectors.Where(pc => pc.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                    if (pcExisting == null)
+                    {
+                        dataContext.PostCodeSectors.Remove(item);
+                    }
+                    else {
+                        pcExisting.DataVersion = newDataVersion;
+                    }
+                }
             }
-
-            var existingPostCodeSectors = dataContext.PostCodeSectors.Where(pc => pc.DeliveryZoneId == entity.Id).ToList();
-            
-            foreach (var model in existingPostCodeSectors) 
-            {
-                //check for any that don't exist anymore.
-                //if (!entity.PostCodeSectors.Any(e => e.Id == model.Id)) 
-                //{
-                //    model.IsSelected = false;
-                //}
-
-                //model.DataVersion = newDataVersion;
-
-                dataContext.PostCodeSectors.Remove(model);
-            }
-
-            dataContext.SaveChanges();
-
-            //List<PostCodeSector> 
-
-            //if (existingPostCodeSectors != null && existingPostCodeSectors.Count() > 0)
-            //{
-            //    foreach (var item in existingPostCodeSectors)
-            //    {
-            //        var pcExisting = entity.PostCodeSectors.Where(pc => pc.PostCodeSector1.Equals(item.PostCodeSector1, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            //        if (pcExisting == null)
-            //        {
-            //            dataContext.PostCodeSectors.Remove(item);
-            //        }
-            //        else {
-            //            pcExisting.DataVersion = newDataVersion;
-            //        }
-            //    }
-            //}
             //foreach (PostCodeSector item in entity.PostCodeSectors)
             //{
             //    item.DataVersion = newDataVersion;
@@ -233,8 +211,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.DeliveryZone
             //        deliveryZone.PostCodeSectors.Add(item);
             //    }
             //}
-
-            
+            dataContext.SaveChanges();
         }
 
         public void CreateDeliveryZones(DeliveryZoneName deliveryzoneName)

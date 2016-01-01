@@ -91,7 +91,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             foreach (CloudSyncModel.PostCodeSector postCodeSector in postCodeSectors)
             {
-                var storeId = Convert.ToString(postCodeSector.StoreId); 
+                var storeId = Convert.ToString(postCodeSector.StoreId);
                 var site = acsEntities.Sites.Where(s => s.ExternalId.Equals(storeId, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                 var acsDeliveryArea = acsEntities.DeliveryAreas.Where(d => d.DeliveryArea1 == postCodeSector.PostCodeSectorName && d.SiteId == site.ID).FirstOrDefault();
                 if ((!postCodeSector.IsSelected) && acsDeliveryArea != null)
@@ -99,7 +99,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     acsEntities.DeliveryAreas.Remove(acsDeliveryArea);
                 }
                 else if (acsDeliveryArea == null && postCodeSector.IsSelected)
-                {                                       
+                {
                     if (site != null)
                     {
                         acsEntities.DeliveryAreas.Add(new AndroCloudDataAccessEntityFramework.Model.DeliveryArea { DeliveryArea1 = postCodeSector.PostCodeSectorName, SiteId = site.ID, Id = Guid.NewGuid() });
@@ -108,6 +108,41 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             }
             acsEntities.SaveChanges();
+
+            var siteIds = postCodeSectors.Select(s => s.StoreId).Distinct().ToList();
+            List<Model.DeliveryArea> removeDelAreas = new List<Model.DeliveryArea>();
+            if (siteIds != null && siteIds.Count() > 0)
+            {
+                foreach (var siteId in siteIds)
+                {
+                    var storeId = Convert.ToString(siteId);
+                    var site = acsEntities.Sites.Where(s => s.ExternalId.Equals(storeId, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                    var deliveryAreas = acsEntities.DeliveryAreas.Where(d => d.SiteId == site.ID).ToList();
+
+                    foreach (var delArea in deliveryAreas)
+                    {                        
+                        var postCode = postCodeSectors.Where(p => p.PostCodeSectorName.Equals(delArea.DeliveryArea1, StringComparison.CurrentCultureIgnoreCase) && p.StoreId == new Guid(site.ExternalId)).FirstOrDefault();
+
+                        if (postCode == null)
+                        {
+                            removeDelAreas.Add(delArea);
+                        }
+
+                    }
+
+                }
+            }
+
+            if (removeDelAreas != null && removeDelAreas.Count() > 0)
+            {
+                foreach (var removeDelArea in removeDelAreas)
+                {
+                    var removeEntity = acsEntities.DeliveryAreas.Where(d => d.Id == removeDelArea.Id).FirstOrDefault();
+                    acsEntities.DeliveryAreas.Remove(removeEntity);
+                }
+                acsEntities.SaveChanges();
+            }
+
         }
 
         private void SyncDeliveryAreas(ACSEntities acsEntities, IList<CloudSyncModel.DeliveryArea> deliveryAreas)
