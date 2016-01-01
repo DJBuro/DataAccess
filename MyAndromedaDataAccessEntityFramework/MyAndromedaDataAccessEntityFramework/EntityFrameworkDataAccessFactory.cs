@@ -45,5 +45,11 @@ namespace MyAndromedaDataAccessEntityFramework
             get { return new SiteDetailsDataAccess(); }
             set { throw new NotImplementedException(); }
         }
+
+        public MyAndromedaDataAccess.DataAccess.ICountryDataAccess CountryDataAccess
+        {
+            get { return new CountryDataAccess(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
