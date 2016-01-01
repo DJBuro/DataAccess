@@ -14,5 +14,6 @@ namespace AndroCloudDataAccess
         IPartnersDataAccess PartnerDataAccess { get; set; }
         IChainsDataAccess ChainDataAccess { get; set; }
         ISiteMenuDataAccess SiteMenuDataAccess { get; set; }
+        ISiteDetailsDataAccess SiteDetailsDataAccess { get; set; }
     }
 }

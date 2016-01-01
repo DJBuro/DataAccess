@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\ISiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\IChainsDataAccess.cs" />
     <Compile Include="DataAccess\IPartnersDataAccess.cs" />
     <Compile Include="DataAccess\IAuditDataAccess.cs" />
@@ -57,11 +59,14 @@
     <Compile Include="DataAccess\ISiteMenuDataAccess.cs" />
     <Compile Include="DataAccess\ISiteDataAccess.cs" />
     <Compile Include="Domain\ACSQueue.cs" />
+    <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\SiteDetails.cs" />
     <Compile Include="Domain\Group.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Partner.cs" />
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\SiteMenu.cs" />
+    <Compile Include="Domain\TimeSpanBlock.cs" />
     <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,6 +9,5 @@ namespace AndroCloudDataAccess.Domain
     {
         public Guid ID { get; set; }
         public string Status { get; set; }
-
     }
 }
