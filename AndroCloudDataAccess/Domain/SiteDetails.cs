@@ -41,7 +41,6 @@ namespace AndroCloudDataAccess.Domain
         public string Phone { get; set; }
 
         [JsonProperty(PropertyName = "address", NullValueHandling=NullValueHandling.Ignore)]
-
         public Address Address { get; set; }
 
         [JsonProperty(PropertyName = "openingHours", NullValueHandling = NullValueHandling.Ignore)]
