@@ -56,5 +56,26 @@ namespace AndroAdminDataAccess.nHibernate.DataAccess
 
             return store;
         }
+
+        public AndroAdminDataAccess.Domain.Store GetByAndromedaId(int andromedaStoreId)
+        {
+            IList<Store> stores = null;
+
+            using (ISession session = nHibernateHelper.SessionFactory.OpenSession())
+            {
+                stores = session.CreateQuery("from " + typeof(AndroAdminDataAccess.Domain.Store) + " where AndromedaSiteId=:andromedaSiteId")
+                    .SetParameter("andromedaSiteId", andromedaStoreId)
+                    .List<Store>();
+            }
+
+            Store store = null;
+
+            if (stores.Count == 1)
+            {
+                store = stores[0];
+            }
+
+            return store;
+        }
     }
 }

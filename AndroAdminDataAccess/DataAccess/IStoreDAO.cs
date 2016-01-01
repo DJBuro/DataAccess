@@ -12,5 +12,6 @@ namespace AndroAdminDataAccess.DataAccess
         void Add(Store store);
         void Update(Store store);
         Store GetById(int id);
+        Store GetByAndromedaId(int id);
     }
 }
