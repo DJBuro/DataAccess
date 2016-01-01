@@ -7,6 +7,6 @@ namespace AndroCloudDataAccess.DataAccess
     public interface ISyncDataAccess
     {
         string ConnectionStringOverride { get; set; }
-        string Sync(SyncModel syncModel);
+        string Sync(SyncModel syncModel, Action<string> successAction, Action<string> failureAction);
     }
 }
