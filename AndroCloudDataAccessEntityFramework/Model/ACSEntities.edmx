@@ -211,7 +211,7 @@
           <Property Name="Thread" Type="nvarchar" MaxLength="255" />
           <Property Name="Level" Type="nvarchar" MaxLength="50" />
           <Property Name="Logger" Type="nvarchar" MaxLength="255" />
-          <Property Name="Message" Type="nvarchar" />
+          <Property Name="Message" Type="nvarchar(max)" />
           <Property Name="Exception" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="ACSQueue">
@@ -1087,7 +1087,7 @@
           <Property Type="String" Name="Thread" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Level" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Logger" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Message" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Message" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Exception" MaxLength="2000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ACSQueue">
