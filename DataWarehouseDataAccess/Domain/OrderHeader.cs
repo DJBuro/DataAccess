@@ -14,5 +14,6 @@ namespace DataWarehouseDataAccess.Domain
         public string Id { get; set;}
         public DateTime ForDateTime { get; set;}
         public int Status { get; set; }
+        public string Driver { get; set; }
     }
 }
