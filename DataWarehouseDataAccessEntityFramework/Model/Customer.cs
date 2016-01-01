@@ -21,6 +21,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
             this.OrderHeaders = new HashSet<OrderHeader>();
             this.PasswordResetRequests = new HashSet<PasswordResetRequest>();
             this.UsedVouchers = new HashSet<UsedVoucher>();
+            this.CustomerLoyalties = new HashSet<CustomerLoyalty>();
         }
     
         public System.Guid ID { get; set; }
@@ -39,5 +40,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public virtual ICollection<OrderHeader> OrderHeaders { get; set; }
         public virtual ICollection<PasswordResetRequest> PasswordResetRequests { get; set; }
         public virtual ICollection<UsedVoucher> UsedVouchers { get; set; }
+        public virtual ICollection<CustomerLoyalty> CustomerLoyalties { get; set; }
     }
 }

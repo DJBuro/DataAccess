@@ -13,5 +13,6 @@ namespace DataWarehouseDataAccess.DataAccess
         string Exists(string username, int applicationId, out bool exists);
         string AddCustomer(string username, string password, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
         string UpdateCustomer(string username, string password, string newPassword, int applicationId, DataWarehouseDataAccess.Domain.Customer customer);
+        string UpdateCustomerLoyalty(string username, int applicationId, DataWarehouseDataAccess.Domain.CustomerLoyalty customerLoyalty);
     }
 }

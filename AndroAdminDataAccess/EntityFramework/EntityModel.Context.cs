@@ -66,5 +66,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<StoreLoyalty> StoreLoyalties { get; set; }
     }
 }

@@ -56,6 +56,10 @@
         <AssociationConnector Association="ACSModel.FK_Devices_ExternalApi" />
         <AssociationConnector Association="ACSModel.FK_SiteDevices_Devices" />
         <AssociationConnector Association="ACSModel.FK_SiteDevices_Sites" />
+        <EntityTypeShape EntityType="ACSModel.SiteLoyalty" Width="1.5" PointX="7.5" PointY="19.75" />
+        <EntityTypeShape EntityType="ACSModel.SitesOffline" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ACSModel.sysdiagram" Width="1.5" PointX="13.375" PointY="9.75" />
+        <AssociationConnector Association="ACSModel.FK_SiteLoyalty_Sites" />
         </Diagram>
       <Diagram DiagramId="a0dcccb03707476f90349de2c058e74d" Name="Menu" >
       </Diagram>

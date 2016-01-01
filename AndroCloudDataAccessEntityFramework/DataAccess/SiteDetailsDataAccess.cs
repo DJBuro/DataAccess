@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
 using AndroCloudDataAccess.Domain;
 using AndroCloudHelper;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using Newtonsoft.Json;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -22,7 +25,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from site in acsEntities.Sites
+                var sitesQuery = from site in acsEntities.Sites.Include(e=>e.SiteLoyalties)
                                  join siteStatus in acsEntities.SiteStatuses
                                    on site.SiteStatusID equals siteStatus.ID
                                  join spp in acsEntities.StorePaymentProviders
@@ -44,6 +47,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      site.Address,
                                      site.OpeningHours,
                                      site.Telephone,
+                                     site.SiteLoyalties,
                                      ProviderName = (spp3 == null ? "" : spp3.ProviderName),
                                      ClientId = (spp3 == null ? "" : spp3.ClientId),
                                      ClientPassword = (spp3 == null ? "" : spp3.ClientPassword)
@@ -114,6 +118,34 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
 
                         siteDetails.OpeningHours.Add(timeSpanBlock);
+                    }
+                }
+                siteDetails.SiteLoyalties = new List<AndroCloudDataAccess.Domain.SiteLoyalty>();
+                if (siteEntity.SiteLoyalties != null)
+                {
+                    foreach (var config in siteEntity.SiteLoyalties)
+                    {
+                        AndroCloudDataAccess.Domain.SiteLoyalty siteConfig = new AndroCloudDataAccess.Domain.SiteLoyalty();
+                        siteConfig.Id = config.Id;
+                        siteConfig.SiteId = config.SiteId;
+                        siteConfig.Configuration = config.Configuration;
+                        siteConfig.ProviderName = config.ProviderName;
+                        if (!string.IsNullOrEmpty(config.Configuration))
+                        {
+                            siteConfig.ConfigurationTypes = new LoyaltyConfiguration();
+                            //try
+                            //{
+                                siteConfig.ConfigurationTypes = JsonConvert.DeserializeObject<LoyaltyConfiguration>(config.Configuration);
+                            //}
+                            //catch (Exception ex)
+                            //{ 
+                            //    // log - 
+                            //}
+                        }
+                        if (siteConfig.ConfigurationTypes != null && siteConfig.ConfigurationTypes.isEnabled)
+                        {
+                            siteDetails.SiteLoyalties.Add(siteConfig);
+                        }
                     }
                 }
             }

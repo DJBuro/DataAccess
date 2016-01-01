@@ -73,6 +73,7 @@
     <Compile Include="Domain\Contact.cs" />
     <Compile Include="Domain\CustomerAddress.cs" />
     <Compile Include="Domain\CustomerDAO.cs" />
+    <Compile Include="Domain\CustomerLoyalty.cs" />
     <Compile Include="Domain\OrderLineDAO.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\UsedVoucher.cs" />

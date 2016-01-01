@@ -8,6 +8,9 @@ using AndroCloudDataAccessEntityFramework.Model;
 using AndroCloudDataAccess.Domain;
 using AndroCloudWCFHelper;
 using AndroCloudHelper;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using Newtonsoft.Json;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -34,7 +37,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 if (deliveryZoneFilter == null || deliveryZoneFilter.Length == 0)
                 {
                     // Don't filter by delivery zone
-                    var sitesQuery = from s in acsEntities.Sites
+                    var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                      join acss in acsEntities.ACSApplicationSites
                                        on s.ID equals acss.SiteId
                                      join a in acsEntities.ACSApplications
@@ -108,6 +111,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             site.ExternalId = siteEntity.ExternalId;
                             site.LicenceKey = siteEntity.LicenceKey;
                             site.AndroId = siteEntity.AndroID;
+                            GetLoyaltyConfiguration(site, siteEntity);
 
                             sites.Add(site);
                         }
@@ -197,6 +201,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             site.ExternalId = siteEntity.ExternalId;
                             site.LicenceKey = siteEntity.LicenceKey;
                             site.AndroId = siteEntity.AndroID;
+                            GetLoyaltyConfiguration(site, siteEntity);
 
                             sites.Add(site);
                         }
@@ -215,7 +220,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
+                var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID
                                  where s.ID == siteId
@@ -234,6 +239,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
                     site.AndroId = siteEntity.AndroID;
+                    GetLoyaltyConfiguration(site, siteEntity);
                 }
             }
 
@@ -248,7 +254,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
+                var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID
                                  where s.ExternalId == externalSiteId
@@ -267,6 +273,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
                     site.AndroId = siteEntity.AndroID;
+                    GetLoyaltyConfiguration(site, siteEntity);
                 }
             }
 
@@ -281,7 +288,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
+                var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID
                                  where s.AndroID == andromedaSiteId
@@ -300,6 +307,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
                     site.AndroId = siteEntity.AndroID;
+                    GetLoyaltyConfiguration(site, siteEntity);
                 }
             }
 
@@ -314,7 +322,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
+                var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join ss in acsEntities.SiteStatuses
                                    on s.SiteStatusID equals ss.ID
                                  where s.AndroID == andromedaSiteId
@@ -332,6 +340,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
                     site.AndroId = siteEntity.AndroID;
+                    GetLoyaltyConfiguration(site, siteEntity);
                 }
             }
 
@@ -346,7 +355,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
 
-                var sitesQuery = from s in acsEntities.Sites
+                var sitesQuery = from s in acsEntities.Sites.Include(e => e.SiteLoyalties)
                                  join acss in acsEntities.ACSApplicationSites
                                    on s.ID equals acss.SiteId
                                  join a in acsEntities.ACSApplications
@@ -358,7 +367,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                  where a.Id == applicationId
                                    && s.ID == siteId
                                    && ss.Status == "Live"
-                                 select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.AndroID };
+                                 select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.AndroID, s.SiteLoyalties };
 
        //         string x = ((ObjectQuery)sitesQuery).ToTraceString();
        //         Console.WriteLine(x);
@@ -376,6 +385,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site.ExternalId = siteEntity.ExternalId;
                     site.LicenceKey = siteEntity.LicenceKey;
                     site.AndroId = siteEntity.AndroID;
+                    GetLoyaltyConfiguration(site, siteEntity);
                 }
             }
 
@@ -403,6 +413,45 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             }
 
             return "";
+        }
+
+        private void GetLoyaltyConfiguration(AndroCloudDataAccess.Domain.Site site, dynamic siteEntity)
+        {
+            site.SiteLoyalties = new List<AndroCloudDataAccess.Domain.SiteLoyalty>();
+            try
+            {
+                if (siteEntity.SiteLoyalties != null)
+                {
+                    foreach (var config in siteEntity.SiteLoyalties)
+                    {
+                        AndroCloudDataAccess.Domain.SiteLoyalty siteConfig = new AndroCloudDataAccess.Domain.SiteLoyalty();
+                        siteConfig.Id = config.Id;
+                        siteConfig.SiteId = config.SiteId;
+                        siteConfig.Configuration = config.Configuration;
+                        siteConfig.ProviderName = config.ProviderName;
+                        if (!string.IsNullOrEmpty(config.Configuration))
+                        {
+                            siteConfig.ConfigurationTypes = new LoyaltyConfiguration();
+                            //try
+                            //{
+                                siteConfig.ConfigurationTypes = JsonConvert.DeserializeObject<LoyaltyConfiguration>(config.Configuration);
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    // log - 
+                            //}
+                        }
+                        if (siteConfig.ConfigurationTypes != null && siteConfig.ConfigurationTypes.isEnabled)
+                        {
+                            site.SiteLoyalties.Add(siteConfig);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            { 
+                // log - 
+            }
         }
     }
 }
