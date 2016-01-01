@@ -110,6 +110,10 @@
     </None>
     <None Include="App.Config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQLScripts\TestData.sql" />
+    <Content Include="SQLScripts\Upgrade_0_1.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
