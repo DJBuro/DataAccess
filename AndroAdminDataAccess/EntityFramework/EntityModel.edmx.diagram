@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingTheme" Width="1.5" PointX="6" PointY="32.625" />
         <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingWebsite" Width="1.5" PointX="8.25" PointY="24.25" />
         <EntityTypeShape EntityType="AndroAdminModel.Chain" Width="1.5" PointX="12.75" PointY="17.125" />
-        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="15" PointY="20.5" />
         <EntityTypeShape EntityType="AndroAdminModel.Country" Width="1.5" PointX="6" PointY="16.5" />
         <EntityTypeShape EntityType="AndroAdminModel.Day" Width="1.5" PointX="13.5" PointY="31.625" />
         <EntityTypeShape EntityType="AndroAdminModel.DeliveryArea" Width="1.5" PointX="12.75" PointY="40.75" />
@@ -58,8 +57,6 @@
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK__Chain__MasterMen__671F4F74" />
-        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
-        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
         <AssociationConnector Association="AndroAdminModel.FK_FTPSiteChain_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK_Store_Chain" />
         <AssociationConnector Association="AndroAdminModel.FK_OpeningHour_Day" />
@@ -88,6 +85,9 @@
         <AssociationConnector Association="AndroAdminModel.StoreHostsV2" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreLoyalty" Width="1.5" PointX="12.75" PointY="46.625" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreLoyalty_Store" />
+        <EntityTypeShape EntityType="AndroAdminModel.ChainChain" Width="1.5" PointX="15" PointY="20.75" />
+        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain" />
+        <AssociationConnector Association="AndroAdminModel.FK_ChainChain_Chain1" />
       </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />

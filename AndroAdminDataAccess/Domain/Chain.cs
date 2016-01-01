@@ -8,10 +8,11 @@ namespace AndroAdminDataAccess.Domain
 {
     public class Chain
     {
-        public virtual int Id { get; set; }
+        public virtual int? Id { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual int? MasterMenuId { set; get; }
+        public virtual int? ParentChainId { get; set; }
 
         public IList<Store> Stores { set; get; }
     }

@@ -18,10 +18,10 @@ namespace AndroAdminDataAccess.EntityFramework
         {
             this.AMSServerChains = new HashSet<AMSServerChain>();
             this.AndroWebOrderingWebsites = new HashSet<AndroWebOrderingWebsite>();
-            this.ChainChains = new HashSet<ChainChain>();
-            this.ChainChains1 = new HashSet<ChainChain>();
             this.FTPSiteChains = new HashSet<FTPSiteChain>();
             this.Stores = new HashSet<Store>();
+            this.ChainChains = new HashSet<ChainChain>();
+            this.ChainChains1 = new HashSet<ChainChain>();
         }
     
         public int Id { get; set; }
@@ -33,9 +33,9 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<AMSServerChain> AMSServerChains { get; set; }
         public virtual ICollection<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
         public virtual Store Store { get; set; }
-        public virtual ICollection<ChainChain> ChainChains { get; set; }
-        public virtual ICollection<ChainChain> ChainChains1 { get; set; }
         public virtual ICollection<FTPSiteChain> FTPSiteChains { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual ICollection<ChainChain> ChainChains { get; set; }
+        public virtual ICollection<ChainChain> ChainChains1 { get; set; }
     }
 }

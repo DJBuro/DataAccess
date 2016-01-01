@@ -35,7 +35,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<AndroWebOrderingTheme> AndroWebOrderingThemes { get; set; }
         public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
         public DbSet<Chain> Chains { get; set; }
-        public DbSet<ChainChain> ChainChains { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<DeliveryArea> DeliveryAreas { get; set; }
@@ -67,5 +66,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<StoreStatu> StoreStatus { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<StoreLoyalty> StoreLoyalties { get; set; }
+        public DbSet<ChainChain> ChainChains { get; set; }
     }
 }
