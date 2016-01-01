@@ -21,8 +21,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             {
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
-                var query = from s in entitiesContext.AMSServers
-                            select s;
+                var table = entitiesContext.AMSServers; 
+                var query = table;
 
                 foreach (var entity in query)
                 {
@@ -157,11 +157,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 }
 
                 // Delete the StoreAMSServer objects that reference the AMS server
-                var storeAMSServerQuery = from s in entitiesContext.StoreAMSServers
-                                          where s.AMSServerId == amsServerId
-                                          select s;
+                var storeAmsServerQuery = entitiesContext.StoreAMSServers.Where(s => s.AMSServerId == amsServerId);
 
-                foreach (var entity in storeAMSServerQuery)
+                foreach (var entity in storeAmsServerQuery)
                 {
                     entitiesContext.StoreAMSServers.Remove(entity);
                 }
