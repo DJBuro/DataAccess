@@ -109,7 +109,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
           <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="Surname" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="AddressId" Type="int" />
           <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="ACSAplicationId" Type="int" Nullable="false" />
@@ -185,7 +185,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_Address">
-          <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="1" />
+          <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="0..1" />
           <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
@@ -312,7 +312,7 @@
           <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Surname" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="Int32" Name="AddressId" />
           <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ACSAplicationId" Nullable="false" />
@@ -356,7 +356,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_Address">
-          <End Type="DataWarehouseModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="DataWarehouseModel.Address" Role="Address" Multiplicity="0..1" />
           <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
