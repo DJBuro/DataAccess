@@ -30,6 +30,12 @@ namespace MyAndromedaDataAccess.Domain
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the master menu id.
+        /// </summary>
+        /// <value>The master menu id.</value>
+        public int? MasterMenuId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
