@@ -63,5 +63,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<AndroWebOrderingSubscriptionType> AndroWebOrderingSubscriptionTypes { get; set; }
         public DbSet<AndroWebOrderingWebsite> AndroWebOrderingWebsites { get; set; }
+        public DbSet<AndroWebOrderingTheme> AndroWebOrderingThemes { get; set; }
     }
 }

@@ -80,6 +80,7 @@
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" />
+        <EntityTypeShape EntityType="AndroAdminModel.AndroWebOrderingTheme" Width="1.5" PointX="10.375" PointY="0.75" />
         </Diagram>
       <Diagram DiagramId="b341a706a97640609b36ecf37b7b603d" Name="Hosts" >
         <EntityTypeShape EntityType="AndroAdminModel.HubAddress" Width="1.5" PointX="3" PointY="0.75" />
