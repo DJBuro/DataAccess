@@ -23,7 +23,7 @@ namespace AndroAdminDataAccess.EntityFramework.Extensions
         {
             return new Domain.StoreHub()
             {
-                Hub = hub,
+                HubAddressId = hub.Id,
                 StoreExternalId = store.ExternalId
             };
         }

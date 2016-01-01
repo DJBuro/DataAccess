@@ -68,10 +68,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             foreach (var hubthing in hubUpdates.SiteHubHardwareKeyResets) 
             {
                 var store = acsEntities.Sites
-                    .Where(e => e.ExternalId == hubthing.ExternalSiteId).SingleOrDefault();
+                    .Where(e => e.ExternalId == hubthing.ExternalSiteId)
+                    .SingleOrDefault();
 
                 if (store == null)
-                    continue; //she doesn't exist anymore? 
+                    continue; //she doesn't exist anymore; how is this ? 
 
                 store.HardwareKey = null;
                 acsEntities.SaveChanges();

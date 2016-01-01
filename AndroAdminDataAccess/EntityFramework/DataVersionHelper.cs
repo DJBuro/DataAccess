@@ -31,6 +31,9 @@ namespace AndroAdminDataAccess.EntityFramework
             // Get a SQL connection from EF
             SqlConnection sqlConnection = (SqlConnection)entitiesContext.Database.Connection;
 
+            if (sqlConnection.State == System.Data.ConnectionState.Closed)
+                sqlConnection.Open();
+
             // We're gonna do this in a SQL command
             SqlCommand command = new SqlCommand();            
             command.Connection = sqlConnection;

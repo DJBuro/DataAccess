@@ -8,12 +8,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
     public class StoreHubDataService : IStoreHubDataService 
     {
-        public void AddTo(AndroAdminDataAccess.Domain.Store store, AndroAdminDataAccess.Domain.HubItem hub)
+        public void AddTo(AndroAdminDataAccess.Domain.Store storeDomainModel, AndroAdminDataAccess.Domain.HubItem hubDomainModel)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities()) 
             {
-                var hubRecord = dbContext.HubAddresses.SingleOrDefault(e => e.Id == hub.Id);
-                var storeRecord = dbContext.Stores.SingleOrDefault(e=> e.Id == store.Id);
+                var hubRecord = dbContext.HubAddresses.SingleOrDefault(e => e.Id == hubDomainModel.Id);
+                var storeRecord = dbContext.Stores.SingleOrDefault(e=> e.Id == storeDomainModel.Id);
                 
                 int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
                 hubRecord.DataVersion = newVersion;
@@ -23,12 +23,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public void RemoveFrom(AndroAdminDataAccess.Domain.Store store, AndroAdminDataAccess.Domain.HubItem hub)
+        public void RemoveFrom(AndroAdminDataAccess.Domain.Store storeDomainModel, AndroAdminDataAccess.Domain.HubItem hubDomainModel)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
-                var hubRecord = dbContext.HubAddresses.SingleOrDefault(e => e.Id == hub.Id);
-                var storeRecord = dbContext.Stores.SingleOrDefault(e => e.Id == store.Id);
+                var hubRecord = dbContext.HubAddresses.SingleOrDefault(e => e.Id == hubDomainModel.Id);
+                var storeRecord = dbContext.Stores.SingleOrDefault(e => e.Id == storeDomainModel.Id);
                 
                 int newVersion = DataVersionHelper.GetNextDataVersion(dbContext);
                 hubRecord.DataVersion = newVersion;
@@ -63,15 +63,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             }
         }
 
-        public IEnumerable<AndroAdminDataAccess.Domain.StoreHub> GetSelectedHubs(AndroAdminDataAccess.Domain.Store store)
+        public IEnumerable<AndroAdminDataAccess.Domain.StoreHub> GetSelectedHubs(AndroAdminDataAccess.Domain.Store storeDomainModel)
         {
             using (var dbContext = new EntityFramework.AndroAdminEntities())
             {
-                var record = dbContext.Stores.Single(e => e.Id == store.Id);
+                var record = dbContext.Stores.Single(e => e.Id == storeDomainModel.Id);
                 var data = record.HubAddresses.ToArray();
 
                 var results = data.Select(e => new AndroAdminDataAccess.Domain.StoreHub() { 
-                    Hub = e.ToDomain(),
+                    HubAddressId = e.Id,
                     StoreExternalId = record.ExternalId
                 }).ToArray();
 
