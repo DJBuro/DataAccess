@@ -205,6 +205,33 @@
     <Compile Include="Domain\Log.cs" />
     <Content Include="EntityFramework\CreateAndroAdminDatabase.sql" />
     <Compile Include="Domain\TimeSpanBlock.cs" />
+    <Compile Include="Domain\WebOrderingSetup\Carousel.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselContainerOptions.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselDealItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselHTMLItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselImageItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselItemType.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselMenuItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CarouselNavigatorOptions.cs" />
+    <Compile Include="Domain\WebOrderingSetup\Checkout.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CheckoutPolicy.cs" />
+    <Compile Include="Domain\WebOrderingSetup\CustomerAccount.cs" />
+    <Compile Include="Domain\WebOrderingSetup\GeneralSettings.cs" />
+    <Compile Include="Domain\WebOrderingSetup\HomePageSettings.cs" />
+    <Compile Include="Domain\WebOrderingSetup\LegalNotices.cs" />
+    <Compile Include="Domain\WebOrderingSetup\MenuPage.cs" />
+    <Compile Include="Domain\WebOrderingSetup\SiteDetails.cs" />
+    <Compile Include="Domain\WebOrderingSetup\SocialNetwork.cs" />
+    <Compile Include="Domain\WebOrderingSetup\SocialNetworkSite.cs" />
+    <Compile Include="Domain\WebOrderingSetup\SocialNetworkSiteSettings.cs" />
+    <Compile Include="Domain\WebOrderingSetup\ThemeSettings.cs" />
+    <Compile Include="Domain\WebOrderingSetup\Title.cs" />
+    <Compile Include="Domain\WebOrderingSetup\UpSelling.cs" />
+    <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategory.cs" />
+    <Compile Include="Domain\WebOrderingSetup\UpSellingMenuCategoryItem.cs" />
+    <Compile Include="Domain\WebOrderingSetup\WebSiteConfigurations.cs" />
+    <Compile Include="Domain\WebOrderingSetup\WebsiteHome.cs" />
     <Compile Include="EntityFramework\ACSApplication.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
