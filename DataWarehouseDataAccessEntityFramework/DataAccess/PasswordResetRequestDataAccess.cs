@@ -39,7 +39,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     {
                         return "Unknown username: " + username;
                     }
-                    else if (customerEntity.CustomerAccount.FacebookId != null)
+                    //else if (customerEntity.CustomerAccount.FacebookId != null)
+                    else if(!string.IsNullOrWhiteSpace(customerEntity.CustomerAccount.FacebookId))
                     {
                         isFacebook = true;
                         return "";
