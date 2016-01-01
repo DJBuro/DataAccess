@@ -31,10 +31,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     (
                         e => new
                         {
-                            e.Id,
+                            e.ID,
                             e.Title,
                             e.FirstName,
-                            e.Surname,
+                            e.LastName,
                             e.Address,
                             Contacts = e.Contacts.Select(contact => new { ContactType = contact.ContactType.Name, MarketingLevel = contact.MarketingLevel.Name, contact.Value }),
                             e.Password,
@@ -62,10 +62,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     customer = new DataWarehouseDataAccess.Domain.Customer()
                     {
-                        Id = entity.Id,
+                        Id = entity.IDId,
                         Title = entity.Title,
                         FirstName = entity.FirstName,
-                        Surname = entity.Surname
+                        Surname = entity.LastName
                     };
 
                     if (entity.Address != null)
@@ -309,7 +309,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         {
                             // Update the customer entity
                             customerEntity.FirstName = customer.FirstName;
-                            customerEntity.Surname = customer.Surname;
+                            customerEntity.LastName = customer.Surname;
                             customerEntity.Title = customer.Title;
 
                             // Does the address need to be updated?
@@ -377,7 +377,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             {
                                 // Remove the customers contacts (easier to delete and then create rather than updating them)
                                 var contactsQuery = from c in dataWarehouseEntities.Contacts
-                                                    where c.CustomerId == customerEntity.Id
+                                                    where c.CustomerId == customerEntity.ID
                                                     select c;
 
                                 // Can't remove items from a collection while iterating through the same collection
@@ -396,7 +396,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                     // Build the contact entity
                                     Model.Contact contactEntity = new Model.Contact()
                                     {
-                                        CustomerId = customerEntity.Id,
+                                        CustomerId = customerEntity.ID,
                                         Value = contact.Value
                                     };
 

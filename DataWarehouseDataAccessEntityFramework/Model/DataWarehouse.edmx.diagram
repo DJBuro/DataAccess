@@ -4,23 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ca6bf338572c4543b104ddc3130b9bdd" Name="Diagram1">
-        <EntityTypeShape EntityType="DataWarehouseModel.AccountType" Width="1.5" PointX="3" PointY="10.5" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Contact" Width="1.5" PointX="7.5" PointY="4.125" />
-        <EntityTypeShape EntityType="DataWarehouseModel.ContactType" Width="1.5" PointX="5.25" PointY="0.75" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Country" Width="1.5" PointX="0.75" PointY="4.375" />
-        <EntityTypeShape EntityType="DataWarehouseModel.MarketingLevel" Width="1.5" PointX="5.25" PointY="8.25" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_ContactType" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_MarketingLevel" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Customer" Width="1.5" PointX="5.25" PointY="3.5" />
+      <Diagram DiagramId="ca6bf338572c4543b104ddc3130b9bdd" Name="Diagram1" ZoomLevel="111">
+        <EntityTypeShape EntityType="DataWarehouseModel.AccountType" Width="1.5" PointX="6.15406515549592" PointY="4.0007137525830014" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Address" Width="1.5" PointX="9.64544076362878" PointY="14.163487232366338" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Contact" Width="1.5" PointX="6.375" PointY="27.375" />
+        <EntityTypeShape EntityType="DataWarehouseModel.ContactType" Width="1.5" PointX="1.5" PointY="25.75" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Country" Width="1.5" PointX="10.888787654642382" PointY="23.853227298638423" />
+        <EntityTypeShape EntityType="DataWarehouseModel.Customer" Width="1.5" PointX="3.0139509472129635" PointY="20.276325473690559" />
+        <EntityTypeShape EntityType="DataWarehouseModel.CustomerAddress" Width="1.5" PointX="0.24271907854951874" PointY="27.444854138160522" />
+        <EntityTypeShape EntityType="DataWarehouseModel.MarketingLevel" Width="1.5" PointX="1.5" PointY="28.375" />
+        <EntityTypeShape EntityType="DataWarehouseModel.modifier" Width="1.5" PointX="9.7466393251654875" PointY="29.150291396840611" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderHeader" Width="1.5" PointX="7.6179128622719618" PointY="22.576456125162753" />
+        <EntityTypeShape EntityType="DataWarehouseModel.OrderLine" Width="1.5" PointX="1.1787321237748172" PointY="23.342465754292192" />
+        <EntityTypeShape EntityType="DataWarehouseModel.PasswordResetRequest" Width="1.5" PointX="0.019809851432130602" PointY="10.907842626286596" />
         <AssociationConnector Association="DataWarehouseModel.FK_Customer_AccountType" />
-        <AssociationConnector Association="DataWarehouseModel.FK_Contact_Customer" />
-        <EntityTypeShape EntityType="DataWarehouseModel.Address" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="DataWarehouseModel.FK_Address_Country" />
         <AssociationConnector Association="DataWarehouseModel.FK_Customer_Address" />
-        <EntityTypeShape EntityType="DataWarehouseModel.PasswordResetRequest" Width="1.5" PointX="2.4466459874280941" PointY="9.5680217936486116" />
-        <AssociationConnector Association="DataWarehouseModel.FK_PasswordResetRequest_Customer" />
-        </Diagram>
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_ContactType" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_MarketingLevel" />
+        <AssociationConnector Association="DataWarehouseModel.FK_CustomerAddress_Customer" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderHeader_Customer1" />
+        <AssociationConnector Association="DataWarehouseModel.FK_modifiers_OrderLines" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Modifiers_Orderlines_Cascade" />
+        <AssociationConnector Association="DataWarehouseModel.FK_OrderLines_OrderHeader" />
+        <AssociationConnector Association="DataWarehouseModel.FK_TABLE_NAME_PARENT_TABLE_NAME" />
+        <AssociationConnector Association="DataWarehouseModel.FK_Contact_Customer" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
