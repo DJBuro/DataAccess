@@ -14,9 +14,14 @@
           <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFTPSitePair" EntityType="AndroAdminModel.Store.StoreAMSServerFTPSitePair" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.Store.StoreStatus" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_FTPSite_FTPSiteType" Association="AndroAdminModel.Store.FK_FTPSite_FTPSiteType">
             <End Role="FTPSiteType" EntitySet="FTPSiteType" />
             <End Role="FTPSite" EntitySet="FTPSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_StoreStatus" Association="AndroAdminModel.Store.FK_Store_StoreStatus">
+            <End Role="StoreStatus" EntitySet="StoreStatus" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreAMSServer_AMSServer" Association="AndroAdminModel.Store.FK_StoreAMSServer_AMSServer">
             <End Role="AMSServer" EntitySet="AMSServer" />
@@ -101,6 +106,7 @@
           <Property Name="AndromedaSiteId" Type="int" Nullable="false" />
           <Property Name="CustomerSiteId" Type="nvarchar" MaxLength="50" />
           <Property Name="LastFTPUploadDateTime" Type="datetime" />
+          <Property Name="StoreStatusId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -130,6 +136,14 @@
           <Property Name="PrimaryFTPSiteId" Type="int" />
           <Property Name="SecondaryFTPSiteId" Type="int" />
         </EntityType>
+        <EntityType Name="StoreStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
         <Association Name="FK_FTPSite_FTPSiteType">
           <End Role="FTPSiteType" Type="AndroAdminModel.Store.FTPSiteType" Multiplicity="1" />
           <End Role="FTPSite" Type="AndroAdminModel.Store.FTPSite" Multiplicity="*" />
@@ -139,6 +153,18 @@
             </Principal>
             <Dependent Role="FTPSite">
               <PropertyRef Name="FTPSiteType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_StoreStatus">
+          <End Role="StoreStatus" Type="AndroAdminModel.Store.StoreStatus" Multiplicity="1" />
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="StoreStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -287,6 +313,11 @@
             <End Role="FTPSite" EntitySet="FTPSites" />
             <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSites" />
           </AssociationSet>
+          <EntitySet Name="StoreStatus1" EntityType="AndroAdminModel.StoreStatus" />
+          <AssociationSet Name="FK_Store_StoreStatus" Association="AndroAdminModel.FK_Store_StoreStatus">
+            <End Role="StoreStatu" EntitySet="StoreStatus1" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AMSServer">
           <Key>
@@ -321,6 +352,8 @@
           <Property Name="LastFTPUploadDateTime" Type="DateTime" />
           <NavigationProperty Name="StoreAMSServerFTPSitePairs" Relationship="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" FromRole="Store" ToRole="StoreAMSServerFTPSitePair" />
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
+          <Property Type="Int32" Name="StoreStatusId" Nullable="false" />
+          <NavigationProperty Name="StoreStatu" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="Store" ToRole="StoreStatu" />
         </EntityType>
         <EntityType Name="StoreAMSServerFTPSitePair">
           <Key>
@@ -493,6 +526,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StoreStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_Store_StoreStatus">
+          <End Type="AndroAdminModel.StoreStatus" Role="StoreStatu" Multiplicity="1" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="StoreStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -524,6 +578,7 @@
           <EntitySetMapping Name="Stores">
             <EntityTypeMapping TypeName="AndroAdminModel.Store">
               <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="StoreStatusId" ColumnName="StoreStatusId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AndromedaSiteId" ColumnName="AndromedaSiteId" />
@@ -586,6 +641,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="StoreStatus1">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreStatus">
+              <MappingFragment StoreEntitySet="StoreStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -608,31 +672,31 @@
     <Diagrams>
       <Diagram Name="EntityModel">
         <EntityTypeShape EntityType="AndroAdminModel.AMSServer" Width="1.5" PointX="3" PointY="5.25" Height="1.9802864583333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="5.625" PointY="6.125" Height="2.3648893229166656" IsExpanded="true" />
-        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="5.5" PointY="1.875" Height="2.3648893229166661" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Log" Width="1.5" PointX="2.125" PointY="7.875" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="AndroAdminModel.Store" Width="1.5" PointX="5.5" PointY="3.375" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFTPSitePair" Width="1.5" PointX="3" PointY="1.375" Height="2.9417936197916656" IsExpanded="true" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_AMSServer" ManuallyRouted="false">
           <ConnectorPoint PointX="3.75" PointY="5.25" />
           <ConnectorPoint PointX="3.75" PointY="4.3167936197916665" />
         </AssociationConnector>
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFTPServerPair_Store" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.5" PointY="3.0574446614583328" />
-          <ConnectorPoint PointX="4.5" PointY="3.0574446614583328" />
+          <ConnectorPoint PointX="5.5" PointY="3.8458968098958328" />
+          <ConnectorPoint PointX="4.5" PointY="3.8458968098958328" />
         </AssociationConnector>
         <EntityTypeShape EntityType="AndroAdminModel.FTPSiteType" Width="1.5" PointX="0.75" PointY="5.25" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="8" PointY="3.625" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="8" PointY="0.875" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServer" Width="1.5" PointX="8" PointY="5" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="AndroAdminModel.StoreAMSServerFtpSite" Width="1.5" PointX="8" PointY="0.5" Height="1.9802864583333317" />
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_AMSServer" >
-          <ConnectorPoint PointX="4.5" PointY="5.6199446614583337" />
-          <ConnectorPoint PointX="8" PointY="5.6199446614583337" />
+          <ConnectorPoint PointX="4.5" PointY="6.7086393229166656" />
+          <ConnectorPoint PointX="8" PointY="6.7086393229166656" />
         </AssociationConnector>
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServer_Store" >
-          <ConnectorPoint PointX="7" PointY="3.9324446614583328" />
-          <ConnectorPoint PointX="8" PointY="3.9324446614583328" />
+          <ConnectorPoint PointX="7" PointY="5.56224609375" />
+          <ConnectorPoint PointX="8" PointY="5.56224609375" />
         </AssociationConnector>
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_StoreAMSServer" >
-          <ConnectorPoint PointX="8.75" PointY="3.625" />
-          <ConnectorPoint PointX="8.75" PointY="2.8552864583333331" />
+          <ConnectorPoint PointX="8.75" PointY="5" />
+          <ConnectorPoint PointX="8.75" PointY="2.4802864583333317" />
         </AssociationConnector>
         <EntityTypeShape EntityType="AndroAdminModel.FTPSite" Width="1.5" PointX="0.75" PointY="1" Height="3.5186979166666674" />
         <AssociationConnector Association="AndroAdminModel.FK_FTPSite_FTPSiteType" >
@@ -648,8 +712,14 @@
           <ConnectorPoint PointX="3" PointY="2.0479484049479169" />
         </AssociationConnector>
         <AssociationConnector Association="AndroAdminModel.FK_StoreAMSServerFtpSite_FTPSite" >
-          <ConnectorPoint PointX="2.25" PointY="1.15625" />
-          <ConnectorPoint PointX="8" PointY="1.15625" />
+          <ConnectorPoint PointX="1.5" PointY="1" />
+          <ConnectorPoint PointX="1.5" PointY="0.74999949999999993" />
+          <ConnectorPoint PointX="8" PointY="0.74999949999999993" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="AndroAdminModel.StoreStatus" Width="1.5" PointX="5.5" PointY="1" Height="1.7879850260416674" />
+        <AssociationConnector Association="AndroAdminModel.FK_Store_StoreStatus" >
+          <ConnectorPoint PointX="6.25" PointY="2.7879850260416674" />
+          <ConnectorPoint PointX="6.25" PointY="3.375" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

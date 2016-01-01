@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="DataAccess\IStoreStatusDAO.cs" />
     <Compile Include="DataAccess\IStoreAMSServerFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreAMSServerDAO.cs" />
     <Compile Include="DataAccess\IFTPSiteTypeDAO.cs" />
@@ -82,11 +83,13 @@
     <Compile Include="DataAccess\IDataAccess.cs" />
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
+    <Compile Include="Domain\StoreStatus.cs" />
     <Compile Include="Domain\StoreAMSServer.cs" />
     <Compile Include="Domain\FTPSiteType.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSite.cs" />
     <Compile Include="Domain\Log.cs" />
     <Compile Include="EntityFramework\DataAccess\AMSServerDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreStatusDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\FtpSiteDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\FtpSiteTypeDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\LogDAO.cs" />
