@@ -12,5 +12,6 @@ namespace AndroCloudDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         string GetByName(string name, out string value);
+        string Update(string name, string value);
     }
 }

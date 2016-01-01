@@ -34,5 +34,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return "";
         }
+
+        public string Update(string name, string value)
+        {
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var query = from p in acsEntities.Settings
+                            where p.Name == name
+                            select p;
+
+                var entity = query.FirstOrDefault();
+
+                if (entity != null)
+                {
+                    entity.Value = value;
+                    acsEntities.SaveChanges();
+                }
+            }
+
+            return "";
+        }
     }
 }
