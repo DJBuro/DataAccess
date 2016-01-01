@@ -5,6 +5,6 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IAuditDataAccess
     {
-        string Add(Guid sourceId, string hardwareId, string ipPort, string action, int responseTime);
+        string Add(string sourceId, string hardwareId, string ipPort, string action, int responseTime);
     }
 }

@@ -8,6 +8,17 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface ISiteDataAccess
     {
-        string Get(Guid securityGuid, Guid? chainGuid, float? maxDistance, float? longitude, float? latitude, out List<Site> sites);
+        string GetByFilter(
+            Guid partnerId,
+            Guid? chainId,
+            float? maxDistance,
+            float? longitude,
+            float? latitude,
+            DataTypeEnum dataType,
+            out List<Site> sites);
+
+        string GetByExternalSiteId(string externalSiteId, out Site site);
+
+        string GetByIdAndPartner(Guid partnerId, Guid siteId, out Site site);
     }
 }
