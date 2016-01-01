@@ -16,6 +16,7 @@
           <EntitySet Name="ChainChain" EntityType="AndroAdminModel.Store.ChainChain" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Country" EntityType="AndroAdminModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Day" EntityType="AndroAdminModel.Store.Day" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DeliveryArea" EntityType="AndroAdminModel.Store.DeliveryArea" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Devices" EntityType="AndroAdminModel.Store.Devices" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="AndroAdminModel.Store.Employee" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ExternalApi" EntityType="AndroAdminModel.Store.ExternalApi" store:Type="Tables" Schema="dbo" />
@@ -26,6 +27,7 @@
           <EntitySet Name="HostAcsApplication" EntityType="AndroAdminModel.Store.HostAcsApplication" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="HostTypes" EntityType="AndroAdminModel.Store.HostTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="HostV2" EntityType="AndroAdminModel.Store.HostV2" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HubAddresses" EntityType="AndroAdminModel.Store.HubAddresses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Log" EntityType="AndroAdminModel.Store.Log" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OpeningHour" EntityType="AndroAdminModel.Store.OpeningHour" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Partner" EntityType="AndroAdminModel.Store.Partner" store:Type="Tables" Schema="dbo" />
@@ -34,6 +36,7 @@
           <EntitySet Name="StoreAMSServer" EntityType="AndroAdminModel.Store.StoreAMSServer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreAMSServerFtpSite" EntityType="AndroAdminModel.Store.StoreAMSServerFtpSite" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreDevices" EntityType="AndroAdminModel.Store.StoreDevices" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreHostsV2" EntityType="AndroAdminModel.Store.StoreHostsV2" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreHostV2ApiCredentials" EntityType="AndroAdminModel.Store.StoreHostV2ApiCredentials" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreHubReset" EntityType="AndroAdminModel.Store.StoreHubReset" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="StoreHubs" EntityType="AndroAdminModel.Store.StoreHubs" store:Type="Tables" Schema="dbo" />
@@ -80,6 +83,10 @@
           <AssociationSet Name="FK_ChainChain_Chain1" Association="AndroAdminModel.Store.FK_ChainChain_Chain1">
             <End Role="Chain" EntitySet="Chain" />
             <End Role="ChainChain" EntitySet="ChainChain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="AndroAdminModel.Store.FK_DeliveryArea_DeliveryArea">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="DeliveryArea" EntitySet="DeliveryArea" />
           </AssociationSet>
           <AssociationSet Name="FK_Devices_ExternalApi" Association="AndroAdminModel.Store.FK_Devices_ExternalApi">
             <End Role="ExternalApi" EntitySet="ExternalApi" />
@@ -149,6 +156,14 @@
             <End Role="StoreAMSServer" EntitySet="StoreAMSServer" />
             <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSite" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreHostsV2_HostV2" Association="AndroAdminModel.Store.FK_StoreHostsV2_HostV2">
+            <End Role="HostV2" EntitySet="HostV2" />
+            <End Role="StoreHostsV2" EntitySet="StoreHostsV2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreHostsV2_Store" Association="AndroAdminModel.Store.FK_StoreHostsV2_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreHostsV2" EntitySet="StoreHostsV2" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreHostV2ApiCredentials_HostV2" Association="AndroAdminModel.Store.FK_StoreHostV2ApiCredentials_HostV2">
             <End Role="HostV2" EntitySet="HostV2" />
             <End Role="StoreHostV2ApiCredentials" EntitySet="StoreHostV2ApiCredentials" />
@@ -160,6 +175,10 @@
           <AssociationSet Name="FK_StoreHubReset_Store" Association="AndroAdminModel.Store.FK_StoreHubReset_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreHubReset" EntitySet="StoreHubReset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreHubs_HubAddresses" Association="AndroAdminModel.Store.FK_StoreHubs_HubAddresses">
+            <End Role="HubAddresses" EntitySet="HubAddresses" />
+            <End Role="StoreHubs" EntitySet="StoreHubs" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreHubs_Store" Association="AndroAdminModel.Store.FK_StoreHubs_Store">
             <End Role="Store" EntitySet="Store" />
@@ -287,6 +306,16 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="DeliveryArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="DeliveryArea" Type="nvarchar" Nullable="false" MaxLength="16" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Devices">
           <Key>
             <PropertyRef Name="Id" />
@@ -390,6 +419,17 @@
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="HubAddresses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Log">
           <Key>
             <PropertyRef Name="id" />
@@ -451,7 +491,7 @@
           <Property Name="AddressId" Type="int" />
           <Property Name="StorePaymentProviderID" Type="int" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
-          <Property Name="ChainId" Type="int" />
+          <Property Name="ChainId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -480,6 +520,14 @@
           <Property Name="Parameters" Type="nvarchar(max)" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="Removed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreHostsV2">
+          <Key>
+            <PropertyRef Name="SiteId" />
+            <PropertyRef Name="HostV2Id" />
+          </Key>
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="HostV2Id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreHostV2ApiCredentials">
           <Key>
@@ -675,6 +723,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DeliveryArea_DeliveryArea">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DeliveryArea" Type="AndroAdminModel.Store.DeliveryArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryArea">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Devices_ExternalApi">
           <End Role="ExternalApi" Type="AndroAdminModel.Store.ExternalApi" Multiplicity="0..1" />
           <End Role="Devices" Type="AndroAdminModel.Store.Devices" Multiplicity="*" />
@@ -802,7 +864,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Store_Chain">
-          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="0..1" />
+          <End Role="Chain" Type="AndroAdminModel.Store.Chain" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Chain">
@@ -885,6 +949,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreHostsV2_HostV2">
+          <End Role="HostV2" Type="AndroAdminModel.Store.HostV2" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreHostsV2" Type="AndroAdminModel.Store.StoreHostsV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HostV2">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreHostsV2">
+              <PropertyRef Name="HostV2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreHostsV2_Store">
+          <End Role="Store" Type="AndroAdminModel.Store.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreHostsV2" Type="AndroAdminModel.Store.StoreHostsV2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreHostsV2">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreHostV2ApiCredentials_HostV2">
           <End Role="HostV2" Type="AndroAdminModel.Store.HostV2" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -922,6 +1014,20 @@
             </Principal>
             <Dependent Role="StoreHubReset">
               <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreHubs_HubAddresses">
+          <End Role="HubAddresses" Type="AndroAdminModel.Store.HubAddresses" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreHubs" Type="AndroAdminModel.Store.StoreHubs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HubAddresses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreHubs">
+              <PropertyRef Name="HubAddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1061,7 +1167,6 @@
           <EntitySet Name="StoreDevices" EntityType="AndroAdminModel.StoreDevice" />
           <EntitySet Name="StoreHostV2ApiCredentials" EntityType="AndroAdminModel.StoreHostV2ApiCredentials" />
           <EntitySet Name="StoreHubResets" EntityType="AndroAdminModel.StoreHubReset" />
-          <EntitySet Name="StoreHubs" EntityType="AndroAdminModel.StoreHub" />
           <AssociationSet Name="FK_Devices_ExternalApi" Association="AndroAdminModel.FK_Devices_ExternalApi">
             <End Role="ExternalApi" EntitySet="ExternalApis" />
             <End Role="Device" EntitySet="Devices" />
@@ -1147,10 +1252,6 @@
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreHubReset" EntitySet="StoreHubResets" />
           </AssociationSet>
-          <AssociationSet Name="FK_StoreHubs_Store" Association="AndroAdminModel.FK_StoreHubs_Store">
-            <End Role="Store" EntitySet="Stores" />
-            <End Role="StoreHub" EntitySet="StoreHubs" />
-          </AssociationSet>
           <AssociationSet Name="FK_StoreMenu_Store" Association="AndroAdminModel.FK_StoreMenu_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreMenu" EntitySet="StoreMenus" />
@@ -1162,6 +1263,20 @@
           <AssociationSet Name="FK_StoreTypes_Store" Association="AndroAdminModel.FK_StoreTypes_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreDevice" EntitySet="StoreDevices" />
+          </AssociationSet>
+          <EntitySet Name="DeliveryAreas" EntityType="AndroAdminModel.DeliveryArea" />
+          <EntitySet Name="HubAddresses" EntityType="AndroAdminModel.HubAddress" />
+          <AssociationSet Name="FK_DeliveryArea_DeliveryArea" Association="AndroAdminModel.FK_DeliveryArea_DeliveryArea">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="DeliveryArea" EntitySet="DeliveryAreas" />
+          </AssociationSet>
+          <AssociationSet Name="StoreHostsV2" Association="AndroAdminModel.StoreHostsV2">
+            <End Role="HostV2" EntitySet="HostV2" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <AssociationSet Name="StoreHubs1" Association="AndroAdminModel.StoreHubs">
+            <End Role="HubAddress" EntitySet="HubAddresses" />
+            <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ACSApplication">
@@ -1546,6 +1661,7 @@
           <NavigationProperty Name="HostType" Relationship="AndroAdminModel.FK_HostV2_HostTypes" FromRole="HostV2" ToRole="HostType" />
           <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="HostV2" ToRole="StoreHostV2ApiCredentials" />
           <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="HostV2" ToRole="ACSApplication" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHostsV2" FromRole="HostV2" ToRole="Store" />
         </EntityType>
         <EntityType Name="StoreDevice">
           <Key>
@@ -1582,15 +1698,6 @@
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <Property Type="DateTime" Name="AddedOn" Nullable="false" Precision="3" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreHubReset_Store" FromRole="StoreHubReset" ToRole="Store" />
-        </EntityType>
-        <EntityType Name="StoreHub">
-          <Key>
-            <PropertyRef Name="HubAddressId" />
-            <PropertyRef Name="StoreId" />
-          </Key>
-          <Property Type="Guid" Name="HubAddressId" Nullable="false" />
-          <Property Type="Int32" Name="StoreId" Nullable="false" />
-          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreHubs_Store" FromRole="StoreHub" ToRole="Store" />
         </EntityType>
         <Association Name="FK_Devices_ExternalApi">
           <End Type="AndroAdminModel.ExternalApi" Role="ExternalApi" Multiplicity="0..1" />
@@ -1760,10 +1867,12 @@
           <NavigationProperty Name="StoreAMSServers" Relationship="AndroAdminModel.FK_StoreAMSServer_Store" FromRole="Store" ToRole="StoreAMSServer" />
           <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_Store" FromRole="Store" ToRole="StoreHostV2ApiCredentials" />
           <NavigationProperty Name="StoreHubResets" Relationship="AndroAdminModel.FK_StoreHubReset_Store" FromRole="Store" ToRole="StoreHubReset" />
-          <NavigationProperty Name="StoreHubs" Relationship="AndroAdminModel.FK_StoreHubs_Store" FromRole="Store" ToRole="StoreHub" />
           <NavigationProperty Name="StoreMenus" Relationship="AndroAdminModel.FK_StoreMenu_Store" FromRole="Store" ToRole="StoreMenu" />
           <NavigationProperty Name="StoreMenuThumbnails" Relationship="AndroAdminModel.FK_StoreMenuThumbnails_Store" FromRole="Store" ToRole="StoreMenuThumbnail" />
           <NavigationProperty Name="StoreDevices" Relationship="AndroAdminModel.FK_StoreTypes_Store" FromRole="Store" ToRole="StoreDevice" />
+          <NavigationProperty Name="DeliveryAreas" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="Store" ToRole="DeliveryArea" />
+          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.StoreHostsV2" FromRole="Store" ToRole="HostV2" />
+          <NavigationProperty Name="HubAddresses" Relationship="AndroAdminModel.StoreHubs" FromRole="Store" ToRole="HubAddress" />
         </EntityType>
         <Association Name="FK_ACSApplicationSite_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
@@ -1923,20 +2032,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StoreHubs_Store">
-          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AndroAdminModel.StoreHub" Role="StoreHub" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Store">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StoreHub">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_StoreMenu_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="0..1" />
           <End Type="AndroAdminModel.StoreMenu" Role="StoreMenu" Multiplicity="*" />
@@ -1976,6 +2071,51 @@
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DeliveryArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="StoreId" Nullable="false" />
+          <Property Type="String" Name="DeliveryArea1" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_DeliveryArea_DeliveryArea" FromRole="DeliveryArea" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="HubAddress">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="Boolean" Name="Removed" Nullable="false" />
+          <Property Type="Int32" Name="DataVersion" Nullable="false" />
+          <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHubs" FromRole="HubAddress" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_DeliveryArea_DeliveryArea">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AndroAdminModel.DeliveryArea" Role="DeliveryArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryArea">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StoreHostsV2">
+          <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="*" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
+        </Association>
+        <Association Name="StoreHubs">
+          <End Type="AndroAdminModel.HubAddress" Role="HubAddress" Multiplicity="*" />
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2277,14 +2417,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StoreHubs">
-            <EntityTypeMapping TypeName="AndroAdminModel.StoreHub">
-              <MappingFragment StoreEntitySet="StoreHubs">
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="HubAddressId" ColumnName="HubAddressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="ACSApplicationHostsV2" TypeName="AndroAdminModel.ACSApplicationHostsV2" StoreEntitySet="ACSApplicationHostsV2">
             <EndProperty Name="HostV2">
               <ScalarProperty Name="Id" ColumnName="HostV2Id" />
@@ -2382,6 +2514,45 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryAreas">
+            <EntityTypeMapping TypeName="AndroAdminModel.DeliveryArea">
+              <MappingFragment StoreEntitySet="DeliveryArea">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="DeliveryArea1" ColumnName="DeliveryArea" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HubAddresses">
+            <EntityTypeMapping TypeName="AndroAdminModel.HubAddress">
+              <MappingFragment StoreEntitySet="HubAddresses">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="StoreHostsV2" TypeName="AndroAdminModel.StoreHostsV2" StoreEntitySet="StoreHostsV2">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="SiteId" />
+            </EndProperty>
+            <EndProperty Name="HostV2">
+              <ScalarProperty Name="Id" ColumnName="HostV2Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreHubs1" TypeName="AndroAdminModel.StoreHubs" StoreEntitySet="StoreHubs">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="HubAddress">
+              <ScalarProperty Name="Id" ColumnName="HubAddressId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

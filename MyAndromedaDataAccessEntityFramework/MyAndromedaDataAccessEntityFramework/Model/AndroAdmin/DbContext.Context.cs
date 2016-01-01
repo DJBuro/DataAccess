@@ -52,11 +52,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public DbSet<StoreDevice> StoreDevices { get; set; }
         public DbSet<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public DbSet<StoreHubReset> StoreHubResets { get; set; }
-        public DbSet<StoreHub> StoreHubs { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<ChainChain> ChainChains { get; set; }
         public DbSet<Chain> Chains { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<DeliveryArea> DeliveryAreas { get; set; }
+        public DbSet<HubAddress> HubAddresses { get; set; }
     }
 }

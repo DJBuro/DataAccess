@@ -21,10 +21,12 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
             this.StoreHostV2ApiCredentials = new HashSet<StoreHostV2ApiCredentials>();
             this.StoreHubResets = new HashSet<StoreHubReset>();
-            this.StoreHubs = new HashSet<StoreHub>();
             this.StoreMenus = new HashSet<StoreMenu>();
             this.StoreMenuThumbnails = new HashSet<StoreMenuThumbnail>();
             this.StoreDevices = new HashSet<StoreDevice>();
+            this.DeliveryAreas = new HashSet<DeliveryArea>();
+            this.HostV2 = new HashSet<HostV2>();
+            this.HubAddresses = new HashSet<HubAddress>();
         }
     
         public int Id { get; set; }
@@ -54,9 +56,11 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
         public virtual ICollection<StoreHostV2ApiCredentials> StoreHostV2ApiCredentials { get; set; }
         public virtual ICollection<StoreHubReset> StoreHubResets { get; set; }
-        public virtual ICollection<StoreHub> StoreHubs { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
         public virtual ICollection<StoreMenuThumbnail> StoreMenuThumbnails { get; set; }
         public virtual ICollection<StoreDevice> StoreDevices { get; set; }
+        public virtual ICollection<DeliveryArea> DeliveryAreas { get; set; }
+        public virtual ICollection<HostV2> HostV2 { get; set; }
+        public virtual ICollection<HubAddress> HubAddresses { get; set; }
     }
 }
