@@ -17,6 +17,7 @@ namespace AndroAdminDataAccess.DataAccess
         void Create(StoreDevice model);
         void Delete(StoreDevice model);
     }
+
     public interface IDevicesDataService 
     {
         /// <summary>
