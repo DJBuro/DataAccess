@@ -34,6 +34,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                 .Where(x => (applicationId == null || x.ApplicationID == applicationId)
                                        && (externalSiteIdList.Count == 0 || externalSiteIdList.Any(s => s.ToLower().Trim().Equals(x.ExternalSiteID.ToLower())))
                                        && ((fromDate == null && toDate == null) || (x.OrderPlacedTime >= fromDate && x.OrderPlacedTime <= toDate)))
+                                .OrderByDescending(x => x.OrderPlacedTime)
+
                             select oh);
 
                 orderMetrics.OrderList = new List<OrderHeaderDAO>();
