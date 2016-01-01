@@ -147,13 +147,13 @@ namespace MyAndromedaDataAccess.Domain.Reporting
         /// Gets or sets the sum price.
         /// </summary>
         /// <value>The sum price.</value>
-        public double SumPrice { get; set; }
+        public decimal SumPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the item price.
         /// </summary>
         /// <value>The item price.</value>
-        public int? ItemPrice { get; set; }
+        public decimal ItemPrice { get; set; }
     }
 
 
