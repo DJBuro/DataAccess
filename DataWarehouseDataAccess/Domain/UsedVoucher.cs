@@ -10,5 +10,6 @@ namespace DataWarehouseDataAccess.Domain
         public System.Guid VoucherId { get; set; }
         public System.Guid CustomerId { get; set; }
         public System.Guid OrderId { get; set; }
+        public VoucherCode Voucher { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace DataWarehouseDataAccess.Domain
         public Nullable<int> ProductID { get; set; }
         public string Description { get; set; }
         public Nullable<int> Qty { get; set; }
-        public Nullable<int> Price { get; set; }
+        public Nullable<double> Price { get; set; }
     }
 }
