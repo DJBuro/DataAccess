@@ -39,13 +39,16 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         { 
             var table = dbContext.SiteMenus;
             var tableQuery = table
-            //.Include(e => e.SiteMenuFtpBackup)
                                   .Include(e => e.SiteMenuFtpBackupDownloadTask)
                                   .Include(e => e.SiteMenuFtpBackupUploadTask)
                                   .Include(e => e.SiteMenuPublishTask)
-                                  .Where(query).ToArray();
+                                  .Where(query)
+                                  .ToArray();
 
-            foreach (var item in tableQuery) { dbContext.FixRelatedTables(item); }
+            foreach (var item in tableQuery) 
+            {
+                dbContext.FixRelatedTables(item); 
+            }
 
             return tableQuery;
         }

@@ -64,21 +64,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
             item.LastModifiedFtpDateUtc = copyFrom.LastModifiedFtpDateUtc;
         }
 
-        public static void Copy(this SiteMenuPublishTask item, SiteMenuPublishTask copyFrom) 
+        public static void Copy(this SiteMenuPublishTask entity, SiteMenuPublishTask model) 
         {
-            item.TryTask = copyFrom.TryTask;
-            item.TaskStarted = copyFrom.TaskStarted;
+            entity.TryTask = model.TryTask;
+            entity.TaskStarted = model.TaskStarted;
+            entity.TaskComplete = model.TaskComplete;
+            entity.LastTriedUtc = model.LastTriedUtc;
+            entity.LastTryCount = model.LastTryCount;
 
-            item.LastStartedUtc = copyFrom.LastStartedUtc;
-            item.LastTriedUtc = copyFrom.LastTriedUtc;
-            item.LastTryCount = copyFrom.LastTryCount;
-
-            item.LastCompletedUtc = copyFrom.LastCompletedUtc;
-            item.TaskComplete = copyFrom.TaskComplete;
-
+            entity.LastStartedUtc = model.LastStartedUtc;
+            entity.LastCompletedUtc = model.LastCompletedUtc;
+            
             //publish specific
-            item.LastKnownFtpSitePublish = copyFrom.LastKnownFtpSitePublish;
-            item.PublishOn = copyFrom.PublishOn;
+            entity.LastKnownFtpSitePublish = model.LastKnownFtpSitePublish;
+
+            entity.PublishOn = model.PublishOn;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         public IEnumerable<Chain> GetChainsForUser(int userId)
         {
             bool failedAtMyAndromeda = false;
-            bool failedAtAndroAdmin = false;
+            //bool failedAtAndroAdmin = false;
 
             IEnumerable<Chain> chains = Enumerable.Empty<Chain>();
 

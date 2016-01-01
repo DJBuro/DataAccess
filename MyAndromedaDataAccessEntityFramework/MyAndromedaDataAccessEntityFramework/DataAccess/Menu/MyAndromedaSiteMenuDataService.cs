@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
@@ -41,8 +39,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             return results;
         }
 
-        
-
         public SiteMenu Create(int andromedaSiteId)
         {
             SiteMenu menu;
@@ -59,30 +55,31 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         {
             using (var dbContext = new MyAndromedaDbContext()) 
             {
-                var result = dbContext.GetMenuWithTasks(siteMenu.AndromediaId);
+                var entity = dbContext.GetMenuWithTasks(siteMenu.AndromediaId);
                 
                 /* update menu details  */ 
-                result.LastUpdatedUtc = siteMenu.LastUpdatedUtc;
-                result.DataVersion = siteMenu.DataVersion;
-                result.AccessMenuVersion = siteMenu.AccessMenuVersion;
+                entity.LastUpdatedUtc = siteMenu.LastUpdatedUtc;
+                entity.DataVersion = siteMenu.DataVersion;
+                entity.AccessMenuVersion = siteMenu.AccessMenuVersion;
 
                 /* update ftp task sections */
-                if (result.SiteMenuFtpBackupDownloadTaskId == 0) 
+                if (entity.SiteMenuFtpBackupDownloadTaskId == 0) 
                 {
-                    result.SiteMenuFtpBackupDownloadTask = new SiteMenuFtpBackupDownloadTask();
+                    entity.SiteMenuFtpBackupDownloadTask = new SiteMenuFtpBackupDownloadTask();
                 }
-                if (result.SiteMenuFtpBackupUploadTaskId == 0) 
+                if (entity.SiteMenuFtpBackupUploadTaskId == 0) 
                 {
-                    result.SiteMenuFtpBackupUploadTask = new SiteMenuFtpBackupUploadTask();
+                    entity.SiteMenuFtpBackupUploadTask = new SiteMenuFtpBackupUploadTask();
                 }
-                if (result.SiteMenuPublishTaskId == 0) 
+                //update sync updates - thumbnails 
+                if (entity.SiteMenuPublishTaskId == 0) 
                 {
-                    result.SiteMenuPublishTask = new SiteMenuPublishTask();
+                    entity.SiteMenuPublishTask = new SiteMenuPublishTask();
                 }
 
-                result.SiteMenuFtpBackupUploadTask.Copy(siteMenu.SiteMenuFtpBackupUploadTask);
-                result.SiteMenuFtpBackupDownloadTask.Copy(siteMenu.SiteMenuFtpBackupDownloadTask);
-                result.SiteMenuPublishTask.Copy(siteMenu.SiteMenuPublishTask);
+                entity.SiteMenuFtpBackupUploadTask.Copy(siteMenu.SiteMenuFtpBackupUploadTask);
+                entity.SiteMenuFtpBackupDownloadTask.Copy(siteMenu.SiteMenuFtpBackupDownloadTask);
+                entity.SiteMenuPublishTask.Copy(siteMenu.SiteMenuPublishTask);
 
                 dbContext.SaveChanges();
             }
