@@ -89,6 +89,8 @@
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
+    <Compile Include="DataAccess\Permissions\IEnrolmentDataService.cs" />
+    <Compile Include="DataAccess\Permissions\IPermissionDataAccessService.cs" />
     <Compile Include="DataAccess\SiteDetailsDataAccess.cs" />
     <Compile Include="DataAccess\SitesDataAccess.cs" />
     <Compile Include="DataAccess\Sites\ISiteAddressDataService.cs" />
@@ -253,8 +255,14 @@
     <Compile Include="Model\MyAndromeda\EmailCampaignTask.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\EnrolmentLevel.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\IMyAndromedaAccessor.cs" />
     <Compile Include="Model\MyAndromeda\MenuItem.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\MenuItemInGroup.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\MenuItemThumbnail.cs">
@@ -263,9 +271,13 @@
     <Compile Include="Model\MyAndromeda\MenuItemThumbnailsLinkTable.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\Permission.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\MyAndromeda\Role.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\RoleExtension.cs" />
     <Compile Include="Model\MyAndromeda\SiteMenu.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -281,10 +293,13 @@
     <Compile Include="Model\MyAndromeda\SiteMenuMediaServerAuthentication.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda\UserChain.cs">
+    <Compile Include="Model\MyAndromeda\StoreEnrolment.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\MyAndromeda\UserPermission.cs">
+    <Compile Include="Model\MyAndromeda\StoreView.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\UserChain.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\UserRecord.cs">

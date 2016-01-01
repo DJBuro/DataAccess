@@ -12,12 +12,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class MenuItemThumbnailsLinkTable
+    public partial class SiteMenuMediaServerAuthentication
     {
-        public System.Guid MenuItemThumbnailId { get; set; }
-        public System.Guid MenuItemId { get; set; }
+        public int Id { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int SiteMenuMediaServerId { get; set; }
     
-        public virtual MenuItemThumbnail MenuItemThumbnail { get; set; }
-        public virtual MenuItem MenuItem { get; set; }
+        public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
     }
 }
