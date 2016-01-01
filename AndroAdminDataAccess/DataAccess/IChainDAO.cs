@@ -10,5 +10,7 @@ namespace AndroAdminDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         IList<Chain> GetAll();
+        Chain GetChainById(int id);
+        int Save(Domain.Chain chain);
     }
 }

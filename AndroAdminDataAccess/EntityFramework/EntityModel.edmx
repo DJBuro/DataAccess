@@ -82,7 +82,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="Culture" Type="nvarchar" MaxLength="12" />
