@@ -22,5 +22,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public string Action { get; set; }
         public Nullable<int> ResponseTime { get; set; }
         public Nullable<int> ErrorCode { get; set; }
+        public string ExtraInfo { get; set; }
     }
 }
