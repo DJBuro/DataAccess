@@ -46,20 +46,20 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <param name="whileOpen">While the context is open.</param>
         void GetMenuAndTranslate(int andromedaSiteId, Action<MenuDbJob> whileOpen);
         
-
-
         IEnumerable<MenuItem> GetOrCreateMenuItems(SiteMenu menu, IEnumerable<int> similarMenuItemIds);
 
         MenuItem GetOrCreateMenuItem(SiteMenu menu, int acsMenuItemId);
+
+        void UpdateMenuItem(MenuItem menuItem);
 
         MenuItem CreateMenuItem(SiteMenu menu, int acsMenuItemId);
 
         void UpdateMenuHasChanged(Guid menuId);
     }
 
+ 
     public class MyAndromedaMenuDataService : IMyAndromedaMenuItemDataService
     {
-
         private readonly IMyAndromedaSiteMenuDataService siteMenuDataService;
 
         public MyAndromedaMenuDataService(IMyAndromedaSiteMenuDataService siteMenuDataService) 
@@ -67,19 +67,27 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             this.siteMenuDataService = siteMenuDataService;
         }
 
+        /// <summary>
+        /// Gets the menu items.
+        /// </summary>
+        /// <param name="andromedaSiteId">The Andromeda site id.</param>
+        /// <returns></returns>
         public IQueryable<MenuItemThumbnail> GetMenuItems(int andromedaSiteId)
         {
             var dbContext = NewContext();
             var table = dbContext.MenuItemThumbnails;
             var query = table
-                .Where(thumbnails => thumbnails.MenuItemThumbnailRelations
-                    .Any(menuItemLink => menuItemLink.MenuItem.SiteMenu.AndromediaId == andromedaSiteId)
-            );
+                             .Where(thumbnails => thumbnails.MenuItemThumbnailRelations
+                                                            .Any(menuItemLink => menuItemLink.MenuItem.SiteMenu.AndromediaId == andromedaSiteId));
 
             return query;
             //return table.Where(e => e.MenuItems.Any(menuItem => menuItem.SiteMenus.Any(siteMenu => siteMenu.AndromediaId == andromedaSiteId)));
         }
 
+        /// <summary>
+        /// Clears the thumbnails for menu item.
+        /// </summary>
+        /// <param name="menuItem"></param>
         public void ClearThumbnailsForItem(MenuItem menuItem)
         {
             using (var dbContext = NewContext())
@@ -105,21 +113,39 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             }
         }
 
+        /// <summary>
+        /// Clears the thumbnails for items.
+        /// </summary>
+        /// <param name="menuItems">The menu items.</param>
         public void ClearThumbnailsForItems(IEnumerable<MenuItem> menuItems)
         {
-            foreach (var menuItem in menuItems) { this.ClearThumbnailsForItem(menuItem); }
+            foreach (var menuItem in menuItems)
+            {
+                this.ClearThumbnailsForItem(menuItem);
+            }
         }
 
+        /// <summary>
+        /// Adds the thumbnail for menu item.
+        /// </summary>
+        /// <param name="menuItem">The menu item.</param>
+        /// <param name="thumb">The thumb.</param>
+        /// <returns></returns>
         public MenuItemThumbnail AddThumbnailForMenuItem(MenuItem menuItem, ThumbnailImage thumb)
         {
             return this.AddThumbnailForMenuItems(new[] { menuItem }, thumb);
         }
 
+        /// <summary>
+        /// Adds the thumbnail for menu items.
+        /// </summary>
+        /// <param name="menuItems">The menu items.</param>
+        /// <param name="thumb">The thumb.</param>
+        /// <returns></returns>
         public MenuItemThumbnail AddThumbnailForMenuItems(IEnumerable<MenuItem> menuItems, ThumbnailImage thumb)
         {
             using (var dbContext = NewContext())
             {
-                
                 var table = dbContext.MenuItemThumbnails;
                 var entity = table.Create();
 
@@ -146,8 +172,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 return entity;
             }
         }
-
-        
+          
         public void UpdateMenuHasChanged(Guid menuId) 
         {
             using (var dbContext = NewContext()) 
@@ -187,6 +212,22 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             }
         }
 
+        public void UpdateMenuItem(MenuItem menuItem)
+        {
+            using (var dbContext = NewContext()) 
+            {
+                var table = dbContext.MenuItems;
+                var query = table.Where(e => e.Id == menuItem.Id);
+                var result = query.Single();
+
+                result.Name = menuItem.Name;
+                result.WebName = menuItem.WebName;
+                result.WebDescription = menuItem.WebDescription;
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public IEnumerable<MenuItem> GetOrCreateMenuItems(SiteMenu menu, IEnumerable<int> similarMenuItemIds)
         {
             List<MenuItem> menuItemsToReturn = new List<MenuItem>();
@@ -197,7 +238,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 foreach (var id in similarMenuItemIds)
                 {
-                    var result = query.SingleOrDefault(e=> e.ItemId == id);
+                    var result = query.SingleOrDefault(e => e.ItemId == id);
                     if (result == null) 
                     {
                         result = this.CreateMenuItem(menu, id);
@@ -210,7 +251,6 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             return menuItemsToReturn;
         }
 
-
         public MenuItem CreateMenuItem(SiteMenu menu, int itemId)
         {
             using (var dbContext = NewContext())
@@ -218,13 +258,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 var table = dbContext.MenuItems;
                 var entity = table.Create();
                 var menuEntity = dbContext.SiteMenus.Single(e => e.AndromediaId == menu.AndromediaId);
-                
+                  
                 //entity.Id = Guid.NewGuid();
                 entity.ItemId = itemId;
                 entity.SiteMenu = menuEntity;
-                
+                  
                 table.Add(entity);
-                
+                  
                 dbContext.SaveChanges();
 
                 return entity;
@@ -237,13 +277,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             {
                 var menu = this.siteMenuDataService.GetMenu(andromedaSiteId); //this.GetMenuWithContext(dbConext, andromedaSiteId);
 
-                var menuItemQuery = dbConext.MenuItems.Where(e=> e.SiteMenu.AndromediaId == andromedaSiteId);
+                var menuItemQuery = dbConext.MenuItems.Where(e => e.SiteMenu.AndromediaId == andromedaSiteId);
                 var menuItemThumbQuery = dbConext.MenuItemThumbnails
-                    .Where(e => e.MenuItemThumbnailRelations
-                        .Any(menuItemLink => menuItemLink.MenuItem.SiteMenu.AndromediaId == andromedaSiteId));
+                                                 .Where(e => e.MenuItemThumbnailRelations
+                                                              .Any(menuItemLink => menuItemLink.MenuItem.SiteMenu.AndromediaId == andromedaSiteId));
 
                 var menuItemThumbnailLinkQuery = dbConext.MenuItemThumbnailsLinkTable
-                    .Where(e => e.MenuItem.SiteMenu.AndromediaId == andromedaSiteId);
+                                                         .Where(e => e.MenuItem.SiteMenu.AndromediaId == andromedaSiteId);
 
                 var job = new MenuDbJob(menu, menuItemQuery,menuItemThumbnailLinkQuery, menuItemThumbQuery);
 
@@ -255,9 +295,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         {
             return new MyAndromedaDbContext();
         }
-
-        
     }
+
 
     public class MenuDbJob 
     {
