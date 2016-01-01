@@ -15,11 +15,16 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
 
         
 
+        
+
         public Domain.EmailSettings GetEmailSettings(int chainId)
         {
             using (var dbContext = new Model.MyAndromedaEntities())
             {
                 var entity = dbContext.EmailCampaignSettings.FirstOrDefault(e=> e.ChainId == chainId);
+
+                if (entity == null)
+                    return null;
 
                 return new Domain.EmailSettings() { 
                     Host = entity.Host,
@@ -87,6 +92,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
             {
                 var entities = dbContext.EmailCampaigns
                     .Where(e => e.ChainId == chainId)
+                    .ToArray()
+                    .Select(e=> e.ToDomainModel())
+                    .ToList();
+
+                return entities;
+            }
+        }
+
+        public IEnumerable<Domain.EmailCampaign> ListBySite(int siteId)
+        {
+            using (var dbContext = new Model.MyAndromedaEntities())
+            {
+                var entities = dbContext
+                    .EmailCampaigns
+                    .Where(e => e.EmailCampaignSites.Any(site => site.SiteId == siteId))
                     .ToArray()
                     .Select(e=> e.ToDomainModel())
                     .ToList();
