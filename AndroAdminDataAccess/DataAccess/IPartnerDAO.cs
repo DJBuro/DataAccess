@@ -14,6 +14,7 @@ namespace AndroAdminDataAccess.DataAccess
         Partner GetByExternalId(string externalId);
         void Add(Partner partner);
         void Update(Partner partner);
+        void UpdateDataVersion(int partnerId, int newVersion);
         IList<Domain.Partner> GetAfterDataVersion(int dataVersion);
     }
 }

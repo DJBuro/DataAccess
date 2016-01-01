@@ -19,8 +19,6 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
-[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Store_Address", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Address), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Store), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServer_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFTPServerPair_AMSServer", "AMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.AMSServer), "StoreAMSServerFTPSitePair", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFTPSitePair), true)]
@@ -44,6 +42,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_StoreAMSServerFtpSite_StoreAMSServer", "StoreAMSServer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServer), "StoreAMSServerFtpSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.StoreAMSServerFtpSite), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), true)]
 [assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_Group_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroAdminDataAccess.EntityFramework.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.Group), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.ACSApplication), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
+[assembly: EdmRelationshipAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroAdminDataAccess.EntityFramework.Store), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroAdminDataAccess.EntityFramework.ACSApplicationSite), true)]
 
 #endregion
 
@@ -110,22 +110,6 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<ACSApplication> _ACSApplications;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ACSApplicationSite> ACSApplicationSites
-        {
-            get
-            {
-                if ((_ACSApplicationSites == null))
-                {
-                    _ACSApplicationSites = base.CreateObjectSet<ACSApplicationSite>("ACSApplicationSites");
-                }
-                return _ACSApplicationSites;
-            }
-        }
-        private ObjectSet<ACSApplicationSite> _ACSApplicationSites;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -494,6 +478,22 @@ namespace AndroAdminDataAccess.EntityFramework
             }
         }
         private ObjectSet<Host> _Hosts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                if ((_ACSApplicationSites == null))
+                {
+                    _ACSApplicationSites = base.CreateObjectSet<ACSApplicationSite>("ACSApplicationSites");
+                }
+                return _ACSApplicationSites;
+            }
+        }
+        private ObjectSet<ACSApplicationSite> _ACSApplicationSites;
 
         #endregion
 
@@ -505,14 +505,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public void AddToACSApplications(ACSApplication aCSApplication)
         {
             base.AddObject("ACSApplications", aCSApplication);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ACSApplicationSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToACSApplicationSites(ACSApplicationSite aCSApplicationSite)
-        {
-            base.AddObject("ACSApplicationSites", aCSApplicationSite);
         }
     
         /// <summary>
@@ -698,6 +690,14 @@ namespace AndroAdminDataAccess.EntityFramework
         {
             base.AddObject("Hosts", host);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ACSApplicationSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToACSApplicationSites(ACSApplicationSite aCSApplicationSite)
+        {
+            base.AddObject("ACSApplicationSites", aCSApplicationSite);
+        }
 
         #endregion
 
@@ -874,28 +874,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
-        public EntityCollection<ACSApplicationSite> ACSApplicationSites
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplication_Partner", "Partner")]
         public Partner Partner
         {
@@ -927,6 +905,28 @@ namespace AndroAdminDataAccess.EntityFramework
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -949,15 +949,13 @@ namespace AndroAdminDataAccess.EntityFramework
         /// <param name="siteId">Initial value of the SiteId property.</param>
         /// <param name="aCSApplicationId">Initial value of the ACSApplicationId property.</param>
         /// <param name="dataVersion">Initial value of the DataVersion property.</param>
-        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static ACSApplicationSite CreateACSApplicationSite(global::System.Int32 id, global::System.Int32 siteId, global::System.Int32 aCSApplicationId, global::System.Int32 dataVersion, global::System.Boolean isDeleted)
+        public static ACSApplicationSite CreateACSApplicationSite(global::System.Int32 id, global::System.Int32 siteId, global::System.Int32 aCSApplicationId, global::System.Int32 dataVersion)
         {
             ACSApplicationSite aCSApplicationSite = new ACSApplicationSite();
             aCSApplicationSite.Id = id;
             aCSApplicationSite.SiteId = siteId;
             aCSApplicationSite.ACSApplicationId = aCSApplicationId;
             aCSApplicationSite.DataVersion = dataVersion;
-            aCSApplicationSite.IsDeleted = isDeleted;
             return aCSApplicationSite;
         }
 
@@ -1063,30 +1061,6 @@ namespace AndroAdminDataAccess.EntityFramework
         private global::System.Int32 _DataVersion;
         partial void OnDataVersionChanging(global::System.Int32 value);
         partial void OnDataVersionChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Boolean IsDeleted
-        {
-            get
-            {
-                return _IsDeleted;
-            }
-            set
-            {
-                OnIsDeletedChanging(value);
-                ReportPropertyChanging("IsDeleted");
-                _IsDeleted = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("IsDeleted");
-                OnIsDeletedChanged();
-            }
-        }
-        private global::System.Boolean _IsDeleted;
-        partial void OnIsDeletedChanging(global::System.Boolean value);
-        partial void OnIsDeletedChanged();
 
         #endregion
 
@@ -4973,28 +4947,6 @@ namespace AndroAdminDataAccess.EntityFramework
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "ACSApplicationSite")]
-        public EntityCollection<ACSApplicationSite> ACSApplicationSites
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_Store_Address", "Address")]
         public Address Address
         {
@@ -5231,6 +5183,28 @@ namespace AndroAdminDataAccess.EntityFramework
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<StoreMenu>("AndroAdminModel.FK_StoreMenu_Store", "StoreMenu", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("AndroAdminModel", "FK_ACSApplicationSite_Store", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("AndroAdminModel.FK_ACSApplicationSite_Store", "ACSApplicationSite", value);
                 }
             }
         }

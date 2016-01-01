@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
+    <Compile Include="DataAccess\ACSApplicationDataAccess.cs" />
+    <Compile Include="DataAccess\SyncDataAccess.cs" />
     <Compile Include="DataAccess\HostDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\EmployeeDataAccess.cs" />
@@ -89,6 +91,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CloudSync\CloudSyncModel\CloudSyncModel.csproj">
+      <Project>{56aa880a-eff0-440f-92f5-39f2c578cbdd}</Project>
+      <Name>CloudSyncModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\AndroCloudServices\AndroCloudWCFHelper\AndroCloudHelper.csproj">
       <Project>{D9959D2F-2016-4355-BC22-061EA8A5E267}</Project>
       <Name>AndroCloudHelper</Name>

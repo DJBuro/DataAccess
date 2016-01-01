@@ -26,14 +26,17 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SitesGroups_Groups", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Group), "SitesGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SitesGroup), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Orders_OrderStatus", "OrderStatu", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.OrderStatus), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Order), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Chains_Partners", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Partner), "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Group), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_ACSApplication_Partner", "Partner", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Partner), "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.ACSApplication), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.ACSApplication), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.ACSApplicationSite), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_ACSApplicationSite_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "ACSApplicationSite", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.ACSApplicationSite), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Sites_Addresses", "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Address), "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Site), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Employees_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Employee), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_OpeningHours_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "OpeningHour", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.OpeningHour), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Orders_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Order), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SiteMenus_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SiteMenu", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SiteMenu), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_Sites_PaymentProvider", "StorePaymentProvider", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.StorePaymentProvider), "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Site), true)]
+[assembly: EdmRelationshipAttribute("ACSModel", "FK_Sites_SiteStatuses", "SiteStatus", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.SiteStatus), "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Site), true)]
 [assembly: EdmRelationshipAttribute("ACSModel", "FK_SitesGroups_Sites", "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AndroCloudDataAccessEntityFramework.Model.Site), "SitesGroup", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.SitesGroup), true)]
-[assembly: EdmRelationshipAttribute("ACSModel", "FK_Sites_SiteStatuses", "SiteStatus", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AndroCloudDataAccessEntityFramework.Model.SiteStatus), "Site", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AndroCloudDataAccessEntityFramework.Model.Site), true)]
 
 #endregion
 
@@ -328,22 +331,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Site> Sites
-        {
-            get
-            {
-                if ((_Sites == null))
-                {
-                    _Sites = base.CreateObjectSet<Site>("Sites");
-                }
-                return _Sites;
-            }
-        }
-        private ObjectSet<Site> _Sites;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<StorePaymentProvider> StorePaymentProviders
         {
             get
@@ -372,6 +359,54 @@ namespace AndroCloudDataAccessEntityFramework.Model
             }
         }
         private ObjectSet<SiteStatus> _SiteStatuses;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ACSApplication> ACSApplications
+        {
+            get
+            {
+                if ((_ACSApplications == null))
+                {
+                    _ACSApplications = base.CreateObjectSet<ACSApplication>("ACSApplications");
+                }
+                return _ACSApplications;
+            }
+        }
+        private ObjectSet<ACSApplication> _ACSApplications;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                if ((_ACSApplicationSites == null))
+                {
+                    _ACSApplicationSites = base.CreateObjectSet<ACSApplicationSite>("ACSApplicationSites");
+                }
+                return _ACSApplicationSites;
+            }
+        }
+        private ObjectSet<ACSApplicationSite> _ACSApplicationSites;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Site> Sites
+        {
+            get
+            {
+                if ((_Sites == null))
+                {
+                    _Sites = base.CreateObjectSet<Site>("Sites");
+                }
+                return _Sites;
+            }
+        }
+        private ObjectSet<Site> _Sites;
 
         #endregion
 
@@ -498,14 +533,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Sites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToSites(Site site)
-        {
-            base.AddObject("Sites", site);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the StorePaymentProviders EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToStorePaymentProviders(StorePaymentProvider storePaymentProvider)
@@ -520,6 +547,30 @@ namespace AndroCloudDataAccessEntityFramework.Model
         {
             base.AddObject("SiteStatuses", siteStatus);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ACSApplications EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToACSApplications(ACSApplication aCSApplication)
+        {
+            base.AddObject("ACSApplications", aCSApplication);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ACSApplicationSites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToACSApplicationSites(ACSApplicationSite aCSApplicationSite)
+        {
+            base.AddObject("ACSApplicationSites", aCSApplicationSite);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Sites EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSites(Site site)
+        {
+            base.AddObject("Sites", site);
+        }
 
         #endregion
 
@@ -528,6 +579,420 @@ namespace AndroCloudDataAccessEntityFramework.Model
     #endregion
 
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="ACSApplication")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ACSApplication : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ACSApplication object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="externalApplicationId">Initial value of the ExternalApplicationId property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="partnerId">Initial value of the PartnerId property.</param>
+        public static ACSApplication CreateACSApplication(global::System.Guid id, global::System.String externalApplicationId, global::System.String name, global::System.Guid partnerId)
+        {
+            ACSApplication aCSApplication = new ACSApplication();
+            aCSApplication.Id = id;
+            aCSApplication.ExternalApplicationId = externalApplicationId;
+            aCSApplication.Name = name;
+            aCSApplication.PartnerId = partnerId;
+            return aCSApplication;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalApplicationId
+        {
+            get
+            {
+                return _ExternalApplicationId;
+            }
+            set
+            {
+                OnExternalApplicationIdChanging(value);
+                ReportPropertyChanging("ExternalApplicationId");
+                _ExternalApplicationId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalApplicationId");
+                OnExternalApplicationIdChanged();
+            }
+        }
+        private global::System.String _ExternalApplicationId;
+        partial void OnExternalApplicationIdChanging(global::System.String value);
+        partial void OnExternalApplicationIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid PartnerId
+        {
+            get
+            {
+                return _PartnerId;
+            }
+            set
+            {
+                OnPartnerIdChanging(value);
+                ReportPropertyChanging("PartnerId");
+                _PartnerId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PartnerId");
+                OnPartnerIdChanged();
+            }
+        }
+        private global::System.Guid _PartnerId;
+        partial void OnPartnerIdChanging(global::System.Guid value);
+        partial void OnPartnerIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplication_Partner", "Partner")]
+        public Partner Partner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("ACSModel.FK_ACSApplication_Partner", "Partner").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("ACSModel.FK_ACSApplication_Partner", "Partner").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Partner> PartnerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Partner>("ACSModel.FK_ACSApplication_Partner", "Partner");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Partner>("ACSModel.FK_ACSApplication_Partner", "Partner", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplicationSite", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ACSModel", Name="ACSApplicationSite")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ACSApplicationSite : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ACSApplicationSite object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="siteId">Initial value of the SiteId property.</param>
+        /// <param name="aCSApplicationId">Initial value of the ACSApplicationId property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ACSApplicationSite CreateACSApplicationSite(global::System.Guid id, global::System.Guid siteId, global::System.Guid aCSApplicationId, global::System.Boolean isDeleted)
+        {
+            ACSApplicationSite aCSApplicationSite = new ACSApplicationSite();
+            aCSApplicationSite.Id = id;
+            aCSApplicationSite.SiteId = siteId;
+            aCSApplicationSite.ACSApplicationId = aCSApplicationId;
+            aCSApplicationSite.IsDeleted = isDeleted;
+            return aCSApplicationSite;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid SiteId
+        {
+            get
+            {
+                return _SiteId;
+            }
+            set
+            {
+                OnSiteIdChanging(value);
+                ReportPropertyChanging("SiteId");
+                _SiteId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SiteId");
+                OnSiteIdChanged();
+            }
+        }
+        private global::System.Guid _SiteId;
+        partial void OnSiteIdChanging(global::System.Guid value);
+        partial void OnSiteIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ACSApplicationId
+        {
+            get
+            {
+                return _ACSApplicationId;
+            }
+            set
+            {
+                OnACSApplicationIdChanging(value);
+                ReportPropertyChanging("ACSApplicationId");
+                _ACSApplicationId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ACSApplicationId");
+                OnACSApplicationIdChanged();
+            }
+        }
+        private global::System.Guid _ACSApplicationId;
+        partial void OnACSApplicationIdChanging(global::System.Guid value);
+        partial void OnACSApplicationIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplicationSite_ACSApplication", "ACSApplication")]
+        public ACSApplication ACSApplication
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ACSApplication> ACSApplicationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ACSApplication>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ACSApplication>("ACSModel.FK_ACSApplicationSite_ACSApplication", "ACSApplication", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplicationSite_Sites", "Site")]
+        public Site Site
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Site>("ACSModel.FK_ACSApplicationSite_Sites", "Site").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Site>("ACSModel.FK_ACSApplicationSite_Sites", "Site").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Site> SiteReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Site>("ACSModel.FK_ACSApplicationSite_Sites", "Site");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Site>("ACSModel.FK_ACSApplicationSite_Sites", "Site", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -3687,6 +4152,28 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplication_Partner", "ACSApplication")]
+        public EntityCollection<ACSApplication> ACSApplications
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplication>("ACSModel.FK_ACSApplication_Partner", "ACSApplication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplication>("ACSModel.FK_ACSApplication_Partner", "ACSApplication", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -3706,14 +4193,14 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// Create a new Site object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="androSiteName">Initial value of the AndroSiteName property.</param>
         /// <param name="androID">Initial value of the AndroID property.</param>
-        public static Site CreateSite(global::System.Guid id, global::System.String androSiteName, global::System.Int32 androID)
+        /// <param name="siteStatusID">Initial value of the SiteStatusID property.</param>
+        public static Site CreateSite(global::System.Guid id, global::System.Int32 androID, global::System.Guid siteStatusID)
         {
             Site site = new Site();
             site.ID = id;
-            site.AndroSiteName = androSiteName;
             site.AndroID = androID;
+            site.SiteStatusID = siteStatusID;
             return site;
         }
 
@@ -3795,54 +4282,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private Nullable<global::System.Guid> _SessionID;
         partial void OnSessionIDChanging(Nullable<global::System.Guid> value);
         partial void OnSessionIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String AndroSiteName
-        {
-            get
-            {
-                return _AndroSiteName;
-            }
-            set
-            {
-                OnAndroSiteNameChanging(value);
-                ReportPropertyChanging("AndroSiteName");
-                _AndroSiteName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("AndroSiteName");
-                OnAndroSiteNameChanged();
-            }
-        }
-        private global::System.String _AndroSiteName;
-        partial void OnAndroSiteNameChanging(global::System.String value);
-        partial void OnAndroSiteNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ClientSiteName
-        {
-            get
-            {
-                return _ClientSiteName;
-            }
-            set
-            {
-                OnClientSiteNameChanging(value);
-                ReportPropertyChanging("ClientSiteName");
-                _ClientSiteName = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ClientSiteName");
-                OnClientSiteNameChanged();
-            }
-        }
-        private global::System.String _ClientSiteName;
-        partial void OnClientSiteNameChanging(global::System.String value);
-        partial void OnClientSiteNameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4111,9 +4550,9 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> SiteStatusID
+        public global::System.Guid SiteStatusID
         {
             get
             {
@@ -4128,14 +4567,36 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 OnSiteStatusIDChanged();
             }
         }
-        private Nullable<global::System.Guid> _SiteStatusID;
-        partial void OnSiteStatusIDChanging(Nullable<global::System.Guid> value);
+        private global::System.Guid _SiteStatusID;
+        partial void OnSiteStatusIDChanging(global::System.Guid value);
         partial void OnSiteStatusIDChanged();
 
         #endregion
 
     
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_ACSApplicationSite_Sites", "ACSApplicationSite")]
+        public EntityCollection<ACSApplicationSite> ACSApplicationSites
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ACSApplicationSite>("ACSModel.FK_ACSApplicationSite_Sites", "ACSApplicationSite");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ACSApplicationSite>("ACSModel.FK_ACSApplicationSite_Sites", "ACSApplicationSite", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4307,28 +4768,6 @@ namespace AndroCloudDataAccessEntityFramework.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_SitesGroups_Sites", "SitesGroup")]
-        public EntityCollection<SitesGroup> SitesGroups
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Sites", "SitesGroup");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Sites", "SitesGroup", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_Sites_SiteStatuses", "SiteStatus")]
         public SiteStatus SiteStatus
         {
@@ -4357,6 +4796,28 @@ namespace AndroCloudDataAccessEntityFramework.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SiteStatus>("ACSModel.FK_Sites_SiteStatuses", "SiteStatus", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ACSModel", "FK_SitesGroups_Sites", "SitesGroup")]
+        public EntityCollection<SitesGroup> SitesGroups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Sites", "SitesGroup");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SitesGroup>("ACSModel.FK_SitesGroups_Sites", "SitesGroup", value);
                 }
             }
         }

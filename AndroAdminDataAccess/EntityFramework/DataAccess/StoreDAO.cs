@@ -31,7 +31,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
 
                     models.Add(model);
@@ -58,7 +60,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         CustomerSiteId = store.CustomerSiteId,
                         LastFTPUploadDateTime = store.LastFTPUploadDateTime,
                         StoreStatusId = store.StoreStatus.Id,
-                        DataVersion = newVersion
+                        DataVersion = newVersion,
+                        ExternalId = store.ExternalSiteId,
+                        ExternalSiteName = store.ExternalSiteName
                     };
 
                     entitiesContext.AddToStores(entity);
@@ -94,6 +98,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         entity.LastFTPUploadDateTime = store.LastFTPUploadDateTime;
                         entity.StoreStatusId = store.StoreStatus.Id;
                         entity.DataVersion = newVersion;
+                        entity.ExternalId = store.ExternalSiteId;
+                        entity.ExternalSiteName = entity.ExternalSiteName;
 
                         entitiesContext.SaveChanges();
 
@@ -125,7 +131,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
                 }
             }
@@ -154,7 +162,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
                 }
             }
@@ -183,7 +193,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
                 }
             }
@@ -202,7 +214,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             join a in entitiesContext.ACSApplicationSites
                             on s.Id equals a.SiteId
                             where a.ACSApplicationId == acsApplicationId
-                            && a.IsDeleted == false
                             orderby s.Name
                             select s;
 
@@ -215,7 +226,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
 
                     stores.Add(store);
@@ -245,7 +258,44 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         AndromedaSiteId = entity.AndromedaSiteId,
                         CustomerSiteId = entity.CustomerSiteId,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description }
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
+        }
+
+        public IList<Domain.Store> GetByACSApplicationIdAfterDataVersion(int acsApplicationId, int dataVersion)
+        {
+            List<Domain.Store> models = new List<Domain.Store>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                var query = from s in entitiesContext.Stores
+                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            join a in entitiesContext.ACSApplicationSites
+                            on s.Id equals a.SiteId
+                            where a.ACSApplicationId == acsApplicationId
+                            && s.DataVersion > dataVersion
+                            select s;
+
+                foreach (var entity in query)
+                {
+                    Domain.Store model = new Domain.Store()
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        AndromedaSiteId = entity.AndromedaSiteId,
+                        CustomerSiteId = entity.CustomerSiteId,
+                        LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
+                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        ExternalSiteId = entity.ExternalId,
+                        ExternalSiteName = entity.ExternalSiteName
                     };
 
                     models.Add(model);
