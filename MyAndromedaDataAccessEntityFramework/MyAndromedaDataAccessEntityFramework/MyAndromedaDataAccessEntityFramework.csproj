@@ -61,6 +61,8 @@
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
@@ -269,6 +271,7 @@
     <Compile Include="Model\MyAndromeda\EmailCampaignTask.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyAndromeda\IMyAndromedaAccessor.cs" />
     <Compile Include="Model\MyAndromeda\MenuItem.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>

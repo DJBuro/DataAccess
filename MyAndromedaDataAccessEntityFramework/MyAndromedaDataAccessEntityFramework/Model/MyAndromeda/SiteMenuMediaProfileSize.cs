@@ -17,8 +17,9 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public int Id { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
-        public int SiteMenuMediaProfileId { get; set; }
+        public Nullable<int> SiteMenuMediaProfileId { get; set; }
         public string Name { get; set; }
+        public Nullable<bool> IsDefault { get; set; }
     
         public virtual SiteMenuMediaProfile SiteMenuMediaProfile { get; set; }
     }

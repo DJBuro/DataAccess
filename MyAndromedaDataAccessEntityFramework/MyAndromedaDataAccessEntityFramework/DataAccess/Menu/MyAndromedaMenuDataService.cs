@@ -41,6 +41,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
     }
 
+    
+
     public class MyAndromedaMenuDataService : IMyAndromedaMenuDataService 
     {
         public IQueryable<MenuItemThumbnail> GetMenuItems(int andromedaSiteId)
@@ -127,6 +129,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 entity.ItemId = itemId;
 
                 table.Add(entity);
+                dbContext.SaveChanges();
+
+                var menuEntity = dbContext.SiteMenus.Single(e => e.AndromediaId == menu.AndromediaId);
+                entity.SiteMenus.Add(menuEntity);
                 dbContext.SaveChanges();
 
                 return entity;

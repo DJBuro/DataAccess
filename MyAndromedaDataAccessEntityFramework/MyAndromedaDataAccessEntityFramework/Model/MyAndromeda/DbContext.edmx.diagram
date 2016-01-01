@@ -14,21 +14,21 @@
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" ManuallyRouted="false" />
         </Diagram>
-      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="152" >
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="10.805740512351385" PointY="22.776085134025703" />
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemInGroup" Width="1.5" PointX="8.3820937966844511" PointY="31.812805533321949" />
-        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="1.1443272219711576" PointY="3.4770562962987723" />
+      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="63" >
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItem" Width="1.5" PointX="3.625" PointY="14.875" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemInGroup" Width="1.5" PointX="5" PointY="28.25" />
+        <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="1" PointY="14.875" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenu" Width="1.5" PointX="3.6032664438724828" PointY="17.190577872651897" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="9.1714179092885075" PointY="20.911652828059928" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="5.6941214342108557" PointY="14.28709231982338" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="9.3354770957191846" PointY="2.7771828187523329" />
-        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="6.0500020170817166" PointY="3.1866122499045972" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" />
-        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="7.625" PointY="17.25" />
         <AssociationConnector Association="MyAndromedaModel.MenuItemThumbnailRelations" />
         <AssociationConnector Association="MyAndromedaModel.SiteMenuItem" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="5.625" PointY="17.25" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaServer" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaServerAuthentication_SiteMenuMediaServer" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfile" Width="1.5" PointX="8.0831533149271984" PointY="27.895888416048088" />
+        <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaProfileSize" Width="1.5" PointX="9.0389987812559109" PointY="30.975524991273659" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenu_SiteMenuMediaProfile" />
+        <AssociationConnector Association="MyAndromedaModel.FK_SiteMenuMediaProfileSize_SiteMenuMediaProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
