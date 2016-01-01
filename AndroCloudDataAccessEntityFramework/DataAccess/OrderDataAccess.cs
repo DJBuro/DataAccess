@@ -16,7 +16,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -40,11 +39,40 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string GetByExternalIdApplicationId(string externalOrderId, string externalApplicationId, out AndroCloudDataAccess.Domain.Order order)
+        {
+            order = null;
+
+            using (ACSEntities acsEntities = new ACSEntities())
+            {
+                DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
+
+                var acsQuery = from o in acsEntities.Orders
+                               join a in acsEntities.ACSApplications
+                               on o.ApplicationID equals a.Id
+                               where o.ExternalID == externalOrderId
+                               && a.ExternalApplicationId == externalApplicationId
+                               select o;
+
+                var acsQueryEntity = acsQuery.FirstOrDefault();
+
+                if (acsQueryEntity != null)
+                {
+                    order = new AndroCloudDataAccess.Domain.Order();
+                    order.ID = acsQueryEntity.ID;
+                    order.StoreOrderId = acsQueryEntity.ExternalID;
+                    order.InternetOrderNumber = acsQueryEntity.InternetOrderNumber.GetValueOrDefault(-1);
+                    order.RamesesStatusId = acsQueryEntity.OrderStatu.RamesesStatusId;
+                }
+            }
+
+            return "";
+        }
+
         public string GetByInternetOrderNumber(int internetOrderNumber, out AndroCloudDataAccess.Domain.Order order)
         {
             order = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -72,7 +100,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             order = null;
 
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -98,7 +125,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         public string Update(Guid orderId, Guid orderStatusId)
         {
-            //using (ACSEntities acsEntities = ConnectionStringOverride == null ? new ACSEntities() : new ACSEntities(this.ConnectionStringOverride))
             using (ACSEntities acsEntities = new ACSEntities())
             {
                 DataAccessHelper.FixConnectionString(acsEntities, this.ConnectionStringOverride);
@@ -109,7 +135,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                 var acsQueryEntity = acsQuery.FirstOrDefault();
 
-                // Update the menu record
+                // Update the order record
                 if (acsQueryEntity != null)
                 {
                     acsQueryEntity.StatusId = orderStatusId;
@@ -140,7 +166,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                where p.Id == applicationId
                                && o.ID == orderId
                                select o;
-                //select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.SiteName, s.ExternalId, s.LicenceKey };
 
                 var acsQueryEntity = acsQuery.FirstOrDefault();
 

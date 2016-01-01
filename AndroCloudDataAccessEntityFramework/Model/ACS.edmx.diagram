@@ -35,6 +35,7 @@
         <AssociationConnector Association="ACSModel.FK_Orders_Sites" />
         <AssociationConnector Association="ACSModel.FK_SiteMenus_Sites" />
         <AssociationConnector Association="ACSModel.FK_Sites_SiteStatuses" />
+        <AssociationConnector Association="ACSModel.FK_Orders_ACSApplication" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
