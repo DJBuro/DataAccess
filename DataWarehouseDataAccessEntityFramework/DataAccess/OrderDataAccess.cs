@@ -24,15 +24,13 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                 var query =
                     from oh in dataWarehouseEntities.OrderHeaders
-                    join os in dataWarehouseEntities.OrderStatus
-                        on oh.StatusId equals os.Id 
                     where oh.ApplicationID == applicationId
                     && oh.CustomerID == customerId
                     select new DataWarehouseDataAccess.Domain.OrderHeader()
                     {
                         Id = oh.ExternalOrderRef,
                         ForDateTime = oh.OrderWantedTime.Value,
-                        Status = os.RamesesStatusId
+                        Status = oh.Status
                     };
 
                 orderHeaders.AddRange(query);
@@ -51,8 +49,6 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                 var orderQuery =
                     from oh in dataWarehouseEntities.OrderHeaders
-                    join os in dataWarehouseEntities.OrderStatus
-                        on oh.StatusId equals os.Id
                     where oh.ApplicationID == applicationId
                     && oh.CustomerID == customerId
                     && oh.ExternalOrderRef == externalOrderRef
@@ -61,7 +57,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         Id = oh.ID,
                         ExternalOrderRef = oh.ExternalOrderRef,
                         ForDateTime = oh.OrderWantedTime.Value,
-                        OrderStatus = os.RamesesStatusId,
+                        OrderStatus = oh.Status,
                         OrderTotal = oh.FinalPrice
                     };
 
