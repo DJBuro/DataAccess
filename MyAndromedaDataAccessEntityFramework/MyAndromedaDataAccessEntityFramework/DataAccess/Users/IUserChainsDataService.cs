@@ -191,14 +191,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 var lookupByParentId = linkResult[node.Id]; 
                 var children = new List<Chain>(lookupByParentId.Length);
                 
-                node.Children = children;
+                node.Items = children;
                 foreach(var lookup in lookupByParentId)
                 {
                     var chain = new Chain() 
                     { 
                         Id = lookup.Id,
                         Name = lookup.Name,
-                        Children = new List<Chain>()
+                        Items = new List<Chain>()
                     };
 
                     children.Add(chain);
@@ -213,7 +213,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                 {  
                     Id = result.Id,
                     Name = result.Name,
-                    Children = Enumerable.Empty<Chain>()
+                    Items = Enumerable.Empty<Chain>()
                 };
 
                 buildTree(chain);

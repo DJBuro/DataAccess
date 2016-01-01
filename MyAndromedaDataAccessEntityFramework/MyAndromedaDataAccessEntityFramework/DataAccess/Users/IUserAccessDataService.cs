@@ -108,10 +108,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             Func<IEnumerable<Chain>, IEnumerable<Chain>> flatern = null;
             
             flatern = (nodes) => {
-                return nodes.SelectMany(e=> flatern(e.Children)).Union(nodes);
+                return nodes.SelectMany(e=> flatern(e.Items)).Union(nodes);
             };
 
-            var all = accessibleChains.Union(accessibleChains.SelectMany(e => flatern(e.Children)));
+            var all = accessibleChains.Union(accessibleChains.SelectMany(e => flatern(e.Items)));
 
             return all;
         }

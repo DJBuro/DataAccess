@@ -12,17 +12,13 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
     using System;
     using System.Collections.Generic;
     
-    public partial class CloudSynchronizationTask
+    public partial class StoreEmployee
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public System.DateTime Timestamp { get; set; }
-        public Nullable<System.DateTime> LastAttempt { get; set; }
-        public bool Completed { get; set; }
-        public Nullable<int> StoreId { get; set; }
-        public Nullable<int> InvokedByUserId { get; set; }
-        public string InvokedByUserName { get; set; }
-        public Nullable<int> ChainId { get; set; }
+        public int SiteId { get; set; }
+        public string EmployeeId { get; set; }
+        public int PersonId { get; set; }
+        public string JobTitle { get; set; }
+    
+        public virtual Person Person { get; set; }
     }
 }
