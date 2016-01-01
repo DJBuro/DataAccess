@@ -5,7 +5,14 @@ namespace MyAndromedaDataAccess.Domain
 {
     public class Employee
     {
-        public int Id { get; set; }
+        public string Key 
+        {
+            get { return string.Format("{0}.{1}", this.AndromedaSiteId, this.EmployeeId); }
+        }
+
+        public int AndromedaSiteId { get; set; }
+
+        public string EmployeeId { get; set; }
 
         public string Firstname { get; set;}
         

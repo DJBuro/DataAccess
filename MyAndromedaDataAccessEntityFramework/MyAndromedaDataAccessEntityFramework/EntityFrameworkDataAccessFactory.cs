@@ -45,17 +45,17 @@ namespace MyAndromedaDataAccessEntityFramework
             }
         }
 
-        public MyAndromedaDataAccess.DataAccess.IEmployeeDataAccess EmployeeDataAccess
-        {
-            get
-            {
-                return new EmployeeDataAccess();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public MyAndromedaDataAccess.DataAccess.IEmployeeDataAccess EmployeeDataAccess
+        //{
+        //    get
+        //    {
+        //        return new EmployeeDataAccess();
+        //    }
+        //    set
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public MyAndromedaDataAccess.DataAccess.IOpeningHoursDataAccess OpeningHoursDataAccess
         {

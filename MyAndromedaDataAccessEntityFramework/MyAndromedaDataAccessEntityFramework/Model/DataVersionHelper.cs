@@ -22,30 +22,36 @@ namespace MyAndromedaDataAccessEntityFramework.Model
             // There doesn't seem to be a way to increment a number atomically in Entity Framework so I've had to fall back to SQL...
             // Note that the current database version is stored in the settings table.  The setting values are strings.
             // Get a SQL connection from EF
-            SqlConnection sqlConnection = (SqlConnection)entitiesContext.Database.Connection;
-
-            if (sqlConnection.State == System.Data.ConnectionState.Closed)
-            {
-                sqlConnection.Open();
-            }
-
-            // We're gonna do this in a SQL command
-            SqlCommand command = new SqlCommand();
-            command.Connection = sqlConnection;
-            command.CommandText = "UPDATE [Settings] SET [Value] = cast([Value] as int) + 1 output inserted.[Value] where [name] = 'dataversion'";
-
-            // We're using an output clause in the SQL so we can do the update and get the result back all in one go
             int newVersion = -1;
-            using (SqlDataReader sqlDataReader = command.ExecuteReader())
-            {
-                string newVersionText = "";
+            using (SqlConnection sqlConnection = new SqlConnection(entitiesContext.Database.Connection.ConnectionString)) 
+            { 
+                //entitiesContext.Database.Connection is 
+                //(SqlConnection)entitiesContext.Database.Connection;
 
-                if (sqlDataReader.Read())
+                if (sqlConnection.State == System.Data.ConnectionState.Closed)
                 {
-                    newVersionText = sqlDataReader.GetString(0);
-
-                    Int32.TryParse(newVersionText, out newVersion);
+                    sqlConnection.Open();
                 }
+
+                // We're gonna do this in a SQL command
+                SqlCommand command = new SqlCommand();
+                command.Connection = sqlConnection;
+                command.CommandText = "UPDATE [Settings] SET [Value] = cast([Value] as int) + 1 output inserted.[Value] where [name] = 'dataversion'";
+
+                // We're using an output clause in the SQL so we can do the update and get the result back all in one go
+                
+                using (SqlDataReader sqlDataReader = command.ExecuteReader())
+                {
+                    string newVersionText = "";
+
+                    if (sqlDataReader.Read())
+                    {
+                        newVersionText = sqlDataReader.GetString(0);
+
+                        Int32.TryParse(newVersionText, out newVersion);
+                    }
+                }
+
             }
 
             return newVersion;
