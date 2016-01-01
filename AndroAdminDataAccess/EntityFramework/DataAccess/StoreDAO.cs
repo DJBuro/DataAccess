@@ -784,11 +784,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         CustomerSiteId = entity.CustomerSiteId,
                         CustomerSiteName = entity.ClientSiteName,
                         LastFTPUploadDateTime = entity.LastFTPUploadDateTime,
-                        StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
+                        StoreStatus = new Domain.StoreStatus() 
+                        { 
+                            Id = entity.StoreStatu.Id, 
+                            Status = entity.StoreStatu.Status, 
+                            Description = entity.StoreStatu.Description 
+                        },
                         ExternalSiteId = entity.ExternalId,
                         ExternalSiteName = entity.ExternalSiteName,
                         Telephone = entity.Telephone,
-                        TimeZone = entity.TimeZone
+                        TimeZone = entity.TimeZone,
+                        PaymentProvider = entity.StorePaymentProvider == null ? null :
+                            new Domain.StorePaymentProvider()
+                            {
+                                ClientId = entity.StorePaymentProvider.ClientId,
+                                ClientPassword = entity.StorePaymentProvider.ClientPassword,
+                                DisplayText = entity.StorePaymentProvider.DisplayText,
+                                Id = entity.StorePaymentProvider.Id,
+                                ProviderName = entity.StorePaymentProvider.ProviderName
+                            }
                     };
 
                     // Get the address

@@ -40,7 +40,27 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         return "SetVersion failed.  From:" + syncModel.FromDataVersion + " to: " + syncModel.ToDataVersion;
                     }
 
-                    // Update all stores in the local db that have changed on the server
+                    // Update all store payment providers in the local db that have changed on the master server
+                    foreach (CloudSyncModel.StorePaymentProvider storePaymentProvider in syncModel.StorePaymentProviders)
+                    {
+                        // Does the store payment provider already exist?
+                        IStorePaymentProviderDataAccess storePaymentProviderDataAccess = new StorePaymentProviderDataAccess() { ConnectionStringOverride = this.ConnectionStringOverride };
+                        AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider = null;
+                        storePaymentProviderDataAccess.GetById(storePaymentProvider.Id, out existingStorePaymentProvider);
+
+                        if (existingStorePaymentProvider == null)
+                        {
+                            // Store payment provider does not exist.  Create it
+                            this.AddStorePaymentProvider(acsEntities, storePaymentProvider);
+                        }
+                        else
+                        {
+                            // The store payment provider already exists.  Update it
+                            this.UpdateStorePaymentProvider(acsEntities, existingStorePaymentProvider, storePaymentProvider);
+                        }
+                    }
+
+                    // Update all stores in the local db that have changed on the master server
                     foreach (CloudSyncModel.Store store in syncModel.Stores)
                     {
                         // Does the site already exist?
@@ -60,7 +80,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         }
                     }
 
-                    // Update all partners in the local db that have changed on the server
+                    // Update all partners in the local db that have changed on the master server
                     foreach (CloudSyncModel.Partner partner in syncModel.Partners)
                     {
                         // Does the partner exist?
@@ -181,6 +201,29 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return errorMessage;
         }
 
+        private void AddStorePaymentProvider(ACSEntities acsEntities, CloudSyncModel.StorePaymentProvider storePaymentProvider)
+        {
+            Model.StorePaymentProvider entity = new Model.StorePaymentProvider()
+            {
+                ClientId = storePaymentProvider.ClientId,
+                ClientPassword = storePaymentProvider.ClientPassword,
+                Id = storePaymentProvider.Id,
+                ProviderName = storePaymentProvider.ProviderName
+            };
+
+            acsEntities.StorePaymentProviders.Add(entity);
+            acsEntities.SaveChanges();
+        }
+
+        private void UpdateStorePaymentProvider(ACSEntities acsEntities, AndroCloudDataAccess.Domain.StorePaymentProvider existingStorePaymentProvider, CloudSyncModel.StorePaymentProvider storePaymentProvider)
+        {
+            existingStorePaymentProvider.ClientId = storePaymentProvider.ClientId;
+            existingStorePaymentProvider.ClientPassword = storePaymentProvider.ClientPassword;
+            existingStorePaymentProvider.ProviderName = storePaymentProvider.ProviderName;
+
+            acsEntities.SaveChanges();
+        }
+
         private void AddSite(ACSEntities acsEntities, Store store)
         {
             // Get the site status
@@ -234,6 +277,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             acsEntities.Addresses.Add(addressEntity);
             acsEntities.SaveChanges();
 
+            int? storePaymentProviderId = null;
+            int storePaymentProviderIdTemp = 0;
+            if (store.StorePaymentProviderId != null && int.TryParse(store.StorePaymentProviderId, out storePaymentProviderIdTemp))
+            {
+                storePaymentProviderId = storePaymentProviderIdTemp;
+            }
+
             // Create the site
             Model.Site siteEntity = new Model.Site()
             {
@@ -247,7 +297,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 LicenceKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D",
                 SiteStatus = siteStatusEntity,
                 Telephone = store.Phone,
-                TimeZone = store.TimeZone
+                TimeZone = store.TimeZone,
+                StorePaymentProviderId = storePaymentProviderId
             };
 
             acsEntities.Sites.Add(siteEntity);
@@ -351,6 +402,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     addressEntity.Town = store.Address.Town;
                 }
 
+                int? storePaymentProviderId = null;
+                int storePaymentProviderIdTemp = 0;
+                if (store.StorePaymentProviderId != null && int.TryParse(store.StorePaymentProviderId, out storePaymentProviderIdTemp))
+                {
+                    storePaymentProviderId = storePaymentProviderIdTemp;
+                }
+
                 siteEntity.AndroID = store.AndromedaSiteId;
                 siteEntity.EstimatedDeliveryTime = null;
                 siteEntity.ExternalId = store.ExternalSiteId;
@@ -360,6 +418,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 siteEntity.SiteStatus = siteStatusEntity;
                 siteEntity.Telephone = store.Phone;
                 siteEntity.TimeZone = store.TimeZone;
+                siteEntity.StorePaymentProviderId = storePaymentProviderId;
 
                 acsEntities.SaveChanges();
             }

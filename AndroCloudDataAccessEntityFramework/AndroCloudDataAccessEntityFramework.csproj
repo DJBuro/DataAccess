@@ -75,6 +75,7 @@
     <Compile Include="DataAccess\AuditDataAccess.cs" />
     <Compile Include="DataAccess\AddressDataAccess.cs" />
     <Compile Include="DataAccess\ACSApplicationDataAccess.cs" />
+    <Compile Include="DataAccess\StorePaymentProviderDataAccess.cs" />
     <Compile Include="DataAccess\DataAccessHelper.cs" />
     <Compile Include="DataAccess\PartnersDataAccess.cs" />
     <Compile Include="DataAccess\SettingsDataAccess.cs" />
