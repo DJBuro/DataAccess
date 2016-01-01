@@ -105,7 +105,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public TripAdvisorSettings TripAdvisorSettings { set; get; }
 
-        public SEO SEO { set; get; }
+        public SEOSettings SEOSettings { set; get; }
 
         public static string SerializeJson(Object obj)
         {
