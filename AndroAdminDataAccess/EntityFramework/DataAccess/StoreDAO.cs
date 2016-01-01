@@ -257,7 +257,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ClientSiteName = store.ClientSiteName,
                         AddressId = addressEntity.Id,
                         Telephone = store.Telephone,
-                        TimeZone = store.TimeZone
+                        TimeZone = store.TimeZone,
+                        LicenseKey = "A24C92FE-92D1-4705-8E33-202F51BCE38D"
                     };
 
                     entitiesContext.Stores.Add(storeEntity);

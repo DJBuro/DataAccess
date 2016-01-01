@@ -6,11 +6,10 @@ using AndroAdminDataAccess.Domain;
 
 namespace AndroAdminDataAccess.DataAccess
 {
-    public interface ICountryDAO
+    public interface IAddressDAO
     {
         string ConnectionStringOverride { get; set; }
 
-        List<Country> GetAll();
-        Country GetById(int countryId);
+        int Add(Address address);
     }
 }
