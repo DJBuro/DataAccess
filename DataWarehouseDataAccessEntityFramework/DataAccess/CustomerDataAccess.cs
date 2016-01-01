@@ -7,6 +7,7 @@ using DataWarehouseDataAccessEntityFramework.Model;
 using DataWarehouseDataAccess.Domain;
 using System.Collections.Generic;
 using System.Transactions;
+using DataWarehouseDataAccessEntityFramework.Domain;
 
 namespace DataWarehouseDataAccessEntityFramework.DataAccess
 {
@@ -20,20 +21,26 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
             using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
             {
-                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);                
+                DataAccessHelper.FixConnectionString(dataWarehouseEntities, this.ConnectionStringOverride);
 
-                var query = from p in dataWarehouseEntities.Customers
-                            where p.Username == username
-                            && p.ACSAplicationId == applicationId
-                            join a in dataWarehouseEntities.Addresses
-                                on p.AddressId equals a.Id
-                            join c in dataWarehouseEntities.Contacts
-                                on p.Id equals c.CustomerId
-                            join m in dataWarehouseEntities.MarketingLevels
-                                on c.MarketingLevelId equals m.Id
-                            join ct in dataWarehouseEntities.ContactTypes
-                                on c.ContactTypeId equals ct.Id
-                            select p;
+                var query =
+                dataWarehouseEntities.Customers
+                    .Where(e => e.ACSAplicationId == applicationId)
+                    .Where(e => e.Username == username)
+                    .Select
+                    (
+                        e => new
+                        {
+                            e.Id,
+                            e.Title,
+                            e.FirstName,
+                            e.Surname,
+                            e.Address,
+                            Contacts = e.Contacts.Select(contact => new { ContactType = contact.ContactType.Name, MarketingLevel = contact.MarketingLevel.Name, contact.Value }),
+                            e.Password,
+                            e.PasswordSalt
+                        }
+                    );
 
                 var entity = query.FirstOrDefault();
 
@@ -56,17 +63,17 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     customer = new DataWarehouseDataAccess.Domain.Customer()
                     {
                         Id = entity.Id,
+                        Title = entity.Title,
                         FirstName = entity.FirstName,
-                        Surname = entity.Surname,
-                        Title = entity.Title
+                        Surname = entity.Surname
                     };
 
                     if (entity.Address != null)
                     {
                         customer.Address = new DataWarehouseDataAccess.Domain.Address()
                         {
-                            Country = entity.Address.Country.CountryName,
                             County = entity.Address.County,
+                            Locality = entity.Address.Locality,
                             Org1 = entity.Address.Org1,
                             Org2 = entity.Address.Org2,
                             Org3 = entity.Address.Org3,
@@ -87,14 +94,14 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     if (entity.Contacts != null)
                     {
                         customer.Contacts = new List<DataWarehouseDataAccess.Domain.Contact>();
-                        foreach (Model.Contact contact in entity.Contacts)
+                        foreach (var contact in entity.Contacts)
                         {
                             customer.Contacts.Add
                             (
                                 new DataWarehouseDataAccess.Domain.Contact()
                                 {
-                                    MarketingLevel = contact.MarketingLevel.Name,
-                                    Type = contact.ContactType.Name,
+                                    MarketingLevel = contact.MarketingLevel,
+                                    Type = contact.ContactType,
                                     Value = contact.Value
                                 }
                             );

@@ -39,7 +39,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string DPS { get; set; }
         public string Lat { get; set; }
         public string Long { get; set; }
-        public System.Data.Spatial.DbGeography Location { get; set; }
         public int DataVersion { get; set; }
         public int CountryId { get; set; }
     
