@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AndroCloudDataAccessEntityFramework.DataAccess;
 using MyAndromedaDataAccess;
 using MyAndromedaDataAccess.DataAccess;
@@ -11,8 +9,6 @@ namespace MyAndromedaDataAccessEntityFramework
 {
     public class EntityFrameworkDataAccessFactory : IDataAccessFactory
     {
-        
-
         public MyAndromedaDataAccess.DataAccess.ISiteDataAccess SiteDataAccess
         {
             get { return new SitesDataAccess(); }

@@ -55,6 +55,7 @@
     <Compile Include="DataAccess\ICountryDataAccess.cs" />
     <Compile Include="DataAccess\IAddressDataAccess.cs" />
     <Compile Include="DataAccess\IEmailCampaignDataAccess.cs" />
+    <Compile Include="DataAccess\IEmailCampaignTasksDataAccess.cs" />
     <Compile Include="DataAccess\IEmployeeDataAccess.cs" />
     <Compile Include="DataAccess\IGroupsDataAccess.cs" />
     <Compile Include="DataAccess\IMyAndromedaUserDataAccess.cs" />

@@ -66,11 +66,4 @@ namespace MyAndromedaDataAccess.DataAccess
         /// <param name="settings">The settings.</param>
         void CreateEmailSettings(EmailSettings settings);
     }
-
-    public interface IEmailCampaignTasksDataAccess : IDataAccessOptions 
-    {
-        IEnumerable<EmailCampaignTask> GetTasksToRun(DateTime dateTime);
-
-        void Create(Domain.Marketing.EmailCampaignTask campaignTask);
-    }
 }

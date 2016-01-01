@@ -12,10 +12,10 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.Customer ToDomainModel(this Model.CustomerRecord entity) 
+        public static Domain.Customer ToDomainModel(this Model.CustomerRecord entity)
         {
-            var model = new Domain.Customer() 
-            { 
+            var model = new Domain.Customer()
+            {
                 Id = entity.Id,
                 FirstName = entity.FirstName,
                 Surname = entity.Surname,
@@ -62,7 +62,8 @@ namespace MyAndromedaDataAccessEntityFramework
         /// <param name="domainModel">The domain model.</param>
         public static void Update(this Model.EmailCampaign entity, Domain.EmailCampaign domainModel)
         {
-            if (entity.Created == default(DateTime)) {
+            if (entity.Created == default(DateTime))
+            {
                 entity.Created = domainModel.Created;
             }
 
@@ -74,28 +75,29 @@ namespace MyAndromedaDataAccessEntityFramework
             entity.ChainOnly = domainModel.ChainOnly;
 
             //find items that are no longer in the model
-            var removeLinks = entity.EmailCampaignSites.Select(e => e.SiteId).Where(e=> !domainModel.SiteIds.Any(d=> d.SiteId == e)).ToList();
+            var removeLinks = entity.EmailCampaignSites.Select(e => e.SiteId).Where(e => !domainModel.SiteIds.Any(d => d.SiteId == e)).ToList();
             //find items that are not in the model
             var addLinks = domainModel.SiteIds.Where(d => !entity.EmailCampaignSites.Any(e => e.SiteId == d.SiteId)).ToList();
 
             //remove linked records.
-            foreach(var id in removeLinks)
+            foreach (var id in removeLinks)
             {
-                var item = entity.EmailCampaignSites.FirstOrDefault(e=> e.SiteId == id);
+                var item = entity.EmailCampaignSites.FirstOrDefault(e => e.SiteId == id);
                 entity.EmailCampaignSites.Remove(item);
             }
 
-            foreach (var id in addLinks) 
+            foreach (var id in addLinks)
             {
                 //add in new linked records.
-                entity.EmailCampaignSites.Add(new Model.EmailCampaignSite() { 
+                entity.EmailCampaignSites.Add(new Model.EmailCampaignSite()
+                {
                     SiteId = id.SiteId,
                     Editable = id.Editable
                 });
             }
 
 
-            
+
             //entity. = domainModel.SiteIds;
         }
 
@@ -104,7 +106,7 @@ namespace MyAndromedaDataAccessEntityFramework
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public static Domain.EmailSettings ToDomainModel(this Model.EmailCampaignSetting entity) 
+        public static Domain.EmailSettings ToDomainModel(this Model.EmailCampaignSetting entity)
         {
             return new EmailSettings()
             {
@@ -133,10 +135,48 @@ namespace MyAndromedaDataAccessEntityFramework
             entity.Port = domainModel.Port;
             entity.Password = domainModel.Password ?? string.Empty;
             entity.Id = domainModel.Id;
-            entity.Host = domainModel.Host ?? string.Empty;;
+            entity.Host = domainModel.Host ?? string.Empty;
             entity.FromEmail = domainModel.From;
             entity.ChainId = domainModel.ChainId;
             entity.DropFolder = domainModel.PickupFolder ?? string.Empty;
         }
+
+        /// <summary>
+        /// Toes the domain model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public static Domain.EmailCampaignTask ToDomainModel(this Model.EmailCampaignTask entity)
+        {
+            return new EmailCampaignTask()
+            {
+                Id = entity.Id,
+                Completed = entity.Completed,
+                Created = entity.CreatedOnUtc,
+                RanAt = entity.RanAtUtc,
+                RunLaterOnUtc = entity.RunLaterOnUtc,
+                RetryAfter = entity.RetryAfter,
+                Started = entity.Started,
+                EmailSettings = entity.EmailCampaignSetting == null ? null : entity.EmailCampaignSetting.ToDomainModel(),
+                EmailCampaign = entity.EmailCampaign == null ? null : entity.EmailCampaign.ToDomainModel()
+            };
+        }
+
+        /// <summary>
+        /// Toes the domain model.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public static void Update(this Model.EmailCampaignTask entity, Domain.EmailCampaignTask domainModel)
+        {
+            entity.Completed = domainModel.Completed;
+            entity.Canceled = domainModel.Canceled;
+            entity.CreatedOnUtc = domainModel.Created;
+            entity.RanAtUtc = domainModel.RanAt;
+            entity.RetryAfter = domainModel.RetryAfter;
+            entity.RunLaterOnUtc = domainModel.RunLaterOnUtc;
+            entity.Started = domainModel.Started;
+        }
+
     }
 }

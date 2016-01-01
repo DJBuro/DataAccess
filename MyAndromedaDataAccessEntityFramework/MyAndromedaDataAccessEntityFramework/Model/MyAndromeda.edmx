@@ -65,7 +65,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="EmailCampaignId" Type="int" Nullable="false" />
-          <Property Name="EditedByUserId" Type="int" Nullable="false" />
+          <Property Name="EditedByUserName" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="ActionOn" Type="datetime" Nullable="false" />
           <Property Name="Message" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
@@ -114,8 +114,10 @@
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="EmailCampaignSettingsId" Type="int" Nullable="false" />
           <Property Name="CreatedOnUtc" Type="datetime" Nullable="false" />
-          <Property Name="RunOnUtc" Type="datetime" />
-          <Property Name="RunAtUtc" Type="datetime" />
+          <Property Name="RunLaterOnUtc" Type="datetime" />
+          <Property Name="RanAtUtc" Type="datetime" />
+          <Property Name="RetryAfter" Type="datetime" />
+          <Property Name="Canceled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -255,7 +257,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="EmailCampaignId" Nullable="false" />
-          <Property Type="Int32" Name="EditedByUserId" Nullable="false" />
+          <Property Type="String" Name="EditedByUserName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ActionOn" Nullable="false" Precision="3" />
           <Property Type="String" Name="Message" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignAudit_EmailCampaign" FromRole="EmailCampaignAudit" ToRole="EmailCampaign" />
@@ -308,8 +310,10 @@
           <Property Type="Boolean" Name="Completed" Nullable="false" />
           <Property Type="Int32" Name="EmailCampaignSettingsId" Nullable="false" />
           <Property Type="DateTime" Name="CreatedOnUtc" Nullable="false" Precision="3" />
-          <Property Type="DateTime" Name="RunOnUtc" Precision="3" />
-          <Property Type="DateTime" Name="RunAtUtc" Precision="3" />
+          <Property Type="DateTime" Name="RunLaterOnUtc" Precision="3" />
+          <Property Type="DateTime" Name="RanAtUtc" Precision="3" />
+          <Property Type="DateTime" Name="RetryAfter" Precision="3" />
+          <Property Type="Boolean" Name="Canceled" Nullable="false" />
           <NavigationProperty Name="EmailCampaign" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign1" FromRole="EmailCampaignTask" ToRole="EmailCampaign" />
           <NavigationProperty Name="EmailCampaignSetting" Relationship="MyAndromedaModel.FK_EmailCampaignTasks_EmailCampaign" FromRole="EmailCampaignTask" ToRole="EmailCampaignSetting" />
         </EntityType>
@@ -420,7 +424,7 @@
               <MappingFragment StoreEntitySet="EmailCampaignAudit">
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="ActionOn" ColumnName="ActionOn" />
-                <ScalarProperty Name="EditedByUserId" ColumnName="EditedByUserId" />
+                <ScalarProperty Name="EditedByUserName" ColumnName="EditedByUserName" />
                 <ScalarProperty Name="EmailCampaignId" ColumnName="EmailCampaignId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -466,8 +470,10 @@
           <EntitySetMapping Name="EmailCampaignTasks">
             <EntityTypeMapping TypeName="MyAndromedaModel.EmailCampaignTask">
               <MappingFragment StoreEntitySet="EmailCampaignTasks">
-                <ScalarProperty Name="RunAtUtc" ColumnName="RunAtUtc" />
-                <ScalarProperty Name="RunOnUtc" ColumnName="RunOnUtc" />
+                <ScalarProperty Name="Canceled" ColumnName="Canceled" />
+                <ScalarProperty Name="RetryAfter" ColumnName="RetryAfter" />
+                <ScalarProperty Name="RanAtUtc" ColumnName="RanAtUtc" />
+                <ScalarProperty Name="RunLaterOnUtc" ColumnName="RunLaterOnUtc" />
                 <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
                 <ScalarProperty Name="EmailCampaignSettingsId" ColumnName="EmailCampaignSettingsId" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
