@@ -590,7 +590,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
         public void AddLoyaltyProvider(DataWarehouseDataAccess.Domain.Customer customer, SiteLoyalty loyalty)
         {
-            bool exists = customer.CustomerLoyalties.Any(e => e.ProviderName.Equals(loyalty.ProviderName, StringComparison.InvariantCultureIgnoreCase));
+            bool exists = customer.CustomerLoyalties.Any
+                (e => e.ProviderName.Equals(loyalty.ProviderName, StringComparison.InvariantCultureIgnoreCase));
 
             if (exists) { return; }
 
@@ -605,6 +606,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     ProviderName = loyalty.ProviderName,
                     Customer = customerEntity
                 };
+
+                if (customerEntity == null) return;
 
                 if (loyalty.ProviderName.Equals("Andromeda", StringComparison.InvariantCultureIgnoreCase)) 
                 {
@@ -621,6 +624,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     }
                 }
 
+                customerEntity.CustomerLoyalties = customerEntity.CustomerLoyalties == null ? new List<CustomerLoyalty>() : customerEntity.CustomerLoyalties;
                 customerEntity.CustomerLoyalties.Add(customerLoyalty);
 
                 dataWarehouseEntities.SaveChanges();
