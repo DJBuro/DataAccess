@@ -1141,10 +1141,10 @@
           <ConnectorPoint PointX="7.25" PointY="14.336253255208334" />
           <ConnectorPoint PointX="8.375" PointY="14.336253255208334" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.375" PointY="5.875" Height="5.2494108072916674" />
+        <EntityTypeShape EntityType="ACSModel.Address" Width="1.5" PointX="8.125" PointY="6.25" Height="5.2494108072916674" />
         <AssociationConnector Association="ACSModel.FK_Sites_Addresses" >
-          <ConnectorPoint PointX="8.375" PointY="10.687205403645834" />
-          <ConnectorPoint PointX="7.25" PointY="10.687205403645834" />
+          <ConnectorPoint PointX="8.125" PointY="10.874705403645834" />
+          <ConnectorPoint PointX="7.25" PointY="10.874705403645834" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
