@@ -150,6 +150,8 @@
     <Compile Include="DataAccess\Users\IUserSitesDataService.cs" />
     <Compile Include="DataAccess\Users\UserChainsDataService.cs" />
     <Compile Include="DataAccess\Users\UserRoleDataService.cs" />
+    <Compile Include="DataAccess\WebOrdering\IWebOrderingWebSiteDataService.cs" />
+    <Compile Include="DataAccess\WebOrdering\WebOrderingWebSiteDataService.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Model\AndroAdmin\ACSApplication.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
@@ -245,6 +247,9 @@
     <Compile Include="Model\AndroAdmin\Setting.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AndroAdmin\Site_AMS_upload.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AndroAdmin\Store.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
@@ -273,6 +278,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\AndroAdmin\StoreStatu.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AndroAdmin\sysdiagram.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DataVersionHelper.cs" />
