@@ -39,6 +39,13 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <returns></returns>
         IEnumerable<MyAndromedaUser> FindUsersDirectlyBelongingToChain(int chainId);
 
+        /// <summary>
+        /// Finds the chains directly belonging to user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        IEnumerable<Chain> FindChainsDirectlyBelongingToUser(int userId);
+
         void RemoveChainLinkToUser(int userId, int chainId);
     }
 
@@ -165,6 +172,31 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             }
 
             return myAndromedaUserusers;
+        }
+
+        public IEnumerable<Chain> FindChainsDirectlyBelongingToUser(int userId)
+        {
+            IEnumerable<Chain> chains = Enumerable.Empty<Chain>();
+
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext()) 
+            {
+                var userChainsTable = myAndromedaDbContext.UserChains;
+                var userChainsquery = userChainsTable.Where(e => e.UserRecordId == userId).Select(e => e.ChainId).ToArray();
+
+                using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext()) 
+                {
+                    var chainsquery = androAdminDbContext.Chains.Where(chain => userChainsquery.Contains(chain.Id));
+                    var chainsResult = chainsquery.ToArray().Select(e => new Chain() { 
+                        Id = e.Id,
+                        Name = e.Name,
+                        Culture = e.Culture
+                    }).ToArray();
+
+                    chains = chainsResult;
+                }
+            }
+
+            return chains;
         }
 
         public void RemoveChainLinkToUser(int userId, int chainId)
