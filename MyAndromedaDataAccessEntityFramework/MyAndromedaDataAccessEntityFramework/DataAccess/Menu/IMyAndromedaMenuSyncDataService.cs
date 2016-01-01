@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MyAndromeda.Core;
+using MyAndromedaDataAccessEntityFramework.Model;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 
 namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
@@ -14,6 +15,14 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
         /// <param name="xml">The XML.</param>
         /// <param name="json">The json.</param>
         void SyncMenuThumbnails(int andromedaSiteId, string xml, string json);
+
+        /// <summary>
+        /// Syncs the actual menu.
+        /// </summary>
+        /// <param name="andromedaSiteId">The andromeda site id.</param>
+        /// <param name="xml">The XML.</param>
+        /// <param name="json">The json.</param>
+        void SyncActualMenu(int andromedaSiteId, string xml, string json, int? version);
 
         /// <summary>
         /// Check if the 'compiled json or xml data is out of date.
@@ -32,7 +41,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 var menuThumbnailTable = androAdminDbContext.StoreMenuThumbnails;
                 var query = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
                 var menuThumbnailResult = //already exist? 
-                query.SingleOrDefault() ?? this.Create(androAdminDbContext, andromedaSiteId);
+                query.SingleOrDefault() ?? this.CreateThumbnailRow(androAdminDbContext, andromedaSiteId);
 
                 menuThumbnailResult.LastUpdate = DateTime.UtcNow;
                 menuThumbnailResult.XmlMenuThumbnailData = xml;
@@ -40,6 +49,35 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
 
                 //update version for cloud sync
                 menuThumbnailResult.Version = Model.DataVersionHelper.GetNextDataVersion(androAdminDbContext);
+
+                androAdminDbContext.SaveChanges();
+            }
+        }
+
+        public void SyncActualMenu(int andromedaSiteId, string xml, string json, int? version)
+        {
+            using (var androAdminDbContext = new Model.AndroAdmin.AndroAdminDbContext())
+            {
+                var table = androAdminDbContext.StoreMenus;
+                var query = table.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
+                var menuRow = query.ToArray();
+
+                var dataVersion = androAdminDbContext.GetNextDataVersionForEntity();
+
+                Model.AndroAdmin.StoreMenu xmlRecord = 
+                    menuRow.FirstOrDefault(e=> e.MenuType == "XML") ?? this.CreateXmlMenuRow(androAdminDbContext, andromedaSiteId);
+                Model.AndroAdmin.StoreMenu jsonRecord = 
+                    menuRow.FirstOrDefault(e=> e.MenuType == "JSON") ?? this.CreateJsonMenuRow(androAdminDbContext, andromedaSiteId);
+
+                xmlRecord.DataVersion = dataVersion;
+                jsonRecord.DataVersion = dataVersion;
+                jsonRecord.MenuData = json;
+
+                xmlRecord.Version = version.GetValueOrDefault();
+                jsonRecord.Version = version.GetValueOrDefault();
+
+                xmlRecord.LastUpdated = DateTime.UtcNow;
+                jsonRecord.LastUpdated = DateTime.UtcNow;
 
                 androAdminDbContext.SaveChanges();
             }
@@ -62,8 +100,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
                 using (var androAdminDbContex = new Model.AndroAdmin.AndroAdminDbContext()) 
                 {
                     var menuThumbnailTable = androAdminDbContex.StoreMenuThumbnails;
-                    var query = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
-                    var menuThumbnailResult = query.SingleOrDefault();
+                    var menuThumbnailTableQuery = menuThumbnailTable.Where(e => e.Store.AndromedaSiteId == andromedaSiteId);
+                    var menuThumbnailResult = menuThumbnailTableQuery.SingleOrDefault();
 
                     //no sync record yet 
                     if (menuThumbnailResult == null)
@@ -78,7 +116,38 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Menu
             return result;
         }
 
-        private Model.AndroAdmin.StoreMenuThumbnail Create(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromediaSiteId) 
+        private Model.AndroAdmin.StoreMenu CreateXmlMenuRow(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromedaSiteId) 
+        {
+            var store = dbContext.Stores.Single(e => e.AndromedaSiteId == andromedaSiteId);
+
+            var table = dbContext.StoreMenus;
+            var xmlEntity = table.Add(table.Create());
+            xmlEntity.MenuType = "XML";
+            xmlEntity.Store = store;
+            xmlEntity.LastUpdated = DateTime.UtcNow;
+            
+            return xmlEntity;
+            //todo: set 
+            //data version 
+            //last updated 
+            //check menu type 
+        }
+
+        private Model.AndroAdmin.StoreMenu CreateJsonMenuRow(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromedaSiteId) 
+        {
+            var store = dbContext.Stores.Single(e => e.AndromedaSiteId == andromedaSiteId);
+
+            var table = dbContext.StoreMenus;
+            var jsonEntity = table.Add(table.Create());
+            jsonEntity.MenuType = "JSON";
+            jsonEntity.Store = store;
+            jsonEntity.DataVersion = dbContext.GetNextDataVersionForEntity();
+            jsonEntity.LastUpdated = DateTime.UtcNow;
+
+            return jsonEntity;
+        }
+        
+        private Model.AndroAdmin.StoreMenuThumbnail CreateThumbnailRow(Model.AndroAdmin.AndroAdminDbContext dbContext, int andromediaSiteId) 
         {
             var table = dbContext.StoreMenuThumbnails;
             var entity = table.Add(table.Create());

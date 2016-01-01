@@ -3,6 +3,7 @@ using MyAndromeda.Core.User;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.MyAndromeda;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -47,6 +48,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <returns></returns>
         IEnumerable<Chain> FindChainsDirectlyBelongingToUser(int userId);
 
+        /// <summary>
+        /// Removes the chain link to user.
+        /// </summary>
+        /// <param name="userId">The user id.</param>
+        /// <param name="chainId">The chain id.</param>
         void RemoveChainLinkToUser(int userId, int chainId);
     }
 
@@ -75,7 +81,11 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
                     accessibleChains = userChainsResult;
                 }
 
-                var chainTable = androAdminDbContext.Chains;
+                var chainTable = androAdminDbContext.Chains
+                    .Include(e=> e.ChildChains)
+                    .Include(e=> e.ParentChains)
+                    .ToArray();
+
                 var chainQuery = chainTable.Where(e => accessibleChains.Contains(e.Id)); 
 
                 //top node on the chain structure 
