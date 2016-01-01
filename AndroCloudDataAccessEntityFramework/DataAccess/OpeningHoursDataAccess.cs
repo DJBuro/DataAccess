@@ -42,6 +42,38 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return "";
         }
 
+        public string DeleteBySiteIdDayMyAndromedaUserId(string externalSiteId, string day, string myAndromedaUserId)
+        {
+            ACSEntities acsEntities = new ACSEntities();
+
+            var acsQuery = from u in acsEntities.MyAndromedaUsers
+                           join e in acsEntities.Employees
+                             on u.EmployeeID equals e.ID
+                           join g in acsEntities.Groups
+                             on u.GroupID equals g.ID
+                           join sg in acsEntities.SitesGroups
+                             on g.ID equals sg.GroupID
+                           join s in acsEntities.Sites
+                             on sg.SiteID equals s.ID
+                           join oh in acsEntities.OpeningHours
+                             on s.ID equals oh.SiteID
+                           where u.Username == myAndromedaUserId
+                             && u.IsEnabled == true
+                             && s.ExternalId == externalSiteId
+                             && oh.Day.Description == day
+                           select oh;
+
+            Model.OpeningHour acsEntity = acsQuery.FirstOrDefault();
+
+            if (acsEntity != null)
+            {
+                acsEntities.OpeningHours.DeleteObject(acsEntity);
+                acsEntities.SaveChanges();
+            }
+
+            return "";
+        }
+
         public string AddByMyAndromedaUserId(TimeSpanBlock timeSpanBlock, string externalSiteId, string myAndromedaUserId)
         {
             ACSEntities acsEntities = new ACSEntities();
