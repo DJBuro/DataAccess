@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IChainDAO.cs" />
+    <Compile Include="DataAccess\IHubListDAO.cs" />
     <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
@@ -95,9 +96,11 @@
     <Compile Include="DataAccess\IDataAccess.cs" />
     <Compile Include="DataAccess\IFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreDAO.cs" />
+    <Compile Include="Domain\StoreHub.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Chain.cs" />
+    <Compile Include="Domain\HubItem.cs" />
     <Compile Include="Domain\Permission.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
