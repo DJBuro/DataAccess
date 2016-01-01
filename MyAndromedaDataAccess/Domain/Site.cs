@@ -16,7 +16,7 @@ namespace MyAndromedaDataAccess.Domain
         public bool IsOpen { get; set; }
         public int EstDelivTime { get; set; }
         public string ExternalSiteId { get; set; }
-
+        public string PhoneNumber { get; set; }
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }

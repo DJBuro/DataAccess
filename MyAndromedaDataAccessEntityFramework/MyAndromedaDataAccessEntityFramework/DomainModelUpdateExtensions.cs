@@ -198,7 +198,8 @@ namespace MyAndromedaDataAccessEntityFramework
                 ChainId = entity.ChainId,
                 ExternalName = entity.ExternalSiteName,
                 Longitude = entity.Address.Long,
-                Latitude = entity.Address.Lat
+                Latitude = entity.Address.Lat,
+                PhoneNumber = entity.Telephone
             };
 
             return site;
