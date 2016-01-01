@@ -13,6 +13,7 @@
           <EntitySet Name="Country" EntityType="DataWarehouseModel.Store.Country" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Customer" EntityType="DataWarehouseModel.Store.Customer" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MarketingLevel" EntityType="DataWarehouseModel.Store.MarketingLevel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PasswordResetRequest" EntityType="DataWarehouseModel.Store.PasswordResetRequest" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Address_Country" Association="DataWarehouseModel.Store.FK_Address_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
@@ -36,6 +37,10 @@
           <AssociationSet Name="FK_Customer_Address" Association="DataWarehouseModel.Store.FK_Customer_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasswordResetRequest_Customer" Association="DataWarehouseModel.Store.FK_PasswordResetRequest_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PasswordResetRequest" EntitySet="PasswordResetRequest" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
@@ -128,6 +133,15 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
+        <EntityType Name="PasswordResetRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="RequestedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <Association Name="FK_Address_Country">
           <End Role="Country" Type="DataWarehouseModel.Store.Country" Multiplicity="1" />
           <End Role="Address" Type="DataWarehouseModel.Store.Address" Multiplicity="*" />
@@ -200,6 +214,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PasswordResetRequest_Customer">
+          <End Role="Customer" Type="DataWarehouseModel.Store.Customer" Multiplicity="1" />
+          <End Role="PasswordResetRequest" Type="DataWarehouseModel.Store.PasswordResetRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PasswordResetRequest">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -235,6 +261,11 @@
           <AssociationSet Name="FK_Customer_Address" Association="DataWarehouseModel.FK_Customer_Address">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <EntitySet Name="PasswordResetRequests" EntityType="DataWarehouseModel.PasswordResetRequest" />
+          <AssociationSet Name="FK_PasswordResetRequest_Customer" Association="DataWarehouseModel.FK_PasswordResetRequest_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="PasswordResetRequest" EntitySet="PasswordResetRequests" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AccountType">
@@ -329,6 +360,7 @@
           <NavigationProperty Name="AccountType" Relationship="DataWarehouseModel.FK_Customer_AccountType" FromRole="Customer" ToRole="AccountType" />
           <NavigationProperty Name="Contacts" Relationship="DataWarehouseModel.FK_Contact_Customer" FromRole="Customer" ToRole="Contact" />
           <NavigationProperty Name="Address" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
+          <NavigationProperty Name="PasswordResetRequests" Relationship="DataWarehouseModel.FK_PasswordResetRequest_Customer" FromRole="Customer" ToRole="PasswordResetRequest" />
         </EntityType>
         <Association Name="FK_Customer_AccountType">
           <End Type="DataWarehouseModel.AccountType" Role="AccountType" Multiplicity="1" />
@@ -405,6 +437,28 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PasswordResetRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="DateTime" Name="RequestedDateTime" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Token" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_PasswordResetRequest_Customer" FromRole="PasswordResetRequest" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_PasswordResetRequest_Customer">
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="DataWarehouseModel.PasswordResetRequest" Role="PasswordResetRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PasswordResetRequest">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -504,6 +558,16 @@
                 <ScalarProperty Name="Org3" ColumnName="Org3" />
                 <ScalarProperty Name="Org2" ColumnName="Org2" />
                 <ScalarProperty Name="Org1" ColumnName="Org1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordResetRequests">
+            <EntityTypeMapping TypeName="DataWarehouseModel.PasswordResetRequest">
+              <MappingFragment StoreEntitySet="PasswordResetRequest">
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="RequestedDateTime" ColumnName="RequestedDateTime" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

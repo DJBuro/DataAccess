@@ -17,6 +17,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public Customer()
         {
             this.Contacts = new HashSet<Contact>();
+            this.PasswordResetRequests = new HashSet<PasswordResetRequest>();
         }
     
         public int Id { get; set; }
@@ -34,5 +35,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public virtual AccountType AccountType { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual Address Address { get; set; }
+        public virtual ICollection<PasswordResetRequest> PasswordResetRequests { get; set; }
     }
 }

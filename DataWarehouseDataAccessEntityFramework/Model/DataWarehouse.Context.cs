@@ -32,5 +32,6 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public DbSet<MarketingLevel> MarketingLevels { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
     }
 }
