@@ -51,16 +51,17 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 //            select u;
 
                 var query = entitiesContext.MyAndromedaUsers
-                    .Where(user=> 
-                        //check if a record exists through user group 
-                        user.MyAndromedaUserGroups.Any(
-                            group => 
-                                //group -> store
-                                group.Group.Stores.Any(store => store.ExternalId == externalSiteId)
-                    )
-                );
-
-                MyAndromedaUser enitity = query.FirstOrDefault();
+                    .Where(e => e.Groups.Any(group => group.Stores.Any(store => store.ExternalId == externalSiteId)));
+                    //.Where(user=> 
+                    //    //check if a record exists through user group 
+                    //    user.MyAndromedaUserGroups.Any(
+                    //        group => 
+                    //            //group -> store
+                    //            group.Group.Stores.Any(store => store.ExternalId == externalSiteId)
+                    //)
+                //);
+                var result = query.FirstOrDefault();
+                MyAndromedaUser enitity = result;
 
                 if (enitity != null)
                 {

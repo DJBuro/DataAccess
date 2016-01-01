@@ -12,20 +12,20 @@ namespace MyAndromedaDataAccessEntityFramework.Model.AndroAdmin
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreAMSServer
+    public partial class HubAddress
     {
-        public StoreAMSServer()
+        public HubAddress()
         {
-            this.StoreAMSServerFtpSites = new HashSet<StoreAMSServerFtpSite>();
+            this.Stores = new HashSet<Store>();
         }
     
-        public int Id { get; set; }
-        public int StoreId { get; set; }
-        public int Priority { get; set; }
-        public int AMSServerId { get; set; }
+        public System.Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public bool Active { get; set; }
+        public bool Removed { get; set; }
+        public int DataVersion { get; set; }
     
-        public virtual AMSServer AMSServer { get; set; }
-        public virtual ICollection<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
-        public virtual Store Store { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 }

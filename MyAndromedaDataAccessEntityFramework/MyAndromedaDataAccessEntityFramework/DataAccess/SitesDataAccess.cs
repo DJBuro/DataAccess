@@ -10,6 +10,22 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     public class SitesDataAccess : ISiteDataAccess
     {
 
+        public void GetExternalAcsApplicationIds(int siteId, out IEnumerable<string> acsExternalApplicationIds)
+        {
+            acsExternalApplicationIds = Enumerable.Empty<string>();
+
+            using (var dbContext = new AndroAdminDbContext())
+            {
+                var table = dbContext.ACSApplications;
+                var query = table
+                    .Where(e => e.ACSApplicationSites.Any(site => site.SiteId == siteId))
+                    .Select(e=> e.ExternalApplicationId);
+                var result = query.ToArray();
+
+                acsExternalApplicationIds = result;
+            }
+        }
+
         public string GetExternalApplicationIds(int siteId, out IEnumerable<string> externalApplicationIds)
         {
             externalApplicationIds = Enumerable.Empty<string>();
@@ -28,7 +44,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return string.Empty;
         }
-
 
         public string GetAcsApplicationIds(int siteId, out IEnumerable<int> application)
         {
@@ -78,9 +93,13 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
         {
             using (var entitiesContext = new AndroAdminDbContext()) 
             {
-                var count = entitiesContext.MyAndromedaUserGroups.Where(e => e.MyAndromedaUserId == myAndromedaUserId).Count();
+                var table = entitiesContext.Groups;
+                var query = table.Where(e => e.MyAndromedaUsers.Any(user => user.Id == myAndromedaUserId));
+                var result = query.Count();
+                    //.MyAndromedaUsers.Where(e => e.Id == myAndromedaUserId).Select(e=> e.
+                    //entitiesContext.MyAndromedaUserGroups.Where(e => e.MyAndromedaUserId == myAndromedaUserId).Count();
 
-                total = count; ;
+                total = result;
             }
 
             return string.Empty;
@@ -98,7 +117,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 // The user has permission to access any of the stores in these groups.
                 // For example, there might be a group called "PJ UK" containing all PJ UK stores
                 var storeQuery = entitiesContext.Stores
-                    .Where(e => e.Group.MyAndromedaUserGroups.Any(userGroup => userGroup.MyAndromedaUserId == myAndromedaUserId))
+                    .Where(e => e.Groups.Any(group => group.MyAndromedaUsers.Any(user => user.Id == myAndromedaUserId)))
                     .ToArray();
 
                 if (storeQuery != null && storeQuery.Length > 0)

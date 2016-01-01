@@ -14,7 +14,7 @@
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSentEmails_EmailCampaign" ManuallyRouted="false" />
         <AssociationConnector Association="MyAndromedaModel.FK_EmailCampaignSites_EmailCampaign" ManuallyRouted="false" />
         </Diagram>
-      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="97" >
+      <Diagram DiagramId="2e766e8caa034c459932b28921f08651" Name="OrderMenu" ZoomLevel="93" >
         <EntityTypeShape EntityType="MyAndromedaModel.MenuItemThumbnail" Width="1.5" PointX="4.25" PointY="19.5" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServerAuthentication" Width="1.5" PointX="16.875" PointY="22.75" />
         <EntityTypeShape EntityType="MyAndromedaModel.SiteMenuMediaServer" Width="1.5" PointX="14.5" PointY="22.5" />

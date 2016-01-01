@@ -165,11 +165,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Src" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Src" Type="nvarchar" Nullable="false" MaxLength="1024" />
           <Property Name="Height" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Alt" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="MenuItemThumbnailRelations">
           <Key>
@@ -601,11 +601,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Src" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Src" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Height" Nullable="false" />
           <Property Type="Int32" Name="Width" Nullable="false" />
           <Property Type="String" Name="Alt" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="FileName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MenuItems" Relationship="MyAndromedaModel.MenuItemThumbnailRelations" FromRole="MenuItemThumbnail" ToRole="MenuItem" />
         </EntityType>
         <EntityType Name="SiteMenuMediaServerAuthentication">
