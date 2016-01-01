@@ -37,6 +37,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
         /// <param name="deepSearch">The deep search.</param>
         /// <returns></returns>
         //IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch);
+        void RemoveStoreLinkToUser(int userId, int storeId);
     }
 
     public class UserSitesDataService : IUserSitesDataService
@@ -100,7 +101,19 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Users
             return sites;
         }
 
+        public void RemoveStoreLinkToUser(int userId, int storeId)
+        {
+            using (var myAndromedaDbContext = new Model.MyAndromeda.MyAndromedaDbContext())
+            {
+                var table = myAndromedaDbContext.UserStores;
+                var query = table.Where(e => e.StoreId == storeId && e.UserRecordId == userId);
+                var results = query.ToArray();
 
+                foreach (var result in results) { myAndromedaDbContext.UserStores.Remove(result); }
+
+                myAndromedaDbContext.SaveChanges();
+            }
+        }
         //public IEnumerable<Site> GetSitesForUserAndChain(int userId, int chainId, bool deepSearch)
         //{
         //    if (!deepSearch) { return this.GetSitesForUserAndChain(userId, chainId); }
