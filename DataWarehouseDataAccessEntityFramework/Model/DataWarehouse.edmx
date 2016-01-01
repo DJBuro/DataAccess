@@ -51,6 +51,26 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="Directions" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="AndroWebTelemetry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LoggedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="AndroWebSessionID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Action" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AndroWebTelemetrySession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CustomerId" Type="uniqueidentifier" />
+          <Property Name="Referrer" Type="nvarchar" MaxLength="255" />
+          <Property Name="BrowserDetails" Type="nvarchar" MaxLength="255" />
+          <Property Name="ExternalSiteId" Type="nvarchar" MaxLength="64" Nullable="false" />
+        </EntityType>
         <EntityType Name="Audit">
           <Key>
             <PropertyRef Name="ID" />
@@ -341,6 +361,30 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AndroWebSession_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="AndroWebTelemetrySession" Type="Self.AndroWebTelemetrySession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AndroWebTelemetrySession">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebSessionItem_AndroWebSession">
+          <End Role="AndroWebTelemetrySession" Type="Self.AndroWebTelemetrySession" Multiplicity="1" />
+          <End Role="AndroWebTelemetry" Type="Self.AndroWebTelemetry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebTelemetrySession">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebTelemetry">
+              <PropertyRef Name="AndroWebSessionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contact_ContactType">
           <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
           <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
@@ -621,6 +665,8 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ACSErrorCode" EntityType="Self.ACSErrorCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AndroWebTelemetry" EntityType="Self.AndroWebTelemetry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AndroWebTelemetrySession" EntityType="Self.AndroWebTelemetrySession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="dbo" store:Type="Tables" />
@@ -647,6 +693,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebSession_Customer" Association="Self.FK_AndroWebSession_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="AndroWebTelemetrySession" EntitySet="AndroWebTelemetrySession" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebSessionItem_AndroWebSession" Association="Self.FK_AndroWebSessionItem_AndroWebSession">
+            <End Role="AndroWebTelemetrySession" EntitySet="AndroWebTelemetrySession" />
+            <End Role="AndroWebTelemetry" EntitySet="AndroWebTelemetry" />
           </AssociationSet>
           <AssociationSet Name="FK_Contact_ContactType" Association="Self.FK_Contact_ContactType">
             <End Role="ContactType" EntitySet="ContactType" />
@@ -860,6 +914,16 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="UsedVoucher" EntitySet="UsedVouchers" />
           </AssociationSet>
+          <EntitySet Name="AndroWebTelemetries" EntityType="DataWarehouseModel.AndroWebTelemetry" />
+          <EntitySet Name="AndroWebTelemetrySessions" EntityType="DataWarehouseModel.AndroWebTelemetrySession" />
+          <AssociationSet Name="FK_AndroWebSessionItem_AndroWebSession" Association="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession">
+            <End Role="AndroWebTelemetrySession" EntitySet="AndroWebTelemetrySessions" />
+            <End Role="AndroWebTelemetry" EntitySet="AndroWebTelemetries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebSession_Customer" Association="DataWarehouseModel.FK_AndroWebSession_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AndroWebTelemetrySession" EntitySet="AndroWebTelemetrySessions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountType">
           <Key>
@@ -976,6 +1040,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderHeader_Customer1" FromRole="Customer" ToRole="OrderHeader" />
           <NavigationProperty Name="PasswordResetRequests" Relationship="DataWarehouseModel.fk_passwordresetrequest_customer" FromRole="Customer" ToRole="PasswordResetRequest" />
           <NavigationProperty Name="UsedVouchers" Relationship="DataWarehouseModel.FK_UsedVoucher_Customer" FromRole="Customer" ToRole="UsedVoucher" />
+          <NavigationProperty Name="AndroWebTelemetrySessions" Relationship="DataWarehouseModel.FK_AndroWebSession_Customer" FromRole="Customer" ToRole="AndroWebTelemetrySession" />
         </EntityType>
         <EntityType Name="CustomerAccount">
           <Key>
@@ -1515,6 +1580,53 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AndroWebTelemetry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="LoggedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AndroWebSessionID" Type="Guid" Nullable="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AndroWebTelemetrySession" Relationship="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession" FromRole="AndroWebTelemetry" ToRole="AndroWebTelemetrySession" />
+        </EntityType>
+        <EntityType Name="AndroWebTelemetrySession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerId" Type="Guid" />
+          <Property Name="Referrer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BrowserDetails" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AndroWebTelemetries" Relationship="DataWarehouseModel.FK_AndroWebSessionItem_AndroWebSession" FromRole="AndroWebTelemetrySession" ToRole="AndroWebTelemetry" />
+          <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_AndroWebSession_Customer" FromRole="AndroWebTelemetrySession" ToRole="Customer" />
+          <Property Name="ExternalSiteId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_AndroWebSessionItem_AndroWebSession">
+          <End Type="DataWarehouseModel.AndroWebTelemetrySession" Role="AndroWebTelemetrySession" Multiplicity="1" />
+          <End Type="DataWarehouseModel.AndroWebTelemetry" Role="AndroWebTelemetry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AndroWebTelemetrySession">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebTelemetry">
+              <PropertyRef Name="AndroWebSessionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebSession_Customer">
+          <End Type="DataWarehouseModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="DataWarehouseModel.AndroWebTelemetrySession" Role="AndroWebTelemetrySession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AndroWebTelemetrySession">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1860,6 +1972,28 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebTelemetries">
+            <EntityTypeMapping TypeName="DataWarehouseModel.AndroWebTelemetry">
+              <MappingFragment StoreEntitySet="AndroWebTelemetry">
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="AndroWebSessionID" ColumnName="AndroWebSessionID" />
+                <ScalarProperty Name="LoggedDateTime" ColumnName="LoggedDateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AndroWebTelemetrySessions">
+            <EntityTypeMapping TypeName="DataWarehouseModel.AndroWebTelemetrySession">
+              <MappingFragment StoreEntitySet="AndroWebTelemetrySession">
+                <ScalarProperty Name="ExternalSiteId" ColumnName="ExternalSiteId" />
+                <ScalarProperty Name="BrowserDetails" ColumnName="BrowserDetails" />
+                <ScalarProperty Name="Referrer" ColumnName="Referrer" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
