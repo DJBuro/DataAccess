@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
 using AndroCloudDataAccess.DataAccess;
 using AndroCloudDataAccessEntityFramework.Model;
-using AndroCloudDataAccess.Domain;
 using AndroCloudHelper;
-using System.Collections.Generic;
 
 namespace AndroCloudDataAccessEntityFramework.DataAccess
 {
@@ -91,7 +87,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                 }
             }
 
-            return "";
+            return string.Empty;
         }
 
         public string GetMenuImagesBySiteId(Guid siteId, DataTypeEnum dataType, out string siteImages)
