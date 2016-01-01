@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
+using System.Data.Entity;
 using MyAndromedaDataAccess.DataAccess;
 using MyAndromedaDataAccess.Domain;
 using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
@@ -15,11 +17,10 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
 
             using (var entitiesContext = new AndroAdminDbContext())
             {
-                var query = from s in entitiesContext.Stores
-                            where s.Id == siteId
-                            select s;
+                var table = entitiesContext.Stores.Include(e => e.Address);
+                var query = table.Where(e => e.Id == siteId);
 
-                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.FirstOrDefault();
+                MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.Store entity = query.SingleOrDefault();
 
                 if (entity != null)
                 {
@@ -71,13 +72,21 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
 
                     // Opening hours
                     siteDetails.OpeningHours = new List<TimeSpanBlock>();
-                    if (entity.OpeningHours != null)
+                    var openingHours = entitiesContext.OpeningHours.Where(e => e.SiteId == siteId).Select(e => new { 
+                        e.Id, 
+                        e.Day.Description,
+                        e.TimeStart,
+                        e.TimeEnd,
+                        e.OpenAllDay
+                    }).ToArray();
+                   
+                    if (openingHours != null && openingHours.Length > 0)
                     {
-                        foreach (OpeningHour openingHour in entity.OpeningHours)
+                        foreach (var openingHour in openingHours)
                         {
                             TimeSpanBlock timeSpanBlock = new TimeSpanBlock();
                             timeSpanBlock.Id = openingHour.Id;
-                            timeSpanBlock.Day = openingHour.Day.Description;
+                            timeSpanBlock.Day = openingHour.Description;
                             timeSpanBlock.StartTime = openingHour.TimeStart.Hours.ToString("00") + ":" + openingHour.TimeStart.Minutes.ToString("00");
                             timeSpanBlock.EndTime = openingHour.TimeEnd.Hours.ToString("00") + ":" + openingHour.TimeEnd.Minutes.ToString("00");
                             timeSpanBlock.OpenAllDay = openingHour.OpenAllDay;
@@ -88,7 +97,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                 }
             }
 
-            return "";
+            return string.Empty;
         }
 
         public string Update(int siteId, SiteDetails siteDetails)

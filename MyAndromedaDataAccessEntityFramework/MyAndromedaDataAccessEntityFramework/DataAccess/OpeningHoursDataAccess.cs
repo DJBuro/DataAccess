@@ -27,6 +27,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess
                                   oh.Id == openingHoursId
                             select oh;
 
+
                 MyAndromedaDataAccessEntityFramework.Model.AndroAdmin.OpeningHour entity = query.FirstOrDefault();
 
                 if (entity != null)
