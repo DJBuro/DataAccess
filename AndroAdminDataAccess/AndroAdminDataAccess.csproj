@@ -80,6 +80,7 @@
     <Compile Include="DataAccess\IChainDAO.cs" />
     <Compile Include="DataAccess\IHubListDAO.cs" />
     <Compile Include="DataAccess\IOpeningHoursDAO.cs" />
+    <Compile Include="DataAccess\IStoreMenuThumbnailsDataService.cs" />
     <Compile Include="DataAccess\IStorePaymentProviderDAO.cs" />
     <Compile Include="DataAccess\IAddressDAO.cs" />
     <Compile Include="DataAccess\ISettingsDAO.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Domain\Chain.cs" />
     <Compile Include="Domain\HubItem.cs" />
     <Compile Include="Domain\Permission.cs" />
+    <Compile Include="Domain\StoreMenuThumbnail.cs" />
     <Compile Include="Domain\StorePaymentProvider.cs" />
     <Compile Include="Domain\StoreAMSServerFtpSiteListItem.cs" />
     <Compile Include="Domain\StoreListItem.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="EntityFramework\DataAccess\HubDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\OpeningHoursDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreHubDataService.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreMenuThumbnailsDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\StorePaymentProviderDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\DataAccessHelper.cs" />
     <Compile Include="EntityFramework\DataAccess\SettingsDAO.cs" />
@@ -241,6 +244,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreMenu.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\StoreMenuThumbnail.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StorePaymentProvider.cs">

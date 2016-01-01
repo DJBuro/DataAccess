@@ -21,4 +21,5 @@ namespace AndroAdminDataAccess.Domain
 
         public Guid HubAddressId { get; set; }
     }
+
 }
