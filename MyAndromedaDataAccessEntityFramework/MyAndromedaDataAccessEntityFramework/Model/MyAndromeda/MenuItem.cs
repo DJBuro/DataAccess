@@ -23,6 +23,8 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public int ItemId { get; set; }
         public string Name { get; set; }
         public System.Guid SiteMenuId { get; set; }
+        public string WebName { get; set; }
+        public string WebDescription { get; set; }
     
         public virtual SiteMenu SiteMenu { get; set; }
         public virtual ICollection<MenuItemThumbnailsLinkTable> MenuItemThumbnailsLinkTables { get; set; }
