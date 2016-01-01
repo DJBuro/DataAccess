@@ -110,6 +110,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="Culture" Type="nvarchar" MaxLength="12" />
           <Property Name="MasterMenuId" Type="int" />
+          <Property Name="DataVersion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -1514,6 +1515,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="MasterMenuId" Type="Int32" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK__Chain__MasterMen__671F4F74" FromRole="Chain" ToRole="Store" />
           <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="Chain" ToRole="AndroWebOrderingWebsite" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ChainChain">
           <Key>
@@ -2434,6 +2436,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="Chains">
             <EntityTypeMapping TypeName="AndroAdminModel.Chain">
               <MappingFragment StoreEntitySet="Chain">
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="MasterMenuId" ColumnName="MasterMenuId" />
                 <ScalarProperty Name="Culture" ColumnName="Culture" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
