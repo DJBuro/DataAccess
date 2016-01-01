@@ -2422,13 +2422,15 @@ namespace AndroCloudDataAccessEntityFramework.Model
         /// <param name="hostName">Initial value of the HostName property.</param>
         /// <param name="order">Initial value of the Order property.</param>
         /// <param name="port">Initial value of the Port property.</param>
-        public static Host CreateHost(global::System.Guid id, global::System.String hostName, global::System.Int32 order, global::System.Int32 port)
+        /// <param name="privateHostName">Initial value of the PrivateHostName property.</param>
+        public static Host CreateHost(global::System.Guid id, global::System.String hostName, global::System.Int32 order, global::System.Int32 port, global::System.String privateHostName)
         {
             Host host = new Host();
             host.ID = id;
             host.HostName = hostName;
             host.Order = order;
             host.Port = port;
+            host.PrivateHostName = privateHostName;
             return host;
         }
 
@@ -2534,6 +2536,30 @@ namespace AndroCloudDataAccessEntityFramework.Model
         private global::System.Int32 _Port;
         partial void OnPortChanging(global::System.Int32 value);
         partial void OnPortChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String PrivateHostName
+        {
+            get
+            {
+                return _PrivateHostName;
+            }
+            set
+            {
+                OnPrivateHostNameChanging(value);
+                ReportPropertyChanging("PrivateHostName");
+                _PrivateHostName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("PrivateHostName");
+                OnPrivateHostNameChanged();
+            }
+        }
+        private global::System.String _PrivateHostName;
+        partial void OnPrivateHostNameChanging(global::System.String value);
+        partial void OnPrivateHostNameChanged();
 
         #endregion
 
