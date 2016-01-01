@@ -17,7 +17,7 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public SiteMenu()
         {
             this.MenuItems = new HashSet<MenuItem>();
-            this.SiteMenuPublishTasks = new HashSet<SiteMenuPublishTask>();
+            this.SiteMenuPublishTaskHistories = new HashSet<SiteMenuPublishTaskHistory>();
         }
     
         public System.Guid Id { get; set; }
@@ -29,12 +29,14 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public Nullable<int> AccessMenuVersion { get; set; }
         public Nullable<int> SiteMenuFtpBackupDownloadTaskId { get; set; }
         public Nullable<int> SiteMenuFtpBackupUploadTaskId { get; set; }
+        public Nullable<int> SiteMenuPublishTaskId { get; set; }
     
         public virtual ICollection<MenuItem> MenuItems { get; set; }
         public virtual SiteMenuMediaProfile SiteMenuMediaProfile { get; set; }
         public virtual SiteMenuMediaServer SiteMenuMediaServer { get; set; }
-        public virtual ICollection<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
         public virtual SiteMenuFtpBackupDownloadTask SiteMenuFtpBackupDownloadTask { get; set; }
         public virtual SiteMenuFtpBackupUploadTask SiteMenuFtpBackupUploadTask { get; set; }
+        public virtual SiteMenuPublishTask SiteMenuPublishTask { get; set; }
+        public virtual ICollection<SiteMenuPublishTaskHistory> SiteMenuPublishTaskHistories { get; set; }
     }
 }

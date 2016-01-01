@@ -63,5 +63,21 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
             //download specific 
             item.LastModifiedFtpDateUtc = copyFrom.LastModifiedFtpDateUtc;
         }
+
+        public static void Copy(this SiteMenuPublishTask item, SiteMenuPublishTask copyFrom) 
+        {
+            item.TryTask = copyFrom.TryTask;
+            item.TaskStarted = copyFrom.TaskStarted;
+
+            item.LastStartedUtc = copyFrom.LastStartedUtc;
+            item.LastTriedUtc = copyFrom.LastTriedUtc;
+            item.LastTryCount = copyFrom.LastTryCount;
+
+            item.LastCompletedUtc = copyFrom.LastCompletedUtc;
+            item.TaskComplete = copyFrom.TaskComplete;
+
+            //publish specific
+            item.LastKnownFtpSitePublish = copyFrom.LastKnownFtpSitePublish;
+        }
     }
 }

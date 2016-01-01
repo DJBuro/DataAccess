@@ -51,9 +51,10 @@ namespace MyAndromedaDataAccessEntityFramework.Model.MyAndromeda
         public DbSet<Person> People { get; set; }
         public DbSet<StoreEmployee> StoreEmployees { get; set; }
         public DbSet<UserIpLock> UserIpLocks { get; set; }
-        public DbSet<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
         public DbSet<SiteMenu> SiteMenus { get; set; }
         public DbSet<SiteMenuFtpBackupDownloadTask> SiteMenuFtpBackupDownloadTasks { get; set; }
         public DbSet<SiteMenuFtpBackupUploadTask> SiteMenuFtpBackupUploadTasks { get; set; }
+        public DbSet<SiteMenuPublishTask> SiteMenuPublishTasks { get; set; }
+        public DbSet<SiteMenuPublishTaskHistory> SiteMenuPublishTaskHistories { get; set; }
     }
 }

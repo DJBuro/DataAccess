@@ -101,13 +101,20 @@
     <Compile Include="DataAccess\Marketing\CustomerDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignDataAccess.cs" />
     <Compile Include="DataAccess\Marketing\EmailCampaignTasksDataAccess.cs" />
+    <Compile Include="DataAccess\Menu\IFtpDownloadDataService.cs" />
+    <Compile Include="DataAccess\Menu\IFtpMaintainenceDataService.cs" />
+    <Compile Include="DataAccess\Menu\IFtpUploadDataService.cs" />
+    <Compile Include="DataAccess\Menu\IMenuPubishDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaMediaProfilesDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaMenuItemDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaMenuSyncDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMediaServerDataService.cs" />
     <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\IMyAndromedaSiteMenuHistoryDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaMenuDataService.cs" />
     <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuDataService.cs" />
+    <Compile Include="DataAccess\Menu\MyAndromedaSiteMenuHistoryDataService.cs" />
+    <Compile Include="DataAccess\Menu\SiteMenuExtensions.cs" />
     <Compile Include="DataAccess\MyAndromedaUserDataAccess.cs" />
     <Compile Include="DataAccess\OpeningHoursDataAccess.cs" />
     <Compile Include="DataAccess\Permissions\IEnrolmentDataService.cs" />
@@ -335,6 +342,9 @@
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\SiteMenuPublishTask.cs">
+      <DependentUpon>DbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MyAndromeda\SiteMenuPublishTaskHistory.cs">
       <DependentUpon>DbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\MyAndromeda\StoreEmployee.cs">
