@@ -447,7 +447,19 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                     // Is the customer changing their username (we use the email as the username)?
                                     if (contactEntity.ContactType.Name == "Email")
                                     {
-                                        newUsername = contactEntity.Value;
+                                        // Check to see if the username has already been used
+                                        bool exists = false;
+                                        this.Exists(contactEntity.Value, applicationId, out exists);
+
+                                        if (exists)
+                                        {
+                                            return "Username already used: " + contactEntity.Value;
+                                        }
+                                        else
+                                        {
+                                            // Update
+                                            newUsername = contactEntity.Value;
+                                        }
                                     }
                                 }
                             }
