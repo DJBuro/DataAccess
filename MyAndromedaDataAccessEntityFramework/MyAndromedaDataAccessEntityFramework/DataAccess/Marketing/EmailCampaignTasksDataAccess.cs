@@ -80,7 +80,8 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.Marketing
                 var query = dbContext.EmailCampaignTasks
                                      .Where(e => e.Completed == completedQuery)
                                      .Where(e => e.Started == startedQuery)
-                                     .Where(e => !e.RunLaterOnUtc.HasValue || e.RunLaterOnUtc <= DateTime.UtcNow);
+                                     .Where(e => !e.RunLaterOnUtc.HasValue || e.RunLaterOnUtc <= DateTime.UtcNow)
+                                     .OrderBy(e=> e.CreatedOnUtc);
 
                 var results = query.ToArray();
                 
