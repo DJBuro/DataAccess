@@ -1,4 +1,5 @@
-﻿using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
+﻿using System.Linq.Expressions;
+using MyAndromedaDataAccessEntityFramework.Model.AndroAdmin;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,7 +34,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
             dataContext.SaveChanges();
         }
 
-        public void ChangeIncludeScope<TPropertyModel>(System.Linq.Expressions.Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, TPropertyModel>> predicate)
+        public void ChangeIncludeScope<TPropertyModel>(Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, TPropertyModel>> predicate)
         {
             this.TableQuery =
                 this.TableQuery.Include(predicate);
@@ -44,7 +45,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
             throw new NotImplementedException();
         }
 
-        public Model.AndroAdmin.AndroWebOrderingWebsite Get(System.Linq.Expressions.Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, bool>> predicate)
+        public Model.AndroAdmin.AndroWebOrderingWebsite Get(Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, bool>> predicate)
         {
             var table = this.TableQuery;
             var tableQuery = table.Where(predicate);
@@ -56,7 +57,7 @@ namespace MyAndromedaDataAccessEntityFramework.DataAccess.WebOrdering
             return this.TableQuery;
         }
 
-        public IQueryable<Model.AndroAdmin.AndroWebOrderingWebsite> List(System.Linq.Expressions.Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, bool>> predicate)
+        public IQueryable<Model.AndroAdmin.AndroWebOrderingWebsite> List(Expression<Func<Model.AndroAdmin.AndroWebOrderingWebsite, bool>> predicate)
         {
             return this.TableQuery.Where(predicate);
         }
