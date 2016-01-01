@@ -21,5 +21,17 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             return results;
         }
+
+        public IEnumerable<PostCodeSector> GetListPostCodes(Expression<Func<PostCodeSector, bool>> query)
+        {
+            var results = Enumerable.Empty<PostCodeSector>();
+            using (var dbContext = new EntityFramework.AndroAdminEntities())
+            {
+                results = dbContext.PostCodeSectors.Include(e=>e.DeliveryZoneName).Include(e=>e.DeliveryZoneName.Store).Where(query);
+            }
+
+            return results;
+        }
+
     }
 }

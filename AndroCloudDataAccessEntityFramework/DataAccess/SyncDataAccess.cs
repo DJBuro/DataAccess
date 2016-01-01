@@ -75,7 +75,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     this.SyncStoreDevices(acsEntities, syncModel.StoreDeviceModels);
 
-                    this.SyncDeliveryAreas(acsEntities, syncModel.DeliveryAreas);
+                    //this.SyncDeliveryAreas(acsEntities, syncModel.DeliveryAreas);
+
+                    //Sync Postcode sectors
+                    this.SyncPostcodeSectors(acsEntities, syncModel.PostCodeSectors);
 
                     transactionScope.Complete();
                 }
@@ -84,8 +87,29 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             return errorMessage;
         }
 
+        private void SyncPostcodeSectors(ACSEntities acsEntities, IList<CloudSyncModel.PostCodeSector> postCodeSectors)
+        {
+            foreach (CloudSyncModel.PostCodeSector postCodeSector in postCodeSectors)
+            {
+                var acsDeliveryArea = acsEntities.DeliveryAreas.Where(d => d.DeliveryArea1 == postCodeSector.PostCodeSectorName && d.SiteId == postCodeSector.StoreId).FirstOrDefault();
+                if ((!postCodeSector.IsSelected) && acsDeliveryArea != null)
+                {
+                    acsEntities.DeliveryAreas.Remove(acsDeliveryArea);
+                }
+                else if (acsDeliveryArea == null && postCodeSector.IsSelected)
+                {
+                    var site = acsEntities.Sites.Where(s => s.ExternalId == postCodeSector.StoreId.ToString()).FirstOrDefault();
+                    if (site != null)
+                    {
+                        acsEntities.DeliveryAreas.Add(new AndroCloudDataAccessEntityFramework.Model.DeliveryArea { DeliveryArea1 = postCodeSector.PostCodeSectorName, SiteId = site.ID, Id = Guid.NewGuid() });
+                    }
+                }
+
+            }
+        }
+
         private void SyncDeliveryAreas(ACSEntities acsEntities, IList<CloudSyncModel.DeliveryArea> deliveryAreas)
-        {            
+        {
             foreach (CloudSyncModel.DeliveryArea delArea in deliveryAreas)
             {
                 var siteId = acsEntities.Sites.Where(s => s.ExternalId == delArea.Store.ExternalSiteId).FirstOrDefault();
@@ -101,7 +125,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     {
                         acsEntities.DeliveryAreas.Add(new AndroCloudDataAccessEntityFramework.Model.DeliveryArea { DeliveryArea1 = delArea.DeliveryArea1, SiteId = site.ID, Id = Guid.NewGuid() });
                     }
-                }               
+                }
             }
             acsEntities.SaveChanges();
         }
