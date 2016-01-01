@@ -132,7 +132,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     {
                         country = new Domain.Country()
                         {
-                            Id = entity.Store.Address.Country.Id,
+                            Id = entity.Store.Address.CountryId,
                             CountryName = entity.Store.Address.Country.CountryName,
                             ISO3166_1_alpha_2 = entity.Store.Address.Country.ISO3166_1_alpha_2,
                             ISO3166_1_numeric = entity.Store.Address.Country.ISO3166_1_numeric
