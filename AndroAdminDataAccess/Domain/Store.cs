@@ -44,6 +44,9 @@ namespace AndroAdminDataAccess.Domain
         [Display(Name = "TimeZone")]
         public string TimeZone { get; set; }
 
+        [Display(Name = "Payment provider")]
+        public StorePaymentProvider PaymentProvider { get; set; }
+
         public Store()
         {
             this.Name = "";

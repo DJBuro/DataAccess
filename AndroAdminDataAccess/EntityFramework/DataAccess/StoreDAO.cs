@@ -66,11 +66,13 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                 var query = from s in entitiesContext.Stores
-                            .Include("StoreStatu") // No this isn't a typo - EF cleverly removes the S off the end
+                            .Include("StoreStatu") // No this isn't a typeo - EF cleverly removes the S off the end
                             join a in entitiesContext.Addresses.DefaultIfEmpty()
                             on s.AddressId equals a.Id
                             join c in entitiesContext.Countries.DefaultIfEmpty()
                             on a.CountryId equals c.Id
+                            join pp in entitiesContext.StorePaymentProviders.DefaultIfEmpty()
+                            on s.StorePaymentProviderID equals pp.Id
                             orderby s.Name
                             select new
                             {
@@ -79,7 +81,6 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 s.AndromedaSiteId,
                                 s.CustomerSiteId,
                                 s.LastFTPUploadDateTime,
-//                                StoreStatus = new Domain.StoreStatus() { Id = entity.StoreStatu.Id, Status = entity.StoreStatu.Status, Description = entity.StoreStatu.Description },
                                 StoreStatusId = s.StoreStatu.Id,
                                 StoreStatusStatus = s.StoreStatu.Status,
                                 StoreStatusDescription = s.StoreStatu.Description,
@@ -111,7 +112,12 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                                 CountryCountryName = c.CountryName,
                                 CountryId = c.Id,
                                 CountryISO3166_1_alpha_2 = c.ISO3166_1_alpha_2,
-                                CountryISO3166_1_numeric = c.ISO3166_1_numeric
+                                CountryISO3166_1_numeric = c.ISO3166_1_numeric,
+                                PPId = pp.Id,
+                                PPDisplayText = pp.DisplayText,
+                                PPProviderName = pp.ProviderName,
+                                PPClientId = pp.ClientId,
+                                PPClientPassword = pp.ClientPassword
                             };
 
                 foreach (var entity in query)
@@ -161,6 +167,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                             ISO3166_1_numeric = entity.CountryISO3166_1_numeric
                         }
                     };
+
+                    if (entity.PPId)
+                    {
+
+                    }
 
                     models.Add(model);
                 }

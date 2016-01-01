@@ -41,15 +41,14 @@ namespace AndroAdminDataAccess.EntityFramework
         public DbSet<MyAndromedaUserGroup> MyAndromedaUserGroups { get; set; }
         public DbSet<MyAndromedaUserStore> MyAndromedaUserStores { get; set; }
         public DbSet<OpeningHour> OpeningHours { get; set; }
-        public DbSet<Partner> Partners { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreAMSServer> StoreAMSServers { get; set; }
         public DbSet<StoreAMSServerFtpSite> StoreAMSServerFtpSites { get; set; }
-        public DbSet<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
         public DbSet<StoreGroup> StoreGroups { get; set; }
         public DbSet<StoreMenu> StoreMenus { get; set; }
         public DbSet<StorePaymentProvider> StorePaymentProviders { get; set; }
         public DbSet<StoreStatu> StoreStatus { get; set; }
+        public DbSet<Partner> Partners { get; set; }
     }
 }

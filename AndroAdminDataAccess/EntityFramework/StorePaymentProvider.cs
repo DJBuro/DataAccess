@@ -23,6 +23,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public string ProviderName { get; set; }
         public string ClientId { get; set; }
         public string ClientPassword { get; set; }
+        public string DisplayText { get; set; }
     
         public virtual ICollection<Store> Stores { get; set; }
     }

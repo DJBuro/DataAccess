@@ -20,7 +20,6 @@ namespace AndroAdminDataAccess.EntityFramework
             this.MyAndromedaUserStores = new HashSet<MyAndromedaUserStore>();
             this.OpeningHours = new HashSet<OpeningHour>();
             this.StoreAMSServers = new HashSet<StoreAMSServer>();
-            this.StoreAMSServerFTPSitePairs = new HashSet<StoreAMSServerFTPSitePair>();
             this.StoreGroups = new HashSet<StoreGroup>();
             this.StoreMenus = new HashSet<StoreMenu>();
         }
@@ -49,7 +48,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual StorePaymentProvider StorePaymentProvider { get; set; }
         public virtual StoreStatu StoreStatu { get; set; }
         public virtual ICollection<StoreAMSServer> StoreAMSServers { get; set; }
-        public virtual ICollection<StoreAMSServerFTPSitePair> StoreAMSServerFTPSitePairs { get; set; }
         public virtual ICollection<StoreGroup> StoreGroups { get; set; }
         public virtual ICollection<StoreMenu> StoreMenus { get; set; }
     }
