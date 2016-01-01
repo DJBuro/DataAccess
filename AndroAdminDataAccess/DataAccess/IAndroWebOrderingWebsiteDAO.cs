@@ -11,7 +11,7 @@ namespace AndroAdminDataAccess.DataAccess
         string ConnectionStringOverride { get; set; }
         IList<AndroWebOrderingWebsite> GetAll();
         AndroWebOrderingWebsite GetAndroWebOrderingWebsiteById(int id);
-        int Add(AndroWebOrderingWebsite webOrderingSite);
-        int Update(AndroWebOrderingWebsite webOrderingSite);
+        List<string> Add(AndroWebOrderingWebsite webOrderingSite);
+        List<string> Update(AndroWebOrderingWebsite webOrderingSite);
     }
 }
