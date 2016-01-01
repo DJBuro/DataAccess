@@ -7,6 +7,23 @@ using System.Transactions;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess
 {
+    public class AndroWebOrderingSubscriptionDAO : IAndroWebOrderingSubscriptionDAO 
+    {
+        public IList<AndroAdminDataAccess.Domain.AndroWebOrderingSubscriptionType> GetAll()
+        {
+            IList<AndroAdminDataAccess.Domain.AndroWebOrderingSubscriptionType> result = null;
+            using (AndroAdminEntities dataContext = new AndroAdminEntities()) 
+            {
+                result = dataContext.AndroWebOrderingSubscriptionTypes
+                    .Select(s => new Domain.AndroWebOrderingSubscriptionType { Id = s.Id, Subscription = s.Subscription, DisplayOrder = s.DisplayOrder }).OrderBy(o => o.DisplayOrder)
+                    .ToList();
+                
+            }
+
+            return result;
+        }
+    }
+
     public class AndroWebOrderingWebsiteDAO : IAndroWebOrderingWebsiteDAO
     {
         public string ConnectionStringOverride { get; set; }
@@ -138,25 +155,25 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                     if (partner == null)
                     {
-                        errorMsgs.Add("AddWebsite: Partner not found 'andromeda'");
+                        errorMsgs.Add("AddWebsite: Partner not found 'Andromeda'");
                         return errorMsgs;
                     }
 
-                    var acsApplication = entitiesContext.ACSApplications
-                        .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+                    //it will be 0 if it is brand new, but have a id if its come in from the selection. 
+                    var acsApplication =
+                        entitiesContext.ACSApplications.FirstOrDefault(e => e.Id == webOrderingSite.ACSApplicationId);
 
-                    var website = entitiesContext.AndroWebOrderingWebsites
-                        .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
-
-                    if (acsApplication != null) 
+                    if (acsApplication == null) 
                     {
-                        //yes eventually we want to check if this exists to exclude it from adding in a website and acs application for it. 
-                        //it will block the creation. 
-                        //errorMsgs.Add("AddWebsite: ACS application already exists 'andromeda'");
-
-                        // Use the exising ACS Application Id
+                        var acsExists = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+                        if (acsExists != null) 
+                        {
+                            errorMsgs.Add("AddWebsite: This website name cannot be used. An ACS application application already exists with the given name: " + webOrderingSite.Name);
+                            return errorMsgs;
+                        }
                     }
 
+                    //need a new ACS Application for the website.
                     if (acsApplication == null)
                     {
                         webOrderingSite.ACSApplication.PartnerId = partner.Id;
@@ -164,14 +181,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         acsApplication = entitiesContext.ACSApplications.FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
                     }
 
-                    if (acsApplication != null) 
-                    {
-                        bool acsApplicationHasWebsites = acsApplication.AndroWebOrderingWebsites.Any();
-                        if (acsApplicationHasWebsites) 
-                        {
-                            errorMsgs.Add("AddWebsite: This name cannot be used. An ACS application and website already exist with the given name: " + webOrderingSite.Name); 
-                        }    
-                    }
+                    var website = entitiesContext.AndroWebOrderingWebsites
+                        .FirstOrDefault(a => a.Name.Equals(webOrderingSite.Name, StringComparison.CurrentCultureIgnoreCase));
+
 
                     if (website == null && acsApplication != null)
                     {
