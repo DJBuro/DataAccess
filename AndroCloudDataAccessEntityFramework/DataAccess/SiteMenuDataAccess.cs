@@ -69,7 +69,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                         MenuType = sm.MenuType,
                                         SiteID = sm.SiteID,
                                         Version = sm.Version,
-                                        MenuDataThumbnails = sm.menuDataThumbnails
+                                        MenuDataThumbnails = sm.menuDataThumbnails,
+                                        MenuDataExtended = sm.MenuDataExtended,
+                                        MenuDataExtendedVersion = sm.MenuDataExtendedVersion
                                     };
 
                 var siteMenuEntity = siteMenuQuery.FirstOrDefault();
@@ -82,7 +84,9 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         MenuType = siteMenuEntity.MenuType,
                         SiteID = siteMenuEntity.SiteID.GetValueOrDefault(),
                         Version = siteMenuEntity.Version.GetValueOrDefault(),
-                        MenuDataThumbnails = siteMenuEntity.MenuDataThumbnails
+                        MenuDataThumbnails = siteMenuEntity.MenuDataThumbnails,
+                        MenuDataExtended = siteMenuEntity.MenuDataExtended,
+                        MenuDataExtendedVersion = siteMenuEntity.MenuDataExtendedVersion
                     };
                 }
             }

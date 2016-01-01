@@ -18,7 +18,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public System.Guid SiteId { get; set; }
         public int ACSApplicationId { get; set; }
     
-        public virtual ACSApplication ACSApplication { get; set; }
         public virtual Site Site { get; set; }
+        public virtual ACSApplication ACSApplication { get; set; }
     }
 }

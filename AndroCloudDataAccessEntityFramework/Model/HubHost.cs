@@ -20,7 +20,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         }
     
         public System.Guid Id { get; set; }
-        public string Url { get; set; }
+        public string url { get; set; }
     
         public virtual ICollection<Site> Sites { get; set; }
     }

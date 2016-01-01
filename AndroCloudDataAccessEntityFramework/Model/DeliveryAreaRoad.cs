@@ -24,8 +24,8 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public Nullable<int> HouseNumberEnd { get; set; }
         public int RuleId { get; set; }
     
-        public virtual ACSApplication ACSApplication { get; set; }
         public virtual DeliveryAreaRoadRule DeliveryAreaRoadRule { get; set; }
         public virtual Site Site { get; set; }
+        public virtual ACSApplication ACSApplication { get; set; }
     }
 }
