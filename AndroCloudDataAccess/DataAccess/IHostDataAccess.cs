@@ -10,6 +10,6 @@ namespace AndroCloudDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
         string GetAllPublic(out List<Host> hosts);
-        string GetAllPrivate(out List<AndroCloudDataAccess.Domain.Host> hosts);
+        string GetAllPrivate(out List<AndroCloudDataAccess.Domain.PrivateHost> hosts);
     }
 }
