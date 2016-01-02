@@ -16,6 +16,7 @@
           <Property Name="PartnerId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="WebHookSettings" Type="nvarchar(max)" />
+          <Property Name="EnvironmentId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ACSApplicationHostsV2">
           <Key>
@@ -193,6 +194,13 @@
           <Property Name="Role" Type="nvarchar" MaxLength="32" />
           <Property Name="Phone" Type="nvarchar" MaxLength="32" />
           <Property Name="Notes" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Environment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="ExternalApi">
           <Key>
@@ -514,6 +522,30 @@
             </Principal>
             <Dependent Role="Chain">
               <PropertyRef Name="MasterMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplication_ACSApplication">
+          <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="1" />
+          <End Role="ACSApplication1" Type="Self.ACSApplication" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplication_Environment">
+          <End Role="Environment" Type="Self.Environment" Multiplicity="0..1" />
+          <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="EnvironmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1147,6 +1179,7 @@
           <EntitySet Name="DeliveryZoneNames" EntityType="Self.DeliveryZoneNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Environment" EntityType="Self.Environment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExternalApi" EntityType="Self.ExternalApi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FTPSite" EntityType="Self.FTPSite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FTPSiteChain" EntityType="Self.FTPSiteChain" Schema="dbo" store:Type="Tables" />
@@ -1180,6 +1213,14 @@
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="Self.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Store" />
             <End Role="Chain" EntitySet="Chain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplication_ACSApplication" Association="Self.FK_ACSApplication_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
+            <End Role="ACSApplication1" EntitySet="ACSApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplication_Environment" Association="Self.FK_ACSApplication_Environment">
+            <End Role="Environment" EntitySet="Environment" />
+            <End Role="ACSApplication" EntitySet="ACSApplication" />
           </AssociationSet>
           <AssociationSet Name="FK_ACSApplication_Partner" Association="Self.FK_ACSApplication_Partner">
             <End Role="Partner" EntitySet="Partner" />
@@ -1602,6 +1643,15 @@
             <End Role="Store" EntitySet="Stores" />
             <End Role="StoreDriver" EntitySet="StoreDrivers" />
           </AssociationSet>
+          <EntitySet Name="Environments" EntityType="AndroAdminModel.Environment" />
+          <AssociationSet Name="FK_ACSApplication_ACSApplication" Association="AndroAdminModel.FK_ACSApplication_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="ACSApplication1" EntitySet="ACSApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplication_Environment" Association="AndroAdminModel.FK_ACSApplication_Environment">
+            <End Role="Environment" EntitySet="Environments" />
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
           <Key>
@@ -1631,6 +1681,10 @@
           <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
           <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
           <Property Name="WebHookSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EnvironmentId" Type="Guid" />
+          <NavigationProperty Name="ACSApplication1" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplication1" />
+          <NavigationProperty Name="ACSApplication2" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication1" ToRole="ACSApplication" />
+          <NavigationProperty Name="Environment" Relationship="AndroAdminModel.FK_ACSApplication_Environment" FromRole="ACSApplication" ToRole="Environment" />
         </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
@@ -2687,6 +2741,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Environment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.FK_ACSApplication_Environment" FromRole="Environment" ToRole="ACSApplication" />
+        </EntityType>
+        <Association Name="FK_ACSApplication_ACSApplication">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplication_Environment">
+          <End Type="AndroAdminModel.Environment" Role="Environment" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="EnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2708,6 +2794,7 @@
           <EntitySetMapping Name="ACSApplications">
             <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
               <MappingFragment StoreEntitySet="ACSApplication">
+                <ScalarProperty Name="EnvironmentId" ColumnName="EnvironmentId" />
                 <ScalarProperty Name="WebHookSettings" ColumnName="WebHookSettings" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
                 <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
@@ -3231,6 +3318,14 @@
                 <ScalarProperty Name="PartnerConfig" ColumnName="PartnerConfig" />
                 <ScalarProperty Name="MaxDrivers" ColumnName="MaxDrivers" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Environments">
+            <EntityTypeMapping TypeName="AndroAdminModel.Environment">
+              <MappingFragment StoreEntitySet="Environment">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

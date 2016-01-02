@@ -36,7 +36,10 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = acsApplication.ExternalApplicationId,
                         ExternalApplicationName = acsApplication.ExternalDisplayName,
                         DataVersion = acsApplication.DataVersion,
-                        PartnerId = acsApplication.PartnerId
+                        PartnerId = acsApplication.PartnerId,
+                        EnvironmentId = acsApplication.Environment.Id,
+                        EnvironmentName = acsApplication.Environment.Name
+
                     };
 
                     models.Add(model);
@@ -66,7 +69,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = acsApplication.ExternalApplicationId,
                         ExternalApplicationName = acsApplication.ExternalDisplayName,
                         DataVersion = acsApplication.DataVersion,
-                        PartnerId = acsApplication.PartnerId
+                        PartnerId = acsApplication.PartnerId,
+                        EnvironmentId = acsApplication.Environment.Id,
+                        EnvironmentName = acsApplication.Environment.Name
                     };
 
                     models.Add(model);
@@ -99,7 +104,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = entity.ExternalApplicationId,
                         ExternalApplicationName = entity.ExternalDisplayName,
                         DataVersion = entity.DataVersion,
-                        PartnerId = entity.PartnerId
+                        PartnerId = entity.PartnerId,
+                        EnvironmentId = entity.Environment.Id,
+                        EnvironmentName = entity.Environment.Name
                     };
                 }
             }
@@ -130,7 +137,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = entity.ExternalApplicationId,
                         ExternalApplicationName = entity.ExternalDisplayName,
                         DataVersion = entity.DataVersion,
-                        PartnerId = entity.PartnerId
+                        PartnerId = entity.PartnerId,
+                        EnvironmentId = entity.Environment.Id,
+                        EnvironmentName = entity.Environment.Name
                     };
                 }
             }
@@ -161,7 +170,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = entity.ExternalApplicationId,
                         ExternalApplicationName = entity.ExternalDisplayName,
                         DataVersion = entity.DataVersion,
-                        PartnerId = entity.PartnerId
+                        PartnerId = entity.PartnerId,
+                        EnvironmentId = entity.Environment.Id,
+                        EnvironmentName = entity.Environment.Name
                     };
                 }
             }
@@ -186,7 +197,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                     ExternalApplicationId = entity.ExternalApplicationId,
                     ExternalApplicationName = entity.ExternalDisplayName,
                     DataVersion = entity.DataVersion,
-                    PartnerId = entity.PartnerId
+                    PartnerId = entity.PartnerId,
+                    EnvironmentId = entity.Environment.Id,
+                    EnvironmentName = entity.Environment.Name
                 }).ToList();
             }
 
@@ -214,7 +227,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalApplicationId = acsApplication.ExternalApplicationId,
                         ExternalDisplayName = acsApplication.ExternalApplicationName,
                         DataVersion = newVersion,
-                        PartnerId = acsApplication.PartnerId
+                        PartnerId = acsApplication.PartnerId,
+                        EnvironmentId = acsApplication.EnvironmentId
                     };
                     entitiesContext.ACSApplications.Add(entity);
                     entitiesContext.SaveChanges();
@@ -265,6 +279,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         entity.Name = acsApplication.Name;
                         entity.ExternalApplicationId = acsApplication.ExternalApplicationId;
                         entity.ExternalDisplayName = acsApplication.ExternalApplicationName;
+                        entity.EnvironmentId = acsApplication.EnvironmentId;
                         entity.DataVersion = newVersion;
                         entitiesContext.SaveChanges();
 
