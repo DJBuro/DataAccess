@@ -46,9 +46,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Services\AndroCloudServices\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\Services\AndroCloudServices\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\Services\AndroCloudServices\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,7 +61,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
@@ -200,16 +203,16 @@
     </EntityDeploy>
     <None Include="Model\DataWarehouse.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataWarehouse.edmx</DependentUpon>
       <LastGenOutput>DataWarehouse.Context.cs</LastGenOutput>
+      <DependentUpon>DataWarehouse.edmx</DependentUpon>
     </None>
     <None Include="Model\DataWarehouse.edmx.diagram">
       <DependentUpon>DataWarehouse.edmx</DependentUpon>
     </None>
     <None Include="Model\DataWarehouse.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataWarehouse.edmx</DependentUpon>
       <LastGenOutput>DataWarehouse.cs</LastGenOutput>
+      <DependentUpon>DataWarehouse.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
