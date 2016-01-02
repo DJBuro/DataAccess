@@ -59,6 +59,8 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string EventName { get; set; }
         public Nullable<bool> PriorityOrder { get; set; }
         public Nullable<bool> GroupOrder { get; set; }
+        public Nullable<int> BringgTaskId { get; set; }
+        public Nullable<int> Bags { get; set; }
     
         public virtual ACSErrorCode ACSErrorCode1 { get; set; }
         public virtual Customer Customer { get; set; }
