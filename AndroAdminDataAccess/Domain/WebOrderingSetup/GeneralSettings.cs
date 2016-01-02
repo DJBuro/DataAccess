@@ -6,6 +6,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public double DeliveryCharge { get; set; }
 
+        public int? OptionalFreeDeliveryThreshold { get; set; }
+
         public bool ApplyDeliveryCharges { get; set; }
         
         public bool IsList { get; set; }
