@@ -88,7 +88,7 @@ namespace AndroAdminDataAccess.EntityFramework
             set { throw new NotImplementedException(); }
         }
 
-        public IStoreGPSSettingsDAO StoreBringgSettingsDAO
+        public IStoreGPSSettingsDAO StoreGPSSettingsDAO
         {
             get { return new StoreGPSSettingsDAO(); }
             set { throw new NotImplementedException(); }
