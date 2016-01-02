@@ -522,6 +522,9 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
         public string UpdateCustomerLoyaltyPoints(string userName, int applicationId, string externalOrderRef, bool commit)
         {
+            //commit: true will effect the customer points 
+            //commit: false will assign the row as applied, but essentially is rejected (no points changed). 
+
             using (new TransactionScope(TransactionScopeOption.Suppress))
             {
                 using (DataWarehouseEntities dataWarehouseEntities = new DataWarehouseEntities())
@@ -560,7 +563,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             loyaltyEntities.Add(customerLoyaltyEntity);    
                         }
 
-                        customerLoyaltyEntity.Points += update.awardedPoints;
+                        if (commit) 
+                        { 
+                            customerLoyaltyEntity.Points += update.awardedPoints;
+                        }
                         update.Applied = true;
                     }
 
@@ -582,7 +588,10 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                             loyaltyEntities.Add(customerLoyaltyEntity); 
                         }
 
-                        customerLoyaltyEntity.Points -= update.redeemedPoints;
+                        if (commit) 
+                        { 
+                            customerLoyaltyEntity.Points -= update.redeemedPoints;
+                        }
                         update.Applied = true;
                     }
 
