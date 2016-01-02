@@ -20,12 +20,12 @@ namespace AndroAdminDataAccess.EntityFramework
             this.Stores = new HashSet<Store>();
         }
     
+        public int Id { get; set; }
         public string ProviderName { get; set; }
         public string ClientId { get; set; }
         public string ClientPassword { get; set; }
         public string DisplayText { get; set; }
         public int DataVersion { get; set; }
-        public int Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }

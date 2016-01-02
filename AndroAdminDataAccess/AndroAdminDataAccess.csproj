@@ -189,7 +189,7 @@
     <Compile Include="Domain\AndroWebOrderingTheme.cs" />
     <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
     <Compile Include="Domain\StoreDriver.cs" />
-    <Compile Include="Domain\StoreBringgSettings.cs" />
+    <Compile Include="Domain\StoreGPSSettings.cs" />
     <Compile Include="Domain\StoreHub.cs" />
     <Compile Include="Domain\ACSApplication.cs" />
     <Compile Include="Domain\Address.cs" />
@@ -384,6 +384,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreStatu.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\sysdiagram.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WebSiteConfigurations.cs" />

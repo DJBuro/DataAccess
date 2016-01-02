@@ -15,9 +15,8 @@ namespace AndroAdminDataAccess.EntityFramework
     public partial class StoreGPSSetting
     {
         public int StoreId { get; set; }
-        public bool IsEnabled { get; set; }
         public int MaxDrivers { get; set; }
-        public int PartnerStoreId { get; set; }
+        public string PartnerConfig { get; set; }
     
         public virtual Store Store { get; set; }
     }

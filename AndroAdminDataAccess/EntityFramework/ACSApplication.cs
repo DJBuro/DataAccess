@@ -29,6 +29,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public string ExternalDisplayName { get; set; }
         public int PartnerId { get; set; }
         public int DataVersion { get; set; }
+        public string WebHookSettings { get; set; }
     
         public virtual Partner Partner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
