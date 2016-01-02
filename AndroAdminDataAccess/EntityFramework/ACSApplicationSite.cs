@@ -19,7 +19,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public int ACSApplicationId { get; set; }
         public int DataVersion { get; set; }
     
-        public virtual ACSApplication ACSApplication { get; set; }
         public virtual Store Store { get; set; }
+        public virtual ACSApplication ACSApplication { get; set; }
     }
 }

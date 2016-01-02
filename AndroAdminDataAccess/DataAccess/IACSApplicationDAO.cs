@@ -26,5 +26,8 @@ namespace AndroAdminDataAccess.DataAccess
         void RemoveStore(int storeId, int acsApplicatiopnId);
         
         IList<Domain.ACSApplication> GetByPartnerAfterDataVersion(int partnerId, int dataVersion);
+        IList<Domain.ACSApplication> GetDataBetweenVersions(int fromDataVersion, int toDataVersion);
+
+        IList<int> GetSites(int acsApplicationId);
     }
 }

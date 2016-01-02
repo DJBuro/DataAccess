@@ -26,7 +26,6 @@ namespace AndroAdminDataAccess.EntityFramework
         }
     
         public virtual DbSet<HubAddress> HubAddresses { get; set; }
-        public virtual DbSet<ACSApplication> ACSApplications { get; set; }
         public virtual DbSet<ACSApplicationSite> ACSApplicationSites { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AMSServer> AMSServers { get; set; }
@@ -69,5 +68,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual DbSet<StoreDriver> StoreDrivers { get; set; }
         public virtual DbSet<StoreGPSSetting> StoreGPSSettings { get; set; }
         public virtual DbSet<Environment> Environments { get; set; }
+        public virtual DbSet<ACSApplication> ACSApplications { get; set; }
     }
 }

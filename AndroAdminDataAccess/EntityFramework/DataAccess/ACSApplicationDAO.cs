@@ -480,5 +480,60 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
             return models;
         }
+
+        public IList<Domain.ACSApplication> GetDataBetweenVersions(int fromDataVersion, int toDataVersion)
+        {
+            List<Domain.ACSApplication> models = new List<Domain.ACSApplication>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from s in entitiesContext.ACSApplications
+                            where s.DataVersion > fromDataVersion
+                            && s.DataVersion <= toDataVersion 
+                            select s;
+
+                foreach (ACSApplication acsApplication in query)
+                {
+                    Domain.ACSApplication model = new Domain.ACSApplication()
+                    {
+                        Id = acsApplication.Id,
+                        Name = acsApplication.Name,
+                        ExternalApplicationId = acsApplication.ExternalApplicationId,
+                        ExternalApplicationName = acsApplication.ExternalDisplayName,
+                        DataVersion = acsApplication.DataVersion,
+                        PartnerId = acsApplication.PartnerId,
+                        EnvironmentId = acsApplication.EnvironmentId
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return models;
+        }
+
+
+        public IList<int> GetSites(int acsApplicationId)
+        {
+            List<int> models = new List<int>();
+
+            using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
+            {
+                DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
+
+                var query = from sites in entitiesContext.ACSApplicationSites
+                            where sites.ACSApplicationId == acsApplicationId
+                            select sites;
+
+                foreach (ACSApplicationSite acsApplicationSite in query)
+                {
+                    models.Add(acsApplicationSite.SiteId);
+                }
+            }
+
+            return models;
+        }
     }
 }

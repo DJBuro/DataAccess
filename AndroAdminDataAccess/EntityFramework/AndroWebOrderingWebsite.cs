@@ -28,9 +28,9 @@ namespace AndroAdminDataAccess.EntityFramework
         public string PreviewSettings { get; set; }
         public int ThemeId { get; set; }
     
-        public virtual ACSApplication ACSApplication { get; set; }
         public virtual AndroWebOrderingSubscriptionType AndroWebOrderingSubscriptionType { get; set; }
         public virtual AndroWebOrderingTheme AndroWebOrderingTheme { get; set; }
         public virtual Chain Chain { get; set; }
+        public virtual ACSApplication ACSApplication { get; set; }
     }
 }

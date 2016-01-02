@@ -154,7 +154,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         webOrderingSite.PreviewDomainName = result.PreviewDomainName;
                         webOrderingSite.ThemeId = result.ThemeId;
 
-                        webOrderingSite.EnvironmentId = result.ACSApplication.EnvironmentId.Value;
+                        webOrderingSite.EnvironmentId = result.ACSApplication.EnvironmentId;
                         webOrderingSite.EnvironmentName = result.ACSApplication.Environment.Name;
                     }
 

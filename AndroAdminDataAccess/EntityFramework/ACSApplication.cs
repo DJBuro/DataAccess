@@ -30,8 +30,11 @@ namespace AndroAdminDataAccess.EntityFramework
         public int PartnerId { get; set; }
         public int DataVersion { get; set; }
         public string WebHookSettings { get; set; }
-        public Nullable<System.Guid> EnvironmentId { get; set; }
+        public System.Guid EnvironmentId { get; set; }
     
+        public virtual ACSApplication ACSApplication1 { get; set; }
+        public virtual ACSApplication ACSApplication2 { get; set; }
+        public virtual Environment Environment { get; set; }
         public virtual Partner Partner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }
@@ -41,8 +44,5 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual ICollection<HostV2> HostV2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Host> Hosts { get; set; }
-        public virtual ACSApplication ACSApplication1 { get; set; }
-        public virtual ACSApplication ACSApplication2 { get; set; }
-        public virtual Environment Environment { get; set; }
     }
 }

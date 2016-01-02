@@ -16,7 +16,7 @@
           <Property Name="PartnerId" Type="int" Nullable="false" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="WebHookSettings" Type="nvarchar(max)" />
-          <Property Name="EnvironmentId" Type="uniqueidentifier" />
+          <Property Name="EnvironmentId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ACSApplicationHostsV2">
           <Key>
@@ -538,7 +538,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ACSApplication_Environment">
-          <End Role="Environment" Type="Self.Environment" Multiplicity="0..1" />
+          <End Role="Environment" Type="Self.Environment" Multiplicity="1" />
           <End Role="ACSApplication" Type="Self.ACSApplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Environment">
@@ -1421,7 +1421,6 @@
       <Schema Namespace="AndroAdminModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="AndroAdminEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="HubAddresses" EntityType="AndroAdminModel.HubAddress" />
-          <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
           <EntitySet Name="ACSApplicationSites" EntityType="AndroAdminModel.ACSApplicationSite" />
           <EntitySet Name="Addresses" EntityType="AndroAdminModel.Address" />
           <EntitySet Name="AMSServers" EntityType="AndroAdminModel.AMSServer" />
@@ -1459,18 +1458,6 @@
           <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
           <EntitySet Name="StorePaymentProviders" EntityType="AndroAdminModel.StorePaymentProvider" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.StoreStatu" />
-          <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.FK_ACSApplication_Partner">
-            <End Role="Partner" EntitySet="Partners" />
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
-          </AssociationSet>
           <AssociationSet Name="FK_ACSApplicationSite_Store" Association="AndroAdminModel.FK_ACSApplicationSite_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
@@ -1603,14 +1590,6 @@
             <End Role="StoreAMSServer" EntitySet="StoreAMSServers" />
             <End Role="StoreAMSServerFtpSite" EntitySet="StoreAMSServerFtpSites" />
           </AssociationSet>
-          <AssociationSet Name="ACSApplicationHostsV2" Association="AndroAdminModel.ACSApplicationHostsV2">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="HostV2" EntitySet="HostV2" />
-          </AssociationSet>
-          <AssociationSet Name="HostAcsApplication" Association="AndroAdminModel.HostAcsApplication">
-            <End Role="ACSApplication" EntitySet="ACSApplications" />
-            <End Role="Host" EntitySet="Hosts" />
-          </AssociationSet>
           <AssociationSet Name="StoreHostsV2" Association="AndroAdminModel.StoreHostsV2">
             <End Role="HostV2" EntitySet="HostV2" />
             <End Role="Store" EntitySet="Stores" />
@@ -1644,6 +1623,7 @@
             <End Role="StoreDriver" EntitySet="StoreDrivers" />
           </AssociationSet>
           <EntitySet Name="Environments" EntityType="AndroAdminModel.Environment" />
+          <EntitySet Name="ACSApplications" EntityType="AndroAdminModel.ACSApplication" />
           <AssociationSet Name="FK_ACSApplication_ACSApplication" Association="AndroAdminModel.FK_ACSApplication_ACSApplication">
             <End Role="ACSApplication" EntitySet="ACSApplications" />
             <End Role="ACSApplication1" EntitySet="ACSApplications" />
@@ -1651,6 +1631,26 @@
           <AssociationSet Name="FK_ACSApplication_Environment" Association="AndroAdminModel.FK_ACSApplication_Environment">
             <End Role="Environment" EntitySet="Environments" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.FK_ACSApplication_Partner">
+            <End Role="Partner" EntitySet="Partners" />
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACSApplicationSite_ACSApplication" Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="ACSApplicationSite" EntitySet="ACSApplicationSites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AndroWebOrderingWebsite_ACSApplicationId" Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="AndroWebOrderingWebsite" EntitySet="AndroWebOrderingWebsites" />
+          </AssociationSet>
+          <AssociationSet Name="ACSApplicationHostsV2" Association="AndroAdminModel.ACSApplicationHostsV2">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="HostV2" EntitySet="HostV2" />
+          </AssociationSet>
+          <AssociationSet Name="HostAcsApplication" Association="AndroAdminModel.HostAcsApplication">
+            <End Role="ACSApplication" EntitySet="ACSApplications" />
+            <End Role="Host" EntitySet="Hosts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
@@ -1665,27 +1665,6 @@
           <Property Type="Int32" Name="DataVersion" Nullable="false" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHubs" FromRole="HubAddress" ToRole="Store" />
         </EntityType>
-        <EntityType Name="ACSApplication">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="ExternalApplicationId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ExternalDisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PartnerId" Type="Int32" Nullable="false" />
-          <Property Name="DataVersion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
-          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
-          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
-          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
-          <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
-          <Property Name="WebHookSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EnvironmentId" Type="Guid" />
-          <NavigationProperty Name="ACSApplication1" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplication1" />
-          <NavigationProperty Name="ACSApplication2" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication1" ToRole="ACSApplication" />
-          <NavigationProperty Name="Environment" Relationship="AndroAdminModel.FK_ACSApplication_Environment" FromRole="ACSApplication" ToRole="Environment" />
-        </EntityType>
         <EntityType Name="ACSApplicationSite">
           <Key>
             <PropertyRef Name="Id" />
@@ -1694,8 +1673,8 @@
           <Property Name="SiteId" Type="Int32" Nullable="false" />
           <Property Name="ACSApplicationId" Type="Int32" Nullable="false" />
           <Property Name="DataVersion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
           <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_ACSApplicationSite_Store" FromRole="ACSApplicationSite" ToRole="Store" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplicationSite" ToRole="ACSApplication" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
@@ -1786,10 +1765,10 @@
           <Property Name="LiveSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PreviewSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ThemeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
           <NavigationProperty Name="AndroWebOrderingSubscriptionType" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingSubscriptionType" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingSubscriptionType" />
           <NavigationProperty Name="AndroWebOrderingTheme" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_AndroWebOrderingTheme" FromRole="AndroWebOrderingWebsite" ToRole="AndroWebOrderingTheme" />
           <NavigationProperty Name="Chain" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_Chain" FromRole="AndroWebOrderingWebsite" ToRole="Chain" />
+          <NavigationProperty Name="ACSApplication" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="AndroWebOrderingWebsite" ToRole="ACSApplication" />
         </EntityType>
         <EntityType Name="Chain">
           <Key>
@@ -1958,8 +1937,8 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="HostType" Relationship="AndroAdminModel.FK_HostV2_HostTypes" FromRole="HostV2" ToRole="HostType" />
           <NavigationProperty Name="StoreHostV2ApiCredentials" Relationship="AndroAdminModel.FK_StoreHostV2ApiCredentials_HostV2" FromRole="HostV2" ToRole="StoreHostV2ApiCredentials" />
-          <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="HostV2" ToRole="ACSApplication" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.StoreHostsV2" FromRole="HostV2" ToRole="Store" />
+          <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="HostV2" ToRole="ACSApplication" />
         </EntityType>
         <EntityType Name="Log">
           <Key>
@@ -2172,42 +2151,6 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
         </EntityType>
-        <Association Name="FK_ACSApplication_Partner">
-          <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="1" />
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partner">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplication">
-              <PropertyRef Name="PartnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACSApplicationSite_ACSApplication">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
-          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ACSApplicationSite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
-          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ACSApplication">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AndroWebOrderingWebsite">
-              <PropertyRef Name="ACSApplicationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ACSApplicationSite_Store">
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
           <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
@@ -2622,14 +2565,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ACSApplicationHostsV2">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
-          <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="*" />
-        </Association>
-        <Association Name="HostAcsApplication">
-          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
-          <End Type="AndroAdminModel.Host" Role="Host" Multiplicity="*" />
-        </Association>
         <Association Name="StoreHostsV2">
           <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="*" />
           <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="*" />
@@ -2749,6 +2684,27 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ACSApplications" Relationship="AndroAdminModel.FK_ACSApplication_Environment" FromRole="Environment" ToRole="ACSApplication" />
         </EntityType>
+        <EntityType Name="ACSApplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExternalApplicationId" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExternalDisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PartnerId" Type="Int32" Nullable="false" />
+          <Property Name="DataVersion" Type="Int32" Nullable="false" />
+          <Property Name="WebHookSettings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EnvironmentId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ACSApplication1" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplication1" />
+          <NavigationProperty Name="ACSApplication2" Relationship="AndroAdminModel.FK_ACSApplication_ACSApplication" FromRole="ACSApplication1" ToRole="ACSApplication" />
+          <NavigationProperty Name="Environment" Relationship="AndroAdminModel.FK_ACSApplication_Environment" FromRole="ACSApplication" ToRole="Environment" />
+          <NavigationProperty Name="Partner" Relationship="AndroAdminModel.FK_ACSApplication_Partner" FromRole="ACSApplication" ToRole="Partner" />
+          <NavigationProperty Name="ACSApplicationSites" Relationship="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" FromRole="ACSApplication" ToRole="ACSApplicationSite" />
+          <NavigationProperty Name="AndroWebOrderingWebsites" Relationship="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" FromRole="ACSApplication" ToRole="AndroWebOrderingWebsite" />
+          <NavigationProperty Name="HostV2" Relationship="AndroAdminModel.ACSApplicationHostsV2" FromRole="ACSApplication" ToRole="HostV2" />
+          <NavigationProperty Name="Hosts" Relationship="AndroAdminModel.HostAcsApplication" FromRole="ACSApplication" ToRole="Host" />
+        </EntityType>
         <Association Name="FK_ACSApplication_ACSApplication">
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication1" Multiplicity="0..1" />
@@ -2762,7 +2718,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ACSApplication_Environment">
-          <End Type="AndroAdminModel.Environment" Role="Environment" Multiplicity="0..1" />
+          <End Type="AndroAdminModel.Environment" Role="Environment" Multiplicity="1" />
           <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Environment">
@@ -2772,6 +2728,50 @@
               <PropertyRef Name="EnvironmentId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplication_Partner">
+          <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplication">
+              <PropertyRef Name="PartnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACSApplicationSite_ACSApplication">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.ACSApplicationSite" Role="ACSApplicationSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ACSApplicationSite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AndroWebOrderingWebsite_ACSApplicationId">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="1" />
+          <End Type="AndroAdminModel.AndroWebOrderingWebsite" Role="AndroWebOrderingWebsite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACSApplication">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AndroWebOrderingWebsite">
+              <PropertyRef Name="ACSApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ACSApplicationHostsV2">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <End Type="AndroAdminModel.HostV2" Role="HostV2" Multiplicity="*" />
+        </Association>
+        <Association Name="HostAcsApplication">
+          <End Type="AndroAdminModel.ACSApplication" Role="ACSApplication" Multiplicity="*" />
+          <End Type="AndroAdminModel.Host" Role="Host" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2787,20 +2787,6 @@
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ACSApplications">
-            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
-              <MappingFragment StoreEntitySet="ACSApplication">
-                <ScalarProperty Name="EnvironmentId" ColumnName="EnvironmentId" />
-                <ScalarProperty Name="WebHookSettings" ColumnName="WebHookSettings" />
-                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
-                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
-                <ScalarProperty Name="ExternalDisplayName" ColumnName="ExternalDisplayName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3247,22 +3233,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="ACSApplicationHostsV2" TypeName="AndroAdminModel.ACSApplicationHostsV2" StoreEntitySet="ACSApplicationHostsV2">
-            <EndProperty Name="HostV2">
-              <ScalarProperty Name="Id" ColumnName="HostV2Id" />
-            </EndProperty>
-            <EndProperty Name="ACSApplication">
-              <ScalarProperty Name="Id" ColumnName="ACSApplicationId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="HostAcsApplication" TypeName="AndroAdminModel.HostAcsApplication" StoreEntitySet="HostAcsApplication">
-            <EndProperty Name="Host">
-              <ScalarProperty Name="Id" ColumnName="HostId" />
-            </EndProperty>
-            <EndProperty Name="ACSApplication">
-              <ScalarProperty Name="Id" ColumnName="AcsApplicationId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="StoreHostsV2" TypeName="AndroAdminModel.StoreHostsV2" StoreEntitySet="StoreHostsV2">
             <EndProperty Name="Store">
               <ScalarProperty Name="Id" ColumnName="SiteId" />
@@ -3329,6 +3299,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ACSApplications">
+            <EntityTypeMapping TypeName="AndroAdminModel.ACSApplication">
+              <MappingFragment StoreEntitySet="ACSApplication">
+                <ScalarProperty Name="EnvironmentId" ColumnName="EnvironmentId" />
+                <ScalarProperty Name="WebHookSettings" ColumnName="WebHookSettings" />
+                <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="ExternalDisplayName" ColumnName="ExternalDisplayName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExternalApplicationId" ColumnName="ExternalApplicationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ACSApplicationHostsV2" TypeName="AndroAdminModel.ACSApplicationHostsV2" StoreEntitySet="ACSApplicationHostsV2">
+            <EndProperty Name="HostV2">
+              <ScalarProperty Name="Id" ColumnName="HostV2Id" />
+            </EndProperty>
+            <EndProperty Name="ACSApplication">
+              <ScalarProperty Name="Id" ColumnName="ACSApplicationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="HostAcsApplication" TypeName="AndroAdminModel.HostAcsApplication" StoreEntitySet="HostAcsApplication">
+            <EndProperty Name="Host">
+              <ScalarProperty Name="Id" ColumnName="HostId" />
+            </EndProperty>
+            <EndProperty Name="ACSApplication">
+              <ScalarProperty Name="Id" ColumnName="AcsApplicationId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
