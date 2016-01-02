@@ -950,10 +950,15 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 DataAccessHelper.FixConnectionString(entitiesContext, this.ConnectionStringOverride);
 
                 var query = entitiesContext.Stores
-                    .Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
-                    .Where(e => e.EstimatedDeliveryTime.HasValue)
-                    .Select(e=> new { e.AndromedaSiteId, e.EstimatedDeliveryTime, e.EstimatedCollectionTime });
+                    .Where(e => e.DataVersion >= dataVersion)
+                    //.Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
+                    .Where(e => e.EstimatedDeliveryTime.HasValue || e.EstimatedCollectionTime.HasValue);
+                    //.Select(e => new { 
 
+                    //    e.AndromedaSiteId, 
+                    //    e.EstimatedDeliveryTime, 
+                    //    e.EstimatedCollectionTime 
+                    //});
                 //var query2 = entitiesContext.Stores
                 //    .Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
                 //    .Where(e => e.EstimatedDeliveryTime.HasValue)
@@ -962,8 +967,16 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 var r = query.ToArray();
 
+
                 result = r
-                    .Select(e => new Domain.Store() { AndromedaSiteId = e.AndromedaSiteId, EstimatedDeliveryTime = e.EstimatedDeliveryTime, EstimatedCollectionTime = e.EstimatedCollectionTime })
+
+                    .Select(site => new Domain.Store() { 
+                        AndromedaSiteId = site.AndromedaSiteId, 
+                        EstimatedDeliveryTime = site.StoreDevices.Any(e=> e.Device.Name.Contains("Rameses")) 
+                            ? null 
+                            : site.EstimatedDeliveryTime, 
+                        EstimatedCollectionTime = 
+                            site.EstimatedCollectionTime })
                     .ToList();
             }
 
