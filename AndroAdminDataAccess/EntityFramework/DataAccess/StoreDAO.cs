@@ -952,12 +952,18 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 var query = entitiesContext.Stores
                     .Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
                     .Where(e => e.EstimatedDeliveryTime.HasValue)
-                    .Select(e=> new { e.AndromedaSiteId, e.EstimatedDeliveryTime });
+                    .Select(e=> new { e.AndromedaSiteId, e.EstimatedDeliveryTime, e.EstimatedCollectionTime });
+
+                //var query2 = entitiesContext.Stores
+                //    .Where(e => e.StoreDevices.Any(storeDevice => !storeDevice.Device.Name.Contains("Rameses")))
+                //    .Where(e => e.EstimatedDeliveryTime.HasValue)
+                //    .Select(e=> new { e.AndromedaSiteId, e.EstimatedDeliveryTime, e.EstimatedCollectionTime });
+
 
                 var r = query.ToArray();
 
                 result = r
-                    .Select(e => new Domain.Store() { AndromedaSiteId = e.AndromedaSiteId, EstimatedDeliveryTime = e.EstimatedDeliveryTime })
+                    .Select(e => new Domain.Store() { AndromedaSiteId = e.AndromedaSiteId, EstimatedDeliveryTime = e.EstimatedDeliveryTime, EstimatedCollectionTime = e.EstimatedCollectionTime })
                     .ToList();
             }
 

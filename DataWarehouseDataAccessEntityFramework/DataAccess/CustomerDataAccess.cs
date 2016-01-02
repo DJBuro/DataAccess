@@ -545,6 +545,18 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
 
                     var result = query.ToArray();
 
+                    //this should have been achieved in the below loops :-/
+                    if (!commit) 
+                    {
+                        foreach (var item in result) 
+                        {
+                            item.Applied = true;
+                        }
+
+                        dataWarehouseEntities.SaveChanges();
+                        return string.Empty;
+                    }
+
                     //add in any loyalty points
                     foreach (var update in result.Where(e => e.awardedPoints > 0))
                     {
