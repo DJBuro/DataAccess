@@ -43,7 +43,6 @@
         <EntityTypeShape EntityType="AndroAdminModel.StoreMenuThumbnail" Width="1.5" PointX="12.75" PointY="21.125" />
         <EntityTypeShape EntityType="AndroAdminModel.StorePaymentProvider" Width="1.5" PointX="8.25" PointY="32.5" />
         <EntityTypeShape EntityType="AndroAdminModel.StoreStatu" Width="1.5" PointX="8.25" PointY="30" />
-        <EntityTypeShape EntityType="AndroAdminModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplication_Partner" />
         <AssociationConnector Association="AndroAdminModel.FK_ACSApplicationSite_ACSApplication" />
         <AssociationConnector Association="AndroAdminModel.FK_AndroWebOrderingWebsite_ACSApplicationId" />

@@ -386,9 +386,6 @@
     <Compile Include="EntityFramework\StoreStatu.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\sysdiagram.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="WebSiteConfigurations.cs" />
     <Compile Include="Domain\WebOrderingSetup\WebsiteHome.cs" />
     <Compile Include="EntityFramework\DataAccess\ACSApplicationEFDAO.cs" />

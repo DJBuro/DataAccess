@@ -505,16 +505,6 @@
           <Property Name="Status" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <Association Name="FK__Chain__MasterMen__671F4F74">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="Chain" Type="Self.Chain" Multiplicity="*" />
@@ -1187,7 +1177,6 @@
           <EntitySet Name="StoreMenuThumbnails" EntityType="Self.StoreMenuThumbnails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreStatus" EntityType="Self.StoreStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="Self.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Store" />
             <End Role="Chain" EntitySet="Chain" />
@@ -1429,7 +1418,6 @@
           <EntitySet Name="StoreMenuThumbnails" EntityType="AndroAdminModel.StoreMenuThumbnail" />
           <EntitySet Name="StorePaymentProviders" EntityType="AndroAdminModel.StorePaymentProvider" />
           <EntitySet Name="StoreStatus" EntityType="AndroAdminModel.StoreStatu" />
-          <EntitySet Name="sysdiagrams" EntityType="AndroAdminModel.sysdiagram" />
           <AssociationSet Name="FK_ACSApplication_Partner" Association="AndroAdminModel.FK_ACSApplication_Partner">
             <End Role="Partner" EntitySet="Partners" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
@@ -2129,16 +2117,6 @@
           <Property Name="Status" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stores" Relationship="AndroAdminModel.FK_Store_StoreStatus" FromRole="StoreStatu" ToRole="Store" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_ACSApplication_Partner">
           <End Type="AndroAdminModel.Partner" Role="Partner" Multiplicity="1" />
@@ -3179,17 +3157,6 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AndroAdminModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
