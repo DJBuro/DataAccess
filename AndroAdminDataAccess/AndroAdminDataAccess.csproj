@@ -188,6 +188,7 @@
     <Compile Include="Domain\ACSApplicationEF.cs" />
     <Compile Include="Domain\AndroWebOrderingTheme.cs" />
     <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
+    <Compile Include="Domain\BringgConfig.cs" />
     <Compile Include="Domain\StoreDriver.cs" />
     <Compile Include="Domain\StoreGPSSettings.cs" />
     <Compile Include="Domain\StoreHub.cs" />
