@@ -17,6 +17,13 @@ namespace DataWarehouseDataAccess.DataAccess
             string externalSiteId
         );
 
+        string UpdateTelemetrySession
+        (
+            int applicationId,
+            string customerAccountId,
+            string sessionId
+        );
+
         string AddTelemetry
         (
             int applicationId,
