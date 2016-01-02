@@ -8,7 +8,6 @@ namespace AndroCloudDataAccess.DataAccess
 {
     public interface IHostDataAccess
     {
-        
         string ConnectionStringOverride { get; set; }
 
         /// <summary>
@@ -96,7 +95,6 @@ namespace AndroCloudDataAccess.DataAccess
         /// <param name="hosts">The hosts.</param>
         /// <returns></returns>
         string GetBestPrivateV2(int andromedaSiteId, int acsApplicationId, out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts);
-        
 
         /// <summary>
         /// Gets the best list of private v2 for the site id.
@@ -146,6 +144,11 @@ namespace AndroCloudDataAccess.DataAccess
         /// <returns></returns>
         string GetAllGenericPrivateV2Hosts(out List<AndroCloudDataAccess.Domain.PrivateHostV2> hosts);
 
-        
+        /// <summary>
+        /// Gets the menu changed hosts.
+        /// </summary>
+        /// <param name="hosts">The hosts.</param>
+        /// <returns></returns>
+        string GetMenuChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts);
     }
 }
