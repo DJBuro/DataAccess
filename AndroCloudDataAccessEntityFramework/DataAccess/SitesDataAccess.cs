@@ -50,6 +50,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      {
                                          s.ID,
                                          s.EstimatedDeliveryTime,
+                                         s.EstimatedCollectionTime,
                                          s.StoreConnected,
                                          sm.Version,
                                          s.ExternalSiteName,
@@ -102,6 +103,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
                             site.Id = siteEntity.ID;
                             site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                            site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                             site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                             site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
                             site.Name = siteEntity.ExternalSiteName;
@@ -146,6 +148,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                      {
                                          s.ID,
                                          s.EstimatedDeliveryTime,
+                                         s.EstimatedCollectionTime,
                                          s.StoreConnected,
                                          sm.Version,
                                          s.ExternalSiteName,
@@ -198,6 +201,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                             AndroCloudDataAccess.Domain.Site site = new AndroCloudDataAccess.Domain.Site();
                             site.Id = siteEntity.ID;
                             site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                            site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                             site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                             site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
                             site.Name = siteEntity.ExternalSiteName;
@@ -236,6 +240,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site = new AndroCloudDataAccess.Domain.Site();
                     site.Id = siteEntity.ID;
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = 0;
                     site.Name = siteEntity.ExternalSiteName;
@@ -270,6 +275,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site = new AndroCloudDataAccess.Domain.Site();
                     site.Id = siteEntity.ID;
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = 0;
                     site.Name = siteEntity.ExternalSiteName;
@@ -304,6 +310,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site = new AndroCloudDataAccess.Domain.Site();
                     site.Id = siteEntity.ID;
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = 0;
                     site.Name = siteEntity.ExternalSiteName;
@@ -337,6 +344,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site = new AndroCloudDataAccess.Domain.Site();
                     site.Id = siteEntity.ID;
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = 0;
                     site.Name = siteEntity.ExternalSiteName;
@@ -370,10 +378,19 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                                  where a.Id == applicationId
                                    && s.ID == siteId
                                    && ss.Status == "Live"
-                                 select new { s.ID, s.EstimatedDeliveryTime, s.StoreConnected, sm.Version, s.ExternalSiteName, s.ExternalId, s.LicenceKey, s.AndroID, s.SiteLoyalties };
-
-       //         string x = ((ObjectQuery)sitesQuery).ToTraceString();
-       //         Console.WriteLine(x);
+                                 select new 
+                                 { 
+                                     s.ID, 
+                                     s.EstimatedDeliveryTime,
+                                     s.EstimatedCollectionTime, 
+                                     s.StoreConnected, 
+                                     sm.Version, 
+                                     s.ExternalSiteName, 
+                                     s.ExternalId, 
+                                     s.LicenceKey, 
+                                     s.AndroID, 
+                                     s.SiteLoyalties 
+                                 };
 
                 var siteEntity = sitesQuery.FirstOrDefault();
 
@@ -382,6 +399,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     site = new AndroCloudDataAccess.Domain.Site();
                     site.Id = siteEntity.ID;
                     site.EstDelivTime = siteEntity.EstimatedDeliveryTime.GetValueOrDefault(0);
+                    site.EstCollTime = siteEntity.EstimatedCollectionTime.GetValueOrDefault(0);
                     site.IsOpen = siteEntity.StoreConnected.GetValueOrDefault(false);
                     site.MenuVersion = siteEntity.Version.GetValueOrDefault(0);
                     site.Name = siteEntity.ExternalSiteName;

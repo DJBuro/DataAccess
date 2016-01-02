@@ -40,6 +40,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public string Lat { get; set; }
         public string Long { get; set; }
         public Nullable<int> CountryId { get; set; }
+        public System.Data.Entity.Spatial.DbGeography Location { get; set; }
     
         public virtual Country Country { get; set; }
         public virtual ICollection<Site> Sites { get; set; }

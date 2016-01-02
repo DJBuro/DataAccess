@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="ACSModel.Country" Width="1.5" PointX="0.75" PointY="12.375" />
         <EntityTypeShape EntityType="ACSModel.Day" Width="1.5" PointX="8.25" PointY="16.5" />
         <EntityTypeShape EntityType="ACSModel.DeliveryArea" Width="1.5" PointX="7.5" PointY="24.25" />
-        <EntityTypeShape EntityType="ACSModel.HostType" Width="1.5" PointX="8.25" PointY="4.625" />
+        <EntityTypeShape EntityType="ACSModel.HostType" Width="1.5" PointX="7.5" PointY="4.625" />
         <EntityTypeShape EntityType="ACSModel.OpeningHour" Width="1.5" PointX="10.5" PointY="12" />
         <EntityTypeShape EntityType="ACSModel.Order" Width="1.5" PointX="7.5" PointY="7.875" />
         <EntityTypeShape EntityType="ACSModel.OrderStatu" Width="1.5" PointX="5.25" PointY="17.5" />
@@ -52,7 +52,7 @@
         <AssociationConnector Association="ACSModel.FK_Sites_StorePaymentProvider" />
         <EntityTypeShape EntityType="ACSModel.Device" Width="1.5" PointX="11.547045925421196" PointY="18.507309415613911" />
         <EntityTypeShape EntityType="ACSModel.ExternalApi" Width="1.5" PointX="0.48981960699419475" PointY="8.8074111532454431" />
-        <EntityTypeShape EntityType="ACSModel.SiteDevice" Width="1.5" PointX="6.3088743362151423" PointY="13.01579462597882" />
+        <EntityTypeShape EntityType="ACSModel.SiteDevice" Width="1.5" PointX="1.125" PointY="15" />
         <AssociationConnector Association="ACSModel.FK_Devices_ExternalApi" />
         <AssociationConnector Association="ACSModel.FK_SiteDevices_Devices" />
         <AssociationConnector Association="ACSModel.FK_SiteDevices_Sites" />

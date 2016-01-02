@@ -17,6 +17,7 @@ namespace AndroCloudDataAccessEntityFramework.Model
         public System.Guid Id { get; set; }
         public System.Guid SiteId { get; set; }
         public string DeliveryArea1 { get; set; }
+        public decimal DeliveryCharge { get; set; }
     
         public virtual Site Site { get; set; }
     }
