@@ -5,7 +5,6 @@ using System.Text;
 using AndroAdminDataAccess.Domain;
 using AndroAdminDataAccess.DataAccess;
 using System.Transactions;
-using System.Data.EntityClient;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Reflection;

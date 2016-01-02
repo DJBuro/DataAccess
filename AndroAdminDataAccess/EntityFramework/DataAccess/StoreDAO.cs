@@ -7,7 +7,6 @@ using AndroAdminDataAccess.DataAccess;
 using System.Data.Common;
 using System.Globalization;
 using System.Transactions;
-using System.Data.Objects;
 using System.Data.Entity;
 
 namespace AndroAdminDataAccess.EntityFramework.DataAccess

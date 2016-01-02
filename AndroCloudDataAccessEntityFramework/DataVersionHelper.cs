@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using System.Linq;
-using AndroCloudDataAccess.DataAccess;
-using System.Collections.Generic;
 using AndroCloudDataAccessEntityFramework.Model;
-using AndroCloudDataAccess.Domain;
-using AndroCloudWCFHelper;
-using AndroCloudHelper;
-using CloudSyncModel;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Data.EntityClient;
-using System.Reflection;
+
 namespace AndroCloudDataAccessEntityFramework
 {
     public class DataVersionHelper
