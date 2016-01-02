@@ -62,7 +62,8 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                         ExternalOrderRef = oh.ExternalOrderRef,
                         ForDateTime = oh.OrderWantedTime.Value,
                         OrderStatus = oh.Status,
-                        OrderTotal = oh.FinalPrice
+                        OrderTotal = oh.FinalPrice,
+                        DeliveryCharge = oh.DeliveryCharge
                     };
 
                 OrderDetails orderDetailsEntity = orderQuery.FirstOrDefault();
@@ -94,6 +95,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     ForDateTime = orderDetailsEntity.ForDateTime,
                     OrderStatus = orderDetailsEntity.OrderStatus,
                     OrderTotal = orderDetailsEntity.OrderTotal,
+                    DeliveryCharge = orderDetailsEntity.DeliveryCharge,
                     OrderLines = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
                     Deals = new List<DataWarehouseDataAccess.Domain.OrderLine>(),
                     Discounts = new List<DataWarehouseDataAccess.Domain.OrderDiscount>()
