@@ -10,8 +10,8 @@ namespace AndroAdminDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
 
-        StoreBringgSettings GetById(int id);
-        bool Add(StoreBringgSettings storeBringgSettings);
-        bool Update(StoreBringgSettings storeBringgSettings);
+        StoreGPSSettings GetById(int id);
+        bool Add(StoreGPSSettings storeBringgSettings);
+        bool Update(StoreGPSSettings storeBringgSettings);
     }
 }
