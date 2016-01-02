@@ -78,6 +78,7 @@
     <Compile Include="Domain\CustomerDAO.cs" />
     <Compile Include="Domain\CustomerLoyalty.cs" />
     <Compile Include="Domain\Modifier.cs" />
+    <Compile Include="Domain\OrderDiscount.cs" />
     <Compile Include="Domain\Telemetry.cs" />
     <Compile Include="Domain\TelemetrySession.cs" />
     <Compile Include="Domain\Feedback.cs" />

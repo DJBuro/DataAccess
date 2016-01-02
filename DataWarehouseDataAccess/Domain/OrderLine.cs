@@ -19,5 +19,7 @@ namespace DataWarehouseDataAccess.Domain
         public string Person { get; set; }
         public List<Modifier> Modifiers { get; set; }
         public List<OrderLine> ChildOrderLines { get; set; }
+        public string Cat1 { get; set; }
+        public string Cat2 { get; set; }
     }
 }
