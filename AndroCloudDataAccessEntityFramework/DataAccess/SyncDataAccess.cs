@@ -245,11 +245,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         private void SyncStoreDevices(ACSEntities acsEntities, StoreDevicesModels storeDeviceModels)
         {
+            successActions("Blindly remove devices: " + storeDeviceModels.SiteDevices.Count);
+            successActions("Blindly add devices: " + storeDeviceModels.RemovedDevices.Count);
+
             foreach (var model in storeDeviceModels.RemovedDevices)
             {
                 var table = acsEntities.Devices;
                 table.RemoveIfExists(e => e.Id == model.Id);
             }
+
             acsEntities.SaveChanges();
 
             foreach (var model in storeDeviceModels.RemovedExternalApis)
@@ -292,14 +296,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 var table = acsEntities.Devices;
 
-                table.AddOrUpdate(e => e.Id == model.Id,
-                    () => new Device()
+                table.AddOrUpdate(
+                    queryRule: e => e.Id == model.Id,
+                    createAction: () => new Device()
                     {
                         Id = model.Id,
                         Name = model.Name,
                         ExternalApiId = model.ExternalApiId
-                    },
-                    (entity) =>
+                    }, 
+                    updateAction: (entity) =>
                     {
                         entity.Name = model.Name;
                         entity.ExternalApiId = model.ExternalApiId;
@@ -307,6 +312,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             }
             acsEntities.SaveChanges();
 
+            
 
             //add in store device link.
             foreach (var model in storeDeviceModels.SiteDevices)
@@ -323,6 +329,8 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                         Site = site,
                         Parameters = model.Parameters == null ? string.Empty : model.Parameters
                     });
+
+                successActions("Add device to store: " + site.ExternalSiteName + " Device: " +device.Name);
 
                 //problem is that the device id may change and there may be more than one 'device' 
                 //so lets just tell it to create only. 
@@ -342,7 +350,6 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             }
 
             acsEntities.SaveChanges();
-            //remove things
         }
 
         private void SyncHostV2Relations(ACSEntities acsEntities, HostV2Models hostV2Models)

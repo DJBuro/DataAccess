@@ -8,8 +8,13 @@ namespace AndroAdminDataAccess.DataAccess
     public interface IStoreDevicesDataService 
     {
         StoreDevice New();
-        IEnumerable<StoreDevice> List();
-        IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query);
+        //IEnumerable<StoreDevice> List();
+        //IEnumerable<StoreDevice> List(Expression<Func<StoreDevice, bool>> query);
+
+        IEnumerable<StoreDevice> Query();
+        IEnumerable<StoreDevice> Query(Expression<Func<StoreDevice, bool>> query);
+
+        IEnumerable<StoreDevice> ListEnabled(Expression<Func<StoreDevice, bool>> query);
         IEnumerable<StoreDevice> ListRemoved(Expression<Func<StoreDevice, bool>> query);
 
         StoreDevice Get(Guid id);
