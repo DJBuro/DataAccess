@@ -6,6 +6,6 @@ namespace AndroCloudDataAccess.DataAccess
     {
         string ConnectionStringOverride { get; set; }
 
-        string GetAllByExternalApplicationId(string externalApplicationId, out IEnumerable<AndroCloudDataAccess.Domain.SiteLoyalty> configurations);
+        string GetAllByExternalApplicationId(string externalApplicationId, string externalSiteId, out IEnumerable<AndroCloudDataAccess.Domain.SiteLoyalty> configurations);
     }
 }

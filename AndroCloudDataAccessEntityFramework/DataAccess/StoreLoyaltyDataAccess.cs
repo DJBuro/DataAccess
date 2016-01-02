@@ -13,9 +13,10 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-
-
-        public string GetAllByExternalApplicationId(string externalApplicationId, out IEnumerable<AndroCloudDataAccess.Domain.SiteLoyalty> configurations)
+        public string GetAllByExternalApplicationId(
+            string externalApplicationId, 
+            string externalSiteId,
+            out IEnumerable<AndroCloudDataAccess.Domain.SiteLoyalty> configurations)
         {
             configurations = Enumerable.Empty<AndroCloudDataAccess.Domain.SiteLoyalty>();
 
@@ -28,8 +29,15 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     var table = acsEntities.SiteLoyalties;
 
                     var query = table
-                        .Where(e => e.Site.ACSApplicationSites.Any(application => application.ACSApplication.ExternalApplicationId == externalApplicationId))
-                        //.Where(e=> e.ProviderName == "andromeda")
+                        .Where
+                        (
+                            e => e.Site.ACSApplicationSites.Any
+                            (
+                                application => 
+                                    application.ACSApplication.ExternalApplicationId == externalApplicationId &&
+                                    application.Site.ExternalId == (String.IsNullOrEmpty(externalSiteId) ? application.Site.ExternalId : externalSiteId)
+                            )
+                        )
                         .Select(e => new { e.Id, e.ProviderName, e.Configuration });
 
                     var result = query.ToArray();
