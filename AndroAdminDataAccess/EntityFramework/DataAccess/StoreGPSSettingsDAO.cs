@@ -15,9 +15,9 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
     {
         public string ConnectionStringOverride { get; set; }
 
-        public Domain.StoreBringgSettings GetById(int id)
+        public Domain.StoreGPSSettings GetById(int id)
         {
-            Domain.StoreBringgSettings model = null;
+            Domain.StoreGPSSettings model = null;
 
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -32,12 +32,11 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 if (entity != null)
                 {
-                    model = new StoreBringgSettings()
+                    model = new StoreGPSSettings()
                     {
                         Id = entity.StoreId,
-                        BringCustomerId = entity.PartnerStoreId,
                         MaxDrivers = entity.MaxDrivers,
-                        IsBringgEnabled = entity.IsEnabled
+                        PartnerConfig = entity.PartnerConfig
                     };
                 }
             }
@@ -45,7 +44,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return model;
         }
 
-        public bool Add(Domain.StoreBringgSettings model)
+        public bool Add(Domain.StoreGPSSettings model)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -55,8 +54,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
 
                 var entity = new StoreGPSSetting()
                 {
-                    PartnerStoreId = model.BringCustomerId,
-                    IsEnabled = model.IsBringgEnabled,
+                    PartnerConfig = model.PartnerConfig,
                     MaxDrivers = model.MaxDrivers,
                     StoreId = model.Id
                 };
@@ -68,7 +66,7 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
             return true;
         }
 
-        public bool Update(Domain.StoreBringgSettings model)
+        public bool Update(Domain.StoreGPSSettings model)
         {
             using (AndroAdminEntities entitiesContext = new AndroAdminEntities())
             {
@@ -88,7 +86,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                 else
                 {
                     entity.MaxDrivers = model.MaxDrivers;
-                    entity.IsEnabled = model.IsBringgEnabled;
+                    entity.PartnerConfig = model.PartnerConfig;
+                    entity.StoreId = model.Id;
 
                     entitiesContext.SaveChanges();
                 }
