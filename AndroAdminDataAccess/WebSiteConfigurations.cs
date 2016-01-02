@@ -110,6 +110,12 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public JivoChatSettings JivoChatSettings { get; set; }
 
+        public CmsPages Pages
+        {
+            get;
+            set;
+        }
+
         public static string SerializeJson(Object obj)
         {
             if (obj == null)
