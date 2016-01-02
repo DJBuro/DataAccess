@@ -111,8 +111,21 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                     if (entity.CustomerLoyalties != null)
                     {
                         customer.CustomerLoyalties = new List<DataWarehouseDataAccess.Domain.CustomerLoyalty>();
-                        foreach (var loyalty in entity.CustomerLoyalties)
+                        var customerLoyalty = entity.CustomerLoyalties.Select(e => new
                         {
+                            e.Id,
+                            e.CustomerId,
+                            e.ProviderName,
+                            e.Points,
+                            PendingRedeemedPoints = e.Customer.OrderHeaders.SelectMany(r => r.OrderLoyalties)
+                                .Where(r => r.redeemedPoints > 0)
+                                .Where(r=> !r.Applied)
+                                .Sum(r => r.redeemedPoints)
+                        }).ToArray();
+
+                        foreach (var loyalty in customerLoyalty)
+                        {
+
                             customer.CustomerLoyalties.Add
                             (
                                 new DataWarehouseDataAccess.Domain.CustomerLoyalty()
@@ -120,7 +133,7 @@ namespace DataWarehouseDataAccessEntityFramework.DataAccess
                                     Id = loyalty.Id,
                                     CustomerId = loyalty.CustomerId,
                                     ProviderName = loyalty.ProviderName,
-                                    Points = (loyalty.Points ?? 0)
+                                    Points = (loyalty.Points ?? 0) - loyalty.PendingRedeemedPoints.GetValueOrDefault()
                                 }
                             );
                         }
