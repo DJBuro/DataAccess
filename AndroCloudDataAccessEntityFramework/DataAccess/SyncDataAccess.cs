@@ -240,6 +240,29 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
         private void SyncStoreDevices(ACSEntities acsEntities, StoreDevicesModels storeDeviceModels)
         {
+            foreach (var model in storeDeviceModels.RemovedDevices)
+            {
+                var table = acsEntities.Devices;
+                table.RemoveIfExists(e => e.Id == model.Id);
+            }
+            acsEntities.SaveChanges();
+
+            foreach (var model in storeDeviceModels.RemovedExternalApis)
+            {
+                var table = acsEntities.ExternalApis;
+                table.RemoveIfExists(e => e.Id == model.Id);
+            }
+            acsEntities.SaveChanges();
+
+            foreach (var model in storeDeviceModels.RemovedSiteDevices.GroupBy(e=> e.AndromedaSiteId))
+            {
+                var table = acsEntities.SiteDevices;
+                //changed the sync to update new records regardless. 
+                table.RemoveIfExists(e => e.Site.AndroID == model.Key);
+                //table.RemoveIfExists(e => e.DeviceId == model.DeviceId && e.Site.AndroID == model.AndromedaSiteId);
+            }
+            acsEntities.SaveChanges();
+
             //add in apis 
             foreach (var model in storeDeviceModels.ExternalApis)
             {
@@ -285,48 +308,36 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
             {
                 var table = acsEntities.SiteDevices;
                 Site site = acsEntities.Sites.SingleOrDefault(s => s.AndroID == model.AndromedaSiteId);
-
-                table.AddOrUpdate(e =>
-                    e.Site.AndroID == model.AndromedaSiteId &&
-                    e.DeviceId == model.DeviceId,
-                    () => new SiteDevice()
+                Device device = acsEntities.Devices.SingleOrDefault(d => d.Id == model.DeviceId);
+                //should have wiped all the store devices away ... now add all variants back in 
+                table.Add(new SiteDevice()
                     {
-                        DeviceId = model.DeviceId,
+                        DeviceId = device.Id,
+                        Device = device,
                         SiteId = site.ID,
                         Site = site,
                         Parameters = model.Parameters == null ? string.Empty : model.Parameters
-                    },
-                    (entity) =>
-                    {
-                        entity.Parameters = model.Parameters == null ? string.Empty : model.Parameters;
-                        entity.DeviceId = model.DeviceId;
-
                     });
+
+                //problem is that the device id may change and there may be more than one 'device' 
+                //so lets just tell it to create only. 
+                //table.AddOrUpdate(e => false,
+                //    () => new SiteDevice()
+                //    {
+                //        DeviceId = model.DeviceId,
+                //        SiteId = site.ID,
+                //        Site = site,
+                //        Parameters = model.Parameters == null ? string.Empty : model.Parameters
+                //    },
+                //    (entity) =>
+                //    {
+                //        entity.Parameters = model.Parameters == null ? string.Empty : model.Parameters;
+                //        entity.DeviceId = model.DeviceId;
+                //    });
             }
+
             acsEntities.SaveChanges();
             //remove things
-
-            foreach (var model in storeDeviceModels.RemovedDevices)
-            {
-                var table = acsEntities.Devices;
-                table.RemoveIfExists(e => e.Id == model.Id);
-            }
-            acsEntities.SaveChanges();
-
-            foreach (var model in storeDeviceModels.RemovedExternalApis)
-            {
-                var table = acsEntities.ExternalApis;
-                table.RemoveIfExists(e => e.Id == model.Id);
-            }
-            acsEntities.SaveChanges();
-
-            foreach (var model in storeDeviceModels.RemovedSiteDevices)
-            {
-                var table = acsEntities.SiteDevices;
-                table.RemoveIfExists(e => e.DeviceId == model.DeviceId && e.Site.AndroID == model.AndromedaSiteId);
-            }
-            acsEntities.SaveChanges();
-
         }
 
         private void SyncHostV2Relations(ACSEntities acsEntities, HostV2Models hostV2Models)
