@@ -191,7 +191,11 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
                     foreach (var delArea in deliveryAreas)
                     {                        
-                        var postCode = postCodeSectors.Where(p => p.PostCodeSectorName.Equals(delArea.DeliveryArea1, StringComparison.CurrentCultureIgnoreCase) && p.StoreId == new Guid(site.ExternalId)).FirstOrDefault();
+                        var postCode = postCodeSectors
+                            .Where(p => 
+                                p.PostCodeSectorName.Equals(delArea.DeliveryArea1, StringComparison.CurrentCultureIgnoreCase) && 
+                                p.StoreId == site.ExternalId)
+                            .FirstOrDefault();
 
                         if (postCode == null)
                         {
@@ -210,6 +214,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     var removeEntity = acsEntities.DeliveryAreas.Where(d => d.Id == removeDelArea.Id).FirstOrDefault();
                     acsEntities.DeliveryAreas.Remove(removeEntity);
                 }
+
                 acsEntities.SaveChanges();
             }
 

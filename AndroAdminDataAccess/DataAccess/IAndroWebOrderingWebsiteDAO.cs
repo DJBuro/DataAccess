@@ -15,6 +15,8 @@ namespace AndroAdminDataAccess.DataAccess
         /// <returns></returns>
         IList<AndroWebOrderingWebsite> GetAll();
 
+        IQueryable<AndroAdminDataAccess.EntityFramework.AndroWebOrderingWebsite> Query();
+
         /// <summary>
         /// Gets the andro web ordering website by id.
         /// </summary>
