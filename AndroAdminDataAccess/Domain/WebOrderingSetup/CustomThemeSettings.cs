@@ -17,6 +17,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
             ColourRange4 = string.Empty;
             ColourRange5 = string.Empty;
             ColourRange6 = string.Empty;
+
+            IsPageHeaderVisible = true;
         }
         public string DesktopBackgroundImagePath { set; get; }
         public string MobileBackgroundImagePath { set; get; }
@@ -27,6 +29,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public string ColourRange4 { set; get; }
         public string ColourRange5 { set; get; }
         public string ColourRange6 { set; get; }
+
+        public bool IsPageHeaderVisible { get; set; }
 
     }    
 }
