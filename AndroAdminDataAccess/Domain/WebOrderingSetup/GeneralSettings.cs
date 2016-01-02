@@ -20,6 +20,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         public bool EnableHomePage { get; set; }
 
+        public bool? EnableDelivery { get; set; }
+        public bool? EnableCollection { get; set; }
         //these are in CustomerAccountSettings object 
         //public bool EnableAndromedaLogin { get; set; }
         //public bool EnableFacebookLogin { get; set; }
