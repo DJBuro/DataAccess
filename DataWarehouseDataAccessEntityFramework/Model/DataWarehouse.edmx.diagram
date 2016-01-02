@@ -66,6 +66,7 @@
         <EntityTypeShape EntityType="DataWarehouseModel.OrderPayment" Width="1.5" PointX="13.375" PointY="21.625" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderPayments_OrderHeader" />
         <AssociationConnector Association="DataWarehouseModel.FK_OrderPaymentPSP_OrderPayment" />
+        <EntityTypeShape EntityType="DataWarehouseModel.CustomerGP" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

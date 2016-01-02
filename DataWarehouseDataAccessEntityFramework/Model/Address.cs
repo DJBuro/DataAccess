@@ -43,6 +43,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public int DataVersion { get; set; }
         public int CountryId { get; set; }
         public string Directions { get; set; }
+        public System.Data.Entity.Spatial.DbGeography Location { get; set; }
     
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

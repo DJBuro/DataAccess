@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="DataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountType">
           <Key>
             <PropertyRef Name="Id" />
@@ -21,8 +21,6 @@
           <Property Name="ShortDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LongDescription" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'Location' in the table 'DataWarehouse.dbo.Address' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="Id" />
@@ -47,6 +45,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="DPS" Type="nvarchar" MaxLength="4" />
           <Property Name="Lat" Type="nvarchar" MaxLength="15" />
           <Property Name="Long" Type="nvarchar" MaxLength="15" />
+          <Property Name="Location" Type="geography" />
           <Property Name="DataVersion" Type="int" Nullable="false" />
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="Directions" Type="nvarchar" MaxLength="255" />
@@ -141,8 +140,6 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="FacebookId" Type="nvarchar" MaxLength="50" />
           <Property Name="FacebookUsername" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'geography' is not supported for the target Entity Framework version schema. The column 'Location' in the table 'DataWarehouse.dbo.CustomerAddress' was excluded from the model. To use the data type 'geography', target the Entity Framework schema version 3.0 or higher.-->
         <EntityType Name="CustomerAddress">
           <Key>
             <PropertyRef Name="ID" />
@@ -155,6 +152,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="State" Type="nvarchar" MaxLength="32" />
           <Property Name="ZipCode" Type="nvarchar" MaxLength="32" />
           <Property Name="Country" Type="nvarchar" MaxLength="32" />
+          <Property Name="Location" Type="geography" />
           <Property Name="Longitude" Type="nvarchar" MaxLength="15" />
           <Property Name="Latitude" Type="nvarchar" MaxLength="15" />
         </EntityType>
@@ -177,6 +175,14 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerGPS">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="PartnerId" />
+          </Key>
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PartnerId" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="CustomerLoyalty">
           <Key>
@@ -779,6 +785,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySet Name="CustomerAddress" EntityType="Self.CustomerAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerFeedback" EntityType="Self.CustomerFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerFeedbackCategory" EntityType="Self.CustomerFeedbackCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerGPS" EntityType="Self.CustomerGPS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerLoyalty" EntityType="Self.CustomerLoyalty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketingLevel" EntityType="Self.MarketingLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="modifiers" EntityType="Self.modifiers" Schema="dbo" store:Type="Tables" />
@@ -917,7 +924,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DataWarehouseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+      <Schema Namespace="DataWarehouseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="DataWarehouseEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="AccountTypes" EntityType="DataWarehouseModel.AccountType" />
           <EntitySet Name="ACSErrorCodes" EntityType="DataWarehouseModel.ACSErrorCode" />
@@ -1067,6 +1074,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             <End Role="OrderPayment" EntitySet="OrderPayments" />
             <End Role="OrderPaymentPSP" EntitySet="OrderPaymentPSPs" />
           </AssociationSet>
+          <EntitySet Name="CustomerGPS" EntityType="DataWarehouseModel.CustomerGP" />
         </EntityContainer>
         <EntityType Name="AccountType">
           <Key>
@@ -1115,6 +1123,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Directions" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country" Relationship="DataWarehouseModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
           <NavigationProperty Name="Customers" Relationship="DataWarehouseModel.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
+          <Property Name="Location" Type="Geography" />
         </EntityType>
         <EntityType Name="Audit">
           <Key>
@@ -1217,6 +1226,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <Property Name="Latitude" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="DataWarehouseModel.FK_CustomerAddress_Customer" FromRole="CustomerAddress" ToRole="Customer" />
           <NavigationProperty Name="OrderHeaders" Relationship="DataWarehouseModel.FK_OrderAddress" FromRole="CustomerAddress" ToRole="OrderHeader" />
+          <Property Name="Location" Type="Geography" />
         </EntityType>
         <EntityType Name="CustomerFeedback">
           <Key>
@@ -1877,11 +1887,19 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustomerGP">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="PartnerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="PartnerId" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DataWarehouseModelStoreContainer" CdmEntityContainer="DataWarehouseEntities">
           <EntitySetMapping Name="AccountTypes">
             <EntityTypeMapping TypeName="DataWarehouseModel.AccountType">
@@ -1904,6 +1922,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="DataWarehouseModel.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Directions" ColumnName="Directions" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="DataVersion" ColumnName="DataVersion" />
@@ -2008,6 +2027,7 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
           <EntitySetMapping Name="CustomerAddresses">
             <EntityTypeMapping TypeName="DataWarehouseModel.CustomerAddress">
               <MappingFragment StoreEntitySet="CustomerAddress">
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
@@ -2299,27 +2319,35 @@ warning 6005: The data type 'geography' is not supported for the target Entity F
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CustomerGPS">
+            <EntityTypeMapping TypeName="DataWarehouseModel.CustomerGP">
+              <MappingFragment StoreEntitySet="CustomerGPS">
+                <ScalarProperty Name="PartnerId" ColumnName="PartnerId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
-    <Connection>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </DesignerInfoPropertySet>
-    </Connection>
-    <Options>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
-        <DesignerProperty Name="UseLegacyProvider" Value="True" />
-      </DesignerInfoPropertySet>
-    </Options>
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams />
-  </Designer>
+    <edmx:Diagrams />
+  </edmx:Designer>
 </edmx:Edmx>

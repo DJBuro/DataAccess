@@ -82,6 +82,18 @@ namespace AndroAdminDataAccess.EntityFramework
             set { throw new NotImplementedException(); }
         }
 
+        public IStoreDriverDAO StoreDriverDAO
+        {
+            get { return new StoreDriverDAO(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public IStoreGPSSettingsDAO StoreBringgSettingsDAO
+        {
+            get { return new StoreGPSSettingsDAO(); }
+            set { throw new NotImplementedException(); }
+        }
+
         public IPartnerDAO PartnerDAO
         {
             get { return new PartnerDAO(); }
