@@ -2,11 +2,13 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 {
     public class GeneralSettings
     {
-        public double MinimumDeliveryAmount { get; set; }
+        public decimal MinimumDeliveryAmount { get; set; }
 
-        public double DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
 
-        public int? OptionalFreeDeliveryThreshold { get; set; }
+        public decimal? OptionalFreeDeliveryThreshold { get; set; }
+
+        public decimal? CardCharge { get; set; } 
 
         public bool ApplyDeliveryCharges { get; set; }
         
