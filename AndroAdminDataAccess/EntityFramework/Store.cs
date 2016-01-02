@@ -53,6 +53,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public int ChainId { get; set; }
         public string TimeZoneInfoId { get; set; }
         public string UiCulture { get; set; }
+        public Nullable<int> EstimatedCollectionTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ACSApplicationSite> ACSApplicationSites { get; set; }

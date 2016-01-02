@@ -79,6 +79,7 @@ namespace AndroAdminDataAccess.Domain
         public string UiCulture { get; set; }
 
         public int? EstimatedDeliveryTime { get; set; }
+        public int? EstimatedCollectionTime { get; set; }
     }
 
     public static class StoreExtensions

@@ -21,11 +21,18 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
         public bool EnableHomePage { get; set; }
 
         public bool? EnableDelivery { get; set; }
+
         public bool? EnableCollection { get; set; }
+        
         public bool? EnableDineIn { get; set; }
         //these are in CustomerAccountSettings object 
         //public bool EnableAndromedaLogin { get; set; }
         //public bool EnableFacebookLogin { get; set; }
         //public string FacebookApplicationId { get; set; }
+
+        public decimal? DineInServiceCharge { get; set; }
+        public decimal? LegalDineInServiceChargeLimit { get; set; }
+        public bool? CompulsoryDineInServiceCharge { get; set; }
+
     }
 }

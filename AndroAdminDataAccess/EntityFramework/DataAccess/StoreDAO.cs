@@ -994,7 +994,8 @@ namespace AndroAdminDataAccess.EntityFramework.DataAccess
                         ExternalSiteName = entity.ExternalSiteName,
                         Telephone = entity.Telephone,
                         TimeZone = entity.TimeZone,
-                        EstimatedDeliveryTime = entity.EstimatedDeliveryTime
+                        EstimatedDeliveryTime = entity.EstimatedDeliveryTime,
+                        EstimatedCollectionTime = entity.EstimatedCollectionTime
                     };
 
                     // Get the address

@@ -2,7 +2,7 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 {
     public class SocialNetwork
     {
-        public SocialNetworkSiteSettings FacebookSettings { get; set; }
+        public FavcebookSocialNetworkSettings FacebookSettings { get; set; }
 
         public SocialNetworkSiteSettings TwitterSettings { get; set; }
 
@@ -12,8 +12,8 @@ namespace AndroAdminDataAccess.Domain.WebOrderingSetup
 
         //public List<SocialNetworkSiteSettings> Settings { get; set; }
         public void DefaultSocialNetwork()
-        { 
-            this.FacebookSettings = new SocialNetworkSiteSettings { IsEnable = true, IsShare = true };
+        {
+            this.FacebookSettings = new FavcebookSocialNetworkSettings { IsEnable = true, IsShare = true };
             this.TwitterSettings = new SocialNetworkSiteSettings { IsEnable = true, IsShare = true };
         }
     }

@@ -337,8 +337,8 @@
     </None>
     <None Include="Model\ACSEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ACSEntities.edmx</DependentUpon>
       <LastGenOutput>ACSEntities.cs</LastGenOutput>
+      <DependentUpon>ACSEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
