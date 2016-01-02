@@ -17,6 +17,7 @@ namespace DataWarehouseDataAccess.Domain
         public int OrderStatus { get; set; }
         public decimal OrderTotal { get; set; }
         public decimal DeliveryCharge { get; set; }
+        public decimal PaymentCharge { get; set; }
 
         public List<OrderLine> OrderLines { get; set; }
         public List<OrderLine> Deals { get; set; }
