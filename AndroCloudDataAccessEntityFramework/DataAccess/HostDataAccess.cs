@@ -301,5 +301,30 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
 
             return string.Empty;
         }
+
+
+        public string GetOrderStatusChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e =>
+                    e.HostType.Name.Equals("WebHooks - Update Store Status", StringComparison.CurrentCultureIgnoreCase))
+                .Select(e => e.ToPublicDomainModel());
+
+            hosts = results.ToList();
+
+            return string.Empty;
+        }
+
+        public string GetEdtChangedHosts(out List<AndroCloudDataAccess.Domain.HostV2> hosts)
+        {
+            var results = this
+                .QueryHostsV2(e =>
+                    e.HostType.Name.Equals("WebHooks - Update EDT", StringComparison.CurrentCultureIgnoreCase))
+                .Select(e => e.ToPublicDomainModel());
+
+            hosts = results.ToList();
+
+            return string.Empty;
+        }
     }
 }

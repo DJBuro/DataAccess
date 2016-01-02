@@ -54,6 +54,11 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public string DriverName { get; set; }
         public Nullable<int> DriverId { get; set; }
         public Nullable<int> TicketNumber { get; set; }
+        public string DriverPhoneNumber { get; set; }
+        public Nullable<int> TableNumber { get; set; }
+        public string EventName { get; set; }
+        public Nullable<bool> PriorityOrder { get; set; }
+        public Nullable<bool> GroupOrder { get; set; }
     
         public virtual ACSErrorCode ACSErrorCode1 { get; set; }
         public virtual Customer Customer { get; set; }

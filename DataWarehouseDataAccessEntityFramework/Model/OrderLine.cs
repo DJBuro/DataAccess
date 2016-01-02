@@ -32,6 +32,7 @@ namespace DataWarehouseDataAccessEntityFramework.Model
         public Nullable<bool> IsDeal { get; set; }
         public Nullable<System.Guid> DealID { get; set; }
         public Nullable<int> DealSequence { get; set; }
+        public string Person { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<modifier> modifiers { get; set; }

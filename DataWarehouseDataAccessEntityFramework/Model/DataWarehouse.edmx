@@ -264,7 +264,12 @@
           <Property Name="CookingInstructions" Type="nvarchar" MaxLength="128" />
           <Property Name="DriverName" Type="nvarchar" MaxLength="40" />
           <Property Name="DriverId" Type="int" />
+          <Property Name="DriverPhoneNumber" Type="nvarchar" MaxLength="15" />
           <Property Name="TicketNumber" Type="int" />
+          <Property Name="TableNumber" Type="int" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PriorityOrder" Type="bit" />
+          <Property Name="GroupOrder" Type="bit" />
         </EntityType>
         <EntityType Name="OrderLines">
           <Key>
@@ -282,6 +287,7 @@
           <Property Name="IsDeal" Type="bit" />
           <Property Name="DealID" Type="uniqueidentifier" />
           <Property Name="DealSequence" Type="int" />
+          <Property Name="Person" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderLoyalty">
           <Key>
@@ -1325,6 +1331,11 @@
           <NavigationProperty Name="OrderLoyalties" Relationship="DataWarehouseModel.FK_OrderLoyalty_OrderHeader" FromRole="OrderHeader" ToRole="OrderLoyalty" />
           <NavigationProperty Name="OrderDiscounts" Relationship="DataWarehouseModel.FK_OrderDiscount_OrderHeader" FromRole="OrderHeader" ToRole="OrderDiscount" />
           <NavigationProperty Name="OrderPayments" Relationship="DataWarehouseModel.FK_OrderPayments_OrderHeader" FromRole="OrderHeader" ToRole="OrderPayment" />
+          <Property Name="DriverPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TableNumber" Type="Int32" />
+          <Property Name="EventName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PriorityOrder" Type="Boolean" />
+          <Property Name="GroupOrder" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -1344,6 +1355,7 @@
           <Property Name="IsDeal" Type="Boolean" />
           <Property Name="DealID" Type="Guid" />
           <Property Name="DealSequence" Type="Int32" />
+          <Property Name="Person" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderStatu">
           <Key>
@@ -2098,6 +2110,11 @@
           <EntitySetMapping Name="OrderHeaders">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderHeader">
               <MappingFragment StoreEntitySet="OrderHeader">
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="PriorityOrder" ColumnName="PriorityOrder" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="TableNumber" ColumnName="TableNumber" />
+                <ScalarProperty Name="DriverPhoneNumber" ColumnName="DriverPhoneNumber" />
                 <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
                 <ScalarProperty Name="DriverId" ColumnName="DriverId" />
                 <ScalarProperty Name="DriverName" ColumnName="DriverName" />
@@ -2134,6 +2151,7 @@
           <EntitySetMapping Name="OrderLines">
             <EntityTypeMapping TypeName="DataWarehouseModel.OrderLine">
               <MappingFragment StoreEntitySet="OrderLines">
+                <ScalarProperty Name="Person" ColumnName="Person" />
                 <ScalarProperty Name="DealSequence" ColumnName="DealSequence" />
                 <ScalarProperty Name="DealID" ColumnName="DealID" />
                 <ScalarProperty Name="IsDeal" ColumnName="IsDeal" />
