@@ -66,6 +66,12 @@ namespace AndroCloudDataAccess.Domain
         ////how highest monetary value that can be spent by points. 
         //MaximumValueThatCanBeClaimed?: number;
         public decimal? MaximumValueThatCanBeClaimed { get; set; }
+
+        /// <summary>
+        /// Maximum points that can be had per user. 
+        /// </summary>
+        public int? MaximumObtainablePoints { get; set; }
+
         ////round the points up or down to the nearest whole number 
         //RoundUp : boolean
         public bool? RoundUp { get; set; }
