@@ -139,8 +139,8 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\WebSites\AndroAdmin\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\Services\AndroCloudServices\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\WebSites\AndroAdmin\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -189,6 +189,7 @@
     <Compile Include="Domain\ACSApplicationEF.cs" />
     <Compile Include="Domain\AndroWebOrderingTheme.cs" />
     <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
+    <Compile Include="Domain\TrackerDetails.cs" />
     <Compile Include="Domain\StoreDriver.cs" />
     <Compile Include="Domain\StoreGPSSettings.cs" />
     <Compile Include="Domain\StoreHub.cs" />
