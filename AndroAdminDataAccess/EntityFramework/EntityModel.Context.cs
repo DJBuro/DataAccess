@@ -69,5 +69,6 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual DbSet<StoreGPSSetting> StoreGPSSettings { get; set; }
         public virtual DbSet<ACSApplication> ACSApplications { get; set; }
         public virtual DbSet<Environment> Environments { get; set; }
+        public virtual DbSet<StoreTracker> StoreTrackers { get; set; }
     }
 }

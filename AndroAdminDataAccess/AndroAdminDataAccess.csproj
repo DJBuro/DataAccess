@@ -176,6 +176,7 @@
     <Compile Include="DataAccess\IHostDAO.cs" />
     <Compile Include="DataAccess\IACSApplicationDAO.cs" />
     <Compile Include="DataAccess\IPartnerDAO.cs" />
+    <Compile Include="DataAccess\IStoreTrackerDAO.cs" />
     <Compile Include="DataAccess\IStoreStatusDAO.cs" />
     <Compile Include="DataAccess\IStoreAMSServerFTPSiteDAO.cs" />
     <Compile Include="DataAccess\IStoreAMSServerDAO.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Domain\ACSApplicationEF.cs" />
     <Compile Include="Domain\AndroWebOrderingTheme.cs" />
     <Compile Include="Domain\AndroWebOrderingWebsite.cs" />
+    <Compile Include="Domain\StoreTracker.cs" />
     <Compile Include="Domain\TrackerDetails.cs" />
     <Compile Include="Domain\StoreDriver.cs" />
     <Compile Include="Domain\StoreGPSSettings.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="EntityFramework\DataAccess\LoyaltyDataService.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreGPSSettingsDAO.cs" />
     <Compile Include="EntityFramework\DataAccess\StoreDriverDAO.cs" />
+    <Compile Include="EntityFramework\DataAccess\StoreTrackerDAO.cs" />
     <Compile Include="EntityFramework\Day.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -389,6 +392,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\StoreStatu.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\StoreTracker.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WebSiteConfigurations.cs" />

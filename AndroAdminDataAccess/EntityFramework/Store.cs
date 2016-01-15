@@ -32,6 +32,7 @@ namespace AndroAdminDataAccess.EntityFramework
             this.HubAddresses = new HashSet<HubAddress>();
             this.StoreLoyalties = new HashSet<StoreLoyalty>();
             this.StoreDrivers = new HashSet<StoreDriver>();
+            this.StoreTrackers = new HashSet<StoreTracker>();
         }
     
         public int Id { get; set; }
@@ -90,5 +91,7 @@ namespace AndroAdminDataAccess.EntityFramework
         public virtual StoreGPSSetting StoreGPSSetting { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreDriver> StoreDrivers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreTracker> StoreTrackers { get; set; }
     }
 }

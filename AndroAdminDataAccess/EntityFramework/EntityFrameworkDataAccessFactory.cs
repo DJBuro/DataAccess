@@ -123,5 +123,11 @@ namespace AndroAdminDataAccess.EntityFramework
             get { return new SettingsDAO(); }
             set { throw new NotImplementedException(); }
         }
+
+        public IStoreTrackerDAO SToreTrackerDAO
+        {
+            get { return new StoreTrackerDAO(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

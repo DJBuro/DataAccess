@@ -514,6 +514,14 @@
           <Property Name="Status" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreTracker">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="IMEI" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="IMEI" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <Association Name="FK__Chain__MasterMen__671F4F74">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="Chain" Type="Self.Chain" Multiplicity="*" />
@@ -1134,6 +1142,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreTracker_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreTracker" Type="Self.StoreTracker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreTracker">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreTypes_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1211,6 +1231,7 @@
           <EntitySet Name="StoreMenuThumbnails" EntityType="Self.StoreMenuThumbnails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StorePaymentProvider" EntityType="Self.StorePaymentProvider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreStatus" EntityType="Self.StoreStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreTracker" EntityType="Self.StoreTracker" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Chain__MasterMen__671F4F74" Association="Self.FK__Chain__MasterMen__671F4F74">
             <End Role="Store" EntitySet="Store" />
             <End Role="Chain" EntitySet="Chain" />
@@ -1406,6 +1427,10 @@
           <AssociationSet Name="FK_StoreMenuThumbnails_Store" Association="Self.FK_StoreMenuThumbnails_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreMenuThumbnails" EntitySet="StoreMenuThumbnails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreTracker_Store" Association="Self.FK_StoreTracker_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreTracker" EntitySet="StoreTracker" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreTypes_Store" Association="Self.FK_StoreTypes_Store">
             <End Role="Store" EntitySet="Store" />
@@ -1652,6 +1677,11 @@
           <AssociationSet Name="FK_ACSApplication_Environment" Association="AndroAdminModel.FK_ACSApplication_Environment">
             <End Role="Environment" EntitySet="Environments" />
             <End Role="ACSApplication" EntitySet="ACSApplications" />
+          </AssociationSet>
+          <EntitySet Name="StoreTrackers" EntityType="AndroAdminModel.StoreTracker" />
+          <AssociationSet Name="FK_StoreTracker_Store" Association="AndroAdminModel.FK_StoreTracker_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreTracker" EntitySet="StoreTrackers" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="HubAddress">
@@ -2048,6 +2078,7 @@
           <NavigationProperty Name="StoreGPSSetting" Relationship="AndroAdminModel.FK_StoreBringgSettings_Store" FromRole="Store" ToRole="StoreGPSSetting" />
           <NavigationProperty Name="StoreDrivers" Relationship="AndroAdminModel.FK_StoreDrivers_Store" FromRole="Store" ToRole="StoreDriver" />
           <Property Name="EstimatedCollectionTime" Type="Int32" />
+          <NavigationProperty Name="StoreTrackers" Relationship="AndroAdminModel.FK_StoreTracker_Store" FromRole="Store" ToRole="StoreTracker" />
         </EntityType>
         <EntityType Name="StoreAMSServer">
           <Key>
@@ -2775,6 +2806,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StoreTracker">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="IMEI" />
+          </Key>
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="IMEI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Store" Relationship="AndroAdminModel.FK_StoreTracker_Store" FromRole="StoreTracker" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_StoreTracker_Store">
+          <End Type="AndroAdminModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="AndroAdminModel.StoreTracker" Role="StoreTracker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreTracker">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3329,6 +3381,14 @@
               <MappingFragment StoreEntitySet="Environment">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreTrackers">
+            <EntityTypeMapping TypeName="AndroAdminModel.StoreTracker">
+              <MappingFragment StoreEntitySet="StoreTracker">
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

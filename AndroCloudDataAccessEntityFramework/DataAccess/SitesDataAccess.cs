@@ -461,7 +461,7 @@ namespace AndroCloudDataAccessEntityFramework.DataAccess
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             { 
                 // log - 
             }
