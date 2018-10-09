@@ -20,10 +20,10 @@ namespace AndroCloudDataAccessEntityFramework.Model
         {
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //throw new UnintentionalCodeFirstException();
+        //}
     
         public DbSet<ACSApplicationSite> ACSApplicationSites { get; set; }
         public DbSet<ACSLog> ACSLogs { get; set; }

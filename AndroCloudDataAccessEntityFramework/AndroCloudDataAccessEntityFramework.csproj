@@ -194,6 +194,7 @@
     <Compile Include="DataVersionHelper.cs" />
     <Compile Include="EntityFrameworkDataAccessFactory.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ACSApplication.cs">
       <DependentUpon>ACSEntities.tt</DependentUpon>
     </Compile>

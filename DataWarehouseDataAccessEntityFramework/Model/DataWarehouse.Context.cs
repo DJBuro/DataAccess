@@ -9,22 +9,20 @@
 
 namespace DataWarehouseDataAccessEntityFramework.Model
 {
-    using System;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
+
     public partial class DataWarehouseEntities : DbContext
     {
         public DataWarehouseEntities()
             : base("name=DataWarehouseEntities")
         {
         }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //throw new UnintentionalCodeFirstException();
+        //}
+
         public virtual DbSet<AccountType> AccountTypes { get; set; }
         public virtual DbSet<ACSErrorCode> ACSErrorCodes { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
